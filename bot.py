@@ -5371,6 +5371,151 @@ async def cmd_canon(ctx, *, args: str = ""):
     await ctx.send(embed=embed)
 
 
+# ── !creed — The three ecumenical creeds, traditional (1662 BCP) English ────────
+
+CREEDS = {
+    "apostles": {
+        "title": "The Apostles' Creed",
+        "text": (
+            "I believe in God the Father Almighty, Maker of heaven and earth:\n\n"
+            "And in Jesus Christ his only Son our Lord, Who was conceived by the Holy Ghost, "
+            "Born of the Virgin Mary, Suffered under Pontius Pilate, Was crucified, dead, and buried, "
+            "He descended into hell; The third day he rose again from the dead, He ascended into heaven, "
+            "And sitteth on the right hand of God the Father Almighty; From thence he shall come to judge "
+            "the quick and the dead.\n\n"
+            "I believe in the Holy Ghost; The holy Catholick Church; The Communion of Saints; "
+            "The Forgiveness of sins; The Resurrection of the body, And the life everlasting. Amen."
+        ),
+    },
+    "nicene": {
+        "title": "The Nicene Creed",
+        "text": (
+            "I believe in one God the Father Almighty, Maker of heaven and earth, And of all things "
+            "visible and invisible:\n\n"
+            "And in one Lord Jesus Christ, the only-begotten Son of God, Begotten of his Father before "
+            "all worlds, God of God, Light of Light, Very God of very God, Begotten, not made, "
+            "Being of one substance with the Father, By whom all things were made; Who for us men, "
+            "and for our salvation, came down from heaven, And was incarnate by the Holy Ghost of the "
+            "Virgin Mary, And was made man, And was crucified also for us under Pontius Pilate; "
+            "He suffered and was buried, And the third day he rose again according to the Scriptures, "
+            "And ascended into heaven, And sitteth on the right hand of the Father; And he shall come "
+            "again with glory to judge both the quick and the dead: Whose kingdom shall have no end.\n\n"
+            "And I believe in the Holy Ghost, The Lord and Giver of Life, Who proceedeth from the Father "
+            "and the Son, Who with the Father and the Son together is worshipped and glorified, "
+            "Who spake by the Prophets. And I believe one Catholick and Apostolick Church. "
+            "I acknowledge one Baptism for the remission of sins. And I look for the Resurrection of "
+            "the dead, And the life of the world to come. Amen."
+        ),
+    },
+    "athanasian": {
+        "title": "The Athanasian Creed (Quicunque Vult)",
+        "text": (
+            "Whosoever will be saved: before all things it is necessary that he hold the Catholick Faith.\n"
+            "Which Faith except every one do keep whole and undefiled: without doubt he shall perish everlastingly.\n\n"
+            "And the Catholick Faith is this: That we worship one God in Trinity, and Trinity in Unity;\n"
+            "Neither confounding the Persons: nor dividing the Substance.\n"
+            "For there is one Person of the Father, another of the Son: and another of the Holy Ghost.\n"
+            "But the Godhead of the Father, of the Son, and of the Holy Ghost, is all one: the Glory equal, "
+            "the Majesty co-eternal.\n"
+            "Such as the Father is, such is the Son: and such is the Holy Ghost.\n"
+            "The Father uncreate, the Son uncreate: and the Holy Ghost uncreate.\n"
+            "The Father incomprehensible, the Son incomprehensible: and the Holy Ghost incomprehensible.\n"
+            "The Father eternal, the Son eternal: and the Holy Ghost eternal.\n"
+            "And yet they are not three eternals: but one eternal.\n"
+            "As also there are not three incomprehensibles, nor three uncreated: but one uncreated, "
+            "and one incomprehensible.\n"
+            "So likewise the Father is Almighty, the Son Almighty: and the Holy Ghost Almighty.\n"
+            "And yet they are not three Almighties: but one Almighty.\n"
+            "So the Father is God, the Son is God: and the Holy Ghost is God.\n"
+            "And yet they are not three Gods: but one God.\n"
+            "So likewise the Father is Lord, the Son Lord: and the Holy Ghost Lord.\n"
+            "And yet not three Lords: but one Lord.\n"
+            "For like as we are compelled by the Christian verity: to acknowledge every Person by himself "
+            "to be God and Lord;\n"
+            "So are we forbidden by the Catholick Religion: to say, There be three Gods, or three Lords.\n"
+            "The Father is made of none: neither created, nor begotten.\n"
+            "The Son is of the Father alone: not made, nor created, but begotten.\n"
+            "The Holy Ghost is of the Father and of the Son: neither made, nor created, nor begotten, "
+            "but proceeding.\n"
+            "So there is one Father, not three Fathers; one Son, not three Sons: one Holy Ghost, "
+            "not three Holy Ghosts.\n"
+            "And in this Trinity none is afore, or after other: none is greater, or less than another;\n"
+            "But the whole three Persons are co-eternal together: and co-equal.\n"
+            "So that in all things, as is aforesaid: the Unity in Trinity, and the Trinity in Unity, "
+            "is to be worshipped.\n"
+            "He therefore that will be saved: must thus think of the Trinity.\n\n"
+            "Furthermore, it is necessary to everlasting salvation: that he also believe rightly the "
+            "Incarnation of our Lord Jesus Christ.\n"
+            "For the right Faith is, that we believe and confess: that our Lord Jesus Christ, the Son "
+            "of God, is God and Man;\n"
+            "God, of the Substance of the Father, begotten before the worlds: and Man, of the Substance "
+            "of his Mother, born in the world;\n"
+            "Perfect God, and perfect Man: of a reasonable soul and human flesh subsisting;\n"
+            "Equal to the Father, as touching his Godhead: and inferior to the Father, as touching his "
+            "Manhood;\n"
+            "Who although he be God and Man: yet he is not two, but one Christ;\n"
+            "One; not by conversion of the Godhead into flesh: but by taking of the Manhood into God;\n"
+            "One altogether; not by confusion of Substance: but by unity of Person.\n"
+            "For as the reasonable soul and flesh is one man: so God and Man is one Christ;\n"
+            "Who suffered for our salvation: descended into hell, rose again the third day from the dead;\n"
+            "He ascended into heaven, he sitteth on the right hand of the Father, God Almighty: "
+            "from whence he shall come to judge the quick and the dead.\n"
+            "At whose coming all men shall rise again with their bodies: and shall give account for "
+            "their own works.\n"
+            "And they that have done good shall go into life everlasting: and they that have done evil "
+            "into everlasting fire.\n\n"
+            "This is the Catholick Faith: which except a man believe faithfully, he cannot be saved."
+        ),
+    },
+}
+CREED_ALIASES = {
+    "apostle": "apostles", "apostles": "apostles", "apostles'": "apostles",
+    "nicene": "nicene", "nicaea": "nicene", "nicea": "nicene",
+    "athanasius": "athanasian", "athanasian": "athanasian", "quicunque": "athanasian", "quicunquevult": "athanasian",
+}
+
+async def _send_creed(ctx, key: str):
+    creed = CREEDS[key]
+    pages = _chunk(creed["text"], 3900)
+    for i, page in enumerate(pages):
+        embed = discord.Embed(
+            title=creed["title"] if len(pages) == 1 else f"{creed['title']} ({i + 1}/{len(pages)})",
+            description=page,
+            color=discord.Color.dark_gold(),
+        )
+        embed.set_footer(text="Traditional English (Book of Common Prayer, 1662)")
+        await ctx.send(embed=embed)
+    record_special_stat(ctx.author.id, "creed", creed["title"])
+
+@bot.command(name="creed", aliases=["creeds"])
+async def cmd_creed(ctx, *, which: str = ""):
+    """The three ecumenical creeds in traditional English.
+    Usage: !creed              — list the creeds
+           !creed apostle      — the Apostles' Creed
+           !creed nicene       — the Nicene Creed
+           !creed athanasius   — the Athanasian Creed
+    """
+    key = CREED_ALIASES.get(which.strip().lower())
+    if not key:
+        embed = discord.Embed(title="📜 The Creeds", color=discord.Color.dark_gold())
+        embed.description = (
+            "`!creed apostle` — The Apostles' Creed\n"
+            "`!creed nicene` — The Nicene Creed\n"
+            "`!creed athanasius` — The Athanasian Creed (Quicunque Vult)\n\n"
+            "Traditional English, as in the 1662 Book of Common Prayer."
+        )
+        await ctx.send(embed=embed)
+        return
+    await _send_creed(ctx, key)
+
+@bot.tree.command(name="creed", description="The Apostles', Nicene, or Athanasian Creed in traditional English")
+@app_commands.describe(which="apostle | nicene | athanasius (leave blank to list them)")
+async def creed_slash(interaction: discord.Interaction, which: str = ""):
+    await interaction.response.defer()
+    ctx = await bot.get_context(interaction)
+    await cmd_creed(ctx, which=which)
+
+
 # ── !summa — Summa Theologica via newadvent.org ───────────────────────────────
 
 @bot.command(name="summa", aliases=["st", "aquinas", "thomas"])
@@ -6665,6 +6810,18 @@ async def cmd_help(ctx, *, topic: str = ""):
         await ctx.send(embed=embed)
         return
 
+    if topic in ("creed", "creeds"):
+        embed = discord.Embed(title="📜 !creed — The Ecumenical Creeds", color=discord.Color.dark_gold())
+        embed.description = (
+            "`!creed` — list the creeds\n"
+            "`!creed apostle` — The Apostles' Creed\n"
+            "`!creed nicene` — The Nicene Creed\n"
+            "`!creed athanasius` — The Athanasian Creed (Quicunque Vult)\n\n"
+            "Traditional English text, as in the 1662 Book of Common Prayer."
+        )
+        await ctx.send(embed=embed)
+        return
+
     if topic in ("catena",):
         embed = discord.Embed(title="📿 !catena — Patristic Commentary", color=discord.Color.dark_gold())
         embed.description = (
@@ -6707,6 +6864,9 @@ async def cmd_help(ctx, *, topic: str = ""):
         "`!canon` — Code of Canon Law\n"
         "`!catena` — Patristic commentary · `!help catena`"
     ), inline=False)
+    embed.add_field(name="📜 Creeds", value=(
+        "`!creed apostle` / `nicene` / `athanasius` — traditional English · `!help creed`"
+    ), inline=False)
     embed.add_field(name="📖 Anglican Daily Office", value=(
         "`!bcp` — psalms, lessons, and collect for Morning/Evening Prayer · `!help bcp`\n"
         "`!mp` / `!ep` — both lessons for that period\n"
@@ -6731,7 +6891,7 @@ async def cmd_help(ctx, *, topic: str = ""):
         "`!compare strong <ref>` — KJV + original-language Strong's tagging · `!help compare`\n"
         "`!strong G3588` / `!strong H7225` — Strong's lexicon lookup · `!help strong`"
     ), inline=False)
-    embed.set_footer(text="!help verse · !help compare · !help votd · !help votdsetup · !help today · !help bcp · !help prayer · !help strong · !help books · !help parallel · !help oracle · !help discover · !help study · !help save · !help ccc · !help summa")
+    embed.set_footer(text="!help verse · !help compare · !help votd · !help votdsetup · !help today · !help bcp · !help prayer · !help strong · !help books · !help parallel · !help oracle · !help discover · !help study · !help save · !help creed · !help ccc · !help summa")
     await ctx.send(embed=embed)
 
 

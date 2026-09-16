@@ -1472,6 +1472,18 @@ class ScriptureLookup:
                 if file_source:
                     for book_name in books:
                         self._book_sources[book_name] = file_source
+        # Normalize chapter shape: some source files store a chapter as a bare
+        # string (a single untitled passage) instead of {verse_num: text}.
+        # Treat that string as verse "1" so lookups and random selection
+        # don't crash on it (affects some ancient_near_east texts).
+        for corpus, books in self._data.items():
+            for book, chapters in books.items():
+                if not isinstance(chapters, dict):
+                    continue
+                for chap_key, chap_val in list(chapters.items()):
+                    if isinstance(chap_val, str):
+                        chapters[chap_key] = {"1": chap_val}
+
         # Build book index respecting priority
         for corpus in CORPUS_PRIORITY:
             for book_name in self._data.get(corpus, {}):
