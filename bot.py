@@ -11,6 +11,7 @@ import random
 import json
 import asyncio
 import time
+import unicodedata
 import discord
 from pathlib import Path
 from discord.ext import commands, tasks
@@ -5225,6 +5226,38 @@ async def cmd_unsubscribe(ctx):
 
 # ── !card — shareable verse image ─────────────────────────────────────────────────
 
+def _script_font(fonts_dir: str, text: str) -> str:
+    """Pick a font file that can actually render the text's script.
+    Georgia has no Hebrew glyphs at all and drops most polytonic Greek
+    diacritics (both render as tofu boxes); Times New Roman covers
+    Hebrew, full polytonic Greek, and Cyrillic as well as Latin."""
+    for ch in text:
+        cp = ord(ch)
+        if 0x0590 <= cp <= 0x05FF or 0x0370 <= cp <= 0x03FF or 0x1F00 <= cp <= 0x1FFF or 0x0400 <= cp <= 0x04FF:
+            return fonts_dir + "times.ttf"
+    return fonts_dir + "georgiai.ttf"
+
+def _is_hebrew(text: str) -> bool:
+    return any(0x0590 <= ord(ch) <= 0x05FF for ch in text)
+
+def _rtl_visual(line: str) -> str:
+    """Approximate correct RTL visual order for a naive left-to-right renderer
+    (Pillow has no bidi/shaping engine). Groups each base character with any
+    combining marks that follow it (e.g. Hebrew niqqud/cantillation) into a
+    cluster, then reverses cluster order, so a consonant keeps its vowel
+    points attached instead of them ending up on the wrong side."""
+    clusters, current = [], ""
+    for ch in line:
+        if unicodedata.combining(ch) and current:
+            current += ch
+        else:
+            if current:
+                clusters.append(current)
+            current = ch
+    if current:
+        clusters.append(current)
+    return "".join(reversed(clusters))
+
 def _render_verse_card(reference: str, text: str, source: str):
     """Render a verse as a parchment-style PNG. Runs off the event loop (CPU-bound)."""
     from PIL import Image, ImageDraw, ImageFont
@@ -5244,13 +5277,17 @@ def _render_verse_card(reference: str, text: str, source: str):
     quote_text = quote_text.replace("**", "").strip()
     if len(quote_text) > 500:
         quote_text = quote_text[:497] + "…"
-    quote_text = f"“{quote_text}”"  # curly quotation marks — the card's flourish
+    is_hebrew = _is_hebrew(quote_text)
+    if not is_hebrew:
+        quote_text = f"“{quote_text}”"  # curly quotation marks — the card's flourish
+        # (skipped for Hebrew: LTR quote glyphs look wrong against RTL text)
 
+    body_font_path = _script_font(FONTS, quote_text)
     max_width, max_height = W - 160, H - 220
     size = 48
     lines, font, line_height = [quote_text], None, 56
     while size > 20:
-        font = ImageFont.truetype(FONTS + "georgiai.ttf", size)
+        font = ImageFont.truetype(body_font_path, size)
         wrap_width = max(10, int(max_width / (size * 0.52)))
         lines = textwrap.wrap(quote_text, width=wrap_width) or [quote_text]
         line_height = int(size * 1.35)
@@ -5261,8 +5298,9 @@ def _render_verse_card(reference: str, text: str, source: str):
 
     y = (H - line_height * len(lines)) // 2 - 20
     for line in lines:
-        w = draw.textlength(line, font=font)
-        draw.text(((W - w) / 2, y), line, font=font, fill=TEXT)
+        display_line = _rtl_visual(line) if is_hebrew else line
+        w = draw.textlength(display_line, font=font)
+        draw.text(((W - w) / 2, y), display_line, font=font, fill=TEXT)
         y += line_height
 
     # Small ornamental divider (drawn, not a glyph, so it never falls back to tofu)
@@ -5316,9 +5354,10 @@ def _render_compare_card(reference: str, entries: list[tuple[str, str]]):
 
         draw.text((70, y), label, font=label_font, fill=ACCENT)
 
+        body_font_path = _script_font(FONTS, clean)
         size, lines, line_h, body_font = 28, [clean], 36, None
         while size > 16:
-            body_font = ImageFont.truetype(FONTS + "georgiai.ttf", size)
+            body_font = ImageFont.truetype(body_font_path, size)
             wrap_width = max(10, int(max_width / (size * 0.52)))
             lines = textwrap.wrap(clean, width=wrap_width) or [clean]
             line_h = int(size * 1.3)
@@ -5327,9 +5366,11 @@ def _render_compare_card(reference: str, entries: list[tuple[str, str]]):
                 break
             size -= 2
 
+        is_heb = _is_hebrew(clean)
         ty = y + 34
         for line in lines:
-            draw.text((70, ty), line, font=body_font, fill=TEXT)
+            display_line = _rtl_visual(line) if is_heb else line
+            draw.text((70, ty), display_line, font=body_font, fill=TEXT)
             ty += line_h
 
         if i < n - 1:

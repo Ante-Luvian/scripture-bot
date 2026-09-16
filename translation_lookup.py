@@ -507,8 +507,15 @@ def _resolve_book(raw: str) -> Optional[int]:
 
 def _clean(text: str) -> str:
     text = html_mod.unescape(text)
-    text = re.sub(r"<[^>]+>", "", text)
-    text = re.sub(r"(?<=[a-zA-Z])\d+", "", text)  # strip Strong's numbers
+    # Strong's-number tags, e.g. "created<S>1254</S>" or a standalone
+    # " <S>853</S> " for an untranslated word (the Hebrew direct-object
+    # marker, etc). Must remove tag + digits as one unit -- stripping the
+    # <S></S> markup first and guessing at digits afterward (the old
+    # approach) left orphaned numbers like "853" behind whenever the tag
+    # wasn't glued directly onto a preceding word.
+    text = re.sub(r"<S>\d+</S>", "", text)
+    text = re.sub(r"<[^>]+>", "", text)  # any other stray HTML tags
+    text = re.sub(r"[ \t]+", " ", text)  # collapse whitespace left by removed standalone tags
     return text.strip()
 
 
