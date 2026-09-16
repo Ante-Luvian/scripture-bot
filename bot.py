@@ -5303,44 +5303,57 @@ def _rtl_visual(line: str) -> str:
     return "".join(reversed(clusters))
 
 def _render_verse_card(reference: str, text: str, source: str):
-    """Render a verse as a parchment-style PNG. Runs off the event loop (CPU-bound)."""
+    """Render a verse (or a whole chapter) as a parchment-style PNG.
+    Runs off the event loop (CPU-bound). Height grows to fit the text
+    instead of truncating it -- a chapter-length card is just taller."""
     from PIL import Image, ImageDraw, ImageFont
     import io, textwrap
 
-    W, H = 1200, 630
+    W = 1200
     BG, BORDER, TEXT, ACCENT = (245, 239, 224), (184, 134, 11), (59, 42, 22), (139, 94, 20)
     FONTS = "C:/Windows/Fonts/"
-
-    img = Image.new("RGB", (W, H), BG)
-    draw = ImageDraw.Draw(img)
-    draw.rectangle([16, 16, W - 17, H - 17], outline=BORDER, width=4)
+    TOP_MARGIN, BOTTOM_RESERVED = 60, 200
+    MAX_CHARS = 4000  # safety cap so a pathological request (e.g. Psalm 119) can't produce a runaway image
 
     # Strip Discord markdown verse-number markers (e.g. "**[1]** ") and any
     # stray bold asterisks — meaningful in an embed, just noise in a plain image.
     quote_text = re.sub(r"\*\*\[\d+\]\*\*\s*", "", text.strip())
     quote_text = quote_text.replace("**", "").strip()
-    if len(quote_text) > 500:
-        quote_text = quote_text[:497] + "…"
+    if len(quote_text) > MAX_CHARS:
+        quote_text = quote_text[:MAX_CHARS - 1] + "…"
     is_hebrew = _is_hebrew(quote_text)
-    if not is_hebrew:
-        quote_text = f"“{quote_text}”"  # curly quotation marks — the card's flourish
-        # (skipped for Hebrew: LTR quote glyphs look wrong against RTL text)
-
     body_font_path = _script_font(FONTS, quote_text)
-    max_width, max_height = W - 160, H - 220
-    size = 48
-    lines, font, line_height = [quote_text], None, 56
-    while size > 20:
+
+    # Each verse (separated by the newlines already in whole-chapter text)
+    # wraps as its own paragraph, rather than running every verse together.
+    paragraphs = quote_text.split("\n")
+
+    dummy = ImageDraw.Draw(Image.new("RGB", (10, 10)))
+    max_width = W - 160
+    size, MIN_SIZE = 44, 22
+    lines, line_height, font = [], 0, None
+    while size >= MIN_SIZE:
         font = ImageFont.truetype(body_font_path, size)
         wrap_width = max(10, int(max_width / (size * 0.52)))
-        lines = textwrap.wrap(quote_text, width=wrap_width) or [quote_text]
+        lines = [l for para in paragraphs for l in (textwrap.wrap(para, width=wrap_width) or [""])]
         line_height = int(size * 1.35)
-        widest = max((draw.textlength(l, font=font) for l in lines), default=0)
-        if line_height * len(lines) <= max_height and widest <= max_width:
+        widest = max((dummy.textlength(l, font=font) for l in lines), default=0)
+        if widest <= max_width:
             break
         size -= 2
 
-    y = (H - line_height * len(lines)) // 2 - 20
+    text_height = line_height * len(lines)
+    H = max(630, TOP_MARGIN + text_height + BOTTOM_RESERVED)
+
+    img = Image.new("RGB", (W, H), BG)
+    draw = ImageDraw.Draw(img)
+    draw.rectangle([16, 16, W - 17, H - 17], outline=BORDER, width=4)
+
+    # Center the text block within the space above the divider/reference/source
+    # (a no-op once H has grown to exactly fit -- only matters for short verses
+    # on the minimum-height canvas, which would otherwise sit flush at the top).
+    available = H - TOP_MARGIN - BOTTOM_RESERVED
+    y = TOP_MARGIN + max(0, (available - text_height) // 2)
     for line in lines:
         display_line = _rtl_visual(line) if is_hebrew else line
         w = draw.textlength(display_line, font=font)
