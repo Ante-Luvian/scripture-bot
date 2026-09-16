@@ -6003,6 +6003,23 @@ CREEDS = {
             "catholicam et apostolicam Ecclesiam. Confiteor unum baptisma in remissionem peccatorum. "
             "Et exspecto resurrectionem mortuorum, et vitam venturi saeculi. Amen."
         ),
+        "greek_title": "Σύμβολον τῆς Νικαίας-Κωνσταντινουπόλεως",
+        "greek": (
+            "Πιστεύω εἰς ἕνα Θεόν, Πατέρα, Παντοκράτορα, ποιητὴν οὐρανοῦ καὶ γῆς, "
+            "ὁρατῶν τε πάντων καὶ ἀοράτων.\n\n"
+            "Καὶ εἰς ἕνα Κύριον Ἰησοῦν Χριστόν, τὸν Υἱὸν τοῦ Θεοῦ τὸν μονογενῆ, τὸν ἐκ τοῦ Πατρὸς "
+            "γεννηθέντα πρὸ πάντων τῶν αἰώνων· φῶς ἐκ φωτός, Θεὸν ἀληθινὸν ἐκ Θεοῦ ἀληθινοῦ, γεννηθέντα "
+            "οὐ ποιηθέντα, ὁμοούσιον τῷ Πατρί, δι' οὗ τὰ πάντα ἐγένετο. Τὸν δι' ἡμᾶς τοὺς ἀνθρώπους καὶ "
+            "διὰ τὴν ἡμετέραν σωτηρίαν κατελθόντα ἐκ τῶν οὐρανῶν καὶ σαρκωθέντα ἐκ Πνεύματος Ἁγίου καὶ "
+            "Μαρίας τῆς Παρθένου καὶ ἐνανθρωπήσαντα. Σταυρωθέντα τε ὑπὲρ ἡμῶν ἐπὶ Ποντίου Πιλάτου, καὶ "
+            "παθόντα καὶ ταφέντα. Καὶ ἀναστάντα τῇ τρίτῃ ἡμέρᾳ κατὰ τὰς Γραφάς. Καὶ ἀνελθόντα εἰς τοὺς "
+            "οὐρανοὺς καὶ καθεζόμενον ἐκ δεξιῶν τοῦ Πατρός. Καὶ πάλιν ἐρχόμενον μετὰ δόξης κρῖναι ζῶντας "
+            "καὶ νεκρούς, οὗ τῆς βασιλείας οὐκ ἔσται τέλος.\n\n"
+            "Καὶ εἰς τὸ Πνεῦμα τὸ Ἅγιον, τὸ κύριον, τὸ ζῳοποιόν, τὸ ἐκ τοῦ Πατρὸς ἐκπορευόμενον, τὸ σὺν "
+            "Πατρὶ καὶ Υἱῷ συμπροσκυνούμενον καὶ συνδοξαζόμενον, τὸ λαλῆσαν διὰ τῶν προφητῶν. Εἰς μίαν, "
+            "Ἁγίαν, Καθολικὴν καὶ Ἀποστολικὴν Ἐκκλησίαν. Ὁμολογῶ ἓν βάπτισμα εἰς ἄφεσιν ἁμαρτιῶν. "
+            "Προσδοκῶ ἀνάστασιν νεκρῶν. Καὶ ζωὴν τοῦ μέλλοντος αἰῶνος. Ἀμήν."
+        ),
     },
     "athanasian": {
         "title": "The Athanasian Creed (Quicunque Vult)",
@@ -6113,19 +6130,27 @@ CREED_ALIASES = {
 
 CREED_LANGS = {
     "latin": "latin", "la": "latin", "lat": "latin",
-    "parallel": "parallel", "both": "parallel",
+    "greek": "greek", "gr": "greek", "el": "greek", "grc": "greek",
+    "parallel": "parallel", "both": "parallel", "all": "parallel",
 }
 
 async def _send_creed(ctx, key: str, lang: str = "text"):
     creed = CREEDS[key]
 
     if lang == "parallel":
-        await _send_creed(ctx, key, "text")
-        if creed.get("latin"):
-            await _send_creed(ctx, key, "latin")
+        for l in ("text", "greek", "latin"):
+            if l == "text" or creed.get(l):
+                await _send_creed(ctx, key, l)
         return
 
-    if lang == "latin":
+    if lang == "greek":
+        if not creed.get("greek"):
+            await ctx.send(f"No Greek text available for **{creed['title']}**.")
+            return
+        title = f"{creed['title']} — {creed.get('greek_title', 'Greek')}"
+        body = creed["greek"]
+        footer = "Greek (original conciliar language, liturgical wording)"
+    elif lang == "latin":
         if not creed.get("latin"):
             await ctx.send(f"No Latin text available for **{creed['title']}**.")
             return
@@ -6150,10 +6175,11 @@ async def _send_creed(ctx, key: str, lang: str = "text"):
 
 @bot.command(name="creed", aliases=["creeds"])
 async def cmd_creed(ctx, *, which: str = ""):
-    """The three ecumenical creeds, in English or Latin.
+    """The three ecumenical creeds, in English, Latin, or (Nicene only) Greek.
     Usage: !creed              — list the creeds
            !creed apostle      — the Apostles' Creed (English)
            !creed nicene latin — the Nicene Creed in Latin
+           !creed nicene greek — the Nicene Creed in its original Greek
            !creed athanasius parallel — Athanasian Creed, English then Latin
     """
     tokens = which.strip().split()
@@ -6164,7 +6190,8 @@ async def cmd_creed(ctx, *, which: str = ""):
             "`!creed apostle` — The Apostles' Creed\n"
             "`!creed nicene` — The Nicene Creed\n"
             "`!creed athanasius` — The Athanasian Creed (Quicunque Vult)\n\n"
-            "Add `latin` for the traditional Latin text, or `parallel` for both: "
+            "Add `latin` for the traditional Latin text, `greek` for the Nicene Creed's original "
+            "conciliar language, or `parallel` for all available: "
             "e.g. `!creed apostle latin`, `!creed nicene parallel`.\n\n"
             "English is traditional, as in the 1662 Book of Common Prayer."
         )
@@ -6173,8 +6200,8 @@ async def cmd_creed(ctx, *, which: str = ""):
     lang = CREED_LANGS.get(tokens[1].lower(), "text") if len(tokens) > 1 else "text"
     await _send_creed(ctx, key, lang)
 
-@bot.tree.command(name="creed", description="The Apostles', Nicene, or Athanasian Creed, in English or Latin")
-@app_commands.describe(which="apostle | nicene | athanasius, optionally + latin or parallel")
+@bot.tree.command(name="creed", description="The Apostles', Nicene, or Athanasian Creed, in English, Latin, or Greek")
+@app_commands.describe(which="apostle | nicene | athanasius, optionally + latin, greek, or parallel")
 async def creed_slash(interaction: discord.Interaction, which: str = ""):
     await interaction.response.defer()
     ctx = await bot.get_context(interaction)
@@ -7625,8 +7652,11 @@ async def cmd_help(ctx, *, topic: str = ""):
             "`!creed apostle` — The Apostles' Creed\n"
             "`!creed nicene` — The Nicene Creed\n"
             "`!creed athanasius` — The Athanasian Creed (Quicunque Vult)\n\n"
-            "Add `latin` for the traditional Latin text, or `parallel` for English then Latin: "
-            "`!creed apostle latin` · `!creed nicene parallel`\n\n"
+            "Add `latin` for the traditional Latin text, `greek` for the Nicene Creed's original "
+            "conciliar Greek, or `parallel` for everything available: "
+            "`!creed apostle latin` · `!creed nicene greek` · `!creed nicene parallel`\n\n"
+            "The Nicene Creed is the only one with a genuine ancient Greek original — the "
+            "Athanasian Creed, despite its name, was actually composed in Latin.\n\n"
             "English text is traditional, as in the 1662 Book of Common Prayer."
         )
         await ctx.send(embed=embed)
