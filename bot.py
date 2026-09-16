@@ -7752,9 +7752,24 @@ async def cmd_translations(ctx):
     """List all available Bible translations. Usage: !translations"""
     trans_list = list_translations()
     lines = trans_list.split("\n")
-    mid = len(lines) // 2
-    col1 = "\n".join(lines[:mid])
-    col2 = "\n".join(lines[mid:])
+
+    # Balance the split by character count, not line count -- lines vary
+    # enough in length that a line-count split let one column silently grow
+    # past Discord's 1024-char embed field limit as translations were added.
+    total_chars = sum(len(l) + 1 for l in lines)
+    col1_lines, running = [], 0
+    for l in lines:
+        if col1_lines and running >= total_chars / 2:
+            break
+        col1_lines.append(l)
+        running += len(l) + 1
+    col2_lines = lines[len(col1_lines):]
+    col1 = "\n".join(col1_lines)
+    col2 = "\n".join(col2_lines)
+    if len(col1) > 1000:
+        col1 = col1[:997] + "…"
+    if len(col2) > 1000:
+        col2 = col2[:997] + "…"
 
     embed = discord.Embed(
         title="📖 Available Bible Translations",
