@@ -5014,6 +5014,24 @@ def _topic_display_name(subject: str) -> str:
     (e.g. "LORD'S PRAYER" -> "Lord'S Prayer")."""
     return " ".join(w[:1] + w[1:].lower() if w else w for w in subject.split(" "))
 
+def _paginate_topic_entry(entry: str, page_size: int = 900) -> list[str]:
+    """Pack whole lines into ~page_size-char pages -- never splits a line
+    mid-citation-list the way a fixed-size character chunker would. Nave's
+    entries are bullet outlines, so even a "short" 3000-char entry is a wall
+    of text as a single embed; this keeps each page to a comfortable read."""
+    lines = entry.split("\n")
+    pages, current = [], ""
+    for line in lines:
+        candidate = f"{current}\n{line}" if current else line
+        if len(candidate) > page_size and current:
+            pages.append(current)
+            current = line
+        else:
+            current = candidate
+    if current:
+        pages.append(current)
+    return pages or [""]
+
 @bot.command(name="topic", aliases=["naves", "topical"])
 async def cmd_topic(ctx, *, query: str = ""):
     """Browse scripture by subject, from Nave's Topical Bible (1897, public domain).
@@ -5036,7 +5054,7 @@ async def cmd_topic(ctx, *, query: str = ""):
 
     subject, entry = result
     display = _topic_display_name(subject)
-    pages = _chunk(entry, 3900)
+    pages = _paginate_topic_entry(entry)
     total = len(pages)
 
     def make_embed(idx):
