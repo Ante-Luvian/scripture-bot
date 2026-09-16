@@ -90,10 +90,12 @@ async def on_command_error(ctx, error):
     raise error
 
 # ── VOTD config ────────────────────────────────────────────────────────────────
-# Set VOTD_CHANNEL_ID to a channel ID (int) to enable daily auto-post.
-# Set VOTD_TIME to "HH:MM" (24h UTC) for the post time.
-VOTD_CHANNEL_ID: int | None = 921184056341835836   # e.g. 123456789012345678
-VOTD_TIME = "04:00"                  # UTC time for daily post
+# Per-guild VOTD channel/time/mode now lives in data/guild_config.json (see
+# _get_guild_votd / _set_guild_votd), configured per-server via !votdsetup.
+# These two are only the one-time migration seed for the server that was
+# hardcoded here before per-guild config existed.
+_LEGACY_VOTD_CHANNEL_ID: int | None = 921184056341835836
+_LEGACY_VOTD_TIME = "04:00"
 
 # VOTD mode persistence: "full" (verse + ancients + commentary) or "basic" (verse only).
 # Toggled via the hidden !votdmode command. Default is "full".
@@ -200,6 +202,55 @@ def _load_stats() -> dict:
 def _save_stats(stats: dict):
     STATS_PATH.parent.mkdir(parents=True, exist_ok=True)
     STATS_PATH.write_text(json.dumps(stats, indent=2, ensure_ascii=False), encoding="utf-8")
+
+def _atomic_write_json(path: Path, data) -> None:
+    """Write JSON via a temp file + rename so a crash mid-write can't corrupt the file."""
+    path.parent.mkdir(parents=True, exist_ok=True)
+    tmp = path.with_suffix(path.suffix + ".tmp")
+    tmp.write_text(json.dumps(data, indent=2, ensure_ascii=False), encoding="utf-8")
+    tmp.replace(path)
+
+# ── Per-guild config (VOTD channel/time/mode) ───────────────────────────────────
+GUILD_CONFIG_PATH = Path(__file__).parent / "data" / "guild_config.json"
+
+def _load_guild_config() -> dict:
+    if GUILD_CONFIG_PATH.exists():
+        try:
+            return json.loads(GUILD_CONFIG_PATH.read_text(encoding="utf-8"))
+        except Exception:
+            pass
+    return {}
+
+def _save_guild_config(cfg: dict) -> None:
+    _atomic_write_json(GUILD_CONFIG_PATH, cfg)
+
+def _get_guild_votd(guild_id: int) -> dict:
+    g = _load_guild_config().get(str(guild_id), {})
+    return {
+        "channel_id": g.get("votd_channel_id"),
+        "time": g.get("votd_time", "04:00"),
+        "mode": g.get("votd_mode", "full"),
+    }
+
+def _set_guild_votd(guild_id: int, **kwargs) -> None:
+    cfg = _load_guild_config()
+    g = cfg.setdefault(str(guild_id), {})
+    g.update(kwargs)
+    _save_guild_config(cfg)
+
+# ── Personal bookmarks ───────────────────────────────────────────────────────────
+BOOKMARKS_PATH = Path(__file__).parent / "data" / "bookmarks.json"
+
+def _load_bookmarks() -> dict:
+    if BOOKMARKS_PATH.exists():
+        try:
+            return json.loads(BOOKMARKS_PATH.read_text(encoding="utf-8"))
+        except Exception:
+            pass
+    return {}
+
+def _save_bookmarks(data: dict) -> None:
+    _atomic_write_json(BOOKMARKS_PATH, data)
 
 def record_stat(user_id: int, command: str, result: dict = None):
     """Record a command invocation and optionally a verse lookup result."""
@@ -359,6 +410,32 @@ async def summa_slash(interaction: discord.Interaction, reference: str = ""):
     await interaction.response.defer()
     ctx = await bot.get_context(interaction)
     await cmd_summa(ctx, reference=reference.strip())
+
+@bot.tree.command(name="discover", description="Random passage from any loaded tradition (scripture, patristics, classical texts, and more)")
+async def discover_slash(interaction: discord.Interaction):
+    await interaction.response.defer()
+    ctx = await bot.get_context(interaction)
+    await cmd_discover(ctx)
+
+@bot.tree.command(name="study", description="Look up a verse and its patristic commentary together")
+@app_commands.describe(reference="e.g. John 3:16")
+async def study_slash(interaction: discord.Interaction, reference: str):
+    await interaction.response.defer()
+    ctx = await bot.get_context(interaction)
+    await cmd_study(ctx, reference=reference)
+
+@bot.tree.command(name="save", description="Save a verse to your personal bookmark list")
+@app_commands.describe(reference="e.g. John 3:16")
+async def save_slash(interaction: discord.Interaction, reference: str):
+    await interaction.response.defer()
+    ctx = await bot.get_context(interaction)
+    await cmd_save(ctx, reference=reference)
+
+@bot.tree.command(name="saved", description="List your saved verses")
+async def saved_slash(interaction: discord.Interaction):
+    await interaction.response.defer()
+    ctx = await bot.get_context(interaction)
+    await cmd_saved(ctx)
 
 
 # ── Prefix command  !verse ─────────────────────────────────────────────────────
@@ -2904,16 +2981,21 @@ async def cmd_votd(ctx, *, translation: str = ""):
 
 
 @bot.command(name="votdmode", hidden=True)
+@commands.has_permissions(administrator=True)
 async def cmd_votdmode(ctx, *, mode: str = ""):
-    """Hidden: toggle which VOTD style the midnight task uses.
+    """Hidden: toggle which VOTD style this server's daily task uses.
     Usage: !votdmode             — show current mode
            !votdmode basic       — verse only (original VOTD)
            !votdmode full        — verse + ancients + first commentary
            !votdmode extended    — full VOTD + today's calendar across five traditions
            !votdmode toggle      — cycle: basic → full → extended → basic
     """
+    if not ctx.guild:
+        await ctx.send("This command only works in a server.")
+        return
+
     requested = mode.strip().lower()
-    current = _load_votd_mode()
+    current = _get_guild_votd(ctx.guild.id)["mode"]
 
     if not requested:
         await ctx.send(
@@ -2935,11 +3017,74 @@ async def cmd_votdmode(ctx, *, mode: str = ""):
         await ctx.send(f"VOTD mode is already **{current}**.")
         return
 
-    _save_votd_mode(new_mode)
+    _set_guild_votd(ctx.guild.id, votd_mode=new_mode)
     await ctx.send(
         f"VOTD mode switched from **{current}** to **{new_mode}**. "
-        f"The midnight post will use the {new_mode} format from now on."
+        f"The daily post will use the {new_mode} format from now on."
     )
+
+
+@bot.command(name="votdsetup", aliases=["votdconfig"])
+@commands.has_permissions(administrator=True)
+async def cmd_votdsetup(ctx, action: str = "", *, arg: str = ""):
+    """Configure this server's daily Verse of the Day post.
+    Usage: !votdsetup                — show this server's current config
+           !votdsetup channel #chan  — set the announcement channel
+           !votdsetup time 04:00     — set the daily post time (24h UTC)
+           !votdsetup mode full      — basic | full | extended
+           !votdsetup off            — disable daily VOTD for this server
+    """
+    if not ctx.guild:
+        await ctx.send("This command only works in a server.")
+        return
+
+    action = action.strip().lower()
+    settings = _get_guild_votd(ctx.guild.id)
+
+    if not action:
+        channel_desc = f"<#{settings['channel_id']}>" if settings["channel_id"] else "*not set — daily VOTD is off*"
+        embed = discord.Embed(title=f"⚙️ VOTD setup — {ctx.guild.name}", color=discord.Color.dark_gold())
+        embed.add_field(name="Channel", value=channel_desc, inline=True)
+        embed.add_field(name="Time (UTC)", value=settings["time"], inline=True)
+        embed.add_field(name="Mode", value=settings["mode"], inline=True)
+        embed.set_footer(text="!votdsetup channel #chan · !votdsetup time HH:MM · !votdsetup mode basic|full|extended · !votdsetup off")
+        await ctx.send(embed=embed)
+        return
+
+    if action == "off":
+        _set_guild_votd(ctx.guild.id, votd_channel_id=None)
+        await ctx.send("Daily VOTD disabled for this server.")
+        return
+
+    if action == "channel":
+        channel = ctx.message.channel_mentions[0] if ctx.message.channel_mentions else None
+        if channel is None:
+            await ctx.send("Mention a channel: `!votdsetup channel #general`")
+            return
+        _set_guild_votd(ctx.guild.id, votd_channel_id=channel.id)
+        await ctx.send(f"Daily VOTD will post in {channel.mention} at {settings['time']} UTC ({settings['mode']} mode).")
+        return
+
+    if action == "time":
+        m = re.match(r"^(\d{1,2}):(\d{2})$", arg.strip())
+        if not m or not (0 <= int(m.group(1)) <= 23 and 0 <= int(m.group(2)) <= 59):
+            await ctx.send("Use 24h UTC format: `!votdsetup time 04:00`")
+            return
+        hh, mm = int(m.group(1)), int(m.group(2))
+        _set_guild_votd(ctx.guild.id, votd_time=f"{hh:02d}:{mm:02d}")
+        await ctx.send(f"Daily VOTD time set to **{hh:02d}:{mm:02d} UTC**.")
+        return
+
+    if action == "mode":
+        new_mode = arg.strip().lower()
+        if new_mode not in ("basic", "full", "extended"):
+            await ctx.send("Mode must be `basic`, `full`, or `extended`.")
+            return
+        _set_guild_votd(ctx.guild.id, votd_mode=new_mode)
+        await ctx.send(f"Daily VOTD mode set to **{new_mode}**.")
+        return
+
+    await ctx.send("Unknown option. Use `channel`, `time`, `mode`, or `off` — see `!help votdsetup`.")
 
 
 # ── !today — Liturgical / religious calendar across traditions ─────────────────
@@ -4705,6 +4850,99 @@ async def cmd_oracle(ctx, *, question: str = ""):
     await ctx.send(embed=embed)
 
 
+# ── !discover — random passage from any loaded tradition ────────────────────────
+
+@bot.command(name="discover")
+async def cmd_discover(ctx):
+    """Random passage from any loaded tradition — scripture, patristics, classical texts, and more."""
+    result = lookup.random_verse()
+    log.info(f"RNG  discover               → {result.get('reference', '?')} (user: {ctx.author})")
+    await _send_result(ctx, result)
+
+
+# ── !study — verse lookup + patristic commentary in one command ─────────────────
+
+@bot.command(name="study")
+async def cmd_study(ctx, *, reference: str = ""):
+    """Look up a verse and its patristic commentary together. Usage: !study John 3:16"""
+    ref = reference.strip()
+    if not ref:
+        await ctx.send("Usage: `!study <reference>` — e.g. `!study John 3:16`")
+        return
+    await verse_prefix(ctx, reference=ref)
+    await cmd_catena(ctx, reference=ref)
+
+
+# ── Personal bookmarks: !save / !saved / !unsave ─────────────────────────────────
+
+@bot.command(name="save", aliases=["bookmark"])
+async def cmd_save(ctx, *, reference: str = ""):
+    """Save a verse to your personal bookmark list. Usage: !save John 3:16"""
+    ref = reference.strip()
+    if not ref:
+        await ctx.send("Usage: `!save <reference>` — e.g. `!save John 3:16`")
+        return
+
+    result = lookup.get_verse(ref)
+    if not result.get("found") and "Could not parse" in result.get("error", ""):
+        result = lookup.random_verse_from_book(ref)
+    if not result.get("found"):
+        await ctx.send(f"⚠️ Could not find **{ref}** — nothing saved.")
+        return
+
+    import datetime
+    data = _load_bookmarks()
+    uid = str(ctx.author.id)
+    entries = data.setdefault(uid, [])
+    canon_ref = result["reference"]
+    if any(e["reference"] == canon_ref for e in entries):
+        await ctx.send(f"**{canon_ref}** is already in your saved list.")
+        return
+    entries.append({
+        "reference": canon_ref,
+        "source": result.get("source", ""),
+        "saved_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+    })
+    _save_bookmarks(data)
+    await ctx.send(f"📌 Saved **{canon_ref}**. You have {len(entries)} saved verse(s) — see `!saved`.")
+
+
+@bot.command(name="saved", aliases=["bookmarks"])
+async def cmd_saved(ctx):
+    """List your saved verses."""
+    entries = _load_bookmarks().get(str(ctx.author.id), [])
+    if not entries:
+        await ctx.send("You haven't saved any verses yet. Use `!save <reference>` to bookmark one.")
+        return
+
+    lines = [f"`{i + 1}.` **{e['reference']}** — {e.get('source', '')}" for i, e in enumerate(entries[:25])]
+    embed = discord.Embed(
+        title=f"{ctx.author.display_name}'s saved verses",
+        description="\n".join(lines),
+        color=discord.Color.dark_gold(),
+    )
+    embed.set_footer(text=f"Showing 25 of {len(entries)}." if len(entries) > 25 else "Use !unsave <number> to remove one.")
+    await ctx.send(embed=embed)
+
+
+@bot.command(name="unsave", aliases=["unbookmark"])
+async def cmd_unsave(ctx, index: int = 0):
+    """Remove a saved verse by its number from !saved. Usage: !unsave 2"""
+    data = _load_bookmarks()
+    uid = str(ctx.author.id)
+    entries = data.get(uid, [])
+    if not entries:
+        await ctx.send("You have no saved verses.")
+        return
+    if not (1 <= index <= len(entries)):
+        await ctx.send(f"Give a number between 1 and {len(entries)} — see `!saved`.")
+        return
+    removed = entries.pop(index - 1)
+    data[uid] = entries
+    _save_bookmarks(data)
+    await ctx.send(f"Removed **{removed['reference']}** from your saved list.")
+
+
 # ── Auto-detection ─────────────────────────────────────────────────────────────
 
 @bot.event
@@ -6114,7 +6352,54 @@ async def cmd_help(ctx, *, topic: str = ""):
             "`!votd ESV` — verse of the day in a specific translation\n"
             "`!votd full` — KJV verse + ancient translations + first patristic commentary\n"
             "`!votd extended` — full VOTD + today's calendar across all five traditions\n\n"
-            "A new verse is posted automatically every day at midnight in the configured channel."
+            "A new verse is posted automatically each day in this server's configured channel — "
+            "server admins can set that up with `!help votdsetup`."
+        )
+        await ctx.send(embed=embed)
+        return
+
+    if topic in ("votdsetup", "votdconfig"):
+        embed = discord.Embed(title="⚙️ !votdsetup — Configure Daily VOTD (Admin)", color=discord.Color.dark_gold())
+        embed.description = (
+            "Each server picks its own channel, time, and mode for the daily Verse of the Day post.\n\n"
+            "`!votdsetup` — show this server's current config\n"
+            "`!votdsetup channel #general` — set the announcement channel\n"
+            "`!votdsetup time 04:00` — set the post time (24h UTC)\n"
+            "`!votdsetup mode full` — `basic` (verse only) · `full` (+ ancients + commentary) · `extended` (+ calendar)\n"
+            "`!votdsetup off` — disable daily VOTD for this server\n\n"
+            "Requires Administrator permission."
+        )
+        await ctx.send(embed=embed)
+        return
+
+    if topic in ("discover",):
+        embed = discord.Embed(title="🔭 !discover — Random Passage, Any Tradition", color=discord.Color.dark_gold())
+        embed.description = (
+            "`!discover` — a random passage from any loaded tradition: scripture, LDS scripture, "
+            "Septuagint, Enoch/Jubilees, Apostolic Fathers, Quran, classical texts, Jewish texts, "
+            "Baha'i, Gnostic, Dharmic, Norse, Ancient Near Eastern, patristics, and medieval sources.\n\n"
+            "Same underlying picker as bare `!verse` — `!discover` is just the more obvious name for it."
+        )
+        await ctx.send(embed=embed)
+        return
+
+    if topic in ("study",):
+        embed = discord.Embed(title="🔎 !study — Verse + Patristic Commentary", color=discord.Color.dark_gold())
+        embed.description = (
+            "`!study John 3:16` — looks up the verse, then shows patristic commentary on it "
+            "(from catenabible.com), in one command instead of two.\n\n"
+            "Equivalent to running `!verse` followed by `!catena` on the same reference."
+        )
+        await ctx.send(embed=embed)
+        return
+
+    if topic in ("save", "saved", "unsave", "bookmark", "bookmarks"):
+        embed = discord.Embed(title="📌 Personal Bookmarks", color=discord.Color.dark_gold())
+        embed.description = (
+            "`!save John 3:16` — save a verse to your personal list\n"
+            "`!saved` — show your saved verses\n"
+            "`!unsave 2` — remove saved verse #2 (number from `!saved`)\n\n"
+            "Bookmarks are personal — only you can see and manage your own list."
         )
         await ctx.send(embed=embed)
         return
@@ -6432,13 +6717,21 @@ async def cmd_help(ctx, *, topic: str = ""):
     embed.add_field(name="🎲 Divination", value=(
         "`!oracle` `!delphi` `!homer` `!virgil` — oracular & sortes · `!help oracle`"
     ), inline=False)
+    embed.add_field(name="🔭 Discovery & Personal", value=(
+        "`!discover` — random passage from any loaded tradition · `!help discover`\n"
+        "`!study` — verse + patristic commentary together · `!help study`\n"
+        "`!save` / `!saved` / `!unsave` — personal bookmarks · `!help save`"
+    ), inline=False)
+    embed.add_field(name="⚙️ Server Setup (Admin)", value=(
+        "`!votdsetup` — configure this server's daily VOTD channel/time/mode · `!help votdsetup`"
+    ), inline=False)
     embed.add_field(name="🏛️ Ancient Languages & Strong's", value=(
         "Append to `!verse`: `OE` `WLC` `LXX` `TR` `VULG` `peshitta` `CSL`\n"
         "`!compare ancient <ref>` — all ancient witnesses at once · `!help compare`\n"
         "`!compare strong <ref>` — KJV + original-language Strong's tagging · `!help compare`\n"
         "`!strong G3588` / `!strong H7225` — Strong's lexicon lookup · `!help strong`"
     ), inline=False)
-    embed.set_footer(text="!help verse · !help compare · !help votd · !help today · !help bcp · !help prayer · !help strong · !help books · !help parallel · !help oracle · !help ccc · !help summa")
+    embed.set_footer(text="!help verse · !help compare · !help votd · !help votdsetup · !help today · !help bcp · !help prayer · !help strong · !help books · !help parallel · !help oracle · !help discover · !help study · !help save · !help ccc · !help summa")
     await ctx.send(embed=embed)
 
 
@@ -6502,27 +6795,35 @@ async def translations_slash(interaction: discord.Interaction):
 
 @tasks.loop(minutes=1)
 async def _daily_votd_task():
-    """Posts VOTD to VOTD_CHANNEL_ID daily at VOTD_TIME (UTC).
-    Dispatches based on the persisted mode:
+    """Posts VOTD to every guild's configured channel/time (see !votdsetup).
+    Dispatches per-guild based on its configured mode:
       basic    — verse only
       full     — verse + ancients + first commentary
       extended — full VOTD + today's calendar across five traditions
     """
-    if VOTD_CHANNEL_ID is None:
-        return
     import datetime
     now = datetime.datetime.now(datetime.timezone.utc)
-    h, m = VOTD_TIME.split(":")
-    if now.hour == int(h) and now.minute == int(m):
-        channel = bot.get_channel(VOTD_CHANNEL_ID)
-        if channel:
-            mode = _load_votd_mode()
+    cur_hm = f"{now.hour:02d}:{now.minute:02d}"
+    cfg = _load_guild_config()
+    for gid_str, settings in cfg.items():
+        channel_id = settings.get("votd_channel_id")
+        if not channel_id:
+            continue
+        if settings.get("votd_time", "04:00") != cur_hm:
+            continue
+        channel = bot.get_channel(int(channel_id))
+        if not channel:
+            continue
+        mode = settings.get("votd_mode", "full")
+        try:
             if mode == "basic":
                 await _send_votd(channel)
             elif mode == "extended":
                 await _send_votd_extended(channel)
             else:  # default to full for anything else
                 await _send_votd_full(channel)
+        except Exception:
+            log.exception(f"Failed to post daily VOTD for guild {gid_str}")
 
 @_daily_votd_task.before_loop
 async def _before_daily_votd():
@@ -6786,8 +7087,21 @@ async def on_ready():
     synced = await bot.tree.sync()
     log.info(f"Synced {len(synced)} slash command(s)")
     log.info(f"Corpora loaded: {', '.join(lookup.corpora_names())}")
-    if VOTD_CHANNEL_ID:
-        log.info(f"Daily VOTD: channel {VOTD_CHANNEL_ID} at {VOTD_TIME} UTC")
+
+    # One-time migration: seed per-guild config from the old hardcoded channel.
+    if not GUILD_CONFIG_PATH.exists() and _LEGACY_VOTD_CHANNEL_ID:
+        legacy_channel = bot.get_channel(_LEGACY_VOTD_CHANNEL_ID)
+        if legacy_channel and getattr(legacy_channel, "guild", None):
+            _set_guild_votd(
+                legacy_channel.guild.id,
+                votd_channel_id=_LEGACY_VOTD_CHANNEL_ID,
+                votd_time=_LEGACY_VOTD_TIME,
+                votd_mode=_load_votd_mode(),
+            )
+            log.info(f"Migrated legacy VOTD config to guild '{legacy_channel.guild.name}' ({legacy_channel.guild.id})")
+
+    active_votd = sum(1 for g in _load_guild_config().values() if g.get("votd_channel_id"))
+    log.info(f"Daily VOTD configured for {active_votd} guild(s) — admins can run !votdsetup")
     _daily_votd_task.start()
 
     import pathlib, hashlib
