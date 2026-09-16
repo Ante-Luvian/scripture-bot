@@ -252,6 +252,27 @@ def _load_bookmarks() -> dict:
 def _save_bookmarks(data: dict) -> None:
     _atomic_write_json(BOOKMARKS_PATH, data)
 
+# ── Personal reading plans ───────────────────────────────────────────────────────
+READING_PLANS_PATH = Path(__file__).parent / "data" / "reading_plans.json"
+
+def _load_reading_plans() -> dict:
+    if READING_PLANS_PATH.exists():
+        try:
+            return json.loads(READING_PLANS_PATH.read_text(encoding="utf-8"))
+        except Exception:
+            pass
+    return {}
+
+def _save_reading_plans(data: dict) -> None:
+    _atomic_write_json(READING_PLANS_PATH, data)
+
+def _plan_current_chapter(plan: dict) -> int:
+    """Chapter-a-day since start date, clamped to the book's length."""
+    import datetime
+    started = datetime.date.fromisoformat(plan["started_at"])
+    days_elapsed = (datetime.date.today() - started).days
+    return max(1, min(days_elapsed + 1, plan["total_chapters"]))
+
 def record_stat(user_id: int, command: str, result: dict = None):
     """Record a command invocation and optionally a verse lookup result."""
     try:
@@ -436,6 +457,18 @@ async def saved_slash(interaction: discord.Interaction):
     await interaction.response.defer()
     ctx = await bot.get_context(interaction)
     await cmd_saved(ctx)
+
+@bot.tree.command(name="subscribe", description="Get the daily Verse of the Day sent to you by DM")
+async def subscribe_slash(interaction: discord.Interaction):
+    await interaction.response.defer()
+    ctx = await bot.get_context(interaction)
+    await cmd_subscribe(ctx)
+
+@bot.tree.command(name="unsubscribe", description="Stop the daily DM Verse of the Day")
+async def unsubscribe_slash(interaction: discord.Interaction):
+    await interaction.response.defer()
+    ctx = await bot.get_context(interaction)
+    await cmd_unsubscribe(ctx)
 
 
 # ── Prefix command  !verse ─────────────────────────────────────────────────────
@@ -4943,6 +4976,250 @@ async def cmd_unsave(ctx, index: int = 0):
     await ctx.send(f"Removed **{removed['reference']}** from your saved list.")
 
 
+# ── !plan — personal chapter-a-day reading plan ──────────────────────────────────
+
+@bot.command(name="plan")
+async def cmd_plan(ctx, action: str = "", *, arg: str = ""):
+    """Personal chapter-a-day reading plan.
+    Usage: !plan start <book>   — start a plan, e.g. !plan start John
+           !plan (or !plan today) — show today's chapter
+           !plan status         — show your progress
+           !plan stop           — cancel your plan
+    """
+    action = action.strip().lower()
+    uid = str(ctx.author.id)
+    data = _load_reading_plans()
+
+    if action == "start":
+        book_raw = arg.strip()
+        if not book_raw:
+            await ctx.send("Usage: `!plan start <book>` — e.g. `!plan start John`")
+            return
+        _, canon = lookup._resolve_book(book_raw)
+        if canon is None:
+            await ctx.send(f"⚠️ Unknown book: **{book_raw}**")
+            return
+        total = lookup.chapter_count(canon)
+        if not total:
+            await ctx.send(f"⚠️ **{canon}** doesn't have chapter data available for a reading plan.")
+            return
+        import datetime
+        data[uid] = {
+            "book": canon,
+            "total_chapters": total,
+            "started_at": datetime.date.today().isoformat(),
+        }
+        _save_reading_plans(data)
+        await ctx.send(
+            f"📅 Reading plan started: **{canon}** — {total} chapter(s), one per day. "
+            "Check in with `!plan` each day."
+        )
+        return
+
+    plan = data.get(uid)
+    if not plan:
+        await ctx.send("You don't have a reading plan yet. Start one with `!plan start <book>`.")
+        return
+
+    if action == "stop":
+        del data[uid]
+        _save_reading_plans(data)
+        await ctx.send(f"Reading plan for **{plan['book']}** cancelled.")
+        return
+
+    if action == "status":
+        chap = _plan_current_chapter(plan)
+        pct = int(100 * chap / plan["total_chapters"])
+        await ctx.send(
+            f"📖 **{plan['book']}** — day {chap} of {plan['total_chapters']} ({pct}%). "
+            f"Started {plan['started_at']}."
+        )
+        return
+
+    if action not in ("", "today"):
+        await ctx.send("Usage: `!plan` · `!plan today` · `!plan status` · `!plan stop` · `!plan start <book>`")
+        return
+
+    chap = _plan_current_chapter(plan)
+    result = lookup.get_verse(f"{plan['book']} {chap}")
+    await _send_result(ctx, result)
+    if chap >= plan["total_chapters"]:
+        await ctx.send(f"🎉 That's the final chapter of **{plan['book']}**. Start a new plan with `!plan start <book>`.")
+
+@bot.tree.command(name="plan", description="Personal chapter-a-day reading plan")
+@app_commands.describe(action="start | today | status | stop", arg="book name, if starting")
+async def plan_slash(interaction: discord.Interaction, action: str = "", arg: str = ""):
+    await interaction.response.defer()
+    ctx = await bot.get_context(interaction)
+    await cmd_plan(ctx, action=action, arg=arg)
+
+
+# ── !leaderboard — most active bookmarkers ───────────────────────────────────────
+# !stats already covers bot-wide "most cited verse/book/command" popularity.
+# This one is genuinely new: per-user bookmark counts, which nothing else shows.
+
+@bot.command(name="leaderboard", aliases=["lb"])
+async def cmd_leaderboard(ctx):
+    """Show who has the most saved bookmarks."""
+    data = _load_bookmarks()
+    counts = [(uid, len(entries)) for uid, entries in data.items() if entries]
+    if not counts:
+        await ctx.send("No one has saved any verses yet — be the first with `!save <reference>`.")
+        return
+
+    counts.sort(key=lambda x: x[1], reverse=True)
+    lines = []
+    for i, (uid, n) in enumerate(counts[:10]):
+        member = ctx.guild.get_member(int(uid)) if ctx.guild else None
+        name = member.display_name if member else f"User {uid}"
+        lines.append(f"`{i + 1}.` **{name}** — {n} saved verse(s)")
+
+    embed = discord.Embed(
+        title="🏆 Bookmark Leaderboard",
+        description="\n".join(lines),
+        color=discord.Color.dark_gold(),
+    )
+    embed.set_footer(text="Based on !save across all servers this bot is in.")
+    await ctx.send(embed=embed)
+
+@bot.tree.command(name="leaderboard", description="Show who has the most saved bookmarks")
+async def leaderboard_slash(interaction: discord.Interaction):
+    await interaction.response.defer()
+    ctx = await bot.get_context(interaction)
+    await cmd_leaderboard(ctx)
+
+
+# ── !subscribe — personal daily Verse of the Day by DM ───────────────────────────
+# Independent of the per-guild channel post (!votdsetup): this is the same daily
+# verse, delivered straight to a user's DMs instead of (or as well as) a channel.
+SUBSCRIBERS_PATH = Path(__file__).parent / "data" / "subscribers.json"
+DM_DIGEST_TIME = "12:00"  # UTC
+
+def _load_subscribers() -> list:
+    if SUBSCRIBERS_PATH.exists():
+        try:
+            return json.loads(SUBSCRIBERS_PATH.read_text(encoding="utf-8"))
+        except Exception:
+            pass
+    return []
+
+def _save_subscribers(ids: list) -> None:
+    _atomic_write_json(SUBSCRIBERS_PATH, ids)
+
+@bot.command(name="subscribe")
+async def cmd_subscribe(ctx):
+    """Get the daily Verse of the Day sent to you by DM."""
+    subs = _load_subscribers()
+    uid = ctx.author.id
+    if uid in subs:
+        await ctx.send("You're already subscribed to the daily DM verse. Use `!unsubscribe` to stop.")
+        return
+    try:
+        await ctx.author.send(
+            f"📬 You're now subscribed to the daily Verse of the Day, sent here around {DM_DIGEST_TIME} UTC. "
+            "Use `!unsubscribe` in a server with me to stop anytime."
+        )
+    except discord.Forbidden:
+        await ctx.send("⚠️ I couldn't DM you — enable direct messages from server members and try again.")
+        return
+    subs.append(uid)
+    _save_subscribers(subs)
+    await ctx.send("📬 Subscribed! Check your DMs.")
+
+@bot.command(name="unsubscribe")
+async def cmd_unsubscribe(ctx):
+    """Stop the daily DM Verse of the Day."""
+    subs = _load_subscribers()
+    uid = ctx.author.id
+    if uid not in subs:
+        await ctx.send("You're not currently subscribed.")
+        return
+    subs.remove(uid)
+    _save_subscribers(subs)
+    await ctx.send("Unsubscribed from the daily DM verse.")
+
+
+# ── !card — shareable verse image ─────────────────────────────────────────────────
+
+def _render_verse_card(reference: str, text: str, source: str):
+    """Render a verse as a parchment-style PNG. Runs off the event loop (CPU-bound)."""
+    from PIL import Image, ImageDraw, ImageFont
+    import io, textwrap
+
+    W, H = 1200, 630
+    BG, BORDER, TEXT, ACCENT = (245, 239, 224), (184, 134, 11), (59, 42, 22), (139, 94, 20)
+    FONTS = "C:/Windows/Fonts/"
+
+    img = Image.new("RGB", (W, H), BG)
+    draw = ImageDraw.Draw(img)
+    draw.rectangle([16, 16, W - 17, H - 17], outline=BORDER, width=4)
+
+    quote_text = text.strip()
+    if len(quote_text) > 500:
+        quote_text = quote_text[:497] + "…"
+
+    max_width, max_height = W - 160, H - 220
+    size = 48
+    lines, font, line_height = [quote_text], None, 56
+    while size > 20:
+        font = ImageFont.truetype(FONTS + "georgiai.ttf", size)
+        wrap_width = max(10, int(max_width / (size * 0.52)))
+        lines = textwrap.wrap(quote_text, width=wrap_width) or [quote_text]
+        line_height = int(size * 1.35)
+        widest = max((draw.textlength(l, font=font) for l in lines), default=0)
+        if line_height * len(lines) <= max_height and widest <= max_width:
+            break
+        size -= 2
+
+    y = (H - line_height * len(lines)) // 2 - 20
+    for line in lines:
+        w = draw.textlength(line, font=font)
+        draw.text(((W - w) / 2, y), line, font=font, fill=TEXT)
+        y += line_height
+
+    ref_font = ImageFont.truetype(FONTS + "georgiab.ttf", 34)
+    ref_w = draw.textlength(reference, font=ref_font)
+    draw.text(((W - ref_w) / 2, H - 130), reference, font=ref_font, fill=ACCENT)
+
+    src_font = ImageFont.truetype(FONTS + "georgia.ttf", 20)
+    src_w = draw.textlength(source, font=src_font)
+    draw.text(((W - src_w) / 2, H - 80), source, font=src_font, fill=ACCENT)
+
+    buf = io.BytesIO()
+    img.save(buf, format="PNG")
+    buf.seek(0)
+    return buf
+
+@bot.command(name="card", aliases=["versecard", "quotecard"])
+async def cmd_card(ctx, *, reference: str = ""):
+    """Render a verse as a shareable image. Usage: !card John 3:16"""
+    ref = reference.strip()
+    if not ref:
+        result = lookup.random_verse()
+    else:
+        result = lookup.get_verse(ref)
+        if not result.get("found") and "Could not parse" in result.get("error", ""):
+            result = lookup.random_verse_from_book(ref)
+    if not result.get("found"):
+        await ctx.send(f"⚠️ {result.get('error', 'Verse not found.')}")
+        return
+
+    async with ctx.typing():
+        loop = asyncio.get_event_loop()
+        buf = await loop.run_in_executor(
+            None, _render_verse_card, result["reference"], result["text"], result.get("source", "")
+        )
+    await ctx.send(file=discord.File(buf, filename="verse.png"))
+    record_stat(ctx.author.id, "card", result)
+
+@bot.tree.command(name="card", description="Render a verse as a shareable image")
+@app_commands.describe(reference="e.g. John 3:16 (leave blank for a random verse)")
+async def card_slash(interaction: discord.Interaction, reference: str = ""):
+    await interaction.response.defer()
+    ctx = await bot.get_context(interaction)
+    await cmd_card(ctx, reference=reference)
+
+
 # ── Auto-detection ─────────────────────────────────────────────────────────────
 
 @bot.event
@@ -6180,6 +6457,76 @@ async def _send_compare_ancient_strong(ctx, reference: str):
     await ctx.send(embed=embed)
 
 
+# ── Strong's concordance search: every occurrence of a number in one book ──────
+# Scoped to a single book (not the whole Bible) — a full-Bible search would mean
+# hundreds of live bolls.life fetches per query, which isn't fair use of a free
+# public API or a reasonable wait for a Discord command.
+_CONCORDANCE_CHAPTER_CACHE: dict[tuple, list] = {}  # (slug, book_id, chapter) -> [(verse_num, [(word, num), ...]), ...]
+
+async def _send_strongs_concordance(ctx, number: str, book_raw: str):
+    from translation_lookup import _BOOK_IDS, _ALIASES, _CHAPTER_COUNTS
+
+    book_key = book_raw.strip().lower().replace(".", "")
+    book_id = _BOOK_IDS.get(book_key) or _BOOK_IDS.get(_ALIASES.get(book_key, ""))
+    if not book_id:
+        await ctx.send(
+            f"⚠️ Unknown book: **{book_raw}**. Concordance search works within one canonical "
+            "Bible book, e.g. `!strong G26 in John`."
+        )
+        return
+
+    testament = "nt" if number.startswith("G") else "ot"
+    if testament == "nt" and book_id < 40:
+        await ctx.send(f"⚠️ **{book_raw}** is an Old Testament book — `G`-prefixed numbers only apply to the NT.")
+        return
+    if testament == "ot" and book_id >= 40:
+        await ctx.send(f"⚠️ **{book_raw}** is a New Testament book — `H`-prefixed numbers only apply to the OT.")
+        return
+
+    slug = "TISCH" if testament == "nt" else "WLCa"
+    target = number[1:]
+    n_chapters = _CHAPTER_COUNTS.get(book_id)
+    if not n_chapters:
+        await ctx.send(f"⚠️ No chapter data available for **{book_raw}**.")
+        return
+
+    book_title = book_raw.strip().title()
+    matches = []
+    async with ctx.typing():
+        loop = asyncio.get_event_loop()
+        for chap in range(1, n_chapters + 1):
+            key = (slug, book_id, chap)
+            per_verse = _CONCORDANCE_CHAPTER_CACHE.get(key)
+            if per_verse is None:
+                verses = await loop.run_in_executor(None, _bolls_fetch_chapter, slug, book_id, chap)
+                per_verse = []
+                if verses:
+                    for v in verses:
+                        per_verse.append((v.get("verse"), _parse_strongs_text(v.get("text", ""))))
+                _CONCORDANCE_CHAPTER_CACHE[key] = per_verse
+            for verse_num, pairs in per_verse:
+                for word, num in pairs:
+                    if num == target:
+                        matches.append((chap, verse_num, word))
+
+    if not matches:
+        await ctx.send(f"No occurrences of **{number}** found in **{book_title}**.")
+        return
+
+    lines = [f"{book_title} {c}:{v} — **{w}**" for c, v, w in matches[:40]]
+    embed = discord.Embed(
+        title=f"🔎 {number} in {book_title}",
+        description="\n".join(lines),
+        color=discord.Color.dark_gold(),
+    )
+    footer = f"{len(matches)} occurrence(s)"
+    if len(matches) > 40:
+        footer += " — showing first 40"
+    footer += " · bolls.life"
+    embed.set_footer(text=footer)
+    await ctx.send(embed=embed)
+
+
 # ── !strong — Strong's concordance lookup ─────────────────────────────────────
 
 @bot.command(name="strong", aliases=["strongs"])
@@ -6194,8 +6541,14 @@ async def cmd_strong(ctx, *, query: str = ""):
     raw = (query or "").strip()
     if not raw:
         await ctx.send(
-            "Usage: `!strong G3588` · `!strong H7225` · `!strong John 3:16`"
+            "Usage: `!strong G3588` · `!strong H7225` · `!strong John 3:16` · `!strong G26 in John`"
         )
+        return
+
+    # ── Concordance: "!strong G26 in John" — every occurrence within one book ──
+    m_concord = re.match(r"^([GH]\d+)\s+in\s+(.+)$", raw, re.IGNORECASE)
+    if m_concord:
+        await _send_strongs_concordance(ctx, m_concord.group(1).upper(), m_concord.group(2).strip())
         return
 
     # If it looks like a verse reference (contains "Book Chapter:Verse"),
@@ -6432,7 +6785,20 @@ async def cmd_help(ctx, *, topic: str = ""):
         await ctx.send(embed=embed)
         return
 
-    if topic in ("compare", "ancient", "cmp", "strong"):
+    if topic in ("strong", "strongs"):
+        embed = discord.Embed(title="📚 !strong — Strong's Lexicon & Concordance", color=discord.Color.dark_gold())
+        embed.description = (
+            "`!strong G3588` — Greek lexicon entry\n"
+            "`!strong H7225` — Hebrew lexicon entry\n"
+            "`!strong John 3:16` — verse with every word tagged with its Strong's number\n"
+            "`!strong G26 in John` — every occurrence of that number within one book (concordance)\n\n"
+            "Concordance search is scoped to a single canonical Bible book at a time — "
+            "a whole-Bible search would mean hundreds of live lookups per query."
+        )
+        await ctx.send(embed=embed)
+        return
+
+    if topic in ("compare", "ancient", "cmp"):
         embed = discord.Embed(title="🏛️ !compare — Multi-Translation View", color=discord.Color.dark_gold())
         embed.description = (
             "`!compare John 3:16` — verse across all English translations\n"
@@ -6545,6 +6911,48 @@ async def cmd_help(ctx, *, topic: str = ""):
             "`!saved` — show your saved verses\n"
             "`!unsave 2` — remove saved verse #2 (number from `!saved`)\n\n"
             "Bookmarks are personal — only you can see and manage your own list."
+        )
+        await ctx.send(embed=embed)
+        return
+
+    if topic in ("plan", "readingplan"):
+        embed = discord.Embed(title="📅 !plan — Reading Plan", color=discord.Color.dark_gold())
+        embed.description = (
+            "`!plan start John` — start a chapter-a-day plan through a book\n"
+            "`!plan` or `!plan today` — show today's assigned chapter\n"
+            "`!plan status` — see your progress\n"
+            "`!plan stop` — cancel your plan\n\n"
+            "One plan per person. The chapter shown advances automatically by date, "
+            "not by how often you check in."
+        )
+        await ctx.send(embed=embed)
+        return
+
+    if topic in ("leaderboard", "lb"):
+        embed = discord.Embed(title="🏆 !leaderboard — Bookmark Leaderboard", color=discord.Color.dark_gold())
+        embed.description = (
+            "`!leaderboard` — shows who has saved the most verses with `!save`.\n\n"
+            "For overall bot usage (most cited verses/books/commands), see `!stats` instead."
+        )
+        await ctx.send(embed=embed)
+        return
+
+    if topic in ("card", "versecard", "quotecard"):
+        embed = discord.Embed(title="🖼️ !card — Shareable Verse Image", color=discord.Color.dark_gold())
+        embed.description = (
+            "`!card John 3:16` — renders the verse as a parchment-style PNG you can share\n"
+            "`!card` — random verse, same style\n\n"
+            "Same underlying lookup as `!verse`, just rendered as an image instead of an embed."
+        )
+        await ctx.send(embed=embed)
+        return
+
+    if topic in ("subscribe", "unsubscribe", "dm"):
+        embed = discord.Embed(title="📬 Daily Verse by DM", color=discord.Color.dark_gold())
+        embed.description = (
+            f"`!subscribe` — get the daily Verse of the Day sent to your DMs (around {DM_DIGEST_TIME} UTC)\n"
+            "`!unsubscribe` — stop it\n\n"
+            "Independent of any server's `!votdsetup` channel post — this goes straight to you."
         )
         await ctx.send(embed=embed)
         return
@@ -6880,7 +7288,11 @@ async def cmd_help(ctx, *, topic: str = ""):
     embed.add_field(name="🔭 Discovery & Personal", value=(
         "`!discover` — random passage from any loaded tradition · `!help discover`\n"
         "`!study` — verse + patristic commentary together · `!help study`\n"
-        "`!save` / `!saved` / `!unsave` — personal bookmarks · `!help save`"
+        "`!save` / `!saved` / `!unsave` — personal bookmarks · `!help save`\n"
+        "`!plan` — chapter-a-day reading plan · `!help plan`\n"
+        "`!leaderboard` — most active bookmarkers · `!help leaderboard`\n"
+        "`!subscribe` / `!unsubscribe` — daily verse by DM · `!help subscribe`\n"
+        "`!card` — shareable verse image · `!help card`"
     ), inline=False)
     embed.add_field(name="⚙️ Server Setup (Admin)", value=(
         "`!votdsetup` — configure this server's daily VOTD channel/time/mode · `!help votdsetup`"
@@ -6891,7 +7303,7 @@ async def cmd_help(ctx, *, topic: str = ""):
         "`!compare strong <ref>` — KJV + original-language Strong's tagging · `!help compare`\n"
         "`!strong G3588` / `!strong H7225` — Strong's lexicon lookup · `!help strong`"
     ), inline=False)
-    embed.set_footer(text="!help verse · !help compare · !help votd · !help votdsetup · !help today · !help bcp · !help prayer · !help strong · !help books · !help parallel · !help oracle · !help discover · !help study · !help save · !help creed · !help ccc · !help summa")
+    embed.set_footer(text="!help verse · !help compare · !help votd · !help votdsetup · !help today · !help bcp · !help prayer · !help strong · !help books · !help parallel · !help oracle · !help discover · !help study · !help save · !help plan · !help leaderboard · !help subscribe · !help card · !help creed · !help ccc · !help summa")
     await ctx.send(embed=embed)
 
 
@@ -6985,6 +7397,19 @@ async def _daily_votd_task():
         except Exception:
             log.exception(f"Failed to post daily VOTD for guild {gid_str}")
 
+    # Personal DM digest (independent of any guild's configured time/mode)
+    if cur_hm == DM_DIGEST_TIME:
+        for uid in list(_load_subscribers()):
+            user = bot.get_user(uid)
+            if not user:
+                continue
+            try:
+                await _send_votd(user)
+            except discord.Forbidden:
+                pass  # user closed DMs; leave them subscribed rather than guess why
+            except Exception:
+                log.exception(f"Failed to DM daily verse to user {uid}")
+
 @_daily_votd_task.before_loop
 async def _before_daily_votd():
     await bot.wait_until_ready()
@@ -7042,7 +7467,7 @@ async def cmd_parallel(ctx, *, reference: str = ""):
             pair = lookup_pair(result)
             await _send_parallel(ctx, result, pair)
         else:
-            await _send_result(ctx, result)
+            await _send_poem_result(ctx, result)
 
 
 @bot.tree.command(name="parallel", description="Look up a Bible verse or classical text in parallel languages")
@@ -7075,7 +7500,7 @@ async def poem_slash(interaction: discord.Interaction,
         pair = lookup_pair(result)
         await _send_parallel(ctx, result, pair)
     else:
-        await _send_result(ctx, result)
+        await _send_poem_result(ctx, result)
 
 
 
@@ -7130,7 +7555,7 @@ async def _send_poem_scripture(ctx, reference: str, scripture_type: str, drb: bo
     await ctx.send(embed=embed)
 
 
-async def _send_result(ctx, result: dict):
+async def _send_poem_result(ctx, result: dict):
     if not result.get("found"):
         embed = discord.Embed(title="❌ Not found",
                               description=result.get("error", "Unknown error"),
