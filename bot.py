@@ -5284,22 +5284,117 @@ def _render_verse_card(reference: str, text: str, source: str):
     buf.seek(0)
     return buf
 
+
+def _render_compare_card(reference: str, entries: list[tuple[str, str]]):
+    """Render up to 4 translations of one verse stacked in a single PNG."""
+    from PIL import Image, ImageDraw, ImageFont
+    import io, textwrap
+
+    entries = entries[:4]
+    n = len(entries)
+    W, TOP, BAND_H, BOTTOM = 1200, 110, 165, 40
+    H = TOP + BAND_H * n + BOTTOM
+    BG, BORDER, TEXT, ACCENT = (245, 239, 224), (184, 134, 11), (59, 42, 22), (139, 94, 20)
+    FONTS = "C:/Windows/Fonts/"
+
+    img = Image.new("RGB", (W, H), BG)
+    draw = ImageDraw.Draw(img)
+    draw.rectangle([16, 16, W - 17, H - 17], outline=BORDER, width=4)
+
+    title_font = ImageFont.truetype(FONTS + "georgiab.ttf", 40)
+    tw = draw.textlength(reference, font=title_font)
+    draw.text(((W - tw) / 2, 38), reference, font=title_font, fill=ACCENT)
+
+    label_font = ImageFont.truetype(FONTS + "georgiab.ttf", 24)
+    max_width = W - 140
+
+    y = TOP
+    for i, (label, text) in enumerate(entries):
+        clean = re.sub(r"\*\*\[\d+\]\*\*\s*", "", text.strip()).replace("**", "")
+        if len(clean) > 260:
+            clean = clean[:257] + "…"
+
+        draw.text((70, y), label, font=label_font, fill=ACCENT)
+
+        size, lines, line_h, body_font = 28, [clean], 36, None
+        while size > 16:
+            body_font = ImageFont.truetype(FONTS + "georgiai.ttf", size)
+            wrap_width = max(10, int(max_width / (size * 0.52)))
+            lines = textwrap.wrap(clean, width=wrap_width) or [clean]
+            line_h = int(size * 1.3)
+            widest = max((draw.textlength(l, font=body_font) for l in lines), default=0)
+            if line_h * len(lines) <= BAND_H - 44 and widest <= max_width:
+                break
+            size -= 2
+
+        ty = y + 34
+        for line in lines:
+            draw.text((70, ty), line, font=body_font, fill=TEXT)
+            ty += line_h
+
+        if i < n - 1:
+            draw.line([(70, y + BAND_H - 14), (W - 70, y + BAND_H - 14)], fill=BORDER, width=1)
+        y += BAND_H
+
+    buf = io.BytesIO()
+    img.save(buf, format="PNG")
+    buf.seek(0)
+    return buf
+
 @bot.command(name="card", aliases=["versecard", "quotecard"])
 async def cmd_card(ctx, *, reference: str = ""):
-    """Render a verse as a shareable image. Usage: !card John 3:16  or  !card James 2:19 ESV"""
+    """Render a verse as a shareable image.
+    Usage: !card John 3:16              — KJV
+           !card James 2:19 ESV         — a specific translation
+           !card John 3:16 KJV ESV NASB — up to 4 translations compared, stacked
+    """
     ref = reference.strip()
     if not ref:
         result = lookup.random_verse()
+        if not result.get("found"):
+            await ctx.send(f"⚠️ {result.get('error', 'Verse not found.')}")
+            return
+        async with ctx.typing():
+            loop = asyncio.get_event_loop()
+            buf = await loop.run_in_executor(
+                None, _render_verse_card, result["reference"], result["text"], result.get("source", "")
+            )
+        await ctx.send(file=discord.File(buf, filename="verse.png"))
+        record_stat(ctx.author.id, "card", result)
+        return
+
+    tokens = ref.split()
+    i = len(tokens) - 1
+    trans_list = []
+    while i >= 0 and tokens[i].lower() in TRANSLATION_SUFFIXES:
+        trans_list.insert(0, tokens[i])
+        i -= 1
+    base_ref = " ".join(tokens[:i + 1])
+
+    if len(trans_list) >= 2:
+        async with ctx.typing():
+            result = get_parallel(base_ref, trans_list[:4])
+        if not result.get("found"):
+            await ctx.send(f"⚠️ {result.get('error', 'Verse not found.')}")
+            return
+        entries = [(label, text) for _slug, label, text in result["parallel"]]
+        async with ctx.typing():
+            loop = asyncio.get_event_loop()
+            buf = await loop.run_in_executor(None, _render_compare_card, result["reference"], entries)
+        await ctx.send(file=discord.File(buf, filename="compare.png"))
+        record_stat(ctx.author.id, "card", result)
+        if len(trans_list) > 4:
+            await ctx.send("Comparison cards show up to 4 translations at a time — showing the first 4.")
+        return
+
+    if len(trans_list) == 1:
+        async with ctx.typing():
+            result = get_translation(base_ref, trans_list[0])
     else:
-        parts = ref.rsplit(None, 1)
-        suffix = parts[1].lower() if len(parts) == 2 else ""
-        if suffix in TRANSLATION_SUFFIXES:
-            async with ctx.typing():
-                result = get_translation(parts[0].strip(), suffix)
-        else:
-            result = lookup.get_verse(ref)
-            if not result.get("found") and "Could not parse" in result.get("error", ""):
-                result = lookup.random_verse_from_book(ref)
+        result = lookup.get_verse(ref)
+        if not result.get("found") and "Could not parse" in result.get("error", ""):
+            result = lookup.random_verse_from_book(ref)
+
     if not result.get("found"):
         await ctx.send(f"⚠️ {result.get('error', 'Verse not found.')}")
         return
@@ -5862,6 +5957,16 @@ CREEDS = {
             "I believe in the Holy Ghost; The holy Catholick Church; The Communion of Saints; "
             "The Forgiveness of sins; The Resurrection of the body, And the life everlasting. Amen."
         ),
+        "latin_title": "Symbolum Apostolorum",
+        "latin": (
+            "Credo in Deum Patrem omnipotentem, Creatorem caeli et terrae.\n\n"
+            "Et in Iesum Christum, Filium eius unicum, Dominum nostrum, qui conceptus est de Spiritu Sancto, "
+            "natus ex Maria Virgine, passus sub Pontio Pilato, crucifixus, mortuus, et sepultus, "
+            "descendit ad inferos, tertia die resurrexit a mortuis, ascendit ad caelos, "
+            "sedet ad dexteram Dei Patris omnipotentis, inde venturus est iudicare vivos et mortuos.\n\n"
+            "Credo in Spiritum Sanctum, sanctam Ecclesiam catholicam, sanctorum communionem, "
+            "remissionem peccatorum, carnis resurrectionem, vitam aeternam. Amen."
+        ),
     },
     "nicene": {
         "title": "The Nicene Creed",
@@ -5881,6 +5986,22 @@ CREEDS = {
             "Who spake by the Prophets. And I believe one Catholick and Apostolick Church. "
             "I acknowledge one Baptism for the remission of sins. And I look for the Resurrection of "
             "the dead, And the life of the world to come. Amen."
+        ),
+        "latin_title": "Symbolum Nicaenum-Constantinopolitanum",
+        "latin": (
+            "Credo in unum Deum, Patrem omnipotentem, factorem caeli et terrae, "
+            "visibilium omnium et invisibilium.\n\n"
+            "Et in unum Dominum Iesum Christum, Filium Dei unigenitum, et ex Patre natum ante omnia saecula. "
+            "Deum de Deo, lumen de lumine, Deum verum de Deo vero, genitum, non factum, consubstantialem "
+            "Patri: per quem omnia facta sunt. Qui propter nos homines et propter nostram salutem descendit "
+            "de caelis. Et incarnatus est de Spiritu Sancto ex Maria Virgine, et homo factus est. "
+            "Crucifixus etiam pro nobis sub Pontio Pilato, passus et sepultus est, et resurrexit tertia die, "
+            "secundum Scripturas, et ascendit in caelum, sedet ad dexteram Patris. Et iterum venturus est "
+            "cum gloria, iudicare vivos et mortuos, cuius regni non erit finis.\n\n"
+            "Et in Spiritum Sanctum, Dominum et vivificantem, qui ex Patre Filioque procedit. Qui cum Patre "
+            "et Filio simul adoratur et conglorificatur: qui locutus est per prophetas. Et unam, sanctam, "
+            "catholicam et apostolicam Ecclesiam. Confiteor unum baptisma in remissionem peccatorum. "
+            "Et exspecto resurrectionem mortuorum, et vitam venturi saeculi. Amen."
         ),
     },
     "athanasian": {
@@ -5942,6 +6063,46 @@ CREEDS = {
             "into everlasting fire.\n\n"
             "This is the Catholick Faith: which except a man believe faithfully, he cannot be saved."
         ),
+        "latin_title": "Quicunque Vult",
+        "latin": (
+            "Quicumque vult salvus esse, ante omnia opus est, ut teneat Catholicam fidem: Quam nisi quisque "
+            "integram inviolatamque servaverit, absque dubio in aeternum peribit. Fides autem Catholica "
+            "haec est: ut unum Deum in Trinitate, et Trinitatem in unitate veneremur. Neque confundentes "
+            "personas, neque substantiam separantes. Alia est enim persona Patris alia Filii, alia Spiritus "
+            "Sancti: Sed Patris, et Filii, et Spiritus Sancti una est divinitas, aequalis gloria, coeterna "
+            "maiestas. Qualis Pater, talis Filius, talis [et] Spiritus Sanctus. Increatus Pater, increatus "
+            "Filius, increatus [et] Spiritus Sanctus. Immensus Pater, immensus Filius, immensus [et] "
+            "Spiritus Sanctus. Aeternus Pater, aeternus Filius, aeternus [et] Spiritus Sanctus. Et tamen "
+            "non tres aeterni, sed unus aeternus. Sicut non tres increati, nec tres immensi, sed unus "
+            "increatus, et unus immensus. Similiter omnipotens Pater, omnipotens Filius, omnipotens [et] "
+            "Spiritus Sanctus. Et tamen non tres omnipotentes, sed unus omnipotens. Ita Deus Pater, Deus "
+            "Filius, Deus [et] Spiritus Sanctus. Et tamen non tres dii, sed unus est Deus. Ita Dominus "
+            "Pater, Dominus Filius, Dominus [et] Spiritus Sanctus. Et tamen non tres Domini, sed unus "
+            "[est] Dominus. Quia, sicut singillatim unamquamque personam Deum ac Dominum confiteri "
+            "christiana veritate compellimur: Ita tres Deos aut [tres] Dominos dicere Catholica religione "
+            "prohibemur. Pater a nullo est factus: nec creatus, nec genitus. Filius a Patre solo est: non "
+            "factus, nec creatus, sed genitus. Spiritus Sanctus a Patre et Filio: non factus, nec creatus, "
+            "nec genitus, sed procedens. Unus ergo Pater, non tres Patres: unus Filius, non tres Filii: "
+            "unus Spiritus Sanctus, non tres Spiritus Sancti. Et in hac Trinitate nihil prius aut "
+            "posterius, nihil maius aut minus: Sed totae tres personae coaeternae sibi sunt et coaequales. "
+            "Ita, ut per omnia, sicut iam supra dictum est, et unitas in Trinitate, et Trinitas in unitate "
+            "veneranda sit. Qui vult ergo salvus esse, ita de Trinitate sentiat.\n\n"
+            "Sed necessarium est ad aeternam salutem, ut incarnationem quoque Domini nostri Iesu Christi "
+            "fideliter credat. Est ergo fides recta ut credamus et confiteamur, quia Dominus noster Iesus "
+            "Christus, Dei Filius, Deus [pariter] et homo est. Deus [est] ex substantia Patris ante saecula "
+            "genitus: et homo est ex substantia matris in saeculo natus. Perfectus Deus, perfectus homo: "
+            "ex anima rationali et humana carne subsistens. Aequalis Patri secundum divinitatem: minor "
+            "Patre secundum humanitatem. Qui licet Deus sit et homo, non duo tamen, sed unus est Christus. "
+            "Unus autem non conversione divinitatis in carnem, sed assumptione humanitatis in Deum. Unus "
+            "omnino, non confusione substantiae, sed unitate personae. Nam sicut anima rationalis et caro "
+            "unus est homo: ita Deus et homo unus est Christus. Qui passus est pro salute nostra: "
+            "descendit ad inferos: tertia die resurrexit a mortuis. Ascendit ad [in] caelos, sedet ad "
+            "dexteram [Dei] Patris [omnipotentis]. Inde venturus [est] judicare vivos et mortuos. Ad cujus "
+            "adventum omnes homines resurgere habent cum corporibus suis; Et reddituri sunt de factis "
+            "propriis rationem. Et qui bona egerunt, ibunt in vitam aeternam: qui vero mala, in ignem "
+            "aeternum. Haec est fides Catholica, quam nisi quisque fideliter firmiterque crediderit, "
+            "salvus esse non poterit."
+        ),
     },
 }
 CREED_ALIASES = {
@@ -5950,42 +6111,70 @@ CREED_ALIASES = {
     "athanasius": "athanasian", "athanasian": "athanasian", "quicunque": "athanasian", "quicunquevult": "athanasian",
 }
 
-async def _send_creed(ctx, key: str):
+CREED_LANGS = {
+    "latin": "latin", "la": "latin", "lat": "latin",
+    "parallel": "parallel", "both": "parallel",
+}
+
+async def _send_creed(ctx, key: str, lang: str = "text"):
     creed = CREEDS[key]
-    pages = _chunk(creed["text"], 3900)
+
+    if lang == "parallel":
+        await _send_creed(ctx, key, "text")
+        if creed.get("latin"):
+            await _send_creed(ctx, key, "latin")
+        return
+
+    if lang == "latin":
+        if not creed.get("latin"):
+            await ctx.send(f"No Latin text available for **{creed['title']}**.")
+            return
+        title = f"{creed['title']} — {creed.get('latin_title', 'Latin')}"
+        body = creed["latin"]
+        footer = "Latin (traditional liturgical text)"
+    else:
+        title = creed["title"]
+        body = creed["text"]
+        footer = "Traditional English (Book of Common Prayer, 1662)"
+
+    pages = _chunk(body, 3900)
     for i, page in enumerate(pages):
         embed = discord.Embed(
-            title=creed["title"] if len(pages) == 1 else f"{creed['title']} ({i + 1}/{len(pages)})",
+            title=title if len(pages) == 1 else f"{title} ({i + 1}/{len(pages)})",
             description=page,
             color=discord.Color.dark_gold(),
         )
-        embed.set_footer(text="Traditional English (Book of Common Prayer, 1662)")
+        embed.set_footer(text=footer)
         await ctx.send(embed=embed)
-    record_special_stat(ctx.author.id, "creed", creed["title"])
+    record_special_stat(ctx.author.id, "creed", f"{creed['title']} [{lang}]")
 
 @bot.command(name="creed", aliases=["creeds"])
 async def cmd_creed(ctx, *, which: str = ""):
-    """The three ecumenical creeds in traditional English.
+    """The three ecumenical creeds, in English or Latin.
     Usage: !creed              — list the creeds
-           !creed apostle      — the Apostles' Creed
-           !creed nicene       — the Nicene Creed
-           !creed athanasius   — the Athanasian Creed
+           !creed apostle      — the Apostles' Creed (English)
+           !creed nicene latin — the Nicene Creed in Latin
+           !creed athanasius parallel — Athanasian Creed, English then Latin
     """
-    key = CREED_ALIASES.get(which.strip().lower())
+    tokens = which.strip().split()
+    key = CREED_ALIASES.get(tokens[0].lower()) if tokens else None
     if not key:
         embed = discord.Embed(title="📜 The Creeds", color=discord.Color.dark_gold())
         embed.description = (
             "`!creed apostle` — The Apostles' Creed\n"
             "`!creed nicene` — The Nicene Creed\n"
             "`!creed athanasius` — The Athanasian Creed (Quicunque Vult)\n\n"
-            "Traditional English, as in the 1662 Book of Common Prayer."
+            "Add `latin` for the traditional Latin text, or `parallel` for both: "
+            "e.g. `!creed apostle latin`, `!creed nicene parallel`.\n\n"
+            "English is traditional, as in the 1662 Book of Common Prayer."
         )
         await ctx.send(embed=embed)
         return
-    await _send_creed(ctx, key)
+    lang = CREED_LANGS.get(tokens[1].lower(), "text") if len(tokens) > 1 else "text"
+    await _send_creed(ctx, key, lang)
 
-@bot.tree.command(name="creed", description="The Apostles', Nicene, or Athanasian Creed in traditional English")
-@app_commands.describe(which="apostle | nicene | athanasius (leave blank to list them)")
+@bot.tree.command(name="creed", description="The Apostles', Nicene, or Athanasian Creed, in English or Latin")
+@app_commands.describe(which="apostle | nicene | athanasius, optionally + latin or parallel")
 async def creed_slash(interaction: discord.Interaction, which: str = ""):
     await interaction.response.defer()
     ctx = await bot.get_context(interaction)
@@ -7436,7 +7625,9 @@ async def cmd_help(ctx, *, topic: str = ""):
             "`!creed apostle` — The Apostles' Creed\n"
             "`!creed nicene` — The Nicene Creed\n"
             "`!creed athanasius` — The Athanasian Creed (Quicunque Vult)\n\n"
-            "Traditional English text, as in the 1662 Book of Common Prayer."
+            "Add `latin` for the traditional Latin text, or `parallel` for English then Latin: "
+            "`!creed apostle latin` · `!creed nicene parallel`\n\n"
+            "English text is traditional, as in the 1662 Book of Common Prayer."
         )
         await ctx.send(embed=embed)
         return
