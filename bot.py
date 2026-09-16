@@ -23,6 +23,7 @@ from translation_lookup import (get_translation, get_parallel, get_random_verse,
                                  list_translations)
 from poem_lookup import (parse_poem_ref, lookup as poem_lookup, lookup_pair,
                          list_works as poem_list_works, classify_scripture, is_drb_reference)
+from xref_lookup import get_cross_references
 
 # Load .env file if present
 try:
@@ -4962,6 +4963,49 @@ async def cmd_study(ctx, *, reference: str = ""):
     await cmd_catena(ctx, reference=ref)
 
 
+# ── !xref — cross-references (Treasury of Scripture Knowledge) ──────────────────
+
+@bot.command(name="xref", aliases=["crossref", "crossreference", "xrefs"])
+async def cmd_xref(ctx, *, reference: str = ""):
+    """Cross-references for a verse, from the Treasury of Scripture Knowledge.
+    Usage: !xref John 3:16
+    """
+    ref = reference.strip()
+    if not ref:
+        await ctx.send("Usage: `!xref <reference>` — e.g. `!xref John 3:16`")
+        return
+
+    result = lookup.get_verse(ref)
+    if not result.get("found"):
+        await ctx.send(f"⚠️ {result.get('error', 'Verse not found.')}")
+        return
+
+    canon_ref = result["reference"]
+    xrefs = get_cross_references(canon_ref)
+    if not xrefs:
+        await ctx.send(f"No cross-references found for **{canon_ref}** — the dataset only covers the 66-book Protestant canon.")
+        return
+
+    SHOWN = 15
+    lines = [f"`{i + 1}.` **{r}**" for i, (r, _votes) in enumerate(xrefs[:SHOWN])]
+    embed = discord.Embed(
+        title=f"🔗 Cross-references — {canon_ref}",
+        description="\n".join(lines),
+        color=discord.Color.dark_gold(),
+    )
+    footer = f"Showing {min(SHOWN, len(xrefs))} of {len(xrefs)}" if len(xrefs) > SHOWN else f"{len(xrefs)} reference(s)"
+    embed.set_footer(text=f"{footer} · Treasury of Scripture Knowledge, via openbible.info (CC-BY)")
+    record_special_stat(ctx.author.id, "xref", canon_ref)
+    await ctx.send(embed=embed)
+
+@bot.tree.command(name="xref", description="Cross-references for a verse (Treasury of Scripture Knowledge)")
+@app_commands.describe(reference="e.g. John 3:16")
+async def xref_slash(interaction: discord.Interaction, reference: str):
+    await interaction.response.defer()
+    ctx = await bot.get_context(interaction)
+    await cmd_xref(ctx, reference=reference)
+
+
 # ── Personal bookmarks: !save / !saved / !unsave ─────────────────────────────────
 
 @bot.command(name="save", aliases=["bookmark"])
@@ -7405,6 +7449,16 @@ async def cmd_help(ctx, *, topic: str = ""):
         await ctx.send(embed=embed)
         return
 
+    if topic in ("xref", "xrefs", "crossref", "crossreference"):
+        embed = discord.Embed(title="🔗 !xref — Cross-References", color=discord.Color.dark_gold())
+        embed.description = (
+            "`!xref John 3:16` — up to 15 related verses, most-attested first\n\n"
+            "From the Treasury of Scripture Knowledge (public domain, ~340,000 references), "
+            "via openbible.info's structured dataset (CC-BY). Covers the 66-book Protestant canon only."
+        )
+        await ctx.send(embed=embed)
+        return
+
     if topic in ("card", "versecard", "quotecard"):
         embed = discord.Embed(title="🖼️ !card — Shareable Verse Image", color=discord.Color.dark_gold())
         embed.description = (
@@ -7761,6 +7815,7 @@ async def cmd_help(ctx, *, topic: str = ""):
     embed.add_field(name="🔭 Discovery & Personal", value=(
         "`!discover` — random passage from any loaded tradition · `!help discover`\n"
         "`!study` — verse + patristic commentary together · `!help study`\n"
+        "`!xref` — cross-references (Treasury of Scripture Knowledge) · `!help xref`\n"
         "`!save` / `!saved` / `!unsave` — personal bookmarks · `!help save`\n"
         "`!plan` — chapter-a-day reading plan · `!help plan`\n"
         "`!leaderboard` — most active bookmarkers · `!help leaderboard`\n"
@@ -7777,7 +7832,7 @@ async def cmd_help(ctx, *, topic: str = ""):
         "`!compare strong <ref>` — KJV + original-language Strong's tagging · `!help compare`\n"
         "`!strong G3588` / `!strong H7225` — Strong's lexicon lookup · `!help strong`"
     ), inline=False)
-    embed.set_footer(text="!help verse · !help compare · !help votd · !help votdsetup · !help features · !help today · !help bcp · !help prayer · !help strong · !help books · !help parallel · !help oracle · !help discover · !help study · !help save · !help plan · !help leaderboard · !help subscribe · !help card · !help creed · !help ccc · !help summa")
+    embed.set_footer(text="!help verse · !help compare · !help votd · !help votdsetup · !help features · !help today · !help bcp · !help prayer · !help strong · !help books · !help parallel · !help oracle · !help discover · !help study · !help xref · !help save · !help plan · !help leaderboard · !help subscribe · !help card · !help creed · !help ccc · !help summa")
     await ctx.send(embed=embed)
 
 
