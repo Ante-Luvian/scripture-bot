@@ -5302,6 +5302,18 @@ def _rtl_visual(line: str) -> str:
         clusters.append(current)
     return "".join(reversed(clusters))
 
+def _size_for_length(n: int) -> int:
+    """Starting font size for the card body text, scaled so a short quote
+    (e.g. a single clause) renders noticeably larger than a full chapter,
+    rather than every length maxing out at the same size."""
+    anchors = [(20, 68), (100, 58), (200, 50), (400, 44), (800, 36), (2000, 26), (4000, 22)]
+    if n <= anchors[0][0]:
+        return anchors[0][1]
+    for (x0, y0), (x1, y1) in zip(anchors, anchors[1:]):
+        if x0 <= n <= x1:
+            return int(y0 + (n - x0) / (x1 - x0) * (y1 - y0))
+    return anchors[-1][1]
+
 def _render_verse_card(reference: str, text: str, source: str):
     """Render a verse (or a whole chapter) as a parchment-style PNG.
     Runs off the event loop (CPU-bound). Height grows to fit the text
@@ -5330,7 +5342,7 @@ def _render_verse_card(reference: str, text: str, source: str):
 
     dummy = ImageDraw.Draw(Image.new("RGB", (10, 10)))
     max_width = W - 160
-    size, MIN_SIZE = 44, 22
+    size, MIN_SIZE = _size_for_length(len(quote_text)), 22
     lines, line_height, font = [], 0, None
     while size >= MIN_SIZE:
         font = ImageFont.truetype(body_font_path, size)
