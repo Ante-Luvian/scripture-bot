@@ -5270,19 +5270,26 @@ async def cmd_unsubscribe(ctx):
 
 # ── !card — shareable verse image ─────────────────────────────────────────────────
 
+_SYRIAC_FONT_PATH = str(Path(__file__).parent / "fonts" / "NotoSansSyriac-Regular.ttf")
+
 def _script_font(fonts_dir: str, text: str) -> str:
     """Pick a font file that can actually render the text's script.
     Georgia has no Hebrew glyphs at all and drops most polytonic Greek
     diacritics (both render as tofu boxes); Times New Roman covers
-    Hebrew, full polytonic Greek, and Cyrillic as well as Latin."""
+    Hebrew, full polytonic Greek, and Cyrillic as well as Latin. No
+    Windows-bundled font has any Syriac glyphs at all, so Peshitta text
+    uses a bundled copy of Noto Sans Syriac (Google, SIL OFL) instead."""
     for ch in text:
         cp = ord(ch)
+        if 0x0700 <= cp <= 0x074F:
+            return _SYRIAC_FONT_PATH
         if 0x0590 <= cp <= 0x05FF or 0x0370 <= cp <= 0x03FF or 0x1F00 <= cp <= 0x1FFF or 0x0400 <= cp <= 0x04FF:
             return fonts_dir + "times.ttf"
     return fonts_dir + "georgiai.ttf"
 
-def _is_hebrew(text: str) -> bool:
-    return any(0x0590 <= ord(ch) <= 0x05FF for ch in text)
+def _is_rtl_script(text: str) -> bool:
+    """Hebrew or Syriac -- both right-to-left, both need _rtl_visual()."""
+    return any(0x0590 <= ord(ch) <= 0x05FF or 0x0700 <= ord(ch) <= 0x074F for ch in text)
 
 def _rtl_visual(line: str) -> str:
     """Approximate correct RTL visual order for a naive left-to-right renderer
@@ -5333,7 +5340,7 @@ def _render_verse_card(reference: str, text: str, source: str):
     quote_text = quote_text.replace("**", "").strip()
     if len(quote_text) > MAX_CHARS:
         quote_text = quote_text[:MAX_CHARS - 1] + "…"
-    is_hebrew = _is_hebrew(quote_text)
+    is_rtl = _is_rtl_script(quote_text)
     body_font_path = _script_font(FONTS, quote_text)
 
     # Each verse (separated by the newlines already in whole-chapter text)
@@ -5367,7 +5374,7 @@ def _render_verse_card(reference: str, text: str, source: str):
     available = H - TOP_MARGIN - BOTTOM_RESERVED
     y = TOP_MARGIN + max(0, (available - text_height) // 2)
     for line in lines:
-        display_line = _rtl_visual(line) if is_hebrew else line
+        display_line = _rtl_visual(line) if is_rtl else line
         w = draw.textlength(display_line, font=font)
         draw.text(((W - w) / 2, y), display_line, font=font, fill=TEXT)
         y += line_height
@@ -5435,10 +5442,10 @@ def _render_compare_card(reference: str, entries: list[tuple[str, str]]):
                 break
             size -= 2
 
-        is_heb = _is_hebrew(clean)
+        is_rtl = _is_rtl_script(clean)
         ty = y + 34
         for line in lines:
-            display_line = _rtl_visual(line) if is_heb else line
+            display_line = _rtl_visual(line) if is_rtl else line
             draw.text((70, ty), display_line, font=body_font, fill=TEXT)
             ty += line_h
 
