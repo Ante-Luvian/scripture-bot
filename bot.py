@@ -24,6 +24,7 @@ from translation_lookup import (get_translation, get_parallel, get_random_verse,
 from poem_lookup import (parse_poem_ref, lookup as poem_lookup, lookup_pair,
                          list_works as poem_list_works, classify_scripture, is_drb_reference)
 from xref_lookup import get_cross_references
+from topics_lookup import get_topic, search_topics, topic_count
 
 # Load .env file if present
 try:
@@ -5006,6 +5007,85 @@ async def xref_slash(interaction: discord.Interaction, reference: str):
     await cmd_xref(ctx, reference=reference)
 
 
+# ── !topic — Nave's Topical Bible ────────────────────────────────────────────────
+
+def _topic_display_name(subject: str) -> str:
+    """Title-case a Nave's subject without str.title()'s apostrophe bug
+    (e.g. "LORD'S PRAYER" -> "Lord'S Prayer")."""
+    return " ".join(w[:1] + w[1:].lower() if w else w for w in subject.split(" "))
+
+@bot.command(name="topic", aliases=["naves", "topical"])
+async def cmd_topic(ctx, *, query: str = ""):
+    """Browse scripture by subject, from Nave's Topical Bible (1897, public domain).
+    Usage: !topic love
+    """
+    q = query.strip()
+    if not q:
+        await ctx.send(f"Usage: `!topic <subject>` — e.g. `!topic love`. {topic_count()} subjects available.")
+        return
+
+    result = get_topic(q)
+    if not result:
+        suggestions = search_topics(q)
+        if not suggestions:
+            await ctx.send(f"No topic found for **{q}**, and nothing similar either.")
+            return
+        lines = "\n".join(f"• {_topic_display_name(s)}" for s in suggestions)
+        await ctx.send(f"No exact topic **{q}**. Did you mean:\n{lines}")
+        return
+
+    subject, entry = result
+    display = _topic_display_name(subject)
+    pages = _chunk(entry, 3900)
+    total = len(pages)
+
+    def make_embed(idx):
+        embed = discord.Embed(
+            title=f"📚 {display}" if total == 1 else f"📚 {display} ({idx + 1}/{total})",
+            description=pages[idx],
+            color=discord.Color.dark_gold(),
+        )
+        embed.set_footer(text="Nave's Topical Bible (1897, public domain)")
+        return embed
+
+    record_special_stat(ctx.author.id, "topic", subject)
+
+    if total == 1:
+        await ctx.send(embed=make_embed(0))
+        return
+
+    class TopicView(discord.ui.View):
+        def __init__(self):
+            super().__init__(timeout=120)
+            self.idx = 0
+
+        @discord.ui.button(emoji="◀", style=discord.ButtonStyle.secondary)
+        async def prev(self, interaction: discord.Interaction, button: discord.ui.Button):
+            self.idx = (self.idx - 1) % total
+            await interaction.response.edit_message(embed=make_embed(self.idx), view=self)
+
+        @discord.ui.button(emoji="▶", style=discord.ButtonStyle.secondary)
+        async def next(self, interaction: discord.Interaction, button: discord.ui.Button):
+            self.idx = (self.idx + 1) % total
+            await interaction.response.edit_message(embed=make_embed(self.idx), view=self)
+
+        async def on_timeout(self):
+            try:
+                await self.message.edit(view=None)
+            except Exception:
+                pass
+
+    view = TopicView()
+    view.message = await ctx.send(embed=make_embed(0), view=view)
+
+@bot.tree.command(name="topic", description="Browse scripture by subject (Nave's Topical Bible)")
+@app_commands.describe(query="e.g. love, prayer, forgiveness")
+async def topic_slash(interaction: discord.Interaction, query: str):
+    await interaction.response.defer()
+    ctx = await bot.get_context(interaction)
+    await cmd_topic(ctx, query=query)
+
+
 # ── Personal bookmarks: !save / !saved / !unsave ─────────────────────────────────
 
 @bot.command(name="save", aliases=["bookmark"])
@@ -7491,6 +7571,17 @@ async def cmd_help(ctx, *, topic: str = ""):
         await ctx.send(embed=embed)
         return
 
+    if topic in ("topic", "topics", "naves", "topical"):
+        embed = discord.Embed(title="📚 !topic — Nave's Topical Bible", color=discord.Color.dark_gold())
+        embed.description = (
+            f"`!topic love` — browse scripture organized by subject ({topic_count()} subjects)\n\n"
+            "Gives you the full outline for that subject, with embedded scripture citations, exactly "
+            "as Nave arranged it — not individual verse links like `!xref`.\n\n"
+            "If your exact wording isn't a subject, you'll get a list of similar subject names to try."
+        )
+        await ctx.send(embed=embed)
+        return
+
     if topic in ("card", "versecard", "quotecard"):
         embed = discord.Embed(title="🖼️ !card — Shareable Verse Image", color=discord.Color.dark_gold())
         embed.description = (
@@ -7848,6 +7939,7 @@ async def cmd_help(ctx, *, topic: str = ""):
         "`!discover` — random passage from any loaded tradition · `!help discover`\n"
         "`!study` — verse + patristic commentary together · `!help study`\n"
         "`!xref` — cross-references (Treasury of Scripture Knowledge) · `!help xref`\n"
+        "`!topic` — browse scripture by subject (Nave's Topical Bible) · `!help topic`\n"
         "`!save` / `!saved` / `!unsave` — personal bookmarks · `!help save`\n"
         "`!plan` — chapter-a-day reading plan · `!help plan`\n"
         "`!leaderboard` — most active bookmarkers · `!help leaderboard`\n"
@@ -7864,7 +7956,7 @@ async def cmd_help(ctx, *, topic: str = ""):
         "`!compare strong <ref>` — KJV + original-language Strong's tagging · `!help compare`\n"
         "`!strong G3588` / `!strong H7225` — Strong's lexicon lookup · `!help strong`"
     ), inline=False)
-    embed.set_footer(text="!help verse · !help compare · !help votd · !help votdsetup · !help features · !help today · !help bcp · !help prayer · !help strong · !help books · !help parallel · !help oracle · !help discover · !help study · !help xref · !help save · !help plan · !help leaderboard · !help subscribe · !help card · !help creed · !help ccc · !help summa")
+    embed.set_footer(text="!help verse · !help compare · !help votd · !help votdsetup · !help features · !help today · !help bcp · !help prayer · !help strong · !help books · !help parallel · !help oracle · !help discover · !help study · !help xref · !help topic · !help save · !help plan · !help leaderboard · !help subscribe · !help card · !help creed · !help ccc · !help summa")
     await ctx.send(embed=embed)
 
 
