@@ -5154,7 +5154,10 @@ def _render_verse_card(reference: str, text: str, source: str):
     draw = ImageDraw.Draw(img)
     draw.rectangle([16, 16, W - 17, H - 17], outline=BORDER, width=4)
 
-    quote_text = text.strip()
+    # Strip Discord markdown verse-number markers (e.g. "**[1]** ") and any
+    # stray bold asterisks — meaningful in an embed, just noise in a plain image.
+    quote_text = re.sub(r"\*\*\[\d+\]\*\*\s*", "", text.strip())
+    quote_text = quote_text.replace("**", "").strip()
     if len(quote_text) > 500:
         quote_text = quote_text[:497] + "…"
 
