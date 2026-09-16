@@ -1,0 +1,17 @@
+# Secrets
+.env
+
+# Large data corpus (350MB+, reproducible from README sources, backed up via OneDrive)
+data/
+
+# Python
+__pycache__/
+*.pyc
+
+# Third-party corpus repos (vendored, not ours to version)
+canonical-greekLit/
+canonical-latinLit/
+LXX-Swete-1930/
+peshitta/
+syrnt/
+tischendorf-data/
