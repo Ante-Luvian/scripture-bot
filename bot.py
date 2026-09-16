@@ -91,7 +91,7 @@ async def on_command_error(ctx, error):
 
 # ── VOTD config ────────────────────────────────────────────────────────────────
 # Per-guild VOTD channel/time/mode now lives in data/guild_config.json (see
-# _get_guild_votd / _set_guild_votd), configured per-server via !votdsetup.
+# _get_guild_votd / _update_guild_config), configured per-server via !votdsetup.
 # These two are only the one-time migration seed for the server that was
 # hardcoded here before per-guild config existed.
 _LEGACY_VOTD_CHANNEL_ID: int | None = 921184056341835836
@@ -232,11 +232,25 @@ def _get_guild_votd(guild_id: int) -> dict:
         "mode": g.get("votd_mode", "full"),
     }
 
-def _set_guild_votd(guild_id: int, **kwargs) -> None:
+def _update_guild_config(guild_id: int, **kwargs) -> None:
+    """Merge fields into one guild's config — used for VOTD settings and,
+    below, opt-in feature flags. Generic despite the old VOTD-only name."""
     cfg = _load_guild_config()
     g = cfg.setdefault(str(guild_id), {})
     g.update(kwargs)
     _save_guild_config(cfg)
+
+# ── Opt-in per-guild feature flags ───────────────────────────────────────────────
+# Off by default everywhere; a server's admins turn them on with !features.
+GUILD_FEATURES = {
+    "react_save": "React 📌 on a verse to bookmark it (no need to type !save)",
+    "streaks":    "Show your !plan check-in streak",
+    "export":     "Let !saved export your full bookmark list as a text file",
+}
+
+def _get_guild_features(guild_id: int) -> dict:
+    g = _load_guild_config().get(str(guild_id), {})
+    return {key: g.get(f"feature_{key}", False) for key in GUILD_FEATURES}
 
 # ── Personal bookmarks ───────────────────────────────────────────────────────────
 BOOKMARKS_PATH = Path(__file__).parent / "data" / "bookmarks.json"
@@ -3050,7 +3064,7 @@ async def cmd_votdmode(ctx, *, mode: str = ""):
         await ctx.send(f"VOTD mode is already **{current}**.")
         return
 
-    _set_guild_votd(ctx.guild.id, votd_mode=new_mode)
+    _update_guild_config(ctx.guild.id, votd_mode=new_mode)
     await ctx.send(
         f"VOTD mode switched from **{current}** to **{new_mode}**. "
         f"The daily post will use the {new_mode} format from now on."
@@ -3085,7 +3099,7 @@ async def cmd_votdsetup(ctx, action: str = "", *, arg: str = ""):
         return
 
     if action == "off":
-        _set_guild_votd(ctx.guild.id, votd_channel_id=None)
+        _update_guild_config(ctx.guild.id, votd_channel_id=None)
         await ctx.send("Daily VOTD disabled for this server.")
         return
 
@@ -3094,7 +3108,7 @@ async def cmd_votdsetup(ctx, action: str = "", *, arg: str = ""):
         if channel is None:
             await ctx.send("Mention a channel: `!votdsetup channel #general`")
             return
-        _set_guild_votd(ctx.guild.id, votd_channel_id=channel.id)
+        _update_guild_config(ctx.guild.id, votd_channel_id=channel.id)
         await ctx.send(f"Daily VOTD will post in {channel.mention} at {settings['time']} UTC ({settings['mode']} mode).")
         return
 
@@ -3104,7 +3118,7 @@ async def cmd_votdsetup(ctx, action: str = "", *, arg: str = ""):
             await ctx.send("Use 24h UTC format: `!votdsetup time 04:00`")
             return
         hh, mm = int(m.group(1)), int(m.group(2))
-        _set_guild_votd(ctx.guild.id, votd_time=f"{hh:02d}:{mm:02d}")
+        _update_guild_config(ctx.guild.id, votd_time=f"{hh:02d}:{mm:02d}")
         await ctx.send(f"Daily VOTD time set to **{hh:02d}:{mm:02d} UTC**.")
         return
 
@@ -3113,11 +3127,52 @@ async def cmd_votdsetup(ctx, action: str = "", *, arg: str = ""):
         if new_mode not in ("basic", "full", "extended"):
             await ctx.send("Mode must be `basic`, `full`, or `extended`.")
             return
-        _set_guild_votd(ctx.guild.id, votd_mode=new_mode)
+        _update_guild_config(ctx.guild.id, votd_mode=new_mode)
         await ctx.send(f"Daily VOTD mode set to **{new_mode}**.")
         return
 
     await ctx.send("Unknown option. Use `channel`, `time`, `mode`, or `off` — see `!help votdsetup`.")
+
+
+# ── !features — opt-in per-guild feature flags ──────────────────────────────────
+
+@bot.command(name="features")
+@commands.has_permissions(administrator=True)
+async def cmd_features(ctx, name: str = "", state: str = ""):
+    """Turn optional server features on or off. All default OFF.
+    Usage: !features                    — show current state
+           !features react_save on      — react 📌 to a verse to bookmark it
+           !features streaks off        — !plan check-in streaks
+           !features export on          — !saved export as a text file
+    """
+    if not ctx.guild:
+        await ctx.send("This command only works in a server.")
+        return
+
+    name = name.strip().lower()
+    if not name:
+        current = _get_guild_features(ctx.guild.id)
+        lines = [f"`{k}` — {'**on**' if current[k] else 'off'} — {desc}" for k, desc in GUILD_FEATURES.items()]
+        embed = discord.Embed(
+            title=f"⚙️ Optional Features — {ctx.guild.name}",
+            description="\n".join(lines),
+            color=discord.Color.dark_gold(),
+        )
+        embed.set_footer(text="!features <name> on|off")
+        await ctx.send(embed=embed)
+        return
+
+    if name not in GUILD_FEATURES:
+        await ctx.send(f"Unknown feature `{name}`. Options: {', '.join(GUILD_FEATURES)}")
+        return
+
+    state = state.strip().lower()
+    if state not in ("on", "off"):
+        await ctx.send(f"Usage: `!features {name} on` or `!features {name} off`")
+        return
+
+    _update_guild_config(ctx.guild.id, **{f"feature_{name}": state == "on"})
+    await ctx.send(f"`{name}` is now **{state}** for this server.")
 
 
 # ── !today — Liturgical / religious calendar across traditions ─────────────────
@@ -4941,11 +4996,28 @@ async def cmd_save(ctx, *, reference: str = ""):
 
 
 @bot.command(name="saved", aliases=["bookmarks"])
-async def cmd_saved(ctx):
-    """List your saved verses."""
+async def cmd_saved(ctx, action: str = ""):
+    """List your saved verses. Usage: !saved  |  !saved export"""
     entries = _load_bookmarks().get(str(ctx.author.id), [])
     if not entries:
         await ctx.send("You haven't saved any verses yet. Use `!save <reference>` to bookmark one.")
+        return
+
+    if action.strip().lower() == "export":
+        if ctx.guild and not _get_guild_features(ctx.guild.id).get("export"):
+            await ctx.send(
+                "Bookmark export isn't enabled on this server. "
+                "An admin can turn it on with `!features export on`."
+            )
+            return
+        import io
+        lines = []
+        for e in entries:
+            result = lookup.get_verse(e["reference"])
+            text = re.sub(r"\*\*\[\d+\]\*\*\s*", "", result.get("text", "")).replace("**", "") if result.get("found") else ""
+            lines.append(f"{e['reference']} ({e.get('source', '')})\n{text}\n")
+        buf = io.BytesIO("\n".join(lines).encode("utf-8"))
+        await ctx.send(file=discord.File(buf, filename="saved_verses.txt"))
         return
 
     lines = [f"`{i + 1}.` **{e['reference']}** — {e.get('source', '')}" for i, e in enumerate(entries[:25])]
@@ -5030,10 +5102,10 @@ async def cmd_plan(ctx, action: str = "", *, arg: str = ""):
     if action == "status":
         chap = _plan_current_chapter(plan)
         pct = int(100 * chap / plan["total_chapters"])
-        await ctx.send(
-            f"📖 **{plan['book']}** — day {chap} of {plan['total_chapters']} ({pct}%). "
-            f"Started {plan['started_at']}."
-        )
+        msg = f"📖 **{plan['book']}** — day {chap} of {plan['total_chapters']} ({pct}%). Started {plan['started_at']}."
+        if ctx.guild and _get_guild_features(ctx.guild.id).get("streaks"):
+            msg += f"\n🔥 Current streak: {plan.get('streak', 0)} day(s)."
+        await ctx.send(msg)
         return
 
     if action not in ("", "today"):
@@ -5041,8 +5113,20 @@ async def cmd_plan(ctx, action: str = "", *, arg: str = ""):
         return
 
     chap = _plan_current_chapter(plan)
+
+    import datetime
+    today_iso = datetime.date.today().isoformat()
+    if plan.get("last_checkin") != today_iso:
+        yesterday_iso = (datetime.date.today() - datetime.timedelta(days=1)).isoformat()
+        plan["streak"] = plan.get("streak", 0) + 1 if plan.get("last_checkin") == yesterday_iso else 1
+        plan["last_checkin"] = today_iso
+        data[uid] = plan
+        _save_reading_plans(data)
+
     result = lookup.get_verse(f"{plan['book']} {chap}")
     await _send_result(ctx, result)
+    if ctx.guild and _get_guild_features(ctx.guild.id).get("streaks"):
+        await ctx.send(f"🔥 {plan.get('streak', 1)}-day streak!")
     if chap >= plan["total_chapters"]:
         await ctx.send(f"🎉 That's the final chapter of **{plan['book']}**. Start a new plan with `!plan start <book>`.")
 
@@ -5160,6 +5244,7 @@ def _render_verse_card(reference: str, text: str, source: str):
     quote_text = quote_text.replace("**", "").strip()
     if len(quote_text) > 500:
         quote_text = quote_text[:497] + "…"
+    quote_text = f"“{quote_text}”"  # curly quotation marks — the card's flourish
 
     max_width, max_height = W - 160, H - 220
     size = 48
@@ -5180,6 +5265,12 @@ def _render_verse_card(reference: str, text: str, source: str):
         draw.text(((W - w) / 2, y), line, font=font, fill=TEXT)
         y += line_height
 
+    # Small ornamental divider (drawn, not a glyph, so it never falls back to tofu)
+    cx, cy = W // 2, H - 160
+    draw.line([(cx - 90, cy), (cx - 14, cy)], fill=BORDER, width=2)
+    draw.line([(cx + 14, cy), (cx + 90, cy)], fill=BORDER, width=2)
+    draw.polygon([(cx, cy - 7), (cx + 7, cy), (cx, cy + 7), (cx - 7, cy)], fill=BORDER)
+
     ref_font = ImageFont.truetype(FONTS + "georgiab.ttf", 34)
     ref_w = draw.textlength(reference, font=ref_font)
     draw.text(((W - ref_w) / 2, H - 130), reference, font=ref_font, fill=ACCENT)
@@ -5195,14 +5286,20 @@ def _render_verse_card(reference: str, text: str, source: str):
 
 @bot.command(name="card", aliases=["versecard", "quotecard"])
 async def cmd_card(ctx, *, reference: str = ""):
-    """Render a verse as a shareable image. Usage: !card John 3:16"""
+    """Render a verse as a shareable image. Usage: !card John 3:16  or  !card James 2:19 ESV"""
     ref = reference.strip()
     if not ref:
         result = lookup.random_verse()
     else:
-        result = lookup.get_verse(ref)
-        if not result.get("found") and "Could not parse" in result.get("error", ""):
-            result = lookup.random_verse_from_book(ref)
+        parts = ref.rsplit(None, 1)
+        suffix = parts[1].lower() if len(parts) == 2 else ""
+        if suffix in TRANSLATION_SUFFIXES:
+            async with ctx.typing():
+                result = get_translation(parts[0].strip(), suffix)
+        else:
+            result = lookup.get_verse(ref)
+            if not result.get("found") and "Could not parse" in result.get("error", ""):
+                result = lookup.random_verse_from_book(ref)
     if not result.get("found"):
         await ctx.send(f"⚠️ {result.get('error', 'Verse not found.')}")
         return
@@ -5224,6 +5321,86 @@ async def card_slash(interaction: discord.Interaction, reference: str = ""):
 
 
 # ── Auto-detection ─────────────────────────────────────────────────────────────
+
+@bot.event
+async def on_guild_join(guild: discord.Guild):
+    """Introduce the opt-in features to a new server's admins."""
+    channel = guild.system_channel
+    if channel is None or not channel.permissions_for(guild.me).send_messages:
+        channel = next(
+            (c for c in guild.text_channels if c.permissions_for(guild.me).send_messages),
+            None,
+        )
+    if channel is None:
+        return
+
+    embed = discord.Embed(
+        title="📖 Thanks for adding ScriptureBot!",
+        description=(
+            "Run `!help` any time for the full command list. A few things worth setting up:\n\n"
+            "`!votdsetup channel #general` — a daily Verse of the Day post for this server\n\n"
+            "**Optional features (all off by default)** — an admin turns these on with `!features <name> on`:\n"
+            + "\n".join(f"• `{k}` — {v}" for k, v in GUILD_FEATURES.items())
+        ),
+        color=discord.Color.dark_gold(),
+    )
+    embed.set_footer(text="!features to see current settings · !help votdsetup for VOTD setup")
+    try:
+        await channel.send(embed=embed)
+    except discord.Forbidden:
+        pass
+
+
+@bot.event
+async def on_raw_reaction_add(payload: discord.RawReactionActionEvent):
+    """React 📌 on a verse embed (opt-in per guild via !features react_save) to bookmark it."""
+    if payload.member is None or payload.member.bot:
+        return
+    if str(payload.emoji) != "📌":
+        return
+    if not payload.guild_id or not _get_guild_features(payload.guild_id).get("react_save"):
+        return
+
+    channel = bot.get_channel(payload.channel_id)
+    if channel is None:
+        return
+    try:
+        message = await channel.fetch_message(payload.message_id)
+    except (discord.NotFound, discord.Forbidden):
+        return
+    if message.author.id != bot.user.id or not message.embeds:
+        return
+    # Only react to messages the bot itself tagged with 📌 on send — scopes this
+    # to _send_result's verse embeds, not every embed the bot happens to post.
+    if not any(str(r.emoji) == "📌" and r.me for r in message.reactions):
+        return
+
+    title = message.embeds[0].title or ""
+    reference = re.sub(r"\s*\(\d+/\d+\)\s*$", "", title).strip()
+    if not reference:
+        return
+    result = lookup.get_verse(reference)
+    if not result.get("found"):
+        return
+
+    data = _load_bookmarks()
+    uid = str(payload.user_id)
+    entries = data.setdefault(uid, [])
+    canon_ref = result["reference"]
+    if any(e["reference"] == canon_ref for e in entries):
+        return
+    import datetime
+    entries.append({
+        "reference": canon_ref,
+        "source": result.get("source", ""),
+        "saved_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+    })
+    _save_bookmarks(data)
+    try:
+        await channel.send(f"📌 Saved **{canon_ref}** for {payload.member.mention}.", delete_after=8)
+    except Exception:
+        pass
+
 
 @bot.event
 async def on_message(message: discord.Message):
@@ -5311,6 +5488,19 @@ def _chunk(text: str, size: int) -> list[str]:
     return [text[i:i+size] for i in range(0, len(text), size)]
 
 
+async def _maybe_react_savable(ctx_or_interaction, msg):
+    """Add a 📌 bookmark reaction to a verse embed, if this guild opted into react_save."""
+    guild = getattr(ctx_or_interaction, "guild", None)
+    if not guild or not msg:
+        return
+    if not _get_guild_features(guild.id).get("react_save"):
+        return
+    try:
+        await msg.add_reaction("📌")
+    except Exception:
+        pass
+
+
 async def _send_result(ctx_or_interaction, result: dict):
     """Send a verse or whole-chapter result, splitting across multiple embeds if needed."""
     try:
@@ -5374,6 +5564,7 @@ async def _send_result(ctx_or_interaction, result: dict):
             view.message = await ctx_or_interaction.original_response()
         else:
             view.message = await ctx_or_interaction.send(embed=make_page_embed(0), view=view)
+        await _maybe_react_savable(ctx_or_interaction, view.message)
         return
 
     MAX = 3900
@@ -5386,8 +5577,10 @@ async def _send_result(ctx_or_interaction, result: dict):
         embed.set_footer(text=source)
         if hasattr(ctx_or_interaction, "response"):
             await ctx_or_interaction.response.send_message(embed=embed)
+            msg = None
         else:
-            await ctx_or_interaction.send(embed=embed)
+            msg = await ctx_or_interaction.send(embed=embed)
+        await _maybe_react_savable(ctx_or_interaction, msg)
         return
 
     # Split long text into chunks at sentence or line boundaries
@@ -5416,9 +5609,12 @@ async def _send_result(ctx_or_interaction, result: dict):
             embed.set_footer(text=source)
         if i == 0 and hasattr(ctx_or_interaction, "response"):
             await ctx_or_interaction.response.send_message(embed=embed)
+            msg = None
         else:
             channel = ctx_or_interaction.channel if hasattr(ctx_or_interaction, "response") else ctx_or_interaction
-            await channel.send(embed=embed)
+            msg = await channel.send(embed=embed)
+        if i == len(chunks) - 1:
+            await _maybe_react_savable(ctx_or_interaction, msg)
 
 
 async def _send_parallel(ctx_or_interaction, result: dict):
@@ -6872,6 +7068,18 @@ async def cmd_help(ctx, *, topic: str = ""):
         await ctx.send(embed=embed)
         return
 
+    if topic in ("features", "feature"):
+        embed = discord.Embed(title="⚙️ !features — Optional Server Features", color=discord.Color.dark_gold())
+        embed.description = (
+            "All off by default. Requires Administrator permission to change.\n\n"
+            "`!features` — show current on/off state for this server\n"
+            "`!features react_save on` — react 📌 to a verse embed to bookmark it\n"
+            "`!features streaks on` — show your `!plan` check-in streak\n"
+            "`!features export on` — let `!saved export` send your full bookmark list as a text file"
+        )
+        await ctx.send(embed=embed)
+        return
+
     if topic in ("votdsetup", "votdconfig"):
         embed = discord.Embed(title="⚙️ !votdsetup — Configure Daily VOTD (Admin)", color=discord.Color.dark_gold())
         embed.description = (
@@ -7298,7 +7506,8 @@ async def cmd_help(ctx, *, topic: str = ""):
         "`!card` — shareable verse image · `!help card`"
     ), inline=False)
     embed.add_field(name="⚙️ Server Setup (Admin)", value=(
-        "`!votdsetup` — configure this server's daily VOTD channel/time/mode · `!help votdsetup`"
+        "`!votdsetup` — configure this server's daily VOTD channel/time/mode · `!help votdsetup`\n"
+        "`!features` — turn optional features on/off · `!help features`"
     ), inline=False)
     embed.add_field(name="🏛️ Ancient Languages & Strong's", value=(
         "Append to `!verse`: `OE` `WLC` `LXX` `TR` `VULG` `peshitta` `CSL`\n"
@@ -7306,7 +7515,7 @@ async def cmd_help(ctx, *, topic: str = ""):
         "`!compare strong <ref>` — KJV + original-language Strong's tagging · `!help compare`\n"
         "`!strong G3588` / `!strong H7225` — Strong's lexicon lookup · `!help strong`"
     ), inline=False)
-    embed.set_footer(text="!help verse · !help compare · !help votd · !help votdsetup · !help today · !help bcp · !help prayer · !help strong · !help books · !help parallel · !help oracle · !help discover · !help study · !help save · !help plan · !help leaderboard · !help subscribe · !help card · !help creed · !help ccc · !help summa")
+    embed.set_footer(text="!help verse · !help compare · !help votd · !help votdsetup · !help features · !help today · !help bcp · !help prayer · !help strong · !help books · !help parallel · !help oracle · !help discover · !help study · !help save · !help plan · !help leaderboard · !help subscribe · !help card · !help creed · !help ccc · !help summa")
     await ctx.send(embed=embed)
 
 
@@ -7680,7 +7889,7 @@ async def on_ready():
     if not GUILD_CONFIG_PATH.exists() and _LEGACY_VOTD_CHANNEL_ID:
         legacy_channel = bot.get_channel(_LEGACY_VOTD_CHANNEL_ID)
         if legacy_channel and getattr(legacy_channel, "guild", None):
-            _set_guild_votd(
+            _update_guild_config(
                 legacy_channel.guild.id,
                 votd_channel_id=_LEGACY_VOTD_CHANNEL_ID,
                 votd_time=_LEGACY_VOTD_TIME,
