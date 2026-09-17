@@ -117,6 +117,41 @@ def _extract_body(raw):
     return raw[idx:end]
 
 
+# Inline manuscript page markers ("[ 12 ]") always have internal spaces;
+# footnote call-outs ("[12]") never do -- that's the reliable, consistent
+# distinction used to tell them apart in Zinner's rendering.
+_PAGE_RE = re.compile(r"\[\s+([A-Za-z0-9]+)\s+\]")
+_FOOT_RE = re.compile(r"\[(\d+)\]")
+
+
+def _split_into_chapters(text):
+    """
+    Splits one tractate's full text into per-manuscript-page chapters using
+    the inline "[ N ]" page markers, and strips footnote call-outs. Chapters
+    are keyed by sequential position (1, 2, 3, ...), not the literal page
+    label -- some tractates use letters (A, B) for short fragments, and at
+    least one (The Sacred Book of the Great Unseen Spirit) has the raw page
+    numbers jump out of order, so sequential position is the only reliably
+    parseable/lookup-able key. The real manuscript page label stays inline
+    in the chapter's own text, so nothing scholarly is lost -- it's just not
+    the thing you type into `!verse`.
+    """
+    matches = list(_PAGE_RE.finditer(text))
+    if not matches:
+        return {"1": _FOOT_RE.sub("", text).strip()}
+
+    chunks = {}
+    for i, m in enumerate(matches):
+        start = m.start()
+        end = matches[i + 1].start() if i + 1 < len(matches) else len(text)
+        chunks[str(i + 1)] = _FOOT_RE.sub("", text[start:end]).strip()
+
+    preamble = _FOOT_RE.sub("", text[:matches[0].start()]).strip()
+    if preamble:
+        chunks["1"] = preamble + "\n\n" + chunks["1"]
+    return chunks
+
+
 def main():
     entries = {}
     for slug, name in PAGES:
@@ -150,8 +185,9 @@ def main():
             continue
 
         text = "\n\n".join(body_paras)
-        entries[name] = {"1": text}
-        print(f"{name}: {len(body_paras)} paragraphs, {len(text)} chars")
+        chapters = _split_into_chapters(text)
+        entries[name] = chapters
+        print(f"{name}: {len(chapters)} chapters, {len(text)} chars")
         time.sleep(1)
 
     payload = {
