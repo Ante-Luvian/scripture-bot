@@ -27,6 +27,7 @@ from xref_lookup import get_cross_references
 from topics_lookup import get_topic, search_topics, topic_count
 from strongs_lookup import get_definition as get_local_strongs_definition
 from bible_dictionary_lookup import get_definition as get_dictionary_entry, search_terms as search_dictionary_terms, entry_count as dictionary_entry_count, SOURCE_NAMES as DICTIONARY_SOURCE_NAMES
+from timeline_lookup import search_timeline, entry_count as timeline_entry_count, year_range as timeline_year_range
 
 # Load .env file if present
 try:
@@ -5242,6 +5243,53 @@ async def dictionary_slash(interaction: discord.Interaction, term: str):
     await cmd_dictionary(ctx, term=term)
 
 
+# ── !timeline — Ussher's Annals of the World ─────────────────────────────────────
+
+@bot.command(name="timeline", aliases=["chronology"])
+async def cmd_timeline(ctx, *, query: str = ""):
+    """Chronological placement of a book, person, or event, from James
+    Ussher's Annals of the World (1658, public domain).
+    Usage: !timeline Abraham
+    """
+    q = query.strip()
+    if not q:
+        lo, hi = timeline_year_range()
+        await ctx.send(f"Usage: `!timeline <book, person, or event>` — e.g. `!timeline Abraham`. "
+                        f"{timeline_entry_count()} dated entries, {lo} to {hi}.")
+        return
+
+    window = search_timeline(q)
+    if not window:
+        await ctx.send(f"No timeline entry mentions **{q}**. Try a Bible book, a name, or an event like `flood` or `exodus`.")
+        return
+
+    lines = []
+    for e in window:
+        text = e["text"]
+        if len(text) > 400:
+            text = text[:397] + "…"
+        marker = "**→ " if e.get("_matched") else ""
+        end_marker = " ←**" if e.get("_matched") else ""
+        epoch_suffix = f" ({e['epoch']})" if e.get("epoch") and e is window[0] else ""
+        lines.append(f"{marker}`{e['year_display']}`{epoch_suffix}{end_marker}\n{text}")
+
+    embed = discord.Embed(
+        title=f"🗓️ Timeline — {q}",
+        description="\n\n".join(lines),
+        color=discord.Color.dark_gold(),
+    )
+    embed.set_footer(text="James Ussher, Annals of the World (1658, public domain) · dates per Ussher's own chronology")
+    record_special_stat(ctx.author.id, "timeline", q)
+    await ctx.send(embed=embed)
+
+@bot.tree.command(name="timeline", description="Chronological placement of a book, person, or event (Ussher's Annals of the World)")
+@app_commands.describe(query="e.g. Abraham, exodus, flood")
+async def timeline_slash(interaction: discord.Interaction, query: str):
+    await interaction.response.defer()
+    ctx = await bot.get_context(interaction)
+    await cmd_timeline(ctx, query=query)
+
+
 # ── Personal bookmarks: !save / !saved / !unsave ─────────────────────────────────
 
 @bot.command(name="save", aliases=["bookmark"])
@@ -7899,6 +7947,18 @@ async def cmd_help(ctx, *, topic: str = ""):
             "stacked underneath, as an image — built on the same Strong's tagging as `!strong`. "
             "Hebrew columns read right-to-left, matching a printed Hebrew interlinear.\n\n"
             "Capped at 60 tagged words per verse (image width limit)."
+        )
+        await ctx.send(embed=embed)
+        return
+
+    if topic in ("timeline", "chronology"):
+        embed = discord.Embed(title="🗓️ !timeline — Chronological Placement", color=discord.Color.dark_gold())
+        embed.description = (
+            "`!timeline Abraham` — where a person, book, or event falls in James Ussher's "
+            "chronology (Annals of the World, 1658, public domain), with the entries just "
+            "before and after for context.\n\n"
+            "Dates follow Ussher's own reckoning specifically, not a modern scholarly consensus — "
+            "useful alongside `!study` for seeing where things fall relative to each other."
         )
         await ctx.send(embed=embed)
         return
