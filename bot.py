@@ -5908,7 +5908,7 @@ def _render_interlinear_card(reference: str, original_label: str, is_rtl: bool,
     import io, textwrap
 
     W = 1300
-    BG, BORDER, TEXT, ACCENT, MUTED = (245, 239, 224), (184, 134, 11), (59, 42, 22), (139, 94, 20), (110, 90, 60)
+    BG, BORDER, TEXT, ACCENT, MUTED = (245, 239, 224), (184, 134, 11), (59, 42, 22), (178, 34, 34), (110, 90, 60)
     FONTS = "C:/Windows/Fonts/"
     MARGIN = 60
     COL_GAP, ROW_GAP = 28, 22
