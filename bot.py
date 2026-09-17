@@ -5922,7 +5922,10 @@ def _render_interlinear_card(reference: str, original_label: str, is_rtl: bool,
     # as the Hebrew/Greek/Cyrillic it's already used for elsewhere.
     translit_font = ImageFont.truetype(FONTS + "timesi.ttf", translit_size)
     gloss_font = ImageFont.truetype(FONTS + "georgia.ttf", gloss_size)
-    strong_font = ImageFont.truetype(FONTS + "georgia.ttf", strong_size)
+    # Georgia's digits are old-style (varying height/descenders) by default,
+    # which reads awkwardly at caption size; Times uses lining (even-height)
+    # figures, matching plain "[G2258]"-style reference notation.
+    strong_font = ImageFont.truetype(FONTS + "times.ttf", strong_size)
 
     dummy = ImageDraw.Draw(Image.new("RGB", (10, 10)))
 
@@ -6063,7 +6066,8 @@ async def cmd_interlinear(ctx, *, reference: str = ""):
                     # lexeme-level one (same source !strong already uses).
                     entry = _fetch_strongs_definition(w["strong"])
                     translit = (entry or {}).get("transliteration", "") or ""
-                cells.append({"word": w["text"], "translit": translit, "gloss": w["gloss"], "strong": w["strong"]})
+                strong_disp = f"[{w['strong']}]" if w["strong"] else ""
+                cells.append({"word": w["text"], "translit": translit, "gloss": w["gloss"], "strong": strong_disp})
             original_label = ("Hebrew OT (WLC, with Strong's)" if is_rtl
                               else "Greek NT (SBLGNT, with Strong's)")
             footer = "MACULA (Clear-Bible/Biblica, Inc., CC BY 4.0) · OpenScriptures Strong's"
@@ -6090,7 +6094,7 @@ async def cmd_interlinear(ctx, *, reference: str = ""):
                         break
                 gloss = kjv_word or _clean_strongs_gloss(
                     (entry or {}).get("short_definition", "") or "", (entry or {}).get("definition", "") or "")
-                cells.append({"word": word, "translit": translit, "gloss": gloss, "strong": num})
+                cells.append({"word": word, "translit": translit, "gloss": gloss, "strong": f"[{num}]"})
             original_label = ("Hebrew OT (WLC, with Strong's)" if is_rtl
                               else "Greek NT (Tischendorf 8th, with Strong's)")
             footer = "bolls.life (KJV + OpenScriptures Strong's)"
