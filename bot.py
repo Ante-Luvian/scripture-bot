@@ -5773,6 +5773,81 @@ async def cmd_unsubscribe(ctx):
     await ctx.send("Unsubscribed from the daily DM verse.")
 
 
+_GREEK_TRANSLIT_ROUGH = "̔"  # combining reversed comma above (rough breathing)
+_GREEK_TRANSLIT_BASE = {
+    "α": "a", "β": "b", "γ": "g", "δ": "d", "ε": "e", "ζ": "z", "η": "ē",
+    "θ": "th", "ι": "i", "κ": "k", "λ": "l", "μ": "m", "ν": "n", "ξ": "x",
+    "ο": "o", "π": "p", "ρ": "r", "σ": "s", "ς": "s", "τ": "t", "υ": "y",
+    "φ": "ph", "χ": "ch", "ψ": "ps", "ω": "ō",
+}
+_GREEK_TRANSLIT_VOWELS = set("αεηιοωυ")
+_GREEK_TRANSLIT_DIPHTHONGS = {
+    "αι": "ai", "ει": "ei", "οι": "oi", "υι": "ui",
+    "αυ": "au", "ευ": "eu", "ου": "ou", "ηυ": "ēu",
+}
+
+
+def _transliterate_greek(word: str) -> str:
+    """Standard scholarly transliteration of an actual Greek word FORM as
+    it appears in the text -- not its dictionary lemma. MACULA's Greek
+    dataset has no per-instance transliteration column (unlike its Hebrew
+    one), so this exists to avoid the alternative of showing a lexicon's
+    lemma-form transliteration (e.g. "ho") next to a different inflected
+    form actually on screen (e.g. "τὸν", which transliterates to "ton") --
+    those don't match, and looked exactly as wrong as it sounds.
+
+    Decomposes to separate base letters from breathing/accent marks,
+    groups diphthongs (breathing lives on the diphthong's second letter
+    per Greek orthography), and renders rough breathing as a leading 'h'."""
+    decomposed = unicodedata.normalize("NFD", word)
+    clusters = []
+    for ch in decomposed:
+        if unicodedata.combining(ch) and clusters:
+            clusters[-1] = (clusters[-1][0], clusters[-1][1] + ch)
+        else:
+            clusters.append((ch, ""))
+
+    out = []
+    i, n = 0, len(clusters)
+    while i < n:
+        base, marks = clusters[i]
+        lower = base.lower()
+        is_upper = base.isupper()
+
+        if lower not in _GREEK_TRANSLIT_BASE:
+            out.append(base)
+            i += 1
+            continue
+
+        if lower == "γ" and i + 1 < n and clusters[i + 1][0].lower() in ("γ", "κ", "ξ", "χ"):
+            out.append("N" if is_upper else "n")
+            i += 1
+            continue
+
+        if lower in "αεοηυ" and i + 1 < n and clusters[i + 1][0].lower() in _GREEK_TRANSLIT_VOWELS:
+            pair = lower + clusters[i + 1][0].lower()
+            if pair in _GREEK_TRANSLIT_DIPHTHONGS:
+                rough = _GREEK_TRANSLIT_ROUGH in marks or _GREEK_TRANSLIT_ROUGH in clusters[i + 1][1]
+                translit = _GREEK_TRANSLIT_DIPHTHONGS[pair]
+                if rough:
+                    translit = "h" + translit
+                if is_upper:
+                    translit = translit[0].upper() + translit[1:]
+                out.append(translit)
+                i += 2
+                continue
+
+        translit = _GREEK_TRANSLIT_BASE[lower]
+        if lower in _GREEK_TRANSLIT_VOWELS and _GREEK_TRANSLIT_ROUGH in marks:
+            translit = "h" + translit
+        if is_upper:
+            translit = translit[0].upper() + translit[1:]
+        out.append(translit)
+        i += 1
+
+    return "".join(out)
+
+
 # ── !card — shareable verse image ─────────────────────────────────────────────────
 
 _SYRIAC_FONT_PATH = str(Path(__file__).parent / "fonts" / "NotoSansSyriac-Regular.ttf")
@@ -6269,12 +6344,15 @@ async def cmd_interlinear(ctx, *, reference: str = ""):
             # disagreed on which number a given inflected form gets).
             for w in local_words:
                 translit = w["translit"]
-                if not translit and not is_rtl and w["strong"]:
+                if not translit and not is_rtl:
                     # MACULA's Greek rows have no per-word transliteration
-                    # column; fall back to the local Strong's dictionary's
-                    # lexeme-level one (same source !strong already uses).
-                    entry = _fetch_strongs_definition(w["strong"])
-                    translit = (entry or {}).get("transliteration", "") or ""
+                    # column (unlike Hebrew's, which has a real one).
+                    # Compute it directly from the actual inflected form
+                    # shown -- a lexicon lookup by Strong's number would
+                    # give the dictionary lemma's transliteration (e.g.
+                    # "ho" for ὁ) regardless of which inflected form is
+                    # actually on screen (e.g. τὸν, which is "ton").
+                    translit = _transliterate_greek(w["text"])
                 strong_disp = f"[{w['strong']}]" if w["strong"] else ""
                 cells.append({"word": w["text"], "translit": translit, "gloss": w["gloss"], "strong": strong_disp})
             original_label = ("Hebrew OT (WLC, with Strong's)" if is_rtl
