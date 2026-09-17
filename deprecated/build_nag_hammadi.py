@@ -96,6 +96,12 @@ def _fetch(url):
 
 
 def _clean(fragment):
+    # Drop footnote call-out links entirely (both the tag and its visible
+    # text) -- they point at a "#_ftnN"-style in-page anchor. Formatting of
+    # the visible text is inconsistent across tractate pages (some wrap it
+    # in brackets, some in <em>, some bare), so match on the href, not the
+    # content.
+    fragment = re.sub(r'<a [^>]*href="#[^"]*ftn[^"]*"[^>]*>.*?</a>', '', fragment, flags=re.IGNORECASE | re.DOTALL)
     # Drop <a>...</a> wrapping around inline page-number markers, keep the number.
     fragment = re.sub(r'<a [^>]*>(\[?\d+\]?)</a>', r'\1', fragment)
     text = re.sub(r"<[^>]+>", " ", fragment)
@@ -124,6 +130,33 @@ _PAGE_RE = re.compile(r"\[\s+([A-Za-z0-9]+)\s+\]")
 _FOOT_RE = re.compile(r"\[(\d+)\]")
 
 
+def _split_into_verses(page_text):
+    """
+    Splits one manuscript page's text into verses along its own paragraph
+    breaks (blank lines) -- a real structural unit already present in the
+    source (each is its own <p> block), not an invented division. A bare
+    section title on its own line (e.g. "First 'I Am' Speech") is folded
+    into the following paragraph rather than standing alone as its own
+    near-empty verse.
+    """
+    def _is_bare_heading(p):
+        return len(p) < 60 and "\n" not in p and not p.endswith((".", "!", "?", "”", '"'))
+
+    paras = [p.strip() for p in page_text.split("\n\n") if p.strip()]
+    verses = []
+    for p in paras:
+        if verses and _is_bare_heading(p):
+            verses[-1] = verses[-1] + "\n\n" + p
+        else:
+            verses.append(p)
+    # A leading heading has no prior verse to merge into -- attach it to
+    # the verse that follows instead of leaving it to stand alone.
+    if len(verses) > 1 and _is_bare_heading(verses[0]):
+        verses[1] = verses[0] + "\n\n" + verses[1]
+        verses.pop(0)
+    return {str(i + 1): v for i, v in enumerate(verses)} or {"1": page_text.strip()}
+
+
 def _split_into_chapters(text):
     """
     Splits one tractate's full text into per-manuscript-page chapters using
@@ -134,11 +167,12 @@ def _split_into_chapters(text):
     numbers jump out of order, so sequential position is the only reliably
     parseable/lookup-able key. The real manuscript page label stays inline
     in the chapter's own text, so nothing scholarly is lost -- it's just not
-    the thing you type into `!verse`.
+    the thing you type into `!verse`. Each page is further split into
+    verses along its own paragraph breaks (see _split_into_verses).
     """
     matches = list(_PAGE_RE.finditer(text))
     if not matches:
-        return {"1": _FOOT_RE.sub("", text).strip()}
+        return {"1": _split_into_verses(_FOOT_RE.sub("", text).strip())}
 
     chunks = {}
     for i, m in enumerate(matches):
@@ -149,6 +183,8 @@ def _split_into_chapters(text):
     preamble = _FOOT_RE.sub("", text[:matches[0].start()]).strip()
     if preamble:
         chunks["1"] = preamble + "\n\n" + chunks["1"]
+
+    chunks = {k: _split_into_verses(v) for k, v in chunks.items()}
     return chunks
 
 
