@@ -3389,7 +3389,6 @@ async def _send_votd(ctx_or_channel, translation: str = ""):
             await ctx_or_channel.send(msg)
         return
 
-    url = "https://www.verseoftheday.com/"
     footer_parts = []
     if used_fallback:
         footer_parts.append("⚠️ verseoftheday.com unavailable — showing a classic verse")
@@ -3397,14 +3396,12 @@ async def _send_votd(ctx_or_channel, translation: str = ""):
         footer_parts.append(f"Verse of the Day — {date_text}")
     footer_parts.append(result.get("source", "King James Version"))
 
-    embed = discord.Embed(
-        title=f"📖 {result['reference']}",
-        description=result["text"],
-        color=discord.Color.blue(),
-        url=None if used_fallback else url,
+    loop = asyncio.get_event_loop()
+    buf = await loop.run_in_executor(
+        None, _render_verse_card, result["reference"], result["text"], " · ".join(footer_parts)
     )
-    embed.set_footer(text=" | ".join(footer_parts))
-    await ctx_or_channel.send(embed=embed)
+    await ctx_or_channel.send(file=discord.File(buf, filename="votd.png"))
+    _record_last_cited(ctx_or_channel, result)
 
 
 @bot.command(name="votd", aliases=["verseoftheday", "dayverse"])
@@ -6723,8 +6720,14 @@ async def cmd_card(ctx, *, reference: str = ""):
            !card John 3:16 KJV ESV NASB — up to 4 translations compared, stacked
     """
     ref = reference.strip()
-    if not ref:
-        result = lookup.random_verse()
+    if not ref or ref.lower() == "random":
+        result = None
+        if not ref:
+            cached = _LAST_CITED.get(ctx.channel.id)
+            if cached and cached.get("text"):
+                result = dict(cached, found=True)
+        if result is None:
+            result = lookup.random_verse()
         if not result.get("found"):
             await ctx.send(f"⚠️ {result.get('error', 'Verse not found.')}")
             return
@@ -6970,6 +6973,29 @@ async def _maybe_react_savable(ctx_or_interaction, msg):
         pass
 
 
+_LAST_CITED: dict[int, dict] = {}  # channel_id -> {"reference","text","source"}
+
+
+def _record_last_cited(ctx_or_interaction, result: dict):
+    """Remember the last single verse successfully shown in this channel,
+    so a bare !card can reuse it. Skips whole-chapter/multi-page results --
+    a card is meant for one quotable verse, not a chapter."""
+    if not result.get("found"):
+        return
+    pages = result.get("pages")
+    if pages and len(pages) > 1:
+        return
+    channel = getattr(ctx_or_interaction, "channel", None) or ctx_or_interaction
+    channel_id = getattr(channel, "id", None)
+    if channel_id is None:
+        return
+    _LAST_CITED[channel_id] = {
+        "reference": result.get("reference", ""),
+        "text": result.get("text", ""),
+        "source": result.get("source", ""),
+    }
+
+
 async def _send_hadith_section(interaction: discord.Interaction, display_name: str, section_num: int, data: dict):
     """Render one whole hadith section/book (paginated) as a followup to an
     already-deferred interaction."""
@@ -7038,6 +7064,7 @@ async def _send_result(ctx_or_interaction, result: dict):
         record_stat(uid, "verse", result)
     except Exception:
         pass
+    _record_last_cited(ctx_or_interaction, result)
     if not result["found"]:
         embed = _build_embed(result)
         if hasattr(ctx_or_interaction, "response"):
