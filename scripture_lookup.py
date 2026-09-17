@@ -131,15 +131,15 @@ YERUSHALMI_TRACTATES: dict[str, str] = {
 # Targumim available on Sefaria
 # Cite as: !verse Targum Onkelos Genesis 1:1
 TARGUM_NAMES: dict[str, str] = {
-    "targum onkelos": "Targum_Onkelos",          # Torah only
-    "onkelos": "Targum_Onkelos",
+    "targum onkelos": "Onkelos",          # Torah only -- Sefaria's real title is "Onkelos Genesis" etc., not "Targum Onkelos, Genesis"
+    "onkelos": "Onkelos",
     "targum jonathan": "Targum_Jonathan",         # Prophets only
     "targum yonatan": "Targum_Jonathan",
     "targum pseudo-jonathan": "Targum_Pseudo_Jonathan",  # Torah
     "pseudo-jonathan": "Targum_Pseudo_Jonathan",
     "targum neofiti": "Targum_Neofiti",           # Torah
     "neofiti": "Targum_Neofiti",
-    "targum": "Targum_Onkelos",                   # default to Onkelos
+    "targum": "Onkelos",                   # default to Onkelos
 }
 
 # Midrash Rabbah and other Midrashim on Sefaria
@@ -1656,6 +1656,28 @@ class ScriptureLookup:
                 return len(corpus[book_name])
         return None
 
+    def chapter_keys(self, book_name: str) -> list[str] | None:
+        """Return this book's real chapter keys, sorted, or None if not local."""
+        for corpus in self._data.values():
+            if book_name in corpus:
+                def _sort_key(k):
+                    try:
+                        return [int(x) for x in re.split(r"[.\s]+", k) if x]
+                    except ValueError:
+                        return [0]
+                return sorted(corpus[book_name].keys(), key=_sort_key)
+        return None
+
+    def chapter_verse_summary(self, book_name: str) -> list[int]:
+        """Return [verse_count_ch1, verse_count_ch2, ...] in chapter order, or [] if not local."""
+        keys = self.chapter_keys(book_name)
+        if keys is None:
+            return []
+        for corpus in self._data.values():
+            if book_name in corpus:
+                return [len(corpus[book_name][k]) for k in keys]
+        return []
+
     def section_books(self, book_list: list[str]) -> list[tuple[str, int | None]]:
         """Return [(book_name, chapter_count_or_None)] for a list of books,
         filtered to only those actually loaded (or always-available via API)."""
@@ -2332,14 +2354,22 @@ class ScriptureLookup:
         _, canon_book = self._resolve_book(book_raw)
         if canon_book is None:
             return None
-        # Map canon book to Sefaria targum ref format: "Targum_Onkelos,_Genesis.1.1"
+        # Map canon book to Sefaria targum ref format. Onkelos's real Sefaria
+        # title is "Onkelos Genesis" (verified directly against the API,
+        # confirmed against "Targum_Onkelos,_Genesis" 404ing) -- other targum
+        # variants use different conventions (e.g. "Targum Jonathan on Isaiah")
+        # not handled here, since only Onkelos is exposed via !books.
         book_url = canon_book.replace(" ", "_")
-        ref = f"{targum_sefaria},{book_url}.{chapter}"
+        if targum_sefaria == "Onkelos":
+            ref = f"Onkelos_{book_url}.{chapter}"
+            tname = "Targum Onkelos"
+        else:
+            ref = f"{targum_sefaria},{book_url}.{chapter}"
+            tname = targum_sefaria.replace("_", " ")
         if verse_start:
             ref += f".{verse_start}"
         result = fetch_sefaria_generic(ref)
         if result and result.get("found"):
-            tname = targum_sefaria.replace("_", " ")
             v_label = f"{chapter}:{verse_start}" if verse_start else str(chapter)
             result["reference"] = f"{tname} {canon_book} {v_label}"
             result["source"] = f"{tname} (via Sefaria)"
@@ -2414,11 +2444,21 @@ class ScriptureLookup:
         """Mishneh Torah via Sefaria. Cite: !verse Mishneh Torah, Repentance 1:1"""
         import re as _re
         # Format: "Mishneh Torah, Section Name chapter:halacha"
-        # Strip prefix aliases
-        stripped = _re.sub(
-            r"^(?:mishneh torah|yad hachazakah|rambam|maimonides)[,\s]*",
-            "", raw_ref.strip(), flags=_re.IGNORECASE
-        ).strip().lstrip(",").strip()
+        # Require one of the prefix aliases to actually be present -- re.sub
+        # with no match just returns the string unchanged, which previously
+        # let ANY unrelated "Name N" or "Name N:M" reference (e.g. "Guide for
+        # the Perplexed 1:1") fall through to the generic parse below,
+        # construct a bogus Mishneh-Torah tref, 404 against Sefaria, and
+        # short-circuit the dispatch chain before it ever reached the
+        # reference's real handler.
+        prefix_re = _re.compile(
+            r"^(?:mishneh torah|yad hachazakah|rambam|maimonides)\b[,\s]*",
+            _re.IGNORECASE,
+        )
+        m_prefix = prefix_re.match(raw_ref.strip())
+        if not m_prefix:
+            return None
+        stripped = raw_ref.strip()[m_prefix.end():].strip().lstrip(",").strip()
         if not stripped:
             return None
         # Parse "Section Name chapter:halacha" or "Section Name chapter"
@@ -2454,7 +2494,10 @@ class ScriptureLookup:
             return None
         part = m.group(1)
         chapter = m.group(2)
-        tref = f"Guide_for_the_Perplexed,_{part}"
+        # Sefaria's real title is "Guide for the Perplexed, Part N" -- verified
+        # directly against the API ("Guide_for_the_Perplexed,_1" 400s;
+        # "Guide_for_the_Perplexed,_Part_1" is correct).
+        tref = f"Guide_for_the_Perplexed,_Part_{part}"
         if chapter:
             tref += f".{chapter}"
         result = fetch_sefaria_generic(tref)

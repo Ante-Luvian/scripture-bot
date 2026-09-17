@@ -29,6 +29,7 @@ from strongs_lookup import get_definition as get_local_strongs_definition
 from bible_dictionary_lookup import get_definition as get_dictionary_entry, search_terms as search_dictionary_terms, entry_count as dictionary_entry_count, SOURCE_NAMES as DICTIONARY_SOURCE_NAMES
 from timeline_lookup import search_timeline, entry_count as timeline_entry_count, year_range as timeline_year_range
 import interlinear_lookup
+from hadith_lookup import get_hadith_section
 
 # Load .env file if present
 try:
@@ -2594,6 +2595,87 @@ _TALMUD_BOOKS = {
 }
 
 
+_GUIDE_PARTS = {1: 75, 2: 48, 3: 54}  # Guide for the Perplexed
+
+
+def _daf_range(first: str, last: str) -> list[str]:
+    """Expand a Bavli daf range like ("2a", "5b") into ["2a","2b","3a",...]."""
+    m1, m2 = re.match(r"(\d+)([ab])", first), re.match(r"(\d+)([ab])", last)
+    n, side = int(m1.group(1)), m1.group(2)
+    n2, side2 = int(m2.group(1)), m2.group(2)
+    out = []
+    while (n, side) <= (n2, side2):
+        out.append(f"{n}{side}")
+        if side == "a":
+            side = "b"
+        else:
+            side = "a"
+            n += 1
+    return out
+
+
+def _chapter_options_for_book(book_name: str) -> tuple[list[str], str] | None:
+    """
+    Return (labels, mode) for the chapter-picker buttons under a book, or
+    None if this book isn't chapter-browsable (e.g. one continuous work).
+    mode "verse" -> fetch via lookup.get_verse(f"{book_name} {label}")
+    mode "hadith" -> fetch via a hadith section lookup
+    """
+    keys = lookup.chapter_keys(book_name)
+    if keys:
+        return keys, "verse"
+    if book_name in _BAVLI_RANGES:
+        first, last = _BAVLI_RANGES[book_name]
+        return _daf_range(first, last), "verse"
+    if book_name in _MISHNAH_RANGES:
+        chaps, _ = _MISHNAH_RANGES[book_name]
+        return [str(i) for i in range(1, chaps + 1)], "verse"
+    if book_name in _YERUSHALMI_BOOKS:
+        tractate = book_name.replace("Jerusalem Talmud ", "")
+        chaps = _YERUSHALMI_RANGES.get(tractate)
+        if chaps:
+            return [str(i) for i in range(1, chaps + 1)], "verse"
+    if book_name in _TOSEFTA_BOOKS:
+        tractate = book_name.replace("Tosefta ", "")
+        base = _MISHNAH_RANGES.get(tractate)
+        if base:
+            return [str(i) for i in range(1, base[0] + 1)], "verse"
+    if book_name in _TARGUM_BOOKS:
+        chaps = _TARGUM_CHAPTERS.get(book_name)
+        if chaps:
+            return [str(i) for i in range(1, chaps + 1)], "verse"
+    if book_name in _MIDRASH_BOOKS:
+        secs = _MIDRASH_SECTIONS.get(book_name)
+        if secs:
+            return [str(i) for i in range(1, secs + 1)], "verse"
+    if book_name in _MISHNEH_TORAH_BOOKS:
+        chaps = _MISHNEH_TORAH_SECTIONS.get(book_name)
+        if chaps:
+            return [str(i) for i in range(1, chaps + 1)], "verse"
+    if book_name == "Guide for the Perplexed":
+        return [f"{p}:{c}" for p, n in _GUIDE_PARTS.items() for c in range(1, n + 1)], "verse"
+    if book_name == "Tanya":
+        return [f"{p}:{c}" for p, (_, n) in _TANYA_PARTS.items() for c in range(1, n + 1)], "verse"
+    if book_name in _OTHER_KABBALAH_BOOKS:
+        chaps = _KABBALAH_CHAPTERS.get(book_name)
+        if chaps:
+            return [str(i) for i in range(1, chaps + 1)], "verse"
+    if book_name in _ANE_SINGLE_BOOKS:
+        count, _ = _ANE_SINGLE_BOOKS[book_name]
+        return [str(i) for i in range(1, count + 1)], "verse"
+    if book_name in _ZOHAR_BOOKS:
+        parasha = book_name.replace("Zohar ", "")
+        max_seg = _ZOHAR_SEGMENTS.get(parasha)
+        if max_seg:
+            return [str(i) for i in range(1, max_seg + 1)], "verse"
+    if book_name in _HADITH_BOOKS:
+        key = _HADITH_DISPLAY_TO_KEY.get(book_name)
+        books = _HADITH_BOOK_COUNTS.get(key) if key else None
+        if books:
+            return [f"Book {i}" for i in range(1, books + 1)], "hadith"
+    return None
+
+
 def _book_detail_embed(book_name: str) -> discord.Embed:
     """Show chapter-by-chapter verse counts for a single book."""
     counts = lookup.chapter_verse_summary(book_name)
@@ -2889,6 +2971,16 @@ def _book_label(item: str) -> str:
     return item
 
 
+def _chapter_picker_embed(book_name: str, total: int) -> discord.Embed:
+    embed = discord.Embed(
+        title=f"📖 {book_name}",
+        description=f"{total} chapter{'s' if total != 1 else ''} — click one to read it here.",
+        color=discord.Color.dark_gold(),
+    )
+    embed.set_footer(text=f"!verse {book_name} <ch> also works directly")
+    return embed
+
+
 def _books_embed(node, title: str, page: int = 0) -> discord.Embed:
     subcats = [item for item in node if isinstance(item, tuple)]
     strings = [item for item in node if isinstance(item, str)]
@@ -2949,26 +3041,41 @@ class BooksView(discord.ui.View):
 
     def _rebuild(self):
         self.clear_items()
-        node = self.stack[-1][1]
+        label, node, mode = self.stack[-1]
+
+        # Chapter/section picker — leaf buttons fetch a chapter or hadith book
+        if mode in ("verse", "hadith"):
+            total_pages = max(1, (len(node) + PAGE_SIZE - 1) // PAGE_SIZE)
+            page = max(0, min(self.page, total_pages - 1))
+            page_items = node[page * PAGE_SIZE:(page + 1) * PAGE_SIZE]
+            for i, chap_label in enumerate(page_items):
+                btn = discord.ui.Button(
+                    label=chap_label[:80],
+                    style=discord.ButtonStyle.primary,
+                    row=i // 4
+                )
+                btn.callback = (self._make_hadith_fetch(label, chap_label) if mode == "hadith"
+                                else self._make_chapter_fetch(label, chap_label))
+                self.add_item(btn)
+            self._add_nav(total_pages, page)
+            return
+
         subcats = [item for item in node if isinstance(item, tuple)]
         strings = [item for item in node if isinstance(item, str)]
 
-        # Pure string list — paginate; add drill buttons if they are known books
+        # Pure string list — paginate; each one opens a chapter picker
         if strings and not subcats:
             total_pages = max(1, (len(strings) + PAGE_SIZE - 1) // PAGE_SIZE)
             page = max(0, min(self.page, total_pages - 1))
             page_items = strings[page * PAGE_SIZE:(page + 1) * PAGE_SIZE]
-            # Add buttons for books with local data
             for i, book_name in enumerate(page_items):
-                if lookup.chapter_count(book_name):
-                    label = book_name[:80]
-                    btn = discord.ui.Button(
-                        label=label,
-                        style=discord.ButtonStyle.primary,
-                        row=i // 4
-                    )
-                    btn.callback = self._make_book_detail(book_name)
-                    self.add_item(btn)
+                btn = discord.ui.Button(
+                    label=book_name[:80],
+                    style=discord.ButtonStyle.primary,
+                    row=i // 4
+                )
+                btn.callback = self._make_book_open(book_name)
+                self.add_item(btn)
         else:
             total_pages = max(1, (len(subcats) + PAGE_SIZE - 1) // PAGE_SIZE)
             page = max(0, min(self.page, total_pages - 1))
@@ -2976,18 +3083,21 @@ class BooksView(discord.ui.View):
 
             # Content buttons (rows 0-3, 4 per row)
             for i, (sub_name, sub_contents) in enumerate(page_items):
-                label = sub_name
+                btn_label = sub_name
                 for emoji in ("📖 ","👼 ","✡️ ","☪️ ","🏛️ ","📯 ","🌍 ","🔥 ","🧿 ","⛪ "):
-                    label = label.replace(emoji, "")
-                label = label[:80]
+                    btn_label = btn_label.replace(emoji, "")
+                btn_label = btn_label[:80]
                 btn = discord.ui.Button(
-                    label=label,
+                    label=btn_label,
                     style=discord.ButtonStyle.primary,
                     row=i // 4
                 )
                 btn.callback = self._make_drill(sub_name, sub_contents)
                 self.add_item(btn)
 
+        self._add_nav(total_pages, page)
+
+    def _add_nav(self, total_pages, page):
         # Nav row (row 4): Prev, page indicator, Next, Back
         if total_pages > 1:
             prev_btn = discord.ui.Button(
@@ -3025,11 +3135,55 @@ class BooksView(discord.ui.View):
             back_btn.callback = self._go_back
             self.add_item(back_btn)
 
-    def _make_book_detail(self, book_name: str):
-        async def callback(interaction: discord.Interaction):
+    async def _open_book(self, interaction: discord.Interaction, book_name: str):
+        """Push a chapter/section picker for this book, or fall back to the
+        plain detail embed if it isn't chapter-browsable (one continuous work)."""
+        options = _chapter_options_for_book(book_name)
+        if options is None:
             await interaction.response.edit_message(
                 embed=_book_detail_embed(book_name), view=self
             )
+            return
+        labels, mode = options
+        self.stack.append((book_name, labels, mode))
+        self.page = 0
+        self._rebuild()
+        await interaction.response.edit_message(
+            embed=_chapter_picker_embed(book_name, len(labels)), view=self
+        )
+
+    def _make_book_open(self, book_name: str):
+        async def callback(interaction: discord.Interaction):
+            await self._open_book(interaction, book_name)
+        return callback
+
+    def _make_chapter_fetch(self, book_name: str, chap_label: str):
+        async def callback(interaction: discord.Interaction):
+            result = lookup.get_verse(f"{book_name} {chap_label}")
+            await _send_result(interaction, result)
+        return callback
+
+    def _make_hadith_fetch(self, display_name: str, chap_label: str):
+        async def callback(interaction: discord.Interaction):
+            key = _HADITH_DISPLAY_TO_KEY.get(display_name)
+            try:
+                section_num = int(chap_label.replace("Book ", "").strip())
+            except ValueError:
+                key = None
+                section_num = None
+            if not key or section_num is None:
+                await interaction.response.send_message(
+                    "Could not resolve this hadith section.", ephemeral=True
+                )
+                return
+            await interaction.response.defer()
+            data = get_hadith_section(key, section_num)
+            if not data:
+                await interaction.followup.send(
+                    f"Could not fetch {chap_label} of {display_name} right now."
+                )
+                return
+            await _send_hadith_section(interaction, display_name, section_num, data)
         return callback
 
     def _make_drill(self, name, contents):
@@ -3037,11 +3191,9 @@ class BooksView(discord.ui.View):
             actual_contents = contents
             only_strings = all(isinstance(x, str) for x in contents)
             if only_strings:
-                # If this is a single book name, show chapter/verse detail
-                if len(contents) == 1 and lookup.chapter_count(contents[0]):
-                    await interaction.response.edit_message(
-                        embed=_book_detail_embed(contents[0]), view=self
-                    )
+                # If this is a single book name, open its chapter picker directly
+                if len(contents) == 1:
+                    await self._open_book(interaction, contents[0])
                     return
                 # Look up works directly from loaded corpus data, bypassing tree
                 from collections import defaultdict
@@ -3062,38 +3214,40 @@ class BooksView(discord.ui.View):
                     actual_contents = sorted(works)
                 # If the contents are a list of book names, add detail buttons
                 if actual_contents and all(isinstance(x, str) for x in actual_contents):
-                    # Check if each string is itself a drillable book
-                    self.stack.append((name, actual_contents))
+                    self.stack.append((name, actual_contents, "tree"))
                     self.page = 0
                     self._rebuild()
                     await interaction.response.edit_message(
                         embed=_books_embed(actual_contents, name, page=0), view=self
                     )
                     return
-            self.stack.append((name, actual_contents))
+            self.stack.append((name, actual_contents, "tree"))
             self.page = 0
             self._rebuild()
             await interaction.response.edit_message(embed=_books_embed(actual_contents, name, page=0), view=self)
         return callback
 
+    def _current_embed(self) -> discord.Embed:
+        label, node, mode = self.stack[-1]
+        if mode in ("verse", "hadith"):
+            return _chapter_picker_embed(label, len(node))
+        return _books_embed(node, label, page=self.page)
+
     async def _go_prev(self, interaction: discord.Interaction):
         self.page = max(0, self.page - 1)
         self._rebuild()
-        label, node = self.stack[-1]
-        await interaction.response.edit_message(embed=_books_embed(node, label, page=self.page), view=self)
+        await interaction.response.edit_message(embed=self._current_embed(), view=self)
 
     async def _go_next(self, interaction: discord.Interaction):
         self.page += 1
         self._rebuild()
-        label, node = self.stack[-1]
-        await interaction.response.edit_message(embed=_books_embed(node, label, page=self.page), view=self)
+        await interaction.response.edit_message(embed=self._current_embed(), view=self)
 
     async def _go_back(self, interaction: discord.Interaction):
         self.stack.pop()
         self.page = 0
         self._rebuild()
-        label, node = self.stack[-1]
-        await interaction.response.edit_message(embed=_books_embed(node, label), view=self)
+        await interaction.response.edit_message(embed=self._current_embed(), view=self)
 
     async def on_timeout(self):
         try:
@@ -3164,8 +3318,8 @@ async def list_books(ctx, *, section: str = ""):
         found = _find_node(BOOKS_TREE, section.strip())
         if found:
             label, node = found
-            stack = [(top_label, top_node), (label, node)]
-            label, node = stack[-1]
+            stack = [(top_label, top_node, "tree"), (label, node, "tree")]
+            label, node, _mode = stack[-1]
             view = BooksView(stack)
             view.message = await ctx.send(embed=_books_embed(node, label), view=view)
         else:
@@ -3196,8 +3350,8 @@ async def list_books(ctx, *, section: str = ""):
                     f"Try `!books` for the full list, or `!books Augustine` to list an author's works."
                 )
     else:
-        stack = [(top_label, top_node)]
-        label, node = stack[-1]
+        stack = [(top_label, top_node, "tree")]
+        label, node, _mode = stack[-1]
         view = BooksView(stack)
         view.message = await ctx.send(embed=_books_embed(node, label), view=view)
 
@@ -6814,6 +6968,65 @@ async def _maybe_react_savable(ctx_or_interaction, msg):
         await msg.add_reaction("📌")
     except Exception:
         pass
+
+
+async def _send_hadith_section(interaction: discord.Interaction, display_name: str, section_num: int, data: dict):
+    """Render one whole hadith section/book (paginated) as a followup to an
+    already-deferred interaction."""
+    name = data.get("name") or ""
+    items = data["hadiths"]
+    title = f"{display_name} — Book {section_num}" + (f": {name}" if name else "")
+
+    MAX = 3500
+    pages: list[str] = []
+    current = ""
+    for num, text in items:
+        entry = f"**[{num}]** {text}"
+        if current and len(current) + len(entry) + 2 > MAX:
+            pages.append(current)
+            current = entry
+        else:
+            current = f"{current}\n\n{entry}" if current else entry
+    if current:
+        pages.append(current)
+    total = len(pages)
+
+    def make_embed(idx):
+        text = pages[idx]
+        if len(text) > 3900:
+            text = text[:3897] + "…"
+        page_title = f"{title} ({idx + 1}/{total})" if total > 1 else title
+        embed = discord.Embed(title=page_title[:256], description=text, color=discord.Color.dark_gold())
+        embed.set_footer(text=f"{display_name} (fawazahmed0 Hadith API)")
+        return embed
+
+    if total <= 1:
+        await interaction.followup.send(embed=make_embed(0))
+        return
+
+    class HadithSectionView(discord.ui.View):
+        def __init__(self):
+            super().__init__(timeout=120)
+            self.idx = 0
+
+        @discord.ui.button(emoji="◀", style=discord.ButtonStyle.secondary)
+        async def prev(self, interaction2: discord.Interaction, button: discord.ui.Button):
+            self.idx = (self.idx - 1) % total
+            await interaction2.response.edit_message(embed=make_embed(self.idx), view=self)
+
+        @discord.ui.button(emoji="▶", style=discord.ButtonStyle.secondary)
+        async def next(self, interaction2: discord.Interaction, button: discord.ui.Button):
+            self.idx = (self.idx + 1) % total
+            await interaction2.response.edit_message(embed=make_embed(self.idx), view=self)
+
+        async def on_timeout(self):
+            try:
+                await self.message.edit(view=None)
+            except Exception:
+                pass
+
+    view = HadithSectionView()
+    view.message = await interaction.followup.send(embed=make_embed(0), view=view)
 
 
 async def _send_result(ctx_or_interaction, result: dict):

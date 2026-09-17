@@ -272,6 +272,41 @@ def fetch_hadith(collection_key: str, number: int) -> dict:
     }
 
 
+def get_hadith_section(collection_key: str, section: int) -> dict | None:
+    """
+    Fetch one whole section ("book") of a collection.
+    Returns {"name": str, "hadiths": [(number, text), ...]} or None.
+    """
+    cache_key = f"{collection_key}:secfull:{section}"
+    if cache_key not in _COLLECTION_CACHE:
+        url = f"{HADITH_CDN}eng-{collection_key}/sections/{section}.json"
+        try:
+            req = urllib.request.Request(url, headers={"User-Agent": "ScriptureBot/1.0"})
+            with urllib.request.urlopen(req, timeout=30) as r:
+                data = json.loads(r.read().decode("utf-8"))
+            time.sleep(FETCH_DELAY)
+            _COLLECTION_CACHE[cache_key] = data
+        except Exception:
+            _COLLECTION_CACHE[cache_key] = None
+
+    data = _COLLECTION_CACHE.get(cache_key)
+    if not data:
+        return None
+    hadiths = data.get("hadiths", [])
+    if not hadiths:
+        return None
+    meta = data.get("metadata", {}) or {}
+    section_name = (meta.get("section") or {}).get(str(section), "")
+    items = []
+    for h in hadiths:
+        text = re.sub(r"<[^>]+>", "", str(h.get("text") or "")).strip()
+        if text:
+            items.append((h.get("hadithnumber"), text))
+    if not items:
+        return None
+    return {"name": section_name, "hadiths": items}
+
+
 def get_hadith(reference: str) -> dict | None:
     """
     Top-level hadith lookup. Returns result dict or None if not a hadith ref.
