@@ -1718,8 +1718,10 @@ BOOKS_TREE = [
         "Gathas",
     ]),
     ("🧿 Gnostic", [
-        "Ginza Rba",
-        "Book of John",
+        ("Mandaean", [
+            "Ginza Rba",
+            "Book of John",
+        ]),
         ("The Nag Hammadi Library (trans. Samuel Zinner)", [
             "The Prayer of Paul, the Apostle", "The Secret Book of James",
             "Treatise on the Resurrection", "The Tripartite Tractate",
