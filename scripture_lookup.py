@@ -1331,6 +1331,7 @@ class ScriptureLookup:
             "gnostic": [
                 "ginza_rba.json",
                 "mandaean_book_of_john.json",
+                "nag_hammadi_zinner.json",
             ],
             "norse": [
                 "poetic_edda.json",
