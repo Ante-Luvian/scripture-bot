@@ -1806,9 +1806,11 @@ class ScriptureLookup:
                 except: return [0]
             all_keys = sorted(self._data[corpus][canon_book].keys(), key=_chap_sort)
             max_chap = all_keys[-1] if all_keys else "0"
+            min_chap = all_keys[0] if all_keys else "0"
+            range_note = f"{min_chap}–{max_chap}" if min_chap != "1" else max_chap
             return {
                 "found": False,
-                "error": f'**{canon_book}** has no chapter {chapter}. (Max: {max_chap})',
+                "error": f'**{canon_book}** has no chapter {chapter}. (Available: {range_note})',
                 "suggestions": [],
             }
 
