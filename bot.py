@@ -5777,6 +5777,19 @@ def _render_compare_card(reference: str, entries: list[tuple[str, str]]):
     buf.seek(0)
     return buf
 
+_SECONDARY_SENSE_MARKERS = ("concrete",)
+# NOTE: this list is deliberately short. "by implication" looked like a
+# plausible addition but actively broke G2889 (kosmos) -- its definition is
+# "orderly arrangement, i.e. decoration; by implication, the world (...)",
+# and excluding the "by implication" clause throws away "world", the
+# overwhelmingly common NT sense, leaving only "decoration" behind (which
+# doesn't match "adorning" either, so it fell back to the wrong entry
+# anyway). These Strong's/Thayer lead-in phrases don't consistently mark a
+# *rarer* sense -- only "concrete" has actually been verified to (H367
+# eymah: "fright; concrete, an idol (as a bugbear)"). Add another marker
+# here only after checking it against a real reported case, not on
+# suspicion alone.
+
 def _clean_strongs_gloss(short_def: str, full_def: str = "") -> str:
     """OpenScriptures' short_definition is the *full* list of every KJV
     rendering of a word (e.g. G3588 -> "the, this, that, one, he, she, it,
@@ -5815,9 +5828,19 @@ def _clean_strongs_gloss(short_def: str, full_def: str = "") -> str:
         candidates = [p.rstrip(".").strip() for p in parts] or [short_def]
 
     if full_def:
+        # Drop any semicolon-delimited clause that *opens* with a Strong's/
+        # Thayer secondary-sense marker -- convention for "this is a rare or
+        # derived sense, not the plain gloss" (e.g. H367 eymah's definition
+        # is "fright; concrete, an idol (as a bugbear)": without excluding
+        # the second clause, "idol" -- a real but secondary sense -- matches
+        # a short_definition candidate and wrongly outranks "dread"/"fear").
+        clauses = full_def.split(";")
+        kept = [c for c in clauses
+                if not any(c.strip().lower().startswith(m) for m in _SECONDARY_SENSE_MARKERS)]
+        searchable = ";".join(kept)
         for cand in candidates:
             core = re.sub(r"\([^)]*\)", "", cand).strip(" -")
-            if len(core) >= 3 and re.search(rf"\b{re.escape(core)}\b", full_def, re.IGNORECASE):
+            if len(core) >= 3 and re.search(rf"\b{re.escape(core)}\b", searchable, re.IGNORECASE):
                 return core
     return candidates[0]
 
@@ -5964,15 +5987,27 @@ async def cmd_interlinear(ctx, *, reference: str = ""):
         is_rtl = slug != "TISCH"
         original_label = "Hebrew OT (WLC, with Strong's)" if is_rtl else "Greek NT (Tischendorf 8th, with Strong's)"
 
+        kjv_map = await loop.run_in_executor(
+            None, _fetch_kjv_word_map, strongs["book_id"], strongs["chapter"], strongs["verse"]
+        )
+        used_kjv = False
         cells = []
         for word, num in pairs:
             entry = _fetch_strongs_definition(num)
             translit = (entry or {}).get("transliteration", "") or ""
-            gloss = _clean_strongs_gloss((entry or {}).get("short_definition", "") or "", (entry or {}).get("definition", "") or "")
+            bare_num = num[1:]
+            kjv_word = kjv_map[bare_num].popleft() if kjv_map.get(bare_num) else None
+            if kjv_word:
+                gloss = kjv_word
+                used_kjv = True
+            else:
+                gloss = _clean_strongs_gloss((entry or {}).get("short_definition", "") or "", (entry or {}).get("definition", "") or "")
             cells.append({"word": word, "translit": translit, "gloss": gloss})
 
+        footer = ("bolls.life (KJV + OpenScriptures Strong's)" if used_kjv
+                  else "bolls.life · OpenScriptures Strong's")
         img_buf = await loop.run_in_executor(
-            None, _render_interlinear_card, strongs["ref"], original_label, is_rtl, cells, "bolls.life · OpenScriptures Strong's"
+            None, _render_interlinear_card, strongs["ref"], original_label, is_rtl, cells, footer
         )
 
     record_special_stat(ctx.author.id, "interlinear", strongs["ref"])
@@ -7390,7 +7425,31 @@ def _fetch_strongs_passage(reference: str, testament: str) -> dict:
         "ref": f"{m.group(1).strip().title()} {chapter}:{verse}",
         "slug": slug,
         "pairs": pairs,
+        "book_id": book_id,
+        "chapter": chapter,
+        "verse": verse,
     }
+
+
+def _fetch_kjv_word_map(book_id: int, chapter: int, verse: int) -> dict:
+    """Fetch the KJV's own Strong's-tagged English text for one verse and
+    return {bare_strongs_number: deque[english_word, ...]} in KJV word
+    order. Used to show the actual KJV rendering of each original-language
+    word in !interlinear instead of a generic lexicon gloss -- e.g. G2889
+    (kosmos) shows "world" here (what the KJV actually wrote in this verse)
+    rather than a lexicon pick like "adorning" (also a real KJV rendering,
+    just not the one used in this particular verse)."""
+    from collections import defaultdict, deque
+    by_num: dict[str, deque] = defaultdict(deque)
+    rows = _bolls_fetch_chapter("KJV", book_id, chapter)
+    if not rows:
+        return by_num
+    row = next((v for v in rows if v.get("verse") == verse), None)
+    if not row:
+        return by_num
+    for word, num in _parse_strongs_text(row.get("text", "")):
+        by_num[num].append(word)
+    return by_num
 
 
 def _fetch_strongs_definition(number: str) -> dict | None:
