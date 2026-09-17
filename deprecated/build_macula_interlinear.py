@@ -153,6 +153,15 @@ def main():
     ot_count = _process(HEBREW_URL, "ot", cur)
     print(f"Hebrew OT: {ot_count} words")
 
+    # Known Cherith Glosses defect: H4480 (מִן/prefixed מ-/מֵ-, "from") is
+    # glossed "in" for 108 instances -- every single one checked (Gen 2:8,
+    # 4:3, 21:15, 31:35, 47:15; Exo 4:10, 5:11, 8:9, 10:5; Lev 4:2, 4:17,
+    # 5:13, 9:17, 14:3, ...) is simply wrong, not a legitimate contextual
+    # reading -- מן never denotes static "in" (that's ב's territory).
+    # Flagged by a user reading !interlinear Deut 32:25 in production.
+    cur.execute("UPDATE words SET gloss='from' WHERE testament='ot' AND strong='H4480' AND gloss='in'")
+    print(f"Corrected {cur.rowcount} H4480 'in' -> 'from' mis-glosses (Cherith Glosses defect)")
+
     cur.execute("CREATE INDEX idx_verse ON words (book, chapter, verse, word_order)")
     con.commit()
     con.close()
