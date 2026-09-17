@@ -229,10 +229,7 @@ def main():
     payload = {
         "source": (
             "The Nag Hammadi Library, trans. Samuel Zinner (PhD), ed. Mark M. "
-            "Mattison, with the support of Other Gospels -- explicitly "
-            "committed to the public domain by the translator "
-            "(luminescence-llc.net/nag-hammadi). Each tractate cites its "
-            "specific Coptic source edition on its own page."
+            "Mattison (public domain, luminescence-llc.net/nag-hammadi)"
         ),
         "books": entries,
     }

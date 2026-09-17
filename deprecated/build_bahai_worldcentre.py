@@ -46,11 +46,7 @@ from pathlib import Path
 BASE = "https://archive.sacred-texts.com/bhi"
 OUT_DIR = Path(__file__).parent.parent / "data" / "bahai"
 
-SOURCE_NOTE = (
-    "Bahá'í World Centre Etext Server (mirrored at archive.sacred-texts.com/bhi) "
-    "-- Copyright (c) 1994 Bahá'í International Community. Freely redistributable "
-    "in its entirety, non-commercially, with this notice retained."
-)
+SOURCE_NOTE = "Bahá'í World Centre"
 
 
 def _fetch(path: str) -> str:
@@ -113,12 +109,12 @@ def build_hidden_words():
     print(f"Hidden Words (Persian): {len(pe_items)} items")
 
     (OUT_DIR / "hidden_words_arabic.json").write_text(json.dumps({
-        "source": f"The Hidden Words of Bahá'u'lláh, Part I: From the Arabic -- trans. Shoghi Effendi. {SOURCE_NOTE}",
+        "source": f"The Hidden Words of Bahá'u'lláh, Part I: From the Arabic -- trans. Shoghi Effendi, {SOURCE_NOTE}",
         "books": {"The Hidden Words (Arabic)": ar_items},
     }, ensure_ascii=False, indent=2), encoding="utf-8")
 
     (OUT_DIR / "hidden_words_persian.json").write_text(json.dumps({
-        "source": f"The Hidden Words of Bahá'u'lláh, Part II: From the Persian -- trans. Shoghi Effendi. {SOURCE_NOTE}",
+        "source": f"The Hidden Words of Bahá'u'lláh, Part II: From the Persian -- trans. Shoghi Effendi, {SOURCE_NOTE}",
         "books": {"The Hidden Words (Persian)": pe_items},
     }, ensure_ascii=False, indent=2), encoding="utf-8")
 
@@ -132,7 +128,7 @@ def build_gleanings():
         items[str(_roman_to_int(parts[i]))] = {"1": _clean(parts[i + 1])}
     print(f"Gleanings: {len(items)} sections")
     (OUT_DIR / "gleanings.json").write_text(json.dumps({
-        "source": f"Gleanings from the Writings of Bahá'u'lláh -- trans. Shoghi Effendi. {SOURCE_NOTE}",
+        "source": f"Gleanings from the Writings of Bahá'u'lláh -- trans. Shoghi Effendi, {SOURCE_NOTE}",
         "books": {"Gleanings from the Writings of Baha'u'llah": items},
     }, ensure_ascii=False, indent=2), encoding="utf-8")
 
@@ -148,7 +144,7 @@ def build_prayers_and_meditations():
             items[str(_roman_to_int(parts[i]))] = {"1": text}
     print(f"Prayers and Meditations: {len(items)} prayers")
     (OUT_DIR / "prayers_and_meditations.json").write_text(json.dumps({
-        "source": f"Prayers and Meditations by Bahá'u'lláh -- trans. Shoghi Effendi. {SOURCE_NOTE}",
+        "source": f"Prayers and Meditations by Bahá'u'lláh -- trans. Shoghi Effendi, {SOURCE_NOTE}",
         "books": {"Prayers and Meditations": items},
     }, ensure_ascii=False, indent=2), encoding="utf-8")
 
@@ -173,7 +169,7 @@ def build_some_answered_questions():
             items[num] = {"1": text}
     print(f"Some Answered Questions: {len(items)} chapters")
     (OUT_DIR / "some_answered_questions.json").write_text(json.dumps({
-        "source": f"Some Answered Questions -- 'Abdu'l-Bahá, trans. Laura Clifford Barney (1908). {SOURCE_NOTE}",
+        "source": f"Some Answered Questions -- 'Abdu'l-Bahá, trans. Laura Clifford Barney (1908), {SOURCE_NOTE}",
         "books": {"Some Answered Questions": items},
     }, ensure_ascii=False, indent=2), encoding="utf-8")
 
@@ -189,7 +185,7 @@ def build_iqan():
     }
     print(f"Kitab-i-Iqan: Part One {len(items['1']['1'])} chars, Part Two {len(items['2']['1'])} chars")
     (OUT_DIR / "kitab_i_iqan.json").write_text(json.dumps({
-        "source": f"Kitáb-i-Íqán (The Book of Certitude) -- trans. Shoghi Effendi. {SOURCE_NOTE}",
+        "source": f"Kitáb-i-Íqán (The Book of Certitude) -- trans. Shoghi Effendi, {SOURCE_NOTE}",
         "books": {"Kitab-i-Iqan": items},
     }, ensure_ascii=False, indent=2), encoding="utf-8")
 
@@ -200,7 +196,7 @@ def build_esw():
     text = _clean_block(body)
     print(f"Epistle to the Son of the Wolf: {len(text)} chars")
     (OUT_DIR / "epistle_to_son_of_wolf.json").write_text(json.dumps({
-        "source": f"Epistle to the Son of the Wolf -- Bahá'u'lláh, trans. Shoghi Effendi. {SOURCE_NOTE}",
+        "source": f"Epistle to the Son of the Wolf -- Bahá'u'lláh, trans. Shoghi Effendi, {SOURCE_NOTE}",
         "books": {"Epistle to the Son of the Wolf": {"1": {"1": text}}},
     }, ensure_ascii=False, indent=2), encoding="utf-8")
 

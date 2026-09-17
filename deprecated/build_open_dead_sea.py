@@ -48,13 +48,7 @@ from pathlib import Path
 BASE = "https://opendeadsea.org/data/translations"
 OUT_DIR = Path(__file__).parent.parent / "data" / "qumran"
 
-SOURCE_NOTE = (
-    "English machine-draft translation (Cohere Command A), status: first "
-    "draft, not yet human-reviewed -- Open Dead Sea, a project of Jesus "
-    "People SF and Apocalypse Press, built with a Cohere AI compute grant "
-    "(opendeadsea.org, CC BY-NC 4.0). Hebrew/Aramaic wording: Martin G. "
-    "Abegg, Jr.'s ETCBC/dss diplomatic transcription (CC BY-NC 4.0)."
-)
+SOURCE_NOTE = "unreviewed machine-draft translation, Open Dead Sea (opendeadsea.org, CC BY-NC 4.0)"
 
 # (siglum, canonical book name)
 SCROLLS = [
