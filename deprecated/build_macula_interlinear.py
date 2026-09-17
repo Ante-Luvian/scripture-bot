@@ -151,9 +151,18 @@ def _process(url, testament, cur):
         # morphemes "from" + "street" here in Deut 32:25 produced a
         # nonsensical "in" for the prefix). Multi-word literal glosses in
         # MACULA's own column are dot-joined ("it.will.make.childless");
-        # rendered as spaced words for display.
+        # rendered as spaced words for display. MACULA also marks a
+        # supplied word (not literally in the source) with square
+        # brackets, e.g. "from [the]" -- fine as flowing text, but this
+        # notation is sometimes split so one word's gloss ends "[will"
+        # and the next begins "be]" (2,663 of 613,652 rows), which looks
+        # like a rendering bug once each word is its own grid cell rather
+        # than read in a sentence. Stripped entirely rather than only the
+        # unbalanced half, since a lone bracket around one word in an
+        # isolated cell isn't informative either.
         gloss = get("gloss") or get("english")
-        gloss = gloss.replace(".", " ") if gloss else gloss
+        if gloss:
+            gloss = gloss.replace(".", " ").replace("[", "").replace("]", "")
         if testament == "nt":
             strong = _norm_greek_strong(get("strong"))
             translit = ""  # filled in from the local Strong's dictionary at query time (lexeme-level)
