@@ -7338,6 +7338,9 @@ def _fetch_strongs_passage(reference: str, testament: str) -> dict:
 
     m = re.match(r"^((?:\d\s*)?[A-Za-z][a-zA-Z\s\.]+?)\s+(\d+):(\d+)$", ref_single)
     if not m:
+        chapter_only = re.match(r"^((?:\d\s*)?[A-Za-z][a-zA-Z\s\.]+?)\s+\d+$", ref_single)
+        if chapter_only:
+            return {"found": False, "error": f"`{ref_single}` is a whole chapter — this needs one verse, e.g. `{ref_single}:1`."}
         return {"found": False, "error": f"Couldn't parse `{ref_single}`. Try a single verse like `John 3:16`."}
 
     book_raw = m.group(1).strip().lower().replace(".", "")

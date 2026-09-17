@@ -165,7 +165,7 @@ _CHAPTER_COUNTS: dict[int, int] = {
 
 _ALIASES: dict[str, str] = {
     "gen":"genesis","exod":"exodus","ex":"exodus","lev":"leviticus",
-    "num":"numbers","deut":"deuteronomy","josh":"joshua","judg":"judges",
+    "num":"numbers","deut":"deuteronomy","deu":"deuteronomy","josh":"joshua","judg":"judges",
     "1sam":"1 samuel","2sam":"2 samuel","1kgs":"1 kings","2kgs":"2 kings",
     "1chr":"1 chronicles","2chr":"2 chronicles","neh":"nehemiah",
     "esth":"esther","ps":"psalms","psa":"psalms","prov":"proverbs",
