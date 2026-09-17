@@ -386,6 +386,35 @@ ALIASES: dict[str, str] = {
     "aqdas": "Kitab-i-Aqdas",
     "kitab": "Kitab-i-Aqdas",
     "most holy book": "Kitab-i-Aqdas",
+    # Hidden Words
+    "hidden words arabic": "The Hidden Words (Arabic)",
+    "the hidden words arabic": "The Hidden Words (Arabic)",
+    "hidden words (arabic)": "The Hidden Words (Arabic)",
+    "hidden words persian": "The Hidden Words (Persian)",
+    "the hidden words persian": "The Hidden Words (Persian)",
+    "hidden words (persian)": "The Hidden Words (Persian)",
+    "hidden words": "The Hidden Words (Arabic)",
+    # Gleanings
+    "gleanings": "Gleanings from the Writings of Baha'u'llah",
+    "gleanings from the writings of bahaullah": "Gleanings from the Writings of Baha'u'llah",
+    "gwb": "Gleanings from the Writings of Baha'u'llah",
+    # Prayers and Meditations
+    "prayers and meditations": "Prayers and Meditations",
+    "prayers and meditations by bahaullah": "Prayers and Meditations",
+    "pm": "Prayers and Meditations",
+    # Some Answered Questions
+    "some answered questions": "Some Answered Questions",
+    "answered questions": "Some Answered Questions",
+    "saq": "Some Answered Questions",
+    # Kitáb-i-Íqán
+    "kitab-i-iqan": "Kitab-i-Iqan",
+    "kitab i iqan": "Kitab-i-Iqan",
+    "iqan": "Kitab-i-Iqan",
+    "book of certitude": "Kitab-i-Iqan",
+    # Epistle to the Son of the Wolf
+    "epistle to the son of the wolf": "Epistle to the Son of the Wolf",
+    "son of the wolf": "Epistle to the Son of the Wolf",
+    "esw": "Epistle to the Son of the Wolf",
     # Ginza Rba
     "ginza rba": "Ginza Rba",
     "ginza": "Ginza Rba",
@@ -1327,6 +1356,13 @@ class ScriptureLookup:
             ],
             "bahai": [
                 "kitab_i_aqdas.json",
+                "hidden_words_arabic.json",
+                "hidden_words_persian.json",
+                "gleanings.json",
+                "prayers_and_meditations.json",
+                "some_answered_questions.json",
+                "kitab_i_iqan.json",
+                "epistle_to_son_of_wolf.json",
             ],
             "gnostic": [
                 "ginza_rba.json",

@@ -841,7 +841,11 @@ _CATEGORY_BOOKS = {
     "☸️ Dharmic":           {"Rig Veda","Yajur Veda","Sama Veda","Atharva Veda"},
     "🌲 Norse":             {"Voluspo","Hovamol","Iliad"},
     "🔥 Zoroastrian":       {"Gathas"},
-    "🌍 Baháʼí":            {"Kitab-i-Aqdas"},
+    "🌍 Baháʼí":            {
+        "Kitab-i-Aqdas", "The Hidden Words (Arabic)", "The Hidden Words (Persian)",
+        "Gleanings from the Writings of Baha'u'llah", "Prayers and Meditations",
+        "Some Answered Questions", "Kitab-i-Iqan", "Epistle to the Son of the Wolf",
+    },
 }
 
 def _infer_category(book: str) -> str:
@@ -1713,6 +1717,13 @@ BOOKS_TREE = [
     ]),
     ("🌍 Bahá'í", [
         "Kitab-i-Aqdas",
+        "The Hidden Words (Arabic)",
+        "The Hidden Words (Persian)",
+        "Gleanings from the Writings of Baha'u'llah",
+        "Prayers and Meditations",
+        "Some Answered Questions",
+        "Kitab-i-Iqan",
+        "Epistle to the Son of the Wolf",
     ]),
     ("🔥 Zoroastrian", [
         "Gathas",
