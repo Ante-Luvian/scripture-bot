@@ -1263,7 +1263,7 @@ class ScriptureLookup:
             "kjv":     ["kjv_canon.json", "kjv_apocrypha.json"],
             "lds":     ["book_of_mormon.json", "doctrine_and_covenants.json", "pearl_of_great_price.json"],
             "brenton": ["brenton_extras.json"],
-            "charles": ["book_of_enoch.json", "book_of_jubilees.json", "testaments_of_twelve_patriarchs.json", "assumption_of_moses.json", "ascension_of_isaiah.json", "sibylline_oracles.json", "letter_of_aristeas.json", "books_of_adam_and_eve.json"],
+            "charles": ["book_of_enoch.json", "book_of_jubilees.json", "testaments_of_twelve_patriarchs.json", "assumption_of_moses.json", "ascension_of_isaiah.json", "sibylline_oracles.json", "letter_of_aristeas.json", "books_of_adam_and_eve.json", "zadokite_fragments.json"],
             "apostolic_fathers": [
                 "1_clement.json",
                 "2_clement.json",
