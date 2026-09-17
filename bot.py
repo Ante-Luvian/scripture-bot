@@ -6210,6 +6210,74 @@ async def interlinear_slash(interaction: discord.Interaction, reference: str):
     await cmd_interlinear(ctx, reference=reference)
 
 
+@bot.command(name="reverseinterlinear", aliases=["rinterlinear", "ril", "kjvinterlinear"])
+async def cmd_reverse_interlinear(ctx, *, reference: str = ""):
+    """Reverse interlinear image: the actual KJV English text in its own
+    reading order, with each word/phrase tagged by the Strong's number of
+    the Greek/Hebrew word(s) it translates. Usage: !reverseinterlinear John 3:16
+    """
+    from poem_lookup import classify_scripture
+
+    ref = reference.strip()
+    if not ref:
+        await ctx.send("Usage: `!reverseinterlinear <verse>` — e.g. `!reverseinterlinear John 3:16`.")
+        return
+
+    scripture_type = classify_scripture(ref)
+    if scripture_type == "apocrypha":
+        await ctx.send("⚠️ Reverse interlinear isn't available for apocryphal books (no Strong's tagging).")
+        return
+    testament = "nt" if scripture_type == "nt" else "ot"
+    prefix = "G" if testament == "nt" else "H"
+
+    ref_single = re.sub(r"(\d+:\d+)[-–]\d+$", r"\1", ref)
+
+    async with ctx.typing():
+        loop = asyncio.get_event_loop()
+        strongs = await loop.run_in_executor(None, _fetch_strongs_passage, ref_single, testament)
+        if not strongs.get("found"):
+            await ctx.send(f"⚠️ {strongs.get('error', 'Lookup failed.')}")
+            return
+
+        rows = await loop.run_in_executor(None, _bolls_fetch_chapter, "KJV", strongs["book_id"], strongs["chapter"])
+        row = next((v for v in (rows or []) if v.get("verse") == strongs["verse"]), None)
+        if not row:
+            await ctx.send(f"⚠️ Could not fetch the KJV text for **{strongs['ref']}**.")
+            return
+
+        entries = _parse_kjv_reverse_interlinear(row.get("text", ""))
+        if not entries:
+            await ctx.send(f"⚠️ No Strong's-tagged words found for **{strongs['ref']}**.")
+            return
+
+        cells = [
+            {"word": e["phrase"], "translit": "", "gloss": "",
+             "strong": f"[{prefix}{e['strong']}]" if e["strong"] else ""}
+            for e in entries
+        ]
+
+        if len(cells) > 60:
+            await ctx.send(f"⚠️ That verse has {len(cells)} words — too many for one image. Try a shorter verse.")
+            return
+
+        img_buf = await loop.run_in_executor(
+            None, _render_interlinear_card, strongs["ref"],
+            "King James Version (1769) — reverse interlinear", False, cells,
+            "bolls.life (KJV + OpenScriptures Strong's)"
+        )
+
+    record_special_stat(ctx.author.id, "reverseinterlinear", strongs["ref"])
+    await ctx.send(file=discord.File(img_buf, filename="reverse_interlinear.png"))
+
+
+@bot.tree.command(name="reverseinterlinear", description="Reverse interlinear image (KJV text in reading order, tagged with Strong's numbers)")
+@app_commands.describe(reference="e.g. John 3:16")
+async def reverse_interlinear_slash(interaction: discord.Interaction, reference: str):
+    await interaction.response.defer()
+    ctx = await bot.get_context(interaction)
+    await cmd_reverse_interlinear(ctx, reference=reference)
+
+
 @bot.command(name="card", aliases=["versecard", "quotecard"])
 async def cmd_card(ctx, *, reference: str = ""):
     """Render a verse as a shareable image.
@@ -7559,6 +7627,38 @@ def _parse_strongs_text(text: str) -> list[tuple[str, str]]:
     return pairs
 
 
+def _parse_kjv_reverse_interlinear(text: str) -> list[dict]:
+    """
+    Parse bolls.life KJV Strong's-tagged text into an ordered list of
+    {"phrase": "...", "strong": "1234" or None}, preserving every English
+    word in natural KJV reading order -- unlike _parse_strongs_text, which
+    keeps only one representative word per Strong's number (fine for a
+    reverse lookup, not for displaying the whole verse).
+
+    A "<S>NUM</S>" tag attaches to every word back to the previous tag (or
+    the start of the verse): Hebrew/Greek words routinely cover more than
+    one English word (e.g. "In the beginning" is one Hebrew word,
+    re'shiyth, H7225). Untranslatable grammatical markers (e.g. H853, the
+    Hebrew direct object marker) can own an empty phrase; those are
+    dropped rather than shown as a blank tag.
+    """
+    import html as html_mod
+    text = html_mod.unescape(text)
+    text = re.sub(r"<(?!/?[Ss]\b)[^>]+>", " ", text)
+
+    parts = re.split(r"<S>\s*(\d+)\s*</S>", text)
+    entries = []
+    for i in range(0, len(parts) - 1, 2):
+        phrase = re.sub(r"\s+", " ", parts[i]).strip()
+        if phrase:
+            entries.append({"phrase": phrase, "strong": parts[i + 1]})
+    if len(parts) % 2 == 1:
+        trailing = re.sub(r"\s+", " ", parts[-1]).strip()
+        if trailing:
+            entries.append({"phrase": trailing, "strong": None})
+    return entries
+
+
 def _fetch_strongs_passage(reference: str, testament: str) -> dict:
     """
     Fetch one verse from bolls.life in Strong's-tagged form.
@@ -8241,6 +8341,21 @@ async def cmd_help(ctx, *, topic: str = ""):
             "Renders each word of the original text with its transliteration and short gloss "
             "stacked underneath, as an image — built on the same Strong's tagging as `!strong`. "
             "Hebrew columns read right-to-left, matching a printed Hebrew interlinear.\n\n"
+            "Capped at 60 tagged words per verse (image width limit)."
+        )
+        await ctx.send(embed=embed)
+        return
+
+    if topic in ("reverseinterlinear", "rinterlinear", "ril", "kjvinterlinear"):
+        embed = discord.Embed(title="🔤 !reverseinterlinear — KJV Reading-Order Interlinear", color=discord.Color.dark_gold())
+        embed.description = (
+            "`!reverseinterlinear John 3:16`\n\n"
+            "Shows the actual KJV verse text in its own natural English word order "
+            "(unlike `!interlinear`, which orders by the original Greek/Hebrew) — each "
+            "English word or phrase tagged with the Strong's number of the word(s) it "
+            "translates. A Hebrew or Greek word often covers more than one English word "
+            "(e.g. \"In the beginning\" is a single Hebrew word); the tag covers the "
+            "whole phrase in that case.\n\n"
             "Capped at 60 tagged words per verse (image width limit)."
         )
         await ctx.send(embed=embed)
