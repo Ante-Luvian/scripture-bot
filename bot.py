@@ -26,6 +26,7 @@ from poem_lookup import (parse_poem_ref, lookup as poem_lookup, lookup_pair,
 from xref_lookup import get_cross_references
 from topics_lookup import get_topic, search_topics, topic_count
 from strongs_lookup import get_definition as get_local_strongs_definition
+from bible_dictionary_lookup import get_definition as get_dictionary_entry, search_terms as search_dictionary_terms, entry_count as dictionary_entry_count, SOURCE_NAMES as DICTIONARY_SOURCE_NAMES
 
 # Load .env file if present
 try:
@@ -5148,6 +5149,99 @@ async def topic_slash(interaction: discord.Interaction, query: str):
     await cmd_topic(ctx, query=query)
 
 
+# ── !dictionary — Easton's + Smith's Bible Dictionary ────────────────────────────
+
+def _paginate_dictionary_entry(text: str, page_size: int = 900) -> list[str]:
+    """Same whole-line packing as Nave's topics -- avoids splitting mid-sentence."""
+    lines = text.split("\n")
+    pages, current = [], ""
+    for line in lines:
+        candidate = f"{current}\n{line}" if current else line
+        if len(candidate) > page_size and current:
+            pages.append(current)
+            current = line
+        else:
+            current = candidate
+    if current:
+        pages.append(current)
+    return pages or [""]
+
+@bot.command(name="dictionary", aliases=["dict", "define"])
+async def cmd_dictionary(ctx, *, term: str = ""):
+    """Look up a person, place, or term in Easton's (1897) or Smith's (1863)
+    Bible Dictionary. Usage: !dictionary Aaron
+    """
+    q = term.strip()
+    if not q:
+        await ctx.send(f"Usage: `!dictionary <term>` — e.g. `!dictionary Aaron`. {dictionary_entry_count()} terms available.")
+        return
+
+    entry = get_dictionary_entry(q)
+    if not entry:
+        suggestions = search_dictionary_terms(q)
+        if not suggestions:
+            await ctx.send(f"No dictionary entry found for **{q}**, and nothing similar either.")
+            return
+        lines = "\n".join(f"• {s}" for s in suggestions)
+        await ctx.send(f"No exact entry for **{q}**. Did you mean:\n{lines}")
+        return
+
+    name = entry["name"]
+    sources_used = entry.get("sources") or [d["source"] for d in entry["definitions"]]
+    body = "\n\n".join(
+        f"**{DICTIONARY_SOURCE_NAMES.get(d['source'], d['source'])}**\n{d['text']}"
+        for d in entry["definitions"]
+    )
+    pages = _paginate_dictionary_entry(body)
+    total = len(pages)
+
+    def make_embed(idx):
+        embed = discord.Embed(
+            title=f"📔 {name}" if total == 1 else f"📔 {name} ({idx + 1}/{total})",
+            description=pages[idx],
+            color=discord.Color.dark_gold(),
+        )
+        embed.set_footer(text=" · ".join(DICTIONARY_SOURCE_NAMES.get(s, s) for s in sources_used))
+        return embed
+
+    record_special_stat(ctx.author.id, "dictionary", name)
+
+    if total == 1:
+        await ctx.send(embed=make_embed(0))
+        return
+
+    class DictionaryView(discord.ui.View):
+        def __init__(self):
+            super().__init__(timeout=120)
+            self.idx = 0
+
+        @discord.ui.button(emoji="◀", style=discord.ButtonStyle.secondary)
+        async def prev(self, interaction: discord.Interaction, button: discord.ui.Button):
+            self.idx = (self.idx - 1) % total
+            await interaction.response.edit_message(embed=make_embed(self.idx), view=self)
+
+        @discord.ui.button(emoji="▶", style=discord.ButtonStyle.secondary)
+        async def next(self, interaction: discord.Interaction, button: discord.ui.Button):
+            self.idx = (self.idx + 1) % total
+            await interaction.response.edit_message(embed=make_embed(self.idx), view=self)
+
+        async def on_timeout(self):
+            try:
+                await self.message.edit(view=None)
+            except Exception:
+                pass
+
+    view = DictionaryView()
+    view.message = await ctx.send(embed=make_embed(0), view=view)
+
+@bot.tree.command(name="dictionary", description="Look up a person, place, or term (Easton's / Smith's Bible Dictionary)")
+@app_commands.describe(term="e.g. Aaron, Jericho, Sabbath")
+async def dictionary_slash(interaction: discord.Interaction, term: str):
+    await interaction.response.defer()
+    ctx = await bot.get_context(interaction)
+    await cmd_dictionary(ctx, term=term)
+
+
 # ── Personal bookmarks: !save / !saved / !unsave ─────────────────────────────────
 
 @bot.command(name="save", aliases=["bookmark"])
@@ -7627,6 +7721,17 @@ async def cmd_help(ctx, *, topic: str = ""):
             "`!study John 3:16` — looks up the verse, then shows patristic commentary on it "
             "(from catenabible.com), in one command instead of two.\n\n"
             "Equivalent to running `!verse` followed by `!catena` on the same reference."
+        )
+        await ctx.send(embed=embed)
+        return
+
+    if topic in ("dictionary", "dict", "define"):
+        embed = discord.Embed(title="📔 !dictionary — Bible Dictionary", color=discord.Color.dark_gold())
+        embed.description = (
+            "`!dictionary Aaron` — look up a person, place, or term\n\n"
+            "Combines Easton's Bible Dictionary (1897) and Smith's Bible Dictionary (1863), "
+            "both public domain — encyclopedia-style background, distinct from `!topic`'s "
+            "thematic scripture outlines and `!strong`'s word-level Greek/Hebrew lexicon."
         )
         await ctx.send(embed=embed)
         return
