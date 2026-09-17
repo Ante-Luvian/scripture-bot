@@ -2037,6 +2037,28 @@ BOOKS_TREE = [
     ]),
 ]
 
+# Top-level browsing groups two supergroups on top of BOOKS_TREE without
+# reordering it: Abrahamic-descended scripture/commentary traditions (still
+# living faiths with a canon + commentary literature) vs. mythological and
+# classical-philosophical corpora. Reuses the same nested lists/tuples from
+# BOOKS_TREE by reference, so drilling further down is unaffected.
+_SUPERGROUP_ORDER = [
+    ("📖 Abrahamic Scripture & Commentary", [
+        "📖 The Bible", "👼 Apocrypha / Pseudepigrapha", "✡️ Rabbinic & Kabbalistic",
+        "☪️ Islamic", "🧿 Gnostic", "📯 LDS", "🌍 Bahá'í",
+        "⛪ Patristics & Church History",
+    ]),
+    ("🌐 Mythology & Classical Traditions", [
+        "🏛️ Classical", "🌲 Norse", "🌙 Ancient Near East", "☸️ Dharmic",
+        "🔥 Zoroastrian",
+    ]),
+]
+_books_tree_by_name = {name: contents for name, contents in BOOKS_TREE}
+ROOT_BOOKS_TREE = [
+    (group_label, [(name, _books_tree_by_name[name]) for name in names])
+    for group_label, names in _SUPERGROUP_ORDER
+]
+
 
 def _count_leaves(node) -> int:
     count = 0
@@ -3008,7 +3030,7 @@ def _author_works_node(author_name: str) -> tuple | None:
 async def list_books(ctx, *, section: str = ""):
     """Browse available scripture collections. Use !books <author> to list their works."""
     top_label = "Available Scripture"
-    top_node  = BOOKS_TREE
+    top_node  = ROOT_BOOKS_TREE
 
     if section.strip():
         # 1. Try BOOKS_TREE section match first
