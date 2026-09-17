@@ -5729,6 +5729,171 @@ def _render_compare_card(reference: str, entries: list[tuple[str, str]]):
     buf.seek(0)
     return buf
 
+def _render_interlinear_card(reference: str, original_label: str, is_rtl: bool,
+                              cells: list[dict], source: str):
+    """Render a word-by-word interlinear grid: original word / transliteration /
+    short gloss, stacked per column, wrapping to new rows as needed. Hebrew
+    columns fill each row right-to-left (first word of the verse ends up on
+    the right, matching how a printed Hebrew interlinear reads); Greek fills
+    left-to-right."""
+    from PIL import Image, ImageDraw, ImageFont
+    import io, textwrap
+
+    W = 1300
+    BG, BORDER, TEXT, ACCENT, MUTED = (245, 239, 224), (184, 134, 11), (59, 42, 22), (139, 94, 20), (110, 90, 60)
+    FONTS = "C:/Windows/Fonts/"
+    MARGIN = 60
+    COL_GAP, ROW_GAP = 28, 22
+    GLOSS_WRAP = 14  # max chars per gloss line before wrapping to a second line
+
+    orig_size, translit_size, gloss_size = 34, 20, 17
+    orig_font_path = _script_font(FONTS, "".join(c["word"] for c in cells)) if cells else FONTS + "georgia.ttf"
+    orig_font = ImageFont.truetype(orig_font_path, orig_size)
+    # Georgia Italic lacks the macron-vowel characters (ō, ē, etc.) that
+    # transliteration schemes use -- Times covers Latin Extended-A as well
+    # as the Hebrew/Greek/Cyrillic it's already used for elsewhere.
+    translit_font = ImageFont.truetype(FONTS + "timesi.ttf", translit_size)
+    gloss_font = ImageFont.truetype(FONTS + "georgia.ttf", gloss_size)
+
+    dummy = ImageDraw.Draw(Image.new("RGB", (10, 10)))
+
+    # Precompute each cell's rendered lines and pixel width.
+    laid_out = []
+    for c in cells:
+        word = _rtl_visual(c["word"]) if is_rtl else c["word"]
+        translit_lines = [c["translit"]] if c["translit"] else []
+        gloss_lines = textwrap.wrap(c["gloss"], width=GLOSS_WRAP)[:2] if c["gloss"] else []
+        widths = [dummy.textlength(word, font=orig_font)]
+        widths += [dummy.textlength(l, font=translit_font) for l in translit_lines]
+        widths += [dummy.textlength(l, font=gloss_font) for l in gloss_lines]
+        cell_w = max(widths, default=0)
+        cell_h = (orig_size + 6) + (translit_size + 4) * len(translit_lines) + (gloss_size + 3) * len(gloss_lines)
+        laid_out.append({"word": word, "translit": translit_lines, "gloss": gloss_lines,
+                          "w": cell_w, "h": cell_h})
+
+    # Wrap into rows.
+    max_row_width = W - 2 * MARGIN
+    rows, current_row, current_w = [], [], 0
+    for cell in laid_out:
+        add_w = cell["w"] + (COL_GAP if current_row else 0)
+        if current_row and current_w + add_w > max_row_width:
+            rows.append(current_row)
+            current_row, current_w = [], 0
+            add_w = cell["w"]
+        current_row.append(cell)
+        current_w += add_w
+    if current_row:
+        rows.append(current_row)
+
+    row_heights = [max(c["h"] for c in row) for row in rows] if rows else [0]
+    TOP, BOTTOM = 110, 90
+    H = TOP + sum(row_heights) + ROW_GAP * max(0, len(rows) - 1) + BOTTOM
+
+    img = Image.new("RGB", (W, H), BG)
+    draw = ImageDraw.Draw(img)
+    draw.rectangle([16, 16, W - 17, H - 17], outline=BORDER, width=4)
+
+    title_font = ImageFont.truetype(FONTS + "georgiab.ttf", 36)
+    tw = draw.textlength(reference, font=title_font)
+    draw.text(((W - tw) / 2, 38), reference, font=title_font, fill=ACCENT)
+
+    y = TOP
+    for row, row_h in zip(rows, row_heights):
+        row_width = sum(c["w"] for c in row) + COL_GAP * (len(row) - 1)
+        x = (W - row_width) / 2
+        ordered = list(reversed(row)) if is_rtl else row
+        for cell in ordered:
+            cw = cell["w"]
+            wx = x + (cw - draw.textlength(cell["word"], font=orig_font)) / 2
+            draw.text((wx, y), cell["word"], font=orig_font, fill=TEXT)
+            ty = y + orig_size + 6
+            for line in cell["translit"]:
+                lw = draw.textlength(line, font=translit_font)
+                draw.text((x + (cw - lw) / 2, ty), line, font=translit_font, fill=ACCENT)
+                ty += translit_size + 4
+            for line in cell["gloss"]:
+                lw = draw.textlength(line, font=gloss_font)
+                draw.text((x + (cw - lw) / 2, ty), line, font=gloss_font, fill=MUTED)
+                ty += gloss_size + 3
+            x += cw + COL_GAP
+        y += row_h + ROW_GAP
+
+    label_font = ImageFont.truetype(FONTS + "georgia.ttf", 20)
+    lw = draw.textlength(original_label, font=label_font)
+    draw.text(((W - lw) / 2, H - 68), original_label, font=label_font, fill=ACCENT)
+
+    src_font = ImageFont.truetype(FONTS + "georgia.ttf", 16)
+    sw = draw.textlength(source, font=src_font)
+    draw.text(((W - sw) / 2, H - 38), source, font=src_font, fill=MUTED)
+
+    buf = io.BytesIO()
+    img.save(buf, format="PNG")
+    buf.seek(0)
+    return buf
+
+
+@bot.command(name="interlinear", aliases=["inter", "il"])
+async def cmd_interlinear(ctx, *, reference: str = ""):
+    """Word-by-word interlinear image: original Greek/Hebrew word, transliteration,
+    and short gloss stacked under each word. Usage: !interlinear John 3:16
+    """
+    from poem_lookup import classify_scripture
+
+    ref = reference.strip()
+    if not ref:
+        await ctx.send("Usage: `!interlinear <verse>` — e.g. `!interlinear John 3:16` or `!interlinear Psalm 23:1`.")
+        return
+
+    scripture_type = classify_scripture(ref)
+    if scripture_type == "apocrypha":
+        await ctx.send("⚠️ Interlinear isn't available for apocryphal books (no Strong's tagging).")
+        return
+    testament = "nt" if scripture_type == "nt" else "ot"
+
+    ref_single = re.sub(r"(\d+:\d+)[-–]\d+$", r"\1", ref)
+
+    async with ctx.typing():
+        loop = asyncio.get_event_loop()
+        strongs = await loop.run_in_executor(None, _fetch_strongs_passage, ref_single, testament)
+
+        if not strongs.get("found"):
+            await ctx.send(f"⚠️ {strongs.get('error', 'Lookup failed.')}")
+            return
+
+        pairs = strongs["pairs"]
+        if not pairs:
+            await ctx.send(f"⚠️ No Strong's-tagged words found for **{ref_single}**.")
+            return
+        if len(pairs) > 60:
+            await ctx.send(f"⚠️ That verse has {len(pairs)} tagged words — too many for one interlinear image. Try a shorter verse.")
+            return
+
+        slug = strongs["slug"]
+        is_rtl = slug != "TISCH"
+        original_label = "Hebrew OT (WLC, with Strong's)" if is_rtl else "Greek NT (Tischendorf 8th, with Strong's)"
+
+        cells = []
+        for word, num in pairs:
+            entry = _fetch_strongs_definition(num)
+            translit = (entry or {}).get("transliteration", "") or ""
+            gloss = (entry or {}).get("short_definition", "") or ""
+            cells.append({"word": word, "translit": translit, "gloss": gloss})
+
+        img_buf = await loop.run_in_executor(
+            None, _render_interlinear_card, strongs["ref"], original_label, is_rtl, cells, "bolls.life · OpenScriptures Strong's"
+        )
+
+    record_special_stat(ctx.author.id, "interlinear", strongs["ref"])
+    await ctx.send(file=discord.File(img_buf, filename="interlinear.png"))
+
+@bot.tree.command(name="interlinear", description="Word-by-word interlinear image (original word + transliteration + gloss)")
+@app_commands.describe(reference="e.g. John 3:16")
+async def interlinear_slash(interaction: discord.Interaction, reference: str):
+    await interaction.response.defer()
+    ctx = await bot.get_context(interaction)
+    await cmd_interlinear(ctx, reference=reference)
+
+
 @bot.command(name="card", aliases=["versecard", "quotecard"])
 async def cmd_card(ctx, *, reference: str = ""):
     """Render a verse as a shareable image.
@@ -7721,6 +7886,19 @@ async def cmd_help(ctx, *, topic: str = ""):
             "`!study John 3:16` — looks up the verse, then shows patristic commentary on it "
             "(from catenabible.com), in one command instead of two.\n\n"
             "Equivalent to running `!verse` followed by `!catena` on the same reference."
+        )
+        await ctx.send(embed=embed)
+        return
+
+    if topic in ("interlinear", "inter", "il"):
+        embed = discord.Embed(title="🔤 !interlinear — Word-by-Word Image", color=discord.Color.dark_gold())
+        embed.description = (
+            "`!interlinear John 3:16` — Greek NT interlinear\n"
+            "`!interlinear Psalm 23:1` — Hebrew OT interlinear\n\n"
+            "Renders each word of the original text with its transliteration and short gloss "
+            "stacked underneath, as an image — built on the same Strong's tagging as `!strong`. "
+            "Hebrew columns read right-to-left, matching a printed Hebrew interlinear.\n\n"
+            "Capped at 60 tagged words per verse (image width limit)."
         )
         await ctx.send(embed=embed)
         return
