@@ -5610,12 +5610,13 @@ def _is_rtl_script(text: str) -> bool:
     """Hebrew or Syriac -- both right-to-left, both need _rtl_visual()."""
     return any(0x0590 <= ord(ch) <= 0x05FF or 0x0700 <= ord(ch) <= 0x074F for ch in text)
 
-def _rtl_visual(line: str) -> str:
-    """Approximate correct RTL visual order for a naive left-to-right renderer
-    (Pillow has no bidi/shaping engine). Groups each base character with any
-    combining marks that follow it (e.g. Hebrew niqqud/cantillation) into a
-    cluster, then reverses cluster order, so a consonant keeps its vowel
-    points attached instead of them ending up on the wrong side."""
+def _rtl_clusters(line: str) -> list[str]:
+    """Group each base character with any combining marks that follow it
+    (e.g. Hebrew niqqud/cantillation) into a cluster, then reverse cluster
+    order, so a consonant keeps its vowel points attached instead of them
+    ending up on the wrong side. Returns the clusters as a list (visual
+    left-to-right draw order) rather than a joined string -- _draw_rtl_line
+    needs the boundaries to position each mark on its own base character."""
     clusters, current = [], ""
     for ch in line:
         if unicodedata.combining(ch) and current:
@@ -5626,7 +5627,35 @@ def _rtl_visual(line: str) -> str:
             current = ch
     if current:
         clusters.append(current)
-    return "".join(reversed(clusters))
+    return list(reversed(clusters))
+
+def _rtl_visual(line: str) -> str:
+    """Approximate correct RTL visual order for a naive left-to-right renderer
+    (Pillow has no bidi/shaping engine). String form of _rtl_clusters(),
+    safe for draw.textlength()/textwrap width estimates (combining marks
+    have zero advance width, so joining clusters doesn't change the total),
+    but NOT safe to pass to draw.text() directly -- see _draw_rtl_line."""
+    return "".join(_rtl_clusters(line))
+
+def _draw_rtl_line(draw, x: float, y: float, line: str, font, fill) -> float:
+    """Draw RTL (Hebrew/Syriac) text left-to-right on screen, cluster by
+    cluster, placing each combining mark at the *same* origin as its base
+    character instead of PIL's default of advancing the cursor character by
+    character. PIL has no text-shaping engine: a zero-advance-width niqqud
+    point drawn via plain draw.text() still gets positioned at the cursor
+    position reached *after* its base consonant's own advance, so every
+    vowel point silently drifts onto the position of the next letter
+    instead of stacking on the letter it belongs to. Returns the total
+    width drawn (same value draw.textlength on the flattened string would
+    give, since marks have zero advance)."""
+    cursor = x
+    for cluster in _rtl_clusters(line):
+        base, marks = cluster[0], cluster[1:]
+        draw.text((cursor, y), base, font=font, fill=fill)
+        for mark in marks:
+            draw.text((cursor, y), mark, font=font, fill=fill)
+        cursor += draw.textlength(base, font=font)
+    return cursor - x
 
 def _size_for_length(n: int) -> int:
     """Starting font size for the card body text, scaled so a short quote
@@ -5693,9 +5722,12 @@ def _render_verse_card(reference: str, text: str, source: str):
     available = H - TOP_MARGIN - BOTTOM_RESERVED
     y = TOP_MARGIN + max(0, (available - text_height) // 2)
     for line in lines:
-        display_line = _rtl_visual(line) if is_rtl else line
-        w = draw.textlength(display_line, font=font)
-        draw.text(((W - w) / 2, y), display_line, font=font, fill=TEXT)
+        if is_rtl:
+            w = draw.textlength(_rtl_visual(line), font=font)
+            _draw_rtl_line(draw, (W - w) / 2, y, line, font, TEXT)
+        else:
+            w = draw.textlength(line, font=font)
+            draw.text(((W - w) / 2, y), line, font=font, fill=TEXT)
         y += line_height
 
     # Small ornamental divider (drawn, not a glyph, so it never falls back to tofu)
@@ -5764,8 +5796,10 @@ def _render_compare_card(reference: str, entries: list[tuple[str, str]]):
         is_rtl = _is_rtl_script(clean)
         ty = y + 34
         for line in lines:
-            display_line = _rtl_visual(line) if is_rtl else line
-            draw.text((70, ty), display_line, font=body_font, fill=TEXT)
+            if is_rtl:
+                _draw_rtl_line(draw, 70, ty, line, body_font, TEXT)
+            else:
+                draw.text((70, ty), line, font=body_font, fill=TEXT)
             ty += line_h
 
         if i < n - 1:
@@ -5875,16 +5909,17 @@ def _render_interlinear_card(reference: str, original_label: str, is_rtl: bool,
     # Precompute each cell's rendered lines and pixel width.
     laid_out = []
     for c in cells:
-        word = _rtl_visual(c["word"]) if is_rtl else c["word"]
+        word_logical = c["word"]
+        word_width = dummy.textlength(_rtl_visual(word_logical) if is_rtl else word_logical, font=orig_font)
         translit_lines = [c["translit"]] if c["translit"] else []
         gloss_lines = textwrap.wrap(c["gloss"], width=GLOSS_WRAP)[:2] if c["gloss"] else []
-        widths = [dummy.textlength(word, font=orig_font)]
+        widths = [word_width]
         widths += [dummy.textlength(l, font=translit_font) for l in translit_lines]
         widths += [dummy.textlength(l, font=gloss_font) for l in gloss_lines]
         cell_w = max(widths, default=0)
         cell_h = (orig_size + 6) + (translit_size + 4) * len(translit_lines) + (gloss_size + 3) * len(gloss_lines)
-        laid_out.append({"word": word, "translit": translit_lines, "gloss": gloss_lines,
-                          "w": cell_w, "h": cell_h})
+        laid_out.append({"word": word_logical, "word_w": word_width, "translit": translit_lines,
+                          "gloss": gloss_lines, "w": cell_w, "h": cell_h})
 
     # Wrap into rows.
     max_row_width = W - 2 * MARGIN
@@ -5919,8 +5954,11 @@ def _render_interlinear_card(reference: str, original_label: str, is_rtl: bool,
         ordered = list(reversed(row)) if is_rtl else row
         for cell in ordered:
             cw = cell["w"]
-            wx = x + (cw - draw.textlength(cell["word"], font=orig_font)) / 2
-            draw.text((wx, y), cell["word"], font=orig_font, fill=TEXT)
+            wx = x + (cw - cell["word_w"]) / 2
+            if is_rtl:
+                _draw_rtl_line(draw, wx, y, cell["word"], orig_font, TEXT)
+            else:
+                draw.text((wx, y), cell["word"], font=orig_font, fill=TEXT)
             ty = y + orig_size + 6
             for line in cell["translit"]:
                 lw = draw.textlength(line, font=translit_font)
