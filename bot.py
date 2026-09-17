@@ -81,6 +81,7 @@ ANE_BOOKS = [
 @bot.event
 async def on_command(ctx):
     log.info(f"CMD  {ctx.command.name:<16} | {ctx.author} | #{ctx.channel} | {ctx.message.content[:80]}")
+    _record_guild_activity(ctx)
 
 @bot.event
 async def on_command_error(ctx, error):
@@ -191,6 +192,40 @@ def _scrape_votd() -> tuple[str | None, str]:
 
 # ── Stats tracking ─────────────────────────────────────────────────────────────
 STATS_PATH = Path(__file__).parent / "data" / "stats.json"
+
+# ── Per-guild / per-user command activity (owner-only !guildactivity) ───────────
+GUILD_ACTIVITY_PATH = Path(__file__).parent / "data" / "guild_activity.json"
+
+def _load_guild_activity() -> dict:
+    if GUILD_ACTIVITY_PATH.exists():
+        try:
+            return json.loads(GUILD_ACTIVITY_PATH.read_text(encoding="utf-8"))
+        except Exception:
+            pass
+    return {}
+
+def _record_guild_activity(ctx):
+    """Per-guild, per-command, per-user usage counts. Called once from the
+    global on_command hook so every command is covered without threading a
+    new parameter through every individual command handler. Only command
+    invocations and identities are recorded here -- never message content,
+    keeping this well inside "necessary for stated functionality" territory
+    rather than the general conversation logging that would risk it."""
+    if not ctx.guild:
+        return
+    try:
+        data = _load_guild_activity()
+        gid = str(ctx.guild.id)
+        g = data.setdefault(gid, {"name": ctx.guild.name, "commands": {}, "users": {}})
+        g["name"] = ctx.guild.name  # keep fresh if the server gets renamed
+        g["commands"][ctx.command.name] = g["commands"].get(ctx.command.name, 0) + 1
+        uid = str(ctx.author.id)
+        u = g["users"].setdefault(uid, {"name": str(ctx.author), "commands": {}})
+        u["name"] = str(ctx.author)
+        u["commands"][ctx.command.name] = u["commands"].get(ctx.command.name, 0) + 1
+        _atomic_write_json(GUILD_ACTIVITY_PATH, data)
+    except Exception:
+        pass  # never let this break the bot
 
 def _load_stats() -> dict:
     if STATS_PATH.exists():
@@ -934,6 +969,64 @@ async def cmd_stats(ctx):
             inline=True,
         )
 
+    await ctx.send(embed=embed)
+
+
+# ── !guildactivity command (owner-only) ─────────────────────────────────────────
+
+@bot.command(name="guildactivity", aliases=["whoswhere"])
+@commands.is_owner()
+async def cmd_guild_activity(ctx, *, guild_query: str = ""):
+    """Owner-only: per-server command usage. !guildactivity <name> drills
+    into one server's per-user breakdown."""
+    data = _load_guild_activity()
+    if not data:
+        await ctx.send("No guild activity recorded yet.")
+        return
+
+    if guild_query:
+        match = next(
+            ((gid, g) for gid, g in data.items()
+             if guild_query.lower() in g.get("name", "").lower() or guild_query == gid),
+            None,
+        )
+        if not match:
+            await ctx.send(f"No recorded server matching `{guild_query}`.")
+            return
+        gid, g = match
+        embed = discord.Embed(title=f"📊 {g.get('name', 'Unknown')}", color=discord.Color.dark_gold())
+        top_cmds = sorted(g.get("commands", {}).items(), key=lambda x: x[1], reverse=True)[:10]
+        embed.add_field(
+            name="Top commands",
+            value="\n".join(f"`!{c}` — {n:,}" for c, n in top_cmds) or "—",
+            inline=False,
+        )
+        top_users = sorted(
+            g.get("users", {}).items(),
+            key=lambda kv: sum(kv[1].get("commands", {}).values()),
+            reverse=True,
+        )[:10]
+        lines = []
+        for uid, u in top_users:
+            total = sum(u.get("commands", {}).values())
+            top_cmd, top_n = max(u.get("commands", {}).items(), key=lambda x: x[1], default=(None, 0))
+            top_note = f" (top: `!{top_cmd}` ×{top_n})" if top_cmd else ""
+            lines.append(f"**{u.get('name', '?')}** — {total:,}{top_note}")
+        embed.add_field(name="Top users", value="\n".join(lines) or "—", inline=False)
+        embed.set_footer(text=f"Guild ID: {gid}")
+        await ctx.send(embed=embed)
+        return
+
+    rows = []
+    for gid, g in sorted(data.items(), key=lambda kv: sum(kv[1].get("commands", {}).values()), reverse=True):
+        total = sum(g.get("commands", {}).values())
+        top_cmd, top_n = max(g.get("commands", {}).items(), key=lambda x: x[1], default=(None, 0))
+        top_note = f" · top: `!{top_cmd}` ×{top_n}" if top_cmd else ""
+        rows.append(f"**{g.get('name', 'Unknown')}** — {total:,} commands{top_note}")
+
+    embed = discord.Embed(title="📊 Guild Activity", color=discord.Color.dark_gold())
+    embed.description = "\n".join(rows)
+    embed.set_footer(text="!guildactivity <server name> for a per-user breakdown")
     await ctx.send(embed=embed)
 
 
