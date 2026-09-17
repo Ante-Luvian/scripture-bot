@@ -5108,11 +5108,21 @@ async def topic_slash(interaction: discord.Interaction, query: str):
 
 @bot.command(name="save", aliases=["bookmark"])
 async def cmd_save(ctx, *, reference: str = ""):
-    """Save a verse to your personal bookmark list. Usage: !save John 3:16"""
-    ref = reference.strip()
-    if not ref:
-        await ctx.send("Usage: `!save <reference>` — e.g. `!save John 3:16`")
+    """Save a verse to your personal bookmark list, with an optional note.
+    Usage: !save John 3:16
+           !save John 3:16 | this got me through a hard week
+    Running it again on an already-saved verse updates the note.
+    """
+    raw = reference.strip()
+    if not raw:
+        await ctx.send("Usage: `!save <reference>` or `!save <reference> | <note>` — e.g. `!save John 3:16 | for later`")
         return
+
+    ref, _, note = raw.partition("|")
+    ref = ref.strip()
+    note = note.strip()
+    if len(note) > 300:
+        note = note[:297] + "…"
 
     result = lookup.get_verse(ref)
     if not result.get("found") and "Could not parse" in result.get("error", ""):
@@ -5126,16 +5136,26 @@ async def cmd_save(ctx, *, reference: str = ""):
     uid = str(ctx.author.id)
     entries = data.setdefault(uid, [])
     canon_ref = result["reference"]
-    if any(e["reference"] == canon_ref for e in entries):
-        await ctx.send(f"**{canon_ref}** is already in your saved list.")
+
+    existing = next((e for e in entries if e["reference"] == canon_ref), None)
+    if existing:
+        if note:
+            existing["note"] = note
+            _save_bookmarks(data)
+            await ctx.send(f"Updated your note on **{canon_ref}**.")
+        else:
+            await ctx.send(f"**{canon_ref}** is already in your saved list. Add `| <note>` to attach or update a note.")
         return
+
     entries.append({
         "reference": canon_ref,
         "source": result.get("source", ""),
         "saved_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+        "note": note,
     })
     _save_bookmarks(data)
-    await ctx.send(f"📌 Saved **{canon_ref}**. You have {len(entries)} saved verse(s) — see `!saved`.")
+    suffix = " with your note" if note else ""
+    await ctx.send(f"📌 Saved **{canon_ref}**{suffix}. You have {len(entries)} saved verse(s) — see `!saved`.")
 
 
 @bot.command(name="saved", aliases=["bookmarks"])
@@ -5158,18 +5178,33 @@ async def cmd_saved(ctx, action: str = ""):
         for e in entries:
             result = lookup.get_verse(e["reference"])
             text = re.sub(r"\*\*\[\d+\]\*\*\s*", "", result.get("text", "")).replace("**", "") if result.get("found") else ""
-            lines.append(f"{e['reference']} ({e.get('source', '')})\n{text}\n")
+            block = f"{e['reference']} ({e.get('source', '')})\n{text}"
+            if e.get("note"):
+                block += f"\n\nNote: {e['note']}"
+            lines.append(block + "\n")
         buf = io.BytesIO("\n".join(lines).encode("utf-8"))
         await ctx.send(file=discord.File(buf, filename="saved_verses.txt"))
         return
 
-    lines = [f"`{i + 1}.` **{e['reference']}** — {e.get('source', '')}" for i, e in enumerate(entries[:25])]
+    # Length-aware, not a fixed slice -- notes can make individual entries long
+    # enough that 25 of them would blow past the embed description limit.
+    lines, total_len, shown = [], 0, 0
+    for i, e in enumerate(entries):
+        line = f"`{i + 1}.` **{e['reference']}** — {e.get('source', '')}"
+        if e.get("note"):
+            line += f"\n     💬 {e['note']}"
+        if total_len + len(line) > 3800:
+            break
+        lines.append(line)
+        total_len += len(line) + 1
+        shown += 1
+
     embed = discord.Embed(
         title=f"{ctx.author.display_name}'s saved verses",
         description="\n".join(lines),
         color=discord.Color.dark_gold(),
     )
-    embed.set_footer(text=f"Showing 25 of {len(entries)}." if len(entries) > 25 else "Use !unsave <number> to remove one.")
+    embed.set_footer(text=f"Showing {shown} of {len(entries)}." if shown < len(entries) else "Use !unsave <number> to remove one.")
     await ctx.send(embed=embed)
 
 
@@ -7550,8 +7585,11 @@ async def cmd_help(ctx, *, topic: str = ""):
         embed = discord.Embed(title="📌 Personal Bookmarks", color=discord.Color.dark_gold())
         embed.description = (
             "`!save John 3:16` — save a verse to your personal list\n"
-            "`!saved` — show your saved verses\n"
+            "`!save John 3:16 | this got me through a hard week` — save with a personal note\n"
+            "`!saved` — show your saved verses (with any notes)\n"
             "`!unsave 2` — remove saved verse #2 (number from `!saved`)\n\n"
+            "Saving an already-saved verse with a new `| note` updates the note instead of "
+            "duplicating the entry.\n\n"
             "Bookmarks are personal — only you can see and manage your own list."
         )
         await ctx.send(embed=embed)
