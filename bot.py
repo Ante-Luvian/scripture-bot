@@ -227,6 +227,23 @@ def _load_guild_config() -> dict:
 def _save_guild_config(cfg: dict) -> None:
     _atomic_write_json(GUILD_CONFIG_PATH, cfg)
 
+# ── Per-user preferred translation ───────────────────────────────────────────────
+USER_PREFS_PATH = Path(__file__).parent / "data" / "user_prefs.json"
+
+def _load_user_prefs() -> dict:
+    if USER_PREFS_PATH.exists():
+        try:
+            return json.loads(USER_PREFS_PATH.read_text(encoding="utf-8"))
+        except Exception:
+            pass
+    return {}
+
+def _save_user_prefs(data: dict) -> None:
+    _atomic_write_json(USER_PREFS_PATH, data)
+
+def _get_preferred_translation(user_id: int) -> str | None:
+    return _load_user_prefs().get(str(user_id), {}).get("translation")
+
 def _get_guild_votd(guild_id: int) -> dict:
     g = _load_guild_config().get(str(guild_id), {})
     return {
@@ -576,6 +593,18 @@ async def verse_prefix(ctx, *, reference: str = ""):
         return
 
     # ── Normal local lookup ───────────────────────────────────────────────────
+    # If the user set a default translation with !prefer and gave no explicit
+    # suffix, try that translation first; fall through to local KJV/other-corpus
+    # lookup if it doesn't have this reference (e.g. Enoch, Mishnah, Quran --
+    # anything outside the Protestant canon bolls.life translations cover).
+    preferred = _get_preferred_translation(ctx.author.id)
+    if preferred:
+        async with ctx.typing():
+            pref_result = get_translation(ref, preferred)
+        if pref_result.get("found"):
+            await _send_result(ctx, pref_result)
+            return
+
     result = lookup.get_verse(ref)
     if result["found"]:
         await _send_result(ctx, result)
@@ -7617,6 +7646,20 @@ async def cmd_help(ctx, *, topic: str = ""):
         await ctx.send(embed=embed)
         return
 
+    if topic in ("prefer", "preference", "defaulttranslation"):
+        embed = discord.Embed(title="⭐ !prefer — Default Translation", color=discord.Color.dark_gold())
+        embed.description = (
+            "`!prefer ESV` — set your default translation\n"
+            "`!prefer` — show your current default\n"
+            "`!prefer off` — clear it (back to local KJV)\n\n"
+            "Once set, plain `!verse John 3:16` uses your default automatically. "
+            "An explicit suffix (`!verse John 3:16 NASB`) always overrides it for that one lookup.\n\n"
+            "Only affects standard Bible books covered by that translation — references like "
+            "Enoch, Mishnah, or Quran fall back to their normal local text regardless."
+        )
+        await ctx.send(embed=embed)
+        return
+
     if topic in ("xref", "xrefs", "crossref", "crossreference"):
         embed = discord.Embed(title="🔗 !xref — Cross-References", color=discord.Color.dark_gold())
         embed.description = (
@@ -7967,7 +8010,8 @@ async def cmd_help(ctx, *, topic: str = ""):
         "`!votd` — verse of the day · `!help votd`\n"
         "`!today` — liturgical calendar across traditions · `!help today`\n"
         "`!books` — browse collections · `!help books`\n"
-        "`!translations` — list translation slugs"
+        "`!translations` — list translation slugs\n"
+        "`!prefer` — set your default translation · `!help prefer`"
     ), inline=False)
     embed.add_field(name="📜 Classical & Poetic", value=(
         "`!parallel` — Homer, Virgil, Ovid, Heliand, Plato + more · `!help parallel`"
@@ -8086,6 +8130,61 @@ async def translations_slash(interaction: discord.Interaction):
     await interaction.response.defer()
     ctx = await bot.get_context(interaction)
     await cmd_translations(ctx)
+
+
+# ── !prefer — personal default translation ───────────────────────────────────────
+
+@bot.command(name="prefer", aliases=["preference", "defaulttranslation"])
+async def cmd_prefer(ctx, *, translation: str = ""):
+    """Set your default Bible translation, so plain !verse lookups use it
+    without typing the suffix every time.
+    Usage: !prefer ESV   — set your default
+           !prefer       — show your current default
+           !prefer off   — clear it (back to local KJV)
+    An explicit suffix on a lookup (e.g. !verse John 3:16 NASB) always overrides this.
+    """
+    arg = translation.strip().lower()
+    uid = str(ctx.author.id)
+    data = _load_user_prefs()
+
+    if not arg:
+        current = data.get(uid, {}).get("translation")
+        if current:
+            await ctx.send(f"Your default translation is **{current.upper()}**. Use `!prefer off` to clear it.")
+        else:
+            await ctx.send(
+                "You don't have a default translation set — plain `!verse` lookups use the local KJV. "
+                "Set one with `!prefer ESV` (see `!translations` for all slugs)."
+            )
+        return
+
+    if arg in ("off", "none", "clear", "reset"):
+        if uid in data:
+            data[uid].pop("translation", None)
+            if not data[uid]:
+                del data[uid]
+            _save_user_prefs(data)
+        await ctx.send("Cleared your default translation. Plain `!verse` lookups will use the local KJV again.")
+        return
+
+    if arg not in TRANSLATION_SUFFIXES:
+        await ctx.send(f"⚠️ `{arg}` isn't a recognized translation slug. See `!translations` for the full list.")
+        return
+
+    data.setdefault(uid, {})["translation"] = arg
+    _save_user_prefs(data)
+    await ctx.send(
+        f"Your default translation is now **{arg.upper()}**. Plain `!verse <ref>` will use it automatically "
+        "(an explicit suffix still overrides it)."
+    )
+
+@bot.tree.command(name="prefer", description="Set your default Bible translation for plain !verse lookups")
+@app_commands.describe(translation="e.g. ESV, NASB — leave blank to check, or 'off' to clear")
+async def prefer_slash(interaction: discord.Interaction, translation: str = ""):
+    await interaction.response.defer()
+    ctx = await bot.get_context(interaction)
+    await cmd_prefer(ctx, translation=translation)
+
 
 # ── Daily VOTD task ────────────────────────────────────────────────────────────
 
