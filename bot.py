@@ -28,6 +28,7 @@ from topics_lookup import get_topic, search_topics, topic_count
 from strongs_lookup import get_definition as get_local_strongs_definition
 from bible_dictionary_lookup import get_definition as get_dictionary_entry, search_terms as search_dictionary_terms, entry_count as dictionary_entry_count, SOURCE_NAMES as DICTIONARY_SOURCE_NAMES
 from timeline_lookup import search_timeline, entry_count as timeline_entry_count, year_range as timeline_year_range
+import interlinear_lookup
 
 # Load .env file if present
 try:
@@ -5811,6 +5812,24 @@ def _render_compare_card(reference: str, entries: list[tuple[str, str]]):
     buf.seek(0)
     return buf
 
+_STRONGS_INFLECTION_FAMILIES = {}
+for _fam in [("G1510", "G1511", "G1498", "G2071", "G2258", "G5600", "G2277")]:
+    for _n in _fam:
+        _STRONGS_INFLECTION_FAMILIES[_n] = _fam
+del _fam, _n
+# The original-language (Tischendorf) and KJV (separate SWORD module)
+# Strong's tagging don't always agree on which number to use for a given
+# inflected form -- e.g. Tischendorf tags every form of "to be" as the
+# lemma G1510, but the KJV module tags the imperfect "was" as G2258 (its
+# own number per Strong's, confirmed by G2258's own derivation field: "imperfect
+# of G1510 (eimi)"). Without this, !interlinear's KJV alignment (see
+# cmd_interlinear) silently found no match for G1510 in a verse like John
+# 1:1 that says "was" three times, and fell back to the lexicon gloss
+# "am" -- accurate for G1510's present-tense sense, flatly wrong in
+# context. Only eimi's family is covered since it's by far the most
+# frequent case; add another only after confirming via each number's own
+# derivation field, not by inference.
+
 _SECONDARY_SENSE_MARKERS = ("concrete",)
 # NOTE: this list is deliberately short. "by implication" looked like a
 # plausible addition but actively broke G2889 (kosmos) -- its definition is
@@ -5895,7 +5914,7 @@ def _render_interlinear_card(reference: str, original_label: str, is_rtl: bool,
     COL_GAP, ROW_GAP = 28, 22
     GLOSS_WRAP = 14  # max chars per gloss line before wrapping to a second line
 
-    orig_size, translit_size, gloss_size = 34, 20, 17
+    orig_size, translit_size, gloss_size, strong_size = 34, 20, 17, 15
     orig_font_path = _script_font(FONTS, "".join(c["word"] for c in cells)) if cells else FONTS + "georgia.ttf"
     orig_font = ImageFont.truetype(orig_font_path, orig_size)
     # Georgia Italic lacks the macron-vowel characters (ō, ē, etc.) that
@@ -5903,6 +5922,7 @@ def _render_interlinear_card(reference: str, original_label: str, is_rtl: bool,
     # as the Hebrew/Greek/Cyrillic it's already used for elsewhere.
     translit_font = ImageFont.truetype(FONTS + "timesi.ttf", translit_size)
     gloss_font = ImageFont.truetype(FONTS + "georgia.ttf", gloss_size)
+    strong_font = ImageFont.truetype(FONTS + "georgia.ttf", strong_size)
 
     dummy = ImageDraw.Draw(Image.new("RGB", (10, 10)))
 
@@ -5913,13 +5933,16 @@ def _render_interlinear_card(reference: str, original_label: str, is_rtl: bool,
         word_width = dummy.textlength(_rtl_visual(word_logical) if is_rtl else word_logical, font=orig_font)
         translit_lines = [c["translit"]] if c["translit"] else []
         gloss_lines = textwrap.wrap(c["gloss"], width=GLOSS_WRAP)[:2] if c["gloss"] else []
+        strong_lines = [c["strong"]] if c.get("strong") else []
         widths = [word_width]
         widths += [dummy.textlength(l, font=translit_font) for l in translit_lines]
         widths += [dummy.textlength(l, font=gloss_font) for l in gloss_lines]
+        widths += [dummy.textlength(l, font=strong_font) for l in strong_lines]
         cell_w = max(widths, default=0)
-        cell_h = (orig_size + 6) + (translit_size + 4) * len(translit_lines) + (gloss_size + 3) * len(gloss_lines)
+        cell_h = ((orig_size + 6) + (translit_size + 4) * len(translit_lines)
+                  + (gloss_size + 3) * len(gloss_lines) + (strong_size + 3) * len(strong_lines))
         laid_out.append({"word": word_logical, "word_w": word_width, "translit": translit_lines,
-                          "gloss": gloss_lines, "w": cell_w, "h": cell_h})
+                          "gloss": gloss_lines, "strong": strong_lines, "w": cell_w, "h": cell_h})
 
     # Wrap into rows.
     max_row_width = W - 2 * MARGIN
@@ -5968,6 +5991,10 @@ def _render_interlinear_card(reference: str, original_label: str, is_rtl: bool,
                 lw = draw.textlength(line, font=gloss_font)
                 draw.text((x + (cw - lw) / 2, ty), line, font=gloss_font, fill=MUTED)
                 ty += gloss_size + 3
+            for line in cell["strong"]:
+                lw = draw.textlength(line, font=strong_font)
+                draw.text((x + (cw - lw) / 2, ty), line, font=strong_font, fill=BORDER)
+                ty += strong_size + 3
             x += cw + COL_GAP
         y += row_h + ROW_GAP
 
@@ -6014,36 +6041,64 @@ async def cmd_interlinear(ctx, *, reference: str = ""):
             return
 
         pairs = strongs["pairs"]
-        if not pairs:
-            await ctx.send(f"⚠️ No Strong's-tagged words found for **{ref_single}**.")
-            return
-        if len(pairs) > 60:
-            await ctx.send(f"⚠️ That verse has {len(pairs)} tagged words — too many for one interlinear image. Try a shorter verse.")
-            return
 
-        slug = strongs["slug"]
-        is_rtl = slug != "TISCH"
-        original_label = "Hebrew OT (WLC, with Strong's)" if is_rtl else "Greek NT (Tischendorf 8th, with Strong's)"
+        is_rtl = testament == "ot"
 
-        kjv_map = await loop.run_in_executor(
-            None, _fetch_kjv_word_map, strongs["book_id"], strongs["chapter"], strongs["verse"]
-        )
-        used_kjv = False
+        canonical_book = (BIBLE_OT + BIBLE_NT)[strongs["book_id"] - 1]
+        local_words = interlinear_lookup.get_verse_words(testament, canonical_book, strongs["chapter"], strongs["verse"])
+
         cells = []
-        for word, num in pairs:
-            entry = _fetch_strongs_definition(num)
-            translit = (entry or {}).get("transliteration", "") or ""
-            bare_num = num[1:]
-            kjv_word = kjv_map[bare_num].popleft() if kjv_map.get(bare_num) else None
-            if kjv_word:
-                gloss = kjv_word
-                used_kjv = True
-            else:
-                gloss = _clean_strongs_gloss((entry or {}).get("short_definition", "") or "", (entry or {}).get("definition", "") or "")
-            cells.append({"word": word, "translit": translit, "gloss": gloss})
+        if local_words:
+            # MACULA (Clear-Bible/Biblica, CC BY 4.0): a real word-aligned
+            # interlinear built by linguists, with a per-instance English
+            # gloss for each occurrence -- not reconstructed by matching
+            # Strong's numbers across two independently-tagged texts (the
+            # earlier approach, which broke whenever the two tagging systems
+            # disagreed on which number a given inflected form gets).
+            for w in local_words:
+                translit = w["translit"]
+                if not translit and not is_rtl and w["strong"]:
+                    # MACULA's Greek rows have no per-word transliteration
+                    # column; fall back to the local Strong's dictionary's
+                    # lexeme-level one (same source !strong already uses).
+                    entry = _fetch_strongs_definition(w["strong"])
+                    translit = (entry or {}).get("transliteration", "") or ""
+                cells.append({"word": w["text"], "translit": translit, "gloss": w["gloss"], "strong": w["strong"]})
+            original_label = ("Hebrew OT (WLC, with Strong's)" if is_rtl
+                              else "Greek NT (SBLGNT, with Strong's)")
+            footer = "MACULA (Clear-Bible/Biblica, Inc., CC BY 4.0) · OpenScriptures Strong's"
+        else:
+            # MACULA doesn't cover this verse (shouldn't normally happen for
+            # a canonical Bible book) -- fall back to the older bolls.life
+            # Strong's-tagged text, aligned against the KJV's own tagging by
+            # Strong's number where possible.
+            if not pairs:
+                await ctx.send(f"⚠️ No Strong's-tagged words found for **{ref_single}**.")
+                return
+            kjv_map = await loop.run_in_executor(
+                None, _fetch_kjv_word_map, strongs["book_id"], strongs["chapter"], strongs["verse"]
+            )
+            for word, num in pairs:
+                entry = _fetch_strongs_definition(num)
+                translit = (entry or {}).get("transliteration", "") or ""
+                candidate_nums = _STRONGS_INFLECTION_FAMILIES.get(num, (num,))
+                kjv_word = None
+                for cand in candidate_nums:
+                    cand_bare = cand[1:]
+                    if kjv_map.get(cand_bare):
+                        kjv_word = kjv_map[cand_bare].popleft()
+                        break
+                gloss = kjv_word or _clean_strongs_gloss(
+                    (entry or {}).get("short_definition", "") or "", (entry or {}).get("definition", "") or "")
+                cells.append({"word": word, "translit": translit, "gloss": gloss, "strong": num})
+            original_label = ("Hebrew OT (WLC, with Strong's)" if is_rtl
+                              else "Greek NT (Tischendorf 8th, with Strong's)")
+            footer = "bolls.life (KJV + OpenScriptures Strong's)"
 
-        footer = ("bolls.life (KJV + OpenScriptures Strong's)" if used_kjv
-                  else "bolls.life · OpenScriptures Strong's")
+        if len(cells) > 60:
+            await ctx.send(f"⚠️ That verse has {len(cells)} tagged words — too many for one interlinear image. Try a shorter verse.")
+            return
+
         img_buf = await loop.run_in_executor(
             None, _render_interlinear_card, strongs["ref"], original_label, is_rtl, cells, footer
         )
