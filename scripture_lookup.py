@@ -415,6 +415,25 @@ ALIASES: dict[str, str] = {
     "epistle to the son of the wolf": "Epistle to the Son of the Wolf",
     "son of the wolf": "Epistle to the Son of the Wolf",
     "esw": "Epistle to the Son of the Wolf",
+    # Dead Sea Scrolls sectarian texts (Open Dead Sea machine-draft translations)
+    "hodayot": "Hodayot",
+    "thanksgiving hymns": "Hodayot",
+    "thanksgiving scroll": "Hodayot",
+    "1qha": "Hodayot",
+    "damascus document": "Damascus Document",
+    "cd": "Damascus Document",
+    "community rule": "Community Rule",
+    "manual of discipline": "Community Rule",
+    "1qs": "Community Rule",
+    "war scroll": "War Scroll",
+    "1qm": "War Scroll",
+    "pesher habakkuk": "Pesher Habakkuk",
+    "habakkuk commentary": "Pesher Habakkuk",
+    "1qphab": "Pesher Habakkuk",
+    "rule of the congregation": "Rule of the Congregation",
+    "1qsa": "Rule of the Congregation",
+    "rule of blessings": "Rule of Blessings",
+    "1qsb": "Rule of Blessings",
     # Ginza Rba
     "ginza rba": "Ginza Rba",
     "ginza": "Ginza Rba",
@@ -1269,7 +1288,7 @@ ALIASES: dict[str, str] = {
 
 # Priority order when the same book name exists in multiple corpora
 # (first match wins unless the user specifies a corpus)
-CORPUS_PRIORITY = ["kjv", "lds", "brenton", "charles", "apostolic_fathers", "quran", "classical", "jewish", "bahai", "gnostic", "dharmic", "norse", "ancient_near_east", "patristics", "medieval"]
+CORPUS_PRIORITY = ["kjv", "lds", "brenton", "charles", "apostolic_fathers", "quran", "classical", "jewish", "bahai", "qumran", "gnostic", "dharmic", "norse", "ancient_near_east", "patristics", "medieval"]
 
 
 class ScriptureLookup:
@@ -1363,6 +1382,15 @@ class ScriptureLookup:
                 "some_answered_questions.json",
                 "kitab_i_iqan.json",
                 "epistle_to_son_of_wolf.json",
+            ],
+            "qumran": [
+                "1qha.json",
+                "cd.json",
+                "1qs.json",
+                "1qm.json",
+                "1qphab.json",
+                "1qsa.json",
+                "1qsb.json",
             ],
             "gnostic": [
                 "ginza_rba.json",
@@ -1794,6 +1822,7 @@ class ScriptureLookup:
             "classical":         "Classical & Ancient Texts",
             "jewish":            "Jewish Hellenistic Texts",
             "bahai":             "Bahá'í Writings",
+            "qumran":            "Open Dead Sea (machine draft)",
             "gnostic":           "Gnostic & Esoteric Texts",
             "dharmic":           "Dharmic Scriptures Team (2008)",
             "norse":            "Trans. Henry Adams Bellows (1923)",
@@ -1909,6 +1938,7 @@ class ScriptureLookup:
             "classical":        "🏛️ Classical",
             "jewish":           "✡️ Jewish Texts",
             "bahai":            "🌍 Baháʼí",
+            "qumran":           "🏺 Dead Sea Scrolls",
             "gnostic":          "🧿 Gnostic / Hermetic",
             "dharmic":          "☸️ Dharmic",
             "norse":            "🌲 Norse",

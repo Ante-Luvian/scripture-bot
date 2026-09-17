@@ -846,6 +846,10 @@ _CATEGORY_BOOKS = {
         "Gleanings from the Writings of Baha'u'llah", "Prayers and Meditations",
         "Some Answered Questions", "Kitab-i-Iqan", "Epistle to the Son of the Wolf",
     },
+    "🏺 Dead Sea Scrolls":  {
+        "Hodayot", "Damascus Document", "Community Rule", "War Scroll",
+        "Pesher Habakkuk", "Rule of the Congregation", "Rule of Blessings",
+    },
 }
 
 def _infer_category(book: str) -> str:
@@ -1725,6 +1729,15 @@ BOOKS_TREE = [
         "Kitab-i-Iqan",
         "Epistle to the Son of the Wolf",
     ]),
+    ("🏺 Dead Sea Scrolls", [
+        "Hodayot",
+        "Damascus Document",
+        "Community Rule",
+        "War Scroll",
+        "Pesher Habakkuk",
+        "Rule of the Congregation",
+        "Rule of Blessings",
+    ]),
     ("🔥 Zoroastrian", [
         "Gathas",
     ]),
@@ -2058,7 +2071,7 @@ BOOKS_TREE = [
 _SUPERGROUP_ORDER = [
     ("📖 Abrahamic Scripture & Commentary", [
         "📖 The Bible", "👼 Apocrypha / Pseudepigrapha", "✡️ Rabbinic & Kabbalistic",
-        "☪️ Islamic", "🧿 Gnostic", "📯 LDS", "🌍 Bahá'í",
+        "☪️ Islamic", "🧿 Gnostic", "📯 LDS", "🌍 Bahá'í", "🏺 Dead Sea Scrolls",
         "⛪ Patristics & Church History",
     ]),
     ("🌐 Mythology & Classical Traditions", [
