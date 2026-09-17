@@ -23,6 +23,26 @@ LICENSE.md files:
   "MACULA Greek Linguistic Datasets, available at https://github.com/Clear-Bible/macula-greek/"
   "MACULA Hebrew Linguistic Datasets, available at https://github.com/Clear-Bible/macula-hebrew/"
 
+GLOSS COLUMN: uses MACULA's own `gloss` column, not the Cherith `english`
+column, as primary (falling back to `english` only if `gloss` is empty).
+`gloss` is derived directly from each word's actual morphological parse
+(lemma + part of speech + person/number/gender/case/tense/voice/mood) --
+it correctly shows subjunctive mood ("should perish" not just "perish"),
+marks a semantically empty function word honestly ("-" for a bare article)
+instead of inventing a value, and is dot-joined for multi-word literal
+glosses ("it.will.make.childless", rendered here with dots turned to
+spaces). `english`/Cherith is built by a different method: for each word
+occurrence, consulting several published English translations and taking
+whichever rendering was most common among them -- answering "what did
+translation committees choose for smooth prose here", not "what does this
+word mean". Those diverge exactly where a translation's phrase doesn't
+split cleanly onto source word boundaries: Deut 32:25's Hebrew מִחוּץ
+("from outside") is one translation's single word "outside" spread across
+two morphemes, and Cherith's alignment assigned the prefix מ the
+nonsensical gloss "in" (from splitting "outside" as if it meant something
+like "in the street") where MACULA's own morphology-grounded gloss
+correctly has "from" for that same prefix.
+
 The Greek TSV has no transliteration column (Greek transliteration in this
 project's !interlinear comes from the existing local Strong's dictionary,
 keyed by Strong's number -- lexeme-level, same as before). The Hebrew TSV
@@ -113,7 +133,27 @@ def _process(url, testament, cur):
             return cols[i].strip() if i is not None and i < len(cols) else ""
 
         text = get("text")
-        english = get("english") or get("gloss")
+        # MACULA's own "gloss" column is derived directly from the word's
+        # actual morphological parse (lemma + part of speech + person/
+        # number/gender/case/tense/voice/mood), so it correctly reflects
+        # things like subjunctive mood ("should perish") and marks a
+        # semantically empty function word honestly ("-" for a bare
+        # article) rather than inventing a value for it. "english" is a
+        # separately-licensed, separately-attributed column (Cherith
+        # Glosses) built by a different method entirely: for each word
+        # occurrence, consulting several published English translations
+        # and taking whichever rendering was most common among them. That
+        # answers "what did translation committees choose for smooth
+        # prose here", not "what does this word mean" -- and the two
+        # questions diverge exactly where a translation's word choice
+        # doesn't map cleanly onto Hebrew/Greek word boundaries (e.g. one
+        # translation's single word "outside" split across the two source
+        # morphemes "from" + "street" here in Deut 32:25 produced a
+        # nonsensical "in" for the prefix). Multi-word literal glosses in
+        # MACULA's own column are dot-joined ("it.will.make.childless");
+        # rendered as spaced words for display.
+        gloss = get("gloss") or get("english")
+        gloss = gloss.replace(".", " ") if gloss else gloss
         if testament == "nt":
             strong = _norm_greek_strong(get("strong"))
             translit = ""  # filled in from the local Strong's dictionary at query time (lexeme-level)
@@ -121,7 +161,7 @@ def _process(url, testament, cur):
             strong = _norm_hebrew_strong(get("strongnumberx"))
             translit = get("transliteration")
 
-        batch.append((testament, book, chapter, verse, word_order, text, translit, strong, english))
+        batch.append((testament, book, chapter, verse, word_order, text, translit, strong, gloss))
         count += 1
         if len(batch) >= 5000:
             cur.executemany(
@@ -152,15 +192,6 @@ def main():
     print(f"Greek NT: {nt_count} words")
     ot_count = _process(HEBREW_URL, "ot", cur)
     print(f"Hebrew OT: {ot_count} words")
-
-    # Known Cherith Glosses defect: H4480 (מִן/prefixed מ-/מֵ-, "from") is
-    # glossed "in" for 108 instances -- every single one checked (Gen 2:8,
-    # 4:3, 21:15, 31:35, 47:15; Exo 4:10, 5:11, 8:9, 10:5; Lev 4:2, 4:17,
-    # 5:13, 9:17, 14:3, ...) is simply wrong, not a legitimate contextual
-    # reading -- מן never denotes static "in" (that's ב's territory).
-    # Flagged by a user reading !interlinear Deut 32:25 in production.
-    cur.execute("UPDATE words SET gloss='from' WHERE testament='ot' AND strong='H4480' AND gloss='in'")
-    print(f"Corrected {cur.rowcount} H4480 'in' -> 'from' mis-glosses (Cherith Glosses defect)")
 
     cur.execute("CREATE INDEX idx_verse ON words (book, chapter, verse, word_order)")
     con.commit()
