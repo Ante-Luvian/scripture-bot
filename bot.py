@@ -872,6 +872,8 @@ _CATEGORY_BOOKS = {
         "Allogenes (The Stranger)","Hypsiphrone","The Sentences of Sextus",
         "Trimorphic Protennoia (Three Forms of Primal Thought)",
         "Corpus Hermeticum XIII, On Rebirth","The Act of Peter",
+        "Manichaean Psalms to Jesus","Manichaean Bema Psalms",
+        "Manichaean Psalms of Thomas","Manichaean Psalms (Separate)",
     },
     "☸️ Dharmic":           {"Rig Veda","Yajur Veda","Sama Veda","Atharva Veda"},
     "🌲 Norse":             {"Voluspo","Hovamol","Iliad"},
@@ -1860,6 +1862,12 @@ BOOKS_TREE = [
             "Allogenes (The Stranger)", "Hypsiphrone", "The Sentences of Sextus",
             "Trimorphic Protennoia (Three Forms of Primal Thought)",
             "Corpus Hermeticum XIII, On Rebirth", "The Act of Peter",
+        ]),
+        ("Manichaean (trans. C.R.C. Allberry, 1938)", [
+            "Manichaean Psalms to Jesus",
+            "Manichaean Bema Psalms",
+            "Manichaean Psalms of Thomas",
+            "Manichaean Psalms (Separate)",
         ]),
     ]),
     ("🌲 Norse", [

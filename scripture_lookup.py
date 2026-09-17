@@ -1396,6 +1396,7 @@ class ScriptureLookup:
                 "ginza_rba.json",
                 "mandaean_book_of_john.json",
                 "nag_hammadi_zinner.json",
+                "manichaean_psalms.json",
             ],
             "norse": [
                 "poetic_edda.json",
