@@ -25,6 +25,7 @@ from poem_lookup import (parse_poem_ref, lookup as poem_lookup, lookup_pair,
                          list_works as poem_list_works, classify_scripture, is_drb_reference)
 from xref_lookup import get_cross_references
 from topics_lookup import get_topic, search_topics, topic_count
+from strongs_lookup import get_definition as get_local_strongs_definition
 
 # Load .env file if present
 try:
@@ -7026,8 +7027,10 @@ def _fetch_strongs_passage(reference: str, testament: str) -> dict:
 
 def _fetch_strongs_definition(number: str) -> dict | None:
     """
-    Look up a Strong's number (e.g. "G3588" or "H7225") in the bolls
-    dictionary endpoint. Returns the first definition dict, or None.
+    Look up a Strong's number (e.g. "G3588" or "H7225"). Tries the local
+    OpenScriptures dictionary first (instant, always available, covers the
+    full standard Strong's range); falls back to the live bolls.life
+    dictionary endpoint only for anything the local copy doesn't have.
 
     Keys in the returned dict (when found):
       lexeme, transliteration, pronunciation, short_definition, definition
@@ -7037,6 +7040,10 @@ def _fetch_strongs_definition(number: str) -> dict | None:
     key = number.strip().upper()
     if not re.match(r"^[GH]\d+$", key):
         return None
+
+    local = get_local_strongs_definition(key)
+    if local:
+        return local
 
     if key in _STRONGS_DEF_CACHE:
         return _STRONGS_DEF_CACHE[key]
