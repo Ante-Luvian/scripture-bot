@@ -3054,8 +3054,7 @@ class BooksView(discord.ui.View):
                     style=discord.ButtonStyle.primary,
                     row=i // 4
                 )
-                btn.callback = (self._make_hadith_fetch(label, chap_label) if mode == "hadith"
-                                else self._make_chapter_fetch(label, chap_label))
+                btn.callback = self._make_chapter_fetch(label, node, page * PAGE_SIZE + i, mode)
                 self.add_item(btn)
             self._add_nav(total_pages, page)
             return
@@ -3157,33 +3156,15 @@ class BooksView(discord.ui.View):
             await self._open_book(interaction, book_name)
         return callback
 
-    def _make_chapter_fetch(self, book_name: str, chap_label: str):
-        async def callback(interaction: discord.Interaction):
-            result = lookup.get_verse(f"{book_name} {chap_label}")
-            await _send_result(interaction, result)
-        return callback
+    def _make_chapter_fetch(self, book_name: str, chapter_labels: list[str], index: int, mode: str):
+        chap_label = chapter_labels[index]
 
-    def _make_hadith_fetch(self, display_name: str, chap_label: str):
         async def callback(interaction: discord.Interaction):
-            key = _HADITH_DISPLAY_TO_KEY.get(display_name)
-            try:
-                section_num = int(chap_label.replace("Book ", "").strip())
-            except ValueError:
-                key = None
-                section_num = None
-            if not key or section_num is None:
-                await interaction.response.send_message(
-                    "Could not resolve this hadith section.", ephemeral=True
-                )
-                return
-            await interaction.response.defer()
-            data = get_hadith_section(key, section_num)
-            if not data:
-                await interaction.followup.send(
-                    f"Could not fetch {chap_label} of {display_name} right now."
-                )
-                return
-            await _send_hadith_section(interaction, display_name, section_num, data)
+            if mode == "hadith":
+                await interaction.response.defer()
+            result = _fetch_chapter_result(book_name, chap_label, mode)
+            next_btn = _make_next_chapter_button(book_name, chapter_labels, index, mode)
+            await _send_result(interaction, result, extra_button=next_btn)
         return callback
 
     def _make_drill(self, name, contents):
@@ -6996,13 +6977,41 @@ def _record_last_cited(ctx_or_interaction, result: dict):
     }
 
 
-async def _send_hadith_section(interaction: discord.Interaction, display_name: str, section_num: int, data: dict):
-    """Render one whole hadith section/book (paginated) as a followup to an
-    already-deferred interaction."""
+# ── !books chapter picker: "Next chapter" button ─────────────────────────────
+
+_next_chapter_cooldown: dict[int, float] = {}  # user_id -> last-click monotonic time
+_NEXT_CHAPTER_COOLDOWN_SECONDS = 3.0
+
+
+def _check_next_chapter_cooldown(user_id: int) -> bool:
+    now = time.monotonic()
+    last = _next_chapter_cooldown.get(user_id, 0.0)
+    if now - last < _NEXT_CHAPTER_COOLDOWN_SECONDS:
+        return False
+    _next_chapter_cooldown[user_id] = now
+    return True
+
+
+def _fetch_chapter_result(book_name: str, chap_label: str, mode: str) -> dict:
+    """Fetch one chapter/section, in the same shape _send_result expects,
+    for either a local/Sefaria "verse" reference or a hadith section."""
+    if mode != "hadith":
+        return lookup.get_verse(f"{book_name} {chap_label}")
+
+    key = _HADITH_DISPLAY_TO_KEY.get(book_name)
+    try:
+        section_num = int(chap_label.replace("Book ", "").strip())
+    except ValueError:
+        section_num = None
+    if not key or section_num is None:
+        return {"found": False, "error": "Could not resolve this hadith section.", "suggestions": []}
+    data = get_hadith_section(key, section_num)
+    if not data:
+        return {"found": False, "error": f"Could not fetch {chap_label} of {book_name} right now.", "suggestions": []}
+
     name = data.get("name") or ""
     items = data["hadiths"]
-    title = f"{display_name} — Book {section_num}" + (f": {name}" if name else "")
-
+    title = f"{book_name} — Book {section_num}" + (f": {name}" if name else "")
     MAX = 3500
     pages: list[str] = []
     current = ""
@@ -7015,48 +7024,45 @@ async def _send_hadith_section(interaction: discord.Interaction, display_name: s
             current = f"{current}\n\n{entry}" if current else entry
     if current:
         pages.append(current)
-    total = len(pages)
-
-    def make_embed(idx):
-        text = pages[idx]
-        if len(text) > 3900:
-            text = text[:3897] + "…"
-        page_title = f"{title} ({idx + 1}/{total})" if total > 1 else title
-        embed = discord.Embed(title=page_title[:256], description=text, color=discord.Color.dark_gold())
-        embed.set_footer(text=f"{display_name} (fawazahmed0 Hadith API)")
-        return embed
-
-    if total <= 1:
-        await interaction.followup.send(embed=make_embed(0))
-        return
-
-    class HadithSectionView(discord.ui.View):
-        def __init__(self):
-            super().__init__(timeout=120)
-            self.idx = 0
-
-        @discord.ui.button(emoji="◀", style=discord.ButtonStyle.secondary)
-        async def prev(self, interaction2: discord.Interaction, button: discord.ui.Button):
-            self.idx = (self.idx - 1) % total
-            await interaction2.response.edit_message(embed=make_embed(self.idx), view=self)
-
-        @discord.ui.button(emoji="▶", style=discord.ButtonStyle.secondary)
-        async def next(self, interaction2: discord.Interaction, button: discord.ui.Button):
-            self.idx = (self.idx + 1) % total
-            await interaction2.response.edit_message(embed=make_embed(self.idx), view=self)
-
-        async def on_timeout(self):
-            try:
-                await self.message.edit(view=None)
-            except Exception:
-                pass
-
-    view = HadithSectionView()
-    view.message = await interaction.followup.send(embed=make_embed(0), view=view)
+    return {
+        "found": True,
+        "reference": title,
+        "text": pages[0] if pages else "",
+        "source": f"{book_name} (fawazahmed0 Hadith API)",
+        "pages": pages,
+    }
 
 
-async def _send_result(ctx_or_interaction, result: dict):
-    """Send a verse or whole-chapter result, splitting across multiple embeds if needed."""
+def _make_next_chapter_button(book_name: str, chapter_labels: list[str], index: int, mode: str) -> "discord.ui.Button | None":
+    """Button that fetches chapter_labels[index+1] as a new message with its
+    own "Next chapter" button, or None if index is already the last chapter."""
+    if index + 1 >= len(chapter_labels):
+        return None
+    next_label = chapter_labels[index + 1]
+    btn = discord.ui.Button(label=f"Next chapter ▶ {next_label}"[:80], style=discord.ButtonStyle.success)
+
+    async def callback(interaction: discord.Interaction):
+        if not _check_next_chapter_cooldown(interaction.user.id):
+            await interaction.response.send_message(
+                "⏳ Please wait a few seconds before requesting another chapter.", ephemeral=True
+            )
+            return
+        needs_defer = mode == "hadith"
+        if needs_defer:
+            await interaction.response.defer()
+        result = _fetch_chapter_result(book_name, next_label, mode)
+        next_btn = _make_next_chapter_button(book_name, chapter_labels, index + 1, mode)
+        await _send_result(interaction, result, extra_button=next_btn)
+
+    btn.callback = callback
+    return btn
+
+
+async def _send_result(ctx_or_interaction, result: dict, extra_button: "discord.ui.Button | None" = None):
+    """Send a verse or whole-chapter result, splitting across multiple embeds if needed.
+    extra_button, if given, is appended to whatever view the result ends up
+    using (a bare view is created for it if the result wouldn't otherwise
+    have one) -- used for the !books chapter picker's "Next chapter" button."""
     try:
         uid = (ctx_or_interaction.user.id
                if hasattr(ctx_or_interaction, "user")
@@ -7065,12 +7071,27 @@ async def _send_result(ctx_or_interaction, result: dict):
     except Exception:
         pass
     _record_last_cited(ctx_or_interaction, result)
+
+    is_interaction = hasattr(ctx_or_interaction, "response")
+    already_responded = is_interaction and ctx_or_interaction.response.is_done()
+
+    async def _reply(**kwargs):
+        """Send the first message for this result, respecting whether the
+        interaction has already been responded to/deferred."""
+        if already_responded:
+            return await ctx_or_interaction.followup.send(**kwargs)
+        if is_interaction:
+            await ctx_or_interaction.response.send_message(**kwargs)
+            return await ctx_or_interaction.original_response()
+        return await ctx_or_interaction.send(**kwargs)
+
     if not result["found"]:
         embed = _build_embed(result)
-        if hasattr(ctx_or_interaction, "response"):
-            await ctx_or_interaction.response.send_message(embed=embed)
-        else:
-            await ctx_or_interaction.send(embed=embed)
+        view = None
+        if extra_button:
+            view = discord.ui.View(timeout=180)
+            view.add_item(extra_button)
+        await _reply(embed=embed, view=view) if view else await _reply(embed=embed)
         return
 
     # ── Paginated whole-chapter result ────────────────────────────────────────
@@ -7094,15 +7115,17 @@ async def _send_result(ctx_or_interaction, result: dict):
 
         class ChapterView(discord.ui.View):
             def __init__(self):
-                super().__init__(timeout=120)
+                super().__init__(timeout=180)
                 self.idx = 0
+                if extra_button:
+                    self.add_item(extra_button)
 
-            @discord.ui.button(emoji="◀", style=discord.ButtonStyle.secondary)
+            @discord.ui.button(emoji="◀", style=discord.ButtonStyle.secondary, row=0)
             async def prev(self, interaction: discord.Interaction, button: discord.ui.Button):
                 self.idx = (self.idx - 1) % total
                 await interaction.response.edit_message(embed=make_page_embed(self.idx), view=self)
 
-            @discord.ui.button(emoji="▶", style=discord.ButtonStyle.secondary)
+            @discord.ui.button(emoji="▶", style=discord.ButtonStyle.secondary, row=0)
             async def next(self, interaction: discord.Interaction, button: discord.ui.Button):
                 self.idx = (self.idx + 1) % total
                 await interaction.response.edit_message(embed=make_page_embed(self.idx), view=self)
@@ -7114,11 +7137,7 @@ async def _send_result(ctx_or_interaction, result: dict):
                     pass
 
         view = ChapterView()
-        if hasattr(ctx_or_interaction, "response"):
-            await ctx_or_interaction.response.send_message(embed=make_page_embed(0), view=view)
-            view.message = await ctx_or_interaction.original_response()
-        else:
-            view.message = await ctx_or_interaction.send(embed=make_page_embed(0), view=view)
+        view.message = await _reply(embed=make_page_embed(0), view=view)
         await _maybe_react_savable(ctx_or_interaction, view.message)
         return
 
@@ -7130,11 +7149,11 @@ async def _send_result(ctx_or_interaction, result: dict):
     if len(text) <= MAX:
         embed = discord.Embed(title=title, description=text, color=discord.Color.dark_gold())
         embed.set_footer(text=source)
-        if hasattr(ctx_or_interaction, "response"):
-            await ctx_or_interaction.response.send_message(embed=embed)
-            msg = None
-        else:
-            msg = await ctx_or_interaction.send(embed=embed)
+        view = None
+        if extra_button:
+            view = discord.ui.View(timeout=180)
+            view.add_item(extra_button)
+        msg = await (_reply(embed=embed, view=view) if view else _reply(embed=embed))
         await _maybe_react_savable(ctx_or_interaction, msg)
         return
 
@@ -7160,15 +7179,19 @@ async def _send_result(ctx_or_interaction, result: dict):
     for i, chunk in enumerate(chunks):
         part_title = title if len(chunks) == 1 else f"{title} ({i+1}/{len(chunks)})"
         embed = discord.Embed(title=part_title, description=chunk, color=discord.Color.dark_gold())
-        if i == len(chunks) - 1:
+        is_last = i == len(chunks) - 1
+        if is_last:
             embed.set_footer(text=source)
-        if i == 0 and hasattr(ctx_or_interaction, "response"):
-            await ctx_or_interaction.response.send_message(embed=embed)
-            msg = None
+        view = None
+        if is_last and extra_button:
+            view = discord.ui.View(timeout=180)
+            view.add_item(extra_button)
+        if i == 0:
+            msg = await (_reply(embed=embed, view=view) if view else _reply(embed=embed))
         else:
-            channel = ctx_or_interaction.channel if hasattr(ctx_or_interaction, "response") else ctx_or_interaction
-            msg = await channel.send(embed=embed)
-        if i == len(chunks) - 1:
+            channel = ctx_or_interaction.channel if is_interaction else ctx_or_interaction
+            msg = await (channel.send(embed=embed, view=view) if view else channel.send(embed=embed))
+        if is_last:
             await _maybe_react_savable(ctx_or_interaction, msg)
 
 
