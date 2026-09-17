@@ -5991,11 +5991,18 @@ def _clean_strongs_gloss(short_def: str, full_def: str = "") -> str:
 
 def _render_interlinear_card(reference: str, original_label: str, is_rtl: bool,
                               cells: list[dict], source: str):
-    """Render a word-by-word interlinear grid: original word / transliteration /
-    short gloss, stacked per column, wrapping to new rows as needed. Hebrew
-    columns fill each row right-to-left (first word of the verse ends up on
-    the right, matching how a printed Hebrew interlinear reads); Greek fills
-    left-to-right."""
+    """Render a word-by-word interlinear grid: original word / [lexeme] /
+    transliteration / short gloss, stacked per column, wrapping to new rows
+    as needed. Hebrew columns fill each row right-to-left (first word of the
+    verse ends up on the right, matching how a printed Hebrew interlinear
+    reads); Greek fills left-to-right.
+
+    An optional per-cell "lexeme" key inserts an extra row between the word
+    and the transliteration, showing the original-language word in its own
+    script -- used by the reverse interlinear (!reverseinterlinear), where
+    "word" is the English KJV phrase and is_rtl is always False (English
+    reads left-to-right regardless of the source language), so the lexeme
+    row needs its own independent RTL check and font per cell."""
     from PIL import Image, ImageDraw, ImageFont
     import io, textwrap
 
@@ -6006,9 +6013,12 @@ def _render_interlinear_card(reference: str, original_label: str, is_rtl: bool,
     COL_GAP, ROW_GAP = 28, 22
     GLOSS_WRAP = 14  # max chars per gloss line before wrapping to a second line
 
-    orig_size, translit_size, gloss_size, strong_size = 34, 20, 17, 15
+    orig_size, lexeme_size, translit_size, gloss_size, strong_size = 34, 26, 20, 17, 15
     orig_font_path = _script_font(FONTS, "".join(c["word"] for c in cells)) if cells else FONTS + "georgia.ttf"
     orig_font = ImageFont.truetype(orig_font_path, orig_size)
+    has_lexeme = any(c.get("lexeme") for c in cells)
+    lexeme_font_path = _script_font(FONTS, "".join(c.get("lexeme", "") for c in cells)) if has_lexeme else None
+    lexeme_font = ImageFont.truetype(lexeme_font_path, lexeme_size) if lexeme_font_path else None
     # Georgia Italic lacks the macron-vowel characters (ō, ē, etc.) that
     # transliteration schemes use -- Times covers Latin Extended-A as well
     # as the Hebrew/Greek/Cyrillic it's already used for elsewhere.
@@ -6026,17 +6036,24 @@ def _render_interlinear_card(reference: str, original_label: str, is_rtl: bool,
     for c in cells:
         word_logical = c["word"]
         word_width = dummy.textlength(_rtl_visual(word_logical) if is_rtl else word_logical, font=orig_font)
+        lexeme_logical = c.get("lexeme", "")
+        lexeme_is_rtl = bool(lexeme_logical) and _is_rtl_script(lexeme_logical)
+        lexeme_width = (dummy.textlength(_rtl_visual(lexeme_logical) if lexeme_is_rtl else lexeme_logical,
+                                          font=lexeme_font) if lexeme_logical else 0)
         translit_lines = [c["translit"]] if c["translit"] else []
         gloss_lines = textwrap.wrap(c["gloss"], width=GLOSS_WRAP)[:2] if c["gloss"] else []
         strong_lines = [c["strong"]] if c.get("strong") else []
-        widths = [word_width]
+        widths = [word_width, lexeme_width]
         widths += [dummy.textlength(l, font=translit_font) for l in translit_lines]
         widths += [dummy.textlength(l, font=gloss_font) for l in gloss_lines]
         widths += [dummy.textlength(l, font=strong_font) for l in strong_lines]
         cell_w = max(widths, default=0)
-        cell_h = ((orig_size + 6) + (translit_size + 4) * len(translit_lines)
+        cell_h = ((orig_size + 6) + ((lexeme_size + 5) if lexeme_logical else 0)
+                  + (translit_size + 4) * len(translit_lines)
                   + (gloss_size + 3) * len(gloss_lines) + (strong_size + 3) * len(strong_lines))
-        laid_out.append({"word": word_logical, "word_w": word_width, "translit": translit_lines,
+        laid_out.append({"word": word_logical, "word_w": word_width,
+                          "lexeme": lexeme_logical, "lexeme_w": lexeme_width, "lexeme_is_rtl": lexeme_is_rtl,
+                          "translit": translit_lines,
                           "gloss": gloss_lines, "strong": strong_lines, "w": cell_w, "h": cell_h})
 
     # Wrap into rows.
@@ -6078,6 +6095,13 @@ def _render_interlinear_card(reference: str, original_label: str, is_rtl: bool,
             else:
                 draw.text((wx, y), cell["word"], font=orig_font, fill=TEXT)
             ty = y + orig_size + 6
+            if cell["lexeme"]:
+                lx = x + (cw - cell["lexeme_w"]) / 2
+                if cell["lexeme_is_rtl"]:
+                    _draw_rtl_line(draw, lx, ty, cell["lexeme"], lexeme_font, TEXT)
+                else:
+                    draw.text((lx, ty), cell["lexeme"], font=lexeme_font, fill=TEXT)
+                ty += lexeme_size + 5
             for line in cell["translit"]:
                 lw = draw.textlength(line, font=translit_font)
                 draw.text((x + (cw - lw) / 2, ty), line, font=translit_font, fill=ACCENT)
@@ -6250,11 +6274,18 @@ async def cmd_reverse_interlinear(ctx, *, reference: str = ""):
             await ctx.send(f"⚠️ No Strong's-tagged words found for **{strongs['ref']}**.")
             return
 
-        cells = [
-            {"word": e["phrase"], "translit": "", "gloss": "",
-             "strong": f"[{prefix}{e['strong']}]" if e["strong"] else ""}
-            for e in entries
-        ]
+        cells = []
+        for e in entries:
+            lexeme, translit = "", ""
+            if e["strong"]:
+                entry = await loop.run_in_executor(None, _fetch_strongs_definition, f"{prefix}{e['strong']}")
+                if entry:
+                    lexeme = entry.get("lexeme") or ""
+                    translit = entry.get("transliteration") or ""
+            cells.append({
+                "word": e["phrase"], "lexeme": lexeme, "translit": translit, "gloss": "",
+                "strong": f"[{prefix}{e['strong']}]" if e["strong"] else "",
+            })
 
         if len(cells) > 60:
             await ctx.send(f"⚠️ That verse has {len(cells)} words — too many for one image. Try a shorter verse.")
