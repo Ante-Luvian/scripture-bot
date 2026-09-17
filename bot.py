@@ -5777,6 +5777,35 @@ def _render_compare_card(reference: str, entries: list[tuple[str, str]]):
     buf.seek(0)
     return buf
 
+def _clean_strongs_gloss(short_def: str) -> str:
+    """OpenScriptures' short_definition is the *full* list of every KJV
+    rendering of a word (e.g. G3588 -> "the, this, that, one, he, she, it,
+    etc"), not a single gloss -- displayed as-is under an interlinear word
+    it just reads as noise. Split on top-level commas (respecting
+    parentheses, so "a(-n, -ny, certain)" survives as one unit) and take the
+    first entry that isn't a "+"/"X" marker (OpenScriptures' notation for a
+    rare or idiomatic rendering, e.g. "X exceeding, God, god(-ly, -ward)"
+    for theós) -- a single representative word instead of the whole list."""
+    if not short_def:
+        return ""
+    parts, depth, current = [], 0, ""
+    for ch in short_def:
+        if ch == "(":
+            depth += 1
+        elif ch == ")":
+            depth = max(0, depth - 1)
+        if ch == "," and depth == 0:
+            parts.append(current.strip())
+            current = ""
+        else:
+            current += ch
+    if current.strip():
+        parts.append(current.strip())
+    for p in parts:
+        if p and not p.startswith("+") and not p.startswith("X "):
+            return p
+    return parts[0] if parts else short_def
+
 def _render_interlinear_card(reference: str, original_label: str, is_rtl: bool,
                               cells: list[dict], source: str):
     """Render a word-by-word interlinear grid: original word / transliteration /
@@ -5924,7 +5953,7 @@ async def cmd_interlinear(ctx, *, reference: str = ""):
         for word, num in pairs:
             entry = _fetch_strongs_definition(num)
             translit = (entry or {}).get("transliteration", "") or ""
-            gloss = (entry or {}).get("short_definition", "") or ""
+            gloss = _clean_strongs_gloss((entry or {}).get("short_definition", "") or "")
             cells.append({"word": word, "translit": translit, "gloss": gloss})
 
         img_buf = await loop.run_in_executor(
