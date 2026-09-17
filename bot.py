@@ -7047,8 +7047,15 @@ def _make_next_chapter_button(book_name: str, chapter_labels: list[str], index: 
                 "⏳ Please wait a few seconds before requesting another chapter.", ephemeral=True
             )
             return
-        needs_defer = mode == "hadith"
-        if needs_defer:
+        # Erase this button from the message it's on so it can't be pressed
+        # again -- also serves as the interaction's initial response, so the
+        # actual next-chapter fetch (which may be a slow network call, for
+        # hadith) is free to take as long as it needs via followup.send.
+        parent_view = btn.view
+        if parent_view is not None:
+            parent_view.remove_item(btn)
+            await interaction.response.edit_message(view=parent_view)
+        else:
             await interaction.response.defer()
         result = _fetch_chapter_result(book_name, next_label, mode)
         next_btn = _make_next_chapter_button(book_name, chapter_labels, index + 1, mode)
