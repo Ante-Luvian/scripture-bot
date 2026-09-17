@@ -227,57 +227,6 @@ def _record_guild_activity(ctx):
     except Exception:
         pass  # never let this break the bot
 
-# ── ONE-TIME HISTORY BACKFILL — delete this function + its on_ready call ────────
-# once the log confirms "Guild activity backfill complete" after the next
-# restart. Runs exactly once (gated by the "_backfill_done" marker below);
-# after that this whole block is meant to be removed from the source so the
-# bot no longer has the ability to scan full channel history at all -- only
-# _record_guild_activity's per-command hook remains, going forward.
-async def _one_time_guild_activity_backfill():
-    data = _load_guild_activity()
-    if data.get("_backfill_done"):
-        return
-
-    all_names = {}
-    for cmd in bot.commands:
-        all_names[cmd.name.lower()] = cmd.name
-        for alias in cmd.aliases:
-            all_names[alias.lower()] = cmd.name
-    cmd_re = re.compile(r"^!(\S+)")
-
-    log.info("Starting one-time guild activity backfill…")
-    scanned = 0
-    for guild in bot.guilds:
-        gid = str(guild.id)
-        g = data.setdefault(gid, {"name": guild.name, "commands": {}, "users": {}})
-        g["name"] = guild.name
-        for channel in guild.text_channels:
-            try:
-                async for message in channel.history(limit=None, oldest_first=True):
-                    if message.author.bot:
-                        continue
-                    m = cmd_re.match(message.content.strip())
-                    if not m:
-                        continue
-                    canonical = all_names.get(m.group(1).lower())
-                    if not canonical:
-                        continue
-                    scanned += 1
-                    g["commands"][canonical] = g["commands"].get(canonical, 0) + 1
-                    uid = str(message.author.id)
-                    u = g["users"].setdefault(uid, {"name": str(message.author), "commands": {}})
-                    u["name"] = str(message.author)
-                    u["commands"][canonical] = u["commands"].get(canonical, 0) + 1
-            except discord.Forbidden:
-                continue
-            except Exception as e:
-                log.info(f"Backfill: skipped #{channel} in {guild.name}: {e}")
-                continue
-
-    data["_backfill_done"] = True
-    _atomic_write_json(GUILD_ACTIVITY_PATH, data)
-    log.info(f"Guild activity backfill complete — {scanned} historical command(s) recorded.")
-
 def _load_stats() -> dict:
     if STATS_PATH.exists():
         try:
@@ -9460,8 +9409,6 @@ async def on_ready():
     active_votd = sum(1 for g in _load_guild_config().values() if g.get("votd_channel_id"))
     log.info(f"Daily VOTD configured for {active_votd} guild(s) — admins can run !votdsetup")
     _daily_votd_task.start()
-
-    bot.loop.create_task(_one_time_guild_activity_backfill())
 
     import pathlib, hashlib
     for ext in ("png", "jpg", "jpeg", "gif", "webp"):
