@@ -5777,15 +5777,24 @@ def _render_compare_card(reference: str, entries: list[tuple[str, str]]):
     buf.seek(0)
     return buf
 
-def _clean_strongs_gloss(short_def: str) -> str:
+def _clean_strongs_gloss(short_def: str, full_def: str = "") -> str:
     """OpenScriptures' short_definition is the *full* list of every KJV
     rendering of a word (e.g. G3588 -> "the, this, that, one, he, she, it,
     etc"), not a single gloss -- displayed as-is under an interlinear word
-    it just reads as noise. Split on top-level commas (respecting
-    parentheses, so "a(-n, -ny, certain)" survives as one unit) and take the
-    first entry that isn't a "+"/"X" marker (OpenScriptures' notation for a
-    rare or idiomatic rendering, e.g. "X exceeding, God, god(-ly, -ward)"
-    for theós) -- a single representative word instead of the whole list."""
+    it just reads as noise, and picking merely the first non-marker entry
+    isn't good enough either: G1520 (heis, "one") gave "a(-n, -ny, certain)",
+    G3756 (ou, "not") gave "nay" -- both real KJV renderings, both far less
+    recognizable than words later in the same list.
+
+    Splits on top-level commas (respecting parens, so "a(-n, -ny, certain)"
+    survives as one unit), drops "+"/"X"-prefixed entries (OpenScriptures'
+    notation for a rare/idiomatic rendering), then prefers whichever
+    surviving candidate's core word (parentheticals stripped) also appears
+    in the fuller `definition` field -- an independent cross-check that
+    reliably favors the plain, recognizable word over an archaic or
+    idiomatic one. Falls back to the first non-marker entry, unstripped, if
+    nothing cross-validates (this matters for cases like theos, whose
+    `definition` field is itself a fragment that omits "God" entirely)."""
     if not short_def:
         return ""
     parts, depth, current = [], 0, ""
@@ -5801,10 +5810,16 @@ def _clean_strongs_gloss(short_def: str) -> str:
             current += ch
     if current.strip():
         parts.append(current.strip())
-    for p in parts:
-        if p and not p.startswith("+") and not p.startswith("X "):
-            return p
-    return parts[0] if parts else short_def
+    candidates = [p.rstrip(".").strip() for p in parts if p and not p.startswith("+") and not p.startswith("X ")]
+    if not candidates:
+        candidates = [p.rstrip(".").strip() for p in parts] or [short_def]
+
+    if full_def:
+        for cand in candidates:
+            core = re.sub(r"\([^)]*\)", "", cand).strip(" -")
+            if len(core) >= 3 and re.search(rf"\b{re.escape(core)}\b", full_def, re.IGNORECASE):
+                return core
+    return candidates[0]
 
 def _render_interlinear_card(reference: str, original_label: str, is_rtl: bool,
                               cells: list[dict], source: str):
@@ -5953,7 +5968,7 @@ async def cmd_interlinear(ctx, *, reference: str = ""):
         for word, num in pairs:
             entry = _fetch_strongs_definition(num)
             translit = (entry or {}).get("transliteration", "") or ""
-            gloss = _clean_strongs_gloss((entry or {}).get("short_definition", "") or "")
+            gloss = _clean_strongs_gloss((entry or {}).get("short_definition", "") or "", (entry or {}).get("definition", "") or "")
             cells.append({"word": word, "translit": translit, "gloss": gloss})
 
         img_buf = await loop.run_in_executor(
