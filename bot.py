@@ -5678,7 +5678,7 @@ def _render_verse_card(reference: str, text: str, source: str):
     import io, textwrap
 
     W = 1200
-    BG, BORDER, TEXT, ACCENT = (245, 239, 224), (184, 134, 11), (59, 42, 22), (178, 34, 34)
+    BG, BORDER, TEXT, ACCENT = (245, 239, 224), (178, 34, 34), (59, 42, 22), (178, 34, 34)
     FONTS = "C:/Windows/Fonts/"
     TOP_MARGIN, BOTTOM_RESERVED = 60, 200
     MAX_CHARS = 4000  # safety cap so a pathological request (e.g. Psalm 119) can't produce a runaway image
@@ -5760,7 +5760,7 @@ def _render_compare_card(reference: str, entries: list[tuple[str, str]]):
     n = len(entries)
     W, TOP, BAND_H, BOTTOM = 1200, 110, 165, 40
     H = TOP + BAND_H * n + BOTTOM
-    BG, BORDER, TEXT, ACCENT = (245, 239, 224), (184, 134, 11), (59, 42, 22), (178, 34, 34)
+    BG, BORDER, TEXT, ACCENT = (245, 239, 224), (178, 34, 34), (59, 42, 22), (178, 34, 34)
     FONTS = "C:/Windows/Fonts/"
 
     img = Image.new("RGB", (W, H), BG)
@@ -5908,7 +5908,7 @@ def _render_interlinear_card(reference: str, original_label: str, is_rtl: bool,
     import io, textwrap
 
     W = 1300
-    BG, BORDER, TEXT, ACCENT, MUTED = (245, 239, 224), (184, 134, 11), (59, 42, 22), (178, 34, 34), (110, 90, 60)
+    BG, BORDER, TEXT, ACCENT, MUTED = (245, 239, 224), (178, 34, 34), (59, 42, 22), (178, 34, 34), (110, 90, 60)
     FONTS = "C:/Windows/Fonts/"
     MARGIN = 60
     COL_GAP, ROW_GAP = 28, 22
