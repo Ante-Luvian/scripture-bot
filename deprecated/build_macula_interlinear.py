@@ -169,6 +169,14 @@ def _process(url, testament, cur):
         else:
             strong = _norm_hebrew_strong(get("strongnumberx"))
             translit = get("transliteration")
+            # MACULA marks the last word of a verse with a trailing ":" in
+            # this field (e.g. "gibbôriym:") -- a real, benign sof-pasuq/
+            # verse-boundary marker, confirmed directly: every one of the
+            # 15,962 rows carrying it is exactly the highest word_order in
+            # its verse. Not a phonetic error, but looks like stray
+            # punctuation once a word is shown on its own in a grid cell.
+            if translit.endswith(":"):
+                translit = translit[:-1]
 
         batch.append((testament, book, chapter, verse, word_order, text, translit, strong, gloss))
         count += 1
