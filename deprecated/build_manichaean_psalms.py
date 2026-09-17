@@ -68,10 +68,8 @@ BASE = "https://www.gnosis.org/library/"
 OUT_PATH = Path(__file__).parent.parent / "data" / "gnostic" / "manichaean_psalms.json"
 
 SOURCE_NOTE = (
-    "A Manichaean Psalm-Book, Part II, trans. C. R. C. Allberry (Stuttgart: "
-    "W. Kohlhammer, 1938) -- public domain (Allberry died 1943; UK "
-    "copyright of life+70 expired 2013), via The Gnostic Society Library "
-    "(gnosis.org/library/manis.htm)."
+    "A Manichaean Psalm-Book, Part II, trans. C. R. C. Allberry (1938), "
+    "via The Gnostic Society Library"
 )
 
 _CTX = ssl.create_default_context()
