@@ -26,7 +26,7 @@ from poem_lookup import (parse_poem_ref, lookup as poem_lookup, lookup_pair,
                          list_works as poem_list_works, classify_scripture, is_drb_reference)
 from xref_lookup import get_cross_references
 from topics_lookup import get_topic, search_topics, topic_count
-from strongs_lookup import get_definition as get_local_strongs_definition
+from strongs_lookup import get_definition as get_local_strongs_definition, search_by_word as strongs_search_by_word
 from bible_dictionary_lookup import get_definition as get_dictionary_entry, search_terms as search_dictionary_terms, entry_count as dictionary_entry_count, SOURCE_NAMES as DICTIONARY_SOURCE_NAMES
 from timeline_lookup import search_timeline, entry_count as timeline_entry_count, year_range as timeline_year_range
 import interlinear_lookup
@@ -6837,15 +6837,30 @@ async def reverse_interlinear_slash(interaction: discord.Interaction, reference:
 
 @bot.command(name="concordance", aliases=["occurrences", "conc"])
 async def cmd_concordance(ctx, *, arg: str = ""):
-    """List every verse tagged with a given Strong's number (see !interlinear).
-    Usage: !concordance G26   |  !concordance H430"""
-    number = arg.strip().upper()
+    """List every verse tagged with a given Strong's number or word.
+    Usage: !concordance G26   |  !concordance H430   |  !concordance agape   |  !concordance love"""
+    raw = arg.strip()
+    number = raw.upper()
     if not re.match(r"^[GH]\d+[A-Z]?$", number):
-        await ctx.send(
-            "Usage: `!concordance G26` or `!concordance H430` — a Strong's number "
-            "(bracketed in `!interlinear`/`!reverseinterlinear` output)."
-        )
-        return
+        # Not a bare Strong's number -- try resolving it as a word/transliteration
+        word = raw.lower()
+        matches = strongs_search_by_word(word)
+        if not matches:
+            await ctx.send(
+                f"No Strong's entry matches **{raw}**. Usage: `!concordance G26`, "
+                "`!concordance H430`, or a word like `!concordance agape`."
+            )
+            return
+        if len(matches) > 1:
+            preview = ", ".join(
+                f"{n} ({get_local_strongs_definition(n).get('lexeme', '')})" for n in matches[:10]
+            )
+            await ctx.send(
+                f"**{len(matches)} matches** for **{raw}** — pick one: {preview}"
+                + (", …" if len(matches) > 10 else "")
+            )
+            return
+        number = matches[0]
 
     if not interlinear_lookup.available():
         await ctx.send("⚠️ Interlinear data isn't available right now.")
