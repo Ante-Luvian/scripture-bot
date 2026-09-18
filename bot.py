@@ -888,6 +888,8 @@ _CATEGORY_BOOKS = {
     "🏺 Dead Sea Scrolls":  {
         "Hodayot", "Damascus Document", "Community Rule", "War Scroll",
         "Pesher Habakkuk", "Rule of the Congregation", "Rule of Blessings",
+        "Isaiah (1QIsaa)", "Exodus (4Q22)", "Deuteronomy (4Q41)",
+        "Psalms (4Q86)", "Daniel (4Q114)",
     },
 }
 
@@ -1834,6 +1836,11 @@ BOOKS_TREE = [
         "Pesher Habakkuk",
         "Rule of the Congregation",
         "Rule of Blessings",
+        "Isaiah (1QIsaa)",
+        "Exodus (4Q22)",
+        "Deuteronomy (4Q41)",
+        "Psalms (4Q86)",
+        "Daniel (4Q114)",
     ]),
     ("🔥 Zoroastrian", [
         "Gathas",
@@ -8189,6 +8196,80 @@ async def compare_slash(interaction: discord.Interaction, reference: str):
         await _send_compare_ancient(ctx, raw[8:].strip())
     else:
         await _send_compare(ctx, raw)
+
+
+# ── !variants — KJV vs a Dead Sea Scroll witness, when one exists ──────────────
+
+_DSS_BIBLICAL_BOOKS: dict[str, str] = {
+    "Isaiah": "Isaiah (1QIsaa)",
+    "Exodus": "Exodus (4Q22)",
+    "Deuteronomy": "Deuteronomy (4Q41)",
+    "Psalms": "Psalms (4Q86)",
+    "Daniel": "Daniel (4Q114)",
+}
+
+
+@bot.command(name="variants", aliases=["dss", "scrollcompare"])
+async def cmd_variants(ctx, *, reference: str = ""):
+    """Compare a verse's KJV text against its Dead Sea Scroll witness, when
+    one is loaded (currently Isaiah, Exodus, Deuteronomy, Psalms, Daniel).
+    Usage: !variants Isaiah 53:5"""
+    ref = reference.strip()
+    if not ref:
+        await ctx.send(
+            "Usage: `!variants <reference>` — e.g. `!variants Isaiah 53:5`. "
+            f"Scrolls loaded for: {', '.join(_DSS_BIBLICAL_BOOKS)}."
+        )
+        return
+
+    result = lookup.get_verse(ref)
+    if not result.get("found"):
+        await ctx.send(f"⚠️ {result.get('error', 'Verse not found.')}")
+        return
+
+    m = re.match(r"^(.*?)\s+(\d+):(\d+)", result["reference"])
+    if not m:
+        await ctx.send("Couldn't determine a chapter:verse for this reference.")
+        return
+    book, chap, verse = m.group(1), m.group(2), m.group(3)
+
+    scroll_book = _DSS_BIBLICAL_BOOKS.get(book)
+    if not scroll_book:
+        await ctx.send(
+            f"No Dead Sea Scroll witness is loaded for **{book}**. "
+            f"Currently available: {', '.join(_DSS_BIBLICAL_BOOKS)}."
+        )
+        return
+
+    dss_result = lookup.get_verse(f"{scroll_book} {chap}:{verse}")
+
+    embed = discord.Embed(title=f"📜 {result['reference']}", color=discord.Color.dark_gold())
+    kjv_text = result["text"]
+    if len(kjv_text) > 1024:
+        kjv_text = kjv_text[:1021] + "…"
+    embed.add_field(name=result.get("source") or "King James Version", value=kjv_text, inline=False)
+
+    if dss_result.get("found"):
+        dss_text = dss_result["text"]
+        if len(dss_text) > 1024:
+            dss_text = dss_text[:1021] + "…"
+        embed.add_field(name=scroll_book, value=dss_text, inline=False)
+        embed.set_footer(text=dss_result.get("source", ""))
+    else:
+        embed.add_field(
+            name=scroll_book,
+            value="*This scroll doesn't preserve this specific verse (damaged/fragmentary at this point).*",
+            inline=False,
+        )
+    await ctx.send(embed=embed)
+
+
+@bot.tree.command(name="variants", description="Compare a verse's KJV text against its Dead Sea Scroll witness")
+@app_commands.describe(reference="e.g. Isaiah 53:5")
+async def variants_slash(interaction: discord.Interaction, reference: str):
+    await interaction.response.defer()
+    ctx = await bot.get_context(interaction)
+    await cmd_variants(ctx, reference=reference)
 
 
 async def _fetch_one_translation(slug: str, reference: str) -> tuple[str, str, str]:

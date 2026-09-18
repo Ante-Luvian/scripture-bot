@@ -1391,6 +1391,11 @@ class ScriptureLookup:
                 "1qphab.json",
                 "1qsa.json",
                 "1qsb.json",
+                "1qisaa.json",
+                "4q22.json",
+                "4q41.json",
+                "4q86.json",
+                "4q114.json",
             ],
             "gnostic": [
                 "ginza_rba.json",
