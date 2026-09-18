@@ -5564,6 +5564,15 @@ _NT_APOCRYPHA_QUOTATIONS: list[tuple[str, str, str]] = [
      "Moses' body to this work, but that portion is lost from the surviving text."),
     ("2 Corinthians 11:14", "Apocalypse of Moses 17",
      "Close parallel, not a verbatim quotation -- both describe Satan disguising himself as an angel of light."),
+    ("Hebrews 11:37", "Ascension of Isaiah 5",
+     "Close parallel -- \"were sawn asunder\" alludes to this work's account of Isaiah's martyrdom, "
+     "sawn in half by order of Manasseh."),
+    ("2 Peter 2:4", "Book of Enoch 10:4",
+     "Close parallel, not a verbatim quotation -- both describe rebellious angels bound in darkness "
+     "awaiting judgment (this work's Watchers narrative)."),
+    ("Jude 1:6", "Book of Enoch 10:4",
+     "Close parallel, not a verbatim quotation -- both describe rebellious angels bound in darkness "
+     "awaiting judgment (this work's Watchers narrative)."),
 ]
 
 
