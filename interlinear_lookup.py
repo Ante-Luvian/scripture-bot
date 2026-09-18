@@ -37,5 +37,20 @@ def get_verse_words(testament: str, book: str, chapter: int, verse: int) -> list
     return [{"text": t, "translit": tr, "strong": s, "gloss": g} for t, tr, s, g in cur.fetchall()]
 
 
+def get_occurrences(strong: str) -> list[tuple[str, str, int, int]]:
+    """Every (testament, book, chapter, verse) tagged with this exact Strong's
+    number (e.g. "G26", "H430"), unordered -- caller sorts into canonical
+    Bible order. Empty list if the dataset isn't available or nothing matches."""
+    con = _connect()
+    if con is None:
+        return []
+    cur = con.cursor()
+    cur.execute(
+        "SELECT DISTINCT testament, book, chapter, verse FROM words WHERE strong=?",
+        (strong,),
+    )
+    return cur.fetchall()
+
+
 def available() -> bool:
     return _connect() is not None

@@ -7,6 +7,7 @@ Supports: KJV + Apocrypha, LDS Standard Works, Brenton Septuagint,
 
 import re
 import os
+import io
 import random
 import json
 import asyncio
@@ -3057,6 +3058,10 @@ class BooksView(discord.ui.View):
                 btn.callback = self._make_chapter_fetch(label, node, page * PAGE_SIZE + i, mode)
                 self.add_item(btn)
             self._add_nav(total_pages, page)
+            if total_pages > 1:
+                jump_btn = discord.ui.Button(label="🔢 Jump to chapter", style=discord.ButtonStyle.secondary, row=4)
+                jump_btn.callback = self._make_jump_open(label, node, mode)
+                self.add_item(jump_btn)
             return
 
         subcats = [item for item in node if isinstance(item, tuple)]
@@ -3163,8 +3168,13 @@ class BooksView(discord.ui.View):
             if mode == "hadith":
                 await interaction.response.defer()
             result = _fetch_chapter_result(book_name, chap_label, mode)
-            next_btn = _make_next_chapter_button(book_name, chapter_labels, index, mode)
-            await _send_result(interaction, result, extra_button=next_btn)
+            nav_btns = _make_chapter_nav_buttons(book_name, chapter_labels, index, mode)
+            await _send_result(interaction, result, extra_buttons=nav_btns)
+        return callback
+
+    def _make_jump_open(self, book_name: str, chapter_labels: list[str], mode: str):
+        async def callback(interaction: discord.Interaction):
+            await interaction.response.send_modal(_ChapterJumpModal(book_name, chapter_labels, mode))
         return callback
 
     def _make_drill(self, name, contents):
@@ -3235,6 +3245,40 @@ class BooksView(discord.ui.View):
             await self.message.edit(view=None)
         except Exception:
             pass
+
+
+class _ChapterJumpModal(discord.ui.Modal, title="Jump to chapter"):
+    def __init__(self, book_name: str, chapter_labels: list[str], mode: str):
+        super().__init__()
+        self.book_name = book_name
+        self.chapter_labels = chapter_labels
+        self.mode = mode
+        self.chapter_input = discord.ui.TextInput(
+            label="Chapter",
+            placeholder=f"e.g. {chapter_labels[0]}" if chapter_labels else "1",
+            max_length=20,
+        )
+        self.add_item(self.chapter_input)
+
+    async def on_submit(self, interaction: discord.Interaction):
+        raw = self.chapter_input.value.strip()
+        match = next((l for l in self.chapter_labels if l.lower() == raw.lower()), None)
+        if match is None and self.mode == "hadith" and raw.isdigit():
+            candidate = f"Book {raw}"
+            match = candidate if candidate in self.chapter_labels else None
+        if match is None:
+            await interaction.response.send_message(
+                f"⚠️ `{raw}` isn't a valid chapter for **{self.book_name}**. "
+                f"Range: {self.chapter_labels[0]}–{self.chapter_labels[-1]}.",
+                ephemeral=True,
+            )
+            return
+        index = self.chapter_labels.index(match)
+        if self.mode == "hadith":
+            await interaction.response.defer()
+        result = _fetch_chapter_result(self.book_name, match, self.mode)
+        nav_btns = _make_chapter_nav_buttons(self.book_name, self.chapter_labels, index, self.mode)
+        await _send_result(interaction, result, extra_buttons=nav_btns)
 
 
 def _author_works_node(author_name: str) -> tuple | None:
@@ -5828,6 +5872,97 @@ async def plan_slash(interaction: discord.Interaction, action: str = "", arg: st
     await cmd_plan(ctx, action=action, arg=arg)
 
 
+# ── !export — bundle a book/chapter range into a downloadable text file ─────────
+
+def _export_chapters(book_name: str, labels: list[str]) -> tuple[str, str]:
+    """Fetch and concatenate every mode string in `labels` for book_name into
+    one text blob. Returns (text, mode). Runs off the event loop."""
+    options = _chapter_options_for_book(book_name)
+    mode = options[1] if options else "verse"
+    parts = []
+    for label in labels:
+        result = _fetch_chapter_result(book_name, label, mode)
+        if not result.get("found"):
+            continue
+        text = result.get("text", "")
+        text = re.sub(r"\*\*\[(.+?)\]\*\*\s*", r"[\1] ", text)
+        parts.append(f"{result.get('reference', f'{book_name} {label}')}\n\n{text}")
+    return "\n\n\n".join(parts), mode
+
+
+@bot.command(name="export")
+async def cmd_export(ctx, *, arg: str = ""):
+    """Bundle a book (or chapter range) into a downloadable text file.
+    Usage: !export John          — whole book
+           !export John 1-5      — chapters 1 through 5
+           !export John 3        — single chapter"""
+    arg = arg.strip()
+    if not arg:
+        await ctx.send("Usage: `!export <book>` or `!export <book> <start>-<end>` (e.g. `!export John 1-5`).")
+        return
+
+    m_range = re.match(r"^(.*?)\s+(\S+)-(\S+)$", arg)
+    if m_range:
+        book_raw, start, end = m_range.group(1), m_range.group(2), m_range.group(3)
+    else:
+        m_single = re.match(r"^(.*?)\s+(\S+)$", arg)
+        if m_single:
+            book_raw, start, end = m_single.group(1), m_single.group(2), m_single.group(2)
+        else:
+            book_raw, start, end = arg, None, None
+
+    _, canon = lookup._resolve_book(book_raw)
+    book_name = canon or book_raw
+
+    options = _chapter_options_for_book(book_name)
+    if options is None:
+        await ctx.send(
+            f"⚠️ **{book_name}** isn't chapter-browsable, so there's nothing to bundle. "
+            f"Try `!verse {book_name}` instead."
+        )
+        return
+    labels, mode = options
+
+    if start is not None:
+        try:
+            i1 = labels.index(start)
+            i2 = labels.index(end)
+        except ValueError:
+            await ctx.send(
+                f"⚠️ Couldn't find chapter **{start}** or **{end}** in **{book_name}**. "
+                f"Range: {labels[0]}–{labels[-1]}."
+            )
+            return
+        if i1 > i2:
+            i1, i2 = i2, i1
+        chosen = labels[i1:i2 + 1]
+    else:
+        chosen = labels
+
+    limit = 20 if mode == "hadith" else 200
+    if len(chosen) > limit:
+        await ctx.send(
+            f"That's {len(chosen)} {'hadith books' if mode == 'hadith' else 'chapters'} — "
+            f"please narrow the range to {limit} or fewer at a time."
+        )
+        return
+
+    async with ctx.typing():
+        loop = asyncio.get_event_loop()
+        text, _mode = await loop.run_in_executor(None, _export_chapters, book_name, chosen)
+
+    if not text.strip():
+        await ctx.send(f"⚠️ Couldn't fetch any content for **{book_name}**.")
+        return
+
+    buf = io.BytesIO(text.encode("utf-8"))
+    filename = re.sub(r"[^\w\-]+", "_", book_name).strip("_") + ".txt"
+    await ctx.send(
+        f"📄 **{book_name}** — {len(chosen)} chapter(s) exported.",
+        file=discord.File(buf, filename=filename)
+    )
+
+
 # ── !leaderboard — most active bookmarkers ───────────────────────────────────────
 # !stats already covers bot-wide "most cited verse/book/command" popularity.
 # This one is genuinely new: per-user bookmark counts, which nothing else shows.
@@ -6693,6 +6828,106 @@ async def reverse_interlinear_slash(interaction: discord.Interaction, reference:
     await cmd_reverse_interlinear(ctx, reference=reference)
 
 
+@bot.command(name="concordance", aliases=["occurrences", "conc"])
+async def cmd_concordance(ctx, *, arg: str = ""):
+    """List every verse tagged with a given Strong's number (see !interlinear).
+    Usage: !concordance G26   |  !concordance H430"""
+    number = arg.strip().upper()
+    if not re.match(r"^[GH]\d+[A-Z]?$", number):
+        await ctx.send(
+            "Usage: `!concordance G26` or `!concordance H430` — a Strong's number "
+            "(bracketed in `!interlinear`/`!reverseinterlinear` output)."
+        )
+        return
+
+    if not interlinear_lookup.available():
+        await ctx.send("⚠️ Interlinear data isn't available right now.")
+        return
+
+    rows = interlinear_lookup.get_occurrences(number)
+    if not rows:
+        await ctx.send(f"No occurrences found for **{number}** in the interlinear dataset.")
+        return
+
+    order = {b: i for i, b in enumerate(BIBLE_OT + BIBLE_NT)}
+    rows = sorted(rows, key=lambda r: (order.get(r[1], 999), r[2], r[3]))
+    refs = [f"{book} {chapter}:{verse}" for _testament, book, chapter, verse in rows]
+
+    entry = get_local_strongs_definition(number)
+    header = number
+    if entry:
+        lex = entry.get("lexeme", "")
+        translit = entry.get("transliteration", "")
+        gloss = entry.get("short_definition", "")
+        header = f"{number} — {lex} ({translit})" if lex else number
+        if gloss:
+            header += f" — {gloss}"
+
+    PAGE = 20
+    total = len(refs)
+    pages = [refs[i:i + PAGE] for i in range(0, total, PAGE)]
+
+    def make_embed(idx):
+        embed = discord.Embed(
+            title=f"🔎 {header}"[:256],
+            description="\n".join(pages[idx]),
+            color=discord.Color.gold(),
+        )
+        embed.set_footer(text=f"{total} occurrence{'s' if total != 1 else ''} · page {idx + 1}/{len(pages)} · MACULA (CC BY 4.0)")
+        return embed
+
+    if len(pages) == 1:
+        await ctx.send(embed=make_embed(0))
+        return
+
+    class ConcordanceView(discord.ui.View):
+        def __init__(self):
+            super().__init__(timeout=180)
+            self.idx = 0
+
+        @discord.ui.button(emoji="◀", style=discord.ButtonStyle.secondary)
+        async def prev(self, interaction: discord.Interaction, button: discord.ui.Button):
+            self.idx = (self.idx - 1) % len(pages)
+            await interaction.response.edit_message(embed=make_embed(self.idx), view=self)
+
+        @discord.ui.button(emoji="▶", style=discord.ButtonStyle.secondary)
+        async def next(self, interaction: discord.Interaction, button: discord.ui.Button):
+            self.idx = (self.idx + 1) % len(pages)
+            await interaction.response.edit_message(embed=make_embed(self.idx), view=self)
+
+        async def on_timeout(self):
+            try:
+                await self.message.edit(view=None)
+            except Exception:
+                pass
+
+    view = ConcordanceView()
+    view.message = await ctx.send(embed=make_embed(0), view=view)
+
+
+@bot.tree.command(name="concordance", description="List every verse tagged with a given Strong's number")
+@app_commands.describe(number="e.g. G26 or H430")
+async def concordance_slash(interaction: discord.Interaction, number: str):
+    await interaction.response.defer()
+    ctx = await bot.get_context(interaction)
+    await cmd_concordance(ctx, arg=number)
+
+
+def _make_card_text_button(reference: str, content_lines: list[str]) -> discord.ui.Button:
+    """A button under a !card image that posts the same content as copyable
+    plain text (ephemeral, so it doesn't clutter the channel)."""
+    btn = discord.ui.Button(label="📋 Text version", style=discord.ButtonStyle.secondary)
+    text_block = f"**{reference}**\n" + "\n".join(content_lines)
+    if len(text_block) > 1900:
+        text_block = text_block[:1897] + "…"
+
+    async def callback(interaction: discord.Interaction):
+        await interaction.response.send_message(text_block, ephemeral=True)
+
+    btn.callback = callback
+    return btn
+
+
 @bot.command(name="card", aliases=["versecard", "quotecard"])
 async def cmd_card(ctx, *, reference: str = ""):
     """Render a verse as a shareable image.
@@ -6717,7 +6952,9 @@ async def cmd_card(ctx, *, reference: str = ""):
             buf = await loop.run_in_executor(
                 None, _render_verse_card, result["reference"], result["text"], result.get("source", "")
             )
-        await ctx.send(file=discord.File(buf, filename="verse.png"))
+        text_view = discord.ui.View(timeout=180)
+        text_view.add_item(_make_card_text_button(result["reference"], [result["text"], f"*{result.get('source', '')}*"]))
+        await ctx.send(file=discord.File(buf, filename="verse.png"), view=text_view)
         record_stat(ctx.author.id, "card", result)
         return
 
@@ -6739,7 +6976,9 @@ async def cmd_card(ctx, *, reference: str = ""):
         async with ctx.typing():
             loop = asyncio.get_event_loop()
             buf = await loop.run_in_executor(None, _render_compare_card, result["reference"], entries)
-        await ctx.send(file=discord.File(buf, filename="compare.png"))
+        text_view = discord.ui.View(timeout=180)
+        text_view.add_item(_make_card_text_button(result["reference"], [f"**{label}**\n{text}" for label, text in entries]))
+        await ctx.send(file=discord.File(buf, filename="compare.png"), view=text_view)
         record_stat(ctx.author.id, "card", result)
         if len(trans_list) > 4:
             await ctx.send("Comparison cards show up to 4 translations at a time — showing the first 4.")
@@ -6762,7 +7001,9 @@ async def cmd_card(ctx, *, reference: str = ""):
         buf = await loop.run_in_executor(
             None, _render_verse_card, result["reference"], result["text"], result.get("source", "")
         )
-    await ctx.send(file=discord.File(buf, filename="verse.png"))
+    text_view = discord.ui.View(timeout=180)
+    text_view.add_item(_make_card_text_button(result["reference"], [result["text"], f"*{result.get('source', '')}*"]))
+    await ctx.send(file=discord.File(buf, filename="verse.png"), view=text_view)
     record_stat(ctx.author.id, "card", result)
 
 @bot.tree.command(name="card", description="Render a verse as a shareable image")
@@ -6977,18 +7218,18 @@ def _record_last_cited(ctx_or_interaction, result: dict):
     }
 
 
-# ── !books chapter picker: "Next chapter" button ─────────────────────────────
+# ── !books chapter picker: "Next/Prev chapter" buttons ───────────────────────
 
-_next_chapter_cooldown: dict[int, float] = {}  # user_id -> last-click monotonic time
-_NEXT_CHAPTER_COOLDOWN_SECONDS = 3.0
+_chapter_nav_cooldown: dict[int, float] = {}  # user_id -> last-click monotonic time
+_CHAPTER_NAV_COOLDOWN_SECONDS = 3.0
 
 
-def _check_next_chapter_cooldown(user_id: int) -> bool:
+def _check_chapter_nav_cooldown(user_id: int) -> bool:
     now = time.monotonic()
-    last = _next_chapter_cooldown.get(user_id, 0.0)
-    if now - last < _NEXT_CHAPTER_COOLDOWN_SECONDS:
+    last = _chapter_nav_cooldown.get(user_id, 0.0)
+    if now - last < _CHAPTER_NAV_COOLDOWN_SECONDS:
         return False
-    _next_chapter_cooldown[user_id] = now
+    _chapter_nav_cooldown[user_id] = now
     return True
 
 
@@ -7033,43 +7274,60 @@ def _fetch_chapter_result(book_name: str, chap_label: str, mode: str) -> dict:
     }
 
 
-def _make_next_chapter_button(book_name: str, chapter_labels: list[str], index: int, mode: str) -> "discord.ui.Button | None":
-    """Button that fetches chapter_labels[index+1] as a new message with its
-    own "Next chapter" button, or None if index is already the last chapter."""
-    if index + 1 >= len(chapter_labels):
+def _make_chapter_nav_button(book_name: str, chapter_labels: list[str], index: int, mode: str, direction: str) -> "discord.ui.Button | None":
+    """Button that fetches the chapter before/after index as a new message
+    with its own nav buttons, or None if index is already at that end."""
+    target = index + 1 if direction == "next" else index - 1
+    if not (0 <= target < len(chapter_labels)):
         return None
-    next_label = chapter_labels[index + 1]
-    btn = discord.ui.Button(label=f"Next chapter ▶ {next_label}"[:80], style=discord.ButtonStyle.success)
+    target_label = chapter_labels[target]
+    if direction == "next":
+        btn = discord.ui.Button(label=f"Next chapter ▶ {target_label}"[:80], style=discord.ButtonStyle.success)
+    else:
+        btn = discord.ui.Button(label=f"◀ Prev chapter {target_label}"[:80], style=discord.ButtonStyle.secondary)
 
     async def callback(interaction: discord.Interaction):
-        if not _check_next_chapter_cooldown(interaction.user.id):
+        if not _check_chapter_nav_cooldown(interaction.user.id):
             await interaction.response.send_message(
                 "⏳ Please wait a few seconds before requesting another chapter.", ephemeral=True
             )
             return
         # Erase this button from the message it's on so it can't be pressed
         # again -- also serves as the interaction's initial response, so the
-        # actual next-chapter fetch (which may be a slow network call, for
-        # hadith) is free to take as long as it needs via followup.send.
+        # actual fetch (which may be a slow network call, for hadith) is
+        # free to take as long as it needs via followup.send.
         parent_view = btn.view
         if parent_view is not None:
             parent_view.remove_item(btn)
             await interaction.response.edit_message(view=parent_view)
         else:
             await interaction.response.defer()
-        result = _fetch_chapter_result(book_name, next_label, mode)
-        next_btn = _make_next_chapter_button(book_name, chapter_labels, index + 1, mode)
-        await _send_result(interaction, result, extra_button=next_btn)
+        result = _fetch_chapter_result(book_name, target_label, mode)
+        nav_btns = _make_chapter_nav_buttons(book_name, chapter_labels, target, mode)
+        await _send_result(interaction, result, extra_buttons=nav_btns)
 
     btn.callback = callback
     return btn
 
 
-async def _send_result(ctx_or_interaction, result: dict, extra_button: "discord.ui.Button | None" = None):
+def _make_chapter_nav_buttons(book_name: str, chapter_labels: list[str], index: int, mode: str) -> list:
+    """[prev_button?, next_button?] for the chapter at this index."""
+    btns = []
+    prev_btn = _make_chapter_nav_button(book_name, chapter_labels, index, mode, "prev")
+    if prev_btn:
+        btns.append(prev_btn)
+    next_btn = _make_chapter_nav_button(book_name, chapter_labels, index, mode, "next")
+    if next_btn:
+        btns.append(next_btn)
+    return btns
+
+
+async def _send_result(ctx_or_interaction, result: dict, extra_buttons: "list | None" = None):
     """Send a verse or whole-chapter result, splitting across multiple embeds if needed.
-    extra_button, if given, is appended to whatever view the result ends up
-    using (a bare view is created for it if the result wouldn't otherwise
-    have one) -- used for the !books chapter picker's "Next chapter" button."""
+    extra_buttons, if given, are appended to whatever view the result ends up
+    using (a bare view is created for them if the result wouldn't otherwise
+    have one) -- used for the !books chapter picker's prev/next-chapter buttons."""
+    extra_buttons = extra_buttons or []
     try:
         uid = (ctx_or_interaction.user.id
                if hasattr(ctx_or_interaction, "user")
@@ -7095,9 +7353,10 @@ async def _send_result(ctx_or_interaction, result: dict, extra_button: "discord.
     if not result["found"]:
         embed = _build_embed(result)
         view = None
-        if extra_button:
+        if extra_buttons:
             view = discord.ui.View(timeout=180)
-            view.add_item(extra_button)
+            for b in extra_buttons:
+                view.add_item(b)
         await _reply(embed=embed, view=view) if view else await _reply(embed=embed)
         return
 
@@ -7124,8 +7383,8 @@ async def _send_result(ctx_or_interaction, result: dict, extra_button: "discord.
             def __init__(self):
                 super().__init__(timeout=180)
                 self.idx = 0
-                if extra_button:
-                    self.add_item(extra_button)
+                for b in extra_buttons:
+                    self.add_item(b)
 
             @discord.ui.button(emoji="◀", style=discord.ButtonStyle.secondary, row=0)
             async def prev(self, interaction: discord.Interaction, button: discord.ui.Button):
@@ -7157,9 +7416,10 @@ async def _send_result(ctx_or_interaction, result: dict, extra_button: "discord.
         embed = discord.Embed(title=title, description=text, color=discord.Color.dark_gold())
         embed.set_footer(text=source)
         view = None
-        if extra_button:
+        if extra_buttons:
             view = discord.ui.View(timeout=180)
-            view.add_item(extra_button)
+            for b in extra_buttons:
+                view.add_item(b)
         msg = await (_reply(embed=embed, view=view) if view else _reply(embed=embed))
         await _maybe_react_savable(ctx_or_interaction, msg)
         return
@@ -7190,9 +7450,10 @@ async def _send_result(ctx_or_interaction, result: dict, extra_button: "discord.
         if is_last:
             embed.set_footer(text=source)
         view = None
-        if is_last and extra_button:
+        if is_last and extra_buttons:
             view = discord.ui.View(timeout=180)
-            view.add_item(extra_button)
+            for b in extra_buttons:
+                view.add_item(b)
         if i == 0:
             msg = await (_reply(embed=embed, view=view) if view else _reply(embed=embed))
         else:
