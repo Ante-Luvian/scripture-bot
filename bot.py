@@ -5546,6 +5546,42 @@ def _quotation_overlaps(a: str, b: str) -> bool:
     return ba == bb and ca == cb and s1 <= e2 and s2 <= e1
 
 
+# NT passages that quote or closely echo non-canonical Second Temple/early
+# Jewish literature already loaded in this bot (charles corpus), rather than
+# the Old Testament. Distinct epistemic status per entry, noted explicitly:
+#   "quotation"     -- the NT text verbally quotes the source, extant and
+#                       checkable (verified directly against the loaded text).
+#   "referenced"     -- a NT verse alludes to an episode ancient sources
+#                       (e.g. Origen) attribute to this work, but the
+#                       specific portion hasn't survived to quote.
+#   "close parallel" -- a real, often-cited literary/thematic parallel, not
+#                       a verbatim quotation.
+_NT_APOCRYPHA_QUOTATIONS: list[tuple[str, str, str]] = [
+    ("Jude 1:14-15", "Book of Enoch 1:9",
+     "Direct quotation -- explicitly attributed to \"Enoch, the seventh from Adam\" (Jude 1:14)."),
+    ("Jude 1:9", "Assumption of Moses",
+     "Referenced, not extant -- early sources (e.g. Origen) attribute the Michael/devil dispute over "
+     "Moses' body to this work, but that portion is lost from the surviving text."),
+    ("2 Corinthians 11:14", "Apocalypse of Moses 17",
+     "Close parallel, not a verbatim quotation -- both describe Satan disguising himself as an angel of light."),
+]
+
+
+def _apocrypha_ref_matches(query_ref: str, table_ref: str) -> bool:
+    """table_ref may be "Book Ch:V[-V2]", bare "Book Ch", or just "Book"
+    (used when no specific extant passage exists to cite)."""
+    qb, qc, qs, qe = _quotation_norm(query_ref)
+    m_full = re.match(r"^(.*?)\s+(\d+):(\d+)(?:-(\d+))?$", table_ref.strip())
+    if m_full:
+        tb, tc, ts, te = m_full.group(1), int(m_full.group(2)), int(m_full.group(3)), m_full.group(4)
+        te = int(te) if te else ts
+        return qb == tb and qc == tc and qs <= te and ts <= qe
+    m_chap = re.match(r"^(.*?)\s+(\d+)$", table_ref.strip())
+    if m_chap:
+        return qb == m_chap.group(1) and qc == int(m_chap.group(2))
+    return qb == table_ref.strip()
+
+
 @bot.command(name="quoted", aliases=["otnt", "quotedin"])
 async def cmd_quoted(ctx, *, reference: str = ""):
     """Direct Old Testament <-> New Testament quotations involving a verse
@@ -5564,8 +5600,12 @@ async def cmd_quoted(ctx, *, reference: str = ""):
     canon_ref = result["reference"]
 
     matches = [
-        (ot, nt) for ot, nt in _OT_NT_QUOTATIONS
+        (ot, nt, "") for ot, nt in _OT_NT_QUOTATIONS
         if _quotation_overlaps(canon_ref, ot) or _quotation_overlaps(canon_ref, nt)
+    ]
+    matches += [
+        (nt, apoc, note) for nt, apoc, note in _NT_APOCRYPHA_QUOTATIONS
+        if _apocrypha_ref_matches(canon_ref, nt) or _apocrypha_ref_matches(canon_ref, apoc)
     ]
     if not matches:
         await ctx.send(
@@ -5576,13 +5616,18 @@ async def cmd_quoted(ctx, *, reference: str = ""):
 
     SHOWN = 6
     embed = discord.Embed(title=f"📖 Quotations — {canon_ref}", color=discord.Color.dark_gold())
-    for ot, nt in matches[:SHOWN]:
-        for side_ref in (ot, nt):
+    for side_a, side_b, note in matches[:SHOWN]:
+        for side_ref in (side_a, side_b):
             side_result = lookup.get_verse(side_ref)
-            text = side_result["text"] if side_result.get("found") else "*Not found locally.*"
-            if len(text) > 1000:
-                text = text[:997] + "…"
+            if side_result.get("found"):
+                text = side_result["text"]
+                if len(text) > 1000:
+                    text = text[:997] + "…"
+            else:
+                text = "*Not extant / not found locally.*"
             embed.add_field(name=side_ref, value=text, inline=False)
+        if note:
+            embed.add_field(name="​", value=f"*{note}*", inline=False)
     footer = "Curated set of well-established direct quotations, not exhaustive"
     if len(matches) > SHOWN:
         footer = f"Showing {SHOWN} of {len(matches)} pairs · {footer}"
