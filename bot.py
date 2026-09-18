@@ -8198,7 +8198,7 @@ async def compare_slash(interaction: discord.Interaction, reference: str):
         await _send_compare(ctx, raw)
 
 
-# ── !variants — KJV vs a Dead Sea Scroll witness, when one exists ──────────────
+# ── !variants — KJV vs a Dead Sea Scroll witness (+ LXX), when one exists ──────
 
 _DSS_BIBLICAL_BOOKS: dict[str, str] = {
     "Isaiah": "Isaiah (1QIsaa)",
@@ -8208,11 +8208,25 @@ _DSS_BIBLICAL_BOOKS: dict[str, str] = {
     "Daniel": "Daniel (4Q114)",
 }
 
+# Cave/discovery-year/archive-link metadata, verified directly against
+# opendeadsea-mss's own manuscripts.json (the same catalog the scroll text
+# itself comes from). 1QIsaa has no deadseascrolls.org.il entry in that
+# catalog, so it links to Wikipedia instead.
+_DSS_SCROLL_META: dict[str, dict] = {
+    "Isaiah (1QIsaa)":   {"site": "Qumran, Cave 1", "found": 1947, "url": "https://en.wikipedia.org/wiki/Isaiah_Scroll"},
+    "Exodus (4Q22)":     {"site": "Qumran, Cave 4", "found": 1952, "url": "https://www.deadseascrolls.org.il/explore-the-archive/manuscript/4Q22-1"},
+    "Deuteronomy (4Q41)":{"site": "Qumran, Cave 4", "found": 1952, "url": "https://www.deadseascrolls.org.il/explore-the-archive/manuscript/4Q41-1"},
+    "Psalms (4Q86)":     {"site": "Qumran, Cave 4", "found": 1952, "url": "https://www.deadseascrolls.org.il/explore-the-archive/manuscript/4Q86-1"},
+    "Daniel (4Q114)":    {"site": "Qumran, Cave 4", "found": 1952, "url": "https://www.deadseascrolls.org.il/explore-the-archive/manuscript/4Q114-1"},
+}
+
 
 @bot.command(name="variants", aliases=["dss", "scrollcompare"])
 async def cmd_variants(ctx, *, reference: str = ""):
-    """Compare a verse's KJV text against its Dead Sea Scroll witness, when
-    one is loaded (currently Isaiah, Exodus, Deuteronomy, Psalms, Daniel).
+    """Compare a verse's KJV, Septuagint (LXX), and Dead Sea Scroll text,
+    when a scroll is loaded for that book (currently Isaiah, Exodus,
+    Deuteronomy, Psalms, Daniel), with the scroll's discovery history and
+    a link to view it.
     Usage: !variants Isaiah 53:5"""
     ref = reference.strip()
     if not ref:
@@ -8241,7 +8255,10 @@ async def cmd_variants(ctx, *, reference: str = ""):
         )
         return
 
-    dss_result = lookup.get_verse(f"{scroll_book} {chap}:{verse}")
+    async with ctx.typing():
+        dss_result = lookup.get_verse(f"{scroll_book} {chap}:{verse}")
+        loop = asyncio.get_event_loop()
+        lxx_result = await loop.run_in_executor(None, get_translation, result["reference"], "LXX")
 
     embed = discord.Embed(title=f"📜 {result['reference']}", color=discord.Color.dark_gold())
     kjv_text = result["text"]
@@ -8254,13 +8271,27 @@ async def cmd_variants(ctx, *, reference: str = ""):
         if len(dss_text) > 1024:
             dss_text = dss_text[:1021] + "…"
         embed.add_field(name=scroll_book, value=dss_text, inline=False)
-        embed.set_footer(text=dss_result.get("source", ""))
     else:
         embed.add_field(
             name=scroll_book,
             value="*This scroll doesn't preserve this specific verse (damaged/fragmentary at this point).*",
             inline=False,
         )
+
+    if lxx_result.get("found"):
+        lxx_text = lxx_result["text"]
+        if len(lxx_text) > 1024:
+            lxx_text = lxx_text[:1021] + "…"
+        embed.add_field(name="Septuagint (Greek OT)", value=lxx_text, inline=False)
+
+    meta = _DSS_SCROLL_META.get(scroll_book)
+    if meta:
+        embed.add_field(
+            name="Manuscript",
+            value=f"Discovered {meta['found']}, {meta['site']} · [View manuscript]({meta['url']})",
+            inline=False,
+        )
+    embed.set_footer(text=dss_result.get("source", "") or "Open Dead Sea (opendeadsea.org, CC BY-NC 4.0)")
     await ctx.send(embed=embed)
 
 
