@@ -5430,6 +5430,167 @@ async def xref_slash(interaction: discord.Interaction, reference: str):
     await cmd_xref(ctx, reference=reference)
 
 
+# ── !quoted — OT passages directly quoted in the NT, and vice versa ────────────
+# A curated set of well-established direct quotations (not just thematic
+# cross-references, which !xref already covers far more exhaustively via
+# the Treasury of Scripture Knowledge). Deliberately not exhaustive --
+# scholarly lists of OT-in-NT quotations run to 250-350+ entries depending
+# on how loosely "quotation" is counted; this covers the passages virtually
+# every source agrees are direct quotations, not the full list.
+_OT_NT_QUOTATIONS: list[tuple[str, str]] = [
+    ("Genesis 2:24", "Matthew 19:5"),
+    ("Genesis 2:24", "Ephesians 5:31"),
+    ("Genesis 15:6", "Romans 4:3"),
+    ("Genesis 15:6", "Galatians 3:6"),
+    ("Genesis 15:6", "James 2:23"),
+    ("Genesis 21:12", "Romans 9:7"),
+    ("Exodus 20:12-16", "Matthew 19:18-19"),
+    ("Exodus 20:13-17", "Romans 13:9"),
+    ("Leviticus 19:18", "Matthew 22:39"),
+    ("Leviticus 19:18", "Romans 13:9"),
+    ("Leviticus 19:18", "Galatians 5:14"),
+    ("Leviticus 19:18", "James 2:8"),
+    ("Deuteronomy 6:4-5", "Mark 12:29-30"),
+    ("Deuteronomy 6:13", "Matthew 4:10"),
+    ("Deuteronomy 6:16", "Matthew 4:7"),
+    ("Deuteronomy 8:3", "Matthew 4:4"),
+    ("Deuteronomy 25:4", "1 Corinthians 9:9"),
+    ("Deuteronomy 25:4", "1 Timothy 5:18"),
+    ("Deuteronomy 32:35", "Romans 12:19"),
+    ("Deuteronomy 32:43", "Hebrews 1:6"),
+    ("Psalms 2:7", "Acts 13:33"),
+    ("Psalms 2:7", "Hebrews 1:5"),
+    ("Psalms 8:4-6", "Hebrews 2:6-8"),
+    ("Psalms 16:8-11", "Acts 2:25-28"),
+    ("Psalms 22:1", "Matthew 27:46"),
+    ("Psalms 22:1", "Mark 15:34"),
+    ("Psalms 22:18", "John 19:24"),
+    ("Psalms 24:1", "1 Corinthians 10:26"),
+    ("Psalms 34:20", "John 19:36"),
+    ("Psalms 40:6-8", "Hebrews 10:5-7"),
+    ("Psalms 41:9", "John 13:18"),
+    ("Psalms 45:6-7", "Hebrews 1:8-9"),
+    ("Psalms 68:18", "Ephesians 4:8"),
+    ("Psalms 69:9", "John 2:17"),
+    ("Psalms 69:9", "Romans 15:3"),
+    ("Psalms 69:25", "Acts 1:20"),
+    ("Psalms 78:2", "Matthew 13:35"),
+    ("Psalms 82:6", "John 10:34"),
+    ("Psalms 91:11-12", "Matthew 4:6"),
+    ("Psalms 95:7-11", "Hebrews 3:7-11"),
+    ("Psalms 102:25-27", "Hebrews 1:10-12"),
+    ("Psalms 104:4", "Hebrews 1:7"),
+    ("Psalms 109:8", "Acts 1:20"),
+    ("Psalms 110:1", "Matthew 22:44"),
+    ("Psalms 110:1", "Acts 2:34-35"),
+    ("Psalms 110:1", "Hebrews 1:13"),
+    ("Psalms 110:4", "Hebrews 5:6"),
+    ("Psalms 118:22-23", "Matthew 21:42"),
+    ("Psalms 118:22", "Acts 4:11"),
+    ("Psalms 118:22", "1 Peter 2:7"),
+    ("Psalms 118:25-26", "Matthew 21:9"),
+    ("Isaiah 6:9-10", "Matthew 13:14-15"),
+    ("Isaiah 6:9-10", "John 12:40"),
+    ("Isaiah 6:9-10", "Acts 28:26-27"),
+    ("Isaiah 7:14", "Matthew 1:23"),
+    ("Isaiah 9:1-2", "Matthew 4:15-16"),
+    ("Isaiah 29:13", "Matthew 15:8-9"),
+    ("Isaiah 40:3-5", "Matthew 3:3"),
+    ("Isaiah 40:3-5", "Luke 3:4-6"),
+    ("Isaiah 42:1-4", "Matthew 12:18-21"),
+    ("Isaiah 53:1", "John 12:38"),
+    ("Isaiah 53:1", "Romans 10:16"),
+    ("Isaiah 53:4", "Matthew 8:17"),
+    ("Isaiah 53:5-6", "1 Peter 2:24-25"),
+    ("Isaiah 53:7-8", "Acts 8:32-33"),
+    ("Isaiah 53:9", "1 Peter 2:22"),
+    ("Isaiah 53:12", "Luke 22:37"),
+    ("Isaiah 54:13", "John 6:45"),
+    ("Isaiah 61:1-2", "Luke 4:18-19"),
+    ("Isaiah 62:11", "Matthew 21:5"),
+    ("Jeremiah 31:15", "Matthew 2:18"),
+    ("Jeremiah 31:31-34", "Hebrews 8:8-12"),
+    ("Hosea 6:6", "Matthew 9:13"),
+    ("Hosea 11:1", "Matthew 2:15"),
+    ("Joel 2:28-32", "Acts 2:17-21"),
+    ("Amos 5:25-27", "Acts 7:42-43"),
+    ("Amos 9:11-12", "Acts 15:16-17"),
+    ("Micah 5:2", "Matthew 2:6"),
+    ("Habakkuk 1:5", "Acts 13:41"),
+    ("Habakkuk 2:4", "Romans 1:17"),
+    ("Habakkuk 2:4", "Galatians 3:11"),
+    ("Habakkuk 2:4", "Hebrews 10:38"),
+    ("Zechariah 9:9", "Matthew 21:5"),
+    ("Zechariah 9:9", "John 12:15"),
+    ("Zechariah 11:12-13", "Matthew 27:9-10"),
+    ("Zechariah 12:10", "John 19:37"),
+    ("Zechariah 13:7", "Matthew 26:31"),
+    ("Malachi 3:1", "Mark 1:2"),
+    ("Malachi 4:5-6", "Matthew 11:14"),
+]
+
+
+def _quotation_norm(ref: str) -> tuple[str, int, int, int]:
+    """('Book', chapter, verse_start, verse_end) for range-overlap matching."""
+    m = re.match(r"^(.*?)\s+(\d+):(\d+)(?:-(\d+))?$", ref.strip())
+    if not m:
+        return (ref.strip(), 0, 0, 0)
+    book, chap, v1, v2 = m.group(1), int(m.group(2)), int(m.group(3)), m.group(4)
+    return (book, chap, v1, int(v2) if v2 else v1)
+
+
+def _quotation_overlaps(a: str, b: str) -> bool:
+    ba, ca, s1, e1 = _quotation_norm(a)
+    bb, cb, s2, e2 = _quotation_norm(b)
+    return ba == bb and ca == cb and s1 <= e2 and s2 <= e1
+
+
+@bot.command(name="quoted", aliases=["otnt", "quotedin"])
+async def cmd_quoted(ctx, *, reference: str = ""):
+    """Direct Old Testament <-> New Testament quotations involving a verse
+    (a curated, non-exhaustive set of well-established direct quotations --
+    see !xref for the much larger general cross-reference dataset).
+    Usage: !quoted Isaiah 53:5   |   !quoted Matthew 1:23"""
+    ref = reference.strip()
+    if not ref:
+        await ctx.send("Usage: `!quoted <reference>` — e.g. `!quoted Isaiah 53:5` or `!quoted Matthew 1:23`")
+        return
+
+    result = lookup.get_verse(ref)
+    if not result.get("found"):
+        await ctx.send(f"⚠️ {result.get('error', 'Verse not found.')}")
+        return
+    canon_ref = result["reference"]
+
+    matches = [
+        (ot, nt) for ot, nt in _OT_NT_QUOTATIONS
+        if _quotation_overlaps(canon_ref, ot) or _quotation_overlaps(canon_ref, nt)
+    ]
+    if not matches:
+        await ctx.send(
+            f"No direct quotation pair on record for **{canon_ref}** in this curated set. "
+            f"Try `!xref {canon_ref}` for the full cross-reference dataset."
+        )
+        return
+
+    lines = [f"**{ot}**  ⟷  **{nt}**" for ot, nt in matches]
+    embed = discord.Embed(
+        title=f"📖 Quotations — {canon_ref}",
+        description="\n".join(lines),
+        color=discord.Color.dark_gold(),
+    )
+    embed.set_footer(text="Curated set of well-established direct quotations, not exhaustive")
+    await ctx.send(embed=embed)
+
+
+@bot.tree.command(name="quoted", description="Direct OT <-> NT quotations involving a verse")
+@app_commands.describe(reference="e.g. Isaiah 53:5")
+async def quoted_slash(interaction: discord.Interaction, reference: str):
+    await interaction.response.defer()
+    ctx = await bot.get_context(interaction)
+    await cmd_quoted(ctx, reference=reference)
+
+
 # ── !topic — Nave's Topical Bible ────────────────────────────────────────────────
 
 def _topic_display_name(subject: str) -> str:
