@@ -5574,13 +5574,19 @@ async def cmd_quoted(ctx, *, reference: str = ""):
         )
         return
 
-    lines = [f"**{ot}**  ⟷  **{nt}**" for ot, nt in matches]
-    embed = discord.Embed(
-        title=f"📖 Quotations — {canon_ref}",
-        description="\n".join(lines),
-        color=discord.Color.dark_gold(),
-    )
-    embed.set_footer(text="Curated set of well-established direct quotations, not exhaustive")
+    SHOWN = 6
+    embed = discord.Embed(title=f"📖 Quotations — {canon_ref}", color=discord.Color.dark_gold())
+    for ot, nt in matches[:SHOWN]:
+        for side_ref in (ot, nt):
+            side_result = lookup.get_verse(side_ref)
+            text = side_result["text"] if side_result.get("found") else "*Not found locally.*"
+            if len(text) > 1000:
+                text = text[:997] + "…"
+            embed.add_field(name=side_ref, value=text, inline=False)
+    footer = "Curated set of well-established direct quotations, not exhaustive"
+    if len(matches) > SHOWN:
+        footer = f"Showing {SHOWN} of {len(matches)} pairs · {footer}"
+    embed.set_footer(text=footer)
     await ctx.send(embed=embed)
 
 
