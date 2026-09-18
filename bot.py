@@ -2623,12 +2623,16 @@ def _daf_range(first: str, last: str) -> list[str]:
     return out
 
 
-def _chapter_options_for_book(book_name: str) -> tuple[list[str], str] | None:
+def chapter_options_for_book(lookup: "ScriptureLookup", book_name: str) -> tuple[list[str], str] | None:
     """
     Return (labels, mode) for the chapter-picker buttons under a book, or
     None if this book isn't chapter-browsable (e.g. one continuous work).
     mode "verse" -> fetch via lookup.get_verse(f"{book_name} {label}")
     mode "hadith" -> fetch via a hadith section lookup
+
+    Dependency-injected (not a closure over the module-level `lookup`) so
+    this function -- and fetch_chapter_result() below -- can be lifted
+    verbatim into a standalone module reused outside this bot.
     """
     keys = lookup.chapter_keys(book_name)
     if keys:
@@ -3150,7 +3154,7 @@ class BooksView(discord.ui.View):
     async def _open_book(self, interaction: discord.Interaction, book_name: str):
         """Push a chapter/section picker for this book, or fall back to the
         plain detail embed if it isn't chapter-browsable (one continuous work)."""
-        options = _chapter_options_for_book(book_name)
+        options = chapter_options_for_book(lookup, book_name)
         if options is None:
             await interaction.response.edit_message(
                 embed=_book_detail_embed(book_name), view=self
@@ -3175,7 +3179,7 @@ class BooksView(discord.ui.View):
         async def callback(interaction: discord.Interaction):
             if mode == "hadith":
                 await interaction.response.defer()
-            result = _fetch_chapter_result(book_name, chap_label, mode)
+            result = fetch_chapter_result(lookup, get_hadith_section, book_name, chap_label, mode)
             nav_btns = _make_chapter_nav_buttons(book_name, chapter_labels, index, mode)
             await _send_result(interaction, result, extra_buttons=nav_btns)
         return callback
@@ -3284,7 +3288,7 @@ class _ChapterJumpModal(discord.ui.Modal, title="Jump to chapter"):
         index = self.chapter_labels.index(match)
         if self.mode == "hadith":
             await interaction.response.defer()
-        result = _fetch_chapter_result(self.book_name, match, self.mode)
+        result = fetch_chapter_result(lookup, get_hadith_section, self.book_name, match, self.mode)
         nav_btns = _make_chapter_nav_buttons(self.book_name, self.chapter_labels, index, self.mode)
         await _send_result(interaction, result, extra_buttons=nav_btns)
 
@@ -6173,11 +6177,11 @@ async def plan_slash(interaction: discord.Interaction, action: str = "", arg: st
 def _export_chapters(book_name: str, labels: list[str]) -> tuple[str, str]:
     """Fetch and concatenate every mode string in `labels` for book_name into
     one text blob. Returns (text, mode). Runs off the event loop."""
-    options = _chapter_options_for_book(book_name)
+    options = chapter_options_for_book(lookup, book_name)
     mode = options[1] if options else "verse"
     parts = []
     for label in labels:
-        result = _fetch_chapter_result(book_name, label, mode)
+        result = fetch_chapter_result(lookup, get_hadith_section, book_name, label, mode)
         if not result.get("found"):
             continue
         text = result.get("text", "")
@@ -6210,7 +6214,7 @@ async def cmd_export(ctx, *, arg: str = ""):
     _, canon = lookup._resolve_book(book_raw)
     book_name = canon or book_raw
 
-    options = _chapter_options_for_book(book_name)
+    options = chapter_options_for_book(lookup, book_name)
     if options is None:
         await ctx.send(
             f"⚠️ **{book_name}** isn't chapter-browsable, so there's nothing to bundle. "
@@ -7544,9 +7548,10 @@ def _check_chapter_nav_cooldown(user_id: int) -> bool:
     return True
 
 
-def _fetch_chapter_result(book_name: str, chap_label: str, mode: str) -> dict:
+def fetch_chapter_result(lookup: "ScriptureLookup", get_hadith_section_fn, book_name: str, chap_label: str, mode: str) -> dict:
     """Fetch one chapter/section, in the same shape _send_result expects,
-    for either a local/Sefaria "verse" reference or a hadith section."""
+    for either a local/Sefaria "verse" reference or a hadith section.
+    Dependency-injected -- see chapter_options_for_book() above."""
     if mode != "hadith":
         return lookup.get_verse(f"{book_name} {chap_label}")
 
@@ -7557,7 +7562,7 @@ def _fetch_chapter_result(book_name: str, chap_label: str, mode: str) -> dict:
         section_num = None
     if not key or section_num is None:
         return {"found": False, "error": "Could not resolve this hadith section.", "suggestions": []}
-    data = get_hadith_section(key, section_num)
+    data = get_hadith_section_fn(key, section_num)
     if not data:
         return {"found": False, "error": f"Could not fetch {chap_label} of {book_name} right now.", "suggestions": []}
 
@@ -7613,7 +7618,7 @@ def _make_chapter_nav_button(book_name: str, chapter_labels: list[str], index: i
             await interaction.response.edit_message(view=parent_view)
         else:
             await interaction.response.defer()
-        result = _fetch_chapter_result(book_name, target_label, mode)
+        result = fetch_chapter_result(lookup, get_hadith_section, book_name, target_label, mode)
         nav_btns = _make_chapter_nav_buttons(book_name, chapter_labels, target, mode)
         await _send_result(interaction, result, extra_buttons=nav_btns)
 
