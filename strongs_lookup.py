@@ -37,6 +37,57 @@ def _strip_accents(s: str) -> str:
     return "".join(c for c in unicodedata.normalize("NFD", s) if not unicodedata.combining(c))
 
 
+_DERIV_REF = re.compile(r"\b([GH]\d+[a-z]?)\b")
+_PRIMITIVE_RE = re.compile(r"primitive (?:root|word)", re.IGNORECASE)
+
+
+def find_root(number: str, max_hops: int = 8) -> str:
+    """Follow a Strong's entry's `derivation` field back to its root: the
+    entry marked "a primitive root/word", or the last entry reachable
+    before the chain stops referencing another number. Returns `number`
+    itself if it has no entry or no derivation reference."""
+    number = number.strip().upper()
+    seen = {number}
+    current = number
+    for _ in range(max_hops):
+        entry = _load().get(current)
+        if not entry:
+            return current
+        deriv = entry.get("derivation") or ""
+        if _PRIMITIVE_RE.search(deriv):
+            return current
+        # Only follow the primary derivation ("from/of H123"), not a
+        # "(compare H456)" aside pointing to a merely related word --
+        # those aren't ancestry and can point at withdrawn/nonexistent
+        # numbers (e.g. G25's "(or compare G5689)", where G5689 doesn't
+        # exist in this dataset at all).
+        primary_part = re.split(r"compare", deriv, maxsplit=1, flags=re.IGNORECASE)[0]
+        m = _DERIV_REF.search(primary_part)
+        if not m or m.group(1).upper() == current:
+            return current
+        nxt = m.group(1).upper()
+        if nxt in seen:
+            return current  # cycle guard
+        seen.add(nxt)
+        current = nxt
+    return current
+
+
+def get_root_family(number: str) -> tuple[str, list[str]]:
+    """(root_number, [direct-derivative numbers]) for the Strong's number's
+    root word -- every entry whose `derivation` field cites the root
+    directly (one level, not the full multi-generation cognate tree)."""
+    root = find_root(number)
+    family = []
+    for num, entry in _load().items():
+        if num == root:
+            continue
+        deriv = entry.get("derivation") or ""
+        if re.search(rf"\b{re.escape(root)}\b", deriv):
+            family.append(num)
+    return root, family
+
+
 def search_by_word(query: str, testament: str = "") -> list[str]:
     """Find Strong's numbers whose lexeme, transliteration, or short
     definition matches `query` (case-insensitive, accent-insensitive

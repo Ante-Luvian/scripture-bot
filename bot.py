@@ -26,7 +26,8 @@ from poem_lookup import (parse_poem_ref, lookup as poem_lookup, lookup_pair,
                          list_works as poem_list_works, classify_scripture, is_drb_reference)
 from xref_lookup import get_cross_references
 from topics_lookup import get_topic, search_topics, topic_count
-from strongs_lookup import get_definition as get_local_strongs_definition, search_by_word as strongs_search_by_word
+from strongs_lookup import (get_definition as get_local_strongs_definition, search_by_word as strongs_search_by_word,
+                             get_root_family as strongs_get_root_family)
 from bible_dictionary_lookup import get_definition as get_dictionary_entry, search_terms as search_dictionary_terms, entry_count as dictionary_entry_count, SOURCE_NAMES as DICTIONARY_SOURCE_NAMES
 from timeline_lookup import search_timeline, entry_count as timeline_entry_count, year_range as timeline_year_range
 import interlinear_lookup
@@ -5589,6 +5590,73 @@ async def quoted_slash(interaction: discord.Interaction, reference: str):
     await interaction.response.defer()
     ctx = await bot.get_context(interaction)
     await cmd_quoted(ctx, reference=reference)
+
+
+# ── !root — Hebrew/Greek root word and its direct derivatives ───────────────────
+
+@bot.command(name="root", aliases=["cognates"])
+async def cmd_root(ctx, *, arg: str = ""):
+    """Show a Strong's word's root and every word directly derived from it
+    (one generation, not the full cognate tree), per the dictionary's own
+    derivation notes.
+    Usage: !root H6   |  !root G26   |  !root love"""
+    raw = arg.strip()
+    if not raw:
+        await ctx.send("Usage: `!root H6`, `!root G26`, or `!root <word>` — e.g. `!root abad`")
+        return
+
+    number = raw.upper()
+    if not re.match(r"^[GH]\d+[A-Z]?$", number):
+        matches = strongs_search_by_word(raw.lower())
+        if not matches:
+            await ctx.send(f"No Strong's entry matches **{raw}**.")
+            return
+        if len(matches) > 1:
+            preview = ", ".join(
+                f"{n} ({get_local_strongs_definition(n).get('lexeme', '')})" for n in matches[:10]
+            )
+            await ctx.send(f"**{len(matches)} matches** for **{raw}** — pick one: {preview}")
+            return
+        number = matches[0]
+
+    entry = get_local_strongs_definition(number)
+    if not entry:
+        await ctx.send(f"**{number}** isn't in the local Strong's dictionary.")
+        return
+
+    root, family = strongs_get_root_family(number)
+    root_entry = get_local_strongs_definition(root) or {}
+
+    embed = discord.Embed(
+        title=f"🌳 Root: {root} — {root_entry.get('lexeme', '')} ({root_entry.get('transliteration', '')})",
+        description=root_entry.get("short_definition", "") or root_entry.get("definition", "")[:300],
+        color=discord.Color.dark_gold(),
+    )
+    if root != number:
+        embed.add_field(name="You looked up", value=f"{number} — {entry.get('lexeme', '')} ({entry.get('transliteration', '')})", inline=False)
+
+    if family:
+        lines = []
+        for n in sorted(family, key=lambda x: int(re.sub(r"\D", "", x) or 0))[:25]:
+            e = get_local_strongs_definition(n) or {}
+            lines.append(f"**{n}** {e.get('lexeme', '')} ({e.get('transliteration', '')}) — {e.get('short_definition', '')}")
+        embed.add_field(
+            name=f"Direct derivatives ({len(family)})",
+            value="\n".join(lines)[:1024],
+            inline=False,
+        )
+    else:
+        embed.add_field(name="Direct derivatives", value="*None on record.*", inline=False)
+    embed.set_footer(text="One generation of direct derivatives only, per the dictionary's own derivation notes — not the full cognate tree · OpenScriptures Strong's (CC-BY-SA)")
+    await ctx.send(embed=embed)
+
+
+@bot.tree.command(name="root", description="Show a Strong's word's root and its direct derivatives")
+@app_commands.describe(word="e.g. H6, G26, or a word like love")
+async def root_slash(interaction: discord.Interaction, word: str):
+    await interaction.response.defer()
+    ctx = await bot.get_context(interaction)
+    await cmd_root(ctx, arg=word)
 
 
 # ── !topic — Nave's Topical Bible ────────────────────────────────────────────────
