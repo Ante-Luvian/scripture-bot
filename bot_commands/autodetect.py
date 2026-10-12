@@ -3,8 +3,11 @@ Auto-detection of scripture references in ordinary messages.
 """
 import discord
 import re
-from scripture_lookup import DRB_SUFFIXES, KNOX_SUFFIXES, get_verse_drb, get_verse_knox
+from scripture_lookup import ALIASES, DRB_SUFFIXES, KNOX_SUFFIXES, get_verse_drb, get_verse_knox
 from translation_lookup import TRANSLATION_SUFFIXES, get_translation
+from bot_commands.verse import (
+    _study_buttons,
+)
 from core import (
     GUILD_FEATURES,
     _AUTO_RE,
@@ -17,6 +20,25 @@ from core import (
 )
 
 # ── Auto-detection ─────────────────────────────────────────────────────────────
+
+def _trim_to_book(raw: str) -> str:
+    """_AUTO_RE's book group takes every word before the chapter, so in
+    "as it says in John 3:16" it captures "as it says in John" -- which made
+    auto-detection work only when a reference started the message. Return the
+    longest trailing run of those words that is exactly a known book name or
+    abbreviation ("John", "1 John", "Song of Solomon"); if none is, the text
+    unchanged (the old behaviour, for references the lookup resolves itself)."""
+    words = raw.split()
+    for i in range(len(words)):
+        candidate = " ".join(words[i:])
+        # Mid-sentence, a short lowercase abbreviation is more likely an
+        # ordinary word ("see ch 2:1", "pm", "ex", "mt") than a book.
+        if i > 0 and len(candidate) <= 3 and candidate.islower():
+            continue
+        if candidate.lower() in ALIASES or candidate.lower() in lookup._book_index:
+            return candidate
+    return raw.strip()
+
 
 @bot.event
 async def on_guild_join(guild: discord.Guild):
@@ -121,7 +143,7 @@ async def on_message(message: discord.Message):
     unique = []
     for m in matches:
         book, chap, verse, end_verse = m
-        ref = f"{book.strip()} {chap}:{verse}"
+        ref = f"{_trim_to_book(book)} {chap}:{verse}"
         if end_verse:
             ref += f"-{end_verse}"
         if ref.lower() not in seen:
@@ -132,7 +154,7 @@ async def on_message(message: discord.Message):
         return
 
     # Only respond if at least one reference actually resolves to a real verse
-    embeds = []
+    replies = []   # (embed, result)
     content = message.content
     for ref in unique[:3]:
         escaped = re.escape(ref)
@@ -149,7 +171,16 @@ async def on_message(message: discord.Message):
             result = lookup.get_verse(ref)
 
         if result["found"]:
-            embeds.append(_build_embed(result))
+            replies.append((_build_embed(result), result))
 
-    for embed in embeds:
-        await message.channel.send(embed=embed)
+    for embed, result in replies:
+        # Bible verses get the same Notes / Cross-refs / Interlinear / Card
+        # buttons as !verse (persistent buttons: the view must never time out)
+        buttons = _study_buttons(result)
+        if buttons:
+            view = discord.ui.View(timeout=None)
+            for b in buttons:
+                view.add_item(b)
+            await message.channel.send(embed=embed, view=view)
+        else:
+            await message.channel.send(embed=embed)
