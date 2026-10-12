@@ -14,6 +14,10 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-12 · Plotinus and the Book of Enoch, repaired
+- 🔧 **Fixed: Plotinus's Enneads.** The Enneads are 54 treatises in six groups of nine, cited by group and number: `!verse Enneads 1.6` is the famous treatise *On Beauty*. My copy was badly jumbled: some treatises were missing or appeared twice, others sat under the wrong number (asking for 1.6 gave you a different treatise), and some numbers were simply empty. It has been rebuilt from Stephen MacKenna's translation, every treatise in its proper place with its title, including the short ninth treatise of the First Ennead on whether one may end one's own life (`!verse Enneads 1.9`).
+- 🔧 **Fixed: four missing chapters of the Book of Enoch.** Chapters 3, 4, 35 and 44 are a single verse each, and they had gone missing, so `!verse Enoch 3` showed nothing. They're back, from R. H. Charles's translation like the rest of the book.
+
 ## 2026-10-12 · Themes across traditions, searching one tradition, and new card styles
 - 🌐 **New: `!theme`.** Pick a theme and I'll find one passage about it from each tradition in my library and show them side by side: the Bible next to the Quran, the Dhammapada, the Tao Te Ching, the Bhagavad Gita, the Stoics, the Norse poems and more. Try `!theme forgiveness`, `!theme love` or `!theme death`. It also finds related words: "forgiveness" finds "forgive" and "forgiven" too.
 - 🔍 **Search one tradition.** `!search` covers my whole library, which is now very large, so you can narrow it down by adding `in:` and a tradition: `!search nirvana in:buddhist`, `!search heaven in:chinese`, `!search mercy in:islamic`. Other options include `in:hindu`, `in:christian`, `in:jewish`, `in:classical` and `in:norse`. With `/search`, pick the tradition from the list.

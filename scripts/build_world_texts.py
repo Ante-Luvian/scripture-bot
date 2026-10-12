@@ -781,6 +781,100 @@ def enuma_elish():
           "Enuma Elish, trans. L. W. King (The Seven Tablets of Creation, 1902)", {"Enuma Elish": book})
 
 
+_ORDINALS = ["FIRST", "SECOND", "THIRD", "FOURTH", "FIFTH", "SIXTH", "SEVENTH", "EIGHTH", "NINTH"]
+
+
+def enneads():
+    """Plotinus, The Six Enneads, trans. MacKenna and Page, from the
+    sacred-texts.com archive (cla/plotenn/, one page per section). Replaces
+    an older plotinus.json whose numbering was scrambled (duplicated and
+    misplaced treatises, a second run numbered 1.9-5.16 with empty gaps).
+    Chapters are "ennead.tractate" in Porphyry's standard order (6 x 9); the
+    tractate's title leads its first section."""
+    import html
+    index = sacred_text("cla/plotenn/index.htm")
+    links = re.findall(r'(?is)<a\s+href="?(enn\d+\.htm)"?[^>]*>(.*?)</a>', index)
+    book, ennead, tractate, title, seen = {}, 0, 0, "", set()
+    tractate_text = ""          # a tractate with no sections (I.9) has its text on its own page
+
+    def close_tractate():
+        key = f"{ennead}.{tractate}"
+        if ennead and tractate and key not in book and tractate_text:
+            book[key] = {"1": f"*{title}*\n{tractate_text}" if title else tractate_text}
+
+    for href, label in links:
+        label = re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", "", label))).strip()
+        if href in seen:
+            continue
+        seen.add(href)
+        m = re.fullmatch(r"THE (\w+) ENNEAD", label)
+        if m:
+            close_tractate()
+            ennead, tractate = _ORDINALS.index(m.group(1)) + 1, 0
+            continue
+        m = re.fullmatch(r"(\w+) TRACTATE\.?", label)
+        if m and m.group(1) in _ORDINALS:
+            close_tractate()
+            tractate = _ORDINALS.index(m.group(1)) + 1
+            page = _html_text(sacred_text(f"cla/plotenn/{href}"))
+            heading = re.search(rf"(?m)^\s*{m.group(1)} TRACTATE\.?\s*$", page)    # (the footer mentions it too)
+            body = page[heading.start():] if heading else ""
+            body = re.split(r"(?m)^\s*(?:Next: |Sacred Texts \|)", body)[0]
+            paras = [tidy(p) for p in paragraphs(body)][1:]          # after the "NINTH TRACTATE." heading
+            title = paras[0].strip('".') if paras and paras[0].isupper() else ""
+            tractate_text = "\n".join(paras[1:] if title else paras)
+            continue
+        m = re.fullmatch(r"Section (\d+)", label)
+        if not (m and ennead and tractate):
+            continue
+        page = _html_text(sacred_text(f"cla/plotenn/{href}"))
+        start = re.search(rf"(?m)^\s*Section {m.group(1)}\s*$", page)
+        body = page[start.end():] if start else page
+        body = re.split(r"(?m)^\s*(?:Next: |Sacred Texts \|)", body)[0]
+        paras = [tidy(p) for p in paragraphs(body)]
+        if paras:
+            paras[0] = re.sub(r"^\d+\.\s*", "", paras[0])
+        text = "\n".join(p for p in paras if p)
+        chapter = book.setdefault(f"{ennead}.{tractate}", {})
+        if not chapter and title:
+            text = f"*{title}*\n{text}"
+        chapter[m.group(1)] = text
+    close_tractate()
+    book = dict(sorted(book.items(), key=lambda kv: tuple(map(int, kv[0].split(".")))))
+    expect(sorted(book, key=lambda k: tuple(map(int, k.split(".")))) ==
+           [f"{e}.{t}" for e in range(1, 7) for t in range(1, 10)], f"tractates {list(book)}")
+    expect(all(chapter for chapter in book.values()), "an empty tractate")
+    write("classical", "plotinus.json", "Plotinus, The Six Enneads, trans. Stephen MacKenna and B. S. Page", {"Enneads": book})
+
+
+def enoch_missing_chapters():
+    """Fills chapters the existing Book of Enoch (Charles 1917) left empty --
+    3, 4, 35 and 44 are single verses, which its original build dropped --
+    from the same translation on the sacred-texts.com archive (bib/boe).
+    Every other chapter is left exactly as it is."""
+    path = DATA / "charles" / "book_of_enoch.json"
+    data = json.loads(path.read_text(encoding="utf-8"))
+    book = data["books"]["Book of Enoch"]
+    empty = [c for c, v in book.items() if not v]
+    text = sacred_text("bib/boe/boe.txt.gz")
+    for chap in empty:
+        numeral = {3: "III", 4: "IV", 35: "XXXV", 44: "XLIV"}.get(int(chap))
+        m = re.search(rf"(?m)^\s*(?:CHAPTER|Chapter) {numeral}\.?\s*$(.*?)(?=^\s*(?:CHAPTER|Chapter) [IVXLC]+\.?\s*$)",
+                      text, flags=re.S)
+        expect(m is not None, f"Enoch chapter {chap} in the archive text")
+        lines = [l for l in m.group(1).splitlines() if l.strip() and not re.match(r"\s*(\[p\. \d+\]|.*sacred-texts\.com)", l)]
+        verse = tidy(" ".join(lines))
+        verse = re.sub(r"^1\.\s*", "", verse)
+        # match the rest of this file: Charles's editorial marks ("[[[[", "+east+") are
+        # not kept, nor the next section's heading ("XXXVI. The Journey to the South.")
+        verse = re.sub(r"\s+[IVXLC]+(?:-[IVXLC]+)?\. [A-Z].*$", "", verse)
+        verse = re.sub(r"\[{2,}|\]{2,}|\+(\w+)\+", lambda m: m.group(1) or "", verse)
+        verse = re.sub(r"\s{2,}", " ", verse).strip()
+        book[chap] = {"1": verse}
+        print(f"  Enoch {chap}: {verse[:70]}...")
+    path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding="utf-8")   # the file's own layout
+
+
 # ── Persian ─────────────────────────────────────────────────────────────────
 
 def stanzas(block: str) -> list:
@@ -811,7 +905,8 @@ def hafiz():
 BUILDERS = {f.__name__: f for f in (dhammapada, diamond_sutra, tao_te_ching, analects, i_ching, hafiz,
                                     bhagavad_gita, upanishads, meditations, enchiridion, imitation_of_christ,
                                     rule_of_benedict, divine_comedy, hesiod, nt_apocrypha, secrets_of_enoch,
-                                    forgotten_books_of_eden, sutta_nipata, gospel_of_thomas, enuma_elish)}
+                                    forgotten_books_of_eden, sutta_nipata, gospel_of_thomas, enuma_elish,
+                                    enneads, enoch_missing_chapters)}
 
 if __name__ == "__main__":
     for name in sys.argv[1:] or BUILDERS:

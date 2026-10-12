@@ -121,6 +121,27 @@ def test_sutta_nipata_is_complete(lookup):
     assert "Infancy" not in lookup.get_verse("Gospel of Thomas 1")["source"]       # the sayings gospel, not the ANF one
 
 
+def test_no_book_has_an_empty_chapter(lookup):
+    empty = [(corpus, book, chap) for corpus, books in lookup._data.items()
+             for book, chapters in books.items() for chap, verses in chapters.items() if not verses]
+    assert not empty, empty[:10]
+
+
+def test_enoch_single_verse_chapters(lookup):
+    assert lookup.get_verse("Book of Enoch 3:1")["text"].startswith("**[1]** Observe and see how (in the winter)")
+    assert lookup.get_verse("Book of Enoch 44:1")["text"].endswith("cannot part with their new form.")
+
+
+def test_enneads_in_the_standard_order(lookup):
+    enneads = lookup._data["classical"]["Enneads"]
+    assert list(enneads) == [f"{e}.{t}" for e in range(1, 7) for t in range(1, 10)]
+    texts = [verses["1"] for verses in enneads.values()]
+    assert len(set(texts)) == 54                                     # no treatise twice
+    assert "Pleasure and distress" in enneads["1.1"]["1"]
+    assert "Beauty addresses itself chiefly to sight" in enneads["1.6"]["1"]    # "On Beauty" is I.6
+    assert "It is in virtue of unity that beings are beings" in enneads["6.9"]["1"]
+
+
 def test_isa_still_means_isaiah(lookup):
     assert lookup.get_verse("Isa 53:5")["reference"] == "Isaiah 53:5"
 
