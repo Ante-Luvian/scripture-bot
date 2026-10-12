@@ -1,0 +1,201 @@
+{
+ "prefix": {
+  "bcp": [],
+  "books": [],
+  "canon": [],
+  "card": [
+   "quotecard",
+   "versecard"
+  ],
+  "catena": [],
+  "ccc": [],
+  "collect": [],
+  "compare": [
+   "cmp"
+  ],
+  "concordance": [
+   "conc",
+   "occurrences"
+  ],
+  "creed": [
+   "creeds"
+  ],
+  "delphi": [],
+  "dictionary": [
+   "define",
+   "dict"
+  ],
+  "discover": [],
+  "ep": [
+   "evensong",
+   "vespers"
+  ],
+  "export": [],
+  "features": [],
+  "gematria": [
+   "gem",
+   "gematrix"
+  ],
+  "guildactivity": [
+   "whoswhere"
+  ],
+  "help": [
+   "?",
+   "commands",
+   "h"
+  ],
+  "homer": [
+   "homeromanteion",
+   "sortes"
+  ],
+  "interlinear": [
+   "il",
+   "inter"
+  ],
+  "leaderboard": [
+   "lb"
+  ],
+  "mp": [
+   "matins"
+  ],
+  "oracle": [],
+  "parallel": [
+   "classical",
+   "par",
+   "po",
+   "poem"
+  ],
+  "plan": [],
+  "prayer": [],
+  "prefer": [
+   "defaulttranslation",
+   "preference"
+  ],
+  "psalm": [
+   "psalms"
+  ],
+  "quoted": [
+   "otnt",
+   "quotedin"
+  ],
+  "reverseinterlinear": [
+   "kjvinterlinear",
+   "ril",
+   "rinterlinear"
+  ],
+  "root": [
+   "cognates"
+  ],
+  "save": [
+   "bookmark"
+  ],
+  "saved": [
+   "bookmarks"
+  ],
+  "scanstats": [
+   "historystats",
+   "retrostat"
+  ],
+  "search": [
+   "find"
+  ],
+  "stats": [
+   "botstats"
+  ],
+  "strong": [
+   "strongs"
+  ],
+  "study": [],
+  "subscribe": [],
+  "summa": [
+   "aquinas",
+   "st",
+   "thomas"
+  ],
+  "timeline": [
+   "chronology"
+  ],
+  "today": [
+   "calendar",
+   "liturgy"
+  ],
+  "topic": [
+   "naves",
+   "topical"
+  ],
+  "translations": [
+   "tl",
+   "trans"
+  ],
+  "unsave": [
+   "unbookmark"
+  ],
+  "unsubscribe": [],
+  "variants": [
+   "dss",
+   "scrollcompare"
+  ],
+  "verse": [
+   "scripture",
+   "v"
+  ],
+  "virgil": [
+   "aeneid",
+   "sortesvir"
+  ],
+  "votd": [
+   "dayverse",
+   "verseoftheday"
+  ],
+  "votdmode": [],
+  "votdsetup": [
+   "votdconfig"
+  ],
+  "xref": [
+   "crossref",
+   "crossreference",
+   "xrefs"
+  ]
+ },
+ "slash": [
+  "bcp",
+  "books",
+  "canon",
+  "card",
+  "catena",
+  "ccc",
+  "compare",
+  "concordance",
+  "creed",
+  "delphi",
+  "dictionary",
+  "discover",
+  "gematria",
+  "help",
+  "homer",
+  "interlinear",
+  "leaderboard",
+  "oracle",
+  "parallel",
+  "plan",
+  "prefer",
+  "quoted",
+  "reverseinterlinear",
+  "root",
+  "save",
+  "saved",
+  "strong",
+  "study",
+  "subscribe",
+  "summa",
+  "timeline",
+  "today",
+  "topic",
+  "translations",
+  "unsubscribe",
+  "variants",
+  "verse",
+  "votd",
+  "xref"
+ ]
+}
