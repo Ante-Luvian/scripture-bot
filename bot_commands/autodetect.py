@@ -1,0 +1,155 @@
+"""
+Auto-detection of scripture references in ordinary messages.
+"""
+import discord
+import re
+from scripture_lookup import DRB_SUFFIXES, KNOX_SUFFIXES, get_verse_drb, get_verse_knox
+from translation_lookup import TRANSLATION_SUFFIXES, get_translation
+from core import (
+    GUILD_FEATURES,
+    _AUTO_RE,
+    _build_embed,
+    _get_guild_features,
+    _load_bookmarks,
+    _save_bookmarks,
+    bot,
+    lookup,
+)
+
+# ── Auto-detection ─────────────────────────────────────────────────────────────
+
+@bot.event
+async def on_guild_join(guild: discord.Guild):
+    """Introduce the opt-in features to a new server's admins."""
+    channel = guild.system_channel
+    if channel is None or not channel.permissions_for(guild.me).send_messages:
+        channel = next(
+            (c for c in guild.text_channels if c.permissions_for(guild.me).send_messages),
+            None,
+        )
+    if channel is None:
+        return
+
+    embed = discord.Embed(
+        title="📖 Thanks for adding ScriptureBot!",
+        description=(
+            "Run `!help` any time for the full command list. A few things worth setting up:\n\n"
+            "`!votdsetup channel #general` — a daily Verse of the Day post for this server\n\n"
+            "**Optional features (all off by default)** — an admin turns these on with `!features <name> on`:\n"
+            + "\n".join(f"• `{k}` — {v}" for k, v in GUILD_FEATURES.items())
+        ),
+        color=discord.Color.dark_gold(),
+    )
+    embed.set_footer(text="!features to see current settings · !help votdsetup for VOTD setup")
+    try:
+        await channel.send(embed=embed)
+    except discord.Forbidden:
+        pass
+
+
+@bot.event
+async def on_raw_reaction_add(payload: discord.RawReactionActionEvent):
+    """React 📌 on a verse embed (opt-in per guild via !features react_save) to bookmark it."""
+    if payload.member is None or payload.member.bot:
+        return
+    if str(payload.emoji) != "📌":
+        return
+    if not payload.guild_id or not _get_guild_features(payload.guild_id).get("react_save"):
+        return
+
+    channel = bot.get_channel(payload.channel_id)
+    if channel is None:
+        return
+    try:
+        message = await channel.fetch_message(payload.message_id)
+    except (discord.NotFound, discord.Forbidden):
+        return
+    if message.author.id != bot.user.id or not message.embeds:
+        return
+    # Only react to messages the bot itself tagged with 📌 on send — scopes this
+    # to _send_result's verse embeds, not every embed the bot happens to post.
+    if not any(str(r.emoji) == "📌" and r.me for r in message.reactions):
+        return
+
+    title = message.embeds[0].title or ""
+    reference = re.sub(r"\s*\(\d+/\d+\)\s*$", "", title).strip()
+    if not reference:
+        return
+    result = lookup.get_verse(reference)
+    if not result.get("found"):
+        return
+
+    data = _load_bookmarks()
+    uid = str(payload.user_id)
+    entries = data.setdefault(uid, [])
+    canon_ref = result["reference"]
+    if any(e["reference"] == canon_ref for e in entries):
+        return
+    import datetime
+    entries.append({
+        "reference": canon_ref,
+        "source": result.get("source", ""),
+        "saved_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
+    })
+    _save_bookmarks(data)
+    try:
+        await channel.send(f"📌 Saved **{canon_ref}** for {payload.member.mention}.", delete_after=8)
+    except Exception:
+        pass
+
+
+@bot.event
+async def on_message(message: discord.Message):
+    # Never respond to ourselves or other bots
+    if message.author.bot:
+        return
+
+    # Still process !commands normally
+    await bot.process_commands(message)
+
+    # Don't double-trigger on explicit !verse commands
+    if message.content.startswith("!"):
+        return
+
+    # Scan the message for scripture references
+    matches = _AUTO_RE.findall(message.content)
+    if not matches:
+        return
+
+    # De-duplicate while preserving order
+    seen = set()
+    unique = []
+    for m in matches:
+        book, chap, verse, end_verse = m
+        ref = f"{book.strip()} {chap}:{verse}"
+        if end_verse:
+            ref += f"-{end_verse}"
+        if ref.lower() not in seen:
+            seen.add(ref.lower())
+            unique.append(ref)
+
+    if not unique:
+        return
+
+    # Only respond if at least one reference actually resolves to a real verse
+    embeds = []
+    content = message.content
+    for ref in unique[:3]:
+        escaped = re.escape(ref)
+        suffix_m = re.search(escaped + r"\s+(\S+)", content, re.IGNORECASE)
+        suffix = suffix_m.group(1).lower() if suffix_m else ""
+
+        if suffix in TRANSLATION_SUFFIXES:
+            result = get_translation(ref, suffix)
+        elif suffix in DRB_SUFFIXES:
+            result = get_verse_drb(ref)
+        elif suffix in KNOX_SUFFIXES:
+            result = get_verse_knox(ref)
+        else:
+            result = lookup.get_verse(ref)
+
+        if result["found"]:
+            embeds.append(_build_embed(result))
+
+    for embed in embeds:
+        await message.channel.send(embed=embed)
