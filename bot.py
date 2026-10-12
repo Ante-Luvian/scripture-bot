@@ -29,6 +29,9 @@ from bot_commands.health import (
 from bot_commands.oracles import (
     daily_oracle_task,
 )
+from bot_commands.personal import (
+    plan_reminder_task,
+)
 # Importing a feature module registers its commands.
 from bot_commands import (  # noqa: F401
     autodetect,
@@ -85,6 +88,7 @@ async def on_ready():
     log.info(f"Daily VOTD configured for {active_votd} guild(s) — admins can run !votdsetup")
     _daily_votd_task.start()
     daily_oracle_task.start()
+    plan_reminder_task.start()
     weekly_notes_check.start()   # first check now, then weekly
 
     # Post any CHANGELOG.md entries each server hasn't seen yet, and bring

@@ -253,6 +253,8 @@ async def cmd_help(ctx, *, topic: str = ""):
             "`!plan start John` — start a chapter-a-day plan through a book\n"
             "`!plan` or `!plan today` — show today's assigned chapter\n"
             "`!plan status` — see your progress\n"
+            "`!plan remind on` — get each day's chapter by DM (07:00 UTC, or `!plan remind on 19:30`)\n"
+            "`!plan remind off` — stop the reminders\n"
             "`!plan stop` — cancel your plan\n\n"
             "One plan per person. The chapter shown advances automatically by date, "
             "not by how often you check in."

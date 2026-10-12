@@ -6,10 +6,11 @@ import discord
 import re
 from translation_lookup import TRANSLATION_SUFFIXES
 from discord import app_commands
-from discord.ext import commands
+from discord.ext import commands, tasks
 from core import (
     GUILD_FEATURES,
     _get_guild_features,
+    log,
     _load_bookmarks,
     _load_reading_plans,
     _load_user_prefs,
@@ -194,6 +195,9 @@ async def cmd_plan(ctx, action: str = "", *, arg: str = ""):
     Usage: !plan start <book>   — start a plan, e.g. !plan start John
            !plan (or !plan today) — show today's chapter
            !plan status         — show your progress
+           !plan remind on      — get each day's chapter by DM (at 07:00 UTC,
+                                  or e.g. !plan remind on 19:30)
+           !plan remind off     — stop the reminders
            !plan stop           — cancel your plan
     """
     action = action.strip().lower()
@@ -237,6 +241,35 @@ async def cmd_plan(ctx, action: str = "", *, arg: str = ""):
         await ctx.send(f"Reading plan for **{plan['book']}** cancelled.")
         return
 
+    if action == "remind":
+        setting = arg.strip().lower().split()
+        if not setting:
+            when = plan.get("remind_at")
+            await ctx.send(f"Daily DM reminders are **on** at {when} UTC." if when else
+                           "Daily DM reminders are off. Turn them on with `!plan remind on` (07:00 UTC) "
+                           "or pick a time: `!plan remind on 19:30`.")
+            return
+        if setting[0] == "off":
+            plan.pop("remind_at", None)
+            data[uid] = plan
+            _save_reading_plans(data)
+            await ctx.send("Reading-plan reminders are off.")
+            return
+        if setting[0] == "on":
+            m = re.match(r"^(\d{1,2}):(\d{2})$", setting[1]) if len(setting) > 1 else None
+            if len(setting) > 1 and not (m and int(m.group(1)) <= 23 and int(m.group(2)) <= 59):
+                await ctx.send("Use 24-hour UTC time: `!plan remind on 19:30`")
+                return
+            when = f"{int(m.group(1)):02d}:{m.group(2)}" if m else DEFAULT_REMINDER_TIME
+            plan["remind_at"] = when
+            data[uid] = plan
+            _save_reading_plans(data)
+            await ctx.send(f"📬 I'll DM you each day's chapter of **{plan['book']}** at {when} UTC. "
+                           "(Make sure your privacy settings allow DMs from server members.)")
+            return
+        await ctx.send("Usage: `!plan remind on` · `!plan remind on 19:30` · `!plan remind off`")
+        return
+
     if action == "status":
         chap = _plan_current_chapter(plan)
         pct = int(100 * chap / plan["total_chapters"])
@@ -247,7 +280,8 @@ async def cmd_plan(ctx, action: str = "", *, arg: str = ""):
         return
 
     if action not in ("", "today"):
-        await ctx.send("Usage: `!plan` · `!plan today` · `!plan status` · `!plan stop` · `!plan start <book>`")
+        await ctx.send("Usage: `!plan` · `!plan today` · `!plan status` · `!plan remind on|off` · "
+                       "`!plan stop` · `!plan start <book>`")
         return
 
     chap = _plan_current_chapter(plan)
@@ -268,8 +302,54 @@ async def cmd_plan(ctx, action: str = "", *, arg: str = ""):
     if chap >= plan["total_chapters"]:
         await ctx.send(f"🎉 That's the final chapter of **{plan['book']}**. Start a new plan with `!plan start <book>`.")
 
+# ── Reading-plan reminders by DM ──────────────────────────────────────────────
+
+DEFAULT_REMINDER_TIME = "07:00"
+
+
+async def run_plan_reminders(client, today, current_hm: str) -> int:
+    """DM today's chapter to everyone whose plan reminder time is current_hm
+    (UTC) -- once a day, and not after the plan's last chapter. Returns the
+    number of reminders sent."""
+    import datetime
+    data = _load_reading_plans()
+    sent, changed = 0, False
+    for uid, plan in data.items():
+        if plan.get("remind_at") != current_hm or plan.get("last_reminded") == today.isoformat():
+            continue
+        day = (today - datetime.date.fromisoformat(plan["started_at"])).days + 1
+        if day > plan["total_chapters"]:
+            continue   # finished
+        plan["last_reminded"] = today.isoformat()   # even if the DM fails: no retry spam
+        changed = True
+        try:
+            user = client.get_user(int(uid)) or await client.fetch_user(int(uid))
+            result = lookup.get_verse(f"{plan['book']} {day}")
+            await user.send(f"📖 Day {day} of {plan['total_chapters']} of your reading plan through "
+                            f"**{plan['book']}**. (`!plan remind off` to stop these.)")
+            await _send_result(user, result)
+            sent += 1
+        except discord.HTTPException as e:   # DMs closed, user gone, ...
+            log.warning(f"Couldn't DM reading-plan reminder to {uid}: {e}")
+    if changed:
+        _save_reading_plans(data)
+    return sent
+
+
+@tasks.loop(minutes=1)
+async def plan_reminder_task():
+    import datetime
+    now = datetime.datetime.now(datetime.timezone.utc)
+    await run_plan_reminders(bot, now.date(), f"{now.hour:02d}:{now.minute:02d}")
+
+
+@plan_reminder_task.before_loop
+async def _before_plan_reminders():
+    await bot.wait_until_ready()
+
+
 @bot.tree.command(name="plan", description="Personal chapter-a-day reading plan")
-@app_commands.describe(action="start | today | status | stop", arg="book name, if starting")
+@app_commands.describe(action="start | today | status | remind | stop", arg="book name if starting; on/off (+ time) for remind")
 async def plan_slash(interaction: discord.Interaction, action: str = "", arg: str = ""):
     await interaction.response.defer()
     ctx = await bot.get_context(interaction)

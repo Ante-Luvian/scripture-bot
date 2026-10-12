@@ -133,7 +133,7 @@ Every answer has a **🖼️ Card** button that turns it into an image to share.
 • `!saved` — your saved verses · `!unsave 2` — remove number 2 from that list
 • `!leaderboard` — who has saved the most verses
 
-**`!plan start John`** — a reading plan: one chapter a day through a book. `!plan` shows today's chapter, `!plan status` your progress, `!plan stop` ends it.
+**`!plan start John`** — a reading plan: one chapter a day through a book. `!plan` shows today's chapter, `!plan status` your progress, `!plan stop` ends it. Add `!plan remind on` and I'll send you each day's chapter by private message (at 07:00 UTC, or pick a time: `!plan remind on 19:30`).
 
 **`!stats`** — how I've been used: the most-read verses and books, favourite commands and more.
 **`!changelog`** — what's new with me lately.
