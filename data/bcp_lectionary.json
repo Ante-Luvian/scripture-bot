@@ -1,0 +1,3961 @@
+{
+  "source": "Lectionary Central — Book of Common Prayer Canada 1962 (Daily Office Lectionary; C of E 1955 draft of the 1922 lectionary)",
+  "url": "https://www.lectionarycentral.com/Dailylessons.html",
+  "year_rule": "When the first Sunday of Advent occurs in a year with an even number, Year I lessons are used for that whole ecclesiastical year; if odd, Year II.",
+  "sections": {
+    "Advent I": {
+      "title": "The Week of Advent I",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "Isa 1:1-20",
+          "mp_nt": "Mt 24:1-28",
+          "ep_ot": "Isa. 2:10-end",
+          "ep_nt": "1 Thes. 5"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "Isa 1:1-20",
+          "mp_nt": "Rev. 2:1-17",
+          "ep_ot": "Isa. 2:10-end",
+          "ep_nt": "Jn. 3:1-21"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "Isa. 3:1-15",
+          "mp_nt": "Mk. 1:1-20",
+          "ep_ot": "Isa. 4:2-end",
+          "ep_nt": "Rev. 6"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "Isa. 6",
+          "mp_nt": "Mk. 1:21-end",
+          "ep_ot": "Isa. 8:16-9:7",
+          "ep_nt": "Rev. 7"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "Isa. 9:8-10:4",
+          "mp_nt": "Mk. 2:1-22",
+          "ep_ot": "Isa. 10:5-23",
+          "ep_nt": "Rev. 8"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "Isa. 10:24-end",
+          "mp_nt": "Mk. 2:23-3:12",
+          "ep_ot": "Isa. 13:1-14:2",
+          "ep_nt": "Rev. 9"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "Isa. 14:3-27",
+          "mp_nt": "Mk. 3:13-end",
+          "ep_ot": "Isa. 17",
+          "ep_nt": "Rev. 10"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "Isa. 18",
+          "mp_nt": "Mk. 4:1-20",
+          "ep_ot": "Isa. 19:1-17",
+          "ep_nt": "Rev. 11"
+        }
+      ]
+    },
+    "Advent II": {
+      "title": "The Week of Advent II",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "Isa. 5:1-16",
+          "mp_nt": "Mt. 24:29-51",
+          "ep_ot": "Isa. 5:18-30",
+          "ep_nt": "2 Tim. 3:14-4:8"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "Isa. 11:1-10",
+          "mp_nt": "Rev. 2:18-3:6",
+          "ep_ot": "Isa. 11:10-12 end",
+          "ep_nt": "Lk. 1:1-25"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "Isa. 19:18-end",
+          "mp_nt": "Mk. 4:21-end",
+          "ep_ot": "Isa. 21:1-12",
+          "ep_nt": "Rev. 12"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "Isa. 22:1-14",
+          "mp_nt": "Mk. 5:1-20",
+          "ep_ot": "Isa. 24",
+          "ep_nt": "Rev. 13"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "Isa. 28:1-8",
+          "mp_nt": "Mk. 5:21-end",
+          "ep_ot": "Isa. 29:1-14",
+          "ep_nt": "Rev. 14"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "Isa. 29:15-end",
+          "mp_nt": "Mk. 6:1-13",
+          "ep_ot": "Isa. 30:19-end",
+          "ep_nt": "Rev. 15"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "Isa. 31",
+          "mp_nt": "Mk. 6:14-29",
+          "ep_ot": "Isa. 38:1-20",
+          "ep_nt": "Rev. 16"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "Isa. 40:12-end",
+          "mp_nt": "Mk. 6:30-end",
+          "ep_ot": "Isa. 41",
+          "ep_nt": "Rev. 17"
+        }
+      ]
+    },
+    "Advent III": {
+      "title": "The Week of Advent III",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "Isa. 25:1-9",
+          "mp_nt": "Mt. 25:1-30",
+          "ep_ot": "Isa. 26:1-13",
+          "ep_nt": "1 Tim. 1:12-2:8"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "Isa. 28:9-22",
+          "mp_nt": "Rev 3:7-end",
+          "ep_ot": "Isa. 32:1-18",
+          "ep_nt": "Mt. 3"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "Isa. 42:1-17",
+          "mp_nt": "Mk. 7:1-23",
+          "ep_ot": "Isa. 42:18-43:13",
+          "ep_nt": "Rev 18"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "Isa. 43:14-44:5",
+          "mp_nt": "Mk. 7:24-8:10",
+          "ep_ot": "Isa. 44:6-23",
+          "ep_nt": "Rev. 19"
+        },
+        {
+          "label": "Wednesday (Ember)",
+          "year": null,
+          "mp_ot": "Isa. 44:24-45:13",
+          "mp_nt": "Mk. 8:11-9:1",
+          "ep_ot": "Isa. 45:14-end",
+          "ep_nt": "Rev. 20"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "Isa. 46",
+          "mp_nt": "Mk. 9:2-32",
+          "ep_ot": "Isa. 47",
+          "ep_nt": "Rev. 21:1-14"
+        },
+        {
+          "label": "Friday (Ember)",
+          "year": null,
+          "mp_ot": "Isa. 48",
+          "mp_nt": "Mk. 9:33-end",
+          "ep_ot": "Isa. 49:1-13",
+          "ep_nt": "Rev. 21:15-22:5"
+        },
+        {
+          "label": "Saturday (Ember)",
+          "year": null,
+          "mp_ot": "Isa. 49:14-end",
+          "mp_nt": "Mk. 10:1-31",
+          "ep_ot": "Isa. 50:4-10",
+          "ep_nt": "Rev. 22:6-end"
+        }
+      ]
+    },
+    "Advent IV": {
+      "title": "The Week of Advent IV",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "Isa. 35",
+          "mp_nt": "Mt. 25:31-end",
+          "ep_ot": "Isa. 40:1-11",
+          "ep_nt": "2 Pet. 3:1-14"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "Isa. 30:8-21",
+          "mp_nt": "Rev. 14:13-15:4",
+          "ep_ot": "Isa. 40:1-11",
+          "ep_nt": "Lk. 1:26-45"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "Isa. 51:1-16",
+          "mp_nt": "Mk. 10:32-end",
+          "ep_ot": "Isa. 51:17-52:12",
+          "ep_nt": "Jude 1-16"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "Isa. 52:13-53 end",
+          "mp_nt": "Mk. 11:1-26",
+          "ep_ot": "Isa. 54",
+          "ep_nt": "Jude 17-end"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "Isa. 56:1-8",
+          "mp_nt": "Mk. 11:27-12:12",
+          "ep_ot": "Isa. 57:15-end",
+          "ep_nt": "2 Pet. 1"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "Isa. 59",
+          "mp_nt": "Mk. 12:13-34",
+          "ep_ot": "Isa. 60:1-7",
+          "ep_nt": "2 Pet. 2"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "Isa. 60:8-end",
+          "mp_nt": "Mk. 12:35-13:13",
+          "ep_ot": "Isa. 61",
+          "ep_nt": "2 Pet. 3"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "Isa. 62",
+          "mp_nt": "Mk. 13:14-end",
+          "ep_ot": "--",
+          "ep_nt": "--"
+        }
+      ]
+    },
+    "Christmastide": {
+      "title": "Christmastide",
+      "rows": [
+        {
+          "label": "Christmas Eve",
+          "year": null,
+          "mp_ot": "------",
+          "mp_nt": "-------",
+          "ep_ot": "Zech 2:10-end",
+          "ep_nt": "Heb. 2:10-18"
+        },
+        {
+          "label": "Christmas Day",
+          "year": null,
+          "mp_ot": "Isa. 9:2-7",
+          "mp_nt": "Mt. 1:18-25",
+          "ep_ot": "Isa. 7:10-14",
+          "ep_nt": "1 Jn. 4:7-end"
+        },
+        {
+          "label": "St. Stephen",
+          "year": null,
+          "mp_ot": "Gen. 4:1-10",
+          "mp_nt": "Acts 6",
+          "ep_ot": "2 Chr. 24:15-22",
+          "ep_nt": "Acts 7:59-8:8"
+        },
+        {
+          "label": "St. John",
+          "year": null,
+          "mp_ot": "Ex. 33:9-end",
+          "mp_nt": "Jn. 13:21-35",
+          "ep_ot": "Isa. 6:1-8",
+          "ep_nt": "1 Jn. 5:1-12"
+        },
+        {
+          "label": "The Innocents",
+          "year": null,
+          "mp_ot": "Baruch 4:21-27",
+          "mp_nt": "Rev. 6:9-11",
+          "ep_ot": "Jer. 31:1-17",
+          "ep_nt": "Mt. 18:1-10"
+        },
+        {
+          "label": "Sunday after Christmas (I II)",
+          "year": null,
+          "mp_ot": "Isa. 41:8-20",
+          "mp_nt": "Col. 1:1-20",
+          "ep_ot": "Isa. 55",
+          "ep_nt": "Lk. 2:22-40"
+        },
+        {
+          "label": "Dec. 29",
+          "year": null,
+          "mp_ot": "Ruth 1:1-18",
+          "mp_nt": "Jn. 1:14-18",
+          "ep_ot": "Ruth 1:19-2:13",
+          "ep_nt": "Mt. 11:2-6"
+        },
+        {
+          "label": "Dec. 30",
+          "year": null,
+          "mp_ot": "Ruth 2:14-end",
+          "mp_nt": "Jn. 3:16-21",
+          "ep_ot": "Ruth 3",
+          "ep_nt": "Mt. 16:13-20"
+        },
+        {
+          "label": "Dec. 31",
+          "year": null,
+          "mp_ot": "Ruth 4:1-17",
+          "mp_nt": "Jn. 6:41-58",
+          "ep_ot": "Micah 4:8-5:4",
+          "ep_nt": "Lk. 22:24-30"
+        },
+        {
+          "label": "Octave Day of Christmas (Jan 1)",
+          "year": null,
+          "mp_ot": "Gen. 17:1-13",
+          "mp_nt": "Rom. 2:17-29",
+          "ep_ot": "Deut. 30",
+          "ep_nt": "Col. 2:8-15"
+        }
+      ]
+    },
+    "Christmas II": {
+      "title": "The Second Sunday after Christmas",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "Isa. 41:21-end",
+          "mp_nt": "1 Jn. 1:1-2:6",
+          "ep_ot": "Isa. 55",
+          "ep_nt": "Lk. 2:22-40"
+        },
+        {
+          "label": "Jan 2",
+          "year": null,
+          "mp_ot": "Isa. 63:1-6",
+          "mp_nt": "Mt. 1:18-end",
+          "ep_ot": "Isa. 63:7-end",
+          "ep_nt": "1 Thess. 1"
+        },
+        {
+          "label": "Jan 3",
+          "year": null,
+          "mp_ot": "Isa. 64",
+          "mp_nt": "Mt. 2:19-end",
+          "ep_ot": "Isa. 65:1-16",
+          "ep_nt": "1 Thess. 2:1-16"
+        },
+        {
+          "label": "Jan 4",
+          "year": null,
+          "mp_ot": "Isa. 65:17-end",
+          "mp_nt": "Mt. 3:1-4:11",
+          "ep_ot": "Isa. 66:1-9",
+          "ep_nt": "1 Thess. 2:17-3 end"
+        },
+        {
+          "label": "Jan 5",
+          "year": null,
+          "mp_ot": "Isa. 66:10-end",
+          "mp_nt": "Mt. 4:12-5:16",
+          "ep_ot": "Isa. 60:1-7",
+          "ep_nt": "Rom. 15:8-21"
+        }
+      ]
+    },
+    "Epiphany": {
+      "title": "The Epiphany of our Lord",
+      "rows": [
+        {
+          "label": "Epiphany (Jan 6)",
+          "year": null,
+          "mp_ot": "Isa. 49:1-13",
+          "mp_nt": "Lk. 3:15-22",
+          "ep_ot": "Isa. 60:9-end",
+          "ep_nt": "Jn. 2:1-11"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "Amos 1",
+          "mp_nt": "Mt. 5:17-end",
+          "ep_ot": "Amos 2",
+          "ep_nt": "1 Thess. 4:1-12"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "Amos 3",
+          "mp_nt": "Mt. 6:1-18",
+          "ep_ot": "Amos 4",
+          "ep_nt": "1 Thess. 4:13-5:11"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "Amos 5",
+          "mp_nt": "Mt. 6:19-end",
+          "ep_ot": "Amos 6",
+          "ep_nt": "1 Thess. 5:12-end"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "Amos 7",
+          "mp_nt": "Mt. 7",
+          "ep_ot": "Amos 8",
+          "ep_nt": "2 Thess. 1"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "Amos 9",
+          "mp_nt": "Mt. 8:1-17",
+          "ep_ot": "Micah 1",
+          "ep_nt": "2 Thess. 2"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "Micah 2",
+          "mp_nt": "Mt. 8:18-end",
+          "ep_ot": "Micah 3",
+          "ep_nt": "2 Thess. 3"
+        }
+      ]
+    },
+    "Epiphany I": {
+      "title": "The Week of Epiphany I",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "Isa. 49:13-23",
+          "mp_nt": "Mt. 17:1-13",
+          "ep_ot": "Isa. 61",
+          "ep_nt": "Mt. 2"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "Isa. 42:1-12",
+          "mp_nt": "Jn. 4:1-26(27-42)",
+          "ep_ot": "Isa. 43:1-13",
+          "ep_nt": "Jn. 12:20-36a"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "Micah 4:1-5:1",
+          "mp_nt": "Mt. 9:1-17",
+          "ep_ot": "Micah 5:2-end",
+          "ep_nt": "Gal. 1"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "Micah 6",
+          "mp_nt": "Mt. 9:18-34",
+          "ep_ot": "Micah 7",
+          "ep_nt": "Gal. 2"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "Hos. 1",
+          "mp_nt": "Mt. 9:35-10:23",
+          "ep_ot": "Hos. 2:1-13",
+          "ep_nt": "Gal. 3"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "Hos. 2:14-3 end",
+          "mp_nt": "Mt. 10:24-end",
+          "ep_ot": "Hos. 4:1-11",
+          "ep_nt": "Gal. 4:1-5:1"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "Hos. 5:8-6:6",
+          "mp_nt": "Mt. 11",
+          "ep_ot": "Hos. 8",
+          "ep_nt": "Gal. 5:2-end"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "Hos. 9",
+          "mp_nt": "Mt. 12:1-21",
+          "ep_ot": "Hos. 10",
+          "ep_nt": "Gal. 6"
+        }
+      ]
+    },
+    "Epiphany II": {
+      "title": "The Week of Epiphany II",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "Isa. 43:14-44:5",
+          "mp_nt": "Eph. 1",
+          "ep_ot": "Isa. 44:6-23",
+          "ep_nt": "Mk. 1:35-45"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "Amos 3",
+          "mp_nt": "Jn. 6:22-40",
+          "ep_ot": "Micah 3:5-end",
+          "ep_nt": "Jn. 4:43-5:9"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "Hos. 11",
+          "mp_nt": "Mt. 12:22-50",
+          "ep_ot": "Hos. 12",
+          "ep_nt": "1 Cor. 1:1-25"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "Hos. 13:1-14",
+          "mp_nt": "Mt. 13:1-23",
+          "ep_ot": "Hos. 14",
+          "ep_nt": "1 Cor. 1:26-2:16"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "Zeph. 1",
+          "mp_nt": "Mt. 13:24-43",
+          "ep_ot": "Zeph. 2",
+          "ep_nt": "1 Cor. 3"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "Zeph. 3",
+          "mp_nt": "Mt. 13:44-58",
+          "ep_ot": "Nahum 1",
+          "ep_nt": "1 Cor. 4:1-17"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "Nahum 2",
+          "mp_nt": "Mt. 14",
+          "ep_ot": "Nahum 3",
+          "ep_nt": "1 Cor. 4:18-5:13"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "Hab. 1",
+          "mp_nt": "Mt. 15:1-28",
+          "ep_ot": "Hab. 2",
+          "ep_nt": "1 Cor. 6"
+        }
+      ]
+    },
+    "EpIII": {
+      "title": "The Week of Epiphany III",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "Isa. 45:9-end",
+          "mp_nt": "Eph. 2",
+          "ep_ot": "Isa. 46:3-end",
+          "ep_nt": "Mk. 7:24-end"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "Amos 5:6-24",
+          "mp_nt": "Jn. 6:41-end",
+          "ep_ot": "Micah 4:1-7",
+          "ep_nt": "Jn. 9"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "Hab. 3:2-end",
+          "mp_nt": "1 Cor. 7",
+          "ep_ot": "Mal. 1",
+          "ep_nt": "1 Cor. 8"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "Mal. 2:1-16",
+          "mp_nt": "1 Cor. 9",
+          "ep_ot": "Mal. 2:17-3:12",
+          "ep_nt": "1 Cor. 10:1-11:1"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "Mal. 3:13-4 end",
+          "mp_nt": "1 Cor. 11:2-end",
+          "ep_ot": "Obadiah",
+          "ep_nt": "1 Cor. 12:1-27"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "Joel 1",
+          "mp_nt": "1 Cor. 12:27-13 end",
+          "ep_ot": "Joel 2:1-14",
+          "ep_nt": "1 Cor. 14:1-19"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "Joel 2:15-end",
+          "mp_nt": "1 Cor. 14:20-end",
+          "ep_ot": "Joel 3",
+          "ep_nt": "1 Cor. 15:1-34"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "Jon. 1 2",
+          "mp_nt": "1 Cor. 15:35-end",
+          "ep_ot": "Jon. 3 4",
+          "ep_nt": "1 Cor. 16"
+        }
+      ]
+    },
+    "EpIV": {
+      "title": "The Week of Epiphany IV",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "Isa. 48:12-end",
+          "mp_nt": "Eph. 3",
+          "ep_ot": "Isa. 54:1-14",
+          "ep_nt": "Lk. 13:1-17"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "Amos 7",
+          "mp_nt": "Jn. 7:53-8:11",
+          "ep_ot": "Micah 5:2-7",
+          "ep_nt": "Jn. 10:1-18"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "Jer. 1:11-end",
+          "mp_nt": "2 Cor. 1:1-2:11",
+          "ep_ot": "Jer. 2:1-13",
+          "ep_nt": "2 Cor. 2:12-3 end"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "Jer. 4:1-18",
+          "mp_nt": "2 Cor. 4",
+          "ep_ot": "Jer. 5:1-19",
+          "ep_nt": "2 Cor. 5"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "Jer. 5:20-end",
+          "mp_nt": "2 Cor. 5:20-7:1",
+          "ep_ot": "Jer. 6:1-21",
+          "ep_nt": "2 Cor. 7:2-end"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "Jer. 7:1-28",
+          "mp_nt": "2 Cor. 8",
+          "ep_ot": "Jer. 8",
+          "ep_nt": "2 Cor. 9"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "Jer. 9:1-24",
+          "mp_nt": "2 Cor. 10",
+          "ep_ot": "Jer. 10",
+          "ep_nt": "2 Cor. 11"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "Jer. 14",
+          "mp_nt": "2 Cor. 12:1-13",
+          "ep_ot": "Jer. 15",
+          "ep_nt": "2 Cor. 12:14-13 end"
+        }
+      ]
+    },
+    "EpV": {
+      "title": "The Week of Epiphany V",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "Isa. 59:12-20",
+          "mp_nt": "Eph. 5:15-6:9",
+          "ep_ot": "Isa. 60",
+          "ep_nt": "Mk. 2:1-12"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "Amos 8:4-end",
+          "mp_nt": "Jn. 7:14-36",
+          "ep_ot": "Micah 6:1-8",
+          "ep_nt": "Jn. 5:19-29 (30-40)"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "Jer. 17:1-18",
+          "mp_nt": "Acts 15:1-29",
+          "ep_ot": "Jer. 17:19-end",
+          "ep_nt": "Acts 15:30-16:5"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "Jer. 18:1-17",
+          "mp_nt": "Acts 16:6-end",
+          "ep_ot": "Jer. 20",
+          "ep_nt": "Acts 17:1-15"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "Jer. 23:9-32",
+          "mp_nt": "Acts 17:16-end",
+          "ep_ot": "Jer. 30:1-22",
+          "ep_nt": "Acts 18:1-23"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "Jer. 31:1-20",
+          "mp_nt": "Acts 18:24-19:7",
+          "ep_ot": "Jer. 31:23-end",
+          "ep_nt": "Acts 19:8-20"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "Jer. 33:1-13",
+          "mp_nt": "Acts 19:21-end",
+          "ep_ot": "Jer. 33:14-end",
+          "ep_nt": "Acts 20:1-16"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "Jer. 35:1-11",
+          "mp_nt": "Acts 20:17-end",
+          "ep_ot": "Jer. 35:12-end",
+          "ep_nt": "Acts 21:1-16"
+        }
+      ]
+    },
+    "EpVI": {
+      "title": "The Week of Epiphany VI",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "Isa. 63:7-16",
+          "mp_nt": "Eph. 6:10-end",
+          "ep_ot": "Isa. 64",
+          "ep_nt": "Lk. 7:1-10"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "Amos 9:5-end",
+          "mp_nt": "Jn. 7:37-52",
+          "ep_ot": "Micah 7:1-9",
+          "ep_nt": "Jn. 8:12-30"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "Tobit 4:5-19",
+          "mp_nt": "Acts 21:17-36",
+          "ep_ot": "Tobit 13",
+          "ep_nt": "Acts 21:37-22:22"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "Baruch 1:15-2:10",
+          "mp_nt": "Acts 22:23-23:11",
+          "ep_ot": "Baruch 2:11-end",
+          "ep_nt": "Acts 23:12-end"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "Baruch 3:1-8",
+          "mp_nt": "Acts 24:1-23",
+          "ep_ot": "Baruch 3:9-end",
+          "ep_nt": "Acts 24-25:12"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "Baruch 4:21-30",
+          "mp_nt": "Acts 25:13-end",
+          "ep_ot": "Baruch 4:36-5 end",
+          "ep_nt": "Acts 26"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "2 Macc. 4:7-17",
+          "mp_nt": "Acts 27:1-26",
+          "ep_ot": "2 Macc. 6:12-end",
+          "ep_nt": "Acts 27:27-end"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "2 Macc. 7:1-19",
+          "mp_nt": "Acts 28:1-15",
+          "ep_ot": "2 Macc. 7:20-41",
+          "ep_nt": "Acts 28:16-end"
+        }
+      ]
+    },
+    "Sept": {
+      "title": "The Week of Septuagesima",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "Gen. 1:1-2:3",
+          "mp_nt": "Jn. 1:1-18",
+          "ep_ot": "Gen. 2:4-end",
+          "ep_nt": "Rev. 4"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "Gen. 1:1-2:3",
+          "mp_nt": "Rev. 21:1-7",
+          "ep_ot": "Gen. 2:4-end",
+          "ep_nt": "Mk. 10:1-16"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "Gen. 3",
+          "mp_nt": "Mt. 15:29-16:12",
+          "ep_ot": "Gen. 4:1-16",
+          "ep_nt": "Rom. 1"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "Gen. 6",
+          "mp_nt": "Mt. 16:13-end",
+          "ep_ot": "Gen. 7",
+          "ep_nt": "Rom. 2"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "Gen. 8:1-14",
+          "mp_nt": "Mt. 17:1-23",
+          "ep_ot": "Gen. 8:15-9:17",
+          "ep_nt": "Rom. 3"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "Gen. 11:1-9; 27-12:10",
+          "mp_nt": "Mt. 17:24-18:14",
+          "ep_ot": "Gen. 13",
+          "ep_nt": "Rom. 4"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "Gen. 14",
+          "mp_nt": "Mt. 18:15-end",
+          "ep_ot": "Gen. 15",
+          "ep_nt": "Rom. 5"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "Gen. 16",
+          "mp_nt": "Mt. 19:1-15",
+          "ep_ot": "Gen. 17:1-22",
+          "ep_nt": "Rom. 6"
+        }
+      ]
+    },
+    "Sexa": {
+      "title": "The Week of Sexagesima",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "Gen. 3",
+          "mp_nt": "1 Cor. 10:1-24",
+          "ep_ot": "Gen. 4:1-15",
+          "ep_nt": "1 Jn. 3:1-15"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "Gen. 27:1-40",
+          "mp_nt": "1 Cor. 6:12-end",
+          "ep_ot": "Gen. 37",
+          "ep_nt": "Lk. 10:25-37"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "Gen. 18",
+          "mp_nt": "Mt. 19:16-20:16",
+          "ep_ot": "Gen. 19:1-3;12-29",
+          "ep_nt": "Rom. 7"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "Gen. 21",
+          "mp_nt": "Mt. 20:17-end",
+          "ep_ot": "Gen. 22:1-19",
+          "ep_nt": "Rom. 8:1-17"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "Gen. 23",
+          "mp_nt": "Mt. 21:1-22",
+          "ep_ot": "Gen. 24:1-28",
+          "ep_nt": "Rom. 8:18-end"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "Gen. 24:29-end",
+          "mp_nt": "Mt. 21:23-end",
+          "ep_ot": "Gen. 25:7-11;19-end",
+          "ep_nt": "Rom. 9"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "Gen. 26:1-5;12-end",
+          "mp_nt": "Mt. 22:1-33",
+          "ep_ot": "Gen. 27:1-40",
+          "ep_nt": "Rom. 10"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "Gen. 27:41-28 end",
+          "mp_nt": "Mt. 22:34-23:12",
+          "ep_ot": "Gen. 29:1-20",
+          "ep_nt": "Rom. 11"
+        }
+      ]
+    },
+    "Quin": {
+      "title": "The Week of Quinquagesima",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "Gen. 12:1-9",
+          "mp_nt": "1 Cor. 12:4-end",
+          "ep_ot": "Gen. 6:5-end",
+          "ep_nt": "Lk. 17:20-end"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "Gen. 28:10-end",
+          "mp_nt": "1 Cor. 12:4-end",
+          "ep_ot": "Gen. 41:1-40",
+          "ep_nt": "1 Jn. 4:7-end"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "Gen. 31:1-21",
+          "mp_nt": "Mt. 23:13-end",
+          "ep_ot": "Gen. 31:22-32:2",
+          "ep_nt": "Rom. 12"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "Gen. 32:3-30",
+          "mp_nt": "Mt. 24:1-28",
+          "ep_ot": "Gen. 33",
+          "ep_nt": "Rom. 13"
+        },
+        {
+          "label": "Ash Wednesday",
+          "year": null,
+          "mp_ot": "Isa. 57:15-end",
+          "mp_nt": "Mk. 2:13-22",
+          "ep_ot": "Isa. 58",
+          "ep_nt": "Heb. 3:12-4:13"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "Gen. 35:1-20",
+          "mp_nt": "Mt. 24:29-end",
+          "ep_ot": "Gen. 37",
+          "ep_nt": "Rom. 14"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "Gen. 39",
+          "mp_nt": "Mt. 25:1-30",
+          "ep_ot": "Gen. 40",
+          "ep_nt": "Rom. 15"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "Gen. 41:1-40",
+          "mp_nt": "Mt. 25:31-end",
+          "ep_ot": "Gen. 41:41-end",
+          "ep_nt": "Rom. 16"
+        }
+      ]
+    },
+    "L1": {
+      "title": "The Week of Lent I",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "Gen. 13",
+          "mp_nt": "Mt. 9:1-17",
+          "ep_ot": "Gen. 8",
+          "ep_nt": "Mk. 14:1-26"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "Gen. 29:1-20",
+          "mp_nt": "Heb. 4:14-5:10",
+          "ep_ot": "Gen. 42",
+          "ep_nt": "Lk. 22:1-30"
+        },
+        {
+          "label": "Monday",
+          "year": "I",
+          "mp_ot": "Gen. 42",
+          "mp_nt": "Mt. 26:1-30",
+          "ep_ot": "Gen. 43",
+          "ep_nt": "Phil. 1"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "Gen. 43:1-14",
+          "mp_nt": "Mt. 26:1-30",
+          "ep_ot": "Gen. 43:15-end",
+          "ep_nt": "Phil. 1"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "Gen. 44",
+          "mp_nt": "Mt. 26:31-56",
+          "ep_ot": "Gen. 45:1-15",
+          "ep_nt": "Phil. 2"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "Gen. 45:16-46:7",
+          "mp_nt": "Mt. 26:57-75",
+          "ep_ot": "Gen. 46:26-47:12",
+          "ep_nt": "Phil. 3"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "Gen. 47:13-end",
+          "mp_nt": "Mt. 27:1-26",
+          "ep_ot": "Gen. 48",
+          "ep_nt": "Phil. 4"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "Gen. 49:1-32",
+          "mp_nt": "Mt. 27:27-56",
+          "ep_ot": "Gen. 49:33-50 end",
+          "ep_nt": "Col. 1:1-20"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "Ex. 1:1-14, 22-2:10",
+          "mp_nt": "Mt. 27:57-28 end",
+          "ep_ot": "Ex. 2:11-22",
+          "ep_nt": "Col. 1:21-2:7"
+        }
+      ]
+    },
+    "L2": {
+      "title": "The Week of Lent II",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "Gen. 18:1-15",
+          "mp_nt": "Lk. 15:11-end",
+          "ep_ot": "Gen. 9:1-17 (11:1-9)",
+          "ep_nt": "Mk. 14:27-52"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "Gen. 32:1-30",
+          "mp_nt": "Heb. 10:19-end",
+          "ep_ot": "Gen. 43",
+          "ep_nt": "Lk. 22:31-53"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "Ex. 2:23-3 end",
+          "mp_nt": "Jn. 1:1-28",
+          "ep_ot": "Ex. 4:1-23",
+          "ep_nt": "Col. 2:8-3:11"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "Ex. 4:27-6:1",
+          "mp_nt": "Jn. 1:29-end",
+          "ep_ot": "Ex. 6:2-23 7:1-7",
+          "ep_nt": "Col. 3:12-4:1"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "Ex. 7:8-end",
+          "mp_nt": "Jn. 2",
+          "ep_ot": "Ex. 8:1-19",
+          "ep_nt": "Col. 4:2-end"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "Ex. 8:20-9:12",
+          "mp_nt": "Jn. 3:1-21",
+          "ep_ot": "Ex. 9:13-end",
+          "ep_nt": "Philemon"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "Ex. 10:1-20",
+          "mp_nt": "Jn. 3:22-end",
+          "ep_ot": "Ex. 10:21-11 end",
+          "ep_nt": "Eph. 1"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "Ex. 12:1-20",
+          "mp_nt": "Jn. 4:1-26",
+          "ep_ot": "Ex. 12:21-36",
+          "ep_nt": "Eph. 2"
+        }
+      ]
+    },
+    "L3": {
+      "title": "The Week of Lent III",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "Gen. 18:16-end",
+          "mp_nt": "Lk. 18:1-14",
+          "ep_ot": "Gen. 24:1-28",
+          "ep_nt": "Mk. 14:53-end"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "Gen. 33:1-17",
+          "mp_nt": "Heb. 12:18-end",
+          "ep_ot": "Gen. 44:1-45:8",
+          "ep_nt": "Lk. 22:54-end"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "Ex. 12:37-end",
+          "mp_nt": "Jn. 4:27-end",
+          "ep_ot": "Ex. 13:1-16",
+          "ep_nt": "Eph. 3"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "Ex. 13:17-14:14",
+          "mp_nt": "Jn. 5:1-23",
+          "ep_ot": "Ex. 14:15-end",
+          "ep_nt": "Eph. 4:1-16"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "Ex. 15:1-26",
+          "mp_nt": "Jn. 5:24-end",
+          "ep_ot": "Ex. 15:27-16:35",
+          "ep_nt": "Eph. 4:17-30"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "Ex. 17",
+          "mp_nt": "Jn. 6:1-21",
+          "ep_ot": "Ex. 18",
+          "ep_nt": "Eph. 4:31-5:21"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "Ex. 19",
+          "mp_nt": "Jn. 6:22-40",
+          "ep_ot": "Ex. 20:1-21",
+          "ep_nt": "Eph. 5:22-6:9"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "Ex. 22:20-23:17",
+          "mp_nt": "Jn. 6:41-end",
+          "ep_ot": "Ex. 23:18-end",
+          "ep_nt": "Eph. 6:10-end"
+        }
+      ]
+    },
+    "L4": {
+      "title": "The Week of Lent IV",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "Ex. 1:8-2:10",
+          "mp_nt": "Lk. 18:35-19:10",
+          "ep_ot": "Gen. 24:29-end",
+          "ep_nt": "Mk. 15:1-21"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "Gen. 35:1-15",
+          "mp_nt": "Heb. 13:1-21",
+          "ep_ot": "Gen. 45:15-46:7",
+          "ep_nt": "Lk. 23:1-25"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "Ex. 24",
+          "mp_nt": "Jn. 7:1-24",
+          "ep_ot": "Ex. 25:1-22",
+          "ep_nt": "1 Tim. 1:1-17"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "Ex. 28:1-4,29-41",
+          "mp_nt": "Jn. 7:25-end",
+          "ep_ot": "Ex. 29:38-30:16",
+          "ep_nt": "1 Tim.1:18-2 end"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "Ex. 32",
+          "mp_nt": "Jn. 8:1-30",
+          "ep_ot": "Ex. 33",
+          "ep_nt": "1 Tim. 3"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "Ex. 34",
+          "mp_nt": "Jn. 8:31-end",
+          "ep_ot": "Ex. 35:20-36:7",
+          "ep_nt": "1 Tim. 4"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "Ex. 40:17-end",
+          "mp_nt": "Jn. 9",
+          "ep_ot": "Lev. 6:8-end",
+          "ep_nt": "1 Tim. 5"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "Lev. 19",
+          "mp_nt": "Jn. 10:1-21",
+          "ep_ot": "Lev. 25:1-24",
+          "ep_nt": "1 Tim. 6"
+        }
+      ]
+    },
+    "L5": {
+      "title": "The Week of Lent V",
+      "rows": [
+        {
+          "label": "Passion Sunday",
+          "year": "I",
+          "mp_ot": "Ex. 2:23-3:20",
+          "mp_nt": "Mk. 10:32-45",
+          "ep_ot": "Ex. 6:2-13",
+          "ep_nt": "Mk. 15:22-39"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "Ex. 2:23-3:20",
+          "mp_nt": "Mk. 10:32-45",
+          "ep_ot": "Ex. 4:27-6:1",
+          "ep_nt": "Lk. 23:26-49"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "Num 6",
+          "mp_nt": "Jn. 10:22-end",
+          "ep_ot": "Num. 9:15-end 10:29-end",
+          "ep_nt": "Titus 1:1-2:8"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "Num. 11:10-33",
+          "mp_nt": "Jn. 11:1-44",
+          "ep_ot": "Num. 12",
+          "ep_nt": "Titus 2:9-3 end"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "Num. 13",
+          "mp_nt": "Jn. 11:45-end",
+          "ep_ot": "Num. 14:1-25",
+          "ep_nt": "2 Tim. 1"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "Num. 16:1-35",
+          "mp_nt": "Jn. 12:1-19",
+          "ep_ot": "Num. 16:36-17 end",
+          "ep_nt": "2 Tim. 2"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "Num. 20",
+          "mp_nt": "Jn. 12:20-end",
+          "ep_ot": "Num. 22:1-35",
+          "ep_nt": "2 Tim. 3"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "Num. 22:36-23:26",
+          "mp_nt": "Jn. 13",
+          "ep_ot": "Num. 23:27-24 end",
+          "ep_nt": "2 Tim. 4"
+        }
+      ]
+    },
+    "L6": {
+      "title": "Holy Week",
+      "rows": [
+        {
+          "label": "Palm Sunday",
+          "year": null,
+          "mp_ot": "Ex. 11",
+          "mp_nt": "Mt. 26",
+          "ep_ot": "Isa. 52:13-53 end",
+          "ep_nt": "Lk. 19:29-end"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "Hos. 13:1-14",
+          "mp_nt": "Jn. 14:1-14",
+          "ep_ot": "Hos. 14",
+          "ep_nt": "Jn. 14:15-end"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "Isa. 42:1-9",
+          "mp_nt": "Jn. 15:1-16",
+          "ep_ot": "Wis. 2",
+          "ep_nt": "Jn. 15:17-end"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "Num. 21:4-9",
+          "mp_nt": "Jn. 16:1-15",
+          "ep_ot": "Lev. 16:2-24",
+          "ep_nt": "Jn. 16:16-end"
+        },
+        {
+          "label": "Maundy Thursday",
+          "year": null,
+          "mp_ot": "Lam. 1:1-14",
+          "mp_nt": "Jn. 17",
+          "ep_ot": "Lam. 3:1-33",
+          "ep_nt": "Jn. 13:1-35"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "Gen. 22:1-18",
+          "mp_nt": "Jn. 18:1-32",
+          "ep_ot": "Isa. 50:4-10",
+          "ep_nt": "Jn. 19:38-end"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "Zech. 9:9-12",
+          "mp_nt": "1 Pet. 2:11-end",
+          "ep_ot": "Job 19:21-27",
+          "ep_nt": "Jn. 2:13-22"
+        }
+      ]
+    },
+    "E": {
+      "title": "Easter Week",
+      "rows": [
+        {
+          "label": "Easter Day",
+          "year": null,
+          "mp_ot": "Ex. 12:1-14",
+          "mp_nt": "Rev. 1:4-18",
+          "ep_ot": "Ex. 14:5-end",
+          "ep_nt": "Jn. 20:11-23"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "Ex. 15:1-18",
+          "mp_nt": "Lk. 24:1-12",
+          "ep_ot": "Isa 12",
+          "ep_nt": "Rev. 7:9-end"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "Isaiah 25:1-9",
+          "mp_nt": "I Pet. 1:1-12",
+          "ep_ot": "Isa. 26:1-19",
+          "ep_nt": "Mt. 28:1-10"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "Isa. 61",
+          "mp_nt": "I Pet. 1:13-end",
+          "ep_ot": "S. of Sol. 2:8-end",
+          "ep_nt": "Jn. 21:1-14"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "Job 14:1-15",
+          "mp_nt": "I Thess. 4:13-end",
+          "ep_ot": "Dan. 12",
+          "ep_nt": "Mk. 5:21-end"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "Zeph. 3:14-end",
+          "mp_nt": "Acts 17:16-31",
+          "ep_ot": "2 Kings 4:8-37",
+          "ep_nt": "Lk. 7:11-17"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "Jere. 31:1-14",
+          "mp_nt": "Acts 26:1-23",
+          "ep_ot": "Micah 7:7-end",
+          "ep_nt": "Jn. 11:17-44"
+        }
+      ]
+    },
+    "E1": {
+      "title": "The Week of Easter I",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "Isa. 51:1-16",
+          "mp_nt": "Lk. 24: 13-35",
+          "ep_ot": "Ex. 15:1-18",
+          "ep_nt": "Jn. 20:24-end"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "Eze. 37:1-14",
+          "mp_nt": "Lk. 24:13-35",
+          "ep_ot": "I Kings 17:8-end",
+          "ep_nt": "Jn. 20:24-end"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "Deut. 1:3-18",
+          "mp_nt": "Acts 1:1-14",
+          "ep_ot": "Deut. 1:19-end",
+          "ep_nt": "Acts 1:15-end"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "Deut. 2:1-25",
+          "mp_nt": "Acts 2:1-21",
+          "ep_ot": "Deut. 2:26-3:5",
+          "ep_nt": "Acts 2:22-end"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "Deut. 3:18-end",
+          "mp_nt": "Acts 3:1-4:4",
+          "ep_ot": "Deut. 4:1-24",
+          "ep_nt": "Acts 4:5-31"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "Deut. 4:41-end",
+          "mp_nt": "Acts 4:32-5:11",
+          "ep_ot": "Deut. 5:1-21",
+          "ep_nt": "Acts 5:12-end"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "Deut. 5:22-end",
+          "mp_nt": "Acts 6:1-7:16",
+          "ep_ot": "Deut. 6",
+          "ep_nt": "Acts 7:17-34"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "Deut. 7:1-11",
+          "mp_nt": "Acts 7:35-8:4",
+          "ep_ot": "Deut. 7:12-end",
+          "ep_nt": "Acts 8:4-25"
+        }
+      ]
+    },
+    "E2": {
+      "title": "The Week of Easter II",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "Ex. 16:2-15",
+          "mp_nt": "1 Cor. 15:1-26",
+          "ep_ot": "Ex. 2",
+          "ep_nt": "Jn. 21:1-14"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "Num. 13:1,2,17-end",
+          "mp_nt": "Mk. 5:21-end",
+          "ep_ot": "Deut.4:25-40",
+          "ep_nt": "Rev. 20"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "Deut. 8",
+          "mp_nt": "Acts 8:26-end",
+          "ep_ot": "Deut. 9:1-10",
+          "ep_nt": "Acts 9:1-31"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "Deut. 9:11-end",
+          "mp_nt": "Acts 9:32-end",
+          "ep_ot": "Deut. 10",
+          "ep_nt": "Acts 10:1-23"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "Deut. 11:1-12",
+          "mp_nt": "Acts 10:24-end",
+          "ep_ot": "Deut. 11:13-end",
+          "ep_nt": "Acts 11:1-18"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "Deut. 12:1-14",
+          "mp_nt": "Acts 11:19-end",
+          "ep_ot": "Deut. 15:1-18",
+          "ep_nt": "Acts 12:1-24"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "Deut. 16:1-20",
+          "mp_nt": "Acts 12:25-13:12",
+          "ep_ot": "Deut. 17:8-end",
+          "ep_nt": "Acts 13:13-43"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "Deut. 18:9-end",
+          "mp_nt": "Acts 13:44-14:7",
+          "ep_ot": "Deut. 19",
+          "ep_nt": "Acts 14:8-end"
+        }
+      ]
+    },
+    "E3": {
+      "title": "The Week of Easter III",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "Ex. 32:1-14",
+          "mp_nt": "1 Cor. 15:35-end",
+          "ep_ot": "Ex. 33:7-end",
+          "ep_nt": "Jn. 21:15-end"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "Num. 22:1-21",
+          "mp_nt": "Lk. 7:11-17",
+          "ep_ot": "Deut.5:1-21",
+          "ep_nt": "Rev.21:9-end"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "Deut. 21:22-22:8",
+          "mp_nt": "Acts 15:1-21",
+          "ep_ot": "Deut. 24:5-end",
+          "ep_nt": "Acts 15:22-35"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "Deut. 26",
+          "mp_nt": "Acts 15:36-16:5",
+          "ep_ot": "Deut. 28:58-end",
+          "ep_nt": "Acts 16:6-end"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "Deut. 29:10-end",
+          "mp_nt": "Acts 17:1-15",
+          "ep_ot": "Deut. 30",
+          "ep_nt": "Acts 17:16-end"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "Deut. 31:1-13",
+          "mp_nt": "Acts 18:1-23",
+          "ep_ot": "Deut. 31:14-29",
+          "ep_nt": "Acts 18:24-19:7"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "Deut. 31:30-32:14",
+          "mp_nt": "Acts 19:8-20",
+          "ep_ot": "Deut.32:15-47",
+          "ep_nt": "Acts 19:21-end"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "Deut. 33",
+          "mp_nt": "Acts 20:1-16",
+          "ep_ot": "Deut. 32:48-end 34",
+          "ep_nt": "Acts 20:17-end"
+        }
+      ]
+    },
+    "E4": {
+      "title": "The Week of Easter IV",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "Ex. 34:1-10",
+          "mp_nt": "1 Pet. 3:8-end",
+          "ep_ot": "Ex. 35:30-36:7",
+          "ep_nt": "Lk. 16:19-end"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "Num. 22:36-23:12",
+          "mp_nt": "Jn. 11:1-44",
+          "ep_ot": "Deut. 10:12-11:1",
+          "ep_nt": "Rev. 22"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "Josh. 1",
+          "mp_nt": "Acts 21:1-16",
+          "ep_ot": "Josh. 2",
+          "ep_nt": "Acts 21:17-36"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "Josh. 3",
+          "mp_nt": "Acts 21:37-22:22",
+          "ep_ot": "Josh. 4:1-5:1",
+          "ep_nt": "Acts 22:23-23:11"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "Josh. 5:13-6:20",
+          "mp_nt": "Acts 23:12-end",
+          "ep_ot": "Josh. 7",
+          "ep_nt": "Acts 24:1-23"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "Josh. 9:3-end",
+          "mp_nt": "Acts 24:24-25:12",
+          "ep_ot": "Josh. 10:1-15",
+          "ep_nt": "Acts 25:13-end"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "Josh. 21:43-22:8",
+          "mp_nt": "Acts 26",
+          "ep_ot": "Josh. 22:9-end",
+          "ep_nt": "Acts 27"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "Josh. 23",
+          "mp_nt": "Acts 28:1-15",
+          "ep_ot": "Josh. 24:1-28",
+          "ep_nt": "Acts 28:16-end"
+        }
+      ]
+    },
+    "E5": {
+      "title": "The Week of Easter V",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "Deut. 34",
+          "mp_nt": "Acts 13:26-43",
+          "ep_ot": "Deut. 6",
+          "ep_nt": "Lk. 10:38-11:13"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "Num. 24;1-19",
+          "mp_nt": "Rom. 6:1-14",
+          "ep_ot": "Deut. 28:1-13",
+          "ep_nt": "Mk. 4:1-20"
+        },
+        {
+          "label": "Rogation Mon.",
+          "year": null,
+          "mp_ot": "Deut. 7:6-13",
+          "mp_nt": "Mt. 6:5-18",
+          "ep_ot": "Deut. 8",
+          "ep_nt": "Mt.6:19-end"
+        },
+        {
+          "label": "Rogation Tues.",
+          "year": null,
+          "mp_ot": "Deut. 11:8-21",
+          "mp_nt": "Lk. 5:1-11",
+          "ep_ot": "1 Kings 8:22-43",
+          "ep_nt": "Jam. 5:1-18"
+        },
+        {
+          "label": "Rogation Wed.",
+          "year": null,
+          "mp_ot": "Joel 2:21-27",
+          "mp_nt": "Jn. 6:22-40",
+          "ep_ot": "S. of the Three Children 29-37",
+          "ep_nt": "Mt. 28:16-end"
+        },
+        {
+          "label": "Ascension Day",
+          "year": null,
+          "mp_ot": "2 Kings 2:1-15",
+          "mp_nt": "Jn. 17",
+          "ep_ot": "Dan. 7:9-14",
+          "ep_nt": "Heb. 1"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "Judg. 2:6-end",
+          "mp_nt": "Heb. 2",
+          "ep_ot": "Judg. 3:12-end",
+          "ep_nt": "Heb. 3"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "Judg. 4",
+          "mp_nt": "Heb. 4:1-13",
+          "ep_ot": "Judg. 5",
+          "ep_nt": "Heb. 4:14-5:10"
+        }
+      ]
+    },
+    "A1": {
+      "title": "The Week of Ascension Sunday",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "Isa. 65:17-end",
+          "mp_nt": "Lk. 24:36-end",
+          "ep_ot": "Jer. 31:1-13",
+          "ep_nt": "Eph. 5:1-14"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "Isa. 52:1-12",
+          "mp_nt": "Eph. 4:1-16",
+          "ep_ot": "Isa. 62",
+          "ep_nt": "Rev. 5"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "Judg. 6:1-35",
+          "mp_nt": "Heb. 5:11-6 end",
+          "ep_ot": "Judg. 6:36-7:23",
+          "ep_nt": "Heb. 7"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "Judg. 7:24-8:28",
+          "mp_nt": "Heb. 8",
+          "ep_ot": "Judg. 8:32-9:24",
+          "ep_nt": "Heb. 9:1-14"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "Judg. 9:26-end",
+          "mp_nt": "Heb. 9:15-end",
+          "ep_ot": "Judg. 10:17-11:28",
+          "ep_nt": "Heb. 10:1-18"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "Judg. 11:29-12:7",
+          "mp_nt": "Heb. 10:19-end",
+          "ep_ot": "Judg. 13",
+          "ep_nt": "Heb. 11"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "Judg. 14",
+          "mp_nt": "Heb. 12:1-13",
+          "ep_ot": "Judg. 15:1-16:3",
+          "ep_nt": "Heb. 12:14-end"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "Judg. 16:4-end",
+          "mp_nt": "Heb. 13",
+          "ep_ot": "Deut.16:9-12",
+          "ep_nt": "Acts 18:24-19:7"
+        }
+      ]
+    },
+    "P": {
+      "title": "The Week of Whitsunday",
+      "rows": [
+        {
+          "label": "Whitsunday",
+          "year": null,
+          "mp_ot": "Joel 2:28-end",
+          "mp_nt": "Rom. 8:1-17",
+          "ep_ot": "Isa. 11:1-9",
+          "ep_nt": "Rom. 8:18-end"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "Eze. 11:14-20",
+          "mp_nt": "Acts 2:12-36",
+          "ep_ot": "Wis. 1:1-7",
+          "ep_nt": "Acts 2:37-end"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "Eze. 37:1-14",
+          "mp_nt": "1 Cor. 12:1-13",
+          "ep_ot": "Wis. 7:15-8:1",
+          "ep_nt": "1 Cor. 12:27-13 end"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "1 Kings 19:1-18",
+          "mp_nt": "1 Cor. 2",
+          "ep_ot": "Wis. 9",
+          "ep_nt": "1 Cor. 3"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "2 Sam. 23:1-5",
+          "mp_nt": "Eph. 6:10-20",
+          "ep_ot": "Ex. 35:30-36:1",
+          "ep_nt": "Gal. 5:13-end"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "Num. 11:16-29",
+          "mp_nt": "2 Cor. 5:14-6:10",
+          "ep_ot": "Jer. 31:31-34",
+          "ep_nt": "2 Cor. 3"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "Num. 27:15-end",
+          "mp_nt": "Mt. 9:35-10:20",
+          "ep_ot": "Isa. 61",
+          "ep_nt": "2 Tim. 1:3-14"
+        }
+      ]
+    },
+    "T": {
+      "title": "The Week of Trinity Sunday",
+      "rows": [
+        {
+          "label": "Trinity Sunday",
+          "year": null,
+          "mp_ot": "Isa. 6:1-8",
+          "mp_nt": "Mk. 1:1-13",
+          "ep_ot": "Isa. 40:12-end",
+          "ep_nt": "1 Pet. 1:1-12"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "Job 1",
+          "mp_nt": "Jam. 1",
+          "ep_ot": "Job 2",
+          "ep_nt": "Mk. 1:14-31"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "Job 3",
+          "mp_nt": "Jam. 2:1-13",
+          "ep_ot": "Job 4",
+          "ep_nt": "Mk. 1:32-end"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "Job 5",
+          "mp_nt": "Jam. 2:14-end",
+          "ep_ot": "Job 6",
+          "ep_nt": "Mk. 2:1-22"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "Job 7",
+          "mp_nt": "Jam. 3",
+          "ep_ot": "Job 8",
+          "ep_nt": "Mk. 2:23-3:12"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "Job 9",
+          "mp_nt": "Jam. 4",
+          "ep_ot": "Job 10",
+          "ep_nt": "Mk. 3:13-end"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "Job 11",
+          "mp_nt": "Jam. 5",
+          "ep_ot": "Job 12",
+          "ep_nt": "Mk. 4:1-34"
+        }
+      ]
+    },
+    "T01": {
+      "title": "The Week of Trinity I",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "Josh. 1:1-9",
+          "mp_nt": "Mk. 1:21-34",
+          "ep_ot": "1 Sam. 9:1-10:1",
+          "ep_nt": "Acts 1:1-14"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "1 Kings 3:5-14",
+          "mp_nt": "Acts 9:1-22 (23-31)",
+          "ep_ot": "2 Kings 17:1-23",
+          "ep_nt": "Jn. 13:1-20"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "Job 13",
+          "mp_nt": "1 Pet. 1:1-21",
+          "ep_ot": "Job 14",
+          "ep_nt": "Mk. 4:35-5:20"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "Job 15:1-16",
+          "mp_nt": "1 Pet. 1:22-2:10",
+          "ep_ot": "Job 16:1-17:2",
+          "ep_nt": "Mk. 5:21-end"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "Job 17:3-end",
+          "mp_nt": "1 Pet. 2:11-3:7",
+          "ep_ot": "Job 18",
+          "ep_nt": "Mk. 6:1-29"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "Job 19",
+          "mp_nt": "1 Pet. 3:8-4:6",
+          "ep_ot": "Job 21",
+          "ep_nt": "Mk. 6:30-end"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "Job 22",
+          "mp_nt": "1 Pet. 4:7-end",
+          "ep_ot": "Job 23",
+          "ep_nt": "Mk. 7:1-23"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "Job 24",
+          "mp_nt": "1 Pet. 5",
+          "ep_ot": "Job 25 26",
+          "ep_nt": "Mk. 7:24-8:10"
+        }
+      ]
+    },
+    "T02": {
+      "title": "The Week of Trinity II",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "Josh. 2",
+          "mp_nt": "Mk. 2:23-3:19",
+          "ep_ot": "1 Sam. 16:1-13",
+          "ep_nt": "Acts 2:1-21"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "1 Kings 8:22-9:3",
+          "mp_nt": "Acts 13;1-26",
+          "ep_ot": "2 Kings 18:17-22; 28-19:7",
+          "ep_nt": "Jn. 13:21-end"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "Job 27",
+          "mp_nt": "2 Pet. 1",
+          "ep_ot": "Job 28",
+          "ep_nt": "Mk. 8:11-9:1"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "Job 29:1-30:1",
+          "mp_nt": "2 Pet. 2",
+          "ep_ot": "Job 31:13-end",
+          "ep_nt": "Mk. 9:2-29"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "Job 32",
+          "mp_nt": "2 Pet. 3",
+          "ep_ot": "Job 33",
+          "ep_nt": "Mk. 9:30-end"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "Job 38:1-21",
+          "mp_nt": "Jude",
+          "ep_ot": "Job 38:22-end",
+          "ep_nt": "Mk. 10:1-31"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "Job 39",
+          "mp_nt": "1 Jn. 1:1-2:6",
+          "ep_ot": "Job 40",
+          "ep_nt": "Mk. 10:32-end"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "Job 41",
+          "mp_nt": "1 Jn. 2:7-end",
+          "ep_ot": "Job 42",
+          "ep_nt": "Mk. 11:1-26"
+        }
+      ]
+    },
+    "T03": {
+      "title": "The Week of Trinity III",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "Josh. 3",
+          "mp_nt": "Mk. 3:20-end",
+          "ep_ot": "1Sam.17:1-11;32-51",
+          "ep_nt": "Acts 2:22-47 (43-end)"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "1 Kgs. 10:1-13",
+          "mp_nt": "Acts 16:6-34",
+          "ep_ot": "2 Kgs. 19:8-35",
+          "ep_nt": "Jn. 14:1-14"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "Prov. 1:1-19",
+          "mp_nt": "1 Jn. 3:1-12",
+          "ep_ot": "Prov. 1:20-end",
+          "ep_nt": "Mk. 11:27-12:12"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "Prov. 2",
+          "mp_nt": "1 Jn. 3:13-4:6",
+          "ep_ot": "Prov. 3:1-26",
+          "ep_nt": "Mk. 12:13-34"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "Prov. 3:27-4:19",
+          "mp_nt": "1 Jn. 4:7-end",
+          "ep_ot": "Prov. 4:20-5:14",
+          "ep_nt": "Mk. 12:35-13:13"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "Prov. 6:1-19",
+          "mp_nt": "1 Jn. 5",
+          "ep_ot": "Prov. 8",
+          "ep_nt": "Mk. 13:14-end"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "Prov. 8",
+          "mp_nt": "2 John",
+          "ep_ot": "Prov. 10:1-22",
+          "ep_nt": "Mk. 14:1-26"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "Prov. 11:1-25",
+          "mp_nt": "3 John",
+          "ep_ot": "Prov. 12:10-end",
+          "ep_nt": "Mk. 14:27-52"
+        }
+      ]
+    },
+    "T04": {
+      "title": "The Week of Trinity IV",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "Josh. 5:13-6:20",
+          "mp_nt": "Mk. 4:21-end",
+          "ep_ot": "1 Sam. 18:1-16",
+          "ep_nt": "Acts 3:1-16 (17-end)"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "1 Kings 12:1-20",
+          "mp_nt": "Acts 17:16-end",
+          "ep_ot": "2 Kings 22",
+          "ep_nt": "Jn. 14:15-end"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "Prov. 14:9-27",
+          "mp_nt": "Rom. 1",
+          "ep_ot": "Prov. 15:18-end",
+          "ep_nt": "Mk. 14:53-end"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "Prov. 16:31-17:17",
+          "mp_nt": "Rom. 2:1-16",
+          "ep_ot": "Prov. 18:10-end",
+          "ep_nt": "Mk. 15:1-41"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "Prov. 20:1-22",
+          "mp_nt": "Rom. 2:17-end",
+          "ep_ot": "Prov. 22:1-16",
+          "ep_nt": "Mk. 15:42-16 end"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "Prov. 24:23-end",
+          "mp_nt": "Rom. 3",
+          "ep_ot": "Prov. 25",
+          "ep_nt": "Lk. 1:1-23"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "Prov. 26:12-end",
+          "mp_nt": "Rom. 4",
+          "ep_ot": "Prov. 27:1-22",
+          "ep_nt": "Lk. 1:24-56"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "Prov. 30:1-16",
+          "mp_nt": "Rom. 5",
+          "ep_ot": "Prov. 31:10-end",
+          "ep_nt": "Lk. 1:57-end"
+        }
+      ]
+    },
+    "T05": {
+      "title": "The Week of Trinity V",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "Josh. 24:1-5,13-25",
+          "mp_nt": "Mk. 6:7-32",
+          "ep_ot": "1 Sam. 28:3-end",
+          "ep_nt": "Acts 4:1-22 (23-31)"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "1 Kings 18:17-39",
+          "mp_nt": "Acts 19:21-end",
+          "ep_ot": "Jere. 36:1-26",
+          "ep_nt": "Jn. 15:1-16"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "1 Sam. 1",
+          "mp_nt": "Rom. 6",
+          "ep_ot": "1 Sam. 2:1-21",
+          "ep_nt": "Lk. 2:1-21"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "1 Sam. 2:22-end",
+          "mp_nt": "Rom. 7",
+          "ep_ot": "1 Sam. 3",
+          "ep_nt": "Lk. 2:22-end"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "1 Sam. 4",
+          "mp_nt": "Rom. 8:1-17",
+          "ep_ot": "1 Sam. 7",
+          "ep_nt": "Lk. 3:1-22"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "1 Sam. 8",
+          "mp_nt": "Rom. 8:18-end",
+          "ep_ot": "1 Sam. 9:1-25",
+          "ep_nt": "Lk. 4:1-30"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "1 Sam. 9:26-10:16",
+          "mp_nt": "Rom. 9",
+          "ep_ot": "1 Sam.10:17-end",
+          "ep_nt": "Lk. 4:31-end"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "1 Sam. 11",
+          "mp_nt": "Rom. 10",
+          "ep_ot": "1 Sam. 12",
+          "ep_nt": "Lk. 5:1-16"
+        }
+      ]
+    },
+    "T06": {
+      "title": "The Week of Trinity VI",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "Judg. 5",
+          "mp_nt": "Mk. 6:53-7:23",
+          "ep_ot": "2 Sam. 1",
+          "ep_nt": "Acts 6"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "1 Kings 19:1-18",
+          "mp_nt": "Acts 20:17-38",
+          "ep_ot": "Jere. 38:1-13",
+          "ep_nt": "Jn. 15:17-27"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "1 Sam. 13",
+          "mp_nt": "Rom. 11:1-24",
+          "ep_ot": "1 Sam. 14:1-23",
+          "ep_nt": "Lk. 5:17-end"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "1 Sam. 14:1-24",
+          "mp_nt": "Rom. 11:25-end",
+          "ep_ot": "1 Sam. 15",
+          "ep_nt": "Lk 6:1-19"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "1 Sam. 16",
+          "mp_nt": "Rom. 12",
+          "ep_ot": "1 Sam. 17:1-30",
+          "ep_nt": "Lk. 6:20-38"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "1 Sam. 17:31-54",
+          "mp_nt": "Rom. 13",
+          "ep_ot": "1 Sam. 17:55-18:16",
+          "ep_nt": "Lk. 6:39-7:10"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "1 Sam. 19",
+          "mp_nt": "Rom. 14",
+          "ep_ot": "1 Sam.20:1-17",
+          "ep_nt": "Lk. 7:11-35"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "1 Sam.20:18-end",
+          "mp_nt": "Rom. 15:1-13",
+          "ep_ot": "1 Sam. 21:1-22:5",
+          "ep_nt": "Lk. 7:36-end"
+        }
+      ]
+    },
+    "T07": {
+      "title": "The Week of Trinity VII",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "Judg. 7:1-23",
+          "mp_nt": "Mk. 9:14-29",
+          "ep_ot": "2 Sam.7",
+          "ep_nt": "Acts 8:4-17"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "1 Kings 21",
+          "mp_nt": "Acts 21:15-36",
+          "ep_ot": "Jere. 52:1-11",
+          "ep_nt": "Jn. 16:1-15"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "1 Sam. 22:6-end",
+          "mp_nt": "Rom. 15:14-end",
+          "ep_ot": "1 Sam. 23",
+          "ep_nt": "Lk. 8:1-21"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "1 Sam. 24",
+          "mp_nt": "Rom. 16",
+          "ep_ot": "1 Sam.25:2-42",
+          "ep_nt": "Lk. 8:22-end"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "1 Sam. 26",
+          "mp_nt": "1 Cor. 1:1-25",
+          "ep_ot": "1 Sam. 28:3-end",
+          "ep_nt": "Lk. 9:1-17"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "1 Sam. 31",
+          "mp_nt": "1 Cor. 1:26-2 end",
+          "ep_ot": "2 Sam. 1",
+          "ep_nt": "Lk. 9:18-50"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "2 Sam. 2:1-3:1",
+          "mp_nt": "1 Cor. 3",
+          "ep_ot": "2 Sam. 3:17-end",
+          "ep_nt": "Lk. 9:51-end"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "2 Sam. 5:1-12",
+          "mp_nt": "1 Cor. 4:1-17",
+          "ep_ot": "2 Sam. 6",
+          "ep_nt": "Lk. 10:1-24"
+        }
+      ]
+    },
+    "T08": {
+      "title": "The Week of Trinity VIII",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "Judg. 16:4-end",
+          "mp_nt": "Mk. 9:30-end",
+          "ep_ot": "2 Sam. 11",
+          "ep_nt": "Acts 8:26-39"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "1 Kings 22:1-38",
+          "mp_nt": "Acts 25",
+          "ep_ot": "Eze. 33:21-end",
+          "ep_nt": "Jn. 16:16-22"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "2 Sam. 7",
+          "mp_nt": "1 Cor.4:18-5 end",
+          "ep_ot": "2 Sam. 8",
+          "ep_nt": "Lk. 10:25-end"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "2 Sam. 9",
+          "mp_nt": "1 Cor. 6",
+          "ep_ot": "2 Sam. 10",
+          "ep_nt": "Lk. 11:1-28"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "2 Sam.13:38-14:24",
+          "mp_nt": "1 Cor. 7",
+          "ep_ot": "2 Sam. 14:25-15:12",
+          "ep_nt": "Lk. 11:29-end"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "2 Sam.15:13-end",
+          "mp_nt": "1 Cor. 8",
+          "ep_ot": "2 Sam. 16",
+          "ep_nt": "Lk. 12:1-34"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "2 Sam.17:1-23",
+          "mp_nt": "1 Cor. 9",
+          "ep_ot": "2 Sam.17:24-18:18",
+          "ep_nt": "Lk. 12:35-53"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "2 Sam.18:19-end",
+          "mp_nt": "1 Cor.10:1-11:1",
+          "ep_ot": "2 Sam. 19:1-23",
+          "ep_nt": "Lk. 12:54-13:9"
+        }
+      ]
+    },
+    "T09": {
+      "title": "The Week of Trinity IX",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "1 Sam. 1:1-20 (21-end)",
+          "mp_nt": "Mk. 10:17-31",
+          "ep_ot": "2 Sam. 12:1-23",
+          "ep_nt": "Acts 11:1-18"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "2 Kings 4:8-37",
+          "mp_nt": "Acts 27",
+          "ep_ot": "Eze. 36:22-28, 34-36",
+          "ep_nt": "Jn. 16:23-end"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "2 Sam. 19:24-end",
+          "mp_nt": "1 Cor. 11:2-end",
+          "ep_ot": "2 Sam. 23:1-17",
+          "ep_nt": "Lk. 13:10-end"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "2 Sam. 24",
+          "mp_nt": "1 Cor. 12:1-27",
+          "ep_ot": "1 Kings 1:5-31",
+          "ep_nt": "Lk. 14:1-24"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "1 Kings 1:32-end",
+          "mp_nt": "1 Cor. 12:27-13 end",
+          "ep_ot": "1 Chr. 22:2-end",
+          "ep_nt": "Lk. 14:25-15:10"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "1 Chron.28:1-29:9",
+          "mp_nt": "1 Cor.14:1-19",
+          "ep_ot": "1 Chron. 29:10-end",
+          "ep_nt": "Lk. 15:11-end"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "1 Kings 3",
+          "mp_nt": "1 Cor. 14:20-40",
+          "ep_ot": "1 Kings 4:21-end",
+          "ep_nt": "Lk. 16"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "1 Kings 5",
+          "mp_nt": "1 Cor.15:1-34",
+          "ep_ot": "1 Kings 6:1-14",
+          "ep_nt": "Lk. 17:1-19"
+        }
+      ]
+    },
+    "T10": {
+      "title": "The Week of Trinity X",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "1 Sam. 3:1-4:1 a",
+          "mp_nt": "Mk. 12:18-end",
+          "ep_ot": "2 Sam. 18",
+          "ep_nt": "Acts 15:1-31"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "2 Kings 5",
+          "mp_nt": "Acts 28:11-end",
+          "ep_ot": "Eze. 37:15-end",
+          "ep_nt": "Jn. 17"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "1 Kings 8:1-21",
+          "mp_nt": "1 Cor. 15:35-end",
+          "ep_ot": "1 Kings 8:22-53",
+          "ep_nt": "Lk. 17:20-end"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "1 Kings 8:54-9:9",
+          "mp_nt": "1 Cor. 16",
+          "ep_ot": "1 Kings 10",
+          "ep_nt": "Lk. 18:1-30"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "1 Kings 11:1-13, 26-end",
+          "mp_nt": "2 Cor.1:1-22",
+          "ep_ot": "1 Kings 12:1-24",
+          "ep_nt": "Lk. 18:31-19:10"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "1 Kgs. 12:25-13:10",
+          "mp_nt": "2 Cor.1:23-2 end",
+          "ep_ot": "1 Kings 13:11-end",
+          "ep_nt": "Lk. 19:11-28"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "1 Kings 14:1-20",
+          "mp_nt": "2 Cor. 3",
+          "ep_ot": "2 Chr. 12",
+          "ep_nt": "Lk. 19:29-end"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "2 Chron. 13",
+          "mp_nt": "2 Cor. 4",
+          "ep_ot": "2 Chron. 14",
+          "ep_nt": "Lk. 20:1-26"
+        }
+      ]
+    },
+    "T11": {
+      "title": "The Week of Trinity XI",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "Hos. 6:1-6",
+          "mp_nt": "Rom. 1:1-25 (26-end)",
+          "ep_ot": "Jer. 5:1-19",
+          "ep_nt": "Mt. 4:23-5:20"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "Jer. 18:1-17",
+          "mp_nt": "Lk. 4:1-15",
+          "ep_ot": "Zech. 2",
+          "ep_nt": "Gal. 1"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "2 Chr. 15",
+          "mp_nt": "2 Cor. 5",
+          "ep_ot": "2 Chron. 16",
+          "ep_nt": "Lk. 20:27-21:4"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "1 Kings 16:15-end",
+          "mp_nt": "2 Cor. 5:20-7:1",
+          "ep_ot": "1 Kings 17",
+          "ep_nt": "Lk. 21:5-end"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "1 Kings 18:1-16",
+          "mp_nt": "2 Cor. 7:2-end",
+          "ep_ot": "1 Kings 18:17-end",
+          "ep_nt": "Lk. 22:1-38"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "1 Kings 19",
+          "mp_nt": "2 Cor. 8",
+          "ep_ot": "1 Kings 21",
+          "ep_nt": "Lk. 22:39-53"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "1 Kings 22:1-40",
+          "mp_nt": "2 Cor. 9",
+          "ep_ot": "2 Chr. 20:1-30",
+          "ep_nt": "Lk. 22:54-end"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "2 Kings 1",
+          "mp_nt": "2 Cor. 10",
+          "ep_ot": "2 Kings 2:1-22",
+          "ep_nt": "Lk. 23:1-25"
+        }
+      ]
+    },
+    "T12": {
+      "title": "The Week of Trinity XII",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "Hos. 11:1-9 a",
+          "mp_nt": "Rom. 5:1-11",
+          "ep_ot": "Jer. 7:1-16",
+          "ep_nt": "Mt. 5:21-end"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "Jer. 26:1-16",
+          "mp_nt": "Lk. 4:16-30",
+          "ep_ot": "Zech. 8:1-17",
+          "ep_nt": "Gal. 6:1-10"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "2 Kings 4:1-37",
+          "mp_nt": "2 Cor. 11",
+          "ep_ot": "2 Kings 5",
+          "ep_nt": "Lk. 23:26-49"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "2 Kings 6:1-23",
+          "mp_nt": "2 Cor. 12:1-13",
+          "ep_ot": "2 Kings 6:24-7:2",
+          "ep_nt": "Lk. 23:50-24:12"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "2 Kings 7:3-end",
+          "mp_nt": "2 Cor. 12:14-13 end",
+          "ep_ot": "2 Kings 8:1-15",
+          "ep_nt": "Lk. 24:13-end"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "2 Kings 9",
+          "mp_nt": "Gal. 1",
+          "ep_ot": "2 Kings 11:1-20",
+          "ep_nt": "Jn. 1:1-28"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "2 Kings 11:21-12 end",
+          "mp_nt": "Gal. 2",
+          "ep_ot": "2 Kings 13",
+          "ep_nt": "Jn. 1:29-end"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "2 Kings 14",
+          "mp_nt": "Gal. 3",
+          "ep_ot": "2 Chrn. 26",
+          "ep_nt": "Jn. 2"
+        }
+      ]
+    },
+    "T13": {
+      "title": "The Week of Trinity XIII",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "Hos. 14",
+          "mp_nt": "Rom. 12",
+          "ep_ot": "Jer. 17:5-14",
+          "ep_nt": "Mt. 6:1-18"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "Jer. 30:1-3, 10-22",
+          "mp_nt": "Lk. 6:20-38",
+          "ep_ot": "Ezra 1:1-8",
+          "ep_nt": "1 Cor. 1:1-25"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "2 Kings 15:17-38",
+          "mp_nt": "Gal. 4:1-5:1",
+          "ep_ot": "2 Kings 16",
+          "ep_nt": "Jn. 3:1-21"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "Isa. 7:1-17",
+          "mp_nt": "Gal. 5:2-end",
+          "ep_ot": "Isa. 8:1-18",
+          "ep_nt": "Jn. 3:22-end"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "2 Kings 17:1-23",
+          "mp_nt": "Gal. 6",
+          "ep_ot": "2 Kings 17:24-end",
+          "ep_nt": "Jn. 4:1-26"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "2 Kings 18:1-8",
+          "mp_nt": "Eph. 1:1-14",
+          "ep_ot": "2 Chron. 30",
+          "ep_nt": "Jn. 4:27-end"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "2 Kings 18:13-end",
+          "mp_nt": "Eph. 1:15-end",
+          "ep_ot": "2 Kings 19",
+          "ep_nt": "Jn. 5:1-23"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "2 Kings 20",
+          "mp_nt": "Eph. 2:1-10",
+          "ep_ot": "2 Chron. 33",
+          "ep_nt": "Jn. 5:24-end"
+        }
+      ]
+    },
+    "T14": {
+      "title": "The Week of Trinity XIV",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "Joel 2:1-14",
+          "mp_nt": "Rom. 14:1-15:3",
+          "ep_ot": "Dan. 3",
+          "ep_nt": "Mt. 6:19-end"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "Jer. 31:27-34",
+          "mp_nt": "Lk. 6:39-end",
+          "ep_ot": "Ezra 3",
+          "ep_nt": "1 Cor 1:26-2:9 (10-end )"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "2 Kings 22",
+          "mp_nt": "Eph. 2:11-end",
+          "ep_ot": "2 Kings 23:1-20",
+          "ep_nt": "Jn. 6:1-21"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "2 Kings 23:21-35",
+          "mp_nt": "Eph. 3",
+          "ep_ot": "2 Kings 23:26-24:17",
+          "ep_nt": "Jn. 6:22-40"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "2 Kings 24:18-25:7",
+          "mp_nt": "Eph. 4:1-16",
+          "ep_ot": "2 Kings 25:8-end",
+          "ep_nt": "Jn. 6:41-end"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "Jer. 19",
+          "mp_nt": "Eph. 4:17-30",
+          "ep_ot": "Jer. 21:1-10",
+          "ep_nt": "Jn. 7:1-24"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "Jer. 22:20-23:8",
+          "mp_nt": "Eph. 4:31-5:21",
+          "ep_ot": "Jer. 24",
+          "ep_nt": "Jn. 7:25-end"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "Jer. 25:1-14",
+          "mp_nt": "Eph. 5:22-end",
+          "ep_ot": "Jer. 27:2-end",
+          "ep_nt": "Jn. 8:1-30"
+        }
+      ]
+    },
+    "T15": {
+      "title": "The Week of Trinity XV",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "Joel 2:15-27",
+          "mp_nt": "1 Pet. 1:13-end",
+          "ep_ot": "Dan. 5",
+          "ep_nt": "Mt. 7:1-14"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "Eze. 11:14-20",
+          "mp_nt": "Lk. 7:36-8:3",
+          "ep_ot": "Neh. 1",
+          "ep_nt": "1 Cor. 3"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "Jer. 28",
+          "mp_nt": "Eph. 6:1-9",
+          "ep_ot": "Jer. 29:1-20",
+          "ep_nt": "Jn. 8:31-end"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "Jer. 32:1-15",
+          "mp_nt": "Eph. 6:10-end",
+          "ep_ot": "Jer. 32:15-35",
+          "ep_nt": "Jn. 9"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "Jer. 32:36-end",
+          "mp_nt": "Phil. 1:1-11",
+          "ep_ot": "Jer. 33:1-13",
+          "ep_nt": "Jn. 10:1-21"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "Jer. 33:14-end",
+          "mp_nt": "Phil. 1:12-end",
+          "ep_ot": "Jer. 34:8-end",
+          "ep_nt": "Jn. 10:22-end"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "Jer. 37",
+          "mp_nt": "Phil. 2:1-11",
+          "ep_ot": "Jer. 38:1-13",
+          "ep_nt": "Jn. 11:1-44"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "Jer. 38:14-end",
+          "mp_nt": "Phil. 2:12-end",
+          "ep_ot": "Jer. 39",
+          "ep_nt": "Jn. 11:45-end"
+        }
+      ]
+    },
+    "T16": {
+      "title": "The Week of Trinity XVI",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "Job 1",
+          "mp_nt": "1 Pet. 2:1-17",
+          "ep_ot": "Dan. 6:1-23",
+          "ep_nt": "Mt. 7:15-end"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "Eze. 18:1-4, 19-end",
+          "mp_nt": "Lk. 9:46-end",
+          "ep_ot": "Neh. 2",
+          "ep_nt": "1 Cor. 13"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "Jer. 40",
+          "mp_nt": "Phil. 3",
+          "ep_ot": "Jer. 41",
+          "ep_nt": "Jn. 12:1-19"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "Jer. 42",
+          "mp_nt": "Phil. 4",
+          "ep_ot": "Jer. 43",
+          "ep_nt": "Jn. 12:20-end"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "Jer. 44:1-14",
+          "mp_nt": "Col. 1:1-20",
+          "ep_ot": "Jer. 44:15-end",
+          "ep_nt": "Jn. 13"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "Eze. 1:1-14",
+          "mp_nt": "Col. 1:21-2:7",
+          "ep_ot": "Eze. 1:15-end",
+          "ep_nt": "Jn. 14"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "Eze. 2",
+          "mp_nt": "Col. 2:8-19",
+          "ep_ot": "Eze. 3:1-14",
+          "ep_nt": "Jn. 15"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "Eze. 3:15-end",
+          "mp_nt": "Col. 2:20-3:11",
+          "ep_ot": "Eze. 8",
+          "ep_nt": "Jn. 16"
+        }
+      ]
+    },
+    "T17": {
+      "title": "The Week of Trinity XVII",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "Job 2",
+          "mp_nt": "1 Pet. 4",
+          "ep_ot": "Prov. 1:20-end",
+          "ep_nt": "Mt. 11:2-19"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "Eze. 33:1-11",
+          "mp_nt": "Lk. 10:1-24",
+          "ep_ot": "Ruth 1",
+          "ep_nt": "Phil. 1:12-end"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "Eze. 9",
+          "mp_nt": "Col. 3:12-4:1",
+          "ep_ot": "Eze. 11:1-13",
+          "ep_nt": "Jn. 17"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "Eze. 12:1-16",
+          "mp_nt": "Col. 4:2-end",
+          "ep_ot": "Eze. 12:17-end",
+          "ep_nt": "Jn. 18:1-27"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "Eze. 13:1-16",
+          "mp_nt": "Philemon",
+          "ep_ot": "Eze. 14",
+          "ep_nt": "Jn. 18:28-end"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "Eze. 17",
+          "mp_nt": "1 Thes. 1",
+          "ep_ot": "Eze. 20:1-26",
+          "ep_nt": "Jn. 19:1-30"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "Eze. 20:27-44",
+          "mp_nt": "1 Thess.2:1-16",
+          "ep_ot": "Eze. 22:23-end",
+          "ep_nt": "Jn. 19:31-end"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "Eze. 24:15-end",
+          "mp_nt": "1 Thess.2:17-3 end",
+          "ep_ot": "Eze. 28:1-19",
+          "ep_nt": "Jn. 20"
+        }
+      ]
+    },
+    "T18": {
+      "title": "The Week of Trinity XVIII",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "Job 4:1 5:6-end",
+          "mp_nt": "1 Pet. 5:1-11",
+          "ep_ot": "Prov. 8:1-17",
+          "ep_nt": "Mt. 11:20-end"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "Eze. 34:1-16",
+          "mp_nt": "Lk. 11:37-end",
+          "ep_ot": "Ruth 2:1-20 a (4:13-17)",
+          "ep_nt": "Phil. 2:1-18"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "Eze. 33:12-20",
+          "mp_nt": "1 Thess.4:1-12",
+          "ep_ot": "Eze. 33:21-end",
+          "ep_nt": "Jn. 21"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "Eze. 34:17-end",
+          "mp_nt": "1 Thess.4:13-5:11",
+          "ep_ot": "Eze. 36:22-end",
+          "ep_nt": "Heb. 1"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "Eze. 37:1-14",
+          "mp_nt": "1 Thess. 5:12-end",
+          "ep_ot": "Eze. 37:15-end",
+          "ep_nt": "Heb. 2"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "Ezra 1",
+          "mp_nt": "2 Thes. 1",
+          "ep_ot": "Ezra 3",
+          "ep_nt": "Heb. 3"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "Ezra 4",
+          "mp_nt": "2 Thess. 2",
+          "ep_ot": "Hag. 1:1-2:9",
+          "ep_nt": "Heb. 4:1-13"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "Zech. 1:1-17",
+          "mp_nt": "2 Thess. 3",
+          "ep_ot": "Zech. 1:18-2 end",
+          "ep_nt": "Heb. 4:14-5:10"
+        }
+      ]
+    },
+    "T19": {
+      "title": "The Week of Trinity XIX",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "Job 19:1-27 a",
+          "mp_nt": "Col. 1:21-2:7",
+          "ep_ot": "Prov. 8:1, 22-end",
+          "ep_nt": "Mt. 12:22-45"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "Prov. 14:31-15:17",
+          "mp_nt": "Lk. 12:1-21",
+          "ep_ot": "Jonah 1 2",
+          "ep_nt": "Phil. 3:1-16"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "Zech. 3",
+          "mp_nt": "1 Tim. 1:1-17",
+          "ep_ot": "Zech. 4",
+          "ep_nt": "Heb. 5:11-6 end"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "Zech. 6:9-end",
+          "mp_nt": "1 Tim.1:18-2 end",
+          "ep_ot": "Zech. 7",
+          "ep_nt": "Heb. 7"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "Zech. 8",
+          "mp_nt": "1 Tim. 3",
+          "ep_ot": "Zech. 11",
+          "ep_nt": "Heb. 8"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "Zech. 13",
+          "mp_nt": "1 Tim. 4",
+          "ep_ot": "Hag. 2:10-end",
+          "ep_nt": "Heb. 9:1-14"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "Ezra 5",
+          "mp_nt": "1 Tim. 5",
+          "ep_ot": "Ezra 6",
+          "ep_nt": "Heb. 9:15-end"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "Ezra 7",
+          "mp_nt": "1 Tim. 6",
+          "ep_ot": "Ezra 8:15-end",
+          "ep_nt": "Heb. 10:1-18"
+        }
+      ]
+    },
+    "T20": {
+      "title": "The Week of Trinity XX",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "Job 38 ( 42:1-6)",
+          "mp_nt": "Col. 3:12-4:6",
+          "ep_ot": "Job 28",
+          "ep_nt": "Mt. 13:44-end"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "Prov. 31:10-end",
+          "mp_nt": "Lk. 12:22-34",
+          "ep_ot": "Jonah 3 4",
+          "ep_nt": "Phil. 4"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "Ezra 9",
+          "mp_nt": "Titus 1:1-2:8",
+          "ep_ot": "Ezra 10:1-19",
+          "ep_nt": "Heb. 10:19-end"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "Neh. 1",
+          "mp_nt": "Titus 2:9-3 end",
+          "ep_ot": "Neh. 2",
+          "ep_nt": "Heb. 11:1-16"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "Neh. 4",
+          "mp_nt": "2 Tim. 1",
+          "ep_ot": "Neh. 5",
+          "ep_nt": "Heb. 11:17-end"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "Neh. 6:1-7:4",
+          "mp_nt": "2 Tim. 2",
+          "ep_ot": "Neh. 8",
+          "ep_nt": "Heb. 12:1-13"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "Neh. 9:1-23",
+          "mp_nt": "2 Tim. 3",
+          "ep_ot": "Neh. 9:24-end",
+          "ep_nt": "Heb. 12:14-end"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "Neh. 13",
+          "mp_nt": "2 Tim. 4",
+          "ep_ot": "Dan. 1",
+          "ep_nt": "Heb. 13"
+        }
+      ]
+    },
+    "T21": {
+      "title": "The Week of Trinity XXI",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "Wisd. 2",
+          "mp_nt": "Philemon",
+          "ep_ot": "Ecclus. 4:11-28",
+          "ep_nt": "Mt. 14:13-33"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "Wisd. 9",
+          "mp_nt": "Lk. 12:35-end",
+          "ep_ot": "1 Macc. 2:1-22",
+          "ep_nt": "2 Cor. 1:1-22"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "Dan. 2:1-24",
+          "mp_nt": "Jam. 1:1-11",
+          "ep_ot": "Dan. 2:25-end",
+          "ep_nt": "Jam. 1:12-end"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "Dan. 4:1-18",
+          "mp_nt": "Jam. 2:1-13",
+          "ep_ot": "Dan. 4:19-end",
+          "ep_nt": "Jam. 2:14-end"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "Dan. 7:9-end",
+          "mp_nt": "Jam. 3",
+          "ep_ot": "Dan. 9",
+          "ep_nt": "Jam. 4"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "Dan. 10",
+          "mp_nt": "Jam. 5",
+          "ep_ot": "Dan. 12",
+          "ep_nt": "1 Pet. 1:1-12"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "Esth. 1",
+          "mp_nt": "1 Pet. 1:13-end",
+          "ep_ot": "Esther 2",
+          "ep_nt": "1 Pet. 2:1-10"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "Esth. 3",
+          "mp_nt": "1 Pet. 2:11-3:7",
+          "ep_ot": "Esther 4",
+          "ep_nt": "1 Pet. 3:8-end"
+        }
+      ]
+    },
+    "T22": {
+      "title": "The Week of Trinity XXII",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "Wisd. 4:7-17",
+          "mp_nt": "Jam. 1:1-13 (14-end)",
+          "ep_ot": "Ecclus 4:29-6:1",
+          "ep_nt": "Mt. 16:13-end"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "Wisd. 11:21-12:2",
+          "mp_nt": "Lk. 13:18-end",
+          "ep_ot": "1 Macc. 2:49-69",
+          "ep_nt": "2 Cor. 4"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "Esth. 5",
+          "mp_nt": "1 Pet. 4:1-11",
+          "ep_ot": "Esther 6 7",
+          "ep_nt": "1 Pet. 4:12-end"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "Eccl. 1",
+          "mp_nt": "1 Pet. 5",
+          "ep_ot": "Eccles. 2:1-23",
+          "ep_nt": "1 Jn. 1:1-2:6"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "Eccles. 3",
+          "mp_nt": "1 Jn. 2:7-17",
+          "ep_ot": "Eccles. 4",
+          "ep_nt": "1 Jn. 2:18-end"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "Eccles. 5",
+          "mp_nt": "1 Jn. 3:1-18",
+          "ep_ot": "Eccles. 6:1-7:14",
+          "ep_nt": "1 Jn. 3:19-4:6"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "Eccles.7:15-end",
+          "mp_nt": "1 Jn. 4:7-end",
+          "ep_ot": "Eccles. 8",
+          "ep_nt": "1 Jn. 5"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "Eccles. 9",
+          "mp_nt": "2 John",
+          "ep_ot": "Eccles. 10",
+          "ep_nt": "3 John"
+        }
+      ]
+    },
+    "T23": {
+      "title": "The Week of Trinity XXIII",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "Wisd. 6:1-21",
+          "mp_nt": "Jam. 2:1-13 (14-end)",
+          "ep_ot": "Ecclus 11:7-28",
+          "ep_nt": "Mt. 18:1-20"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "Ecclus 18:1-13",
+          "mp_nt": "Lk. 14:15-end",
+          "ep_ot": "1 Macc. 3:42-end",
+          "ep_nt": "2 Cor. 5"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "1 Macc. 1:1-19",
+          "mp_nt": "Acts 1",
+          "ep_ot": "1 Macc. 1:20-40",
+          "ep_nt": "Acts 2:1-21"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "1 Macc. 1:41-end",
+          "mp_nt": "Acts 2:22-end",
+          "ep_ot": "1 Macc..2:1-28",
+          "ep_nt": "Acts 3:1-4:4"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "1 Macc. 2:29-48",
+          "mp_nt": "Acts 4:5-31",
+          "ep_ot": "1 Macc. 2:49-end",
+          "ep_nt": "Acts 4:32-5:11"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "1 Macc.3:1-26",
+          "mp_nt": "Acts 5:12-end",
+          "ep_ot": "1 Macc. 3:27-41",
+          "ep_nt": "Acts 6:1-7:16"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "1 Macc. 4:1-25",
+          "mp_nt": "Acts 7:17-34",
+          "ep_ot": "1 Macc. 4:26-35",
+          "ep_nt": "Acts 7:35-8:4"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "1 Macc. 4:36-end",
+          "mp_nt": "Acts 8:4-25",
+          "ep_ot": "1 Macc. 6:1-17",
+          "ep_nt": "Acts 8:26-end"
+        }
+      ]
+    },
+    "T24": {
+      "title": "The Week of Trinity XXIV",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "Wis. 7:15-8:1",
+          "mp_nt": "Jam. 3",
+          "ep_ot": "Ecclus 15:11-end",
+          "ep_nt": "Mt. 21:12-32"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "Ecclus 27:30-28:9",
+          "mp_nt": "Lk. 15:1-10",
+          "ep_ot": "1 Macc. 14:4-15",
+          "ep_nt": "2 Cor. 9"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "1 Macc. 6:18-47",
+          "mp_nt": "Acts 9:1-31",
+          "ep_ot": "1 Macc. 6:48-end",
+          "ep_nt": "Acts 9:32-end"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "1 Macc. 7:1-20",
+          "mp_nt": "Acts 10:1-23",
+          "ep_ot": "1 Macc.7:21-end",
+          "ep_nt": "Acts 10:24-end"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "1 Macc. 9:1-22",
+          "mp_nt": "Acts 11:1-18",
+          "ep_ot": "1 Macc.13:41-end",
+          "ep_nt": "Acts 11:19-end"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "Ecclus.1:1-10",
+          "mp_nt": "Acts 12:1-24",
+          "ep_ot": "Ecclus. 1:11-end",
+          "ep_nt": "Acts 12:25-13:12"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "Ecclus. 2",
+          "mp_nt": "Acts 13:13-43",
+          "ep_ot": "Ecclus. 6:14-31",
+          "ep_nt": "Acts 13:44-14:7"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "Ecclus. 7:27-end",
+          "mp_nt": "Acts 14:8-end",
+          "ep_ot": "Ecclus.10:6-8,12-24",
+          "ep_nt": "Acts 15:1-21"
+        }
+      ]
+    },
+    "T25": {
+      "title": "The Week of Trinity XXV",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "2 Esdras 16:53-67",
+          "mp_nt": "Jam. 4",
+          "ep_ot": "Baruch 3:1-14",
+          "ep_nt": "Mt. 21:33-end"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "Ecclus. 3:17-29",
+          "mp_nt": "Lk. 17:1-10",
+          "ep_ot": "Ecclus. 38:24-end",
+          "ep_nt": "1 Tim 6:1-16 (17-end)"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "Ecclus 14: 20-15:10",
+          "mp_nt": "Acts 15:22-35",
+          "ep_ot": "Ecclus. 16:1-14",
+          "ep_nt": "Acts 15:36-16:5"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "Ecclus. 16:17-end",
+          "mp_nt": "Acts 16:6-end",
+          "ep_ot": "Ecclus. 17:1-24",
+          "ep_nt": "Acts 17:1-15"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "Ecclus. 18:15-end",
+          "mp_nt": "Acts 17:16-end",
+          "ep_ot": "Ecclus. 19:13-end",
+          "ep_nt": "Acts 18: 1-23"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "Ecclus. 20:1-20",
+          "mp_nt": "Acts 18:24-19:7",
+          "ep_ot": "Ecclus. 20:21-end",
+          "ep_nt": "Acts 19:8-20"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "Ecclus. 21:1-17",
+          "mp_nt": "Acts 19:21-end",
+          "ep_ot": "Ecclus. 22:6-22",
+          "ep_nt": "Acts 20:1-16"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "Ecclus. 22:27-23:15",
+          "mp_nt": "Acts 20:17-end",
+          "ep_ot": "Ecclus. 24:1-22",
+          "ep_nt": "Acts 21:1-16"
+        }
+      ]
+    },
+    "T26": {
+      "title": "The Week of Trinity XXVI",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": "I",
+          "mp_ot": "Prayer of Manasses",
+          "mp_nt": "Jas. 5:(1-6) 7-end",
+          "ep_ot": "Baruch 4:36-5 end",
+          "ep_nt": "Mt. 23:1-22"
+        },
+        {
+          "label": "Sunday",
+          "year": "II",
+          "mp_ot": "Ecclus. 42:15-end",
+          "mp_nt": "Lk. 20:1-19",
+          "ep_ot": "Ecclus. 43:13-26",
+          "ep_nt": "2 Tim 1:1-14 (15-2:7)"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "Ecclus. 24:23-end",
+          "mp_nt": "Acts 21:17-36",
+          "ep_ot": "Ecclus. 31:1-11",
+          "ep_nt": "Acts 21:37-22:22"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "Ecclus. 34:9-end",
+          "mp_nt": "Acts 22:23-23:11",
+          "ep_ot": "Ecclus. 35",
+          "ep_nt": "Acts 23:12-end"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "Ecclus. 37:1-15",
+          "mp_nt": "Acts 24:1-23",
+          "ep_ot": "Ecclus. 38:1-14",
+          "ep_nt": "Acts 24:24-25:12"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "Ecclus. 39:1-11",
+          "mp_nt": "Acts 25:13-end",
+          "ep_ot": "Ecclus. 39:13-end",
+          "ep_nt": "Acts 26"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "Ecclus. 43:1-12",
+          "mp_nt": "Acts 27:1=26",
+          "ep_ot": "Ecclus. 50:1-24",
+          "ep_nt": "Acts 27:27-end"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "Ecclus. 51:1-12",
+          "mp_nt": "Acts 28:1-15",
+          "ep_ot": "Ecclus. 51:13-end",
+          "ep_nt": "Acts 28:16-end"
+        }
+      ]
+    },
+    "A0": {
+      "title": "The Week of the Sunday Next Before Advent",
+      "rows": [
+        {
+          "label": "Sunday",
+          "year": null,
+          "mp_ot": "Eccles. 11 12",
+          "mp_nt": "Heb. 11:1-16",
+          "ep_ot": "Mal. 3:13-4 end",
+          "ep_nt": "Heb. 11:17-12:2"
+        },
+        {
+          "label": "Monday",
+          "year": null,
+          "mp_ot": "Wisd. 1",
+          "mp_nt": "Matt. 5:1-16",
+          "ep_ot": "Wisd. 2",
+          "ep_nt": "Rev. 1"
+        },
+        {
+          "label": "Tuesday",
+          "year": null,
+          "mp_ot": "Wisd. 3:1-19",
+          "mp_nt": "Matt. 5:17-48",
+          "ep_ot": "Wisd. 4:7-20",
+          "ep_nt": "Rev. 2:1-17"
+        },
+        {
+          "label": "Wednesday",
+          "year": null,
+          "mp_ot": "Wisd. 5:1-16",
+          "mp_nt": "Matt. 6:1-18",
+          "ep_ot": "Wisd. 6:1-21",
+          "ep_nt": "Rev.2:18-3:6"
+        },
+        {
+          "label": "Thursday",
+          "year": null,
+          "mp_ot": "Wisd. 7:15-8:4",
+          "mp_nt": "Matt: 6:19-end",
+          "ep_ot": "Wisd. 8:5-18",
+          "ep_nt": "Rev. 3:7-end"
+        },
+        {
+          "label": "Friday",
+          "year": null,
+          "mp_ot": "Wisd. 8:21-9:18",
+          "mp_nt": "Matt. 7:1-14",
+          "ep_ot": "Wisd. 10:15-11:10",
+          "ep_nt": "Rev. 4"
+        },
+        {
+          "label": "Saturday",
+          "year": null,
+          "mp_ot": "Wisd. 11:21-12:2",
+          "mp_nt": "Matt. 7:15-29",
+          "ep_ot": "Wisd. 12:12-21",
+          "ep_nt": "Rev. 5"
+        }
+      ]
+    }
+  }
+}

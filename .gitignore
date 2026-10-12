@@ -1,17 +1,20 @@
 # Secrets
 .env
 
-# Large data corpus (350MB+, reproducible from README sources, backed up via OneDrive)
-data/
+# Runtime state written by the bot (contains Discord user/guild IDs; not source)
+data/votd_mode.json
+data/stats.json
+data/guild_activity.json
+data/guild_config.json
+data/user_prefs.json
+data/bookmarks.json
+data/reading_plans.json
+data/subscribers.json
+
+# Raw downloads / leftover duplicates (already extracted into data/)
+data/patristics/crap/
+data/classical/New folder/
 
 # Python
 __pycache__/
 *.pyc
-
-# Third-party corpus repos (vendored, not ours to version)
-canonical-greekLit/
-canonical-latinLit/
-LXX-Swete-1930/
-peshitta/
-syrnt/
-tischendorf-data/

@@ -1,0 +1,18 @@
+[submodule "syrnt"]
+	path = syrnt
+	url = https://github.com/ETCBC/syrnt.git
+[submodule "peshitta"]
+	path = peshitta
+	url = https://github.com/ETCBC/peshitta.git
+[submodule "LXX-Swete-1930"]
+	path = LXX-Swete-1930
+	url = https://github.com/eliranwong/LXX-Swete-1930.git
+[submodule "canonical-latinLit"]
+	path = canonical-latinLit
+	url = https://github.com/PerseusDL/canonical-latinLit.git
+[submodule "canonical-greekLit"]
+	path = canonical-greekLit
+	url = https://github.com/PerseusDL/canonical-greekLit
+[submodule "tischendorf-data"]
+	path = tischendorf-data
+	url = https://github.com/morphgnt/tischendorf-data.git

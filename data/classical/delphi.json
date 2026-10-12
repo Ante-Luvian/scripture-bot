@@ -1,0 +1,516 @@
+{
+  "source": "Delphic Maxims (trans. Melissa Gold, Hellenion) & Oracular Statements from Delphi",
+  "books": {
+    "Delphic Maxims": {
+      "1": {
+        "1": "ἕπου θεῷ — Follow Zeus; follow divinity"
+      },
+      "2": {
+        "1": "νόμῳ πείθου — Obey law; obey custom"
+      },
+      "3": {
+        "1": "θεοὺς σέβου — Honor the gods; revere the gods"
+      },
+      "4": {
+        "1": "γονεῖς αἰδοῦ — Respect parents"
+      },
+      "5": {
+        "1": "ἡττῶ ὑπὸ δικαίου — Yield to a just man"
+      },
+      "6": {
+        "1": "γνῶθι μαθών — When you have learned something, recognize it"
+      },
+      "7": {
+        "1": "ἀκούσας νόει — Having heard, perceive"
+      },
+      "8": {
+        "1": "σαυτὸν ἴσθι — Know yourself"
+      },
+      "9": {
+        "1": "γαμεῖν μέλλε — Intend to marry"
+      },
+      "10": {
+        "1": "καιρὸν γνῶθι — Know the critical moment"
+      },
+      "11": {
+        "1": "φρόνει θνητά — Think like a mortal; be prudent like one who can die"
+      },
+      "12": {
+        "1": "ξένος ὢν ἴσθι — Be aware of yourself when you are a stranger"
+      },
+      "13": {
+        "1": "Ἑστίαν τίμα — Honor the hearth; revere the Goddess Hestia"
+      },
+      "14": {
+        "1": "ἆρχε σεαυτοῦ — Rule yourself"
+      },
+      "15": {
+        "1": "φίλοις βοήθει — Come to the aid of those dear to you"
+      },
+      "16": {
+        "1": "θυμοῦ κράτει — Master anger"
+      },
+      "17": {
+        "1": "φρόνησιν ἄσκει — Practice good sense"
+      },
+      "18": {
+        "1": "πρόνοιαν τίμα — Value divine forethought"
+      },
+      "19": {
+        "1": "ὅρχῳ μὴ χρῶ — Do not make use of an oath"
+      },
+      "20": {
+        "1": "φιλίαν ἀγάπα — Prize love and friendship"
+      },
+      "21": {
+        "1": "παιδείας ἀντέχου — Hold on to education and learning"
+      },
+      "22": {
+        "1": "δόξαν δίωκε — Pursue a good reputation"
+      },
+      "23": {
+        "1": "σοφίαν ζήλου — Seek wisdom"
+      },
+      "24": {
+        "1": "καλὸν εὖ λέγε — Acknowledge what is good and beautiful"
+      },
+      "25": {
+        "1": "ψέγε μηδένα — Blame no one"
+      },
+      "26": {
+        "1": "ἐπαίνει ἀρετήν — Praise excellence and virtue"
+      },
+      "27": {
+        "1": "πρᾶττε δίκαια — Act justly"
+      },
+      "28": {
+        "1": "φίλοις εὐνόει — Be well-disposed toward friends"
+      },
+      "29": {
+        "1": "ἐχθροὺς ἀμύνου — Keep away from hateful people"
+      },
+      "30": {
+        "1": "εὐγήνειαν ἄσκει — Practice nobility of character"
+      },
+      "31": {
+        "1": "κακίας ἀπέχου — Keep away from moral badness"
+      },
+      "32": {
+        "1": "κοινὸς γίνου — Be impartial and courteous"
+      },
+      "33": {
+        "1": "ἴδια φύλαττε — Guard your own affairs"
+      },
+      "34": {
+        "1": "ἀλλοτρίων ἀπέχου — Refrain from what belongs to others"
+      },
+      "35": {
+        "1": "ἄκουε πάντα — Listen to everyone"
+      },
+      "36": {
+        "1": "εὔφημος ἴσθι — Speak auspiciously"
+      },
+      "37": {
+        "1": "φίλῳ χαρίζου — Show kindness to those dear to you"
+      },
+      "38": {
+        "1": "μηδὲν ἄγαν — Nothing in excess"
+      },
+      "39": {
+        "1": "χρόνου φείδου — Use time sparingly"
+      },
+      "40": {
+        "1": "ὅρα τὸ μέλλον — Think ahead"
+      },
+      "41": {
+        "1": "ὕβριν μίσει — Hate insolence and overblown pride"
+      },
+      "42": {
+        "1": "ἱκέτας αἰδοῦ — Have respect for suppliants"
+      },
+      "43": {
+        "1": "πᾶσιν ἁρμόζου — Adapt yourself to all things"
+      },
+      "44": {
+        "1": "υἱοὺς παίδευε — Educate your children"
+      },
+      "45": {
+        "1": "ἔχων χαρίζου — When you have, give freely"
+      },
+      "46": {
+        "1": "δόλον φοβοῦ — Be wary of a trap or deception"
+      },
+      "47": {
+        "1": "εὐλόγει πάντας — Speak well of everyone"
+      },
+      "48": {
+        "1": "φιλόσοφος γίνου — Become a philosopher"
+      },
+      "49": {
+        "1": "ὃσια κρίνε — Distinguish what is sacred and lawful"
+      },
+      "50": {
+        "1": "γνοῦς πρᾶττε — When you know, act"
+      },
+      "51": {
+        "1": "φόνου ἀπέχου — Abstain from murder"
+      },
+      "52": {
+        "1": "εὔχου δυνατά — Pray for what is possible"
+      },
+      "53": {
+        "1": "σοφοῖς χρῶ — Make use of wise men"
+      },
+      "54": {
+        "1": "ἤθος δοκίμαζε — Submit your conduct to scrutiny"
+      },
+      "55": {
+        "1": "λαβὼν ἀπόδος — When you have received, pay back"
+      },
+      "56": {
+        "1": "ὑφορῶ μηδένα — View no one with jealousy"
+      },
+      "57": {
+        "1": "τέχνῃ χρῶ — Make use of the skill you have"
+      },
+      "58": {
+        "1": "ὅ μέλλεις, δός — That which you promised, give"
+      },
+      "59": {
+        "1": "εὐεργεσίας τίμα — Honor good service done"
+      },
+      "60": {
+        "1": "φθόνει μηδενί — Bear a grudge against no one"
+      },
+      "61": {
+        "1": "φυλακῇ πρόσεχε — Pay attention to dangers"
+      },
+      "62": {
+        "1": "ἐλπίδα αἴνει — Praise hope"
+      },
+      "63": {
+        "1": "διαβολὴν μίσει — Hate slander"
+      },
+      "64": {
+        "1": "δικαίως κτῶ — Acquire justly"
+      },
+      "65": {
+        "1": "ἀγαθοὺς τίμα — Honor good men"
+      },
+      "66": {
+        "1": "κριτὴν γνῶθι — Know who is judging"
+      },
+      "67": {
+        "1": "γάμους κράτει — Rule your household well"
+      },
+      "68": {
+        "1": "τύχην νόμιζε — Acknowledge fate"
+      },
+      "69": {
+        "1": "ἐγγύην φεῦγε — Avoid pledges"
+      },
+      "70": {
+        "1": "ἁπλῶς διαλέγου — Speak plainly"
+      },
+      "71": {
+        "1": "ὁμοίοις χρῶ — Deal with your equals"
+      },
+      "72": {
+        "1": "δαπανῶν ἄρχου — Govern your expenditures"
+      },
+      "73": {
+        "1": "κτώμενος ἥδου — Enjoy what you have acquired"
+      },
+      "74": {
+        "1": "αἰσχύνην σέβου — Revere the shame of wrongdoing"
+      },
+      "75": {
+        "1": "χάριν ἐκτέλει — Fully repay favor"
+      },
+      "76": {
+        "1": "εὐτυχίαν εὔχου — Pray for good fortune"
+      },
+      "77": {
+        "1": "τύχην στέργε — Be content with your lot"
+      },
+      "78": {
+        "1": "ἀκούων ὅρα — Having heard, discern"
+      },
+      "79": {
+        "1": "ἐργάζου κτητά — Work for what you acquire"
+      },
+      "80": {
+        "1": "ἔριν μίσει — Despise strife"
+      },
+      "81": {
+        "1": "ὄνειδος ἔχθαιρε — Detest disgrace"
+      },
+      "82": {
+        "1": "γλῶτταν ἴσχε — Hold your tongue"
+      },
+      "83": {
+        "1": "ὕβριν ἀμύνου — Ward off insolence"
+      },
+      "84": {
+        "1": "κρῖνε δίκαια — Judge justly"
+      },
+      "85": {
+        "1": "χρῶ χρήμασιν — Use your resources"
+      },
+      "86": {
+        "1": "ἀδωροδόκητος δίκαζε — Judge without bribes"
+      },
+      "87": {
+        "1": "αἰτιῶ παρόντα — Accuse someone to his face"
+      },
+      "88": {
+        "1": "λέγε εἰδώς — Speak only from knowledge"
+      },
+      "89": {
+        "1": "βίας μὴ ἔχου — Do not rely on force"
+      },
+      "90": {
+        "1": "ἀλύπως βίου — Earn your living without causing pain"
+      },
+      "91": {
+        "1": "ὁμίλει πρᾷως — Associate with others gently"
+      },
+      "92": {
+        "1": "πέρας ἐπιτέλει μὴ ἀποδειλιῶν — Finish fully without timidity"
+      },
+      "93": {
+        "1": "φιλοφρόνει πᾶσιν — Be friendly to all"
+      },
+      "94": {
+        "1": "υἱοῖς μὴ καταρῶ — Do not curse your children"
+      },
+      "95": {
+        "1": "γυναικὸς ἆρχε — Lead your household"
+      },
+      "96": {
+        "1": "σεαυτὸν εὖ ποίει — Treat yourself well"
+      },
+      "97": {
+        "1": "εὐπροσήγορος γίνου — Be pleasant to speak with"
+      },
+      "98": {
+        "1": "ἀποκρίνου ἐν καιρῷ — Respond at the critical moment"
+      },
+      "99": {
+        "1": "πόνει μετ' εὐκλείας — Labor with integrity"
+      },
+      "100": {
+        "1": "πρᾶττε ἀμετανοήτως — Act without second-guessing yourself"
+      },
+      "101": {
+        "1": "ἁμαρτάνων μετανόει — When failing, reconsider"
+      },
+      "102": {
+        "1": "ὀφθαλμοῦ κράτει — Master what you look at"
+      },
+      "103": {
+        "1": "βουλεύου χρόνῳ — Deliberate before giving counsel"
+      },
+      "104": {
+        "1": "πρᾶττε συντόμως — Act expeditiously"
+      },
+      "105": {
+        "1": "φιλίαν φύλαττε — Protect friendship"
+      },
+      "106": {
+        "1": "εὐγνώμων γίνου — Be reasonable and considerate"
+      },
+      "107": {
+        "1": "ὁμόνοιαν δίωκε — Pursue concord"
+      },
+      "108": {
+        "1": "ἄρρητον κρύπτε — Keep hidden what should not be spoken"
+      },
+      "109": {
+        "1": "τὸ κρατοῦν φοβοῦ — Fear power"
+      },
+      "110": {
+        "1": "τὸ συμφέρον θηρῶ — Seek what is mutually beneficial"
+      },
+      "111": {
+        "1": "καιρὸν προσδέχου — Wait for the right moment"
+      },
+      "112": {
+        "1": "ἔχθρας διάλυε — Put an end to enmities"
+      },
+      "113": {
+        "1": "γῆρας προσδέχου — Accept old age"
+      },
+      "114": {
+        "1": "ἐπὶ ῥώμῃ μὴ καυχῶ — Do not boast about physical strength"
+      },
+      "115": {
+        "1": "εὐφημίαν ἄσκει — Practice auspicious speech"
+      },
+      "116": {
+        "1": "ἀπέχθειαν φεῦγε — Flee hatred"
+      },
+      "117": {
+        "1": "πλούτει δικαίως — Become wealthy justly"
+      },
+      "118": {
+        "1": "δόξαν μὴ λεῖπε — Do not abandon a good reputation"
+      },
+      "119": {
+        "1": "κακίαν μίσει — Hate wickedness"
+      },
+      "120": {
+        "1": "κινδύνευε φρονίμως — Take risks prudently"
+      },
+      "121": {
+        "1": "μανθάνων μὴ κάμνε — Do not tire of learning"
+      },
+      "122": {
+        "1": "φειδόμενος μὴ λεῖπε — Do not abandon thrift"
+      },
+      "123": {
+        "1": "χρημάτων ἄκομψος ἴσθι — Be unglamorous about money"
+      },
+      "124": {
+        "1": "εὐεξίαν ἄσκει — Practice good health of body and soul"
+      },
+      "125": {
+        "1": "συκοφαντεῖν μὴ θέλε — Do not wish to slander"
+      },
+      "126": {
+        "1": "τὸ ζῆν καταλύω ἐπὶ σοφίᾳ — Give up life for wisdom"
+      },
+      "127": {
+        "1": "πρεσβύτης εὔλογος — Be a reasonable elder"
+      },
+      "128": {
+        "1": "ἡδονῆς κρατεῖν — Master pleasure"
+      },
+      "129": {
+        "1": "τύχης μὴ πίστευε — Do not trust fortune"
+      },
+      "130": {
+        "1": "εὔλογος γίνου — Be reasonable"
+      },
+      "131": {
+        "1": "φιλόθεος ἔσο — Be a lover of god"
+      },
+      "132": {
+        "1": "παρακολούθει λόγῳ — Follow reason"
+      },
+      "133": {
+        "1": "πᾶσιν ἁρμόζου — Adapt to all people"
+      },
+      "134": {
+        "1": "εὐεργετῶν εὐεργετεῖσθαι ἄξιος γίνου — By doing good, become worthy of being treated well"
+      },
+      "135": {
+        "1": "θνησκέ ὑπὲρ πατρίδος — Die for your homeland"
+      },
+      "136": {
+        "1": "τῷ βίῳ μὴ ἄχθου — Do not be burdened by life"
+      },
+      "137": {
+        "1": "ἐπὶ νεκρῷ μὴ γέλα — Do not laugh at the dead"
+      },
+      "138": {
+        "1": "ἀτυχοῦντι συνάχθου — Grieve with the unfortunate"
+      },
+      "139": {
+        "1": "χαρίζου ἀβλαβῶς — Give without causing harm"
+      },
+      "140": {
+        "1": "μὴ ἐπὶ παντὶ λυποῦ — Do not grieve over everything"
+      },
+      "141": {
+        "1": "ἐξ εὐγενῶν γέννα — Beget children from noble stock"
+      },
+      "142": {
+        "1": "ἐπαγγέλλου μηδενί — Make promises to no one"
+      },
+      "143": {
+        "1": "φθιμένους μὴ ἀδίκει — Do not wrong the dead"
+      },
+      "144": {
+        "1": "εὖ πάσχε ὡς θνητός — Fare well as a mortal"
+      },
+      "145": {
+        "1": "τύχῃ παρακολούθει — Follow fortune"
+      },
+      "146": {
+        "1": "τέρμα βίου σκόπει — Observe the end of life"
+      },
+      "147": {
+        "1": "σεαυτὸν εὖ ποίει — Treat yourself well"
+      }
+    },
+    "Oracular Statements": {
+      "1": {
+        "1": "[To To Lycurgus of Sparta] You have come to my rich temple, Lycurgus, a man dear to Zeus and to all who have Olympian homes. I am in doubt whether to pronounce you man or god, but I think rather you are a god, Lycurgus."
+      },
+      "2": {
+        "1": "[To To Lycurgus on wealth] Love of money and nothing else will ruin Sparta."
+      },
+      "3": {
+        "1": "[To To the Therans on Libya (third oracle)] Know you better than I, fair Libya abounding in fleeces? Better the stranger than he who has trod it? Oh! Clever Therans!"
+      },
+      "4": {
+        "1": "[To To Solon on Salamis] First sacrifice to the warriors who once had their home in this island, whom now the rolling plain of fair Asopia covers, laid in the tombs of heroes with their faces turned to the sunset."
+      },
+      "5": {
+        "1": "[To To Solon on his reforms] Seat yourself now amidships, for you are the pilot of Athens. Grasp the helm fast in your hands; you have many allies in your city."
+      },
+      "6": {
+        "1": "[To To Croesus on his identity (the tortoise oracle)] I know the number of the sand and the measure of the sea; I understand the speech of the dumb and hear the voiceless. The smell has come to my sense of a hard-shelled tortoise being cooked with a lamb's flesh in a bronze pot: bronze is the cauldron underneath, and bronze is the lid."
+      },
+      "7": {
+        "1": "[To To Croesus on his monarchy] Whenever a mule shall become sovereign king of the Medians, then, Lydian Delicate-Foot, flee by the stone-strewn Hermus, flee, and think not to stand fast, nor shame to be chicken-hearted."
+      },
+      "8": {
+        "1": "[To To the Spartans on Arcadia] You ask me for Arcadia? You ask too much; I grant it not. There are many men in Arcadia, eaters of acorns, who will hinder you. But I grudge you not. I will give you Tegea to beat with your feet in dancing, and its fair plain to measure with a rope."
+      },
+      "9": {
+        "1": "[To To the Siphnians] When the Prytanies' seat shines white in the island of Siphnos, white-browed all the forum — need then of a true seer's wisdom — danger will threat from a wooden boat, and a herald in scarlet."
+      },
+      "10": {
+        "1": "[To To Athens on Xerxes (first oracle)] Now your statues are standing and pouring sweat. They shiver with dread. The black blood drips from the highest rooftops. They have seen the necessity of evil. Get out, get out of my sanctum and drown your spirits in woe."
+      },
+      "11": {
+        "1": "[To To Athens on Xerxes (second oracle — the wooden wall)] Await not in quiet the coming of the horses, the marching feet, the armed host upon the land. Slip away. Turn your back. You will meet in battle anyway. O holy Salamis, you will be the death of many a woman's son between the seedtime and the harvest of the grain."
+      },
+      "12": {
+        "1": "[To To Sparta on Xerxes] Hear your fate, O dwellers in Sparta of the wide spaces; either your famed, great town must be sacked by Perseus' sons, or, if that be not, the whole land of Lacedaemon shall mourn the death of a king of the house of Heracles, for not the strength of lions or of bulls shall hold him, strength against strength; for he has the power of Zeus, and will not be checked until one of these two he has consumed."
+      },
+      "13": {
+        "1": "[To To the Delphians on the Persians] Pray to the Winds. They will prove to be mighty allies of Greece."
+      },
+      "14": {
+        "1": "[To To Chaerephon on Socrates] Sophocles is wise, Euripides is wiser, but of all men Socrates is wisest."
+      },
+      "15": {
+        "1": "[To To Sparta on Lysander] Also the dragon, earthborn, in craftiness coming behind thee."
+      },
+      "16": {
+        "1": "[To To Sparta on the lame king] Sure though thy feet, proud Sparta, have a care, a lame king's reign may see thee trip — Beware! Troubles unlooked for long shall vex thy shore, and rolling Time his tide of carnage pour."
+      },
+      "17": {
+        "1": "[To To Philip II of Macedon] With silver spears you may conquer the world."
+      },
+      "18": {
+        "1": "[To To Alexander the Great] You are invincible, my son."
+      },
+      "19": {
+        "1": "[To To Zeno of Citium] Become of the same complexion as the dead — apply yourself to the reading of the books of the ancients."
+      },
+      "20": {
+        "1": "[To To the Delphians on the Celtic invasion] Care for these things fall on me!"
+      },
+      "21": {
+        "1": "[To To Cicero on fame] Make your own nature, not the advice of others, your guide in life."
+      },
+      "22": {
+        "1": "[To To Julian the Apostate (the last oracle)] Tell the king: the ornate hall has fallen to the ground. Apollo no longer has his shelter, his laurel grove, nor his prophetic spring; the speaking water has run dry."
+      }
+    }
+  }
+}
