@@ -118,7 +118,7 @@ async def cmd_help(ctx, *, topic: str = ""):
             "**Sefer Yetzirah** — `!verse Sefer Yetzirah 1:1` · **Tanya** — `!verse Tanya 1:1`\n"
             "**Quran** — `!verse Quran 2:255` · **Hadith** — `!verse Sahih al-Bukhari 1:1`\n"
             "**Homer** — `!verse Iliad 6.440` *(book.line)* · `!verse Odyssey 1` *(a whole book)*\n"
-            "**Plato** — `!verse Republic 514a` *(Stephanus)* · `!help books` for full list"
+            "**Plato** — `!verse Republic 514a` *(Stephanus)* · ranges: `!verse Republic 361e-362a` · `!help books` for full list"
         ), inline=False)
         await ctx.send(embed=embed)
         return

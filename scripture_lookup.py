@@ -2775,9 +2775,10 @@ class ScriptureLookup:
         Returns None if this doesn't look like a Plato ref.
         """
         # Pattern: <words> <optional_book_num.><stephanus_page><optional_letter>
-        # e.g. "Apology 17a", "Republic 7.514a", "Republic 514"
+        # [- <end page><end letter>], e.g. "Apology 17a", "Republic 7.514a",
+        # "Republic 514", "Republic 361e-362a", "Republic 514a-c", "Republic 514-515"
         m = re.match(
-            r"^(.+?)\s+(?:(\d+)\.)?(\d+)([a-e]?)$",
+            r"^(.+?)\s+(?:(\d+)\.)?(\d+)([a-e]?)(?:\s*[-–]\s*(\d+)?([a-e])?)?$",
             raw_ref.strip(),
             re.IGNORECASE,
         )
@@ -2788,6 +2789,8 @@ class ScriptureLookup:
         book_num = m.group(2)   # e.g. "7" for Republic 7.514a
         page     = m.group(3)   # e.g. "514"
         section  = m.group(4).lower()  # e.g. "a"
+        end_page, end_section = m.group(5), (m.group(6) or "").lower()
+        is_range = bool(end_page or end_section)
 
         # Resolve book name
         corpus, canon_book = self._resolve_book(book_raw)
@@ -2825,15 +2828,19 @@ class ScriptureLookup:
             candidates.append(f"{page}{s}")
         candidates.append(page)
 
+        def section_text(val):
+            # verse dict wrapper {"1": text} or bare string
+            return val.get("1", next(iter(val.values()), "")) if isinstance(val, dict) else val
+
+        source = self._corpus_sources.get(corpus, {}).get(canon_book, "Plato")
+        start = next((k for k in candidates if k in chap_data), None)
+        if is_range and start is not None:
+            return self._stephanus_range(canon_book, chap_data, start, end_page or page, end_section,
+                                         section_text, source)
+
         for key in candidates:
             if key in chap_data:
-                val = chap_data[key]
-                # verse dict wrapper {"1": text} or bare string
-                if isinstance(val, dict):
-                    text = val.get("1", next(iter(val.values()), ""))
-                else:
-                    text = val
-                source = self._corpus_sources.get(corpus, {}).get(canon_book, "Plato")
+                text = section_text(chap_data[key])
                 return {
                     "found": True,
                     "reference": f"{canon_book} {key}",
@@ -2850,6 +2857,45 @@ class ScriptureLookup:
             "found": False,
             "error": f"**{canon_book} {book_num+'.' if book_num else ''}{page}{section}** not found. Available sections start at: {', '.join(available)}",
             "suggestions": [],
+        }
+
+    _STEPHANUS_PAGE_CHARS = 3500     # a range longer than this is split into pages
+
+    @staticmethod
+    def _stephanus_range(book: str, chap_data: dict, start: str, end_page: str, end_section: str,
+                         section_text, source: str) -> dict:
+        """Sections start..end in Stephanus order. The end is a section
+        ("362a"), or a whole page ("515": through its last section)."""
+        keys = list(chap_data)
+        if end_section:
+            end = f"{end_page}{end_section}" if f"{end_page}{end_section}" in chap_data else None
+        else:
+            on_page = [k for k in keys if re.fullmatch(rf"(?:\d+\.)?{end_page}[a-e]?", k)]
+            end = on_page[-1] if on_page else None
+        if end is None:
+            return {"found": False, "suggestions": [],
+                    "error": f"**{book} {end_page}{end_section}** not found (the range's end)."}
+        i, j = keys.index(start), keys.index(end)
+        if j < i:
+            return {"found": False, "suggestions": [],
+                    "error": f"**{book} {start}–{end}**: the range ends before it starts."}
+        parts = [f"**[{k}]** {section_text(chap_data[k])}" for k in keys[i:j + 1]]
+        pages, current = [], ""
+        for part in parts:
+            if current and len(current) + len(part) > ScriptureLookup._STEPHANUS_PAGE_CHARS:
+                pages.append(current)
+                current = ""
+            current = f"{current}\n{part}" if current else part
+        pages.append(current)
+        return {
+            "found": True,
+            "reference": f"{book} {start}–{end}" if start != end else f"{book} {start}",
+            "text": "\n".join(parts),
+            "source": source,
+            "book": book,
+            "chapter": start,
+            "verse": 1,
+            "pages": pages if len(pages) > 1 else None,
         }
 
     # ── Parsing ────────────────────────────────────────────────────────────────

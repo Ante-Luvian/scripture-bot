@@ -14,6 +14,9 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-12 · Look up a stretch of Plato
+- 🏛️ **Plato ranges.** You can now ask for several sections of a dialogue at once, the way Plato's text is usually quoted: `!verse Republic 361e-362a`. A range can stay on one page (`!verse Republic 514a-c`, the start of the Allegory of the Cave) or cover whole pages (`!verse Republic 514-515`), and long passages come a page at a time. Before, a range just said the reference couldn't be found.
+
 ## 2026-10-12 · A much bigger library: Buddhism, China, the Gita, Dante & more
 - ☯️ **New oracle: `!iching`.** The *I Ching* (Book of Changes) is the ancient Chinese way of asking for guidance. I toss three coins six times to build a "hexagram", a figure of six lines, then read you its Judgment and Image from James Legge's classic translation. Any "changing" lines get their own reading and turn your hexagram into a second one, which I show too. Add a question if you like: `!iching should I take the job?`
 - 🌹 **New oracle: `!hafez`.** In Iran people still consult Hafiz, the beloved 14th-century Persian poet: you hold a wish or question in mind and open his book of poems at random, and the poem you find is your answer. I'll open it for you (43 of his poems, in Gertrude Bell's translation). Both new oracles have a **Card** button, and admins can choose them for the daily oracle (`!oraclesetup kind iching` or `hafez`).
