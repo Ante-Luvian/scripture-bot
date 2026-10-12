@@ -113,10 +113,11 @@ def _size_for_length(n: int) -> int:
             return int(y0 + (n - x0) / (x1 - x0) * (y1 - y0))
     return anchors[-1][1]
 
-def _render_verse_card(reference: str, text: str, source: str):
+def _render_verse_card(reference: str, text: str, source: str, question: str = ""):
     """Render a verse (or a whole chapter) as a parchment-style PNG.
     Runs off the event loop (CPU-bound). Height grows to fit the text
-    instead of truncating it -- a chapter-length card is just taller."""
+    instead of truncating it -- a chapter-length card is just taller.
+    `question` (oracle answers): shown in italics above the text."""
     from PIL import Image, ImageDraw, ImageFont
     import io, textwrap
 
@@ -124,6 +125,13 @@ def _render_verse_card(reference: str, text: str, source: str):
     BG, BORDER, TEXT, ACCENT = (245, 239, 224), (178, 34, 34), (59, 42, 22), (178, 34, 34)
     FONTS = "C:/Windows/Fonts/"
     TOP_MARGIN, BOTTOM_RESERVED = 60, 200
+
+    question_lines, q_font, q_line_height = [], None, 0
+    if question.strip():
+        q_font = ImageFont.truetype(FONTS + "georgiai.ttf", 30)
+        q_line_height = 40
+        question_lines = textwrap.wrap(f"“{question.strip()}”", width=60)[:4]
+        TOP_MARGIN = 50 + q_line_height * len(question_lines) + 40
     MAX_CHARS = 4000  # safety cap so a pathological request (e.g. Psalm 119) can't produce a runaway image
 
     # Strip Discord markdown verse-number markers (e.g. "**[1]** ") and any
@@ -159,6 +167,12 @@ def _render_verse_card(reference: str, text: str, source: str):
     img = Image.new("RGB", (W, H), BG)
     draw = ImageDraw.Draw(img)
     draw.rectangle([16, 16, W - 17, H - 17], outline=BORDER, width=4)
+
+    qy = 50
+    for q_line in question_lines:
+        q_w = draw.textlength(q_line, font=q_font)
+        draw.text(((W - q_w) / 2, qy), q_line, font=q_font, fill=ACCENT)
+        qy += q_line_height
 
     # Center the text block within the space above the divider/reference/source
     # (a no-op once H has grown to exactly fit -- only matters for short verses

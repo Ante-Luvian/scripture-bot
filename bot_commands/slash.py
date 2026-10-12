@@ -107,10 +107,11 @@ async def votd_slash(interaction: discord.Interaction, translation: str = ""):
         await _send_votd(interaction.channel, translation=arg)
 
 @bot.tree.command(name="delphi", description="Random Delphic maxim")
-async def delphi_slash(interaction: discord.Interaction):
+@app_commands.describe(question="Optional question for the oracle")
+async def delphi_slash(interaction: discord.Interaction, question: str = ""):
     await interaction.response.defer()
     ctx = await bot.get_context(interaction)
-    await cmd_delphi(ctx)
+    await cmd_delphi(ctx, question=question)
 
 @bot.tree.command(name="oracle", description="Random verse from an oracular corpus")
 @app_commands.describe(question="Optional question for the oracle")

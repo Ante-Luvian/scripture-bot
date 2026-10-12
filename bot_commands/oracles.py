@@ -31,6 +31,30 @@ _ORACULAR_BOOKS = {   # !oracle's pool: book -> (source, stats prefix)
 }
 
 
+# ── The asker's question ──────────────────────────────────────────────────────
+# Oracles take an optional question (`!virgil will I find work?`). It used to
+# be ignored; now it heads the answer -- in the embed's author line -- so the
+# answer makes sense when shared, and the Card button reads it back from there
+# (button IDs are capped at 100 chars, too short to carry it).
+
+_QUESTION_PREFIX = "❓ "
+
+
+def _ask(embed: discord.Embed, question: str) -> discord.Embed:
+    q = (question or "").strip()
+    if q:
+        embed.set_author(name=(_QUESTION_PREFIX + q)[:256])
+    return embed
+
+
+def _question_from(message) -> str:
+    try:
+        name = message.embeds[0].author.name or ""
+    except (AttributeError, IndexError):
+        return ""
+    return name[len(_QUESTION_PREFIX):] if name.startswith(_QUESTION_PREFIX) else ""
+
+
 # ── 🖼️ Card button under oracle answers ───────────────────────────────────────
 # (Oracles are the bot's most used commands, and !card its most used image.)
 
@@ -80,7 +104,8 @@ class OracleCardButton(discord.ui.DynamicItem[discord.ui.Button],
         if content is None:
             await interaction.followup.send("⚠️ I can't find that answer's text any more.", ephemeral=True)
             return
-        buf = await asyncio.to_thread(_render_verse_card, *content)
+        question = _question_from(interaction.message)
+        buf = await asyncio.to_thread(_render_verse_card, *content, question)
         await interaction.followup.send(file=discord.File(buf, filename="oracle.png"))
 
 
@@ -328,6 +353,7 @@ async def cmd_virgil(ctx, *, question: str = ""):
         color=discord.Color.dark_gold()
     )
     embed.set_footer(text=VIRGIL_SOURCE)
+    _ask(embed, question)
     record_special_stat(ctx.author.id, "virgil", f"Aeneid {book_num}.{line_num}")
     await ctx.send(embed=embed, view=_card_view("virgil", f"{book_num}.{line_num}"))
 
@@ -372,6 +398,7 @@ async def cmd_homer(ctx, *, question: str = ""):
             color=discord.Color.blurple()
         )
     embed.set_footer(text="Sortes Homericae — PMG VII, Oxford Classical Text translations")
+    _ask(embed, question)
     record_special_stat(ctx.author.id, "homer", roll_str)
     if text is None:
         await ctx.send(embed=embed)   # the oracle is silent: nothing to put on a card
@@ -380,8 +407,8 @@ async def cmd_homer(ctx, *, question: str = ""):
 
 
 @bot.command(name="delphi")
-async def cmd_delphi(ctx):
-    """Return a random Delphic maxim. Usage: !delphi"""
+async def cmd_delphi(ctx, *, question: str = ""):
+    """Return a random Delphic maxim. Usage: !delphi [optional question]"""
     maxims = lookup._data.get("classical", {}).get("Delphic Maxims", {})
     if not maxims:
         await ctx.send("Delphic Maxims data not found. Have you run `build_data.py`?")
@@ -395,6 +422,7 @@ async def cmd_delphi(ctx):
         color=discord.Color.gold()
     )
     embed.set_footer(text=DELPHI_SOURCE)
+    _ask(embed, question)
     record_special_stat(ctx.author.id, "delphi", f"Maxim {num}")
     await ctx.send(embed=embed, view=_card_view("delphi", num))
 
@@ -427,6 +455,7 @@ async def cmd_oracle(ctx, *, question: str = ""):
         color=discord.Color.dark_purple()
     )
     embed.set_footer(text=source)
+    _ask(embed, question)
     record_special_stat(ctx.author.id, "oracle", f"{ref_prefix} {num}")
     await ctx.send(embed=embed, view=_card_view("oracle", f"{book}|{num}"))
 
@@ -450,6 +479,7 @@ async def cmd_sortes_biblicae(ctx, *, question: str = ""):
         color=discord.Color.dark_gold(),
     )
     embed.set_footer(text=f"{result['reference']} — {result.get('source', 'King James Version')}")
+    _ask(embed, question)
     record_special_stat(ctx.author.id, "sortesbiblicae", result["reference"])
 
     # It's a Bible verse, so it gets the same study buttons as !verse (Card
@@ -461,7 +491,7 @@ async def cmd_sortes_biblicae(ctx, *, question: str = ""):
 
 
 @bot.tree.command(name="sortesbiblicae", description="Open the Bible at random (Sortes Biblicae)")
-async def sortes_biblicae_slash(interaction: discord.Interaction):
+async def sortes_biblicae_slash(interaction: discord.Interaction, question: str = ""):
     await interaction.response.defer()
     ctx = await bot.get_context(interaction)
-    await cmd_sortes_biblicae(ctx)
+    await cmd_sortes_biblicae(ctx, question=question)

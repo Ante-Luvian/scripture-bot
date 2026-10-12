@@ -91,13 +91,29 @@ def test_oracle_card_button_survives_restart_and_renders(oracles, bot_module):
 
     original = oracles._card_view("delphi", "1").children[0]
     match = oracles.OracleCardButton.__discord_ui_compiled_template__.fullmatch(original.item.custom_id)
-    interaction = type("I", (), {"response": Response(), "followup": Followup()})()
+    interaction = type("I", (), {"response": Response(), "followup": Followup(),
+                                 "message": type("M", (), {"embeds": []})()})()
     rebuilt = asyncio.run(oracles.OracleCardButton.from_custom_id(interaction, original.item, match))
     asyncio.run(rebuilt.callback(interaction))
 
     assert edited[0].timeout is None and edited[0].children[0].item.disabled   # one image per answer
     assert sent[0]["file"].filename == "oracle.png"
     assert sent[0]["file"].fp.read(8) == b"\x89PNG\r\n\x1a\n"   # a real PNG was rendered
+
+
+def test_question_heads_the_answer_and_its_card(oracles, fake_ctx):
+    asyncio.run(oracles.cmd_delphi.callback(fake_ctx, question="Will I find work?"))
+    msg = fake_ctx.sent[0]
+    assert msg["embed"].author.name == "❓ Will I find work?"
+    assert oracles._question_from(type("M", (), {"embeds": [msg["embed"]]})()) == "Will I find work?"
+    # the card renders with the question on it
+    buf = oracles._render_verse_card("Delphic Maxim 1", "Follow God.", "Delphic Maxims", "Will I find work?")
+    assert buf.read(8) == b"\x89PNG\r\n\x1a\n"
+
+
+def test_no_question_no_author_line(oracles, fake_ctx):
+    asyncio.run(oracles.cmd_delphi.callback(fake_ctx))
+    assert not fake_ctx.sent[0]["embed"].author.name
 
 
 def test_oracle_views_never_time_out(oracles, monkeypatch, fake_ctx):
