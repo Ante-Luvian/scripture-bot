@@ -24,7 +24,9 @@ Many of my answers come with buttons underneath. Under a Bible verse you'll see 
 ## 📚 My library: the Bible and its neighbours
 **The Bible** — all 66 books, King James Version by default, plus **more than 40 other translations** you can ask for by name: modern English (ESV, NIV, NASB, NKJV, NLT, NRSVCE, NABRE, CSB, the NET Bible and more), older ones (Geneva Bible, Young's Literal, Douay-Rheims, Knox), and the **original and ancient languages**: Hebrew (Westminster Leningrad Codex), Greek New Testament (Textus Receptus, Tischendorf), the Greek Old Testament (Septuagint), Latin (Vulgate), Syriac (Peshitta), Church Slavonic and even Old English. `!translations` lists them all.
 
-**Apocrypha & Pseudepigrapha** — the 15 deuterocanonical books (Tobit, Judith, Wisdom, Sirach, Maccabees…) and 29 more ancient Jewish and early Christian writings: the **Book of Enoch**, **Jubilees**, the Testaments of the Twelve Patriarchs, the Psalms of Solomon, 3 & 4 Maccabees and Psalms 151–155.
+**Apocrypha & Pseudepigrapha** — the 15 deuterocanonical books (Tobit, Judith, Wisdom, Sirach, Maccabees…) and 29 more ancient Jewish and early Christian writings: the **Book of Enoch**, **Jubilees**, the Testaments of the Twelve Patriarchs, the Psalms of Solomon, 3 & 4 Maccabees, Psalms 151–155 and **2 Enoch** (the *Book of the Secrets of Enoch*).
+
+**New Testament Apocrypha** — 41 early Christian writings that didn't make it into the Bible: the **infancy gospels** (the *Protevangelium of James*, the story of Mary's own birth and childhood: `!verse Protevangelium 1:1`; the *Infancy Gospel of Thomas*, about Jesus as a boy), the **Acts of Pilate** or *Gospel of Nicodemus* with Christ's descent into hell, the **Acts of Paul and Thecla** and other acts of the apostles, and the **Passing of Mary**.
 
 **The Dead Sea Scrolls** — the Community Rule, War Scroll, Damascus Document, Thanksgiving Hymns, the Habakkuk commentary and others, plus scroll copies of Isaiah, Exodus, Deuteronomy, Psalms and Daniel.
 

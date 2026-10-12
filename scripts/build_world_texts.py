@@ -65,6 +65,49 @@ def expect(condition: bool, message: str) -> None:
         raise SystemExit(f"unexpected source layout: {message}")
 
 
+_UA = {"User-Agent": "ScriptureBotCorpusBuilder/1.0 (Discord bot; low-volume one-off text import)"}
+
+
+def wikisource(title: str) -> str:
+    """A Wikisource page's wikitext (cached; politely spaced requests)."""
+    import time
+    import urllib.parse
+    CACHE.mkdir(exist_ok=True)
+    path = CACHE / ("ws_" + re.sub(r"[^\w]+", "_", title)[:150] + ".txt")
+    if not path.exists():
+        url = ("https://en.wikisource.org/w/api.php?action=parse&prop=wikitext&format=json&redirects=1&page="
+               + urllib.parse.quote(title))
+        for attempt in range(6):
+            try:
+                req = urllib.request.Request(url, headers=_UA)
+                data = json.loads(urllib.request.urlopen(req, timeout=60).read())
+                break
+            except urllib.error.HTTPError as e:
+                if e.code != 429 or attempt == 5:
+                    raise
+                time.sleep(int(e.headers.get("Retry-After") or 0) or 15 * (attempt + 1))
+        if "error" in data:
+            raise SystemExit(f"Wikisource: {title}: {data['error'].get('info')}")
+        path.write_text(data["parse"]["wikitext"]["*"], encoding="utf-8")
+        time.sleep(3)
+    return path.read_text(encoding="utf-8")
+
+
+def wiki_plain(w: str) -> str:
+    """Wikitext to plain text: no footnotes, templates, links or markup."""
+    import html
+    w = re.sub(r"<ref[^>/]*/>", "", w)
+    w = re.sub(r"<ref[^>]*>.*?</ref>", "", w, flags=re.S)
+    for _ in range(3):                                   # nested templates
+        w = re.sub(r"\{\{[^{}]*\}\}", "", w)
+    w = re.sub(r"\[\[(?:Category|File|Image):[^\]]*\]\]", "", w)
+    w = re.sub(r"\[\[(?:[^|\]]*\|)?([^\]]*)\]\]", r"\1", w)
+    w = re.sub(r"\[https?://\S+ ([^\]]*)\]", r"\1", w)
+    w = re.sub(r"<[^>]+>", "", w)
+    w = w.replace("'''", "").replace("''", "")
+    return html.unescape(w).replace("\xa0", " ")
+
+
 # ── Buddhist ────────────────────────────────────────────────────────────────
 
 def dhammapada():
@@ -476,6 +519,103 @@ def divine_comedy():
     write("medieval", "divine_comedy_longfellow.json", "Dante Alighieri, The Divine Comedy, trans. Henry Wadsworth Longfellow (1867)", out)
 
 
+# ── New Testament Apocrypha ─────────────────────────────────────────────────
+
+_ANF8 = "Ante-Nicene Fathers/Volume VIII/Apocrypha of the New Testament"
+_ANF8_SKIP = {"Title Page", "Introductory Notice", "Translator's Introductory Notice"}
+
+
+def _numbered_chapters(text: str) -> dict:
+    """{chapter: {verse: paragraph}} from paragraphs opening "12. ..." (a
+    chapter); unnumbered paragraphs continue the current chapter. Text with
+    no numbers at all is one chapter."""
+    book, chap = {}, None
+    for p in paragraphs(text):
+        m = re.match(r"^(\d+)\.\s+(.*)$", p)
+        if m and int(m.group(1)) == (int(chap) + 1 if chap else 1):
+            chap = m.group(1)
+            book[chap] = {"1": tidy(m.group(2))}
+        elif chap:
+            book[chap][str(len(book[chap]) + 1)] = tidy(p)
+        else:
+            book.setdefault("0", {})[str(len(book.get("0", {})) + 1)] = tidy(p)
+    if "0" in book and len(book) > 1:
+        del book["0"]                                     # title lines before chapter 1
+    elif "0" in book:
+        book = {"1": book.pop("0")}
+    return book
+
+
+def nt_apocrypha():
+    """The New Testament apocrypha of the Ante-Nicene Fathers, vol. VIII
+    (trans. Alexander Walker, 1870; ed. Coxe, 1886), from Wikisource: the
+    infancy gospels (Protevangelium of James, Pseudo-Matthew, the Infancy
+    Gospel of Thomas...), the Pilate cycle (Acts of Pilate / Gospel of
+    Nicodemus, Descent into Hell...), apocryphal Acts, Revelations and the
+    Passing of Mary. Footnotes are left out."""
+    def page_text(title):
+        raw = re.sub(r"^\{\{header.*?\n\}\}", "", wikisource(title), flags=re.S)
+        raw = raw.split("==Footnotes==")[0]
+        return re.sub(r"^[—\-]{3,}\s*$", "", wiki_plain(raw), flags=re.M)
+
+    def contents(title):
+        raw = wikisource(title)
+        return re.findall(r"^\* \[\[/([^|\]]+)\|", raw, flags=re.M) if "== Contents ==" in raw else []
+
+    index = wikisource(_ANF8)
+    titles = [t for t in re.findall(r"\[\[/([^|\]]+)\|", index) if t not in _ANF8_SKIP]
+    out, flat = {}, []
+    for title in titles:
+        page = f"{_ANF8}/{title}"
+        subpages = contents(page)
+        if subpages:
+            # one subpage per chapter ("Chapter 12"), or per part ("Further Acts of Thomas")
+            book = {}
+            for sub in subpages:
+                m = re.fullmatch(r"Chapter (\d+)", sub)
+                front = sub in ("Preface", "Prologue", "Introduction")
+                key = m.group(1) if m else ("0" if front else str(len([k for k in book if k != "0"]) + 1))
+                # the page repeats its own heading ("Chapter 1.") as its first line
+                paras = [tidy(p) for p in paragraphs(page_text(f"{page}/{sub}"))
+                         if not re.fullmatch(r"(Chapter \d+|Prologue|Preface)\.?", tidy(p))]
+                if not m and not front:
+                    paras = [f"*{sub}*"] + paras
+                book[key] = {str(n): p for n, p in enumerate(paras, 1)}
+        else:
+            book = _numbered_chapters(page_text(page))
+            if len(book) == 1:
+                flat.append(title)
+        out[title.replace("Barnabus", "Barnabas")] = book
+    print(f"  {len(out)} texts; one chapter only (no chapter numbers in the source): {flat}")
+    write("nt_apocrypha", "anf8_apocrypha.json",
+          "Apocrypha of the New Testament, trans. Alexander Walker (Ante-Nicene Fathers VIII, 1886), via Wikisource", out)
+
+
+# ── Pseudepigrapha ──────────────────────────────────────────────────────────
+
+def secrets_of_enoch():
+    """2 Enoch (the Slavonic Book of the Secrets of Enoch), in the Forgotten
+    Books of Eden (ed. Platt, 1926; after Morfill and Charles, 1896), from
+    Wikisource: "==Chapter N==" sections of numbered verses."""
+    raw = wikisource("The Forgotten Books of Eden/The Book of the Secrets of Enoch")
+    parts = re.split(r"^==\s*Chapter (\d+)\s*==\s*$", raw, flags=re.M)[1:]
+    book = {}
+    for num, chunk in zip(parts[0::2], parts[1::2]):
+        verses = {}
+        for p in paragraphs(wiki_plain(chunk)):
+            m = re.match(r"^(\d+)\s+(.*)$", p)
+            if m:
+                verses[m.group(1)] = tidy(m.group(2))
+            elif verses:
+                last = list(verses)[-1]
+                verses[last] += " " + tidy(p)
+        book[num] = verses
+    expect(list(book) == [str(i) for i in range(1, len(book) + 1)] and len(book) >= 60, f"{len(book)} chapters")
+    write("charles", "secrets_of_enoch.json",
+          "2 Enoch (The Book of the Secrets of Enoch), in The Forgotten Books of Eden, ed. Rutherford H. Platt (1926), via Wikisource",
+          {"2 Enoch": book})
+
+
 # ── Persian ─────────────────────────────────────────────────────────────────
 
 def stanzas(block: str) -> list:
@@ -505,7 +645,7 @@ def hafiz():
 
 BUILDERS = {f.__name__: f for f in (dhammapada, diamond_sutra, tao_te_ching, analects, i_ching, hafiz,
                                     bhagavad_gita, upanishads, meditations, enchiridion, imitation_of_christ,
-                                    rule_of_benedict, divine_comedy, hesiod)}
+                                    rule_of_benedict, divine_comedy, hesiod, nt_apocrypha, secrets_of_enoch)}
 
 if __name__ == "__main__":
     for name in sys.argv[1:] or BUILDERS:

@@ -68,6 +68,32 @@ def test_dante_ends_each_canto_on_its_last_line(lookup):
     assert "APPENDIX" not in str(lookup._data["medieval"]["Paradiso"]["33"])
 
 
+@pytest.mark.parametrize("ref, reference, starts", [
+    ("2 Enoch 1:1", "2 Enoch 1:1", "**[1]** There was a wise man, a great artificer"),
+    ("Secrets of Enoch 1:2", "2 Enoch 1:2", "**[2]** At that time"),
+    ("Protevangelium 1:1", "The Protevangelium of James 1:1", "**[1]** In the records of the twelve tribes"),
+    ("Gospel of Nicodemus 1:1", "Acts of Pilate: First Greek Form 1:1", "**[1]** Having called a council"),
+    ("Infancy Gospel of Thomas 1:1", "Gospel of Thomas: First Greek Form 1:1", "**[1]**"),
+    ("Thecla 1:1", "Acts of Paul and Thecla 1:1", "**[1]**"),
+])
+def test_apocrypha(lookup, ref, reference, starts):
+    r = lookup.get_verse(ref)
+    assert r["found"], r
+    assert r["reference"] == reference and r["text"].startswith(starts)
+
+
+def test_apocrypha_have_no_wiki_markup(lookup):
+    import re
+    for corpus, book in (("nt_apocrypha", None), ("charles", "2 Enoch")):
+        books = lookup._data[corpus] if book is None else {book: lookup._data[corpus][book]}
+        for b in books.values():
+            for chapter in b.values():
+                for text in chapter.values():
+                    assert not re.search(r"\{\{|\}\}|<ref|\[\[|Category:|&#\d+;", text), text[:80]
+    # "Apocalypse of Moses" stays Charles's book, not the ANF "Revelation of Moses"
+    assert lookup._resolve_book("Apocalypse of Moses") == ("charles", "Apocalypse of Moses")
+
+
 def test_isa_still_means_isaiah(lookup):
     assert lookup.get_verse("Isa 53:5")["reference"] == "Isaiah 53:5"
 

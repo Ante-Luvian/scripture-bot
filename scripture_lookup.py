@@ -569,6 +569,26 @@ ALIASES: dict[str, str] = {
     "rig veda": "Rig Veda", "rigveda": "Rig Veda", "rig": "Rig Veda",
     "yajur veda": "Yajur Veda", "yajurveda": "Yajur Veda", "yajur": "Yajur Veda",
     "sama veda": "Sama Veda", "samaveda": "Sama Veda", "sama": "Sama Veda",
+    "2 enoch": "2 Enoch", "secrets of enoch": "2 Enoch", "book of the secrets of enoch": "2 Enoch",
+    "slavonic enoch": "2 Enoch", "ii enoch": "2 Enoch",
+    "protevangelium": "The Protevangelium of James", "protoevangelium": "The Protevangelium of James",
+    "protevangelium of james": "The Protevangelium of James", "gospel of james": "The Protevangelium of James",
+    "infancy gospel of james": "The Protevangelium of James",
+    "pseudo-matthew": "The Gospel of Pseudo-Matthew", "gospel of pseudo-matthew": "The Gospel of Pseudo-Matthew",
+    "nativity of mary": "The Gospel of the Nativity of Mary",
+    "joseph the carpenter": "The History of Joseph the Carpenter",
+    "history of joseph the carpenter": "The History of Joseph the Carpenter",
+    "infancy gospel of thomas": "Gospel of Thomas: First Greek Form", "infancy thomas": "Gospel of Thomas: First Greek Form",
+    "arabic infancy gospel": "The Arabic Gospel of the Infancy of the Saviour",
+    "acts of pilate": "Acts of Pilate: First Greek Form", "gospel of nicodemus": "Acts of Pilate: First Greek Form",
+    "nicodemus": "Acts of Pilate: First Greek Form",
+    "descent into hell": "Descent of Christ into Hell: Greek Form",
+    "acts of paul and thecla": "Acts of Paul and Thecla", "paul and thecla": "Acts of Paul and Thecla",
+    "thecla": "Acts of Paul and Thecla",
+    "acts of thomas": "Various Acts of Thomas", "acts of philip": "The Acts of Philip",
+    "acts of barnabas": "The Acts of Barnabas",
+    "apocalypse of paul": "Revelation of Paul", "revelation of paul": "Revelation of Paul",
+    "revelation of moses": "Revelation of Moses",     # (Charles's "Apocalypse of Moses" is a separate book)
     "works and days": "Works and Days", "erga": "Works and Days", "op": "Works and Days",
     "shield of heracles": "Shield of Heracles", "shield": "Shield of Heracles",
     "meditations": "Meditations", "marcus aurelius": "Meditations", "med": "Meditations",
@@ -1313,7 +1333,7 @@ ALIASES: dict[str, str] = {
 
 # Priority order when the same book name exists in multiple corpora
 # (first match wins unless the user specifies a corpus)
-CORPUS_PRIORITY = ["kjv", "lds", "brenton", "charles", "apostolic_fathers", "quran", "classical", "jewish", "bahai", "qumran", "gnostic", "dharmic", "buddhist", "chinese", "sufi", "norse", "ancient_near_east", "patristics", "medieval"]
+CORPUS_PRIORITY = ["kjv", "lds", "brenton", "charles", "nt_apocrypha", "apostolic_fathers", "quran", "classical", "jewish", "bahai", "qumran", "gnostic", "dharmic", "buddhist", "chinese", "sufi", "norse", "ancient_near_east", "patristics", "medieval"]
 
 
 # Shepherd of Hermas: (first, last) Lightfoot continuous chapter of each
@@ -1356,7 +1376,8 @@ class ScriptureLookup:
             "kjv":     ["kjv_canon.json", "kjv_apocrypha.json"],
             "lds":     ["book_of_mormon.json", "doctrine_and_covenants.json", "pearl_of_great_price.json"],
             "brenton": ["brenton_extras.json"],
-            "charles": ["book_of_enoch.json", "book_of_jubilees.json", "testaments_of_twelve_patriarchs.json", "assumption_of_moses.json", "ascension_of_isaiah.json", "sibylline_oracles.json", "letter_of_aristeas.json", "books_of_adam_and_eve.json", "zadokite_fragments.json"],
+            "charles": ["book_of_enoch.json", "book_of_jubilees.json", "testaments_of_twelve_patriarchs.json", "assumption_of_moses.json", "ascension_of_isaiah.json", "sibylline_oracles.json", "letter_of_aristeas.json", "books_of_adam_and_eve.json", "zadokite_fragments.json", "secrets_of_enoch.json"],
+            "nt_apocrypha": ["anf8_apocrypha.json"],
             "apostolic_fathers": [
                 "1_clement.json",
                 "2_clement.json",
@@ -2008,6 +2029,7 @@ class ScriptureLookup:
             "gnostic":           "Gnostic & Esoteric Texts",
             "dharmic":           "Dharmic Scriptures Team (2008)",
             "buddhist":          "Buddhist Texts",
+            "nt_apocrypha":      "Apocrypha of the New Testament (ANF VIII)",
             "chinese":           "Chinese Classics (Legge)",
             "sufi":              "Sufi Poetry",
             "norse":            "Trans. Henry Adams Bellows (1923)",
@@ -2149,6 +2171,7 @@ class ScriptureLookup:
             "gnostic":          "🧿 Gnostic / Hermetic",
             "dharmic":          "☸️ Dharmic",
             "buddhist":         "☸️ Buddhist",
+            "nt_apocrypha":     "📜 New Testament Apocrypha",
             "chinese":          "☯️ Chinese Classics",
             "sufi":             "🌹 Sufi Poetry",
             "norse":            "🌲 Norse",
