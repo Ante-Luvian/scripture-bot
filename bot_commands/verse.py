@@ -17,11 +17,38 @@ from core import (
     log,
     lookup,
 )
-from bot_commands.translations import (
-    _send_parallel,
-)
 
 # ── Prefix command  !verse ─────────────────────────────────────────────────────
+
+async def _send_translation_parallel(ctx_or_interaction, result: dict):
+    """Send a parallel translation embed (`!verse John 3:16 kjv web`).
+
+    This used to be the first of two functions named _send_parallel; the
+    later !parallel one (different signature) silently replaced it, so this
+    path raised TypeError."""
+    if not result.get("found"):
+        embed = discord.Embed(title="Error", description=result.get("error", "Unknown error"),
+                              color=discord.Color.red())
+        if hasattr(ctx_or_interaction, "followup"):
+            await ctx_or_interaction.followup.send(embed=embed)
+        else:
+            await ctx_or_interaction.send(embed=embed)
+        return
+
+    ref = result["reference"]
+    embed = discord.Embed(title=f"📖 {ref}", color=discord.Color.dark_gold())
+    for slug, display_name, text in result["parallel"]:
+        if len(text) > 1024:
+            text = text[:1021] + "…"
+        embed.add_field(name=f"**{slug}**", value=text, inline=False)
+    embed.set_footer(text=" · ".join(display_name for _, display_name, _ in result["parallel"]))
+
+    if hasattr(ctx_or_interaction, "followup"):
+        await ctx_or_interaction.followup.send(embed=embed)
+    else:
+        await ctx_or_interaction.send(embed=embed)
+
+
 @bot.command(name="verse", aliases=["v", "scripture"])
 async def verse_prefix(ctx, *, reference: str = ""):
     ref = reference.strip()
@@ -94,7 +121,7 @@ async def verse_prefix(ctx, *, reference: str = ""):
             base_ref = " ".join(tokens[:i + 1])
             async with ctx.typing():
                 result = get_parallel(base_ref, trans_list)
-            await _send_parallel(ctx, result)
+            await _send_translation_parallel(ctx, result)
             return
         # Bare translation slug → random verse in that translation
         if not parts[0].strip():
