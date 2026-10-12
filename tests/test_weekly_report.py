@@ -102,6 +102,38 @@ def test_errors_are_logged_for_the_report(bot_module, monkeypatch):
     assert logged[-1]["where"] == "!xref" and logged[-1]["error"] == "KeyError"
 
 
+def test_errors_command_groups_recent_errors(report, bot_module):
+    now = MONDAY_9
+    at = lambda days: (now - datetime.timedelta(days=days)).isoformat(timespec="seconds")
+    errors = [{"at": at(1), "where": "!xref", "error": "KeyError", "detail": "'Jn'", "location": "verse.py:10"},
+              {"at": at(2), "where": "!xref", "error": "KeyError", "detail": "'Mk'", "location": "verse.py:10"},
+              {"at": at(3), "where": "Card button", "error": "OSError"},              # older entries lack detail
+              {"at": at(30), "where": "!old", "error": "X"}]
+    embed = report.errors_embed(errors, 7, now)
+    first, second = embed.fields
+    assert first.name == "!xref — KeyError" and first.value.startswith("×2 · last 2026-10-11 09:05 UTC · `verse.py:10`")
+    assert first.value.endswith("`'Jn'`")                      # the most recent message
+    assert second.name == "Card button — OSError" and len(embed.fields) == 2
+    assert report.errors_embed(errors, 7, now + datetime.timedelta(days=60)).description == "None 🎉"
+    cmd = bot_module.bot.get_command("errors")
+    assert cmd.hidden and cmd.checks
+
+
+def test_error_log_records_where_in_the_code(bot_module, monkeypatch):
+    import core
+    monkeypatch.setattr(core, "_last_error_dm", {})
+
+    async def no_dm():
+        raise RuntimeError("offline")
+    monkeypatch.setattr(core.bot, "application_info", no_dm)
+    try:
+        {}["missing"]
+    except KeyError as e:
+        asyncio.run(core.report_error("!verse", e))
+    entry = json.loads(core.ERROR_LOG_PATH.read_text(encoding="utf-8"))[-1]
+    assert entry["detail"] == "'missing'" and entry["location"].startswith("test_weekly_report.py:")
+
+
 def test_preview_command_is_owner_only_and_doesnt_reset_the_week(report, bot_module, fake_ctx):
     cmd = bot_module.bot.get_command("weeklyreport")
     assert cmd.hidden and cmd.checks                  # is_owner

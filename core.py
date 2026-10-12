@@ -115,7 +115,8 @@ def _append_error_log(where: str, error: BaseException) -> None:
     except Exception:
         entries = []
     entries.append({"at": datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds"),
-                    "where": where, "error": type(error).__name__})
+                    "where": where, "error": type(error).__name__,
+                    "detail": str(error)[:200], "location": _error_location(error)})
     try:
         _atomic_write_json(ERROR_LOG_PATH, entries[-_ERROR_LOG_KEEP:])
     except Exception as e:

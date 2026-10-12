@@ -132,6 +132,43 @@ async def _before_weekly_report():
     await bot.wait_until_ready()
 
 
+def errors_embed(errors: list, days: int, now: datetime.datetime) -> discord.Embed:
+    """Recent errors grouped by place, type and code line, most frequent first."""
+    since = (now - datetime.timedelta(days=days)).isoformat(timespec="seconds")
+    recent = [e for e in errors if e.get("at", "") >= since]
+    groups: dict = {}
+    for e in recent:
+        key = (e.get("where", "?"), e.get("error", "?"), e.get("location", ""))
+        g = groups.setdefault(key, {"count": 0, "last": "", "detail": ""})
+        g["count"] += 1
+        if e["at"] >= g["last"]:
+            g["last"], g["detail"] = e["at"], e.get("detail", "")
+    embed = discord.Embed(title=f"⚠️ Errors in the last {days} day(s)", color=discord.Color.dark_red())
+    if not groups:
+        embed.description = "None 🎉"
+        return embed
+    ranked = sorted(groups.items(), key=lambda kv: (-kv[1]["count"], kv[1]["last"]))
+    for (where, error, location), g in ranked[:10]:
+        value = f"×{g['count']} · last {g['last'][:16].replace('T', ' ')} UTC"
+        if location:
+            value += f" · `{location}`"
+        if g["detail"]:
+            value += f"\n`{g['detail'][:150]}`"
+        embed.add_field(name=f"{where} — {error}"[:256], value=value, inline=False)
+    embed.set_footer(text=f"{len(recent)} error(s) in {len(groups)} kind(s)"
+                          + (f" · showing the top 10" if len(groups) > 10 else "") + " · full tracebacks are in the log")
+    return embed
+
+
+@bot.command(name="errors", hidden=True)
+@commands.is_owner()
+async def cmd_errors(ctx, days: int = 7):
+    """Owner only: recent errors, grouped. Usage: !errors [days]"""
+    days = max(1, min(days, 365))
+    await ctx.send(embed=errors_embed(_load_json(ERROR_LOG_PATH, []), days,
+                                      datetime.datetime.now(datetime.timezone.utc)))
+
+
 @bot.command(name="weeklyreport", hidden=True)
 @commands.is_owner()
 async def cmd_weeklyreport(ctx):
