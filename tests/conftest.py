@@ -24,6 +24,25 @@ def lookup(bot_module):
     return bot_module.lookup
 
 
+# Files the running bot writes. Tests that drive real commands must never
+# touch the live copies (an earlier version of this suite added a fake user
+# and fake John 3:16 lookups to data/stats.json on every run).
+RUNTIME_FILES = ["VOTD_MODE_PATH", "STATS_PATH", "GUILD_ACTIVITY_PATH", "GUILD_CONFIG_PATH",
+                 "USER_PREFS_PATH", "BOOKMARKS_PATH", "READING_PLANS_PATH", "SUBSCRIBERS_PATH"]
+
+
+@pytest.fixture(autouse=True)
+def isolate_runtime_files(tmp_path, monkeypatch):
+    """Point every runtime-state path, in every module that holds one, at a
+    temporary folder for the duration of each test."""
+    for name, module in list(sys.modules.items()):
+        if not (name in ("core", "bot") or name.startswith("bot_commands.")):
+            continue
+        for attr in RUNTIME_FILES:
+            if hasattr(module, attr):
+                monkeypatch.setattr(module, attr, tmp_path / attr.lower().replace("_path", ".json"))
+
+
 class FakeCtx:
     """Just enough of commands.Context to drive a prefix command directly:
     records everything sent; typing() is a no-op."""
