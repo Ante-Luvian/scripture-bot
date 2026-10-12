@@ -14,6 +14,13 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-12 · A quiz game, reading reminders & slash commands for everything
+- 🎯 **New game: `!quiz`.** I show you a Bible verse and four buttons — which book is it from? Everyone gets one guess (I'll tell you privately whether you were right), and after a minute I reveal the answer and who got it. For a real challenge, `!quiz hard` mixes traditions: is it from Proverbs, the Quran, the Rig Veda, the Norse Edda, the Book of Mormon…? `!quiz leaderboard` shows the top scorers.
+- 📬 **Reading-plan reminders.** If you're reading through a book with `!plan start John`, type `!plan remind on` and I'll send you each day's chapter by private message, every morning at 07:00 UTC — or choose your own time, like `!plan remind on 19:30`. `!plan remind off` stops them. (Your Discord privacy settings need to allow messages from server members.)
+- ⌨️ **Every command now works as a slash command too.** Commands that could only be typed with `!` before — including `/virgil`, `/search`, `/prayer`, `/psalm`, `/mp`, `/ep`, `/collect`, `/stats` and `/export` — now appear when you type `/`, with Discord showing you what to fill in. Server admins get slash versions of the setup commands as well (`/votdsetup`, `/oraclesetup`, `/changelogsetup`, `/features`), visible only to admins.
+- 📖 **This introduction keeps itself up to date.** The guide at the top of this channel now updates in place whenever my commands change, so it's always accurate.
+- 👋 **A better welcome.** When I join a new server, my hello message now points admins to everything worth setting up: this introduction and updates channel, the daily verse, and the daily oracle.
+
 ## 2026-10-12 · Daily oracles, smarter verse spotting & more
 - 🔮 **New: a daily oracle.** Server admins can have me post an oracle every day, like the daily verse. Start with `!oraclesetup channel #your-channel`; then optionally choose the time with `!oraclesetup time 12:00` (24-hour clock, UTC), pick which oracle with `!oraclesetup kind virgil` (or `homer`, `delphi`, `oracle`, or `any` for a surprise each day), and try it right away with `!oraclesetup test`. `!oraclesetup off` stops it.
 - ❓ **Ask the oracles a question.** You could always type a question after an oracle command, but I used to ignore it. Now `!virgil will I find work?` shows your question at the top of the answer — and on the image if you press **Card** — so the answer makes sense when you share it. Works with `!virgil`, `!homer`, `!delphi`, `!oracle` and `!sortesbiblicae`.
