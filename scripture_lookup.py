@@ -569,6 +569,13 @@ ALIASES: dict[str, str] = {
     "rig veda": "Rig Veda", "rigveda": "Rig Veda", "rig": "Rig Veda",
     "yajur veda": "Yajur Veda", "yajurveda": "Yajur Veda", "yajur": "Yajur Veda",
     "sama veda": "Sama Veda", "samaveda": "Sama Veda", "sama": "Sama Veda",
+    "bhagavad gita": "Bhagavad Gita", "gita": "Bhagavad Gita", "bg": "Bhagavad Gita",
+    "bhagavadgita": "Bhagavad Gita", "geeta": "Bhagavad Gita", "bhagavad geeta": "Bhagavad Gita",
+    # ("Isa" alone is Isaiah)
+    "isa upanishad": "Isa Upanishad", "isha upanishad": "Isa Upanishad", "isavasya": "Isa Upanishad",
+    "isha": "Isa Upanishad",
+    "katha upanishad": "Katha Upanishad", "katha": "Katha Upanishad", "kathopanishad": "Katha Upanishad",
+    "kena upanishad": "Kena Upanishad", "kena": "Kena Upanishad",
     "dhammapada": "Dhammapada", "dhp": "Dhammapada",
     "diamond sutra": "Diamond Sutra", "vajracchedika": "Diamond Sutra",
     "tao te ching": "Tao Te Ching", "daodejing": "Tao Te Ching", "dao de jing": "Tao Te Ching",
@@ -1462,6 +1469,8 @@ class ScriptureLookup:
                 "yajur_veda.json",
                 "sama_veda.json",
                 "atharva_veda.json",
+                "bhagavad_gita.json",
+                "upanishads_paramananda.json",
             ],
             "patristics": [
                 # ── Original 15 (ANF/NPNF epub) ───────────────────────────

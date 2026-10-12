@@ -767,6 +767,14 @@ BOOKS_TREE = [
             "Sama Veda",
             "Atharva Veda",
         ]),
+        ("Upanishads", [
+            "Isa Upanishad",
+            "Katha Upanishad",
+            "Kena Upanishad",
+        ]),
+        ("Bhagavad Gita", [
+            "Bhagavad Gita",
+        ]),
     ]),
     ("☸️ Buddhist", [
         "Dhammapada",

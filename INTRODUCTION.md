@@ -45,7 +45,9 @@ Many of my answers come with buttons underneath. Under a Bible verse you'll see 
 
 **Buddhism and China** — the **Dhammapada** (the Buddha's sayings in verse: `!verse Dhammapada 183`) and the **Diamond Sutra**; the **Tao Te Ching**, Confucius's **Analects** (`!verse Analects 2.4`) and the **I Ching**, the ancient Chinese Book of Changes.
 
-**Further afield** — the four **Vedas** of Hinduism; the Zoroastrian **Gathas**; eight works of the **Bahá'í** faith, including the Kitáb-i-Aqdas; the Norse **Poetic Edda**; and the **ancient Near East**: the Epic of Gilgamesh, the Canaanite Baal Cycle, the Egyptian Book of the Dead and Hymn to the Aten, the Wisdom of Ahikar, and the pre-Islamic Arabic Mu'allaqat poems. (I even have the Sermons of Vivec from *The Elder Scrolls*.)
+**Hinduism** — the four **Vedas**, the **Bhagavad Gita** (every verse, in Shri Purohit Swami's translation: `!verse Gita 2:47`) and three of the **Upanishads**, the philosophical heart of the Vedas (the Isa, Katha and Kena).
+
+**Further afield** — the Zoroastrian **Gathas**; eight works of the **Bahá'í** faith, including the Kitáb-i-Aqdas; the Norse **Poetic Edda**; and the **ancient Near East**: the Epic of Gilgamesh, the Canaanite Baal Cycle, the Egyptian Book of the Dead and Hymn to the Aten, the Wisdom of Ahikar, and the pre-Islamic Arabic Mu'allaqat poems. (I even have the Sermons of Vivec from *The Elder Scrolls*.)
 
 Browse all of it with `!books`, or let me pick something at random with `!discover`.
 

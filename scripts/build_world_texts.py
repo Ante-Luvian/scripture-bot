@@ -235,6 +235,64 @@ def i_ching():
         json.dumps(dict(sorted(meta.items(), key=lambda kv: int(kv[0]))), ensure_ascii=False, indent=1), encoding="utf-8")
 
 
+# ── Hindu ───────────────────────────────────────────────────────────────────
+
+_GITA_REPO = "https://raw.githubusercontent.com/gita/gita/HEAD/data/"
+GITA_TRANSLATOR = "Shri Purohit Swami"
+
+
+def bhagavad_gita():
+    """Shri Purohit Swami (1935), verse by verse, from github.com/gita/gita.
+    18 chapters, 701 verses (the count that includes 13.1 "Arjuna said...")."""
+    verses = json.loads(cached_url("gita_verse.json", _GITA_REPO + "verse.json"))
+    translations = json.loads(cached_url("gita_translation.json", _GITA_REPO + "translation.json"))
+    where = {v["id"]: (str(v["chapter_number"]), str(v["verse_number"])) for v in verses}
+    book: dict = {}
+    for t in translations:
+        if t["authorName"] == GITA_TRANSLATOR and t["lang"] == "english":
+            chap, verse = where[t["verse_id"]]
+            book.setdefault(chap, {})[verse] = tidy(t["description"])
+    for chap in book:
+        book[chap] = dict(sorted(book[chap].items(), key=lambda kv: int(kv[0])))
+    book = dict(sorted(book.items(), key=lambda kv: int(kv[0])))
+    expect(list(book) == [str(i) for i in range(1, 19)] and sum(map(len, book.values())) == 701,
+           f"{len(book)} chapters, {sum(map(len, book.values()))} verses")
+    write("dharmic", "bhagavad_gita.json", "The Bhagavad Gita, trans. Shri Purohit Swami (1935)", {"Bhagavad Gita": book})
+
+
+def upanishads():
+    """Swami Paramananda, The Upanishads (1919), Gutenberg #3283: the Isa,
+    Katha and Kena. Each verse is printed first, then his commentary; only
+    the verses are kept. Katha's six parts and Kena's four are its chapters."""
+    text = gutenberg(3283)
+
+    def heading(word):          # the centred section headings (the contents list isn't indented)
+        return [m.start() for m in re.finditer(rf"^ +{word}\s*$", text, flags=re.M)]
+    isa, katha = heading("Isa-Upanishad")[-1], heading("Katha-Upanishad")
+    kena = text.index("KENA-UPANISHAD")
+    bodies = {"Isa Upanishad": text[isa:katha[0]],
+              "Katha Upanishad": text[katha[-1]:text.index("PEACE CHANT", katha[-1])],
+              "Kena Upanishad": text[kena:]}
+    out = {}
+    for name, body in bodies.items():
+        parts = re.split(r"^\s*Part \w+\s*$", body, flags=re.M)
+        parts = parts[1:] if len(parts) > 1 else parts
+        book = {}
+        for c, part in enumerate(parts, 1):
+            pieces = re.split(r"^ *([IVXL]+)\s*$", part, flags=re.M)[1:]
+            verses = {}
+            for num, chunk in zip(pieces[0::2], pieces[1::2]):
+                paras = paragraphs(chunk)
+                if paras:
+                    verses[str(roman(num))] = tidy(paras[0])
+            expect(list(verses) == [str(i) for i in range(1, len(verses) + 1)], f"{name} part {c}: {list(verses)}")
+            book[str(c)] = verses
+        out[name] = book
+    expect([len(out["Katha Upanishad"]), len(out["Kena Upanishad"]), len(out["Isa Upanishad"]["1"])] == [6, 4, 18],
+           f"parts {[len(b) for b in out.values()]}, Isa verses {len(out['Isa Upanishad']['1'])}")
+    write("dharmic", "upanishads_paramananda.json", "The Upanishads, trans. Swami Paramananda (1919)", out)
+
+
 # ── Persian ─────────────────────────────────────────────────────────────────
 
 def stanzas(block: str) -> list:
@@ -262,7 +320,8 @@ def hafiz():
           {"Divan of Hafiz": book})
 
 
-BUILDERS = {f.__name__: f for f in (dhammapada, diamond_sutra, tao_te_ching, analects, i_ching, hafiz)}
+BUILDERS = {f.__name__: f for f in (dhammapada, diamond_sutra, tao_te_ching, analects, i_ching, hafiz,
+                                    bhagavad_gita, upanishads)}
 
 if __name__ == "__main__":
     for name in sys.argv[1:] or BUILDERS:

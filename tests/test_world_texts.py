@@ -28,6 +28,23 @@ def test_chinese(lookup, ref, reference, starts):
     assert r["reference"] == reference and r["text"].startswith(starts)
 
 
+@pytest.mark.parametrize("ref, reference, starts", [
+    ("Bhagavad Gita 2:47", "Bhagavad Gita 2:47", "**[47]** But you have only the right to work"),
+    ("Gita 18:78", "Bhagavad Gita 18:78", "**[78]**"),
+    ("Isa Upanishad 1:1", "Isa Upanishad 1:1", "**[1]** All this, whatsoever exists"),
+    ("Katha 1:22", "Katha Upanishad 1:22", "**[22]** Nachiketas said: O Death"),
+    ("Kena 4:9", "Kena Upanishad 4:9", "**[9]** He who knows this"),
+])
+def test_hindu(lookup, ref, reference, starts):
+    r = lookup.get_verse(ref)
+    assert r["found"], r
+    assert r["reference"] == reference and r["text"].startswith(starts)
+
+
+def test_isa_still_means_isaiah(lookup):
+    assert lookup.get_verse("Isa 53:5")["reference"] == "Isaiah 53:5"
+
+
 def test_analects_follows_legges_numbering(lookup):
     books = lookup._data["chinese"]["Analects"]
     assert [len(books[str(b)]) for b in range(1, 21)] == [16, 24, 26, 26, 27, 28, 37, 21, 30, 18,
