@@ -55,14 +55,19 @@ async def on_guild_join(guild: discord.Guild):
     embed = discord.Embed(
         title="📖 Thanks for adding ScriptureBot!",
         description=(
-            "Run `!help` any time for the full command list. A few things worth setting up:\n\n"
-            "`!votdsetup channel #general` — a daily Verse of the Day post for this server\n\n"
-            "**Optional features (all off by default)** — an admin turns these on with `!features <name> on`:\n"
+            "I'm a library of sacred and ancient texts — try `!verse John 3:16`, `!discover`, or `!virgil`. "
+            "`!help` lists everything.\n\n"
+            "**Worth setting up (admins):**\n"
+            "• `!changelogsetup #channel` then `!changelogintro` — a channel that introduces me to "
+            "everyone (what I can do, every command explained) and where I announce my updates\n"
+            "• `!votdsetup channel #channel` — a daily Verse of the Day\n"
+            "• `!oraclesetup channel #channel` — a daily oracle (Virgil, Homer, Delphi…)\n\n"
+            "**Optional features (all off by default)** — turn on with `!features <name> on`:\n"
             + "\n".join(f"• `{k}` — {v}" for k, v in GUILD_FEATURES.items())
         ),
         color=discord.Color.dark_gold(),
     )
-    embed.set_footer(text="!features to see current settings · !help votdsetup for VOTD setup")
+    embed.set_footer(text="!help <command> explains any command in detail")
     try:
         await channel.send(embed=embed)
     except discord.Forbidden:

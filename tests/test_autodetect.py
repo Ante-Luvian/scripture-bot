@@ -71,5 +71,23 @@ def test_references_mid_sentence_are_found(autodetect, monkeypatch, text, expect
     assert sent and expected in sent[0]["embed"].description
 
 
+def test_welcome_message_points_to_the_setup_commands(autodetect, bot_module):
+    sent = []
+
+    class Channel:
+        def permissions_for(self, member):
+            return type("P", (), {"send_messages": True})()
+
+        async def send(self, **kw):
+            sent.append(kw)
+
+    guild = type("Guild", (), {"system_channel": Channel(), "me": object(), "text_channels": []})()
+    asyncio.run(autodetect.on_guild_join(guild))
+    text = sent[0]["embed"].description
+    for command in ("!changelogsetup", "!changelogintro", "!votdsetup", "!oraclesetup", "!features"):
+        assert command in text
+        assert bot_module.bot.get_command(command[1:]) is not None   # and it's real
+
+
 def test_ordinary_chat_gets_no_reply(autodetect, monkeypatch):
     assert _chat(autodetect, monkeypatch, "good morning everyone") == []
