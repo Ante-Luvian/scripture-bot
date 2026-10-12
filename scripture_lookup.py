@@ -1291,6 +1291,25 @@ ALIASES: dict[str, str] = {
 CORPUS_PRIORITY = ["kjv", "lds", "brenton", "charles", "apostolic_fathers", "quran", "classical", "jewish", "bahai", "qumran", "gnostic", "dharmic", "norse", "ancient_near_east", "patristics", "medieval"]
 
 
+# Shepherd of Hermas: (first, last) Lightfoot continuous chapter of each
+# Vision / Mandate / Similitude, for traditional "Herm Sim 9.1.3" citations.
+_HERMAS_PARTS: dict[str, tuple[str, list[tuple[int, int]]]] = {
+    "v": ("Vision", [(1, 4), (5, 8), (9, 21), (22, 24), (25, 25)]),
+    "m": ("Mandate", [(26, 26), (27, 27), (28, 28), (29, 32), (33, 34), (35, 36),
+                      (37, 37), (38, 38), (39, 39), (40, 42), (43, 43), (44, 49)]),
+    "s": ("Similitude", [(50, 50), (51, 51), (52, 52), (53, 53), (54, 60),
+                         (61, 65), (66, 66), (67, 77), (78, 110), (111, 114)]),
+}
+_HERMAS_REF = re.compile(
+    r"^(?:(?:the\s+)?shepherd(?:\s+of\s+hermas)?|herm(?:as)?)\.?,?\s*"
+    r"(?P<part>vis(?:ion)?s?|man(?:date)?s?|sim(?:ilitude)?s?)\.?\s*"
+    r"(?P<n>\d+)"
+    r"(?:[:.](?P<chap>\d+)"
+    r"(?:[:.](?P<verse>\d+)(?:\s*[-–—]\s*(?P<verse_end>\d+))?)?)?$",
+    re.IGNORECASE,
+)
+
+
 class ScriptureLookup:
     def __init__(self, data_dir: Path = DATA_DIR):
         self.data_dir = data_dir
@@ -1752,6 +1771,10 @@ class ScriptureLookup:
             return {"found": True, "reference": f"Delphi {sub}:{num}", "text": text,
                     "source": book, "book": book, "chapter": int(num), "verse": 1}
 
+        hermas_result = self._try_hermas(ref)
+        if hermas_result is not None:
+            return hermas_result
+
         parsed = self._parse_reference(ref)
         if parsed is None:
             return {
@@ -2143,6 +2166,46 @@ class ScriptureLookup:
                         "source": r.get("source", "Mishnah (via Sefaria)"),
                     }
                 return None
+
+    def _try_hermas(self, raw_ref: str) -> Optional[dict]:
+        """Traditional Shepherd of Hermas citations -> Lightfoot's continuous
+        chapters, which is how the data is stored.
+          Herm Sim 9        → Similitude 9, its chapter 1   (continuous 78)
+          Herm Sim 9:1      → Similitude 9, chapter 1       (continuous 78)
+          Herm Sim 9:1:3    → ... verse 3   (also 9.1.3, and 9:1:3-5 ranges)
+        Plain "Hermas 78:3" is left to the normal parser (continuous numbering)."""
+        m = _HERMAS_REF.match(raw_ref.strip())
+        if not m:
+            return None
+        part_key = m.group("part").lower()[0]          # v / m / s
+        part_name, ranges = _HERMAS_PARTS[part_key]
+        n = int(m.group("n"))
+        chap = int(m.group("chap") or 1)
+        verse = m.group("verse")
+        verse_end = m.group("verse_end")
+
+        if not 1 <= n <= len(ranges):
+            return {"found": False,
+                    "error": f"The Shepherd of Hermas has {len(ranges)} {part_name}s (no {part_name} {n}).",
+                    "suggestions": []}
+        first, last = ranges[n - 1]
+        if not 1 <= chap <= last - first + 1:
+            return {"found": False,
+                    "error": f"{part_name} {n} has {last - first + 1} chapter(s) (no chapter {chap}).",
+                    "suggestions": []}
+        continuous = first + chap - 1
+
+        inner_ref = f"Shepherd of Hermas {continuous}"
+        if verse:
+            inner_ref += f":{verse}" + (f"-{verse_end}" if verse_end else "")
+        result = self.get_verse(inner_ref)
+        label = f"{n}.{chap}" + (f".{verse}" if verse else "") + (f"–{verse_end}" if verse_end else "")
+        if result.get("found"):
+            result["reference"] = f"Shepherd of Hermas, {part_name} {label} (ch. {continuous})"
+        elif "has no chapter" in result.get("error", ""):
+            result["error"] = (f"{part_name} {n}.{chap} (continuous ch. {continuous}) "
+                               f"isn't in the local text of the Shepherd of Hermas.")
+        return result
 
     def _try_zohar_raw(self, raw_ref: str) -> Optional[dict]:
         """

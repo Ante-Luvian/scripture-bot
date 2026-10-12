@@ -33,7 +33,6 @@ import pytest
     ("Mart Pol 9:1",         "Martyrdom of Polycarp 9:1",        "entered into the stadium"),
     ("Barn 4:1",             "Epistle of Barnabas 4:1",          "investigate"),
     ("Did 9:1",              "Didache 9:1",                      "eucharistic thanksgiving"),
-    ("Herm Vis 1:1",         "Shepherd of Hermas 1:1",           "Rhoda"),
     # Other corpora with special handling
     ("Quran 1:1",            "Quran 1:1",                        "Beneficent"),
     ("Surah 1:1",            "Quran 1:1",                        "Beneficent"),
@@ -123,19 +122,64 @@ def test_ane_missing_section(lookup):
     assert "has no section 99" in res["error"]
 
 
-# ── Known bugs (strict xfail: the suite fails once they're fixed, as a
-#    reminder to drop the marker) ─────────────────────────────────────────────
+# ── Shepherd of Hermas: traditional Vision/Mandate/Similitude citations,
+#    mapped onto the data's Lightfoot continuous chapters ───────────────────
+
+@pytest.mark.parametrize("ref, reference, snippet", [
+    ("Herm Vis 1:1",        "Shepherd of Hermas, Vision 1.1 (ch. 1)",         "Rhoda"),
+    ("Herm Vis 5",          "Shepherd of Hermas, Vision 5.1 (ch. 25)",        "As I prayed in the house"),
+    ("Herm Man 1",          "Shepherd of Hermas, Mandate 1.1 (ch. 26)",       "believe that God is One"),
+    ("Herm Man 1:1",        "Shepherd of Hermas, Mandate 1.1 (ch. 26)",       "believe that God is One"),
+    ("Herm Sim 1:1",        "Shepherd of Hermas, Similitude 1.1 (ch. 50)",    "dwelling in a foreign land"),
+    ("Herm Sim 5:1",        "Shepherd of Hermas, Similitude 5.1 (ch. 54)",    "fasting and seated on a certain mountain"),
+    ("Herm Sim 9:1",        "Shepherd of Hermas, Similitude 9.1 (ch. 78)",    "After I had written down the commandments"),
+    ("Herm Sim 10:1",       "Shepherd of Hermas, Similitude 10.1 (ch. 111)",  "After I had written out this book"),
+    # verse level, dotted form, spelled-out and unspaced aliases
+    ("Herm Sim 9:1:1",      "Shepherd of Hermas, Similitude 9.1.1 (ch. 78)",  "After I had written down the commandments"),
+    ("Herm. Sim. 9.1.1",    "Shepherd of Hermas, Similitude 9.1.1 (ch. 78)",  "After I had written down the commandments"),
+    ("Hermas Similitude 9.1.1", "Shepherd of Hermas, Similitude 9.1.1 (ch. 78)", "After I had written down"),
+    ("Shepherd of Hermas Mandate 1", "Shepherd of Hermas, Mandate 1.1 (ch. 26)", "believe that God is One"),
+    ("hermsim 9:1",         "Shepherd of Hermas, Similitude 9.1 (ch. 78)",    "After I had written down"),
+])
+def test_hermas_traditional(lookup, ref, reference, snippet):
+    res = lookup.get_verse(ref)
+    assert res["found"], res.get("error")
+    assert res["reference"] == reference
+    assert snippet in res["text"]
 
 
-# Hermas data uses Lightfoot's continuous chapters (Visions 1-25, Mandates
-# 26-49, Similitudes 50-114), but "Herm Man"/"Herm Sim" are plain aliases
-# into it, so "Herm Man 1:1" returns continuous chapter 1 (a Vision).
-@pytest.mark.xfail(strict=True, reason="'Herm Man N' isn't offset into the Mandates (start at ch. 26)")
-def test_hermas_mandate_1(lookup):
-    assert "believe that God is One" in lookup.get_verse("Herm Man 1:1")["text"]
+def test_hermas_verse_range(lookup):
+    res = lookup.get_verse("Herm Sim 9:1:1-2")
+    assert res["reference"] == "Shepherd of Hermas, Similitude 9.1.1–2 (ch. 78)"
+    assert "**[1]**" in res["text"] and "**[2]**" in res["text"]
 
 
-@pytest.mark.xfail(strict=True, reason="'Herm Sim N' isn't offset into the Similitudes (start at ch. 50)")
-def test_hermas_similitude_1(lookup):
-    assert "dwelling in a foreign land" in lookup.get_verse("Herm Sim 1:1")["text"]
+def test_hermas_continuous_numbering_still_works(lookup):
+    res = lookup.get_verse("Hermas 78:1")
+    assert res["reference"] == "Shepherd of Hermas 78:1"
+    assert "After I had written down the commandments" in res["text"]
+
+
+@pytest.mark.parametrize("ref, error_fragment", [
+    ("Herm Sim 11",    "has 10 Similitudes"),
+    ("Herm Vis 6:1",   "has 5 Visions"),
+    ("Herm Man 1:2",   "Mandate 1 has 1 chapter"),
+    ("Herm Sim 9:34",  "Similitude 9 has 33 chapter"),
+    ("Herm Sim 9:14",  "isn't in the local text"),   # continuous ch. 91, missing from source
+])
+def test_hermas_errors(lookup, ref, error_fragment):
+    res = lookup.get_verse(ref)
+    assert not res["found"]
+    assert error_fragment in res["error"]
+
+
+@pytest.mark.parametrize("part, total", [("v", 25), ("m", 24), ("s", 65)])
+def test_hermas_part_table_is_contiguous(part, total):
+    """Each part's chapter ranges must tile Lightfoot's 1-114 with no gaps/overlaps."""
+    from scripture_lookup import _HERMAS_PARTS
+    ranges = _HERMAS_PARTS[part][1]
+    for (_, prev_last), (next_first, _) in zip(ranges, ranges[1:]):
+        assert next_first == prev_last + 1
+    assert sum(last - first + 1 for first, last in ranges) == total
+    assert (_HERMAS_PARTS["v"][1][0][0], _HERMAS_PARTS["s"][1][-1][1]) == (1, 114)
 

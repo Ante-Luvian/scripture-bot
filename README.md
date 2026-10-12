@@ -94,13 +94,15 @@ Lightfoot's *The Apostolic Fathers* (1889–1890, 5 vols.) is fully public domai
 | Didache | [earlychristianwritings.com](https://earlychristianwritings.com/didache.html) |
 | Shepherd of Hermas | [earlychristianwritings.com](https://earlychristianwritings.com/shepherd.html) |
 
-Once you have the text, structure it into the standard JSON schema. The Shepherd of Hermas is split into three separate files (`hermas_visions.json`, `hermas_mandates.json`, `hermas_similitudes.json`), each containing only that part's chapters and sentences.
+Once you have the text, structure it into the standard JSON schema. The Shepherd of Hermas is a single file (`shepherd_of_hermas.json`) using Lightfoot's continuous chapter numbering, 1–114.
 
 **A note on verse numbers:** The Apostolic Fathers don't have traditional chapter:verse divisions like the Bible. The convention used here is `chapter:sentence-group`, following the Lightfoot/Harmer paragraph numbering. For example:
 
 - `1 Clement 5:1` → Chapter 5, first sentence-unit
 - `Didache 9:1`
-- `Herm Vis 1:1` → Hermas Visions, ch. 1, sentence 1
+- `Herm Sim 9:1` → Hermas, Similitude 9, chapter 1 (the traditional citation; continuous ch. 78)
+- `Herm Sim 9:1:3` or `Herm Sim 9.1.3` → …verse 3
+- `Hermas 78:3` → the same verse, by continuous chapter
 
 
 These require manual preparation:
@@ -175,9 +177,10 @@ Pol Phil 2:1                        ← Polycarp to the Philippians
 Mart Pol 9:1                        ← Martyrdom of Polycarp
 Barn 4:1                            ← Epistle of Barnabas
 Did 9:1                             ← Didache
-Herm Vis 1:1                        ← Shepherd of Hermas, Visions
-Herm Man 6:1                        ← Shepherd of Hermas, Mandates
-Herm Sim 9:1                        ← Shepherd of Hermas, Similitudes
+Herm Vis 1:1                        ← Shepherd of Hermas, Vision 1, ch. 1
+Herm Man 6:1                        ← Shepherd of Hermas, Mandate 6, ch. 1
+Herm Sim 9:1:3                      ← Shepherd of Hermas, Similitude 9, ch. 1, v. 3
+Hermas 78:3                         ← same verse, Lightfoot continuous chapters
 ```
 
 ---
