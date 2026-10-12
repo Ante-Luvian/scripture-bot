@@ -2,10 +2,19 @@
 !verse / !search, plus !discover and !study.
 """
 import discord
+import re
 from scripture_lookup import BIBLE_APOCRYPHA, BIBLE_NT, BIBLE_OT, DRB_SUFFIXES, KNOX_SUFFIXES, get_verse_drb, get_verse_knox
 from translation_lookup import TRANSLATION_SUFFIXES, get_parallel, get_random_verse, get_translation, search_translation
+from bot_commands.card import (
+    cmd_card,
+    cmd_interlinear,
+)
 from bot_commands.church import (
     cmd_catena,
+)
+from bot_commands.reference import (
+    cmd_notes,
+    cmd_xref,
 )
 from core import (
     ANE_BOOKS,
@@ -49,6 +58,50 @@ async def _send_translation_parallel(ctx_or_interaction, result: dict):
         await ctx_or_interaction.send(embed=embed)
 
 
+# ── Study buttons under !verse results ─────────────────────────────────────────
+# !verse is used far more than the study commands, so each Bible verse it
+# shows offers them one click away.
+
+_BIBLE_BOOKS = set(BIBLE_OT + BIBLE_NT)
+_STUDY_REF = re.compile(r"^(?P<book>.+?) (?P<ch>\d+):(?P<v1>\d+)(?:[–-](?P<v2>\d+))?(?: \([^)]*\))?$")
+
+
+def _study_buttons(result: dict) -> list:
+    """Notes / Cross-refs / Interlinear / Card buttons for a Bible verse or
+    short range ("John 3:16", "John 3:16–18 (ESV)"); [] for anything else --
+    whole chapters, other corpora, errors."""
+    m = _STUDY_REF.match(result.get("reference", "")) if result.get("found") else None
+    if not m or m["book"] not in _BIBLE_BOOKS:
+        return []
+    ref = f"{m['book']} {m['ch']}:{m['v1']}" + (f"-{m['v2']}" if m["v2"] else "")
+    span = int(m["v2"] or m["v1"]) - int(m["v1"]) + 1
+    actions = [("Notes", "📝", cmd_notes)] if span <= 5 else []
+    actions += [("Cross-refs", "🔗", cmd_xref), ("Interlinear", "🔤", cmd_interlinear), ("Card", "🖼️", cmd_card)]
+
+    buttons = []
+    for label, emoji, command in actions:
+        btn = discord.ui.Button(label=label, emoji=emoji, style=discord.ButtonStyle.secondary, row=1)
+
+        async def callback(interaction: discord.Interaction, btn=btn, command=command):
+            # Disable the pressed button (one use each) -- this edit is also the
+            # interaction's response, so the command's replies go out as followups.
+            btn.disabled = True
+            if btn.view is not None:
+                await interaction.response.edit_message(view=btn.view)
+            else:
+                await interaction.response.defer()
+            ctx = await bot.get_context(interaction)
+            await command(ctx, reference=ref)
+
+        btn.callback = callback
+        buttons.append(btn)
+    return buttons
+
+
+async def _send_with_study(ctx, result: dict):
+    await _send_result(ctx, result, extra_buttons=_study_buttons(result))
+
+
 @bot.command(name="verse", aliases=["v", "scripture"])
 async def verse_prefix(ctx, *, reference: str = ""):
     ref = reference.strip()
@@ -57,7 +110,7 @@ async def verse_prefix(ctx, *, reference: str = ""):
     if not ref:
         result = lookup.random_verse()
         log.info(f"RNG  random_verse          → {result.get('reference', '?')} (user: {ctx.author})")
-        await _send_result(ctx, result)
+        await _send_with_study(ctx, result)
         return
 
     # ── Bible shortcuts ───────────────────────────────────────────────────────
@@ -67,32 +120,32 @@ async def verse_prefix(ctx, *, reference: str = ""):
         if sub in ("ot", "old testament", "old"):
             result = lookup.random_verse_from_books(BIBLE_OT)
             log.info(f"RNG  random OT             → {result.get('reference', '?')} (user: {ctx.author})")
-            await _send_result(ctx, result)
+            await _send_with_study(ctx, result)
         elif sub in ("nt", "new testament", "new"):
             result = lookup.random_verse_from_books(BIBLE_NT)
             log.info(f"RNG  random NT             → {result.get('reference', '?')} (user: {ctx.author})")
-            await _send_result(ctx, result)
+            await _send_with_study(ctx, result)
         elif sub in ("apocrypha", "apoc", "deuterocanon", "deuterocanonical"):
             result = lookup.random_verse_from_books(BIBLE_APOCRYPHA)
             log.info(f"RNG  random Apocrypha      → {result.get('reference', '?')} (user: {ctx.author})")
-            await _send_result(ctx, result)
+            await _send_with_study(ctx, result)
         elif sub in ("otnt", "ot nt", "nt ot"):
             # Return one from OT and one from NT
             r1 = lookup.random_verse_from_books(BIBLE_OT)
             r2 = lookup.random_verse_from_books(BIBLE_NT)
-            await _send_result(ctx, r1)
-            await _send_result(ctx, r2)
+            await _send_with_study(ctx, r1)
+            await _send_with_study(ctx, r2)
         else:
             # Just "Bible" — random from OT + NT + Apocrypha
             result = lookup.random_verse_from_books(BIBLE_OT + BIBLE_NT + BIBLE_APOCRYPHA)
-            await _send_result(ctx, result)
+            await _send_with_study(ctx, result)
         return
 
     # ── Ancient Near East shortcut ────────────────────────────────────────────
     if ref_lc in ("ancient_near_east", "ancient near east", "ane"):
         result = lookup.random_verse_from_books(ANE_BOOKS)
         log.info(f"RNG  random ANE             → {result.get('reference', '?')} (user: {ctx.author})")
-        await _send_result(ctx, result)
+        await _send_with_study(ctx, result)
         return
 
     # ── Suffix detection ──────────────────────────────────────────────────────
@@ -101,12 +154,12 @@ async def verse_prefix(ctx, *, reference: str = ""):
 
     if suffix in KNOX_SUFFIXES:
         result = get_verse_knox(parts[0].strip())
-        await _send_result(ctx, result)
+        await _send_with_study(ctx, result)
         return
 
     if suffix in DRB_SUFFIXES:
         result = get_verse_drb(parts[0].strip())
-        await _send_result(ctx, result)
+        await _send_with_study(ctx, result)
         return
 
     if suffix in TRANSLATION_SUFFIXES:
@@ -127,12 +180,12 @@ async def verse_prefix(ctx, *, reference: str = ""):
         if not parts[0].strip():
             async with ctx.typing():
                 result = get_random_verse(suffix)
-            await _send_result(ctx, result)
+            await _send_with_study(ctx, result)
             return
         # Single translation lookup
         async with ctx.typing():
             result = get_translation(parts[0].strip(), parts[1])
-        await _send_result(ctx, result)
+        await _send_with_study(ctx, result)
         return
 
     # ── Normal local lookup ───────────────────────────────────────────────────
@@ -145,12 +198,12 @@ async def verse_prefix(ctx, *, reference: str = ""):
         async with ctx.typing():
             pref_result = get_translation(ref, preferred)
         if pref_result.get("found"):
-            await _send_result(ctx, pref_result)
+            await _send_with_study(ctx, pref_result)
             return
 
     result = lookup.get_verse(ref)
     if result["found"]:
-        await _send_result(ctx, result)
+        await _send_with_study(ctx, result)
         return
 
     # If it failed to parse (no chapter:verse) try it as a book name for random verse
@@ -159,7 +212,7 @@ async def verse_prefix(ctx, *, reference: str = ""):
         if result.get("found"):
             log.info(f"RNG  random_verse_from_book({ref}) → {result.get('reference', '?')} (user: {ctx.author})")
 
-    await _send_result(ctx, result)
+    await _send_with_study(ctx, result)
 
 
 @bot.command(name="search", aliases=["find"])

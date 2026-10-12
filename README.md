@@ -80,7 +80,7 @@ Prefix commands use `!`; most also have a `/` slash-command version.
 
 | Command | Aliases | What it does |
 |---|---|---|
-| `!verse <ref>` | `!v`, `!scripture` | Look up a verse, range, or chapter. `!verse` alone = random verse; `!verse Enoch` = random verse from a book. Add a translation (`!verse John 3:16 esv`) or several for a side-by-side (`!verse John 3:16 kjv web`). |
+| `!verse <ref>` | `!v`, `!scripture` | Look up a verse, range, or chapter. `!verse` alone = random verse; `!verse Enoch` = random verse from a book. Add a translation (`!verse John 3:16 esv`) or several for a side-by-side (`!verse John 3:16 kjv web`). Bible verses come with Notes · Cross-refs · Interlinear · Card buttons. |
 | `!search <text>` | `!find` | Full-text search |
 | `!books [filter]` | | Browse every collection, book, and chapter |
 | `!discover` | | Random passage from any tradition |

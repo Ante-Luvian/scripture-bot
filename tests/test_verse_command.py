@@ -2,6 +2,7 @@
 no Discord connection)."""
 import asyncio
 
+import discord
 import pytest
 
 
@@ -38,6 +39,74 @@ def test_multi_translation_verse_error(verse, monkeypatch, fake_ctx):
                         lambda ref, tr: {"found": False, "error": "Unknown book: **Notabook**"})
     asyncio.run(verse.verse_prefix.callback(fake_ctx, reference="Notabook 1:1 kjv web"))
     assert fake_ctx.sent[0]["embed"].description == "Unknown book: **Notabook**"
+
+
+# ── study buttons ───────────────────────────────────────────────────────────
+
+def _labels(buttons):
+    return [b.label for b in buttons]
+
+
+@pytest.mark.parametrize("reference, labels", [
+    ("John 3:16",          ["Notes", "Cross-refs", "Interlinear", "Card"]),
+    ("John 3:16–18",       ["Notes", "Cross-refs", "Interlinear", "Card"]),
+    ("John 3:1–9",         ["Cross-refs", "Interlinear", "Card"]),   # !notes takes up to 5 verses
+    ("John 3:16 (ESV)",    ["Notes", "Cross-refs", "Interlinear", "Card"]),
+    ("1 Corinthians 13:4", ["Notes", "Cross-refs", "Interlinear", "Card"]),
+    ("Psalms 23",          []),   # whole chapter
+    ("Quran 1:1",          []),   # not the Bible
+    ("Tobit 1:1",          []),   # apocrypha: no NET notes / Strong's
+    ("Book of Enoch 1:9",  []),
+])
+def test_study_buttons_only_for_bible_verses(verse, reference, labels):
+    assert _labels(verse._study_buttons({"found": True, "reference": reference})) == labels
+
+
+def test_no_study_buttons_on_errors(verse):
+    assert verse._study_buttons({"found": False, "error": "nope"}) == []
+
+
+class _FakeResponse:
+    def __init__(self):
+        self.edited_view = None
+
+    async def edit_message(self, view=None):
+        self.edited_view = view
+
+    async def defer(self):
+        pass
+
+
+def test_study_button_runs_its_command_once(verse, monkeypatch):
+    calls = []
+
+    async def fake_xref(ctx, reference=""):
+        calls.append((ctx, reference))
+
+    class FakeBot:
+        async def get_context(self, interaction):
+            return "ctx-from-interaction"
+
+    monkeypatch.setattr(verse, "cmd_xref", fake_xref)
+    monkeypatch.setattr(verse, "bot", FakeBot())
+    buttons = verse._study_buttons({"found": True, "reference": "John 3:16–18 (ESV)"})
+    xref = next(b for b in buttons if b.label == "Cross-refs")
+    view = discord.ui.View()
+    for b in buttons:
+        view.add_item(b)
+
+    interaction = type("I", (), {"response": _FakeResponse()})()
+    asyncio.run(xref.callback(interaction))
+
+    assert calls == [("ctx-from-interaction", "John 3:16-18")]   # translation suffix dropped
+    assert xref.disabled and interaction.response.edited_view is view
+
+
+def test_verse_command_attaches_study_buttons(verse, monkeypatch, fake_ctx):
+    monkeypatch.setattr(verse, "_get_preferred_translation", lambda user_id: None)
+    asyncio.run(verse.verse_prefix.callback(fake_ctx, reference="John 3:16"))
+    view = fake_ctx.sent[0]["view"]
+    assert [c.label for c in view.children] == ["Notes", "Cross-refs", "Interlinear", "Card"]
 
 
 def test_plain_verse_lookup_sends_result(verse, monkeypatch, fake_ctx):
