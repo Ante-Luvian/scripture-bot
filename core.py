@@ -9,6 +9,7 @@ import json
 import logging
 import re
 import time
+import traceback
 from scripture_lookup import BIBLE_NT, BIBLE_OT, ScriptureLookup
 from pathlib import Path
 from discord.ext import commands
@@ -79,8 +80,97 @@ async def on_command_error(ctx, error):
             log.warning(f"Unknown command !{cmd} seen {_UNKNOWN_CMD_THRESHOLD}+ times — suppressing further logs (likely another bot's prefix)")
         # else: silently ignored
         return
-    # Re-raise other errors so Discord's default handler sees them
-    raise error
+    if isinstance(error, commands.MissingPermissions):
+        await ctx.send("🔒 Only server admins can use that command.")
+        return
+    if isinstance(error, commands.CheckFailure):
+        await ctx.send("🔒 That command can't be used here.")
+        return
+    if isinstance(error, commands.UserInputError):
+        name = ctx.command.name if ctx.command else ctx.invoked_with
+        await ctx.send(f"⚠️ {error} — see `!help {name}`.")
+        return
+    # A real bug: tell the user, log it, and let the owner know
+    name = ctx.command.qualified_name if ctx.command else ctx.invoked_with
+    await report_error(f"!{name}", getattr(error, "original", error))
+    try:
+        await ctx.send(USER_ERROR_MESSAGE)
+    except Exception:
+        pass
+
+
+# ── Unexpected errors: tell the user, log, DM the owner ───────────────────────
+# Before this, a failing command or button just went quiet -- e.g. all four
+# study buttons greyed out and did nothing, and only the log knew.
+
+USER_ERROR_MESSAGE = "⚠️ Sorry — something went wrong with that. My owner has been told about it."
+_ERROR_DM_INTERVAL = 6 * 60 * 60   # the same error DMs the owner at most once per 6 hours
+_last_error_dm: dict[str, float] = {}
+
+
+def _error_location(error: BaseException) -> str:
+    frames = traceback.extract_tb(error.__traceback__)
+    return f"{Path(frames[-1].filename).name}:{frames[-1].lineno}" if frames else "?"
+
+
+async def report_error(where: str, error: BaseException) -> None:
+    """Log an unexpected error with its traceback and DM the bot's owner a
+    one-line summary -- at most once per 6 hours for the same error (same
+    place, type, and line), so a recurring bug can't flood the DMs."""
+    log.error(f"Unhandled error in {where}: {type(error).__name__}: {error}\n"
+              + "".join(traceback.format_exception(type(error), error, error.__traceback__)))
+    location = _error_location(error)
+    signature = f"{where}|{type(error).__name__}|{location}"
+    now = time.monotonic()
+    if signature in _last_error_dm and now - _last_error_dm[signature] < _ERROR_DM_INTERVAL:
+        return
+    _last_error_dm[signature] = now
+    try:
+        app = await bot.application_info()
+        owner = app.team.owner if getattr(app, "team", None) else app.owner
+        await owner.send(f"⚠️ **Error in {where}** — `{type(error).__name__}: {str(error)[:300]}` at `{location}`.\n"
+                         "The full traceback is in the bot's log. (This same error won't DM you again for 6 hours.)")
+    except Exception as e:
+        log.warning(f"Couldn't DM the owner about an error: {e}")
+
+
+async def _tell_interaction_user(interaction: discord.Interaction) -> None:
+    """Show USER_ERROR_MESSAGE to whoever pressed the button / ran the slash command."""
+    try:
+        if interaction.response.is_done():
+            await interaction.followup.send(USER_ERROR_MESSAGE, ephemeral=True)
+        else:
+            await interaction.response.send_message(USER_ERROR_MESSAGE, ephemeral=True)
+    except Exception:
+        pass
+
+
+async def _view_on_error(self, interaction: discord.Interaction, error: Exception, item) -> None:
+    label = getattr(item, "label", None) or getattr(getattr(item, "item", None), "label", None)
+    await report_error(f"the “{label}” button" if label else f"a {type(item).__name__}", error)
+    await _tell_interaction_user(interaction)
+
+
+# Every button and menu in the bot (including the persistent dynamic-item
+# buttons, which discord.py runs inside a View too) reports errors through
+# View.on_error; nothing in the project overrides it, so set it once here.
+discord.ui.View.on_error = _view_on_error
+
+
+@bot.tree.error
+async def on_app_command_error(interaction: discord.Interaction, error: Exception) -> None:
+    from discord import app_commands
+    if isinstance(error, app_commands.CheckFailure):
+        msg = "🔒 You can't use that command here."
+        try:
+            await (interaction.followup.send(msg, ephemeral=True) if interaction.response.is_done()
+                   else interaction.response.send_message(msg, ephemeral=True))
+        except Exception:
+            pass
+        return
+    name = interaction.command.name if interaction.command else "?"
+    await report_error(f"/{name}", getattr(error, "original", error))
+    await _tell_interaction_user(interaction)
 
 # ── VOTD config ────────────────────────────────────────────────────────────────
 # Per-guild VOTD channel/time/mode now lives in data/guild_config.json (see
