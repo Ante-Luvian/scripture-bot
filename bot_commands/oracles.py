@@ -513,12 +513,13 @@ async def sortes_biblicae_slash(interaction: discord.Interaction, question: str 
 # oracle_channel_id, oracle_time ("HH:MM" UTC), oracle_kind.
 
 DAILY_ORACLE_HEADER = "🔮 **Today's oracle**"
+# Sortes Biblicae (bibliomancy) is deliberately not offered as a daily oracle,
+# at the owner's request; it remains an ordinary command.
 _DAILY_KINDS = {
     "virgil": cmd_virgil,
     "homer": cmd_homer,
     "delphi": cmd_delphi,
     "oracle": cmd_oracle,
-    "sortesbiblicae": cmd_sortes_biblicae,
 }
 
 
@@ -588,7 +589,7 @@ async def cmd_oraclesetup(ctx, action: str = "", *, arg: str = ""):
     Usage: !oraclesetup                  — show this server's settings
            !oraclesetup channel #chan    — post the daily oracle there
            !oraclesetup time 12:00       — daily post time (24h UTC)
-           !oraclesetup kind any         — any | virgil | homer | delphi | oracle | sortesbiblicae
+           !oraclesetup kind any         — any | virgil | homer | delphi | oracle
            !oraclesetup test             — post one now, to try it
            !oraclesetup off              — stop the daily oracle"""
     if not ctx.guild:
@@ -603,7 +604,7 @@ async def cmd_oraclesetup(ctx, action: str = "", *, arg: str = ""):
         embed.add_field(name="Channel", value=f"<#{channel_id}>" if channel_id else "*not set — daily oracle is off*")
         embed.add_field(name="Time (UTC)", value=time_hm)
         embed.add_field(name="Oracle", value=kind)
-        embed.set_footer(text="!oraclesetup channel #chan · time HH:MM · kind any|virgil|homer|delphi|oracle|sortesbiblicae · test · off")
+        embed.set_footer(text="!oraclesetup channel #chan · time HH:MM · kind any|virgil|homer|delphi|oracle · test · off")
         await ctx.send(embed=embed)
         return
     if action == "off":
@@ -630,7 +631,7 @@ async def cmd_oraclesetup(ctx, action: str = "", *, arg: str = ""):
     if action == "kind":
         new_kind = arg.strip().lower()
         if new_kind not in ("any", *_DAILY_KINDS):
-            await ctx.send("Choose `any`, `virgil`, `homer`, `delphi`, `oracle`, or `sortesbiblicae`.")
+            await ctx.send("Choose `any`, `virgil`, `homer`, `delphi`, or `oracle`.")
             return
         _update_guild_config(ctx.guild.id, oracle_kind=new_kind)
         await ctx.send(f"Daily oracle set to **{new_kind}**.")

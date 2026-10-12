@@ -35,7 +35,20 @@ class FakeChannel:
         return _T()
 
 
-@pytest.mark.parametrize("kind", ["virgil", "homer", "delphi", "oracle", "sortesbiblicae"])
+def test_bibliomancy_is_not_a_daily_oracle(oracles, monkeypatch):
+    # excluded at the owner's request: never offered, never picked by "any",
+    # and a stored "sortesbiblicae" setting falls back to one of the others
+    assert "sortesbiblicae" not in oracles._DAILY_KINDS
+    picked = set()
+    for _ in range(40):
+        picked.add(asyncio.run(oracles.post_daily_oracle(FakeChannel(), "any")))
+    assert "sortesbiblicae" not in picked
+    assert asyncio.run(oracles.post_daily_oracle(FakeChannel(), "sortesbiblicae")) in oracles._DAILY_KINDS
+    assert "Choose `any`, `virgil`, `homer`, `delphi`, or `oracle`." == _run(
+        oracles, _admin_ctx(), "kind", "sortesbiblicae")["content"]
+
+
+@pytest.mark.parametrize("kind", ["virgil", "homer", "delphi", "oracle"])
 def test_post_daily_oracle(oracles, monkeypatch, kind):
     if kind == "homer":   # land on a roll that has an answer
         monkeypatch.setattr(oracles, "_load_homer", lambda: {"111": "Be bold."})
