@@ -608,6 +608,16 @@ ALIASES: dict[str, str] = {
     "kena upanishad": "Kena Upanishad", "kena": "Kena Upanishad",
     "dhammapada": "Dhammapada", "dhp": "Dhammapada",
     "diamond sutra": "Diamond Sutra", "vajracchedika": "Diamond Sutra",
+    "gospel of thomas": "Gospel of Thomas", "gthom": "Gospel of Thomas", "coptic thomas": "Gospel of Thomas",
+    "thomas": "Gospel of Thomas",
+    "enuma elish": "Enuma Elish", "enuma": "Enuma Elish", "enuma elis": "Enuma Elish",
+    "seven tablets of creation": "Enuma Elish",
+    "sutta nipata": "Sutta Nipata", "suttanipata": "Sutta Nipata", "snp": "Sutta Nipata",
+    "sutta-nipata": "Sutta Nipata",
+    "first book of adam and eve": "First Book of Adam and Eve", "1 adam and eve": "First Book of Adam and Eve",
+    "conflict of adam and eve": "First Book of Adam and Eve",
+    "second book of adam and eve": "Second Book of Adam and Eve", "2 adam and eve": "Second Book of Adam and Eve",
+    "odes of solomon": "Odes of Solomon", "odes": "Odes of Solomon", "ode of solomon": "Odes of Solomon",
     "tao te ching": "Tao Te Ching", "daodejing": "Tao Te Ching", "dao de jing": "Tao Te Ching",
     "tao teh king": "Tao Te Ching", "ttc": "Tao Te Ching", "laozi": "Tao Te Ching", "lao tzu": "Tao Te Ching",
     "analects": "Analects", "lunyu": "Analects", "confucius": "Analects",
@@ -1376,7 +1386,7 @@ class ScriptureLookup:
             "kjv":     ["kjv_canon.json", "kjv_apocrypha.json"],
             "lds":     ["book_of_mormon.json", "doctrine_and_covenants.json", "pearl_of_great_price.json"],
             "brenton": ["brenton_extras.json"],
-            "charles": ["book_of_enoch.json", "book_of_jubilees.json", "testaments_of_twelve_patriarchs.json", "assumption_of_moses.json", "ascension_of_isaiah.json", "sibylline_oracles.json", "letter_of_aristeas.json", "books_of_adam_and_eve.json", "zadokite_fragments.json", "secrets_of_enoch.json"],
+            "charles": ["book_of_enoch.json", "book_of_jubilees.json", "testaments_of_twelve_patriarchs.json", "assumption_of_moses.json", "ascension_of_isaiah.json", "sibylline_oracles.json", "letter_of_aristeas.json", "books_of_adam_and_eve.json", "zadokite_fragments.json", "secrets_of_enoch.json", "forgotten_books_of_eden.json"],
             "nt_apocrypha": ["anf8_apocrypha.json"],
             "apostolic_fathers": [
                 "1_clement.json",
@@ -1470,11 +1480,13 @@ class ScriptureLookup:
                 "ginza_rba.json",
                 "mandaean_book_of_john.json",
                 "nag_hammadi_zinner.json",
+                "gospel_of_thomas.json",
                 "manichaean_psalms.json",
             ],
             "buddhist": [
                 "dhammapada.json",
                 "diamond_sutra.json",
+                "sutta_nipata.json",
             ],
             "chinese": [
                 "tao_te_ching.json",
@@ -1489,6 +1501,7 @@ class ScriptureLookup:
             ],
             "ancient_near_east": [
                 "baal_cycle_en.json",
+                "enuma_elish.json",
                 "muallaqat_en.json",
                 "gilgamesh.json",
                 "great_hymn_to_aten.json",
@@ -1633,7 +1646,7 @@ class ScriptureLookup:
                 # Book names repeat across corpora (Plato's "Apology" and
                 # Rufinus' in patristics): keep each corpus's own credits too
                 self._corpus_sources.setdefault(corpus, {}).update(sources)
-        for corpus in ("classical", "medieval"):
+        for corpus in ("classical", "medieval", "ancient_near_east"):
             self._regroup_line_chunks(corpus, self._LINE_CHUNKED)
         # Normalize chapter shape: some source files store a chapter as a bare
         # string (a single untitled passage) instead of {verse_num: text}.
@@ -1799,7 +1812,7 @@ class ScriptureLookup:
     # book -> {first line: text}, so "Iliad 1" is a book and "Iliad 1:7" the
     # passage containing line 7.
     _LINE_CHUNKED = ("Iliad", "Odyssey", "Inferno", "Purgatorio", "Paradiso",
-                     "Works and Days", "Shield of Heracles")
+                     "Works and Days", "Shield of Heracles", "Enuma Elish")
 
     def _regroup_line_chunks(self, corpus: str, books) -> None:
         for book in books:
@@ -1829,7 +1842,7 @@ class ScriptureLookup:
 
     # Works whose verses are numbered straight through the book and cited by
     # that number alone ("Dhammapada 183"), though stored by chapter.
-    _VERSE_NUMBERED = ("Dhammapada",)
+    _VERSE_NUMBERED = ("Dhammapada", "Sutta Nipata")
 
     def _locate_numbered_verse(self, book: str, chap_key: str, verse_start, verse_end):
         """A bare number beyond the last chapter is a verse number; a verse
@@ -1840,13 +1853,17 @@ class ScriptureLookup:
         if verse_start is None:
             return chap_key, verse_start, verse_end
         end = verse_end or verse_start
+        if chap_key in chapters and str(verse_start) in chapters[chap_key]:
+            return chap_key, verse_start, end
         for key, verses in chapters.items():
             if str(verse_start) in verses:
                 return key, verse_start, end
-            # a verse Müller paired with the one before is stored under that one ("58" holds 58-59)
-            prev = verses.get(str(verse_start - 1), "")
-            if prev.startswith(f"(vv. {verse_start - 1}–{verse_start})"):
-                return key, verse_start - 1, end
+            # verses translated as one are stored under the first, labelled
+            # "(vv. 58–59)" / "(vv. 1006–1008)"
+            for v, text in verses.items():
+                m = re.match(r"(?:\*[^\n]*\*\n)?\(vv\. (\d+)–(\d+)\)", text)
+                if m and int(m.group(1)) <= verse_start <= int(m.group(2)):
+                    return key, int(v), max(end, int(m.group(2)))
         return chap_key, verse_start, verse_end
 
     def get_verse(self, reference: str) -> dict:

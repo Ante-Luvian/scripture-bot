@@ -14,6 +14,12 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-12 · The Gospel of Thomas, the Enuma Elish & more
+- 📜 **The Gospel of Thomas.** The famous collection of 114 sayings of Jesus, found buried in Egypt in 1945 among the Nag Hammadi books: `!verse Gospel of Thomas 77` (or just `!verse Thomas 77`). This is a different book from the *Infancy* Gospel of Thomas I added earlier, the stories of Jesus as a boy.
+- 🌙 **The Enuma Elish.** The Babylonian epic of creation, in which the god Marduk defeats the sea-dragon Tiamat and builds the world from her body, in its seven tablets: `!verse Enuma Elish 4`.
+- ☸️ **The Sutta Nipāta.** One of the oldest collections of the Buddha's teachings, including the Metta Sutta on loving-kindness. Look up a whole discourse by its section (`!verse Sutta Nipata 1.8`) or a single verse by its number (`!verse Sutta Nipata 143`).
+- 👼 **More ancient writings:** the **Odes of Solomon**, 42 early Christian hymns (`!verse Odes of Solomon 1`), and the First and Second **Books of Adam and Eve**, the old story of Adam and Eve's life after Eden and their struggle with Satan (`!verse First Book of Adam and Eve 1`).
+
 ## 2026-10-12 · Look up a stretch of Plato
 - 🏛️ **Plato ranges.** You can now ask for several sections of a dialogue at once, the way Plato's text is usually quoted: `!verse Republic 361e-362a`. A range can stay on one page (`!verse Republic 514a-c`, the start of the Allegory of the Cave) or cover whole pages (`!verse Republic 514-515`), and long passages come a page at a time. Before, a range just said the reference couldn't be found.
 

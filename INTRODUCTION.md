@@ -24,7 +24,7 @@ Many of my answers come with buttons underneath. Under a Bible verse you'll see 
 ## 📚 My library: the Bible and its neighbours
 **The Bible** — all 66 books, King James Version by default, plus **more than 40 other translations** you can ask for by name: modern English (ESV, NIV, NASB, NKJV, NLT, NRSVCE, NABRE, CSB, the NET Bible and more), older ones (Geneva Bible, Young's Literal, Douay-Rheims, Knox), and the **original and ancient languages**: Hebrew (Westminster Leningrad Codex), Greek New Testament (Textus Receptus, Tischendorf), the Greek Old Testament (Septuagint), Latin (Vulgate), Syriac (Peshitta), Church Slavonic and even Old English. `!translations` lists them all.
 
-**Apocrypha & Pseudepigrapha** — the 15 deuterocanonical books (Tobit, Judith, Wisdom, Sirach, Maccabees…) and 29 more ancient Jewish and early Christian writings: the **Book of Enoch**, **Jubilees**, the Testaments of the Twelve Patriarchs, the Psalms of Solomon, 3 & 4 Maccabees, Psalms 151–155 and **2 Enoch** (the *Book of the Secrets of Enoch*).
+**Apocrypha & Pseudepigrapha** — the 15 deuterocanonical books (Tobit, Judith, Wisdom, Sirach, Maccabees…) and 29 more ancient Jewish and early Christian writings: the **Book of Enoch**, **Jubilees**, the Testaments of the Twelve Patriarchs, the Psalms of Solomon, 3 & 4 Maccabees, Psalms 151–155 **2 Enoch** (the *Book of the Secrets of Enoch*), the First and Second Books of **Adam and Eve**, and the **Odes of Solomon**, early Christian hymns.
 
 **New Testament Apocrypha** — 41 early Christian writings that didn't make it into the Bible: the **infancy gospels** (the *Protevangelium of James*, the story of Mary's own birth and childhood: `!verse Protevangelium 1:1`; the *Infancy Gospel of Thomas*, about Jesus as a boy), the **Acts of Pilate** or *Gospel of Nicodemus* with Christ's descent into hell, the **Acts of Paul and Thecla** and other acts of the apostles, and the **Passing of Mary**.
 
@@ -43,13 +43,13 @@ Many of my answers come with buttons underneath. Under a Bible verse you'll see 
 
 **The Greek and Roman world** — Homer (*Iliad*, *Odyssey*), Virgil's *Aeneid*, Hesiod (*Theogony*, *Works and Days*, *Shield of Heracles*), Ovid, the Homeric and Orphic Hymns; philosophy from **Plato** and **Aristotle** to the Neoplatonists (Plotinus, Porphyry, Iamblichus, Proclus) and the emperor Julian; the Stoics **Marcus Aurelius** (*Meditations*) and **Epictetus** (*Enchiridion*); the **Hermetic** writings (Corpus Hermeticum, the Emerald Tablet); and oracles (Delphic maxims, the Chaldaean Oracles, the Golden Verses of Pythagoras).
 
-**Gnostic & related** — the **Nag Hammadi library** (41 texts), the Mandaean *Ginza Rba* and *Book of John*, and Manichaean psalms.
+**Gnostic & related** — the **Gospel of Thomas**, 114 sayings of Jesus (`!verse Gospel of Thomas 77`), the **Nag Hammadi library** (41 texts), the Mandaean *Ginza Rba* and *Book of John*, and Manichaean psalms.
 
-**Buddhism and China** — the **Dhammapada** (the Buddha's sayings in verse: `!verse Dhammapada 183`) and the **Diamond Sutra**; the **Tao Te Ching**, Confucius's **Analects** (`!verse Analects 2.4`) and the **I Ching**, the ancient Chinese Book of Changes.
+**Buddhism and China** — the **Dhammapada** (the Buddha's sayings in verse: `!verse Dhammapada 183`), the **Sutta Nipāta** (some of the oldest Buddhist teachings: `!verse Sutta Nipata 143`) and the **Diamond Sutra**; the **Tao Te Ching**, Confucius's **Analects** (`!verse Analects 2.4`) and the **I Ching**, the ancient Chinese Book of Changes.
 
 **Hinduism** — the four **Vedas**, the **Bhagavad Gita** (every verse, in Shri Purohit Swami's translation: `!verse Gita 2:47`) and three of the **Upanishads**, the philosophical heart of the Vedas (the Isa, Katha and Kena).
 
-**Further afield** — the Zoroastrian **Gathas**; eight works of the **Bahá'í** faith, including the Kitáb-i-Aqdas; the Norse **Poetic Edda**; and the **ancient Near East**: the Epic of Gilgamesh, the Canaanite Baal Cycle, the Egyptian Book of the Dead and Hymn to the Aten, the Wisdom of Ahikar, and the pre-Islamic Arabic Mu'allaqat poems. (I even have the Sermons of Vivec from *The Elder Scrolls*.)
+**Further afield** — the Zoroastrian **Gathas**; eight works of the **Bahá'í** faith, including the Kitáb-i-Aqdas; the Norse **Poetic Edda**; and the **ancient Near East**: the Epic of Gilgamesh, the Babylonian creation epic **Enuma Elish** (`!verse Enuma Elish 4`), the Canaanite Baal Cycle, the Egyptian Book of the Dead and Hymn to the Aten, the Wisdom of Ahikar, and the pre-Islamic Arabic Mu'allaqat poems. (I even have the Sermons of Vivec from *The Elder Scrolls*.)
 
 Browse all of it with `!books`, or let me pick something at random with `!discover`.
 

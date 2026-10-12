@@ -94,6 +94,33 @@ def test_apocrypha_have_no_wiki_markup(lookup):
     assert lookup._resolve_book("Apocalypse of Moses") == ("charles", "Apocalypse of Moses")
 
 
+@pytest.mark.parametrize("ref, reference, starts", [
+    ("Sutta Nipata 221", "Sutta Nipata 2.1:221", "**[221]** Whatever spirits have come together"),
+    ("Sutta Nipata 1007", "Sutta Nipata 5.1:1006–1008", "**[1006]** (vv. 1006–1008)"),      # a group of verses
+    ("Snp 1047", "Sutta Nipata 5.4:1047", "**[1047]** 'Having considered everything"),        # printed "(1041)"
+    ("Odes of Solomon 1:1", "Odes of Solomon 1:1", "**[1]** The Lord is on my head like a crown"),
+    ("First Book of Adam and Eve 1:1", "First Book of Adam and Eve 1:1", "**[1]** ON the third day, God planted"),
+    ("Gospel of Thomas 77", "Gospel of Thomas 77", "**[1]** Jesus said, \"It is I who am the light"),
+    ("Enuma Elish 1:1", "Enuma Elish 1:1–8", "**[1]** When in the height heaven was not named"),
+])
+def test_sacred_texts_archive(lookup, ref, reference, starts):
+    r = lookup.get_verse(ref)
+    assert r["found"], r
+    assert r["reference"] == reference and r["text"].startswith(starts)
+
+
+def test_sutta_nipata_is_complete(lookup):
+    import re
+    numbers = set()
+    for sutta in lookup._data["buddhist"]["Sutta Nipata"].values():
+        for key, text in sutta.items():
+            m = re.match(r"(?:\*[^\n]*\*\n)?\(vv\. (\d+)–(\d+)\)", text)
+            numbers.update(range(int(m.group(1)), int(m.group(2)) + 1) if m else [int(key)])
+    assert numbers == set(range(1, 1149))
+    assert len(lookup._data["charles"]["Odes of Solomon"]) == 42
+    assert "Infancy" not in lookup.get_verse("Gospel of Thomas 1")["source"]       # the sayings gospel, not the ANF one
+
+
 def test_isa_still_means_isaiah(lookup):
     assert lookup.get_verse("Isa 53:5")["reference"] == "Isaiah 53:5"
 

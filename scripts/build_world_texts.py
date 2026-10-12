@@ -163,6 +163,56 @@ def diamond_sutra():
           {"Diamond Sutra": book})
 
 
+def sutta_nipata():
+    """Fausbøll (SBE 10 part 2, 1881), sacred-texts.com archive. Five vaggas
+    of suttas; chapters are "vagga.sutta" and verses keep Fausbøll's running
+    numbers, so "Sutta Nipata 2.1" is a sutta and "Sutta Nipata 221" a verse.
+    His one-line summary under each title and his footnotes are left out;
+    prose framing (e.g. "Thus I heard...") leads the verse after it."""
+    text = sacred_text("bud/sbe10/sbe10.txt.gz")
+    text = text[[m.start() for m in re.finditer(r"(?m)^I\. URAGAVAGGA\.", text)][-1]:]
+    text = re.sub(r"(?m)^\s*Sacred Books of the East, Vol\. 10.*$|^\s*p\. \d+\s*$", "", text)
+    text = re.sub(r"(?ms)^\[\d+\. .*?\]\s*$", "", text)                 # footnotes
+    text = re.sub(r"\[\d+\]", "", text)
+    vaggas = re.split(r"(?m)^([IVX]+)\. [A-Z]+VAGGA\.\s*$", text)[1:]
+    book, numbers = {}, []
+    for vnum, vchunk in zip(vaggas[0::2], vaggas[1::2]):
+        # "1. RATANASUTTA." -- in the Parayana "2. AGITAMANAVAPUKKHA." (titles are all capitals)
+        # (some have spaces: "3. KHAGGA VISANASUTTA.", "6. DHAMMAKARIYASUTTA OR KAPILASUTTA.")
+        suttas = re.split(r"(?m)^\s*(\d+)\. [A-Z][A-Z\- ]+\.?\s*$", vchunk)[1:]
+        for snum, schunk in zip(suttas[0::2], suttas[1::2]):
+            body = schunk.strip()
+            # Most suttas open with Fausbøll's one-line summary (the Parayana's don't):
+            # unless the text starts straight in with verse 1, drop up to the summary's end
+            if not re.match(r"\d+[.:] ", body):
+                first_break = re.search(r"\n\s*\n|\s{2,}(?=1\. )", body)
+                body = body[first_break.end():] if first_break else body
+            body = re.sub(r"\s+", " ", body)
+            verses, prose = {}, ""
+            pos = 0
+            for m in re.finditer(r"(?:^|\s)\d+(?:, \d+)*[.:] (.*?)\((\d+)(?:(?:, |-)(\d+))?\)", body):
+                prose = body[pos:m.start()].strip()
+                prose = re.sub(r"^\S+ is ended\.\s*", "", prose)          # "Pingiyamanavapukkha is ended."
+                first, last = m.group(2), m.group(3)
+                if numbers and int(first) <= numbers[-1] and not last:
+                    # a misprint going backwards (1047 is printed "(1041)"): it is the next verse
+                    print(f"  note: Sutta Nipata verse {numbers[-1] + 1} is misprinted ({first})")
+                    first = str(numbers[-1] + 1)
+                # verses rendered as one ("(1123, 1124)", "(1006-1008)"): kept under the first,
+                # labelled like the Dhammapada's pairs
+                verse = (f"(vv. {first}–{last}) " if last else "") + tidy(m.group(1))
+                verses[first] = f"*{tidy(prose)}*\n{verse}" if prose else verse
+                numbers += list(range(int(first), int(last or first) + 1))
+                pos = m.end()
+            if verses:
+                book[f"{roman(vnum)}.{snum}"] = verses
+    print(f"  {len(book)} suttas, {len(numbers)} verses, {numbers[0]}-{numbers[-1]}; "
+          f"missing: {sorted(set(range(1, numbers[-1] + 1)) - set(numbers))[:20]}")
+    expect(len(book) >= 70 and numbers[-1] >= 1140, "suttas/verses")
+    write("buddhist", "sutta_nipata.json", "The Sutta-Nipata, trans. V. Fausbøll (Sacred Books of the East 10, 1881)",
+          {"Sutta Nipata": book})
+
+
 # ── Chinese ─────────────────────────────────────────────────────────────────
 
 def _legge_numbered(paras, first_marker=r"(?:Ch\. )?"):
@@ -616,6 +666,121 @@ def secrets_of_enoch():
           {"2 Enoch": book})
 
 
+_ST = "https://archive.sacred-texts.com/"
+
+
+def sacred_text(path: str) -> str:
+    """A file from the archive of sacred-texts.com (cached); .txt.gz unpacked."""
+    import gzip
+    import time
+    CACHE.mkdir(exist_ok=True)
+    cached = CACHE / ("st_" + path.replace("/", "_"))
+    if not cached.exists():
+        req = urllib.request.Request(_ST + path, headers=_UA)
+        cached.write_bytes(urllib.request.urlopen(req, timeout=60).read())
+        time.sleep(2)
+    data = cached.read_bytes()
+    if path.endswith(".gz"):
+        data = gzip.decompress(data)
+    return data.decode("utf-8", errors="replace").replace("\r\n", "\n")
+
+
+def _fbe_verses(chunk: str) -> dict:
+    """Numbered verses of one Forgotten Books of Eden chapter. Platt opens a
+    chapter with a one-line summary and leaves verse 1 unnumbered, so the last
+    unnumbered paragraph before verse 2 is verse 1; other unnumbered
+    paragraphs are his notes and are left out."""
+    chunk = re.sub(r"(?m)^.*Forgotten Books of Eden, by Rutherford H\. Platt.*$|^\[p\. \d+\]$", "", chunk)
+    chunk = re.sub(r"\n[ \t]*(\d+) ", r"\n\n\1 ", chunk)       # the Odes put a verse on each line
+    verses, before = {}, []
+    for p in paragraphs(chunk):
+        m = re.match(r"^(\d+)\s+(.*)$", p)
+        if m and int(m.group(1)) == len(verses) + 1:
+            verses[m.group(1)] = tidy(m.group(2))
+        elif m and m.group(1) == "2" and not verses and before:
+            verses["1"] = tidy(before[-1])
+            verses["2"] = tidy(m.group(2))
+        elif not verses:
+            before.append(p)
+        elif p[:1].islower():
+            last = list(verses)[-1]
+            verses[last] += " " + tidy(p)
+    return verses
+
+
+def forgotten_books_of_eden():
+    """From The Forgotten Books of Eden (ed. Platt, 1926; sacred-texts.com
+    archive): the First and Second Books of Adam and Eve (the Ethiopic
+    "Conflict of Adam and Eve with Satan", trans. Malan) and the Odes of
+    Solomon (trans. Harris). Platt's own chapter summaries are left out."""
+    text = sacred_text("bib/fbe/fbe.txt.gz")
+    second = text.index("THE SECOND BOOK OF\n")
+    enoch = text.index("THE BOOK OF THE SECRETS OF ENOCH.")
+    odes_start, odes_end = text.index("ODE 1.\n"), text.index("THE LETTER OF ARISTEAS")
+    out = {}
+    for name, a, b, pattern, count in (
+            ("First Book of Adam and Eve", text.index("THE FIRST BOOK OF\n"), second, r"(?mi)^ *CHAP(?:TER|\.)? *([IVXL]+)\b\.?.*$", 79),
+            ("Second Book of Adam and Eve", second, enoch, r"(?mi)^ *CHAP(?:TER|\.)? *([IVXL]+)\b\.?.*$", 22),
+            ("Odes of Solomon", odes_start, odes_end, r"(?m)^ *ODE (\d+)\.\s*$", 42)):
+        parts = re.split(pattern, text[a:b])[1:]
+        book = {}
+        for num, chunk in zip(parts[0::2], parts[1::2]):
+            n = num if num.isdigit() else str(roman(num.upper()))
+            verses = _fbe_verses(chunk)
+            if not verses:              # e.g. Ode 2: "(No part of this Ode has ever been identified.)"
+                note = [tidy(p) for p in paragraphs(chunk) if p.startswith("(")]
+                verses = {"1": note[0] if note else "(This part has not survived.)"}
+            book[n] = verses
+        expect(list(book) == [str(i) for i in range(1, count + 1)], f"{name}: {list(book)[:3]}... ({len(book)})")
+        out[name] = book
+    write("charles", "forgotten_books_of_eden.json",
+          "The Forgotten Books of Eden, ed. Rutherford H. Platt (1926): Adam and Eve trans. S. C. Malan, Odes of Solomon trans. J. Rendel Harris",
+          out)
+
+
+def _html_text(page: str) -> str:
+    import html
+    page = re.sub(r"(?is)<(script|style)[^>]*>.*?</\1>", "", page)
+    return html.unescape(re.sub(r"<[^>]+>", "", page)).replace("\r\n", "\n")
+
+
+def gospel_of_thomas():
+    """The Coptic Gospel of Thomas, trans. Thomas O. Lambdin, as posted on
+    sacred-texts.com (chr/thomas.htm, typed by Craig Schenk): the prologue
+    (saying 0) and sayings 1-114, each a chapter, so "Gospel of Thomas 77"
+    is saying 77. Lambdin's brackets for damaged text are kept."""
+    text = _html_text(sacred_text("chr/thomas.htm"))
+    body = text[text.index("II: Coptic Gospel of Thomas"):text.index("III: Fragments of Greek Gospel of Thomas")]
+    parts = re.split(r"(?m)^ *(P|\d+)\)\s+", body)[1:]
+    book = {}
+    for num, chunk in zip(parts[0::2], parts[1::2]):
+        book["0" if num == "P" else num] = {"1": re.sub(r"\s*-{5,}\s*$", "", tidy(chunk))}
+    expect(list(book) == [str(i) for i in range(0, 115)], f"sayings {list(book)[:3]}...{list(book)[-3:]}")
+    write("gnostic", "gospel_of_thomas.json", "The Gospel of Thomas (Coptic, Nag Hammadi), trans. Thomas O. Lambdin",
+          {"Gospel of Thomas": book})
+
+
+def enuma_elish():
+    """The Enuma Elish, trans. L. W. King (The Seven Tablets of Creation,
+    1902), sacred-texts.com (ane/enuma.htm). Seven tablets; each is cut into
+    passages of about eight lines keyed "tablet.firstline" like Homer, so
+    "Enuma Elish 4" is the fourth tablet. Lines are counted in this text
+    (King marks gaps with dots, not line numbers)."""
+    text = _html_text(sacred_text("ane/enuma.htm"))
+    ordinals = ["FIRST", "SECOND", "THIRD", "FOURTH", "FIFTH", "SIXTH", "SEVENTH"]
+    heads = list(re.finditer(r"(?m)^\s*THE (" + "|".join(ordinals) + r") TABLET\s*$", text))
+    expect([m.group(1) for m in heads] == ordinals, f"tablets {[m.group(1) for m in heads]}")
+    book = {}
+    for i, m in enumerate(heads):
+        end = heads[i + 1].start() if i + 1 < len(heads) else text.index("Sacred Texts |", m.end())
+        lines = [l.strip() for l in text[m.end():end].splitlines() if l.strip()]
+        tablet = ordinals.index(m.group(1)) + 1
+        for start in range(0, len(lines), 8):
+            book[f"{tablet}.{start + 1}"] = {"1": "\n".join(lines[start:start + 8])}
+    write("ancient_near_east", "enuma_elish.json",
+          "Enuma Elish, trans. L. W. King (The Seven Tablets of Creation, 1902)", {"Enuma Elish": book})
+
+
 # ── Persian ─────────────────────────────────────────────────────────────────
 
 def stanzas(block: str) -> list:
@@ -645,7 +810,8 @@ def hafiz():
 
 BUILDERS = {f.__name__: f for f in (dhammapada, diamond_sutra, tao_te_ching, analects, i_ching, hafiz,
                                     bhagavad_gita, upanishads, meditations, enchiridion, imitation_of_christ,
-                                    rule_of_benedict, divine_comedy, hesiod, nt_apocrypha, secrets_of_enoch)}
+                                    rule_of_benedict, divine_comedy, hesiod, nt_apocrypha, secrets_of_enoch,
+                                    forgotten_books_of_eden, sutta_nipata, gospel_of_thomas, enuma_elish)}
 
 if __name__ == "__main__":
     for name in sys.argv[1:] or BUILDERS:

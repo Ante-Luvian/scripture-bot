@@ -56,6 +56,7 @@ BOOKS_TREE = [
             "Letter of Aristeas","Vita Adae et Evae","Apocalypse of Moses",
             "Fragments of a Zadokite Work",
             "2 Enoch",
+            "First Book of Adam and Eve", "Second Book of Adam and Eve", "Odes of Solomon",
         ]),
         ("New Testament Apocrypha (Ante-Nicene Fathers VIII)", [
             ("Infancy Gospels", [
@@ -704,6 +705,9 @@ BOOKS_TREE = [
         "Gathas",
     ]),
     ("🧿 Gnostic", [
+        ("Gospel of Thomas (trans. Lambdin)", [
+            "Gospel of Thomas",
+        ]),
         ("Mandaean", [
             "Ginza Rba",
             "Book of John",
@@ -754,6 +758,7 @@ BOOKS_TREE = [
     ]),
     ("🌙 Ancient Near East", [
         ("Mesopotamian", [
+            "Enuma Elish",
             ("The Epic of Gilgamesh", [
                 "Gilgamesh 1 — The Tyranny of Gilgamesh (6 sec.)",
                 "Gilgamesh 2 — The Meeting of Gilgamesh and Enkidu (5 sec.)",
@@ -816,6 +821,7 @@ BOOKS_TREE = [
     ]),
     ("☸️ Buddhist", [
         "Dhammapada",
+        "Sutta Nipata",
         "Diamond Sutra",
     ]),
     ("☯️ Chinese Classics", [
