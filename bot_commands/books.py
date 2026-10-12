@@ -2147,6 +2147,16 @@ def _author_works_node(author_name: str) -> tuple | None:
     return None
 
 
+def _book_by_name(query: str) -> "tuple[str, tuple | None] | None":
+    """(book name, its chapter options -- None if it isn't chapter-browsable)
+    for a book name or abbreviation, or None if it isn't one."""
+    _, canon = lookup._resolve_book(query)
+    options = chapter_options_for_book(lookup, canon or query)
+    if canon is None and options is None:
+        return None
+    return (canon or query, options)
+
+
 @bot.command(name="books")
 async def list_books(ctx, *, section: str = ""):
     """Browse available scripture collections. Use !books <author> to list their works."""
@@ -2184,6 +2194,15 @@ async def list_books(ctx, *, section: str = ""):
                 embed.description = "\n".join(lines) or "No works found."
                 embed.set_footer(text="!verse <work> <ch>:<v> to look up a passage")
                 await ctx.send(embed=embed)
+            elif (book := _book_by_name(section.strip())) is not None:
+                # 3. A single book ("Genesis", "Jn", "Confessions"): straight to its chapters
+                book_name, options = book
+                if options is None:
+                    await ctx.send(embed=_book_detail_embed(book_name))
+                    return
+                labels, mode = options
+                view = BooksView([(top_label, top_node, "tree"), (book_name, labels, mode)])
+                view.message = await ctx.send(embed=_chapter_picker_embed(book_name, len(labels)), view=view)
             else:
                 await ctx.send(
                     f"**{section}** not found.\n"
