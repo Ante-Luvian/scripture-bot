@@ -143,6 +143,31 @@ def test_setup_posts_only_the_latest_and_marks_all_seen(cl, sample_changelog):
     assert "will be posted in #updates" in ctx.sent[-1]["content"]
 
 
+def test_rerunning_setup_never_reposts(cl, sample_changelog):
+    channel = FakeChannel()
+    channel.id = 100
+    asyncio.run(cl.cmd_changelogsetup.callback(_admin_ctx([channel]), arg="#updates"))
+    moved = FakeChannel()
+    moved.id = 200
+    ctx = _admin_ctx([moved])
+    asyncio.run(cl.cmd_changelogsetup.callback(ctx, arg="#moved"))   # moving the channel
+    assert len(channel.sent) == 1 and moved.sent == []
+    assert _guild(1)["changelog_channel_id"] == 200
+    assert "will be posted in" in ctx.sent[-1]["content"]
+
+
+def test_new_entry_after_setup_is_announced_exactly_once(cl, sample_changelog, tmp_path):
+    channel = FakeChannel()
+    channel.id = 100
+    asyncio.run(cl.cmd_changelogsetup.callback(_admin_ctx([channel]), arg="#updates"))
+    cl.CHANGELOG_PATH.write_text(SAMPLE.replace("# Changelog\n", "# Changelog\n\n## 2026-10-13 · Brand new\n- New thing\n"),
+                                 encoding="utf-8")
+    client = FakeClient({100: channel})
+    assert asyncio.run(cl.announce_changelog(client)) == 1
+    assert asyncio.run(cl.announce_changelog(client)) == 0     # e.g. the next restart
+    assert [m["embed"].title for m in channel.sent] == ["📜 What's new — Newest", "📜 What's new — Brand new"]
+
+
 def test_setup_reports_missing_permissions(cl, sample_changelog):
     channel = FakeChannel(fail=True)
     channel.id = 100

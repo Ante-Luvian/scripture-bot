@@ -142,12 +142,15 @@ async def cmd_changelogsetup(ctx, *, arg: str = ""):
         return
 
     # Don't flood a newly configured channel with the whole history: count
-    # everything as seen, and post just the latest entry as a confirmation.
+    # everything as seen, and post just the latest entry as a confirmation --
+    # unless this server has already seen it (e.g. the channel is being
+    # moved), so nothing is ever posted twice.
     entries = load_changelog()
+    seen = g.get("changelog_seen", [])
     _update_guild_config(ctx.guild.id, changelog_channel_id=channel.id,
-                         changelog_seen=[e["id"] for e in entries])
+                         changelog_seen=sorted(set(seen) | {e["id"] for e in entries}))
     try:
-        if entries:
+        if entries and entries[0]["id"] not in seen:
             await channel.send("I'll post my updates here. Here's the latest:", embed=entry_embed(entries[0]))
     except discord.HTTPException:
         await ctx.send(f"⚠️ I can't post in {channel.mention} — check my permissions there "
