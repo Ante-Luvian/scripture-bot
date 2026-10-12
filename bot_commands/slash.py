@@ -15,6 +15,7 @@ from bot_commands.church import (
 )
 from core import (
     bot,
+    lookup,
 )
 from bot_commands.oracles import (
     cmd_delphi,
@@ -41,8 +42,40 @@ from bot_commands.votd import (
 
 # ── Slash commands ─────────────────────────────────────────────────────────────
 
+def book_suggestions(current: str, limit: int = 25) -> list[str]:
+    """Book names to suggest while typing a /verse reference: Bible books
+    first (in Bible order), then everything else alphabetically; names that
+    start with what's typed before names that merely contain it; an
+    abbreviation ("Jn") suggests its book ("John"). Once a chapter number
+    has been typed ("John 3"), just echo the text back."""
+    text = current.strip()
+    if re.search(r"\s\d", text):
+        return [text[:100]]
+    q = text.lower()
+    from scripture_lookup import ALIASES, BIBLE_NT, BIBLE_OT
+    bible = BIBLE_OT + BIBLE_NT
+    others = sorted({v[1] for v in lookup._book_index.values()} - set(bible))
+    ordered = bible + others
+    starts = [b for b in ordered if b.lower().startswith(q)]
+    via_alias = [ALIASES[a] for a in sorted(ALIASES) if a.startswith(q) and q and ALIASES[a] in ordered]
+    contains = [b for b in ordered if q and q in b.lower()]
+    seen, out = set(), []
+    for b in starts + via_alias + contains:
+        if b not in seen:
+            seen.add(b)
+            out.append(b[:100])
+        if len(out) >= limit:
+            break
+    return out
+
+
+async def _verse_autocomplete(interaction: discord.Interaction, current: str) -> list[app_commands.Choice[str]]:
+    return [app_commands.Choice(name=b, value=b) for b in book_suggestions(current)]
+
+
 @bot.tree.command(name="verse", description="Look up a scripture verse")
 @app_commands.describe(reference="e.g. John 3:16 | John 3:16 ESV | John 3:16 Knox | John 3:16 KJV ESV NASB")
+@app_commands.autocomplete(reference=_verse_autocomplete)
 async def verse_slash(interaction: discord.Interaction, reference: str):
     await interaction.response.defer()
     ctx = await bot.get_context(interaction)
