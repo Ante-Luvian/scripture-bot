@@ -450,6 +450,13 @@ async def topic_slash(interaction: discord.Interaction, query: str):
 
 # ── !notes — NET Bible translators' notes ─────────────────────────────────────────
 
+_SUPERSCRIPT_DIGITS = str.maketrans("0123456789", "⁰¹²³⁴⁵⁶⁷⁸⁹")
+
+
+def _superscript(n: int) -> str:
+    return str(n).translate(_SUPERSCRIPT_DIGITS)
+
+
 def _split_at_sentence(text: str, size: int) -> tuple[str, str]:
     """(head, tail) with len(head) <= size, cut after a sentence when one
     ends in the back half of the window, else hard at `size`."""
@@ -503,13 +510,32 @@ async def cmd_notes(ctx, *, reference: str = ""):
 
     multi = len(result["verses"]) > 1
     blocks, number = [], 0
-    for verse_num, text, notes in result["verses"]:
-        blocks.append(f"**[{verse_num}]** *{text}*" if multi else f"*{text}*")
-        if not notes:
-            blocks.append("*No notes on this verse.*")
-        for kind, note in notes:
+    for verse in result["verses"]:
+        first = number + 1
+        if verse["segments"]:
+            # interleave superscript note numbers where the NET places them
+            segs = verse["segments"]
+            text = segs[0] + "".join(_superscript(first + i) + seg for i, seg in enumerate(segs[1:]))
+        else:
+            text = verse["text"]
+        lines = [f"**[{verse['verse']}]** *{text}*" if multi else f"*{text}*"]
+        if not verse["notes"] and verse.get("marker_count"):
+            lines.append(f"*The NET has {verse['marker_count']} note(s) on this verse, but the notes "
+                         f"source is missing them — see [netbible.org]({result['url']}).*")
+        elif not verse["notes"]:
+            lines.append("*No notes on this verse.*")
+        elif verse.get("marker_count", 0) > len(verse["notes"]):
+            lines.append(f"*(The NET marks {verse['marker_count']} notes on this verse; only "
+                         f"{len(verse['notes'])} could be retrieved, so where they attach can't be "
+                         f"shown — full notes at [netbible.org]({result['url']}).)*")
+        elif not verse["segments"]:
+            lines.append("*(Where each note attaches isn't available for this verse.)*")
+        blocks.append("\n".join(lines))
+        for note in verse["notes"]:
             number += 1
-            blocks.append(f"**{number}. {NOTE_KINDS.get(kind, 'Note')}** — {note}")
+            head = f"**{_superscript(number)} {note['anchor']}**" if note["anchor"] else f"**Note {number}**"
+            body = "\n".join(f"*{NOTE_KINDS.get(kind, 'Note')}:* {txt}" for kind, txt in note["parts"])
+            blocks.append(f"{head}\n{body}")
     pages = _paginate_blocks(blocks)
     total = len(pages)
 
