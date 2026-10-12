@@ -12,7 +12,10 @@ from bot_commands.card import (
 from bot_commands.verse import (
     _study_buttons,
 )
+from discord.ext import commands, tasks
 from core import (
+    _load_guild_config,
+    _update_guild_config,
     bot,
     log,
     lookup,
@@ -38,6 +41,13 @@ _ORACULAR_BOOKS = {   # !oracle's pool: book -> (source, stats prefix)
 # (button IDs are capped at 100 chars, too short to carry it).
 
 _QUESTION_PREFIX = "❓ "
+
+
+def _record(ctx, kind: str, ref: str) -> None:
+    """Usage stats for an oracle draw -- except the scheduled daily oracle,
+    which nobody asked for (see _DailyContext)."""
+    if not getattr(ctx, "is_daily", False):
+        record_special_stat(ctx.author.id, kind, ref)
 
 
 def _ask(embed: discord.Embed, question: str) -> discord.Embed:
@@ -354,7 +364,7 @@ async def cmd_virgil(ctx, *, question: str = ""):
     )
     embed.set_footer(text=VIRGIL_SOURCE)
     _ask(embed, question)
-    record_special_stat(ctx.author.id, "virgil", f"Aeneid {book_num}.{line_num}")
+    _record(ctx, "virgil", f"Aeneid {book_num}.{line_num}")
     await ctx.send(embed=embed, view=_card_view("virgil", f"{book_num}.{line_num}"))
 
 
@@ -399,7 +409,7 @@ async def cmd_homer(ctx, *, question: str = ""):
         )
     embed.set_footer(text="Sortes Homericae — PMG VII, Oxford Classical Text translations")
     _ask(embed, question)
-    record_special_stat(ctx.author.id, "homer", roll_str)
+    _record(ctx, "homer", roll_str)
     if text is None:
         await ctx.send(embed=embed)   # the oracle is silent: nothing to put on a card
     else:
@@ -423,7 +433,7 @@ async def cmd_delphi(ctx, *, question: str = ""):
     )
     embed.set_footer(text=DELPHI_SOURCE)
     _ask(embed, question)
-    record_special_stat(ctx.author.id, "delphi", f"Maxim {num}")
+    _record(ctx, "delphi", f"Maxim {num}")
     await ctx.send(embed=embed, view=_card_view("delphi", num))
 
 
@@ -456,7 +466,7 @@ async def cmd_oracle(ctx, *, question: str = ""):
     )
     embed.set_footer(text=source)
     _ask(embed, question)
-    record_special_stat(ctx.author.id, "oracle", f"{ref_prefix} {num}")
+    _record(ctx, "oracle", f"{ref_prefix} {num}")
     await ctx.send(embed=embed, view=_card_view("oracle", f"{book}|{num}"))
 
 
@@ -480,7 +490,7 @@ async def cmd_sortes_biblicae(ctx, *, question: str = ""):
     )
     embed.set_footer(text=f"{result['reference']} — {result.get('source', 'King James Version')}")
     _ask(embed, question)
-    record_special_stat(ctx.author.id, "sortesbiblicae", result["reference"])
+    _record(ctx, "sortesbiblicae", result["reference"])
 
     # It's a Bible verse, so it gets the same study buttons as !verse (Card
     # included) -- persistent buttons, so the view must never time out
@@ -495,3 +505,138 @@ async def sortes_biblicae_slash(interaction: discord.Interaction, question: str 
     await interaction.response.defer()
     ctx = await bot.get_context(interaction)
     await cmd_sortes_biblicae(ctx, question=question)
+
+
+# ── Daily oracle (!oraclesetup) ───────────────────────────────────────────────
+# Like the daily verse: an oracle posted each day in a channel of the
+# server's choosing. Per-guild settings in guild_config.json:
+# oracle_channel_id, oracle_time ("HH:MM" UTC), oracle_kind.
+
+DAILY_ORACLE_HEADER = "🔮 **Today's oracle**"
+_DAILY_KINDS = {
+    "virgil": cmd_virgil,
+    "homer": cmd_homer,
+    "delphi": cmd_delphi,
+    "oracle": cmd_oracle,
+    "sortesbiblicae": cmd_sortes_biblicae,
+}
+
+
+class _DailyContext:
+    """Runs an oracle command into a channel with no one asking: the first
+    message gets the "Today's oracle" header, and no usage stats are recorded."""
+    is_daily = True
+    author = None
+
+    def __init__(self, channel):
+        self.channel = channel
+        self._first = True
+
+    async def send(self, content=None, **kwargs):
+        if self._first:
+            self._first = False
+            content = DAILY_ORACLE_HEADER if content is None else f"{DAILY_ORACLE_HEADER}\n{content}"
+        return await self.channel.send(content, **kwargs)
+
+    def typing(self):
+        return self.channel.typing()
+
+
+async def post_daily_oracle(channel, kind: str = "any") -> str:
+    """Post one oracle to `channel`; "any" picks one of them at random.
+    Returns the kind posted."""
+    if kind not in _DAILY_KINDS:
+        kind = random.choice(list(_DAILY_KINDS))
+    await _DAILY_KINDS[kind](_DailyContext(channel))
+    return kind
+
+
+async def run_daily_oracles(client, current_hm: str) -> int:
+    """Post to every guild whose daily-oracle time is current_hm ("HH:MM" UTC)."""
+    posted = 0
+    for guild_id, g in _load_guild_config().items():
+        channel_id = g.get("oracle_channel_id")
+        if not channel_id or g.get("oracle_time", "12:00") != current_hm:
+            continue
+        channel = client.get_channel(int(channel_id))
+        if channel is None:
+            continue
+        try:
+            await post_daily_oracle(channel, g.get("oracle_kind", "any"))
+            posted += 1
+        except Exception:
+            log.exception(f"Failed to post the daily oracle for guild {guild_id}")
+    return posted
+
+
+@tasks.loop(minutes=1)
+async def daily_oracle_task():
+    import datetime
+    now = datetime.datetime.now(datetime.timezone.utc)
+    await run_daily_oracles(bot, f"{now.hour:02d}:{now.minute:02d}")
+
+
+@daily_oracle_task.before_loop
+async def _before_daily_oracle():
+    await bot.wait_until_ready()
+
+
+@bot.command(name="oraclesetup", aliases=["oracleconfig"])
+@commands.has_permissions(administrator=True)
+async def cmd_oraclesetup(ctx, action: str = "", *, arg: str = ""):
+    """Configure this server's daily oracle post.
+    Usage: !oraclesetup                  — show this server's settings
+           !oraclesetup channel #chan    — post the daily oracle there
+           !oraclesetup time 12:00       — daily post time (24h UTC)
+           !oraclesetup kind any         — any | virgil | homer | delphi | oracle | sortesbiblicae
+           !oraclesetup test             — post one now, to try it
+           !oraclesetup off              — stop the daily oracle"""
+    if not ctx.guild:
+        await ctx.send("This command only works in a server.")
+        return
+    g = _load_guild_config().get(str(ctx.guild.id), {})
+    channel_id, time_hm, kind = g.get("oracle_channel_id"), g.get("oracle_time", "12:00"), g.get("oracle_kind", "any")
+    action = action.strip().lower()
+
+    if not action:
+        embed = discord.Embed(title=f"🔮 Daily oracle — {ctx.guild.name}", color=discord.Color.dark_purple())
+        embed.add_field(name="Channel", value=f"<#{channel_id}>" if channel_id else "*not set — daily oracle is off*")
+        embed.add_field(name="Time (UTC)", value=time_hm)
+        embed.add_field(name="Oracle", value=kind)
+        embed.set_footer(text="!oraclesetup channel #chan · time HH:MM · kind any|virgil|homer|delphi|oracle|sortesbiblicae · test · off")
+        await ctx.send(embed=embed)
+        return
+    if action == "off":
+        _update_guild_config(ctx.guild.id, oracle_channel_id=None)
+        await ctx.send("The daily oracle is off for this server.")
+        return
+    if action == "channel":
+        channel = ctx.message.channel_mentions[0] if ctx.message.channel_mentions else None
+        if channel is None:
+            await ctx.send("Mention a channel: `!oraclesetup channel #general`")
+            return
+        _update_guild_config(ctx.guild.id, oracle_channel_id=channel.id)
+        await ctx.send(f"The daily oracle will be posted in {channel.mention} at {time_hm} UTC ({kind}).")
+        return
+    if action == "time":
+        m = re.match(r"^(\d{1,2}):(\d{2})$", arg.strip())
+        if not m or not (0 <= int(m.group(1)) <= 23 and 0 <= int(m.group(2)) <= 59):
+            await ctx.send("Use 24-hour UTC time: `!oraclesetup time 12:00`")
+            return
+        hm = f"{int(m.group(1)):02d}:{int(m.group(2)):02d}"
+        _update_guild_config(ctx.guild.id, oracle_time=hm)
+        await ctx.send(f"Daily oracle time set to **{hm} UTC**.")
+        return
+    if action == "kind":
+        new_kind = arg.strip().lower()
+        if new_kind not in ("any", *_DAILY_KINDS):
+            await ctx.send("Choose `any`, `virgil`, `homer`, `delphi`, `oracle`, or `sortesbiblicae`.")
+            return
+        _update_guild_config(ctx.guild.id, oracle_kind=new_kind)
+        await ctx.send(f"Daily oracle set to **{new_kind}**.")
+        return
+    if action == "test":
+        channel = bot.get_channel(int(channel_id)) if channel_id else ctx.channel
+        await post_daily_oracle(channel, kind)
+        return
+    await ctx.send("Unknown option. Use `channel`, `time`, `kind`, `test`, or `off` — see `!help oraclesetup`.")

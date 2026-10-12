@@ -135,7 +135,10 @@ Prefix commands use `!`; most also have a `/` slash-command version.
 | `!virgil [question]` | `!aeneid` | Sortes Vergilianae |
 | `!sortesbiblicae` | `!bibliomancy` | Sortes Biblicae: the Bible opened at random (with the study buttons) |
 
-Every oracle answer has a 🖼️ Card button that renders it as an image.
+| `!oraclesetup` | | (Admins) A daily oracle in a channel: `channel #chan`, `time HH:MM` (UTC), `kind any\|virgil\|…`, `test`, `off` |
+
+Every oracle takes an optional question (`!virgil will I find work?`), shown with the
+answer, and every answer has a 🖼️ Card button that renders it as an image.
 
 ### Verse of the Day
 

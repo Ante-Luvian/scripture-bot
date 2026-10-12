@@ -578,6 +578,10 @@ async def cmd_help(ctx, *, topic: str = ""):
         embed.add_field(name="!virgil", value="Sortes Virgilianae — random passage from the Aeneid", inline=False)
         embed.add_field(name="!sortesbiblicae", value="Sortes Biblicae — the Bible opened at random (also `!bibliomancy`)",
                         inline=False)
+        embed.add_field(name="Ask a question", value="Add one after any of these — `!virgil will I find work?` — "
+                                                     "and it's shown with the answer and on its card.", inline=False)
+        embed.add_field(name="!oraclesetup (admins)", value="A daily oracle in a channel: `!oraclesetup channel #chan`, "
+                                                            "then `time 12:00`, `kind any`, `test`, or `off`.", inline=False)
         embed.set_footer(text="Every answer has a 🖼️ Card button to turn it into an image.")
         await ctx.send(embed=embed)
         return
@@ -690,7 +694,8 @@ async def cmd_help(ctx, *, topic: str = ""):
     embed.add_field(name="⚙️ Server Setup (Admin)", value=(
         "`!votdsetup` — configure this server's daily VOTD channel/time/mode · `!help votdsetup`\n"
         "`!features` — turn optional features on/off · `!help features`\n"
-        "`!changelogsetup #channel` — where I announce my updates · `!changelog` — recent updates"
+        "`!changelogsetup #channel` — where I announce my updates · `!changelog` — recent updates\n"
+        "`!oraclesetup channel #chan` — a daily oracle post (`time`, `kind`, `test`, `off`)"
     ), inline=False)
     embed.add_field(name="🏛️ Ancient Languages & Strong's", value=(
         "Append to `!verse`: `OE` `WLC` `LXX` `TR` `VULG` `peshitta` `CSL`\n"
