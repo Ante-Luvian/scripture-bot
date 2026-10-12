@@ -14,6 +14,7 @@ from bot_commands.church import (
     cmd_summa,
 )
 from core import (
+    GUILD_FEATURES,
     bot,
     lookup,
 )
@@ -211,3 +212,145 @@ async def unsubscribe_slash(interaction: discord.Interaction):
     await interaction.response.defer()
     ctx = await bot.get_context(interaction)
     await cmd_unsubscribe(ctx)
+
+
+# ── Slash versions of the remaining commands ──────────────────────────────────
+# Every user-facing prefix command now has a slash version (see
+# tests/test_slash_parity.py). They look the prefix command up by name and
+# call it directly -- which skips the prefix command's own checks, so the
+# admin ones carry Discord-side permissions instead (hidden from non-admins
+# by default, enforced, server-only).
+
+def _command(name: str):
+    return bot.get_command(name)
+
+
+async def _slash_ctx(interaction: discord.Interaction):
+    await interaction.response.defer()
+    return await bot.get_context(interaction)
+
+
+class _WithChannelMention:
+    """The setup commands read their channel from the typed message's
+    mentions; a slash command's message has none, so supply the picked one."""
+
+    def __init__(self, message, channel):
+        self._message = message
+        self.channel_mentions = [channel] if channel is not None else []
+
+    def __getattr__(self, name):
+        return getattr(self._message, name)
+
+
+def _admin_only(func):
+    func = app_commands.guild_only()(func)
+    func = app_commands.checks.has_permissions(administrator=True)(func)
+    return app_commands.default_permissions(administrator=True)(func)
+
+
+@bot.tree.command(name="virgil", description="Sortes Vergilianae: a random line from Virgil's Aeneid as your oracle")
+@app_commands.describe(question="Optional question for the oracle")
+async def virgil_slash(interaction: discord.Interaction, question: str = ""):
+    await _command("virgil")(await _slash_ctx(interaction), question=question)
+
+
+@bot.tree.command(name="search", description="Search the Bible for a word or phrase")
+@app_commands.describe(query="e.g. shepherd, or shepherd ESV for another translation")
+async def search_slash(interaction: discord.Interaction, query: str):
+    await _command("search")(await _slash_ctx(interaction), query=query)
+
+
+@bot.tree.command(name="prayer", description="A random prayer from the 1662 Book of Common Prayer")
+async def prayer_slash(interaction: discord.Interaction):
+    await _command("prayer")(await _slash_ctx(interaction))
+
+
+@bot.tree.command(name="collect", description="The Collect (short prayer) of the day")
+@app_commands.describe(date="Optional date, YYYY-MM-DD")
+async def collect_slash(interaction: discord.Interaction, date: str = ""):
+    await _command("collect")(await _slash_ctx(interaction), date_raw=date)
+
+
+@bot.tree.command(name="mp", description="Today's Morning Prayer readings (Book of Common Prayer)")
+@app_commands.describe(date="Optional date, YYYY-MM-DD")
+async def mp_slash(interaction: discord.Interaction, date: str = ""):
+    await _command("mp")(await _slash_ctx(interaction), date_raw=date)
+
+
+@bot.tree.command(name="ep", description="Today's Evening Prayer readings (Book of Common Prayer)")
+@app_commands.describe(date="Optional date, YYYY-MM-DD")
+async def ep_slash(interaction: discord.Interaction, date: str = ""):
+    await _command("ep")(await _slash_ctx(interaction), date_raw=date)
+
+
+@bot.tree.command(name="psalm", description="Today's appointed psalms (Coverdale Psalter)")
+@app_commands.describe(period="Morning or evening psalms (default: by time of day)")
+@app_commands.choices(period=[app_commands.Choice(name="Morning", value="mp"),
+                              app_commands.Choice(name="Evening", value="ep")])
+async def psalm_slash(interaction: discord.Interaction, period: str = ""):
+    await _command("psalm")(await _slash_ctx(interaction), args=period)
+
+
+@bot.tree.command(name="stats", description="How the bot has been used: top verses, books and commands")
+async def stats_slash(interaction: discord.Interaction):
+    await _command("stats")(await _slash_ctx(interaction))
+
+
+@bot.tree.command(name="export", description="Download a book or chapters as a text file")
+@app_commands.describe(reference="e.g. John, or John 1-5, or John 3")
+async def export_slash(interaction: discord.Interaction, reference: str):
+    await _command("export")(await _slash_ctx(interaction), arg=reference)
+
+
+@bot.tree.command(name="unsave", description="Remove a saved verse by its number in /saved")
+@app_commands.describe(number="The verse's number in your /saved list")
+async def unsave_slash(interaction: discord.Interaction, number: int):
+    await _command("unsave")(await _slash_ctx(interaction), number)
+
+
+@bot.tree.command(name="features", description="(Admins) Turn optional server features on or off")
+@app_commands.describe(name="Which feature (leave empty to see them all)", state="on or off")
+@app_commands.choices(name=[app_commands.Choice(name=k, value=k) for k in GUILD_FEATURES],
+                      state=[app_commands.Choice(name="on", value="on"), app_commands.Choice(name="off", value="off")])
+@_admin_only
+async def features_slash(interaction: discord.Interaction, name: str = "", state: str = ""):
+    await _command("features")(await _slash_ctx(interaction), name, state)
+
+
+@bot.tree.command(name="votdsetup", description="(Admins) Configure the daily Verse of the Day post")
+@app_commands.describe(action="What to change", channel="For 'channel'", value="For 'time' (HH:MM, UTC) or 'mode' (basic/full/extended)")
+@app_commands.choices(action=[app_commands.Choice(name=a, value=a) for a in ("show", "channel", "time", "mode", "off")])
+@_admin_only
+async def votdsetup_slash(interaction: discord.Interaction, action: str = "show",
+                          channel: discord.TextChannel = None, value: str = ""):
+    ctx = await _slash_ctx(interaction)
+    ctx.message = _WithChannelMention(ctx.message, channel)
+    await _command("votdsetup")(ctx, "" if action == "show" else action, arg=value)
+
+
+@bot.tree.command(name="oraclesetup", description="(Admins) Configure the daily oracle post")
+@app_commands.describe(action="What to change", channel="For 'channel'",
+                       value="For 'time' (HH:MM, UTC) or 'kind' (any/virgil/homer/delphi/oracle)")
+@app_commands.choices(action=[app_commands.Choice(name=a, value=a) for a in ("show", "channel", "time", "kind", "test", "off")])
+@_admin_only
+async def oraclesetup_slash(interaction: discord.Interaction, action: str = "show",
+                            channel: discord.TextChannel = None, value: str = ""):
+    ctx = await _slash_ctx(interaction)
+    ctx.message = _WithChannelMention(ctx.message, channel)
+    await _command("oraclesetup")(ctx, "" if action == "show" else action, arg=value)
+
+
+@bot.tree.command(name="changelogsetup", description="(Admins) Choose where the bot announces her updates")
+@app_commands.describe(channel="The updates channel (leave empty to see the current one)", off="Stop announcing updates")
+@_admin_only
+async def changelogsetup_slash(interaction: discord.Interaction, channel: discord.TextChannel = None, off: bool = False):
+    ctx = await _slash_ctx(interaction)
+    ctx.message = _WithChannelMention(ctx.message, channel)
+    await _command("changelogsetup")(ctx, arg="off" if off else (channel.mention if channel else ""))
+
+
+@bot.tree.command(name="changelogintro", description="(Admins) Post the full introduction + latest updates in the updates channel")
+@app_commands.describe(fresh="First delete my own earlier messages there, so the introduction comes first")
+@_admin_only
+async def changelogintro_slash(interaction: discord.Interaction, fresh: bool = False):
+    await _command("changelogintro")(await _slash_ctx(interaction), arg="fresh" if fresh else "")
