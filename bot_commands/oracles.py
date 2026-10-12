@@ -1,12 +1,13 @@
 """
 !gematria, !virgil / !homer / !delphi, !oracle, !sortesbiblicae.
 """
+import asyncio
 import discord
 import random
 import re
 from scripture_lookup import BIBLE_NT, BIBLE_OT
 from bot_commands.card import (
-    _make_card_image_button,
+    _render_verse_card,
 )
 from bot_commands.verse import (
     _study_buttons,
@@ -19,12 +20,76 @@ from core import (
 )
 from core import ROOT
 
+VIRGIL_SOURCE = "The Aeneid — Virgil (trans. John Dryden, 1697)"
+HOMER_SOURCE = "Sortes Homericae — PMG VII"
+DELPHI_SOURCE = "Delphic Maxims — trans. Melissa Gold (Hellenion)"
+_ORACULAR_BOOKS = {   # !oracle's pool: book -> (source, stats prefix)
+    "Delphic Maxims":      (DELPHI_SOURCE, "Delphi 1"),
+    "Oracular Statements": ("Oracular Statements from Delphi", "Delphi 2"),
+    "Chaldaean Oracles":   ("Chaldaean Oracles — ed. Westcott", "Chaldaean Oracles"),
+    "Golden Verses":       ("Golden Verses of Pythagoras", "GVP"),
+}
 
-def _card_view(title: str, text: str, source: str) -> discord.ui.View:
-    """The 🖼️ Card button under an oracle answer (oracles are the bot's most
-    used commands, and !card its most used image)."""
-    view = discord.ui.View(timeout=600)
-    view.add_item(_make_card_image_button(title, text, source))
+
+# ── 🖼️ Card button under oracle answers ───────────────────────────────────────
+# (Oracles are the bot's most used commands, and !card its most used image.)
+
+def _oracle_card_content(kind: str, key: str) -> "tuple[str, str, str] | None":
+    """(title, text, source) of an oracle answer, looked up again from the
+    data by the key its Card button carries -- or None if it's gone."""
+    if kind == "virgil":                       # key "6.851": book.line
+        book, _, line = key.partition(".")
+        text = ((_load_aeneid() or {}).get(book) or {}).get(line)
+        return (f"Sortes Vergilianae — Aeneid {key}", text, VIRGIL_SOURCE) if text else None
+    if kind == "homer":                        # key "1-2-3": the dice
+        text = (_load_homer() or {}).get(key.replace("-", ""))
+        return (f"Homeromanteion — {key}", text, HOMER_SOURCE) if text else None
+    if kind == "delphi":                       # key: maxim number
+        book, num = "Delphic Maxims", key
+    elif kind == "oracle" and "|" in key:      # key "Chaldaean Oracles|12"
+        book, num = key.split("|", 1)
+    else:
+        return None
+    text = (lookup._data.get("classical", {}).get(book, {}).get(num) or {}).get("1")
+    if not text:
+        return None
+    if kind == "delphi":
+        return (f"Delphic Maxim {num}", text, DELPHI_SOURCE)
+    return (f"{book} — {num}", text, _ORACULAR_BOOKS.get(book, (book,))[0])
+
+
+class OracleCardButton(discord.ui.DynamicItem[discord.ui.Button],
+                       template=r"ocard:(?P<kind>virgil|homer|delphi|oracle):(?P<key>.+)"):
+    """Renders an oracle answer as a !card-style image. Like the study
+    buttons, its custom_id carries what it needs, so it keeps working after a
+    restart; only ever sent in timeout=None views (see verse.StudyButton)."""
+
+    def __init__(self, kind: str, key: str, disabled: bool = False):
+        super().__init__(discord.ui.Button(label="Card", emoji="🖼️", style=discord.ButtonStyle.secondary,
+                                           custom_id=f"ocard:{kind}:{key}", disabled=disabled))
+        self.kind, self.key = kind, key
+
+    @classmethod
+    async def from_custom_id(cls, interaction, item, match):
+        return cls(match["kind"], match["key"])
+
+    async def callback(self, interaction: discord.Interaction):
+        # One image per answer; the edit is also the interaction's response
+        await interaction.response.edit_message(view=_card_view(self.kind, self.key, disabled=True))
+        content = _oracle_card_content(self.kind, self.key)
+        if content is None:
+            await interaction.followup.send("⚠️ I can't find that answer's text any more.", ephemeral=True)
+            return
+        buf = await asyncio.to_thread(_render_verse_card, *content)
+        await interaction.followup.send(file=discord.File(buf, filename="oracle.png"))
+
+
+bot.add_dynamic_items(OracleCardButton)
+
+
+def _card_view(kind: str, key: str, disabled: bool = False) -> discord.ui.View:
+    view = discord.ui.View(timeout=None)
+    view.add_item(OracleCardButton(kind, key, disabled))
     return view
 
 # ── !gematria — Gematria lookup via gematrix.org ─────────────────────────────
@@ -262,10 +327,9 @@ async def cmd_virgil(ctx, *, question: str = ""):
         description=f"{display}\n\n*{verse_text}*",
         color=discord.Color.dark_gold()
     )
-    embed.set_footer(text="The Aeneid — Virgil (trans. John Dryden, 1697)")
+    embed.set_footer(text=VIRGIL_SOURCE)
     record_special_stat(ctx.author.id, "virgil", f"Aeneid {book_num}.{line_num}")
-    await ctx.send(embed=embed, view=_card_view(f"Sortes Vergilianae — Aeneid {book_num}.{line_num}",
-                                                verse_text, "The Aeneid — Virgil (trans. John Dryden, 1697)"))
+    await ctx.send(embed=embed, view=_card_view("virgil", f"{book_num}.{line_num}"))
 
 
 _HOMER_DATA = None
@@ -312,8 +376,7 @@ async def cmd_homer(ctx, *, question: str = ""):
     if text is None:
         await ctx.send(embed=embed)   # the oracle is silent: nothing to put on a card
     else:
-        await ctx.send(embed=embed, view=_card_view(f"Homeromanteion — {roll_str}", text,
-                                                    "Sortes Homericae — PMG VII"))
+        await ctx.send(embed=embed, view=_card_view("homer", roll_str))
 
 
 @bot.command(name="delphi")
@@ -331,10 +394,9 @@ async def cmd_delphi(ctx):
         description=text,
         color=discord.Color.gold()
     )
-    embed.set_footer(text="Delphic Maxims — trans. Melissa Gold (Hellenion)")
+    embed.set_footer(text=DELPHI_SOURCE)
     record_special_stat(ctx.author.id, "delphi", f"Maxim {num}")
-    await ctx.send(embed=embed, view=_card_view(f"Delphic Maxim {num}", text,
-                                                "Delphic Maxims — trans. Melissa Gold (Hellenion)"))
+    await ctx.send(embed=embed, view=_card_view("delphi", num))
 
 
 # ── !oracle — random verse from any oracular corpus ───────────────────────────
@@ -343,15 +405,8 @@ async def cmd_delphi(ctx):
 async def cmd_oracle(ctx, *, question: str = ""):
     """Return a random verse from any oracular corpus. Usage: !oracle"""
     classical = lookup._data.get("classical", {})
-    oracular_books = {
-        "Delphic Maxims":      ("Delphic Maxims — trans. Melissa Gold (Hellenion)", "Delphi 1"),
-        "Oracular Statements": ("Oracular Statements from Delphi", "Delphi 2"),
-        "Chaldaean Oracles":   ("Chaldaean Oracles — ed. Westcott", "Chaldaean Oracles"),
-        "Golden Verses":       ("Golden Verses of Pythagoras", "GVP"),
-    }
-
     pool = []
-    for book, (source, ref_prefix) in oracular_books.items():
+    for book, (source, ref_prefix) in _ORACULAR_BOOKS.items():
         for num, chap in classical.get(book, {}).items():
             text = chap.get("1", "")
             if text:
@@ -373,7 +428,7 @@ async def cmd_oracle(ctx, *, question: str = ""):
     )
     embed.set_footer(text=source)
     record_special_stat(ctx.author.id, "oracle", f"{ref_prefix} {num}")
-    await ctx.send(embed=embed, view=_card_view(f"{book} — {num}", text, source))
+    await ctx.send(embed=embed, view=_card_view("oracle", f"{book}|{num}"))
 
 
 # ── !sortesbiblicae — the Bible opened at random ──────────────────────────────
@@ -397,8 +452,9 @@ async def cmd_sortes_biblicae(ctx, *, question: str = ""):
     embed.set_footer(text=f"{result['reference']} — {result.get('source', 'King James Version')}")
     record_special_stat(ctx.author.id, "sortesbiblicae", result["reference"])
 
-    # It's a Bible verse, so it gets the same study buttons as !verse (Card included)
-    view = discord.ui.View(timeout=600)
+    # It's a Bible verse, so it gets the same study buttons as !verse (Card
+    # included) -- persistent buttons, so the view must never time out
+    view = discord.ui.View(timeout=None)
     for b in _study_buttons(result):
         view.add_item(b)
     await ctx.send(embed=embed, view=view)

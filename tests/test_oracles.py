@@ -16,7 +16,7 @@ def no_stats(oracles, monkeypatch):
 
 
 def _labels(msg):
-    return [c.label for c in msg["view"].children] if msg.get("view") else []
+    return [c.item.label for c in msg["view"].children] if msg.get("view") else []
 
 
 def test_sortes_biblicae(oracles, monkeypatch, fake_ctx):
@@ -58,26 +58,49 @@ def test_silent_homer_roll_has_no_card(oracles, monkeypatch, fake_ctx):
     assert msg["embed"].title.startswith("The Oracle is Silent") and not msg.get("view")
 
 
-def test_card_button_renders_an_image_once(bot_module):
-    import discord
-    from bot_commands.card import _make_card_image_button
+@pytest.mark.parametrize("kind, key, title", [
+    ("virgil", "6.851", "Sortes Vergilianae — Aeneid 6.851"),
+    ("delphi", "1", "Delphic Maxim 1"),
+    ("oracle", "Delphic Maxims|1", "Delphic Maxims — 1"),
+])
+def test_oracle_card_content_is_looked_up_again(oracles, kind, key, title):
+    got_title, text, source = oracles._oracle_card_content(kind, key)
+    assert got_title == title and text and source
+
+
+def test_oracle_card_content_homer(oracles, monkeypatch):
+    monkeypatch.setattr(oracles, "_load_homer", lambda: {"123": "Be bold."})
+    assert oracles._oracle_card_content("homer", "1-2-3") == ("Homeromanteion — 1-2-3", "Be bold.", oracles.HOMER_SOURCE)
+    assert oracles._oracle_card_content("homer", "6-6-6") is None
+    assert oracles._oracle_card_content("oracle", "no separator") is None
+
+
+def test_oracle_card_button_survives_restart_and_renders(oracles, bot_module):
+    """Press the Card button as Discord delivers it after a restart: rebuilt
+    from its custom_id alone. It must render a real PNG, once."""
+    store = bot_module.bot._connection._view_store
+    assert oracles.OracleCardButton.__discord_ui_compiled_template__ in store._dynamic_items
 
     sent, edited = [], []
 
     class Response:
         async def edit_message(self, view=None): edited.append(view)
-        async def defer(self): pass
 
     class Followup:
-        async def send(self, **kw): sent.append(kw)
+        async def send(self, *a, **kw): sent.append(kw)
 
-    btn = _make_card_image_button("Delphic Maxim 1", "Follow God.", "Delphic Maxims")
-    view = discord.ui.View()
-    view.add_item(btn)
+    original = oracles._card_view("delphi", "1").children[0]
+    match = oracles.OracleCardButton.__discord_ui_compiled_template__.fullmatch(original.item.custom_id)
     interaction = type("I", (), {"response": Response(), "followup": Followup()})()
-    asyncio.run(btn.callback(interaction))
+    rebuilt = asyncio.run(oracles.OracleCardButton.from_custom_id(interaction, original.item, match))
+    asyncio.run(rebuilt.callback(interaction))
 
-    assert btn.disabled and edited == [view]
-    file = sent[0]["file"]
-    assert file.filename == "oracle.png"
-    assert file.fp.read(8) == b"\x89PNG\r\n\x1a\n"   # a real PNG was rendered
+    assert edited[0].timeout is None and edited[0].children[0].item.disabled   # one image per answer
+    assert sent[0]["file"].filename == "oracle.png"
+    assert sent[0]["file"].fp.read(8) == b"\x89PNG\r\n\x1a\n"   # a real PNG was rendered
+
+
+def test_oracle_views_never_time_out(oracles, monkeypatch, fake_ctx):
+    # A view that times out unregisters its persistent buttons bot-wide
+    asyncio.run(oracles.cmd_delphi.callback(fake_ctx))
+    assert fake_ctx.sent[0]["view"].timeout is None

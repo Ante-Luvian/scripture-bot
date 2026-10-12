@@ -675,6 +675,13 @@ def _make_chapter_nav_buttons(book_name: str, chapter_labels: list[str], index: 
     return btns
 
 
+def _extra_view_timeout(extra_buttons: list) -> "float | None":
+    """Views carrying persistent (dynamic-item) buttons must never time out:
+    when a view times out, discord.py unregisters the dynamic-item patterns it
+    contains bot-wide, which would break those buttons on every message."""
+    return None if any(isinstance(b, discord.ui.DynamicItem) for b in extra_buttons) else 180
+
+
 async def _send_result(ctx_or_interaction, result: dict, extra_buttons: "list | None" = None):
     """Send a verse or whole-chapter result, splitting across multiple embeds if needed.
     extra_buttons, if given, are appended to whatever view the result ends up
@@ -707,7 +714,7 @@ async def _send_result(ctx_or_interaction, result: dict, extra_buttons: "list | 
         embed = _build_embed(result)
         view = None
         if extra_buttons:
-            view = discord.ui.View(timeout=180)
+            view = discord.ui.View(timeout=_extra_view_timeout(extra_buttons))
             for b in extra_buttons:
                 view.add_item(b)
         await _reply(embed=embed, view=view) if view else await _reply(embed=embed)
@@ -734,7 +741,7 @@ async def _send_result(ctx_or_interaction, result: dict, extra_buttons: "list | 
 
         class ChapterView(discord.ui.View):
             def __init__(self):
-                super().__init__(timeout=180)
+                super().__init__(timeout=_extra_view_timeout(extra_buttons))
                 self.idx = 0
                 for b in extra_buttons:
                     self.add_item(b)
@@ -770,7 +777,7 @@ async def _send_result(ctx_or_interaction, result: dict, extra_buttons: "list | 
         embed.set_footer(text=source)
         view = None
         if extra_buttons:
-            view = discord.ui.View(timeout=180)
+            view = discord.ui.View(timeout=_extra_view_timeout(extra_buttons))
             for b in extra_buttons:
                 view.add_item(b)
         msg = await (_reply(embed=embed, view=view) if view else _reply(embed=embed))
@@ -804,7 +811,7 @@ async def _send_result(ctx_or_interaction, result: dict, extra_buttons: "list | 
             embed.set_footer(text=source)
         view = None
         if is_last and extra_buttons:
-            view = discord.ui.View(timeout=180)
+            view = discord.ui.View(timeout=_extra_view_timeout(extra_buttons))
             for b in extra_buttons:
                 view.add_item(b)
         if i == 0:

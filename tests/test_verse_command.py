@@ -2,7 +2,6 @@
 no Discord connection)."""
 import asyncio
 
-import discord
 import pytest
 
 
@@ -44,7 +43,7 @@ def test_multi_translation_verse_error(verse, monkeypatch, fake_ctx):
 # ── study buttons ───────────────────────────────────────────────────────────
 
 def _labels(buttons):
-    return [b.label for b in buttons]
+    return [b.item.label for b in buttons]
 
 
 @pytest.mark.parametrize("reference, labels", [
@@ -99,28 +98,44 @@ class _FakeChannel:
 
 
 def _press(buttons, label):
-    """Press the real button: returns (interaction, button, view)."""
-    view = discord.ui.View()
-    for b in buttons:
-        view.add_item(b)
-    btn = next(b for b in buttons if b.label == label)
+    """Press a button the way Discord delivers it AFTER A RESTART: nothing
+    in memory but the message's components; the button is rebuilt from its
+    custom_id through from_custom_id, as discord.py's dynamic-item dispatch
+    does. Returns (interaction, rebuilt button)."""
+    pressed = next(b for b in buttons if b.item.label == label)
+    message = type("Message", (), {"components": [type("Row", (), {"children": [b.item for b in buttons]})()]})()
     interaction = type("Interaction", (), {
-        "response": _FakeResponse(), "channel": _FakeChannel(), "guild": None,
+        "response": _FakeResponse(), "channel": _FakeChannel(), "guild": None, "message": message,
         "user": type("User", (), {"id": 1, "__str__": lambda self: "tester"})(),
     })()
-    asyncio.run(btn.callback(interaction))
-    return interaction, btn, view
+    cls = type(pressed)
+    match = cls.__discord_ui_compiled_template__.fullmatch(pressed.item.custom_id)
+    rebuilt = asyncio.run(cls.from_custom_id(interaction, pressed.item, match))
+    asyncio.run(rebuilt.callback(interaction))
+    return interaction, rebuilt
+
+
+def test_study_buttons_are_registered_persistent_items(verse, bot_module):
+    store = bot_module.bot._connection._view_store
+    assert verse.StudyButton.__discord_ui_compiled_template__ in store._dynamic_items
+    btn = verse._study_buttons({"found": True, "reference": "John 3:16"})[0]
+    assert btn.item.custom_id == "study:notes:John 3:16"
+    assert len(btn.item.custom_id) <= 100   # Discord's limit
 
 
 def test_cross_refs_button_runs_the_real_command(verse):
-    interaction, btn, view = _press(verse._study_buttons({"found": True, "reference": "John 3:16"}), "Cross-refs")
-    assert btn.disabled and interaction.response.edited_view is view   # one use, and the press is answered
+    interaction, _ = _press(verse._study_buttons({"found": True, "reference": "John 3:16"}), "Cross-refs")
+    # one use: the message's buttons come back with only this one disabled
+    edited = interaction.response.edited_view
+    assert edited.timeout is None
+    assert [(c.item.label, c.item.disabled) for c in edited.children] == [
+        ("Notes", False), ("Cross-refs", True), ("Interlinear", False), ("Card", False)]
     embed = interaction.channel.sent[0]["embed"]
     assert embed.title == "🔗 Cross-references — John 3:16"
 
 
 def test_card_button_renders_the_verse(verse):
-    interaction, _, _ = _press(verse._study_buttons({"found": True, "reference": "John 3:16"}), "Card")
+    interaction, _ = _press(verse._study_buttons({"found": True, "reference": "John 3:16"}), "Card")
     sent = interaction.channel.sent[0]
     assert sent["file"].fp.read(8) == b"\x89PNG\r\n\x1a\n"
 
@@ -129,7 +144,7 @@ def test_notes_button_passes_the_reference_without_translation_suffix(verse, mon
     from bot_commands import reference
     seen = []
     monkeypatch.setattr(reference, "get_net_notes", lambda ref: seen.append(ref) or {"found": False, "error": "x"})
-    interaction, _, _ = _press(verse._study_buttons({"found": True, "reference": "John 3:16–18 (ESV)"}), "Notes")
+    interaction, _ = _press(verse._study_buttons({"found": True, "reference": "John 3:16–18 (ESV)"}), "Notes")
     assert seen == ["John 3:16-18"]
     assert interaction.channel.sent[0]["content"] == "⚠️ x"
 
@@ -138,7 +153,9 @@ def test_verse_command_attaches_study_buttons(verse, monkeypatch, fake_ctx):
     monkeypatch.setattr(verse, "_get_preferred_translation", lambda user_id: None)
     asyncio.run(verse.verse_prefix.callback(fake_ctx, reference="John 3:16"))
     view = fake_ctx.sent[0]["view"]
-    assert [c.label for c in view.children] == ["Notes", "Cross-refs", "Interlinear", "Card"]
+    assert [c.item.label for c in view.children] == ["Notes", "Cross-refs", "Interlinear", "Card"]
+    # A view that times out unregisters its persistent buttons bot-wide
+    assert view.timeout is None
 
 
 def test_plain_verse_lookup_sends_result(verse, monkeypatch, fake_ctx):

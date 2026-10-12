@@ -85,6 +85,57 @@ class _ButtonContext:
         return self.channel.typing()
 
 
+_STUDY_ACTIONS = {   # custom_id code -> (label, emoji, command)
+    "notes": ("Notes", "📝", cmd_notes),
+    "xref": ("Cross-refs", "🔗", cmd_xref),
+    "inter": ("Interlinear", "🔤", cmd_interlinear),
+    "card": ("Card", "🖼️", cmd_card),
+}
+
+
+class StudyButton(discord.ui.DynamicItem[discord.ui.Button],
+                  template=r"study:(?P<action>notes|xref|inter|card):(?P<ref>.+)"):
+    """A study button whose custom_id carries everything it needs
+    ("study:notes:John 3:16"), so it keeps working after the bot restarts --
+    every update restarts it, which used to kill the buttons on every earlier
+    message. Registered once at import (bot.add_dynamic_items) and only ever
+    sent in views with timeout=None: when a view times out, discord.py
+    unregisters the dynamic-item patterns it contains, bot-wide."""
+
+    def __init__(self, action: str, ref: str, disabled: bool = False):
+        label, emoji, _ = _STUDY_ACTIONS[action]
+        super().__init__(discord.ui.Button(label=label, emoji=emoji, style=discord.ButtonStyle.secondary,
+                                           row=1, custom_id=f"study:{action}:{ref}", disabled=disabled))
+        self.action, self.ref = action, ref
+
+    @classmethod
+    async def from_custom_id(cls, interaction, item, match):
+        return cls(match["action"], match["ref"])
+
+    async def callback(self, interaction: discord.Interaction):
+        # One use each: re-send the message's buttons with this one disabled.
+        # Rebuilt from the message (not from memory), so it works after a
+        # restart; the edit is also the interaction's response.
+        await interaction.response.edit_message(view=_study_view_from_message(interaction.message, self.custom_id))
+        command = _STUDY_ACTIONS[self.action][2]
+        await command(_ButtonContext(interaction), reference=self.ref)
+
+
+bot.add_dynamic_items(StudyButton)
+
+
+def _study_view_from_message(message, pressed_custom_id: str) -> discord.ui.View:
+    """The message's study buttons, recreated, with the pressed one disabled."""
+    view = discord.ui.View(timeout=None)
+    for row in message.components:
+        for component in getattr(row, "children", []):
+            m = StudyButton.__discord_ui_compiled_template__.fullmatch(getattr(component, "custom_id", None) or "")
+            if m:
+                done = component.disabled or component.custom_id == pressed_custom_id
+                view.add_item(StudyButton(m["action"], m["ref"], disabled=done))
+    return view
+
+
 def _study_buttons(result: dict) -> list:
     """Notes / Cross-refs / Interlinear / Card buttons for a Bible verse or
     short range ("John 3:16", "John 3:16–18 (ESV)"); [] for anything else --
@@ -94,26 +145,8 @@ def _study_buttons(result: dict) -> list:
         return []
     ref = f"{m['book']} {m['ch']}:{m['v1']}" + (f"-{m['v2']}" if m["v2"] else "")
     span = int(m["v2"] or m["v1"]) - int(m["v1"]) + 1
-    actions = [("Notes", "📝", cmd_notes)] if span <= 5 else []
-    actions += [("Cross-refs", "🔗", cmd_xref), ("Interlinear", "🔤", cmd_interlinear), ("Card", "🖼️", cmd_card)]
-
-    buttons = []
-    for label, emoji, command in actions:
-        btn = discord.ui.Button(label=label, emoji=emoji, style=discord.ButtonStyle.secondary, row=1)
-
-        async def callback(interaction: discord.Interaction, btn=btn, command=command):
-            # Disable the pressed button (one use each) -- this edit is also the
-            # interaction's response, so the command's replies go out as followups.
-            btn.disabled = True
-            if btn.view is not None:
-                await interaction.response.edit_message(view=btn.view)
-            else:
-                await interaction.response.defer()
-            await command(_ButtonContext(interaction), reference=ref)
-
-        btn.callback = callback
-        buttons.append(btn)
-    return buttons
+    actions = (["notes"] if span <= 5 else []) + ["xref", "inter", "card"]
+    return [StudyButton(action, ref) for action in actions]
 
 
 async def _send_with_study(ctx, result: dict):
