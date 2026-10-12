@@ -98,6 +98,7 @@ Prefix commands use `!`; most also have a `/` slash-command version.
 | `!study <ref>` | | Verse plus patristic commentary |
 | `!catena <ref>` | | Patristic commentary (catenabible.com) |
 | `!xref <ref>` | `!crossref` | Cross-references (Treasury of Scripture Knowledge) |
+| `!notes <ref>` | `!netnotes` | The NET Bible's translator's, study, and text-critical notes for a verse (up to 5 verses) |
 | `!quoted <ref>` | `!otnt`, `!quotedin` | OT ↔ NT quotations, and NT quotations of / parallels with Enoch and other non-canonical works |
 | `!strong <number or ref>` | `!strongs` | Strong's entry, or a verse with Strong's tagging |
 | `!root <number or word>` | `!cognates` | A Hebrew/Greek word's root and its direct derivatives |
@@ -241,7 +242,7 @@ to `data/` as it runs — `stats.json`, `guild_activity.json`, `guild_config.jso
 them up separately if you move machines.
 
 **Online services.** Some commands fetch from the web, so they need internet
-access (local `!verse` lookups don't): bolls.life (translations), sefaria.org
+access (local `!verse` lookups don't): bolls.life (translations, `!notes`), sefaria.org
 (rabbinic texts), catenabible.com (`!catena`), newadvent.org (`!summa`),
 gematrix.org (`!gematria`), verseoftheday.com (`!votd`), openbible.info (`!xref`),
 deadseascrolls.org.il (`!variants`), and hebcal.com / orthocal.info /
@@ -260,7 +261,7 @@ universalis.com / api.aladhan.com (`!today`).
 ## Development
 
 ```bash
-python -m pytest            # ~130 tests, a few seconds, no network needed
+python -m pytest            # a few seconds, no network needed
 ```
 
 - **Adding a command:** put it in the fitting `bot_commands/` module (or a new
