@@ -1033,7 +1033,7 @@ _PLATO_STEPHANUS_RANGES: dict[str, tuple[str, str]] = {
     "Theaetetus": ("142a", "210d"),
     "Sophist": ("216a", "268d"),
     "Statesman": ("257a", "311c"),
-    "Parmenides": ("126a", "166b"),
+    "Parmenides": ("126a", "166c"),
     "Philebus": ("11a", "67b"),
     "Symposium": ("172a", "223d"),
     "Phaedrus": ("227a", "279c"),
@@ -1060,7 +1060,7 @@ _PLATO_STEPHANUS_RANGES: dict[str, tuple[str, str]] = {
     "Minos": ("313a", "321d"),
     "Laws": ("624a", "969d"),
     "Epinomis": ("973a", "992e"),
-    "Letters": ("309b", "363d"),
+    "Letters": ("309a", "363e"),
 }
 
 # ── Babylonian Talmud daf ranges (Vilna edition, starts at 2a) ───────────────

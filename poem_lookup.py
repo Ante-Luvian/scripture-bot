@@ -81,7 +81,7 @@ _reg("Heliand (Old Saxon)", ["Hel.os", "Heliand OS", "heliand-os"],
      pair="Heliand (Scott)")
 
 
-_reg("Plato (Jowett)", [
+_reg("Plato (English)", [
         "Plato","Republic","R.","Apology","Ap.","Crito","Cri.",
         "Phaedo","Phd.","Cratylus","Cra.","Theaetetus","Tht.",
         "Sophist","Soph.","Statesman","Plt.","Parmenides","Prm.",
@@ -99,7 +99,7 @@ _reg("Plato (Jowett)", [
     "plato.json", "Plato", "en", "stephanus", "Plato (Greek)")
 
 _reg("Plato (Greek)", ["Plato.gr","Plato Greek"],
-     "plato_greek.json", "Plato", "grc", "stephanus", "Plato (Jowett)")
+     "plato_greek.json", "Plato", "grc", "stephanus", "Plato (English)")
 
 # Baal Cycle — Canaanite mythological epic, c.1400–1200 BCE
 _reg("Baal Cycle (GWT)",    ["Baal", "Baal Cycle", "KTU"],
@@ -246,7 +246,7 @@ def parse_poem_ref(s: str) -> dict | None:
     if m:
         dialogue = _resolve_dialogue(m.group(1))
         if dialogue:
-            return dict(style="stephanus", work="Plato (Jowett)",
+            return dict(style="stephanus", work="Plato (English)",
                         dialogue=dialogue,
                         ref_s=m.group(2), ref_e=m.group(3))
 
@@ -404,7 +404,7 @@ def list_works() -> str:
         "**Anonymous Old Saxon**",
         "  `Heliand`  Heliand (~830 AD)",
         "",
-        "**Plato** (Jowett tr. / Greek)",
+        "**Plato** (Loeb translations / Greek)",
         "  `Republic`  `Apology`  `Phaedo`  `Symposium`  `Phaedrus`",
         "  `Meno`  `Crito`  `Timaeus`  `Laws`  — and all other dialogues",
         "",

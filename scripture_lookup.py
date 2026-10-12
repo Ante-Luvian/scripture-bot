@@ -1319,6 +1319,7 @@ class ScriptureLookup:
         self._book_index: dict[str, tuple[str, str]] = {}
         # canonical book_name → source string for footer display
         self._book_sources: dict[str, str] = {}
+        self._corpus_sources: dict[str, dict[str, str]] = {}
         # LRU cache for search_by_corpus (up to 64 queries)
         self._search_cache: dict[str, dict] = {}
         self._load_all()
@@ -1559,9 +1560,14 @@ class ScriptureLookup:
                 self._data[corpus].update(books)
                 # Store per-book source string for footer display
                 file_source = payload.get("source", "")
-                if file_source:
-                    for book_name in books:
-                        self._book_sources[book_name] = file_source
+                sources = {b: file_source for b in books} if file_source else {}
+                # ...overridden per book where a file mixes translators (plato.json)
+                sources.update(payload.get("book_sources", {}))
+                self._book_sources.update(sources)
+                # Book names repeat across corpora (Plato's "Apology" and
+                # Rufinus' in patristics): keep each corpus's own credits too
+                self._corpus_sources.setdefault(corpus, {}).update(sources)
+        self._regroup_line_chunks("classical", self._LINE_CHUNKED)
         # Normalize chapter shape: some source files store a chapter as a bare
         # string (a single untitled passage) instead of {verse_num: text}.
         # Treat that string as verse "1" so lookups and random selection
@@ -1720,12 +1726,51 @@ class ScriptureLookup:
                 result.append((b, self.chapter_count(b)))
         return result
 
+    # Works stored as one passage per few lines, keyed "book.firstline"
+    # ("1.1", "1.5", ...: Murray's Homer, cut at his every-5th-line markers so
+    # each passage matches the same Greek lines). Regrouped on load into
+    # book -> {first line: text}, so "Iliad 1" is a book and "Iliad 1:7" the
+    # passage containing line 7.
+    _LINE_CHUNKED = ("Iliad", "Odyssey")
+
+    def _regroup_line_chunks(self, corpus: str, books) -> None:
+        for book in books:
+            data = self._data.get(corpus, {}).get(book)
+            if not data or not all(re.fullmatch(r"\d+\.\d+", k) for k in data):
+                continue
+            regrouped: dict[str, dict] = {}
+            for key, val in data.items():
+                b, line = key.split(".")
+                text = val.get("1", "") if isinstance(val, dict) else val
+                regrouped.setdefault(b, {})[line] = text
+            for b in regrouped:
+                regrouped[b] = dict(sorted(regrouped[b].items(), key=lambda kv: int(kv[0])))
+            self._data[corpus][book] = regrouped
+
+    @staticmethod
+    def _line_span(chap_data: dict, start: int, end: int) -> tuple[int, int, list]:
+        """For a line-chunked book: the passages covering lines start..end,
+        as (first line, last line, [passage starts])."""
+        starts = sorted(int(k) for k in chap_data)
+        first = max((s for s in starts if s <= start), default=starts[0])
+        chosen = [s for s in starts if first <= s <= end]
+        nxt = [s for s in starts if s > chosen[-1]]
+        # (the book's last passage: its length isn't recorded, so claim no more than was asked)
+        last = nxt[0] - 1 if nxt else max(chosen[-1], min(chosen[-1] + 4, end))
+        return first, last, chosen
+
     def get_verse(self, reference: str) -> dict:
         """
         Parse a free-form reference like "John 3:16" or "D&C 76:22-24"
         and return the verse text.
         """
         ref = reference.strip()
+
+        # Homer is cited book.line ("Iliad 6.440-465"); the general parser
+        # only takes a dot without a range, so read the dot as a colon.
+        m = re.match(r"^(.+?)\s+(\d+)\.(\d+\s*[-–]\s*\d+)$", ref)
+        if m and self._resolve_book(m.group(1))[1] in self._LINE_CHUNKED:
+            ref = f"{m.group(1)} {m.group(2)}:{m.group(3)}"
 
         # ── Ancient Near East: intercept "Baal N:M" and "Muallaqat N:M" ─────
         # These use numeric episode/ode as the "chapter" and section/stanza as "verse"
@@ -1910,6 +1955,24 @@ class ScriptureLookup:
 
         if verse_end is None:
             verse_end = verse_start
+
+        if canon_book in self._LINE_CHUNKED and chap_data:
+            final = max(int(k) for k in chap_data)
+            if verse_start > final + 4:
+                return {
+                    "found": False,
+                    "error": f"{canon_book} {chapter} has no line {verse_start} (its last passage starts at line {final}).",
+                    "suggestions": [],
+                }
+            first, last, chosen = self._line_span(chap_data, verse_start, verse_end)
+            texts = [f"**[{s}]** {chap_data[str(s)]}" for s in chosen]
+            span = f"{first}" if first == last else f"{first}–{last}"
+            return {
+                "found": True,
+                "reference": f"{chap_label}:{span}",
+                "text": "\n".join(texts),
+                "source": source,
+            }
 
         texts = []
         for v in range(verse_start, verse_end + 1):
@@ -2657,7 +2720,7 @@ class ScriptureLookup:
                     text = val.get("1", next(iter(val.values()), ""))
                 else:
                     text = val
-                source = self._book_sources.get(canon_book, "Plato (trans. Jowett)")
+                source = self._corpus_sources.get(corpus, {}).get(canon_book, "Plato")
                 return {
                     "found": True,
                     "reference": f"{canon_book} {key}",

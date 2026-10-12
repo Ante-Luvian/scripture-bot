@@ -85,7 +85,7 @@ async def cmd_help(ctx, *, topic: str = ""):
             "`!parallel Aen. 4.1-30` — Aeneid (Dryden EN + Latin)\n"
             "`!parallel Met. 1.1-20` — Metamorphoses (Garth/Dryden + Latin)\n"
             "`!parallel Heliand 1.1-30` — Heliand (Scott EN + Old Saxon)\n"
-            "`!parallel Republic 1.1-20` — Plato (Jowett EN + Greek)\n"
+            "`!parallel Republic 1.1-20` — Plato (Loeb English + Greek)\n"
             "`!parallel` — full list of available works"
         ), inline=False)
         embed.add_field(name="Plato — Stephanus ranges", value="\n".join(
@@ -117,6 +117,7 @@ async def cmd_help(ctx, *, topic: str = ""):
             "**Zohar** — `!verse Zohar Bereshit 5` *(parasha + segment)*\n"
             "**Sefer Yetzirah** — `!verse Sefer Yetzirah 1:1` · **Tanya** — `!verse Tanya 1:1`\n"
             "**Quran** — `!verse Quran 2:255` · **Hadith** — `!verse Sahih al-Bukhari 1:1`\n"
+            "**Homer** — `!verse Iliad 6.440` *(book.line)* · `!verse Odyssey 1` *(a whole book)*\n"
             "**Plato** — `!verse Republic 514a` *(Stephanus)* · `!help books` for full list"
         ), inline=False)
         await ctx.send(embed=embed)

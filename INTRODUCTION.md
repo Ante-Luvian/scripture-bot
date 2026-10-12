@@ -52,7 +52,7 @@ Browse all of it with `!books`, or let me pick something at random with `!discov
 • `!verse John 3:16` — one verse · `!verse Genesis 1:1-5` — a range · `!verse John 7:53-8:11` — across chapters · `!verse Psalm 23` — a whole chapter, in pages
 • `!verse John 3:16 ESV` — in another translation · `!verse John 3:16 KJV ESV NIV` — several side by side
 • `!verse` — a random verse · `!verse Proverbs` — random from one book · `!verse bible nt` — random from the New Testament
-• Other traditions work the same way: `!verse Quran 2:255`, `!verse Enoch 1:9`, `!verse Berakhot 2a`, `!verse Gilgamesh 11`, `!verse Rig Veda 10.121:9`, `!verse Republic 514a`
+• Other traditions work the same way: `!verse Quran 2:255`, `!verse Enoch 1:9`, `!verse Berakhot 2a`, `!verse Gilgamesh 11`, `!verse Rig Veda 10.121:9`, `!verse Republic 514a`, `!verse Iliad 6.440` (Homer by book and line)
 Abbreviations are fine (`Jn`, `1 Cor`, `Ps`). Bible verses come with the four study buttons.
 
 **`!prefer ESV`** makes a translation your personal default, so plain `!verse` uses it. `!prefer off` goes back to the KJV.
