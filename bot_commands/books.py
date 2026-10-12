@@ -651,7 +651,7 @@ BOOKS_TREE = [
         ]),
         ("Stoic", [
             ("Marcus Aurelius", ["Meditations"]),
-            ("Epictetus", ["Enchiridion"]),
+            ("Epictetus", ["Enchiridion of Epictetus"]),
         ]),
         ("Hermetic", [
             "Corpus Hermeticum",

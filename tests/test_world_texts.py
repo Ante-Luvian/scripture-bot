@@ -44,7 +44,7 @@ def test_hindu(lookup, ref, reference, starts):
 @pytest.mark.parametrize("ref, reference, starts", [
     ("Meditations 4.3", "Meditations 4:3", "**[3]** Men seek retreats for themselves"),
     ("Marcus Aurelius 1:1", "Meditations 1:1", "**[1]** From my grandfather Verus [I learned]"),   # his own brackets kept
-    ("Epictetus 1:1", "Enchiridion 1:1", "**[1]** There are things which are within our power"),
+    ("Epictetus 1:1", "Enchiridion of Epictetus 1:1", "**[1]** There are things which are within our power"),
     ("Imitation of Christ 1.1:2", "Imitation of Christ 1.1:2", "**[2]** His teaching surpasseth"),
     ("Imitation of Christ 3.5", "Imitation of Christ 3.5", "**[1]** *Of the wonderful power of the Divine Love*"),
     ("Rule of Benedict 0:1", "Rule of Benedict 0:1", "**[1]** Listen, my son"),

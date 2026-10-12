@@ -541,7 +541,7 @@ _CATEGORY_BOOKS = {
         "Enneads","Republic","Iliad","Odyssey","Theology of Plato",
         "On the Mysteries","On Abstinence","Against the Galilaeans",
         "On the Gods and the World","Nicomachean Ethics","Metaphysics",
-        "Corpus Hermeticum","Chaldaean Oracles","Orphic Hymns","Meditations","Enchiridion",
+        "Corpus Hermeticum","Chaldaean Oracles","Orphic Hymns","Meditations","Enchiridion of Epictetus",
     },
     "📯 LDS":              {
         "1 Nephi","2 Nephi","Mosiah","Alma","Helaman","3 Nephi","4 Nephi",

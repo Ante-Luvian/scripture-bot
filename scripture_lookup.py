@@ -531,7 +531,7 @@ ALIASES: dict[str, str] = {
     "on the soul": "On the Soul",
     "de anima": "On the Soul",
     "politics": "Politics",
-    "pol": "Politics",
+    "aristotle politics": "Politics",      # ("pol" is Polycarp, as in "Pol Phil 2:1")
     "rhetoric": "Rhetoric",
     "rhet": "Rhetoric",
     "poetics": "Poetics",
@@ -592,7 +592,7 @@ ALIASES: dict[str, str] = {
     "works and days": "Works and Days", "erga": "Works and Days", "op": "Works and Days",
     "shield of heracles": "Shield of Heracles", "shield": "Shield of Heracles",
     "meditations": "Meditations", "marcus aurelius": "Meditations", "med": "Meditations",
-    "enchiridion": "Enchiridion", "epictetus": "Enchiridion", "ench": "Enchiridion",
+    "enchiridion of epictetus": "Enchiridion of Epictetus", "epictetus": "Enchiridion of Epictetus",   # ("enchiridion" is Augustine's)
     "imitation of christ": "Imitation of Christ", "imitation": "Imitation of Christ",
     "a kempis": "Imitation of Christ", "kempis": "Imitation of Christ",
     "rule of benedict": "Rule of Benedict", "rule of st benedict": "Rule of Benedict",
@@ -617,7 +617,7 @@ ALIASES: dict[str, str] = {
     "first book of adam and eve": "First Book of Adam and Eve", "1 adam and eve": "First Book of Adam and Eve",
     "conflict of adam and eve": "First Book of Adam and Eve",
     "second book of adam and eve": "Second Book of Adam and Eve", "2 adam and eve": "Second Book of Adam and Eve",
-    "odes of solomon": "Odes of Solomon", "odes": "Odes of Solomon", "ode of solomon": "Odes of Solomon",
+    "odes of solomon": "Odes of Solomon",   # ("odes" is the Septuagint book) "ode of solomon": "Odes of Solomon",
     "tao te ching": "Tao Te Ching", "daodejing": "Tao Te Ching", "dao de jing": "Tao Te Ching",
     "tao teh king": "Tao Te Ching", "ttc": "Tao Te Ching", "laozi": "Tao Te Ching", "lao tzu": "Tao Te Ching",
     "analects": "Analects", "lunyu": "Analects", "confucius": "Analects",
@@ -887,8 +887,7 @@ ALIASES: dict[str, str] = {
     "legatio": "A Plea for the Christians",
     "the resurrection of the dead": "The Resurrection of the Dead",
     # Clement of Rome
-    "1clement": "First Epistle",
-    "first epistle clement": "First Epistle",
+    "first epistle clement": "First Epistle",     # ("1clement" is 1 Clement, in the Apostolic Fathers)
     "clementine homilies": "Clementine Homilies",
     "recognitions of clement": "Recognitions",
     # Cyprian

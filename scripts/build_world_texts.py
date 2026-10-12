@@ -479,7 +479,7 @@ def enchiridion():
         book[str(roman(num))] = {str(i): tidy(p) for i, p in enumerate(paragraphs(chunk), 1)}
     expect(list(book) == [str(i) for i in range(1, 52)], f"chapters {list(book)}")
     write("classical", "enchiridion_higginson.json", "Epictetus, The Enchiridion, trans. Thomas Wentworth Higginson (1865)",
-          {"Enchiridion": book})
+          {"Enchiridion of Epictetus": book})
 
 
 # ── Christian classics ──────────────────────────────────────────────────────
