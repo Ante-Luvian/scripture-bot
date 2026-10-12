@@ -10497,8 +10497,19 @@ async def _send_parallel(ctx, primary: dict, pair: dict):
 
 # ── Startup ────────────────────────────────────────────────────────────────────
 
+_startup_done = False
+
 @bot.event
 async def on_ready():
+    # on_ready fires again after every full gateway reconnect, not just at
+    # launch; re-running startup re-synced slash commands each time and
+    # crashed on _daily_votd_task.start() ("Task is already launched").
+    global _startup_done
+    if _startup_done:
+        log.info(f"Reconnected to Discord ({len(bot.guilds)} guild(s))")
+        return
+    _startup_done = True
+
     log.info(f"Logged in as {bot.user} (ID: {bot.user.id})")
     log.info(f"Connected to {len(bot.guilds)} guild(s)")
     synced = await bot.tree.sync()
