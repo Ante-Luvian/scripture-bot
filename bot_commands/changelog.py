@@ -94,18 +94,18 @@ async def announce_changelog(client) -> int:
 
 @bot.command(name="changelog", aliases=["whatsnew"])
 async def cmd_changelog(ctx):
-    """Recent bot updates. Usage: !changelog"""
+    """Recent bot updates: the latest in full, and the titles of earlier ones.
+    Usage: !changelog"""
     entries = load_changelog()
     if not entries:
         await ctx.send("No changelog yet.")
         return
-    embed = discord.Embed(title="📜 Recent updates", color=discord.Color.dark_gold())
-    for entry in entries[:4]:
-        value = "\n".join(f"• {item}" for item in entry["items"]) or "*(no details)*"
-        if len(value) > 1024:
-            value = value[:1021] + "…"
-        embed.add_field(name=f"{entry['title']} ({entry['date']})" if entry["date"] else entry["title"],
-                        value=value, inline=False)
+    # Entries are written in detail (often well over the 1,024-char field
+    # limit), so the latest goes in the description, in full.
+    embed = entry_embed(entries[0])
+    if len(entries) > 1:
+        earlier = "\n".join(f"• {e['title']}" + (f" ({e['date']})" if e["date"] else "") for e in entries[1:6])
+        embed.add_field(name="Earlier updates", value=earlier[:1024], inline=False)
     await ctx.send(embed=embed)
 
 

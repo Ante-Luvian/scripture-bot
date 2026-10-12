@@ -186,8 +186,16 @@ def test_setup_off_and_status(cl, sample_changelog):
     assert _guild(1)["changelog_channel_id"] is None
 
 
-def test_changelog_command(cl, sample_changelog, fake_ctx):
+def test_changelog_command_shows_latest_in_full(cl, sample_changelog, fake_ctx):
     asyncio.run(cl.cmd_changelog.callback(fake_ctx))
     embed = fake_ctx.sent[0]["embed"]
-    assert [f.name for f in embed.fields] == ["Newest (2026-10-12)", "Middle (2026-10-11)", "Oldest (2026-10-10)"]
-    assert embed.fields[0].value == "• One\n• Two, which wraps onto a second line"
+    assert embed.title == "📜 What's new — Newest"
+    assert embed.description == "• One\n• Two, which wraps onto a second line"
+    assert [f.name for f in embed.fields] == ["Earlier updates"]
+    assert embed.fields[0].value == "• Middle (2026-10-11)\n• Oldest (2026-10-10)"
+
+
+def test_real_latest_entry_is_not_truncated(cl):
+    entry = cl.load_changelog()[0]
+    text = "\n".join(f"• {item}" for item in entry["items"])
+    assert len(text) <= 4000, "the latest entry would be cut off in Discord"

@@ -21,6 +21,13 @@ See README.md for what the bot does, the command list, layout, and data schema.
   the bullets for Discord users, newest entry first, heading `## YYYY-MM-DD · Title`.
   Never edit the heading of an entry that's been announced (it's the entry's ID).
   Internal refactors and test-only changes don't get entries.
+  **Write entries for Discord users who know nothing about the code or tonight's
+  conversation** -- the owner found terse entries ("`Mishnah Berakhot 1:1` and
+  `John 3:16 - 18` now work") meaningless. For each bullet: one change only; for a
+  feature, what it does and why someone would want it, plus an example command; for
+  a fix, what users would have seen go wrong ("said 'Unknown book'") and what
+  happens now; explain any unfamiliar term (e.g. what the Mishnah or an
+  interlinear is) in a few words. Detailed is fine -- an entry can be ~4,000 chars.
 - Only commit when the full test suite passes (guard the commit on the test exit code).
   `python -m pytest -m live` runs the separate checks against real services (e.g.
   netbible.org for `!notes`); run them when touching that code. The bot also checks
