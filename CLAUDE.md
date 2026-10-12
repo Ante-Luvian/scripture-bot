@@ -28,6 +28,10 @@ See README.md for what the bot does, the command list, layout, and data schema.
   a fix, what users would have seen go wrong ("said 'Unknown book'") and what
   happens now; explain any unfamiliar term (e.g. what the Mishnah or an
   interlinear is) in a few words. Detailed is fine -- an entry can be ~4,000 chars.
+- **`INTRODUCTION.md` explains every user-facing command** to new users (posted by
+  `!changelogintro`). When you add, rename or remove a command, update it in the same
+  change -- `tests/test_introduction.py` fails if a command is missing from it or it
+  mentions one that doesn't exist. Same plain-language style as the changelog.
 - Only commit when the full test suite passes (guard the commit on the test exit code).
   `python -m pytest -m live` runs the separate checks against real services (e.g.
   netbible.org for `!notes`); run them when touching that code. The bot also checks

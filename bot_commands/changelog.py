@@ -13,7 +13,9 @@ from discord.ext import commands
 from core import ROOT, _load_guild_config, _update_guild_config, bot, log
 
 CHANGELOG_PATH = ROOT / "CHANGELOG.md"
+INTRO_PATH = ROOT / "INTRODUCTION.md"
 MAX_PER_STARTUP = 3   # if a server missed many updates, post only the newest few
+RECENT_IN_INTRO = 2   # changelog entries posted after the introduction
 
 
 def parse_changelog(text: str) -> list[dict]:
@@ -90,6 +92,81 @@ async def announce_changelog(client) -> int:
     if sent:
         log.info(f"Changelog: posted {sent} update message(s)")
     return sent
+
+
+# ── The introduction (INTRODUCTION.md) ─────────────────────────────────────────
+
+def parse_sections(text: str) -> list[tuple[str, str]]:
+    """[(title, body)] for each `## ` section; anything before the first is
+    a note for maintainers and isn't posted."""
+    sections = []
+    for block in re.split(r"^## ", text, flags=re.M)[1:]:
+        title, _, body = block.partition("\n")
+        sections.append((title.strip(), body.strip()))
+    return sections
+
+
+def intro_embeds() -> list[discord.Embed]:
+    try:
+        text = INTRO_PATH.read_text(encoding="utf-8")
+    except OSError:
+        return []
+    return [discord.Embed(title=title, description=body[:4096], color=discord.Color.dark_gold())
+            for title, body in parse_sections(text)]
+
+
+async def post_introduction(channel) -> tuple[int, int]:
+    """Post the introduction (one message per section), then the
+    RECENT_IN_INTRO most recent changelog entries, oldest first so the
+    newest ends up at the bottom. Returns (sections, entries) posted."""
+    embeds = intro_embeds()
+    for embed in embeds:
+        await channel.send(embed=embed)
+    recent = list(reversed(load_changelog()[:RECENT_IN_INTRO]))
+    for entry in recent:
+        await channel.send(embed=entry_embed(entry))
+    return len(embeds), len(recent)
+
+
+@bot.command(name="changelogintro")
+@commands.has_permissions(administrator=True)
+async def cmd_changelogintro(ctx, *, arg: str = ""):
+    """Post the bot's full introduction in this server's updates channel,
+    followed by the most recent updates.
+    Usage: !changelogintro         — post it after whatever is already there
+           !changelogintro fresh   — first delete my own earlier messages in that
+                                     channel, so the introduction comes first"""
+    if not ctx.guild:
+        await ctx.send("This command only works in a server.")
+        return
+    channel_id = _load_guild_config().get(str(ctx.guild.id), {}).get("changelog_channel_id")
+    channel = bot.get_channel(channel_id) if channel_id else None
+    if channel is None:
+        await ctx.send("Set the updates channel first: `!changelogsetup #channel`.")
+        return
+
+    deleted = 0
+    try:
+        if arg.strip().lower() == "fresh":
+            async for message in channel.history(limit=500):
+                if message.author.id == bot.user.id:
+                    await message.delete()
+                    deleted += 1
+        if ctx.channel.id == channel.id:
+            try:
+                await ctx.message.delete()   # so the introduction really is first
+            except discord.HTTPException:
+                pass                         # needs Manage Messages; harmless without
+        sections, entries = await post_introduction(channel)
+    except discord.HTTPException as e:
+        log.warning(f"!changelogintro failed in guild {ctx.guild.id}: {e}")
+        await ctx.send(f"⚠️ I couldn't finish posting in {channel.mention} — check that I can view the channel, "
+                       "read its history, send messages and embed links there.")
+        return
+    if ctx.channel.id != channel.id:
+        cleared = f" (after removing {deleted} of my earlier messages)" if deleted else ""
+        await ctx.send(f"Posted the introduction ({sections} messages) and the {entries} latest updates "
+                       f"in {channel.mention}{cleared}.")
 
 
 @bot.command(name="changelog", aliases=["whatsnew"])

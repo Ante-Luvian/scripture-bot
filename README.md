@@ -168,6 +168,7 @@ Plus `!stats`, and owner/admin tools `!guildactivity` and `!scanstats`.
 |---|---|
 | `!changelog` | Recent updates (also `!whatsnew`) |
 | `!changelogsetup #channel` | (Admins) Where the bot announces new updates; `off` to stop |
+| `!changelogintro [fresh]` | (Admins) Post the full introduction ([`INTRODUCTION.md`](INTRODUCTION.md)) and the two latest updates in that channel; `fresh` first deletes the bot's own earlier messages there |
 
 Updates come from [`CHANGELOG.md`](CHANGELOG.md): when the bot starts after an
 update, she posts each entry a server hasn't seen yet to its changelog channel.

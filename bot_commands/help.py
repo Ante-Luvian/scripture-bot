@@ -695,6 +695,7 @@ async def cmd_help(ctx, *, topic: str = ""):
         "`!votdsetup` — configure this server's daily VOTD channel/time/mode · `!help votdsetup`\n"
         "`!features` — turn optional features on/off · `!help features`\n"
         "`!changelogsetup #channel` — where I announce my updates · `!changelog` — recent updates\n"
+        "`!changelogintro` — post my full introduction + latest updates there (`fresh` clears my old posts first)\n"
         "`!oraclesetup channel #chan` — a daily oracle post (`time`, `kind`, `test`, `off`)"
     ), inline=False)
     embed.add_field(name="🏛️ Ancient Languages & Strong's", value=(

@@ -12,6 +12,7 @@
   "changelog": [
    "whatsnew"
   ],
+  "changelogintro": [],
   "changelogsetup": [
    "changelogconfig"
   ],
