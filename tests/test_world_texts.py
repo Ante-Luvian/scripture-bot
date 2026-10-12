@@ -15,6 +15,25 @@ def test_buddhist(lookup, ref, reference, starts):
     assert r["reference"] == reference and r["text"].startswith(starts)
 
 
+@pytest.mark.parametrize("ref, reference, starts", [
+    ("Tao Te Ching 1:1", "Tao Te Ching 1:1", "**[1]** The Tao that can be trodden"),
+    ("Analects 2.4", "Analects 2:4", "**[4]** The Master said, 'At fifteen"),
+    ("Analects 7:17", "Analects 7:17", "**[17]** The Master's frequent themes"),   # its heading lacked a full stop
+    ("I Ching 1:1", "I Ching 1:1", "**[1]** The Judgment: Qian (represents) what is great"),
+    ("Yijing 64:2", "I Ching 64:2", "**[2]** The Image:"),
+])
+def test_chinese(lookup, ref, reference, starts):
+    r = lookup.get_verse(ref)
+    assert r["found"], r
+    assert r["reference"] == reference and r["text"].startswith(starts)
+
+
+def test_analects_follows_legges_numbering(lookup):
+    books = lookup._data["chinese"]["Analects"]
+    assert [len(books[str(b)]) for b in range(1, 21)] == [16, 24, 26, 26, 27, 28, 37, 21, 30, 18,
+                                                           25, 24, 30, 47, 41, 14, 26, 11, 25, 3]
+
+
 def test_whole_chapters_and_sources(lookup):
     r = lookup.get_verse("Dhammapada 1")
     assert r["found"] and r["text"].startswith("**[1]** All that we are is the result")

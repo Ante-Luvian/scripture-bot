@@ -78,6 +78,14 @@ def _oracle_card_content(kind: str, key: str) -> "tuple[str, str, str] | None":
     if kind == "homer":                        # key "1-2-3": the dice
         text = (_load_homer() or {}).get(key.replace("-", ""))
         return (f"Homeromanteion — {key}", text, HOMER_SOURCE) if text else None
+    if kind == "iching":                       # key "3:15": hexagram, changing lines
+        n, _, moving = key.partition(":")
+        texts = _iching_texts(n)
+        if not texts:
+            return None
+        parts = [texts["1"].removeprefix("The Judgment: ")] + [texts[str(int(m) + 2)] for m in moving]
+        h = _iching_meta()[n]
+        return (f"I Ching — {n}. {h['name']} ({h['english']})", "\n\n".join(parts), ICHING_SOURCE)
     if kind == "delphi":                       # key: maxim number
         book, num = "Delphic Maxims", key
     elif kind == "oracle" and "|" in key:      # key "Chaldaean Oracles|12"
@@ -93,7 +101,7 @@ def _oracle_card_content(kind: str, key: str) -> "tuple[str, str, str] | None":
 
 
 class OracleCardButton(discord.ui.DynamicItem[discord.ui.Button],
-                       template=r"ocard:(?P<kind>virgil|homer|delphi|oracle):(?P<key>.+)"):
+                       template=r"ocard:(?P<kind>virgil|homer|delphi|oracle|iching):(?P<key>.+)"):
     """Renders an oracle answer as a !card-style image. Like the study
     buttons, its custom_id carries what it needs, so it keeps working after a
     restart; only ever sent in timeout=None views (see verse.StudyButton)."""
@@ -507,6 +515,92 @@ async def sortes_biblicae_slash(interaction: discord.Interaction, question: str 
     await cmd_sortes_biblicae(ctx, question=question)
 
 
+# ── !iching — cast a hexagram ─────────────────────────────────────────────────
+# The three-coin method: each line is three coins, heads 3 and tails 2, so
+# 6 (old yin), 7 (young yang), 8 (young yin) or 9 (old yang). Old lines are
+# "changing": their texts are read, and they flip to give a second hexagram.
+# Lines are built from the bottom up. Text: Legge (SBE 16, 1882).
+
+ICHING_SOURCE = "The I Ching, trans. James Legge (Sacred Books of the East 16, 1882)"
+_ICHING_META = None
+
+
+def _iching_meta() -> dict:
+    """{"1": {"name", "chinese", "english", "lines": [bottom..top, 1 = yang]}, ...}"""
+    global _ICHING_META
+    if _ICHING_META is None:
+        import json
+        path = ROOT / "data" / "chinese" / "iching_hexagrams.json"
+        _ICHING_META = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+    return _ICHING_META
+
+
+def cast_lines(rng=random) -> list:
+    """Six line values (6-9), bottom to top."""
+    return [sum(rng.choice((2, 3)) for _ in range(3)) for _ in range(6)]
+
+
+def _hexagram_for(bits: list) -> str:
+    return next(n for n, h in _iching_meta().items() if h["lines"] == bits)
+
+
+def iching_reading(values: list) -> dict:
+    """{"hexagram": "3", "moving": [1, 5], "becomes": "8" or None} for line values."""
+    primary = [1 if v in (7, 9) else 0 for v in values]
+    moving = [i for i, v in enumerate(values, 1) if v in (6, 9)]
+    becomes = [1 - b if i in moving else b for i, b in enumerate(primary, 1)]
+    return {"hexagram": _hexagram_for(primary), "moving": moving,
+            "becomes": _hexagram_for(becomes) if moving else None}
+
+
+def _hexagram_figure(values: list) -> str:
+    """The hexagram drawn top line first, changing lines marked."""
+    rows = []
+    for i, v in reversed(list(enumerate(values, 1))):
+        bar = "━━━━━━━━━━━" if v in (7, 9) else "━━━━   ━━━━"
+        mark = {9: "  ○ changing", 6: "  ✕ changing"}.get(v, "")
+        rows.append(bar + mark)
+    return "```\n" + "\n".join(rows) + "\n```"
+
+
+def _hexagram_title(n: str) -> str:
+    h = _iching_meta()[n]
+    return f"{n}. {h['name']} {h['chinese']} — {h['english']}"
+
+
+def _iching_texts(n: str) -> dict:
+    return lookup._data.get("chinese", {}).get("I Ching", {}).get(n, {})
+
+
+@bot.command(name="iching", aliases=["yijing", "hexagram"])
+async def cmd_iching(ctx, *, question: str = ""):
+    """Cast an I Ching hexagram (three-coin method). Usage: !iching [optional question]"""
+    if not _iching_meta() or not _iching_texts("1"):
+        await ctx.send("⚠️ I Ching data not found.")
+        return
+    values = cast_lines()
+    reading = iching_reading(values)
+    n, moving, becomes = reading["hexagram"], reading["moving"], reading["becomes"]
+    log.info(f"RNG  i ching                → {values} = {n}{f' -> {becomes}' if becomes else ''} (user: {ctx.author})")
+    texts = _iching_texts(n)
+    embed = discord.Embed(
+        title=f"☯️ {_hexagram_title(n)}",
+        description=f"{_hexagram_figure(values)}\n**{texts['1']}**\n\n*{texts['2']}*",
+        color=discord.Color.dark_teal(),
+    )
+    for line in moving:
+        embed.add_field(name=f"Changing line {line}", value=texts[str(line + 2)][:1024], inline=False)
+    if becomes:
+        embed.add_field(name=f"Becoming {_hexagram_title(becomes)}",
+                        value=_iching_texts(becomes)["1"][:1024], inline=False)
+    else:
+        embed.add_field(name="No changing lines", value="The hexagram stands as it is.", inline=False)
+    embed.set_footer(text=f"{ICHING_SOURCE} · read the whole hexagram: !verse I Ching {n}")
+    _ask(embed, question)
+    _record(ctx, "iching", f"Hexagram {n}" + (f" → {becomes}" if becomes else ""))
+    await ctx.send(embed=embed, view=_card_view("iching", f"{n}:{''.join(map(str, moving))}"))
+
+
 # ── Daily oracle (!oraclesetup) ───────────────────────────────────────────────
 # Like the daily verse: an oracle posted each day in a channel of the
 # server's choosing. Per-guild settings in guild_config.json:
@@ -520,6 +614,7 @@ _DAILY_KINDS = {
     "homer": cmd_homer,
     "delphi": cmd_delphi,
     "oracle": cmd_oracle,
+    "iching": cmd_iching,
 }
 
 
@@ -589,7 +684,7 @@ async def cmd_oraclesetup(ctx, action: str = "", *, arg: str = ""):
     Usage: !oraclesetup                  — show this server's settings
            !oraclesetup channel #chan    — post the daily oracle there
            !oraclesetup time 12:00       — daily post time (24h UTC)
-           !oraclesetup kind any         — any | virgil | homer | delphi | oracle
+           !oraclesetup kind any         — any | virgil | homer | delphi | oracle | iching
            !oraclesetup test             — post one now, to try it
            !oraclesetup off              — stop the daily oracle"""
     if not ctx.guild:
@@ -604,7 +699,7 @@ async def cmd_oraclesetup(ctx, action: str = "", *, arg: str = ""):
         embed.add_field(name="Channel", value=f"<#{channel_id}>" if channel_id else "*not set — daily oracle is off*")
         embed.add_field(name="Time (UTC)", value=time_hm)
         embed.add_field(name="Oracle", value=kind)
-        embed.set_footer(text="!oraclesetup channel #chan · time HH:MM · kind any|virgil|homer|delphi|oracle · test · off")
+        embed.set_footer(text="!oraclesetup channel #chan · time HH:MM · kind any|virgil|homer|delphi|oracle|iching · test · off")
         await ctx.send(embed=embed)
         return
     if action == "off":
@@ -631,7 +726,7 @@ async def cmd_oraclesetup(ctx, action: str = "", *, arg: str = ""):
     if action == "kind":
         new_kind = arg.strip().lower()
         if new_kind not in ("any", *_DAILY_KINDS):
-            await ctx.send("Choose `any`, `virgil`, `homer`, `delphi`, or `oracle`.")
+            await ctx.send("Choose `any`, `virgil`, `homer`, `delphi`, `oracle`, or `iching`.")
             return
         _update_guild_config(ctx.guild.id, oracle_kind=new_kind)
         await ctx.send(f"Daily oracle set to **{new_kind}**.")

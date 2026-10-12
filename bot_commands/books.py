@@ -769,6 +769,11 @@ BOOKS_TREE = [
         "Dhammapada",
         "Diamond Sutra",
     ]),
+    ("☯️ Chinese Classics", [
+        "Tao Te Ching",
+        "Analects",
+        "I Ching",
+    ]),
     ("⛪ Patristics & Church History", [
         ("Apostolic Fathers", [
             "1 Clement","2 Clement",
@@ -1006,7 +1011,7 @@ _SUPERGROUP_ORDER = [
         "⛪ Patristics & Church History",
     ]),
     ("🪷 Eastern Traditions", [
-        "☸️ Dharmic", "☸️ Buddhist",
+        "☸️ Dharmic", "☸️ Buddhist", "☯️ Chinese Classics",
     ]),
     ("🌐 Mythology & Classical Traditions", [
         "🏛️ Classical", "🌲 Norse", "🌙 Ancient Near East",

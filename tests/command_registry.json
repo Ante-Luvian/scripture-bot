@@ -56,6 +56,10 @@
    "homeromanteion",
    "sortes"
   ],
+  "iching": [
+   "hexagram",
+   "yijing"
+  ],
   "interlinear": [
    "il",
    "inter"
@@ -211,6 +215,7 @@
   "gematria",
   "help",
   "homer",
+  "iching",
   "interlinear",
   "leaderboard",
   "memorize",

@@ -22,6 +22,7 @@ from bot_commands.oracles import (
     cmd_delphi,
     cmd_gematria,
     cmd_homer,
+    cmd_iching,
     cmd_oracle,
 )
 from bot_commands.personal import (
@@ -160,6 +161,14 @@ async def homer_slash(interaction: discord.Interaction, question: str = ""):
     await interaction.response.defer()
     ctx = await bot.get_context(interaction)
     await cmd_homer(ctx, question=question)
+
+
+@bot.tree.command(name="iching", description="Cast an I Ching hexagram (three-coin method)")
+@app_commands.describe(question="Optional question for the oracle")
+async def iching_slash(interaction: discord.Interaction, question: str = ""):
+    await interaction.response.defer()
+    ctx = await bot.get_context(interaction)
+    await cmd_iching(ctx, question=question)
 
 @bot.tree.command(name="books", description="List available scripture collections")
 @app_commands.describe(section="Optional section name to expand")
@@ -330,7 +339,7 @@ async def votdsetup_slash(interaction: discord.Interaction, action: str = "show"
 
 @bot.tree.command(name="oraclesetup", description="(Admins) Configure the daily oracle post")
 @app_commands.describe(action="What to change", channel="For 'channel'",
-                       value="For 'time' (HH:MM, UTC) or 'kind' (any/virgil/homer/delphi/oracle)")
+                       value="For 'time' (HH:MM, UTC) or 'kind' (any/virgil/homer/delphi/oracle/iching)")
 @app_commands.choices(action=[app_commands.Choice(name=a, value=a) for a in ("show", "channel", "time", "kind", "test", "off")])
 @_admin_only
 async def oraclesetup_slash(interaction: discord.Interaction, action: str = "show",

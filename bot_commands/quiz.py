@@ -29,7 +29,8 @@ HARD_POOL = [
     ("Proverbs", "Proverbs"), ("Psalms", "Psalms"), ("Matthew", "Gospel of Matthew"),
     ("Quran", "Quran"), ("Book of Enoch", "Book of Enoch"), ("Rig Veda", "Rig Veda"),
     ("Gathas", "Zoroastrian Gathas"), ("1 Nephi", "Book of Mormon"), ("Corpus Hermeticum", "Corpus Hermeticum"),
-    ("Hovamol", "Poetic Edda"), ("Dhammapada", "Dhammapada (Buddhist)"), ("Didache", "Didache"), ("Golden Verses of Pythagoras", "Golden Verses of Pythagoras"),
+    ("Hovamol", "Poetic Edda"), ("Dhammapada", "Dhammapada (Buddhist)"),
+    ("Tao Te Ching", "Tao Te Ching (Taoist)"), ("Analects", "Analects of Confucius"), ("Didache", "Didache"), ("Golden Verses of Pythagoras", "Golden Verses of Pythagoras"),
     ("The Hidden Words (Arabic)", "The Hidden Words (Bahá'í)"), ("Ginza Rba", "Ginza Rba (Mandaean)"),
 ]
 

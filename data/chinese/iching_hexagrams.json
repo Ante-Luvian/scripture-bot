@@ -1,0 +1,834 @@
+{
+ "1": {
+  "name": "Qián",
+  "chinese": "乾",
+  "english": "The Creative",
+  "lines": [
+   1,
+   1,
+   1,
+   1,
+   1,
+   1
+  ]
+ },
+ "2": {
+  "name": "Kūn",
+  "chinese": "坤",
+  "english": "The Receptive",
+  "lines": [
+   0,
+   0,
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "3": {
+  "name": "Zhūn",
+  "chinese": "屯",
+  "english": "Difficulty at the Beginning",
+  "lines": [
+   1,
+   0,
+   0,
+   0,
+   1,
+   0
+  ]
+ },
+ "4": {
+  "name": "Méng",
+  "chinese": "蒙",
+  "english": "Youthful Folly",
+  "lines": [
+   0,
+   1,
+   0,
+   0,
+   0,
+   1
+  ]
+ },
+ "5": {
+  "name": "Xū",
+  "chinese": "需",
+  "english": "Waiting (Nourishment)",
+  "lines": [
+   1,
+   1,
+   1,
+   0,
+   1,
+   0
+  ]
+ },
+ "6": {
+  "name": "Sòng",
+  "chinese": "訟",
+  "english": "Conflict",
+  "lines": [
+   0,
+   1,
+   0,
+   1,
+   1,
+   1
+  ]
+ },
+ "7": {
+  "name": "Shī",
+  "chinese": "師",
+  "english": "The Army",
+  "lines": [
+   0,
+   1,
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "8": {
+  "name": "Bǐ",
+  "chinese": "比",
+  "english": "Holding Together (Union)",
+  "lines": [
+   0,
+   0,
+   0,
+   0,
+   1,
+   0
+  ]
+ },
+ "9": {
+  "name": "Xiǎo Chù",
+  "chinese": "小畜",
+  "english": "The Taming Power of the Small",
+  "lines": [
+   1,
+   1,
+   1,
+   0,
+   1,
+   1
+  ]
+ },
+ "10": {
+  "name": "Lǚ",
+  "chinese": "履",
+  "english": "Treading (Conduct)",
+  "lines": [
+   1,
+   1,
+   0,
+   1,
+   1,
+   1
+  ]
+ },
+ "11": {
+  "name": "Tài",
+  "chinese": "泰",
+  "english": "Peace",
+  "lines": [
+   1,
+   1,
+   1,
+   0,
+   0,
+   0
+  ]
+ },
+ "12": {
+  "name": "Pǐ",
+  "chinese": "否",
+  "english": "Standstill (Stagnation)",
+  "lines": [
+   0,
+   0,
+   0,
+   1,
+   1,
+   1
+  ]
+ },
+ "13": {
+  "name": "Tóng Rén",
+  "chinese": "同人",
+  "english": "Fellowship with Men",
+  "lines": [
+   1,
+   0,
+   1,
+   1,
+   1,
+   1
+  ]
+ },
+ "14": {
+  "name": "Dà Yǒu",
+  "chinese": "大有",
+  "english": "Possession in Great Measure",
+  "lines": [
+   1,
+   1,
+   1,
+   1,
+   0,
+   1
+  ]
+ },
+ "15": {
+  "name": "Qiān",
+  "chinese": "謙",
+  "english": "Modesty",
+  "lines": [
+   0,
+   0,
+   1,
+   0,
+   0,
+   0
+  ]
+ },
+ "16": {
+  "name": "Yù",
+  "chinese": "豫",
+  "english": "Enthusiasm",
+  "lines": [
+   0,
+   0,
+   0,
+   1,
+   0,
+   0
+  ]
+ },
+ "17": {
+  "name": "Suí",
+  "chinese": "隨",
+  "english": "Following",
+  "lines": [
+   1,
+   0,
+   0,
+   1,
+   1,
+   0
+  ]
+ },
+ "18": {
+  "name": "Gǔ",
+  "chinese": "蠱",
+  "english": "Work on What Has Been Spoiled (Decay)",
+  "lines": [
+   0,
+   1,
+   1,
+   0,
+   0,
+   1
+  ]
+ },
+ "19": {
+  "name": "Lín",
+  "chinese": "臨",
+  "english": "Approach",
+  "lines": [
+   1,
+   1,
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "20": {
+  "name": "Guān",
+  "chinese": "觀",
+  "english": "Contemplation (View)",
+  "lines": [
+   0,
+   0,
+   0,
+   0,
+   1,
+   1
+  ]
+ },
+ "21": {
+  "name": "Shì Kè",
+  "chinese": "噬嗑",
+  "english": "Biting Through",
+  "lines": [
+   1,
+   0,
+   0,
+   1,
+   0,
+   1
+  ]
+ },
+ "22": {
+  "name": "Bì",
+  "chinese": "賁",
+  "english": "Grace",
+  "lines": [
+   1,
+   0,
+   1,
+   0,
+   0,
+   1
+  ]
+ },
+ "23": {
+  "name": "Bō",
+  "chinese": "剝",
+  "english": "Splitting Apart",
+  "lines": [
+   0,
+   0,
+   0,
+   0,
+   0,
+   1
+  ]
+ },
+ "24": {
+  "name": "Fù",
+  "chinese": "復",
+  "english": "Return (The Turning Point)",
+  "lines": [
+   1,
+   0,
+   0,
+   0,
+   0,
+   0
+  ]
+ },
+ "25": {
+  "name": "Wú Wàng",
+  "chinese": "無妄",
+  "english": "Innocence (The Unexpected)",
+  "lines": [
+   1,
+   0,
+   0,
+   1,
+   1,
+   1
+  ]
+ },
+ "26": {
+  "name": "Dà Chù",
+  "chinese": "大畜",
+  "english": "The Taming Power of the Great",
+  "lines": [
+   1,
+   1,
+   1,
+   0,
+   0,
+   1
+  ]
+ },
+ "27": {
+  "name": "Yí",
+  "chinese": "頤",
+  "english": "The Corners of the Mouth (Nourishment)",
+  "lines": [
+   1,
+   0,
+   0,
+   0,
+   0,
+   1
+  ]
+ },
+ "28": {
+  "name": "Dà Guò",
+  "chinese": "大過",
+  "english": "Preponderance of the Great",
+  "lines": [
+   0,
+   1,
+   1,
+   1,
+   1,
+   0
+  ]
+ },
+ "29": {
+  "name": "Kǎn",
+  "chinese": "坎",
+  "english": "The Abysmal (Water)",
+  "lines": [
+   0,
+   1,
+   0,
+   0,
+   1,
+   0
+  ]
+ },
+ "30": {
+  "name": "Lí",
+  "chinese": "離",
+  "english": "The Clinging (Fire)",
+  "lines": [
+   1,
+   0,
+   1,
+   1,
+   0,
+   1
+  ]
+ },
+ "31": {
+  "name": "Xián",
+  "chinese": "咸",
+  "english": "Influence (Wooing)",
+  "lines": [
+   0,
+   0,
+   1,
+   1,
+   1,
+   0
+  ]
+ },
+ "32": {
+  "name": "Héng",
+  "chinese": "恆",
+  "english": "Duration",
+  "lines": [
+   0,
+   1,
+   1,
+   1,
+   0,
+   0
+  ]
+ },
+ "33": {
+  "name": "Dùn",
+  "chinese": "遯",
+  "english": "Retreat",
+  "lines": [
+   0,
+   0,
+   1,
+   1,
+   1,
+   1
+  ]
+ },
+ "34": {
+  "name": "Dà Zhuàng",
+  "chinese": "大壯",
+  "english": "The Power of the Great",
+  "lines": [
+   1,
+   1,
+   1,
+   1,
+   0,
+   0
+  ]
+ },
+ "35": {
+  "name": "Jìn",
+  "chinese": "晉",
+  "english": "Progress",
+  "lines": [
+   0,
+   0,
+   0,
+   1,
+   0,
+   1
+  ]
+ },
+ "36": {
+  "name": "Míng Yí",
+  "chinese": "明夷",
+  "english": "Darkening of the Light",
+  "lines": [
+   1,
+   0,
+   1,
+   0,
+   0,
+   0
+  ]
+ },
+ "37": {
+  "name": "Jiā Rén",
+  "chinese": "家人",
+  "english": "The Family (The Clan)",
+  "lines": [
+   1,
+   0,
+   1,
+   0,
+   1,
+   1
+  ]
+ },
+ "38": {
+  "name": "Kuí",
+  "chinese": "睽",
+  "english": "Opposition",
+  "lines": [
+   1,
+   1,
+   0,
+   1,
+   0,
+   1
+  ]
+ },
+ "39": {
+  "name": "Jiǎn",
+  "chinese": "蹇",
+  "english": "Obstruction",
+  "lines": [
+   0,
+   0,
+   1,
+   0,
+   1,
+   0
+  ]
+ },
+ "40": {
+  "name": "Xiè",
+  "chinese": "解",
+  "english": "Deliverance",
+  "lines": [
+   0,
+   1,
+   0,
+   1,
+   0,
+   0
+  ]
+ },
+ "41": {
+  "name": "Sǔn",
+  "chinese": "損",
+  "english": "Decrease",
+  "lines": [
+   1,
+   1,
+   0,
+   0,
+   0,
+   1
+  ]
+ },
+ "42": {
+  "name": "Yì",
+  "chinese": "益",
+  "english": "Increase",
+  "lines": [
+   1,
+   0,
+   0,
+   0,
+   1,
+   1
+  ]
+ },
+ "43": {
+  "name": "Guài",
+  "chinese": "夬",
+  "english": "Break-through (Resoluteness)",
+  "lines": [
+   1,
+   1,
+   1,
+   1,
+   1,
+   0
+  ]
+ },
+ "44": {
+  "name": "Gòu",
+  "chinese": "姤",
+  "english": "Coming to Meet",
+  "lines": [
+   0,
+   1,
+   1,
+   1,
+   1,
+   1
+  ]
+ },
+ "45": {
+  "name": "Cuì",
+  "chinese": "萃",
+  "english": "Gathering Together (Massing)",
+  "lines": [
+   0,
+   0,
+   0,
+   1,
+   1,
+   0
+  ]
+ },
+ "46": {
+  "name": "Shēng",
+  "chinese": "升",
+  "english": "Pushing Upward",
+  "lines": [
+   0,
+   1,
+   1,
+   0,
+   0,
+   0
+  ]
+ },
+ "47": {
+  "name": "Kùn",
+  "chinese": "困",
+  "english": "Oppression (Exhaustion)",
+  "lines": [
+   0,
+   1,
+   0,
+   1,
+   1,
+   0
+  ]
+ },
+ "48": {
+  "name": "Jǐng",
+  "chinese": "井",
+  "english": "The Well",
+  "lines": [
+   0,
+   1,
+   1,
+   0,
+   1,
+   0
+  ]
+ },
+ "49": {
+  "name": "Gé",
+  "chinese": "革",
+  "english": "Revolution (Molting)",
+  "lines": [
+   1,
+   0,
+   1,
+   1,
+   1,
+   0
+  ]
+ },
+ "50": {
+  "name": "Dǐng",
+  "chinese": "鼎",
+  "english": "The Cauldron",
+  "lines": [
+   0,
+   1,
+   1,
+   1,
+   0,
+   1
+  ]
+ },
+ "51": {
+  "name": "Zhèn",
+  "chinese": "震",
+  "english": "The Arousing (Shock, Thunder)",
+  "lines": [
+   1,
+   0,
+   0,
+   1,
+   0,
+   0
+  ]
+ },
+ "52": {
+  "name": "Gèn",
+  "chinese": "艮",
+  "english": "Keeping Still (Mountain)",
+  "lines": [
+   0,
+   0,
+   1,
+   0,
+   0,
+   1
+  ]
+ },
+ "53": {
+  "name": "Jiàn",
+  "chinese": "漸",
+  "english": "Development (Gradual Progress)",
+  "lines": [
+   0,
+   0,
+   1,
+   0,
+   1,
+   1
+  ]
+ },
+ "54": {
+  "name": "Guī Mèi",
+  "chinese": "歸妹",
+  "english": "The Marrying Maiden",
+  "lines": [
+   1,
+   1,
+   0,
+   1,
+   0,
+   0
+  ]
+ },
+ "55": {
+  "name": "Fēng",
+  "chinese": "豐",
+  "english": "Abundance (Fullness)",
+  "lines": [
+   1,
+   0,
+   1,
+   1,
+   0,
+   0
+  ]
+ },
+ "56": {
+  "name": "Lǚ",
+  "chinese": "旅",
+  "english": "The Wanderer",
+  "lines": [
+   0,
+   0,
+   1,
+   1,
+   0,
+   1
+  ]
+ },
+ "57": {
+  "name": "Xùn",
+  "chinese": "巽",
+  "english": "The Gentle (Penetrating, Wind)",
+  "lines": [
+   0,
+   1,
+   1,
+   0,
+   1,
+   1
+  ]
+ },
+ "58": {
+  "name": "Duì",
+  "chinese": "兌",
+  "english": "The Joyous (Lake)",
+  "lines": [
+   1,
+   1,
+   0,
+   1,
+   1,
+   0
+  ]
+ },
+ "59": {
+  "name": "Huàn",
+  "chinese": "渙",
+  "english": "Dispersion (Dissolution)",
+  "lines": [
+   0,
+   1,
+   0,
+   0,
+   1,
+   1
+  ]
+ },
+ "60": {
+  "name": "Jié",
+  "chinese": "節",
+  "english": "Limitation",
+  "lines": [
+   1,
+   1,
+   0,
+   0,
+   1,
+   0
+  ]
+ },
+ "61": {
+  "name": "Zhōng Fú",
+  "chinese": "中孚",
+  "english": "Inner Truth",
+  "lines": [
+   1,
+   1,
+   0,
+   0,
+   1,
+   1
+  ]
+ },
+ "62": {
+  "name": "Xiǎo Guò",
+  "chinese": "小過",
+  "english": "Preponderance of the Small",
+  "lines": [
+   0,
+   0,
+   1,
+   1,
+   0,
+   0
+  ]
+ },
+ "63": {
+  "name": "Jì Jì",
+  "chinese": "既濟",
+  "english": "After Completion",
+  "lines": [
+   1,
+   0,
+   1,
+   0,
+   1,
+   0
+  ]
+ },
+ "64": {
+  "name": "Wèi Jì",
+  "chinese": "未濟",
+  "english": "Before Completion",
+  "lines": [
+   0,
+   1,
+   0,
+   1,
+   0,
+   1
+  ]
+ }
+}

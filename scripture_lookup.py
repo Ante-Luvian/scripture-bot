@@ -571,6 +571,10 @@ ALIASES: dict[str, str] = {
     "sama veda": "Sama Veda", "samaveda": "Sama Veda", "sama": "Sama Veda",
     "dhammapada": "Dhammapada", "dhp": "Dhammapada",
     "diamond sutra": "Diamond Sutra", "vajracchedika": "Diamond Sutra",
+    "tao te ching": "Tao Te Ching", "daodejing": "Tao Te Ching", "dao de jing": "Tao Te Ching",
+    "tao teh king": "Tao Te Ching", "ttc": "Tao Te Ching", "laozi": "Tao Te Ching", "lao tzu": "Tao Te Ching",
+    "analects": "Analects", "lunyu": "Analects", "confucius": "Analects",
+    "i ching": "I Ching", "yijing": "I Ching", "yi jing": "I Ching", "iching": "I Ching", "yi king": "I Ching",
     "atharva veda": "Atharva Veda", "atharvaveda": "Atharva Veda", "atharva": "Atharva Veda",
     "divine names": "Divine Names", "the divine names": "Divine Names",
     "mystical theology": "Mystical Theology", "mystic theology": "Mystical Theology",
@@ -1290,7 +1294,7 @@ ALIASES: dict[str, str] = {
 
 # Priority order when the same book name exists in multiple corpora
 # (first match wins unless the user specifies a corpus)
-CORPUS_PRIORITY = ["kjv", "lds", "brenton", "charles", "apostolic_fathers", "quran", "classical", "jewish", "bahai", "qumran", "gnostic", "dharmic", "buddhist", "norse", "ancient_near_east", "patristics", "medieval"]
+CORPUS_PRIORITY = ["kjv", "lds", "brenton", "charles", "apostolic_fathers", "quran", "classical", "jewish", "bahai", "qumran", "gnostic", "dharmic", "buddhist", "chinese", "norse", "ancient_near_east", "patristics", "medieval"]
 
 
 # Shepherd of Hermas: (first, last) Lightfoot continuous chapter of each
@@ -1428,6 +1432,11 @@ class ScriptureLookup:
             "buddhist": [
                 "dhammapada.json",
                 "diamond_sutra.json",
+            ],
+            "chinese": [
+                "tao_te_ching.json",
+                "analects.json",
+                "i_ching.json",
             ],
             "norse": [
                 "poetic_edda.json",
@@ -1956,6 +1965,7 @@ class ScriptureLookup:
             "gnostic":           "Gnostic & Esoteric Texts",
             "dharmic":           "Dharmic Scriptures Team (2008)",
             "buddhist":          "Buddhist Texts",
+            "chinese":           "Chinese Classics (Legge)",
             "norse":            "Trans. Henry Adams Bellows (1923)",
             "patristics":       "Church Fathers (ANF/NPNF/Pearse)",
             "medieval":         "Medieval (Bede, Golden Legend)",
@@ -2095,6 +2105,7 @@ class ScriptureLookup:
             "gnostic":          "🧿 Gnostic / Hermetic",
             "dharmic":          "☸️ Dharmic",
             "buddhist":         "☸️ Buddhist",
+            "chinese":          "☯️ Chinese Classics",
             "norse":            "🌲 Norse",
             "ancient_near_east":          "🌙 Ancient Near East",
             "patristics":       "⛪ Church Fathers",

@@ -579,6 +579,7 @@ _CATEGORY_BOOKS = {
     },
     "☸️ Dharmic":           {"Rig Veda","Yajur Veda","Sama Veda","Atharva Veda"},
     "☸️ Buddhist":          {"Dhammapada","Diamond Sutra"},
+    "☯️ Chinese":           {"Tao Te Ching","Analects","I Ching"},
     "🌲 Norse":             {"Voluspo","Hovamol","Iliad"},
     "🔥 Zoroastrian":       {"Gathas"},
     "🌍 Baháʼí":            {

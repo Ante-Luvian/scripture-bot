@@ -120,7 +120,122 @@ def diamond_sutra():
           {"Diamond Sutra": book})
 
 
-BUILDERS = {f.__name__: f for f in (dhammapada, diamond_sutra)}
+# ── Chinese ─────────────────────────────────────────────────────────────────
+
+def _legge_numbered(paras, first_marker=r"(?:Ch\. )?"):
+    """Legge's layout: a chapter opens "12. 1. text" (chapter, then its first
+    paragraph number), later paragraphs "2. text"; a lone "3." is followed
+    by indented verse lines. Returns {chapter: {para: text}}."""
+    book, chap, verses = {}, None, None
+    for p in paras:
+        m = re.match(rf"^{first_marker}(\d+)\. (\d+)\.\s*(.*)$", p)
+        if m and m.group(2) == "1":
+            chap, verses = m.group(1), {}
+            book[chap] = verses
+            verses["1"] = m.group(3)
+            continue
+        m = re.match(r"^(\d+)\.\s*(.*)$", p)
+        if m and verses is not None and int(m.group(1)) == len(verses) + 1:
+            verses[m.group(1)] = m.group(2)
+        elif m and verses is not None and chap and int(m.group(1)) == int(chap) + 1:
+            chap, verses = m.group(1), {"1": m.group(2)}       # a chapter with no paragraph numbers
+            book[chap] = verses
+        elif verses:
+            last = list(verses)[-1]
+            verses[last] = (verses[last] + " " + p).strip()
+    return {c: {v: tidy(t) for v, t in vs.items()} for c, vs in book.items()}
+
+
+def tao_te_ching():
+    """Legge (SBE 39, 1891). 81 chapters, cited by chapter."""
+    text = gutenberg(216)
+    body = text[text.index("Ch. 1. 1."):]
+    paras = [p for p in paragraphs(body) if not re.match(r"^PART \d\.?$", p)]
+    book = _legge_numbered(paras)
+    expect(list(book) == [str(i) for i in range(1, 82)], f"chapters {list(book)[:3]}...{list(book)[-3:]} ({len(book)})")
+    write("chinese", "tao_te_ching.json", "Tao Te Ching (The Tao Teh King), Laozi, trans. James Legge (Sacred Books of the East 39, 1891)",
+          {"Tao Te Ching": book})
+
+
+def roman(s: str) -> int:
+    vals = {"I": 1, "V": 5, "X": 10, "L": 50, "C": 100}
+    total = 0
+    for a, b in zip(s, s[1:] + " "):
+        total += -vals[a] if b != " " and vals[a] < vals[b] else vals[a]
+    return total
+
+
+def analects():
+    """Legge (The Chinese Classics, 1861). 20 books, cited book.chapter
+    ("Analects 2.4"): stored as chapter = book, verse = Legge's chapter, his
+    paragraph numbers within a chapter dropped."""
+    text = gutenberg(3330)
+    body = text[[m.start() for m in re.finditer(r"^BOOK I\.", text, flags=re.M)][-1]:]
+    books = re.split(r"^BOOK ([IVXL]+)\.[^\n]*\n", body, flags=re.M)[1:]
+    out = {}
+    for num, chunk in zip(books[0::2], books[1::2]):
+        chunk = re.sub(r"^\s+\d+\.\s", " ", chunk, flags=re.M)        # paragraph numbers
+        chaps = re.split(r"^\s*CHAP(?:TER)?\.? ([IVXL]+)\.?\s+(?:\d+\.\s)?", chunk, flags=re.M)[1:]
+        printed = [roman(c) for c in chaps[0::2]]
+        verses, prev = {}, 0
+        for i, (n, ctext) in enumerate(zip(printed, chaps[1::2])):
+            nxt = printed[i + 1] if i + 1 < len(printed) else None
+            if n != prev + 1 and (nxt == prev + 2 or nxt is None and n <= prev):
+                # a misprint (Book II has "XVII" twice): its neighbours fix it
+                print(f"  note: Analects {roman(num)}.{prev + 1} is misprinted {n}")
+                n = prev + 1
+            elif n != prev + 1:
+                # a chapter heading missing from the transcription: that
+                # chapter's text is inside the one before
+                print(f"  note: Analects {roman(num)}.{prev + 1}-{n - 1}: no heading, text is in {roman(num)}.{prev}")
+            verses[str(n)] = tidy(ctext)
+            prev = n
+        out[str(roman(num))] = verses
+    expect(list(out) == [str(i) for i in range(1, 21)], f"books {list(out)}")
+    write("chinese", "analects.json", "The Analects of Confucius, trans. James Legge (The Chinese Classics, 1861)",
+          {"Analects": out})
+
+
+def cached_url(name: str, url: str) -> str:
+    CACHE.mkdir(exist_ok=True)
+    path = CACHE / name
+    if not path.exists():
+        path.write_bytes(urllib.request.urlopen(url, timeout=60).read())
+    return path.read_text(encoding="utf-8")
+
+
+_ICHING_REPO = "https://raw.githubusercontent.com/root-house-code/yijing-quiet-oracle/HEAD/src/data/"
+_LINE_NAMES = {1: "first (bottom)", 2: "second", 3: "third", 4: "fourth", 5: "fifth", 6: "sixth (top)"}
+
+
+def i_ching():
+    """Legge (SBE 16, 1882), as digitised by the Chinese Text Project and
+    assembled per hexagram by github.com/root-house-code/yijing-quiet-oracle.
+    Each hexagram is a chapter: 1 = the Judgment, 2 = the Image ("Great
+    Symbolism"), 3-8 = the six lines, bottom to top. The figures and names go
+    to iching_hexagrams.json for !iching."""
+    legge = json.loads(cached_url("iching_legge.json", _ICHING_REPO + "translations/legge.json"))["hexagrams"]
+    figures = json.loads(cached_url("iching_hexagrams.json", _ICHING_REPO + "hexagrams.json"))
+    expect(sorted(map(int, legge)) == list(range(1, 65)) and len(figures) == 64, "64 hexagrams")
+    book, meta = {}, {}
+    for h in figures:
+        n = str(h["king_wen"])
+        entry = legge[n]
+        expect(sorted(entry["lines"]) == [str(i) for i in range(1, 7)], f"hexagram {n} lines")
+        verses = {"1": "The Judgment: " + entry["judgment"], "2": "The Image: " + entry["image"]}
+        for i in range(1, 7):
+            verses[str(i + 2)] = entry["lines"][str(i)]
+        book[n] = verses
+        meta[n] = {"name": h["name_pinyin"], "chinese": h["name_zh"], "english": h["name_en"],
+                   "lines": h["lines"]}          # bottom to top; 1 = unbroken (yang)
+    book = dict(sorted(book.items(), key=lambda kv: int(kv[0])))
+    write("chinese", "i_ching.json", "The I Ching (Yi King), trans. James Legge (Sacred Books of the East 16, 1882), via the Chinese Text Project",
+          {"I Ching": book})
+    (DATA / "chinese" / "iching_hexagrams.json").write_text(
+        json.dumps(dict(sorted(meta.items(), key=lambda kv: int(kv[0]))), ensure_ascii=False, indent=1), encoding="utf-8")
+
+
+BUILDERS = {f.__name__: f for f in (dhammapada, diamond_sutra, tao_te_ching, analects, i_ching)}
 
 if __name__ == "__main__":
     for name in sys.argv[1:] or BUILDERS:

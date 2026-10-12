@@ -586,7 +586,7 @@ async def cmd_help(ctx, *, topic: str = ""):
         await ctx.send(embed=embed)
         return
 
-    if topic in ("oracle", "delphi", "homer", "virgil", "sortes", "sortesbiblicae", "bibliomancy"):
+    if topic in ("oracle", "delphi", "homer", "virgil", "sortes", "sortesbiblicae", "bibliomancy", "iching", "yijing"):
         embed = discord.Embed(title="🎲 Divination Commands", color=discord.Color.dark_gold())
         embed.add_field(name="!oracle", value="Random saying from an oracular corpus (Delphic maxims and oracles, "
                                               "Chaldaean Oracles, Golden Verses of Pythagoras)", inline=False)
@@ -594,6 +594,9 @@ async def cmd_help(ctx, *, topic: str = ""):
         embed.add_field(name="!homer", value="Roll three dice → receive a Homeric oracle", inline=False)
         embed.add_field(name="!virgil", value="Sortes Virgilianae — random passage from the Aeneid", inline=False)
         embed.add_field(name="!sortesbiblicae", value="Sortes Biblicae — the Bible opened at random (also `!bibliomancy`)",
+                        inline=False)
+        embed.add_field(name="!iching", value="Cast an I Ching hexagram with three coins: the Judgment, the Image, "
+                                              "any changing lines, and the hexagram it becomes (Legge's translation)",
                         inline=False)
         embed.add_field(name="Ask a question", value="Add one after any of these — `!virgil will I find work?` — "
                                                      "and it's shown with the answer and on its card.", inline=False)
@@ -694,7 +697,7 @@ async def cmd_help(ctx, *, topic: str = ""):
         "`!prayer` — random devotional prayer from the BCP · `!help prayer`"
     ), inline=False)
     embed.add_field(name="🎲 Divination", value=(
-        "`!oracle` `!delphi` `!homer` `!virgil` `!sortesbiblicae` — oracular & sortes · `!help oracle`\n"
+        "`!oracle` `!delphi` `!homer` `!virgil` `!sortesbiblicae` `!iching` — oracular & sortes · `!help oracle`\n"
         "`!quiz` — guess which book a verse is from (`!quiz hard`, `!quiz leaderboard`)"
     ), inline=False)
     embed.add_field(name="🔭 Discovery & Personal", value=(
