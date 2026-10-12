@@ -346,6 +346,27 @@ def split_note_groups(comment: str) -> list[list[tuple[str, str]]]:
     return groups
 
 
+def health_check(book: str = "John", chapter: int = 3) -> tuple[bool, str]:
+    """Live check that netbible.org's undocumented endpoints still work and
+    parse: fetch one chapter fresh (bypassing the cache) and verify there's a
+    plausible amount of text, and that every note marker has its note.
+    -> (ok, detail). Used by the weekly canary and `pytest -m live`."""
+    _caches["netbible"].pop((book, chapter), None)
+    fetched = _fetch_netbible(book, chapter)
+    if not fetched:
+        return False, "the request failed or returned something unexpected"
+    verses, heading_notes = _parse_netbible_text(fetched[0])
+    notes = _parse_netbible_notes(fetched[1])
+    markers = ([n for _, numbers in verses.values() for n in numbers]
+               + [n for headings in heading_notes.values() for _, n in headings])
+    if len(verses) < 20 or len(markers) < 20:
+        return False, f"{book} {chapter} parsed to only {len(verses)} verses and {len(markers)} note markers"
+    missing = sorted(set(markers) - set(notes))
+    if missing:
+        return False, f"{len(missing)} of {len(markers)} note markers in {book} {chapter} have no note"
+    return True, f"{book} {chapter}: {len(verses)} verses, {len(markers)} notes"
+
+
 # ── lookup ──────────────────────────────────────────────────────────────────
 
 def _err(msg: str) -> dict:

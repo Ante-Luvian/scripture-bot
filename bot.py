@@ -22,6 +22,9 @@ from bot_commands.votd import (
 from bot_commands.changelog import (
     announce_changelog,
 )
+from bot_commands.health import (
+    weekly_notes_check,
+)
 # Importing a feature module registers its commands.
 from bot_commands import (  # noqa: F401
     autodetect,
@@ -77,6 +80,7 @@ async def on_ready():
     active_votd = sum(1 for g in _load_guild_config().values() if g.get("votd_channel_id"))
     log.info(f"Daily VOTD configured for {active_votd} guild(s) — admins can run !votdsetup")
     _daily_votd_task.start()
+    weekly_notes_check.start()   # first check now, then weekly
 
     # Post any CHANGELOG.md entries each server hasn't seen yet
     try:

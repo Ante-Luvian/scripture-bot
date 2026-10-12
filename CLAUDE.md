@@ -22,6 +22,9 @@ See README.md for what the bot does, the command list, layout, and data schema.
   Never edit the heading of an entry that's been announced (it's the entry's ID).
   Internal refactors and test-only changes don't get entries.
 - Only commit when the full test suite passes (guard the commit on the test exit code).
+  `python -m pytest -m live` runs the separate checks against real services (e.g.
+  netbible.org for `!notes`); run them when touching that code. The bot also checks
+  netbible.org weekly and DMs the owner if it breaks (`bot_commands/health.py`).
 - Tests must never touch the live runtime files; `tests/conftest.py` redirects them
   to a temp folder for every test. Keep new runtime-file paths in its `RUNTIME_FILES`.
 
