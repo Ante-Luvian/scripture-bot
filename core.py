@@ -532,7 +532,7 @@ _CATEGORY_BOOKS = {
     "☪️ Islamic":          {
         "Quran","Sahih al-Bukhari","Sahih Muslim","Sunan Abu Dawud",
         "Jami at-Tirmidhi","Sunan an-Nasa'i","Sunan Ibn Majah",
-        "Muwatta Malik","Forty Hadith of Nawawi",
+        "Muwatta Malik","Forty Hadith of Nawawi","Divan of Hafiz",
     },
     "🏛️ Classical":        {
         "Enneads","Republic","Iliad","Odyssey","Theology of Plato",

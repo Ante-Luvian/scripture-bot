@@ -47,6 +47,10 @@
   "guildactivity": [
    "whoswhere"
   ],
+  "hafez": [
+   "fal",
+   "hafiz"
+  ],
   "help": [
    "?",
    "commands",
@@ -213,6 +217,7 @@
   "export",
   "features",
   "gematria",
+  "hafez",
   "help",
   "homer",
   "iching",

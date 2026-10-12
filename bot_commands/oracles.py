@@ -78,6 +78,9 @@ def _oracle_card_content(kind: str, key: str) -> "tuple[str, str, str] | None":
     if kind == "homer":                        # key "1-2-3": the dice
         text = (_load_homer() or {}).get(key.replace("-", ""))
         return (f"Homeromanteion — {key}", text, HOMER_SOURCE) if text else None
+    if kind == "hafez":                        # key: poem number; the card shows its opening stanza
+        stanza = _hafiz_poems().get(key, {}).get("1")
+        return (f"Fāl-e Hāfez — Poem {key}", stanza, HAFIZ_SOURCE) if stanza else None
     if kind == "iching":                       # key "3:15": hexagram, changing lines
         n, _, moving = key.partition(":")
         texts = _iching_texts(n)
@@ -101,7 +104,7 @@ def _oracle_card_content(kind: str, key: str) -> "tuple[str, str, str] | None":
 
 
 class OracleCardButton(discord.ui.DynamicItem[discord.ui.Button],
-                       template=r"ocard:(?P<kind>virgil|homer|delphi|oracle|iching):(?P<key>.+)"):
+                       template=r"ocard:(?P<kind>virgil|homer|delphi|oracle|iching|hafez):(?P<key>.+)"):
     """Renders an oracle answer as a !card-style image. Like the study
     buttons, its custom_id carries what it needs, so it keeps working after a
     restart; only ever sent in timeout=None views (see verse.StudyButton)."""
@@ -601,6 +604,36 @@ async def cmd_iching(ctx, *, question: str = ""):
     await ctx.send(embed=embed, view=_card_view("iching", f"{n}:{''.join(map(str, moving))}"))
 
 
+# ── !hafez — Fāl-e Hāfez ──────────────────────────────────────────────────────
+# A living Persian custom: hold a wish or question in mind, open the Divan of
+# Hafiz at random, and read the poem you find as the answer. Bell's 43
+# ghazals stand in for the full Divan.
+
+HAFIZ_SOURCE = "Hafiz, Poems from the Divan of Hafiz, trans. Gertrude Bell (1897)"
+
+
+def _hafiz_poems() -> dict:
+    return lookup._data.get("sufi", {}).get("Divan of Hafiz", {})
+
+
+@bot.command(name="hafez", aliases=["hafiz", "fal"])
+async def cmd_hafez(ctx, *, question: str = ""):
+    """Fāl-e Hāfez: open the Divan of Hafiz at random. Usage: !hafez [optional question]"""
+    poems = _hafiz_poems()
+    if not poems:
+        await ctx.send("⚠️ The Divan of Hafiz isn't loaded.")
+        return
+    num = random.choice(list(poems))
+    log.info(f"RNG  fal-e hafez            → poem {num} (user: {ctx.author})")
+    text = "\n\n".join(poems[num].values())
+    embed = discord.Embed(title=f"🌹 Fāl-e Hāfez — Poem {num}", description=f"*{text}*"[:4096],
+                          color=discord.Color.dark_red())
+    embed.set_footer(text=f"{HAFIZ_SOURCE} · !verse Hafiz {num}")
+    _ask(embed, question)
+    _record(ctx, "hafez", f"Poem {num}")
+    await ctx.send(embed=embed, view=_card_view("hafez", num))
+
+
 # ── Daily oracle (!oraclesetup) ───────────────────────────────────────────────
 # Like the daily verse: an oracle posted each day in a channel of the
 # server's choosing. Per-guild settings in guild_config.json:
@@ -615,6 +648,7 @@ _DAILY_KINDS = {
     "delphi": cmd_delphi,
     "oracle": cmd_oracle,
     "iching": cmd_iching,
+    "hafez": cmd_hafez,
 }
 
 
@@ -684,7 +718,7 @@ async def cmd_oraclesetup(ctx, action: str = "", *, arg: str = ""):
     Usage: !oraclesetup                  — show this server's settings
            !oraclesetup channel #chan    — post the daily oracle there
            !oraclesetup time 12:00       — daily post time (24h UTC)
-           !oraclesetup kind any         — any | virgil | homer | delphi | oracle | iching
+           !oraclesetup kind any         — any | virgil | homer | delphi | oracle | iching | hafez
            !oraclesetup test             — post one now, to try it
            !oraclesetup off              — stop the daily oracle"""
     if not ctx.guild:
@@ -699,7 +733,7 @@ async def cmd_oraclesetup(ctx, action: str = "", *, arg: str = ""):
         embed.add_field(name="Channel", value=f"<#{channel_id}>" if channel_id else "*not set — daily oracle is off*")
         embed.add_field(name="Time (UTC)", value=time_hm)
         embed.add_field(name="Oracle", value=kind)
-        embed.set_footer(text="!oraclesetup channel #chan · time HH:MM · kind any|virgil|homer|delphi|oracle|iching · test · off")
+        embed.set_footer(text="!oraclesetup channel #chan · time HH:MM · kind any|virgil|homer|delphi|oracle|iching|hafez · test · off")
         await ctx.send(embed=embed)
         return
     if action == "off":
@@ -726,7 +760,7 @@ async def cmd_oraclesetup(ctx, action: str = "", *, arg: str = ""):
     if action == "kind":
         new_kind = arg.strip().lower()
         if new_kind not in ("any", *_DAILY_KINDS):
-            await ctx.send("Choose `any`, `virgil`, `homer`, `delphi`, `oracle`, or `iching`.")
+            await ctx.send("Choose `any`, `virgil`, `homer`, `delphi`, `oracle`, `iching`, or `hafez`.")
             return
         _update_guild_config(ctx.guild.id, oracle_kind=new_kind)
         await ctx.send(f"Daily oracle set to **{new_kind}**.")

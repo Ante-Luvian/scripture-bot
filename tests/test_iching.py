@@ -49,6 +49,19 @@ def test_the_reading(oracles, fake_ctx, monkeypatch):
     assert msg["view"].children[0].custom_id == "ocard:iching:11:1"
 
 
+def test_hafez(oracles, fake_ctx, lookup):
+    asyncio.run(oracles.cmd_hafez.callback(fake_ctx, question="will she return?"))
+    msg = fake_ctx.sent[0]
+    num = msg["embed"].title.rsplit(" ", 1)[1]
+    assert msg["embed"].title.startswith("🌹 Fāl-e Hāfez — Poem ") and 1 <= int(num) <= 43
+    assert msg["embed"].author.name == "❓ will she return?"
+    assert msg["view"].children[0].custom_id == f"ocard:hafez:{num}"
+    title, stanza, source = oracles._oracle_card_content("hafez", "1")
+    assert stanza.startswith("Arise, oh Cup-bearer, rise!") and "Bell" in source
+    r = lookup.get_verse("Hafez 1:1")
+    assert r["found"] and "Arise, oh Cup-bearer" in r["text"]
+
+
 def test_card_content(oracles):
     title, text, source = oracles._oracle_card_content("iching", "11:1")
     assert title.startswith("I Ching — 11. Tài") and "Legge" in source

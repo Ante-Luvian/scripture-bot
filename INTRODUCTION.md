@@ -37,7 +37,7 @@ Many of my answers come with buttons underneath. Under a Bible verse you'll see 
 ## 📚 My library: other traditions
 **Rabbinic & mystical Judaism** (from Sefaria) — the **Mishnah**, **Tosefta**, **Babylonian** and **Jerusalem Talmud**, the Targumim (Aramaic Bible translations), **Midrash Rabbah** and other midrashim, **Maimonides** (Mishneh Torah, Guide for the Perplexed), and Kabbalah: the **Zohar**, Sefer Yetzirah, the Bahir and the Tanya. `!help jewish` shows how to cite each.
 
-**Islam** — the **Quran** (all 114 surahs, Pickthall's translation) and nine **hadith** collections, including Sahih al-Bukhari and Sahih Muslim. `!help islamic` has the details.
+**Islam** — the **Quran** (all 114 surahs, Pickthall's translation) and nine **hadith** collections, including Sahih al-Bukhari and Sahih Muslim. `!help islamic` has the details. From the Sufi poets: 43 poems from the **Divan of Hafiz** (`!verse Hafiz 1`).
 
 **The Greek and Roman world** — Homer (*Iliad*, *Odyssey*), Virgil's *Aeneid*, Hesiod, Ovid, the Homeric and Orphic Hymns; philosophy from **Plato** and **Aristotle** to the Neoplatonists (Plotinus, Porphyry, Iamblichus, Proclus) and the emperor Julian; the **Hermetic** writings (Corpus Hermeticum, the Emerald Tablet); and oracles (Delphic maxims, the Chaldaean Oracles, the Golden Verses of Pythagoras).
 
@@ -124,6 +124,7 @@ For centuries people have sought guidance by opening a revered book at random or
 • `!oracle` — a saying from the Delphic oracles, the *Chaldaean Oracles* or the Golden Verses of Pythagoras
 • `!sortesbiblicae` (or `!bibliomancy`) — the Bible opened at random
 • `!iching` — I toss three coins six times to build a hexagram from the *I Ching*, the Chinese Book of Changes, and read you its Judgment and Image; any "changing" lines get their own readings and turn it into a second hexagram
+• `!hafez` — *Fāl-e Hāfez*, a custom still alive in Iran: hold a wish or question in mind and open the poems of Hafiz, the great 14th-century Persian poet, at random; the poem you find is your answer
 
 **Play a game:** `!quiz` shows a verse and four buttons — which book is it from? `!quiz hard` mixes traditions (Proverbs? the Quran? the Norse Edda?), and `!quiz leaderboard` shows this server's top scorers — this week (it starts fresh every Monday) and of all time. Everyone gets one guess; the answer is revealed after a minute. Get three or more right in a row and you'll see your 🔥 streak.
 
@@ -149,7 +150,7 @@ Every answer has a **🖼️ Card** button that turns it into an image to share.
 ## ⚙️ For server admins
 These need the server's Administrator permission.
 • `!votdsetup channel #channel` — post the Verse of the Day there every day; `!votdsetup time 04:00` sets the time (24-hour, UTC), `!votdsetup mode full` the style (`basic`, `full` or `extended`), `!votdsetup off` stops it
-• `!oraclesetup channel #channel` — a daily oracle; `!oraclesetup time 12:00`, `!oraclesetup kind virgil` (or `homer`, `delphi`, `oracle`, `iching`, `any`), `!oraclesetup test` to try one now, `!oraclesetup off`
+• `!oraclesetup channel #channel` — a daily oracle; `!oraclesetup time 12:00`, `!oraclesetup kind virgil` (or `homer`, `delphi`, `oracle`, `iching`, `hafez`, `any`), `!oraclesetup test` to try one now, `!oraclesetup off`
 • `!quizsetup channel #channel` — a daily quiz question that everyone can answer all day; the answer is revealed when the next one is posted. `!quizsetup time 18:00`, `!quizsetup kind hard` (or `bible`), `!quizsetup test` to post one now, `!quizsetup off`
 • `!changelogsetup #channel` — where I announce my updates (like this channel); `!changelogsetup off` to stop
 • `!changelogintro` — post this introduction, followed by the latest updates, in the updates channel (`!changelogintro fresh` first clears my earlier messages there)

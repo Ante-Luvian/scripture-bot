@@ -574,6 +574,8 @@ ALIASES: dict[str, str] = {
     "tao te ching": "Tao Te Ching", "daodejing": "Tao Te Ching", "dao de jing": "Tao Te Ching",
     "tao teh king": "Tao Te Ching", "ttc": "Tao Te Ching", "laozi": "Tao Te Ching", "lao tzu": "Tao Te Ching",
     "analects": "Analects", "lunyu": "Analects", "confucius": "Analects",
+    "divan of hafiz": "Divan of Hafiz", "hafiz": "Divan of Hafiz", "hafez": "Divan of Hafiz",
+    "divan": "Divan of Hafiz", "diwan": "Divan of Hafiz",
     "i ching": "I Ching", "yijing": "I Ching", "yi jing": "I Ching", "iching": "I Ching", "yi king": "I Ching",
     "atharva veda": "Atharva Veda", "atharvaveda": "Atharva Veda", "atharva": "Atharva Veda",
     "divine names": "Divine Names", "the divine names": "Divine Names",
@@ -1294,7 +1296,7 @@ ALIASES: dict[str, str] = {
 
 # Priority order when the same book name exists in multiple corpora
 # (first match wins unless the user specifies a corpus)
-CORPUS_PRIORITY = ["kjv", "lds", "brenton", "charles", "apostolic_fathers", "quran", "classical", "jewish", "bahai", "qumran", "gnostic", "dharmic", "buddhist", "chinese", "norse", "ancient_near_east", "patristics", "medieval"]
+CORPUS_PRIORITY = ["kjv", "lds", "brenton", "charles", "apostolic_fathers", "quran", "classical", "jewish", "bahai", "qumran", "gnostic", "dharmic", "buddhist", "chinese", "sufi", "norse", "ancient_near_east", "patristics", "medieval"]
 
 
 # Shepherd of Hermas: (first, last) Lightfoot continuous chapter of each
@@ -1437,6 +1439,9 @@ class ScriptureLookup:
                 "tao_te_ching.json",
                 "analects.json",
                 "i_ching.json",
+            ],
+            "sufi": [
+                "hafiz_bell.json",
             ],
             "norse": [
                 "poetic_edda.json",
@@ -1966,6 +1971,7 @@ class ScriptureLookup:
             "dharmic":           "Dharmic Scriptures Team (2008)",
             "buddhist":          "Buddhist Texts",
             "chinese":           "Chinese Classics (Legge)",
+            "sufi":              "Sufi Poetry",
             "norse":            "Trans. Henry Adams Bellows (1923)",
             "patristics":       "Church Fathers (ANF/NPNF/Pearse)",
             "medieval":         "Medieval (Bede, Golden Legend)",
@@ -2106,6 +2112,7 @@ class ScriptureLookup:
             "dharmic":          "☸️ Dharmic",
             "buddhist":         "☸️ Buddhist",
             "chinese":          "☯️ Chinese Classics",
+            "sufi":             "🌹 Sufi Poetry",
             "norse":            "🌲 Norse",
             "ancient_near_east":          "🌙 Ancient Near East",
             "patristics":       "⛪ Church Fathers",

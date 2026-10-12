@@ -235,7 +235,34 @@ def i_ching():
         json.dumps(dict(sorted(meta.items(), key=lambda kv: int(kv[0]))), ensure_ascii=False, indent=1), encoding="utf-8")
 
 
-BUILDERS = {f.__name__: f for f in (dhammapada, diamond_sutra, tao_te_ching, analects, i_ching)}
+# ── Persian ─────────────────────────────────────────────────────────────────
+
+def stanzas(block: str) -> list:
+    """Verse stanzas, keeping their line breaks."""
+    out = []
+    for s in re.split(r"\n\s*\n", block):
+        lines = [l.strip() for l in s.strip().splitlines() if l.strip()]
+        if lines:
+            out.append("\n".join(lines).replace("_", ""))
+    return out
+
+
+def hafiz():
+    """Gertrude Bell, Poems from the Divan of Hafiz (1897), Gutenberg
+    #74883: 43 ghazals, each a chapter of stanzas. Her notes are left out."""
+    text = gutenberg(74883)
+    start = text.index("DIVAN OF HAFIZ", text.index("POEMS FROM THE\n", text.index("\n                                   I\n") - 400))
+    body = text[start:text.index("\n                                 NOTES\n")]
+    parts = re.split(r"^\s+([IVXL]+)\s*$", body, flags=re.M)[1:]
+    book = {}
+    for num, chunk in zip(parts[0::2], parts[1::2]):
+        book[str(roman(num))] = {str(i): s for i, s in enumerate(stanzas(chunk), 1)}
+    expect(list(book) == [str(i) for i in range(1, 44)], f"poems {list(book)}")
+    write("sufi", "hafiz_bell.json", "Hafiz, Poems from the Divan of Hafiz, trans. Gertrude Lowthian Bell (1897)",
+          {"Divan of Hafiz": book})
+
+
+BUILDERS = {f.__name__: f for f in (dhammapada, diamond_sutra, tao_te_ching, analects, i_ching, hafiz)}
 
 if __name__ == "__main__":
     for name in sys.argv[1:] or BUILDERS:

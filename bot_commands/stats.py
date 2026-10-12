@@ -80,6 +80,7 @@ async def cmd_stats(ctx):
         "oracle": ("🔮 Top Oracle Draws",      5),
         "sortesbiblicae": ("📖 Top Sortes Biblicae Draws", 5),
         "iching": ("☯️ Top I Ching Hexagrams", 5),
+        "hafez": ("🌹 Top Hafez Poems", 5),
     }
     for cmd_key, (label, top_n) in SPECIAL_LABELS.items():
         refs = special.get(cmd_key, {})

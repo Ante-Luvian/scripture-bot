@@ -44,7 +44,7 @@ def test_bibliomancy_is_not_a_daily_oracle(oracles, monkeypatch):
         picked.add(asyncio.run(oracles.post_daily_oracle(FakeChannel(), "any")))
     assert "sortesbiblicae" not in picked
     assert asyncio.run(oracles.post_daily_oracle(FakeChannel(), "sortesbiblicae")) in oracles._DAILY_KINDS
-    assert "Choose `any`, `virgil`, `homer`, `delphi`, `oracle`, or `iching`." == _run(
+    assert "Choose `any`, `virgil`, `homer`, `delphi`, `oracle`, `iching`, or `hafez`." == _run(
         oracles, _admin_ctx(), "kind", "sortesbiblicae")["content"]
 
 

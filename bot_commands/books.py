@@ -442,6 +442,9 @@ BOOKS_TREE = [
                 "Quran 114 — An-Naas (Mankind, 6v)",
             ]),
         ]),
+        ("Sufi Poetry", [
+            "Divan of Hafiz",
+        ]),
         ("Hadith", [
             ("The Six Books (Kutub al-Sittah)", [
                 "Sahih al-Bukhari",
