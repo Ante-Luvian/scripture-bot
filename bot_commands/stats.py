@@ -10,6 +10,7 @@ from core import (
     _load_guild_activity,
     _load_stats,
     _save_stats,
+    book_from_reference,
     bot,
     lookup,
 )
@@ -194,7 +195,7 @@ async def cmd_scanstats(ctx):
                     if result.get("found"):
                         user_ids.add(uid)
                         total += 1
-                        book = result.get("book") or result.get("reference", "").split()[0]
+                        book = result.get("book") or book_from_reference(result.get("reference", ""))
                         ref  = result.get("reference", "")
                         if book: book_counts[book] = book_counts.get(book, 0) + 1
                         if ref:  verse_counts[ref] = verse_counts.get(ref, 0) + 1
@@ -209,7 +210,7 @@ async def cmd_scanstats(ctx):
                     if result.get("found"):
                         user_ids.add(uid)
                         total += 1
-                        book = result.get("book") or result.get("reference", "").split()[0]
+                        book = result.get("book") or book_from_reference(result.get("reference", ""))
                         ref  = result.get("reference", "")
                         if book: book_counts[book] = book_counts.get(book, 0) + 1
                         if ref:  verse_counts[ref] = verse_counts.get(ref, 0) + 1

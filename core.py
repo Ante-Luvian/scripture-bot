@@ -331,6 +331,18 @@ def _plan_current_chapter(plan: dict) -> int:
     days_elapsed = (datetime.date.today() - started).days
     return max(1, min(days_elapsed + 1, plan["total_chapters"]))
 
+def book_from_reference(ref: str) -> str:
+    """The book part of a result's reference: "1 Corinthians 13:4" -> "1 Corinthians",
+    "The Thunder, Perfect Mind 1:1" -> "The Thunder, Perfect Mind", "John 3:16 (ESV)"
+    -> "John". (Taking the first word, as stats used to, counted "1", "Song", "The".)"""
+    ref = re.sub(r"\s*\([^)]*\)\s*$", "", ref.strip())          # trailing "(ESV)", "(ch. 78)"
+    while True:
+        stripped = re.sub(r"[\s,]+[^\s,]*\d[^\s,]*$", "", ref)   # trailing "3:16", "2a", "9.1.3", "¶1"
+        if stripped == ref or not stripped:
+            return ref
+        ref = stripped
+
+
 def record_stat(user_id: int, command: str, result: dict = None):
     """Record a command invocation and optionally a verse lookup result."""
     try:
@@ -342,7 +354,7 @@ def record_stat(user_id: int, command: str, result: dict = None):
         cmd_counts = stats.setdefault("command_counts", {})
         cmd_counts[command] = cmd_counts.get(command, 0) + 1
         if result and result.get("found"):
-            book = result.get("book") or result.get("reference", "").split()[0]
+            book = result.get("book") or book_from_reference(result.get("reference", ""))
             ref  = result.get("reference", "")
             if book:
                 bc = stats.setdefault("book_counts", {})
