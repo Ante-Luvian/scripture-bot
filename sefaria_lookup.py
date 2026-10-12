@@ -204,6 +204,8 @@ def resolve_tractate(tractate_raw: str):
     Tries direct lookup, then fuzzy match.
     """
     key = tractate_raw.lower().strip()
+    # "Mishnah Berakhot" -- the form results are labelled with -- must resolve too
+    key = re.sub(r"^(?:mishnah|mishna|m\.?)\s+", "", key)
     if key in MISHNAH_TRACTATES:
         return MISHNAH_TRACTATES[key]
 
