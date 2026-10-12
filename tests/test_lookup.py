@@ -81,14 +81,50 @@ def test_not_found(lookup, ref, error_fragment):
     assert error_fragment in res["error"]
 
 
+@pytest.mark.parametrize("ref, label", [
+    ("Psalm 151:1", "Psalm 151:1"),     # was "Psalm 151 151:1"
+    ("Psalm 151",   "Psalm 151"),       # was "Psalm 151 151"
+    ("Psalm 155:1", "Psalm 155:1"),
+    ("Psalm 23:1",  "Psalms 23:1"),     # ordinary psalms unaffected
+])
+def test_extra_psalm_labels(lookup, ref, label):
+    res = lookup.get_verse(ref)
+    assert res["found"]
+    assert res["reference"] == label
+
+
+# ANE data is stored as section -> {"1": text}; _ane_fetch must unwrap it.
+@pytest.mark.parametrize("ref, reference, snippet", [
+    ("Gilgamesh 1:1",  "Gilgamesh Tablet 1 1", "He who the heart of all matters"),
+    ("Baal 1:1",       "Baal and Yamm 1",      "El Grants Yamm Dominion"),
+    ("Aten 1",         "The Great Hymn to the Aten 1", ""),
+    ("Muallaqat 1:1",  "Muallaqat: Imru' al-Qais 1", ""),
+])
+def test_ane_section(lookup, ref, reference, snippet):
+    res = lookup.get_verse(ref)
+    assert res["found"]
+    assert res["reference"] == reference
+    assert isinstance(res["text"], str) and res["text"].strip()
+    assert snippet in res["text"]
+
+
+@pytest.mark.parametrize("ref", ["Gilgamesh 1", "Aten", "Book of the Dead"])
+def test_ane_whole_book(lookup, ref):
+    res = lookup.get_verse(ref)
+    assert res["found"]
+    assert isinstance(res["text"], str) and res["text"].strip()
+    for page in res["pages"] or []:
+        assert isinstance(page, str)
+
+
+def test_ane_missing_section(lookup):
+    res = lookup.get_verse("Gilgamesh 1:99")
+    assert not res["found"]
+    assert "has no section 99" in res["error"]
+
+
 # ── Known bugs (strict xfail: the suite fails once they're fixed, as a
 #    reminder to drop the marker) ─────────────────────────────────────────────
-
-@pytest.mark.xfail(strict=True, reason="Psalm 151 label doubles the number: 'Psalm 151 151:1'")
-def test_psalm_151_label(lookup):
-    res = lookup.get_verse("Psalm 151:1")
-    assert res["found"]
-    assert res["reference"] == "Psalm 151:1"
 
 
 # Hermas data uses Lightfoot's continuous chapters (Visions 1-25, Mandates
@@ -103,17 +139,3 @@ def test_hermas_mandate_1(lookup):
 def test_hermas_similitude_1(lookup):
     assert "dwelling in a foreign land" in lookup.get_verse("Herm Sim 1:1")["text"]
 
-
-# ANE data is stored as section -> {"1": text}, but _ane_fetch still treats
-# each section as a plain string.
-@pytest.mark.xfail(strict=True, reason="ANE section lookup returns a dict as 'text'")
-@pytest.mark.parametrize("ref", ["Gilgamesh 1:1", "Aten 1", "Baal 1:1", "Muallaqat 1:1"])
-def test_ane_section_text_is_str(lookup, ref):
-    res = lookup.get_verse(ref)
-    assert res["found"] and isinstance(res["text"], str)
-
-
-@pytest.mark.xfail(strict=True, raises=TypeError, reason="ANE whole-book lookup crashes joining dicts")
-@pytest.mark.parametrize("ref", ["Gilgamesh 1", "Aten"])
-def test_ane_whole_book(lookup, ref):
-    assert lookup.get_verse(ref)["found"]

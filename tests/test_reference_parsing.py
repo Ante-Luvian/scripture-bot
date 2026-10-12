@@ -26,12 +26,21 @@ def test_unparseable(lookup, ref):
     assert lookup._parse_reference(ref) is None
 
 
-# The final regex's greedy book group swallows "John 3:16 -" as the book
-# name whenever whitespace follows the dash, so these come back "Unknown book".
-@pytest.mark.xfail(strict=True, reason="space after the range dash is parsed into the book name")
+# Regression: a greedy book group used to swallow "John 3:16 -" as the book
+# name whenever whitespace followed the dash ("Unknown book").
 @pytest.mark.parametrize("ref", ["John 3:16 - 18", "John 3:16- 18", "John 3:16 – 18"])
 def test_space_after_range_dash(lookup, ref):
     assert lookup._parse_reference(ref) == ("John", 3, 16, 18)
+    assert lookup.get_verse(ref)["reference"] == "John 3:16–18"
+
+
+@pytest.mark.parametrize("ref, expected", [
+    ("Song of Solomon 2:1",  ("Song of Solomon", 2, 1, None)),   # multi-word book
+    ("1 Clement 5:1",        ("1 Clement", 5, 1, None)),
+    ("3 John 1:4",           ("3 John", 1, 4, None)),
+])
+def test_lazy_book_group_keeps_multiword_books(lookup, ref, expected):
+    assert lookup._parse_reference(ref) == expected
 
 
 def test_backwards_chapter_range_is_not_a_chapter_range(lookup):

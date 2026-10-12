@@ -1864,6 +1864,10 @@ class ScriptureLookup:
         # Determine source string — prefer per-book source, fall back to corpus map
         source = self._book_sources.get(canon_book, source_map.get(corpus, corpus))
 
+        # Psalms 151-155 are stored as book "Psalm 151", chapter "151" --
+        # don't label them "Psalm 151 151:1".
+        chap_label = canon_book if canon_book.endswith(f" {chapter}") else f"{canon_book} {chapter}"
+
         # Whole chapter requested (no verse number given)
         if verse_start is None:
             sorted_verses = sorted(chap_data.keys(), key=lambda x: (int(re.sub(r'\D', '', x) or 0), x))
@@ -1875,7 +1879,7 @@ class ScriptureLookup:
 
             return {
                 "found": True,
-                "reference": f"{canon_book} {chapter}",
+                "reference": chap_label,
                 "text": "\n".join(texts),
                 "source": source,
                 "pages": pages,   # present if chapter needs pagination
@@ -1903,7 +1907,7 @@ class ScriptureLookup:
         verse_label = f"{verse_start}" if verse_start == verse_end else f"{verse_start}–{verse_end}"
         return {
             "found": True,
-            "reference": f"{canon_book} {chapter}:{verse_label}",
+            "reference": f"{chap_label}:{verse_label}",
             "text": "\n".join(texts),
             "source": source,
         }
@@ -2252,9 +2256,14 @@ class ScriptureLookup:
                     "suggestions": []}
         source = self._book_sources.get(book_name, corpus)
 
+        # Sections are stored in the standard schema as {"1": text}.
+        def _section_text(value) -> str:
+            return value if isinstance(value, str) else value.get("1", "")
+
         if section is None:
             # Return entire book, paginated like poem_lookup does
-            items = sorted(book_data.items(), key=lambda x: int(x[0]) if x[0].isdigit() else 0)
+            items = sorted(((k, _section_text(v)) for k, v in book_data.items()),
+                           key=lambda x: int(x[0]) if x[0].isdigit() else 0)
             PAGE = 3  # ANE sections are long — 3 per page
             pages, chunk = [], []
             for _, text in items:
@@ -2281,7 +2290,7 @@ class ScriptureLookup:
             return {"found": False,
                     "error": f"**{book_name}** has no section {section}. (Max: {max_sec})",
                     "suggestions": []}
-        text = book_data[section]
+        text = _section_text(book_data[section])
         return {
             "found": True,
             "reference": f"{book_name} {section}",
@@ -2657,8 +2666,10 @@ class ScriptureLookup:
                 last_dot = dotted.rfind('.')
                 return book, dotted[:last_dot], int(dotted[last_dot+1:]), None
 
+        # Lazy book group: a greedy one swallows "John 3:16 -" as the book
+        # name when whitespace follows the range dash ("John 3:16 - 18").
         m = re.match(
-            r"^(.*)\s+(\d+)(?::(\d+)(?:\s*[-–—]\s*(\d+))?)?$", ref, re.UNICODE)
+            r"^(.*?)\s+(\d+)(?::(\d+)(?:\s*[-–—]\s*(\d+))?)?$", ref, re.UNICODE)
         if not m:
             return None
 
