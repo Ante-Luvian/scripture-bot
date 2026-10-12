@@ -161,12 +161,18 @@ answer, and every answer has a 🖼️ Card button that renders it as an image.
 | `!save <ref> [note]` | `!bookmark` | Bookmark a verse |
 | `!saved [export]` | `!bookmarks` | List (or export) bookmarks |
 | `!unsave <n>` | | Remove a bookmark |
-| `!plan` | | Chapter-a-day reading plan |
+| `!plan` | | Chapter-a-day reading plan, with optional daily DM (`!plan remind on [HH:MM]`) |
+| `!memorize <ref>` | `!memorise`, `!learn` | Learn a verse by heart: blanked-out practice card (4 levels) and spaced reviews by DM; `list`, `stop <ref>` |
 | `!prefer <translation>` | | Default translation for plain `!verse` |
 | `!leaderboard` | `!lb` | Most active bookmarkers |
 | `!features` | | (Admins) Opt-in server features |
 
-Plus `!stats`, and owner/admin tools `!guildactivity` and `!scanstats`.
+Plus `!stats`, and owner/admin tools `!guildactivity`, `!scanstats`, `!errors [days]`
+(recent errors, grouped) and `!weeklyreport` (preview of the Monday DM report).
+Right-clicking a message → Apps → **Look up verses** shows the references in it, privately.
+
+The bot copies its runtime files in `data/` to `backups/YYYY-MM-DD/` once a day,
+keeping 14 days (`bot_commands/backup.py`).
 
 ### Updates
 
@@ -224,7 +230,11 @@ bot_commands/           One module per feature area; each registers its
   oracles.py              !gematria/!virgil/!homer/!delphi/!oracle
   votd.py                 !votd/!votdsetup/!subscribe + the daily task
   personal.py             !save/!plan/!prefer/!leaderboard/!features
-  stats.py, help.py, autodetect.py, slash.py
+  quiz.py                 !quiz/!quizsetup + the daily quiz
+  memorize.py             !memorize + its DM reviews
+  report.py               the owner's weekly report, !errors
+  backup.py               daily backup of data/
+  stats.py, help.py, autodetect.py, slash.py, changelog.py, health.py
 scripture_lookup.py     Reference parsing and the local-corpus lookup engine
 *_lookup.py             Other sources: translations (bolls.life), Sefaria,
                         Strong's, cross-refs, topics, dictionary, timeline,

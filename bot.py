@@ -29,6 +29,9 @@ from bot_commands.backup import (
 from bot_commands.health import (
     weekly_notes_check,
 )
+from bot_commands.memorize import (
+    memorize_review_task,
+)
 from bot_commands.oracles import (
     daily_oracle_task,
 )
@@ -51,6 +54,7 @@ from bot_commands import (  # noqa: F401
     report,
     help,
     liturgy,
+    memorize,
     oracles,
     personal,
     quiz,
@@ -101,6 +105,7 @@ async def on_ready():
     daily_oracle_task.start()
     daily_quiz_task.start()
     plan_reminder_task.start()
+    memorize_review_task.start()
     weekly_report_task.start()
     daily_backup_task.start()    # backs up data/ now if today's copy is missing
     weekly_notes_check.start()   # first check now, then weekly

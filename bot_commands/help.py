@@ -262,6 +262,20 @@ async def cmd_help(ctx, *, topic: str = ""):
         await ctx.send(embed=embed)
         return
 
+    if topic in ("memorize", "memorise", "learn"):
+        embed = discord.Embed(title="🧠 !memorize — Learn a Verse by Heart", color=discord.Color.dark_gold())
+        embed.description = (
+            "`!memorize John 3:16` — the verse with a quarter of its words blanked out\n"
+            "  **Harder** / **Easier** — more or fewer blanks (4 levels; the last leaves first letters only)\n"
+            "  **Reveal** — check yourself (only you see it)\n"
+            "  **🔔 Remind me** — practise it again by DM after 1, 3, 7, 14 and 30 days (08:00 UTC)\n"
+            "`!memorize list` — your verses and when each review is due\n"
+            "`!memorize stop John 3:16` — stop reviewing one\n\n"
+            "Up to a few verses at a time, e.g. `!memorize Psalm 23:1-3`."
+        )
+        await ctx.send(embed=embed)
+        return
+
     if topic in ("leaderboard", "lb"):
         embed = discord.Embed(title="🏆 !leaderboard — Bookmark Leaderboard", color=discord.Color.dark_gold())
         embed.description = (
@@ -690,6 +704,7 @@ async def cmd_help(ctx, *, topic: str = ""):
         "`!topic` — browse scripture by subject (Nave's Topical Bible) · `!help topic`\n"
         "`!save` / `!saved` / `!unsave` — personal bookmarks · `!help save`\n"
         "`!plan` — chapter-a-day reading plan · `!help plan`\n"
+        "`!memorize` — learn a verse by heart, with reviews by DM · `!help memorize`\n"
         "`!leaderboard` — most active bookmarkers · `!help leaderboard`\n"
         "`!subscribe` / `!unsubscribe` — daily verse by DM · `!help subscribe`\n"
         "`!card` — shareable verse image · `!help card`"

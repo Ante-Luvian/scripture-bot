@@ -138,6 +138,8 @@ Every answer has a **🖼️ Card** button that turns it into an image to share.
 
 **`!plan start John`** — a reading plan: one chapter a day through a book. `!plan` shows today's chapter, `!plan status` your progress, `!plan stop` ends it. Add `!plan remind on` and I'll send you each day's chapter by private message (at 07:00 UTC, or pick a time: `!plan remind on 19:30`).
 
+**`!memorize John 3:16`** — learn a verse by heart. I show it with some words blanked out; say it aloud, filling in the gaps, and press **Reveal** to check. **Harder** hides more words each time, until only the first letter of each word is left. Press **🔔 Remind me** and I'll send it to you by private message to practise again after 1, 3, 7, 14 and 30 days — spacing reviews out like that is what makes a verse stick. `!memorize list` shows your verses; `!memorize stop John 3:16` stops one.
+
 **`!stats`** — how I've been used: the most-read verses and books, favourite commands and more.
 **`!changelog`** — what's new with me lately.
 

@@ -63,6 +63,10 @@
   "leaderboard": [
    "lb"
   ],
+  "memorize": [
+   "learn",
+   "memorise"
+  ],
   "mp": [
    "matins"
   ],
@@ -209,6 +213,7 @@
   "homer",
   "interlinear",
   "leaderboard",
+  "memorize",
   "mp",
   "notes",
   "oracle",
