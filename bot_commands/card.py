@@ -113,16 +113,98 @@ def _size_for_length(n: int) -> int:
             return int(y0 + (n - x0) / (x1 - x0) * (y1 - y0))
     return anchors[-1][1]
 
-def _render_verse_card(reference: str, text: str, source: str, question: str = ""):
-    """Render a verse (or a whole chapter) as a parchment-style PNG.
-    Runs off the event loop (CPU-bound). Height grows to fit the text
-    instead of truncating it -- a chapter-length card is just taller.
+# ── Card styles ──────────────────────────────────────────────────────────────
+# A card dresses in its tradition: colours, a frame and a small drawn ornament
+# (all drawn, never glyphs, so nothing falls back to tofu). "parchment" is the
+# original look, kept for the Bible and anything without a style of its own.
+CARD_STYLES = {
+    "parchment": dict(bg=(245, 239, 224), border=(178, 34, 34), text=(59, 42, 22), accent=(178, 34, 34),
+                      frame="single", ornament="diamond"),
+    "ink":       dict(bg=(244, 241, 232), border=(40, 40, 40), text=(28, 28, 28), accent=(176, 32, 32),
+                      frame="double", ornament="seal"),
+    "persian":   dict(bg=(249, 243, 228), border=(28, 62, 118), text=(36, 36, 64), accent=(170, 124, 22),
+                      frame="double", ornament="star"),
+    "buddhist":  dict(bg=(250, 241, 222), border=(122, 20, 34), text=(62, 30, 20), accent=(205, 120, 10),
+                      frame="double", ornament="wheel"),
+    "hindu":     dict(bg=(252, 242, 226), border=(196, 84, 8), text=(70, 30, 10), accent=(160, 30, 20),
+                      frame="double", ornament="sun"),
+    "norse":     dict(bg=(232, 231, 226), border=(48, 58, 70), text=(30, 34, 40), accent=(80, 98, 116),
+                      frame="corners", ornament="knot"),
+    "classical": dict(bg=(247, 245, 240), border=(128, 102, 58), text=(50, 44, 36), accent=(110, 84, 44),
+                      frame="key", ornament="diamond"),
+}
+_STYLE_BY_CORPUS = {"chinese": "ink", "sufi": "persian", "quran": "persian", "buddhist": "buddhist",
+                    "dharmic": "hindu", "norse": "norse", "classical": "classical"}
+
+
+def style_for_reference(reference: str) -> str:
+    """The card style for a reference's book ("Dhammapada 14:183" -> buddhist)."""
+    book = re.sub(r"(\s+[\d.:–\-]+[a-e]?)+$", "", reference.strip())
+    corpus, _ = lookup._resolve_book(book) if book else (None, None)
+    return _STYLE_BY_CORPUS.get(corpus, "parchment")
+
+
+def _draw_frame(draw, W: int, H: int, s: dict) -> None:
+    c = s["border"]
+    draw.rectangle([16, 16, W - 17, H - 17], outline=c, width=4)
+    if s["frame"] == "double":
+        draw.rectangle([28, 28, W - 29, H - 29], outline=c, width=1)
+    elif s["frame"] == "corners":
+        for x, dx in ((30, 1), (W - 31, -1)):
+            for y, dy in ((30, 1), (H - 31, -1)):
+                draw.line([(x, y), (x + 60 * dx, y)], fill=c, width=3)
+                draw.line([(x, y), (x, y + 60 * dy)], fill=c, width=3)
+    elif s["frame"] == "key":                         # a Greek-key band along the top and bottom
+        for y0, flip in ((26, 1), (H - 27, -1)):
+            for x in range(40, W - 60, 24):
+                pts = [(x, y0), (x, y0 + 12 * flip), (x + 16, y0 + 12 * flip), (x + 16, y0 + 4 * flip),
+                       (x + 8, y0 + 4 * flip)]
+                draw.line(pts, fill=c, width=2)
+
+
+def _draw_ornament(draw, cx: int, cy: int, s: dict) -> None:
+    import math
+    c, kind = s["border"], s["ornament"]
+    draw.line([(cx - 90, cy), (cx - 16, cy)], fill=c, width=2)
+    draw.line([(cx + 16, cy), (cx + 90, cy)], fill=c, width=2)
+    if kind == "diamond":
+        draw.polygon([(cx, cy - 7), (cx + 7, cy), (cx, cy + 7), (cx - 7, cy)], fill=c)
+    elif kind == "seal":                              # a red seal stamp
+        a = s["accent"]
+        draw.rectangle([cx - 10, cy - 10, cx + 10, cy + 10], fill=a)
+        draw.rectangle([cx - 6, cy - 6, cx + 6, cy + 6], outline=s["bg"], width=2)
+    elif kind == "star":                              # eight-pointed star
+        pts = [(cx + (11 if i % 2 == 0 else 5) * math.cos(i * math.pi / 8),
+                cy + (11 if i % 2 == 0 else 5) * math.sin(i * math.pi / 8)) for i in range(16)]
+        draw.polygon(pts, fill=s["accent"])
+    elif kind == "wheel":                             # dharma wheel
+        draw.ellipse([cx - 11, cy - 11, cx + 11, cy + 11], outline=s["accent"], width=2)
+        for i in range(8):
+            ang = i * math.pi / 4
+            draw.line([(cx, cy), (cx + 11 * math.cos(ang), cy + 11 * math.sin(ang))], fill=s["accent"], width=2)
+    elif kind == "sun":
+        draw.ellipse([cx - 6, cy - 6, cx + 6, cy + 6], fill=s["accent"])
+        for i in range(12):
+            ang = i * math.pi / 6
+            draw.line([(cx + 8 * math.cos(ang), cy + 8 * math.sin(ang)),
+                       (cx + 13 * math.cos(ang), cy + 13 * math.sin(ang))], fill=s["accent"], width=2)
+    elif kind == "knot":                              # two interlaced squares
+        draw.polygon([(cx - 8, cy - 8), (cx + 8, cy - 8), (cx + 8, cy + 8), (cx - 8, cy + 8)], outline=c, width=2)
+        draw.polygon([(cx, cy - 11), (cx + 11, cy), (cx, cy + 11), (cx - 11, cy)], outline=c, width=2)
+
+
+def _render_verse_card(reference: str, text: str, source: str, question: str = "", style: str = ""):
+    """Render a verse (or a whole chapter) as a PNG in its tradition's style
+    (CARD_STYLES; by default chosen from the reference's book). Runs off the
+    event loop (CPU-bound). Height grows to fit the text instead of
+    truncating it -- a chapter-length card is just taller.
     `question` (oracle answers): shown in italics above the text."""
     from PIL import Image, ImageDraw, ImageFont
     import io, textwrap
 
     W = 1200
-    BG, BORDER, TEXT, ACCENT = (245, 239, 224), (178, 34, 34), (59, 42, 22), (178, 34, 34)
+    s = CARD_STYLES.get(style or style_for_reference(reference), CARD_STYLES["parchment"])
+    BG, BORDER, TEXT, ACCENT = s["bg"], s["border"], s["text"], s["accent"]
     FONTS = "C:/Windows/Fonts/"
     TOP_MARGIN, BOTTOM_RESERVED = 60, 200
 
@@ -166,7 +248,7 @@ def _render_verse_card(reference: str, text: str, source: str, question: str = "
 
     img = Image.new("RGB", (W, H), BG)
     draw = ImageDraw.Draw(img)
-    draw.rectangle([16, 16, W - 17, H - 17], outline=BORDER, width=4)
+    _draw_frame(draw, W, H, s)
 
     qy = 50
     for q_line in question_lines:
@@ -189,10 +271,7 @@ def _render_verse_card(reference: str, text: str, source: str, question: str = "
         y += line_height
 
     # Small ornamental divider (drawn, not a glyph, so it never falls back to tofu)
-    cx, cy = W // 2, H - 160
-    draw.line([(cx - 90, cy), (cx - 14, cy)], fill=BORDER, width=2)
-    draw.line([(cx + 14, cy), (cx + 90, cy)], fill=BORDER, width=2)
-    draw.polygon([(cx, cy - 7), (cx + 7, cy), (cx, cy + 7), (cx - 7, cy)], fill=BORDER)
+    _draw_ornament(draw, W // 2, H - 160, s)
 
     ref_font = ImageFont.truetype(FONTS + "georgiab.ttf", 34)
     ref_w = draw.textlength(reference, font=ref_font)

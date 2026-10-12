@@ -14,6 +14,13 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-12 · Themes across traditions, searching one tradition, and new card styles
+- 🌐 **New: `!theme`.** Pick a theme and I'll find one passage about it from each tradition in my library and show them side by side: the Bible next to the Quran, the Dhammapada, the Tao Te Ching, the Bhagavad Gita, the Stoics, the Norse poems and more. Try `!theme forgiveness`, `!theme love` or `!theme death`. It also finds related words: "forgiveness" finds "forgive" and "forgiven" too.
+- 🔍 **Search one tradition.** `!search` covers my whole library, which is now very large, so you can narrow it down by adding `in:` and a tradition: `!search nirvana in:buddhist`, `!search heaven in:chinese`, `!search mercy in:islamic`. Other options include `in:hindu`, `in:christian`, `in:jewish`, `in:classical` and `in:norse`. With `/search`, pick the tradition from the list.
+- 🎯 **Quiz yourself on one tradition.** `!quiz buddhist`, `!quiz chinese`, `!quiz hindu`, `!quiz classical`, `!quiz norse` and more: I show a passage, and you guess which of that tradition's best-known books it comes from. Admins can make one of these the daily quiz too (`!quizsetup kind buddhist`).
+- 🎨 **Cards in their tradition's style.** The **Card** button and `!card` now dress each passage to suit where it comes from: an ink-and-seal look for Chinese texts and the I Ching, lapis and gold for Hafiz and the Quran, saffron and maroon with a dharma wheel for Buddhist texts, saffron for Hindu texts, slate grey for the Norse poems, and marble with a Greek-key border for the Greek and Roman classics and their oracles. Bible verses keep the familiar parchment.
+- 🔧 **Fixed:** asking for a random passage from a few books (like `!verse Enneads` or the Book of Enoch, which has some gaps) could fail with an error. It now always finds a passage.
+
 ## 2026-10-12 · The Gospel of Thomas, the Enuma Elish & more
 - 📜 **The Gospel of Thomas.** The famous collection of 114 sayings of Jesus, found buried in Egypt in 1945 among the Nag Hammadi books: `!verse Gospel of Thomas 77` (or just `!verse Thomas 77`). This is a different book from the *Infancy* Gospel of Thomas I added earlier, the stories of Jesus as a boy.
 - 🌙 **The Enuma Elish.** The Babylonian epic of creation, in which the god Marduk defeats the sea-dragon Tiamat and builds the world from her body, in its seven tablets: `!verse Enuma Elish 4`.

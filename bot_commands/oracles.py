@@ -126,7 +126,8 @@ class OracleCardButton(discord.ui.DynamicItem[discord.ui.Button],
             await interaction.followup.send("⚠️ I can't find that answer's text any more.", ephemeral=True)
             return
         question = _question_from(interaction.message)
-        buf = await asyncio.to_thread(_render_verse_card, *content, question)
+        style = {"iching": "ink", "hafez": "persian"}.get(self.kind, "classical")
+        buf = await asyncio.to_thread(_render_verse_card, *content, question, style)
         await interaction.followup.send(file=discord.File(buf, filename="oracle.png"))
 
 
