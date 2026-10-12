@@ -569,6 +569,14 @@ ALIASES: dict[str, str] = {
     "rig veda": "Rig Veda", "rigveda": "Rig Veda", "rig": "Rig Veda",
     "yajur veda": "Yajur Veda", "yajurveda": "Yajur Veda", "yajur": "Yajur Veda",
     "sama veda": "Sama Veda", "samaveda": "Sama Veda", "sama": "Sama Veda",
+    "meditations": "Meditations", "marcus aurelius": "Meditations", "med": "Meditations",
+    "enchiridion": "Enchiridion", "epictetus": "Enchiridion", "ench": "Enchiridion",
+    "imitation of christ": "Imitation of Christ", "imitation": "Imitation of Christ",
+    "a kempis": "Imitation of Christ", "kempis": "Imitation of Christ",
+    "rule of benedict": "Rule of Benedict", "rule of st benedict": "Rule of Benedict",
+    "rule of saint benedict": "Rule of Benedict", "benedict": "Rule of Benedict", "rb": "Rule of Benedict",
+    "inferno": "Inferno", "inf": "Inferno", "purgatorio": "Purgatorio", "purgatory": "Purgatorio",
+    "purg": "Purgatorio", "paradiso": "Paradiso", "paradise": "Paradiso",
     "bhagavad gita": "Bhagavad Gita", "gita": "Bhagavad Gita", "bg": "Bhagavad Gita",
     "bhagavadgita": "Bhagavad Gita", "geeta": "Bhagavad Gita", "bhagavad geeta": "Bhagavad Gita",
     # ("Isa" alone is Isaiah)
@@ -1393,6 +1401,8 @@ class ScriptureLookup:
                 "iamblichus.json",
                 "aristotle_perseus.json",
                 "aristotle_mit.json",
+                "meditations_long.json",
+                "enchiridion_higginson.json",
                 "julian.json",
                 "sallustius.json",
                 "proclus_theology.json",
@@ -1574,6 +1584,9 @@ class ScriptureLookup:
             "medieval": [
                 "bede.json",
                 "golden_legend.json",
+                "imitation_of_christ.json",
+                "rule_of_benedict.json",
+                "divine_comedy_longfellow.json",
             ],
         }
         for corpus, filenames in corpus_dirs.items():
@@ -1596,7 +1609,8 @@ class ScriptureLookup:
                 # Book names repeat across corpora (Plato's "Apology" and
                 # Rufinus' in patristics): keep each corpus's own credits too
                 self._corpus_sources.setdefault(corpus, {}).update(sources)
-        self._regroup_line_chunks("classical", self._LINE_CHUNKED)
+        for corpus in ("classical", "medieval"):
+            self._regroup_line_chunks(corpus, self._LINE_CHUNKED)
         # Normalize chapter shape: some source files store a chapter as a bare
         # string (a single untitled passage) instead of {verse_num: text}.
         # Treat that string as verse "1" so lookups and random selection
@@ -1760,7 +1774,7 @@ class ScriptureLookup:
     # each passage matches the same Greek lines). Regrouped on load into
     # book -> {first line: text}, so "Iliad 1" is a book and "Iliad 1:7" the
     # passage containing line 7.
-    _LINE_CHUNKED = ("Iliad", "Odyssey")
+    _LINE_CHUNKED = ("Iliad", "Odyssey", "Inferno", "Purgatorio", "Paradiso")
 
     def _regroup_line_chunks(self, corpus: str, books) -> None:
         for book in books:
@@ -1946,6 +1960,12 @@ class ScriptureLookup:
             }
 
         chap_key = chapter if isinstance(chapter, str) else str(chapter)
+        # Books whose chapters are themselves "book.chapter" (Imitation of
+        # Christ 3.5, Rig Veda 10.121): "3.5" with no verse is that chapter
+        book_chapters = self._data[corpus].get(canon_book, {}) if corpus else {}
+        if (verse_start is not None and verse_end is None and chap_key not in book_chapters
+                and f"{chap_key}.{verse_start}" in book_chapters):
+            chap_key, chapter, verse_start = f"{chap_key}.{verse_start}", f"{chap_key}.{verse_start}", None
         if canon_book in self._VERSE_NUMBERED:
             chap_key, verse_start, verse_end = self._locate_numbered_verse(
                 canon_book, chap_key, verse_start, verse_end)

@@ -293,6 +293,150 @@ def upanishads():
     write("dharmic", "upanishads_paramananda.json", "The Upanishads, trans. Swami Paramananda (1919)", out)
 
 
+# ── Classical ───────────────────────────────────────────────────────────────
+
+def _drop_footnotes(chunk: str) -> str:
+    """Remove indented "[A] ..." footnote blocks and their [A] / [12] markers
+    (but not a translator's [supplied words])."""
+    chunk = re.sub(r"(?:^ {2,}\[\w{1,3}\].*\n(?:^ {2,}\S.*\n|^\s*\n(?= {2,}\S))*)", "", chunk + "\n", flags=re.M)
+    return re.sub(r"\[(?:[A-Z]|\d{1,3})\]", "", chunk)
+
+
+def meditations():
+    """Marcus Aurelius, trans. George Long (1862), Gutenberg #15877: twelve
+    books, sections numbered as in all modern editions (the Gutenberg
+    "Meditations" #2680 is Casaubon's 1634 version, numbered differently).
+    Each book's first section is unnumbered in the print; footnotes dropped."""
+    text = gutenberg(15877)
+    text = text[:text.index("\nINDEXES.\n")]
+    starts = [m for m in re.finditer(r"^([IVX]+)\.\s*$", text, flags=re.M)]
+    expect([roman(m.group(1)) for m in starts] == list(range(1, 13)), f"books {[m.group(1) for m in starts]}")
+    book = {}
+    for i, m in enumerate(starts):
+        end = starts[i + 1].start() if i + 1 < len(starts) else len(text)
+        chunk = _drop_footnotes(text[m.end():end])
+        sections = {}
+        for p in paragraphs(chunk):
+            n = re.match(r"^(\d+)\.\s+(.*)$", p)
+            if n and int(n.group(1)) == len(sections) + 1:
+                sections[n.group(1)] = n.group(2)
+            elif not sections:
+                sections["1"] = p
+            else:
+                last = list(sections)[-1]
+                sections[last] += " " + p
+        book[str(i + 1)] = {k: tidy(v) for k, v in sections.items()}
+    counts = [len(book[str(i)]) for i in range(1, 13)]
+    # (Long prints Book V's last two sections, 36-37, as one)
+    expect(counts == [17, 17, 16, 51, 36, 59, 75, 61, 42, 38, 39, 36], f"sections per book {counts}")
+    write("classical", "meditations_long.json", "Marcus Aurelius, Meditations (Thoughts), trans. George Long (1862)",
+          {"Meditations": book})
+
+
+def enchiridion():
+    """Epictetus, trans. T. W. Higginson (1865; Library of Liberal Arts ed.),
+    Gutenberg #45109: his 51 chapters (the usual count is 53: his last
+    chapter holds the final three). Chapters by his numbering, a verse per
+    paragraph; the footnotes are left out."""
+    text = gutenberg(45109)
+    body = text[text.index("THE ENCHIRIDION", text.index("Wenley")):text.index("\n                               Footnotes\n")]
+    parts = re.split(r"^ +([IVXL]+)(?:\[\d+\])?\s*$", body, flags=re.M)[1:]
+    book = {}
+    for num, chunk in zip(parts[0::2], parts[1::2]):
+        chunk = re.sub(r"\[\d+\]", "", chunk)
+        book[str(roman(num))] = {str(i): tidy(p) for i, p in enumerate(paragraphs(chunk), 1)}
+    expect(list(book) == [str(i) for i in range(1, 52)], f"chapters {list(book)}")
+    write("classical", "enchiridion_higginson.json", "Epictetus, The Enchiridion, trans. Thomas Wentworth Higginson (1865)",
+          {"Enchiridion": book})
+
+
+# ── Christian classics ──────────────────────────────────────────────────────
+
+def imitation_of_christ():
+    """Thomas à Kempis, trans. William Benham, Gutenberg #1653. Four books;
+    chapters keyed "book.chapter" ("Imitation of Christ 1.1:2", like the Rig
+    Veda's "10.121:9"), sections by Benham's numbers, the chapter title
+    leading its first section. Scripture footnotes ("(1) John viii. 12.")
+    and their markers are left out."""
+    text = gutenberg(1653)
+    books = list(re.finditer(r"^THE (FIRST|SECOND|THIRD|FOURTH) BOOK\s*$", text, flags=re.M))
+    expect(len(books) == 4, f"{len(books)} books")
+    out = {}
+    for b, m in enumerate(books, 1):
+        end = books[b].start() if b < 4 else len(text)
+        chapters = re.split(r"^CHAPTER ([IVXL]+)\s*$", text[m.end():end], flags=re.M)[1:]
+        for num, chunk in zip(chapters[0::2], chapters[1::2]):
+            paras = [p for p in paragraphs(chunk) if not re.match(r"^\(\d+\)", p)]
+            title, sections = paras[0], {}
+            for p in paras[1:]:
+                p = re.sub(r"\(\d+\)", "", p)
+                n = re.match(r"^(\d+)\.\s+(.*)$", p)
+                if n and int(n.group(1)) == len(sections) + 1:
+                    sections[n.group(1)] = n.group(2)
+                elif not sections:
+                    sections["1"] = p
+                else:
+                    last = list(sections)[-1]
+                    sections[last] += " " + p
+            sections = {k: tidy(v) for k, v in sections.items()}
+            sections["1"] = f"*{tidy(title)}*\n{sections['1']}"
+            out[f"{b}.{roman(num)}"] = sections
+    counts = [sum(1 for k in out if k.startswith(f"{b}.")) for b in range(1, 5)]
+    expect(counts == [25, 12, 59, 18], f"chapters per book {counts}")
+    write("medieval", "imitation_of_christ.json", "Thomas à Kempis, The Imitation of Christ, trans. William Benham",
+          {"Imitation of Christ": out})
+
+
+def rule_of_benedict():
+    """St Benedict's Rule for Monasteries, trans. Leonard J. Doyle (1948),
+    Gutenberg #50040: the Prologue (chapter 0) and 73 chapters, a verse per
+    paragraph, the chapter title leading the first. The lines of dates for
+    reading the Rule through three times a year ("Jan. 8—May 9—Sept. 8")
+    are left out."""
+    text = gutenberg(50040)
+    starts = list(re.finditer(r"^ +(PROLOGUE|CHAPTER (\d+))\s*$", text, flags=re.M))
+    expect([m.group(2) for m in starts] == [None] + [str(i) for i in range(1, 74)],
+           f"headings {[m.group(1) for m in starts][:3]}... ({len(starts)})")
+    book = {}
+    for i, m in enumerate(starts):
+        chunk = text[m.end():starts[i + 1].start() if i + 1 < len(starts) else len(text)]
+        blocks = re.split(r"\n\s*\n", chunk.strip("\n"))
+        title = tidy(" ".join(l.strip() for l in blocks[0].splitlines())) if m.group(2) else ""
+        paras = [p for p in paragraphs("\n\n".join(blocks[1:] if m.group(2) else blocks))
+                 if not re.match(r"^[A-Z][a-z]{2}\. \d+", p)]
+        verses = {str(n): tidy(p) for n, p in enumerate(paras, 1)}
+        if title:
+            verses["1"] = f"*{title}*\n{verses['1']}"
+        book[m.group(2) or "0"] = verses
+    write("medieval", "rule_of_benedict.json", "St Benedict's Rule for Monasteries, trans. Leonard J. Doyle (1948)",
+          {"Rule of Benedict": book})
+
+
+def divine_comedy():
+    """Dante, trans. Henry Wadsworth Longfellow (1867), Gutenberg #1004:
+    line for line with the Italian, in tercets. Each tercet is stored under
+    "canto.firstline" -- the same scheme as Homer -- so the lookup cites
+    "Inferno 1.1" by canto and line. 34 + 33 + 33 cantos."""
+    text = gutenberg(1004)
+    heads = list(re.finditer(r"^(Inferno|Purgatorio|Paradiso): Canto ([IVXL]+)\s*$", text, flags=re.M))
+    out: dict = {}
+    for i, m in enumerate(heads):
+        chunk = text[m.end():heads[i + 1].start() if i + 1 < len(heads) else len(text)]
+        canto, line = roman(m.group(2)), 1
+        cantica = out.setdefault(m.group(1), {})
+        for s in stanzas(chunk):
+            n = len(s.splitlines())
+            cantica[f"{canto}.{line}"] = {"1": s}
+            line += n
+            if n == 1:      # every canto closes on a single line; what follows is a heading, a note or the appendix
+                break
+    counts = [len({k.split(".")[0] for k in out[c]}) for c in ("Inferno", "Purgatorio", "Paradiso")]
+    expect(counts == [34, 33, 33], f"cantos {counts}")
+    lines = {c: sum(len(v["1"].splitlines()) for v in out[c].values()) for c in out}
+    expect(lines == {"Inferno": 4720, "Purgatorio": 4755, "Paradiso": 4758}, f"lines {lines}")
+    write("medieval", "divine_comedy_longfellow.json", "Dante Alighieri, The Divine Comedy, trans. Henry Wadsworth Longfellow (1867)", out)
+
+
 # ── Persian ─────────────────────────────────────────────────────────────────
 
 def stanzas(block: str) -> list:
@@ -321,7 +465,8 @@ def hafiz():
 
 
 BUILDERS = {f.__name__: f for f in (dhammapada, diamond_sutra, tao_te_ching, analects, i_ching, hafiz,
-                                    bhagavad_gita, upanishads)}
+                                    bhagavad_gita, upanishads, meditations, enchiridion, imitation_of_christ,
+                                    rule_of_benedict, divine_comedy)}
 
 if __name__ == "__main__":
     for name in sys.argv[1:] or BUILDERS:

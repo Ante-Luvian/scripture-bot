@@ -31,7 +31,8 @@ HARD_POOL = [
     ("Gathas", "Zoroastrian Gathas"), ("1 Nephi", "Book of Mormon"), ("Corpus Hermeticum", "Corpus Hermeticum"),
     ("Hovamol", "Poetic Edda"), ("Dhammapada", "Dhammapada (Buddhist)"),
     ("Tao Te Ching", "Tao Te Ching (Taoist)"), ("Analects", "Analects of Confucius"),
-    ("Divan of Hafiz", "Hafiz (Sufi poetry)"), ("Bhagavad Gita", "Bhagavad Gita"), ("Didache", "Didache"), ("Golden Verses of Pythagoras", "Golden Verses of Pythagoras"),
+    ("Divan of Hafiz", "Hafiz (Sufi poetry)"), ("Bhagavad Gita", "Bhagavad Gita"),
+    ("Meditations", "Marcus Aurelius, Meditations"), ("Imitation of Christ", "The Imitation of Christ"), ("Didache", "Didache"), ("Golden Verses of Pythagoras", "Golden Verses of Pythagoras"),
     ("The Hidden Words (Arabic)", "The Hidden Words (Bahá'í)"), ("Ginza Rba", "Ginza Rba (Mandaean)"),
 ]
 

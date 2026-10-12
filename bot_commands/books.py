@@ -614,6 +614,10 @@ BOOKS_TREE = [
                 "Metaphysics",
             ]),
         ]),
+        ("Stoic", [
+            ("Marcus Aurelius", ["Meditations"]),
+            ("Epictetus", ["Enchiridion"]),
+        ]),
         ("Hermetic", [
             "Corpus Hermeticum",
             "Asclepius",
@@ -968,6 +972,11 @@ BOOKS_TREE = [
             ("Jacobus de Voragine", [
                 "The Golden Legend",
             ]),
+        ]),
+        ("Medieval Classics", [
+            ("St Benedict", ["Rule of Benedict"]),
+            ("Thomas à Kempis", ["Imitation of Christ"]),
+            ("Dante — The Divine Comedy", ["Inferno", "Purgatorio", "Paradiso"]),
         ]),
         ("Pearse Collection", [
             ("Hermias", ["Derision of Gentile Philosophers"]),

@@ -41,6 +41,31 @@ def test_hindu(lookup, ref, reference, starts):
     assert r["reference"] == reference and r["text"].startswith(starts)
 
 
+@pytest.mark.parametrize("ref, reference, starts", [
+    ("Meditations 4.3", "Meditations 4:3", "**[3]** Men seek retreats for themselves"),
+    ("Marcus Aurelius 1:1", "Meditations 1:1", "**[1]** From my grandfather Verus [I learned]"),   # his own brackets kept
+    ("Epictetus 1:1", "Enchiridion 1:1", "**[1]** There are things which are within our power"),
+    ("Imitation of Christ 1.1:2", "Imitation of Christ 1.1:2", "**[2]** His teaching surpasseth"),
+    ("Imitation of Christ 3.5", "Imitation of Christ 3.5", "**[1]** *Of the wonderful power of the Divine Love*"),
+    ("Rule of Benedict 0:1", "Rule of Benedict 0:1", "**[1]** Listen, my son"),
+    ("Inferno 1.1", "Inferno 1:1–3", "**[1]** Midway upon the journey of our life\nI found myself"),
+    ("Inferno 1:5", "Inferno 1:4–6", "**[4]** Ah me!"),                              # the tercet containing line 5
+    ("Paradiso 33.145", "Paradiso 33:145", "**[145]** The Love which moves the sun and the other stars."),
+])
+def test_classics(lookup, ref, reference, starts):
+    r = lookup.get_verse(ref)
+    assert r["found"], r
+    assert r["reference"] == reference and r["text"].startswith(starts)
+
+
+def test_dante_ends_each_canto_on_its_last_line(lookup):
+    for cantica, cantos, total in (("Inferno", 34, 4720), ("Purgatorio", 33, 4755), ("Paradiso", 33, 4758)):
+        data = lookup._data["medieval"][cantica]
+        assert len(data) == cantos
+        assert sum(len(t.splitlines()) for c in data.values() for t in c.values()) == total
+    assert "APPENDIX" not in str(lookup._data["medieval"]["Paradiso"]["33"])
+
+
 def test_isa_still_means_isaiah(lookup):
     assert lookup.get_verse("Isa 53:5")["reference"] == "Isaiah 53:5"
 

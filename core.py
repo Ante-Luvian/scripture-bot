@@ -538,7 +538,7 @@ _CATEGORY_BOOKS = {
         "Enneads","Republic","Iliad","Odyssey","Theology of Plato",
         "On the Mysteries","On Abstinence","Against the Galilaeans",
         "On the Gods and the World","Nicomachean Ethics","Metaphysics",
-        "Corpus Hermeticum","Chaldaean Oracles","Orphic Hymns",
+        "Corpus Hermeticum","Chaldaean Oracles","Orphic Hymns","Meditations","Enchiridion",
     },
     "📯 LDS":              {
         "1 Nephi","2 Nephi","Mosiah","Alma","Helaman","3 Nephi","4 Nephi",
@@ -551,6 +551,7 @@ _CATEGORY_BOOKS = {
         "Homilies on Matthew","Homilies on John","Homilies on Romans",
         "Epistle of Barnabas","Didache","Shepherd of Hermas",
         "1 Clement","2 Clement","Catechetical Lectures",
+        "Imitation of Christ","Rule of Benedict","Inferno","Purgatorio","Paradiso",
     },
     "🧿 Gnostic/Hermetic":  {
         "Ginza Rba","Book of John","Asclepius",

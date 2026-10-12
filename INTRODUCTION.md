@@ -32,14 +32,14 @@ Many of my answers come with buttons underneath. Under a Bible verse you'll see 
 
 **Jewish writers of the Greek world** — the complete works of **Josephus** (Antiquities, Jewish War…) and **Philo of Alexandria**.
 
-**The early Church** — the **Apostolic Fathers** (Clement, Ignatius, Polycarp, the Didache, the Shepherd of Hermas…), Dionysius the Areopagite, and about **400 works of the Church Fathers**, from Justin Martyr and Irenaeus through Augustine, Chrysostom and Jerome, plus early church histories. From the Middle Ages: **Bede** and **The Golden Legend**.
+**The early Church** — the **Apostolic Fathers** (Clement, Ignatius, Polycarp, the Didache, the Shepherd of Hermas…), Dionysius the Areopagite, and about **400 works of the Church Fathers**, from Justin Martyr and Irenaeus through Augustine, Chrysostom and Jerome, plus early church histories. From the Middle Ages: **Bede**, **The Golden Legend**, the **Rule of St Benedict**, Thomas à Kempis's **Imitation of Christ** and Dante's **Divine Comedy** (Longfellow's translation, by canto and line: `!verse Inferno 1.1`).
 
 ## 📚 My library: other traditions
 **Rabbinic & mystical Judaism** (from Sefaria) — the **Mishnah**, **Tosefta**, **Babylonian** and **Jerusalem Talmud**, the Targumim (Aramaic Bible translations), **Midrash Rabbah** and other midrashim, **Maimonides** (Mishneh Torah, Guide for the Perplexed), and Kabbalah: the **Zohar**, Sefer Yetzirah, the Bahir and the Tanya. `!help jewish` shows how to cite each.
 
 **Islam** — the **Quran** (all 114 surahs, Pickthall's translation) and nine **hadith** collections, including Sahih al-Bukhari and Sahih Muslim. `!help islamic` has the details. From the Sufi poets: 43 poems from the **Divan of Hafiz** (`!verse Hafiz 1`).
 
-**The Greek and Roman world** — Homer (*Iliad*, *Odyssey*), Virgil's *Aeneid*, Hesiod, Ovid, the Homeric and Orphic Hymns; philosophy from **Plato** and **Aristotle** to the Neoplatonists (Plotinus, Porphyry, Iamblichus, Proclus) and the emperor Julian; the **Hermetic** writings (Corpus Hermeticum, the Emerald Tablet); and oracles (Delphic maxims, the Chaldaean Oracles, the Golden Verses of Pythagoras).
+**The Greek and Roman world** — Homer (*Iliad*, *Odyssey*), Virgil's *Aeneid*, Hesiod, Ovid, the Homeric and Orphic Hymns; philosophy from **Plato** and **Aristotle** to the Neoplatonists (Plotinus, Porphyry, Iamblichus, Proclus) and the emperor Julian; the Stoics **Marcus Aurelius** (*Meditations*) and **Epictetus** (*Enchiridion*); the **Hermetic** writings (Corpus Hermeticum, the Emerald Tablet); and oracles (Delphic maxims, the Chaldaean Oracles, the Golden Verses of Pythagoras).
 
 **Gnostic & related** — the **Nag Hammadi library** (41 texts), the Mandaean *Ginza Rba* and *Book of John*, and Manichaean psalms.
 
