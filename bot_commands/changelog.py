@@ -115,17 +115,81 @@ def intro_embeds() -> list[discord.Embed]:
             for title, body in parse_sections(text)]
 
 
-async def post_introduction(channel) -> tuple[int, int]:
+def intro_fingerprint() -> str:
+    """Changes whenever any introduction section's title or text changes."""
+    import hashlib
+    try:
+        text = INTRO_PATH.read_text(encoding="utf-8")
+    except OSError:
+        return ""
+    return hashlib.sha256(repr(parse_sections(text)).encode("utf-8")).hexdigest()
+
+
+async def post_introduction(channel, guild_id: "int | None" = None) -> tuple[int, int]:
     """Post the introduction (one message per section), then the
     RECENT_IN_INTRO most recent changelog entries, oldest first so the
-    newest ends up at the bottom. Returns (sections, entries) posted."""
+    newest ends up at the bottom. With guild_id, remember which messages
+    hold the introduction (and a fingerprint of its text), so
+    refresh_introductions can edit them in place when INTRODUCTION.md
+    changes. Returns (sections, entries) posted."""
     embeds = intro_embeds()
+    message_ids = []
     for embed in embeds:
-        await channel.send(embed=embed)
+        message = await channel.send(embed=embed)
+        message_ids.append(getattr(message, "id", None))
     recent = list(reversed(load_changelog()[:RECENT_IN_INTRO]))
     for entry in recent:
         await channel.send(embed=entry_embed(entry))
+    if guild_id is not None:
+        _update_guild_config(guild_id, changelog_intro={
+            "channel_id": channel.id, "message_ids": message_ids, "fingerprint": intro_fingerprint()})
     return len(embeds), len(recent)
+
+
+async def refresh_introductions(client) -> int:
+    """On startup: wherever an introduction was posted and INTRODUCTION.md
+    has changed since, edit those messages in place (no new posts). Extra
+    old messages are deleted if it shrank; if it grew, new sections can't be
+    inserted above the updates below them, so the owner is told to run
+    `!changelogintro fresh`. Returns how many introductions were updated."""
+    current = intro_fingerprint()
+    embeds = intro_embeds()
+    updated = 0
+    for guild_id, g in _load_guild_config().items():
+        intro = g.get("changelog_intro")
+        if not intro or not current or intro.get("fingerprint") == current:
+            continue
+        channel = client.get_channel(intro.get("channel_id"))
+        ids = [i for i in intro.get("message_ids", []) if i]
+        if channel is None or not ids:
+            continue
+        try:
+            for message_id, embed in zip(ids, embeds):
+                await channel.get_partial_message(message_id).edit(embed=embed)
+            for message_id in ids[len(embeds):]:
+                await channel.get_partial_message(message_id).delete()
+        except discord.HTTPException as e:   # e.g. someone deleted one of the messages
+            log.warning(f"Couldn't update the introduction in guild {guild_id}: {e}")
+            continue
+        kept = ids[:len(embeds)]
+        _update_guild_config(int(guild_id), changelog_intro=dict(intro, message_ids=kept, fingerprint=current))
+        updated += 1
+        if len(embeds) > len(ids):
+            await _tell_owner(client, f"📜 The introduction now has {len(embeds)} sections but the posted one in "
+                                      f"guild {guild_id} has room for {len(ids)}; I updated what fits. Run "
+                                      "`!changelogintro fresh` there to repost it in full.")
+    if updated:
+        log.info(f"Introduction: updated in {updated} server(s)")
+    return updated
+
+
+async def _tell_owner(client, text: str) -> None:
+    try:
+        app = await client.application_info()
+        owner = app.team.owner if getattr(app, "team", None) else app.owner
+        await owner.send(text)
+    except Exception as e:
+        log.warning(f"Couldn't DM the owner: {e}")
 
 
 @bot.command(name="changelogintro")
@@ -157,7 +221,7 @@ async def cmd_changelogintro(ctx, *, arg: str = ""):
                 await ctx.message.delete()   # so the introduction really is first
             except discord.HTTPException:
                 pass                         # needs Manage Messages; harmless without
-        sections, entries = await post_introduction(channel)
+        sections, entries = await post_introduction(channel, guild_id=ctx.guild.id)
     except discord.HTTPException as e:
         log.warning(f"!changelogintro failed in guild {ctx.guild.id}: {e}")
         await ctx.send(f"⚠️ I couldn't finish posting in {channel.mention} — check that I can view the channel, "

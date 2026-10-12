@@ -21,6 +21,7 @@ from bot_commands.votd import (
 )
 from bot_commands.changelog import (
     announce_changelog,
+    refresh_introductions,
 )
 from bot_commands.health import (
     weekly_notes_check,
@@ -86,11 +87,13 @@ async def on_ready():
     daily_oracle_task.start()
     weekly_notes_check.start()   # first check now, then weekly
 
-    # Post any CHANGELOG.md entries each server hasn't seen yet
+    # Post any CHANGELOG.md entries each server hasn't seen yet, and bring
+    # posted introductions up to date with INTRODUCTION.md
     try:
         await announce_changelog(bot)
+        await refresh_introductions(bot)
     except Exception as e:
-        log.warning(f"Changelog announcement failed: {e}")
+        log.warning(f"Changelog/introduction update failed: {e}")
 
     import pathlib, hashlib
     for ext in ("png", "jpg", "jpeg", "gif", "webp"):
