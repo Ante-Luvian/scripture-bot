@@ -673,7 +673,8 @@ async def cmd_help(ctx, *, topic: str = ""):
     embed.add_field(name="📖 Scripture", value=(
         "`!verse` — look up or randomise a verse · `!help verse`\n"
         "`!compare` — multi-translation view · `!help compare`\n"
-        "`!search` — search for a phrase · `!help search`\n"
+        "`!search` — search for a phrase (`in:buddhist` for one tradition) · `!help search`\n"
+        "`!theme` — one passage on a theme from each tradition, side by side\n"
         "`!votd` — verse of the day · `!help votd`\n"
         "`!today` — liturgical calendar across traditions · `!help today`\n"
         "`!books` — browse collections · `!help books`\n"

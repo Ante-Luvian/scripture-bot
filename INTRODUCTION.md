@@ -64,7 +64,8 @@ Abbreviations are fine (`Jn`, `1 Cor`, `Ps`). Bible verses come with the four st
 **`!prefer ESV`** makes a translation your personal default, so plain `!verse` uses it. `!prefer off` goes back to the KJV.
 **`!translations`** lists every translation and the short name to use.
 
-**`!search shepherd`** finds a word or phrase in the Bible (add a translation, e.g. `!search shepherd ESV`). Up to 3 searches per 30 seconds.
+**`!search shepherd`** finds a word or phrase across my whole library (add a translation to search the Bible in it, e.g. `!search shepherd ESV`). Add `in:` and a tradition to search just that one: `!search nirvana in:buddhist`, `in:chinese`, `in:islamic`, `in:hindu`, `in:christian`… Up to 3 searches per 30 seconds.
+**`!theme forgiveness`** — one passage on a theme from each tradition, side by side: the Bible next to the Quran, the Dhammapada, the Tao Te Ching, the Gita, the Stoics and more. Try `!theme love`, `!theme death`, `!theme the soul`.
 
 **`!books`** opens an interactive browser of my whole library: pick a tradition, then a collection, then a book, and see its chapters. `!books Genesis` jumps straight to a book; `!books Augustine` lists an author's works.
 

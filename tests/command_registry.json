@@ -149,6 +149,10 @@
    "st",
    "thomas"
   ],
+  "theme": [
+   "topicacross",
+   "traditions"
+  ],
   "timeline": [
    "chronology"
   ],
@@ -247,6 +251,7 @@
   "study",
   "subscribe",
   "summa",
+  "theme",
   "timeline",
   "today",
   "topic",

@@ -81,7 +81,8 @@ Prefix commands use `!`; most also have a `/` slash-command version.
 | Command | Aliases | What it does |
 |---|---|---|
 | `!verse <ref>` | `!v`, `!scripture` | Look up a verse, range, or chapter. `!verse` alone = random verse; `!verse Enoch` = random verse from a book. Add a translation (`!verse John 3:16 esv`) or several for a side-by-side (`!verse John 3:16 kjv web`). Bible verses come with Notes · Cross-refs · Interlinear · Card buttons. |
-| `!search <text>` | `!find` | Full-text search |
+| `!search <text> [in:<tradition>]` | `!find` | Full-text search, optionally in one tradition (`TRADITIONS` in scripture_lookup.py) |
+| `!theme <word>` | `!traditions` | One passage on a theme from each tradition, side by side |
 | `!books [filter]` | | Browse every collection, book, and chapter |
 | `!discover` | | Random passage from any tradition |
 | `!compare <ref>` | `!cmp` | One verse across many translations |

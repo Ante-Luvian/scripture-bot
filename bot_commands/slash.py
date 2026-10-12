@@ -13,6 +13,7 @@ from bot_commands.church import (
     cmd_catena,
     cmd_summa,
 )
+from scripture_lookup import TRADITIONS
 from core import (
     GUILD_FEATURES,
     bot,
@@ -272,10 +273,19 @@ async def virgil_slash(interaction: discord.Interaction, question: str = ""):
     await _command("virgil")(await _slash_ctx(interaction), question=question)
 
 
-@bot.tree.command(name="search", description="Search the Bible for a word or phrase")
-@app_commands.describe(query="e.g. shepherd, or shepherd ESV for another translation")
-async def search_slash(interaction: discord.Interaction, query: str):
-    await _command("search")(await _slash_ctx(interaction), query=query)
+@bot.tree.command(name="search", description="Search the library for a word or phrase")
+@app_commands.describe(query="e.g. shepherd, or shepherd ESV for another translation",
+                       tradition="Only search one tradition")
+@app_commands.choices(tradition=[app_commands.Choice(name=label.split(" ", 1)[1], value=key)
+                                 for key, (label, _) in TRADITIONS.items()])
+async def search_slash(interaction: discord.Interaction, query: str, tradition: str = ""):
+    await _command("search")(await _slash_ctx(interaction), query=f"{query} in:{tradition}" if tradition else query)
+
+
+@bot.tree.command(name="theme", description="One passage on a theme from each tradition, side by side")
+@app_commands.describe(theme="e.g. forgiveness, love, death, the soul")
+async def theme_slash(interaction: discord.Interaction, theme: str):
+    await _command("theme")(await _slash_ctx(interaction), query=theme)
 
 
 @bot.tree.command(name="prayer", description="A random prayer from the 1662 Book of Common Prayer")

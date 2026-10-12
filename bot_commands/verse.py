@@ -3,7 +3,8 @@
 """
 import discord
 import re
-from scripture_lookup import BIBLE_APOCRYPHA, BIBLE_NT, BIBLE_OT, DRB_SUFFIXES, KNOX_SUFFIXES, get_verse_drb, get_verse_knox
+from scripture_lookup import (BIBLE_APOCRYPHA, BIBLE_NT, BIBLE_OT, DRB_SUFFIXES, KNOX_SUFFIXES, TRADITIONS,
+                              get_verse_drb, get_verse_knox, tradition)
 from translation_lookup import TRANSLATION_SUFFIXES, get_parallel, get_random_verse, get_translation, search_translation
 from bot_commands.card import (
     cmd_card,
@@ -289,16 +290,77 @@ async def search_prefix(ctx, *, query: str = ""):
         view.message = await ctx.send(embed=embed, view=view)
         return
 
+    # "in:buddhist" (anywhere in the query) limits the search to one tradition
+    corpora, where = None, ""
+    m = re.search(r"(?:^|\s)in:(\S+)", query, flags=re.IGNORECASE)
+    if m:
+        key = tradition(m.group(1))
+        if key is None:
+            await ctx.send(f"I don't know the tradition **{m.group(1)}**. Try one of: "
+                           + ", ".join(f"`in:{k}`" for k in TRADITIONS))
+            return
+        label, corpora = TRADITIONS[key]
+        where = f" in {label}"
+        query = (query[:m.start()] + " " + query[m.end():]).strip()
+        if not query:
+            await ctx.send("What should I search for? For example: `!search emptiness in:buddhist`")
+            return
+
     # Local corpus search — show overview first
     async with ctx.typing():
-        by_corpus = lookup.search_by_corpus(query)
+        by_corpus = lookup.search_by_corpus(query, corpora)
 
     if not by_corpus:
-        await ctx.send(f"No results found for **{query}**.")
+        await ctx.send(f"No results found for **{query}**{where}.")
         return
 
     total_hits = sum(len(hits) for hits in by_corpus.values())
     await _send_search_overview(ctx, query, by_corpus, total_hits)
+
+
+THEME_SNIPPET = 300
+
+
+def theme_embed(query: str, passages: list) -> discord.Embed:
+    """One field per tradition: the reference and the passage, theme words in bold."""
+    stems = [lookup._stem(w) for w in query.lower().split()]
+    bold = re.compile(r"\b(" + "|".join(re.escape(s) for s in stems) + r")\w*", re.IGNORECASE)
+    embed = discord.Embed(title=f"🌐 {query.strip().capitalize()} — across the traditions",
+                          color=discord.Color.dark_gold())
+    for label, hit in passages:
+        text = re.sub(r"\s+", " ", hit["text"].replace("*", "")).strip()
+        if len(text) > THEME_SNIPPET:
+            # a window that shows the theme word, not just the passage's opening
+            first = bold.search(text)
+            start = max(0, first.start() - 100) if first and first.start() > THEME_SNIPPET - 60 else 0
+            window = text[start:start + THEME_SNIPPET - 2]
+            if start:
+                window = "…" + window.split(" ", 1)[-1]
+            text = (window.rsplit(" ", 1)[0] + "…") if start + THEME_SNIPPET - 2 < len(text) else window
+        embed.add_field(name=f"{label} — {hit['reference']}"[:256], value=bold.sub(r"**\g<0>**", text)[:1024],
+                        inline=False)
+    embed.set_footer(text=f"!verse <reference> to read more · !search {query.strip()} in:<tradition> for every passage")
+    return embed
+
+
+@bot.command(name="theme", aliases=["topicacross", "traditions"])
+async def cmd_theme(ctx, *, query: str = ""):
+    """One passage on a theme from each tradition, side by side.
+    Usage: !theme forgiveness  |  !theme love  |  !theme the soul"""
+    query = query.strip()
+    if not query:
+        await ctx.send("Which theme? For example: `!theme forgiveness`, `!theme love`, `!theme death`.")
+        return
+    if not _check_search_cooldown(ctx.author.id):
+        await ctx.send("⏳ Searching is rate-limited — please wait a moment.", delete_after=8)
+        return
+    import asyncio
+    async with ctx.typing():
+        passages = await asyncio.to_thread(lookup.theme_passages, query)
+    if not passages:
+        await ctx.send(f"I couldn't find **{query}** in any tradition. Try a single word, like `!theme mercy`.")
+        return
+    await ctx.send(embed=theme_embed(query, passages))
 
 
 async def _send_search_overview(ctx, query: str, by_corpus: dict, total_hits: int):

@@ -1342,6 +1342,44 @@ ALIASES: dict[str, str] = {
 
 # Priority order when the same book name exists in multiple corpora
 # (first match wins unless the user specifies a corpus)
+# Traditions as users name them -> (label, the corpora that hold them). Used by
+# `!search ... in:buddhist` and `!theme` (which shows one passage per tradition,
+# in this order).
+TRADITIONS = {
+    "bible":     ("📖 Bible", ("kjv",)),
+    "jewish":    ("✡️ Jewish", ("jewish", "qumran")),
+    "christian": ("⛪ Christian writers", ("apostolic_fathers", "patristics", "medieval")),
+    "apocrypha": ("👼 Apocrypha", ("charles", "brenton", "nt_apocrypha")),
+    "islamic":   ("☪️ Islamic", ("quran",)),
+    "sufi":      ("🌹 Sufi", ("sufi",)),
+    "hindu":     ("🕉️ Hindu", ("dharmic",)),
+    "buddhist":  ("☸️ Buddhist", ("buddhist",)),
+    "chinese":   ("☯️ Chinese", ("chinese",)),
+    "classical": ("🏛️ Greek & Roman", ("classical",)),
+    "gnostic":   ("🧿 Gnostic", ("gnostic",)),
+    "norse":     ("🌲 Norse", ("norse",)),
+    "neareast":  ("🌙 Ancient Near East", ("ancient_near_east",)),
+    "bahai":     ("🌍 Baháʼí", ("bahai",)),
+    "lds":       ("📯 Latter-day Saint", ("lds",)),
+}
+TRADITION_ALIASES = {
+    "christianity": "christian", "church": "christian", "fathers": "christian", "patristic": "christian",
+    "judaism": "jewish", "islam": "islamic", "muslim": "islamic", "quran": "islamic",
+    "hinduism": "hindu", "dharmic": "hindu", "vedic": "hindu", "buddhism": "buddhist",
+    "taoist": "chinese", "daoist": "chinese", "confucian": "chinese", "china": "chinese",
+    "greek": "classical", "roman": "classical", "stoic": "classical", "gnosticism": "gnostic",
+    "ane": "neareast", "babylonian": "neareast", "egyptian": "neareast", "mormon": "lds",
+    "bahá'í": "bahai", "baha'i": "bahai", "pseudepigrapha": "apocrypha",
+}
+
+
+def tradition(name: str):
+    """The TRADITIONS key for what a user typed ("Buddhism", "daoist"), or None."""
+    key = name.strip().lower()
+    key = TRADITION_ALIASES.get(key, key)
+    return key if key in TRADITIONS else None
+
+
 CORPUS_PRIORITY = ["kjv", "lds", "brenton", "charles", "nt_apocrypha", "apostolic_fathers", "quran", "classical", "jewish", "bahai", "qumran", "gnostic", "dharmic", "buddhist", "chinese", "sufi", "norse", "ancient_near_east", "patristics", "medieval"]
 
 
@@ -1375,7 +1413,8 @@ class ScriptureLookup:
         self._book_sources: dict[str, str] = {}
         self._corpus_sources: dict[str, dict[str, str]] = {}
         # LRU cache for search_by_corpus (up to 64 queries)
-        self._search_cache: dict[str, dict] = {}
+        self._search_cache: dict = {}
+        self._theme_cache: dict[str, list] = {}
         self._load_all()
 
     # ── Loading ────────────────────────────────────────────────────────────────
@@ -2159,15 +2198,16 @@ class ScriptureLookup:
             del r["_score"]
         return results, total
 
-    def search_by_corpus(self, query: str) -> dict[str, list[dict]]:
+    def search_by_corpus(self, query: str, corpora=None) -> dict[str, list[dict]]:
         """
-        Full-text search grouped by corpus.
-        Returns {corpus_label: [hit, ...]} with all hits (no limit).
+        Full-text search grouped by corpus, optionally only in `corpora`
+        (see TRADITIONS). Returns {corpus_label: [hit, ...]} with all hits.
         Results are cached per query (up to 64 queries).
         """
         q = query.lower().strip()
+        corpora = frozenset(corpora) if corpora else None
         # Check cache
-        cached = self._search_cache.get(q)
+        cached = self._search_cache.get((q, corpora))
         if cached is not None:
             return cached
 
@@ -2198,6 +2238,8 @@ class ScriptureLookup:
 
         by_corpus: dict[str, list[dict]] = {}
         for corpus, books in self._data.items():
+            if corpora and corpus not in corpora:
+                continue
             hits = []
             for book, chapters in books.items():
                 for chap, verses in chapters.items():
@@ -2229,8 +2271,50 @@ class ScriptureLookup:
         if len(self._search_cache) >= 64:
             oldest = next(iter(self._search_cache))
             del self._search_cache[oldest]
-        self._search_cache[q] = by_corpus
+        self._search_cache[(q, corpora)] = by_corpus
         return by_corpus
+
+    @staticmethod
+    def _stem(word: str) -> str:
+        """A crude stem, so "forgiveness" also finds forgive/forgiven/forgiving."""
+        for suffix in ("fulness", "iness", "ness", "ings", "ing", "edly", "ied", "ies", "ed", "es", "s", "ful", "ly"):
+            if word.endswith(suffix) and len(word) - len(suffix) >= 4:
+                word = word[:-len(suffix)]
+                break
+        return word[:-1] if word.endswith(("e", "y")) and len(word) > 3 else word
+
+    def theme_passages(self, query: str) -> list:
+        """One passage per tradition (TRADITIONS order) mentioning every word
+        of `query`: [(tradition label, hit)], hit = {"reference", "text", "book"}.
+        Ranked by: the exact phrase; how often the theme comes up (a passage
+        *about* love, not one that mentions it once); how densely; and a
+        quotable length (40-600 characters)."""
+        q = query.lower().strip()
+        cached = self._theme_cache.get(q)
+        if cached is not None:
+            return cached
+        patterns = [re.compile(rf"\b{re.escape(self._stem(w))}\w*", re.IGNORECASE) for w in q.split()]
+        out = []
+        for key, (label, corpora) in TRADITIONS.items():
+            best = None
+            for corpus in corpora:
+                for book, chapters in self._data.get(corpus, {}).items():
+                    for chap, verses in chapters.items():
+                        for verse, text in verses.items():
+                            if not isinstance(text, str) or not 40 <= len(text) <= 600:
+                                continue
+                            if not all(p.search(text) for p in patterns):
+                                continue
+                            hits = sum(len(p.findall(text)) for p in patterns)
+                            score = (q in text.lower(), min(hits, 3), round(hits * 100 / len(text), 1))
+                            if best is None or score > best[0]:
+                                best = (score, {"reference": f"{book} {chap}:{verse}", "text": text, "book": book})
+            if best:
+                out.append((label, best[1]))
+        if len(self._theme_cache) >= 32:
+            del self._theme_cache[next(iter(self._theme_cache))]
+        self._theme_cache[q] = out
+        return out
 
     def get_verse_range(self, book_raw: str, chap_start: int, verse_start: int,
                         chap_end: int, verse_end: int) -> dict:
