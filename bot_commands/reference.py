@@ -1,8 +1,11 @@
 """
-Study references: !xref, !quoted, !root, !topic, !dictionary, !timeline.
+Study references: !xref, !quoted, !root, !topic, !dictionary, !timeline,
+!notes.
 """
+import asyncio
 import discord
 import re
+from net_notes_lookup import NET_COPYRIGHT, NOTE_KINDS, get_net_notes
 from bible_dictionary_lookup import SOURCE_NAMES as DICTIONARY_SOURCE_NAMES, entry_count as dictionary_entry_count, get_definition as get_dictionary_entry, search_terms as search_dictionary_terms
 from discord import app_commands
 from xref_lookup import get_cross_references
@@ -443,6 +446,121 @@ async def topic_slash(interaction: discord.Interaction, query: str):
     await interaction.response.defer()
     ctx = await bot.get_context(interaction)
     await cmd_topic(ctx, query=query)
+
+
+# ── !notes — NET Bible translators' notes ─────────────────────────────────────────
+
+def _split_at_sentence(text: str, size: int) -> tuple[str, str]:
+    """(head, tail) with len(head) <= size, cut after a sentence when one
+    ends in the back half of the window, else hard at `size`."""
+    cut = max(text.rfind(". ", 0, size), text.rfind("; ", 0, size))
+    cut = cut + 1 if cut > size // 2 else size
+    return text[:cut].rstrip(), text[cut:].lstrip()
+
+
+def _paginate_blocks(blocks: list[str], limit: int = 3800) -> list[str]:
+    """Pack text blocks into pages of at most `limit` chars (embed descriptions
+    allow 4096), separated by blank lines. A block longer than a page -- a few
+    NET notes run to 4,000+ chars -- fills the rest of the current page and
+    continues ("…") on the next, breaking at sentence ends."""
+    pages, current = [], ""
+    for block in blocks:
+        while block:
+            sep = "\n\n" if current else ""
+            room = limit - len(current) - len(sep)
+            if len(block) <= room:
+                current += sep + block
+                break
+            if len(block) <= limit or room < limit // 4:
+                # fits on a fresh page, or too little room left here to start it
+                pages.append(current)
+                current = ""
+                continue
+            head, tail = _split_at_sentence(block, room)
+            pages.append(current + sep + head)
+            current = ""
+            block = "…" + tail if tail else ""
+    if current or not pages:
+        pages.append(current)
+    return pages
+
+
+@bot.command(name="notes", aliases=["netnotes", "netnote"])
+async def cmd_notes(ctx, *, reference: str = ""):
+    """The NET Bible's translators' notes for a verse: translation choices,
+    study notes, and text-critical notes.
+    Usage: !notes John 3:16   |   !notes Genesis 1:1-3   (up to 5 verses)"""
+    ref = reference.strip()
+    if not ref:
+        await ctx.send("Usage: `!notes <verse>` — e.g. `!notes John 3:16` or `!notes Genesis 1:1-3`")
+        return
+
+    async with ctx.typing():
+        result = await asyncio.to_thread(get_net_notes, ref)
+    if not result.get("found"):
+        await ctx.send(f"⚠️ {result['error']}")
+        return
+
+    multi = len(result["verses"]) > 1
+    blocks, number = [], 0
+    for verse_num, text, notes in result["verses"]:
+        blocks.append(f"**[{verse_num}]** *{text}*" if multi else f"*{text}*")
+        if not notes:
+            blocks.append("*No notes on this verse.*")
+        for kind, note in notes:
+            number += 1
+            blocks.append(f"**{number}. {NOTE_KINDS.get(kind, 'Note')}** — {note}")
+    pages = _paginate_blocks(blocks)
+    total = len(pages)
+
+    def make_embed(idx):
+        title = f"📝 NET Notes — {result['reference']}"
+        embed = discord.Embed(
+            title=title if total == 1 else f"{title} ({idx + 1}/{total})",
+            url=result["url"],
+            description=pages[idx],
+            color=discord.Color.dark_gold(),
+        )
+        embed.set_footer(text=NET_COPYRIGHT)
+        return embed
+
+    record_special_stat(ctx.author.id, "notes", result["reference"])
+
+    if total == 1:
+        await ctx.send(embed=make_embed(0))
+        return
+
+    class NotesView(discord.ui.View):
+        def __init__(self):
+            super().__init__(timeout=180)
+            self.idx = 0
+
+        @discord.ui.button(emoji="◀", style=discord.ButtonStyle.secondary)
+        async def prev(self, interaction: discord.Interaction, button: discord.ui.Button):
+            self.idx = (self.idx - 1) % total
+            await interaction.response.edit_message(embed=make_embed(self.idx), view=self)
+
+        @discord.ui.button(emoji="▶", style=discord.ButtonStyle.secondary)
+        async def next(self, interaction: discord.Interaction, button: discord.ui.Button):
+            self.idx = (self.idx + 1) % total
+            await interaction.response.edit_message(embed=make_embed(self.idx), view=self)
+
+        async def on_timeout(self):
+            try:
+                await self.message.edit(view=None)
+            except Exception:
+                pass
+
+    view = NotesView()
+    view.message = await ctx.send(embed=make_embed(0), view=view)
+
+
+@bot.tree.command(name="notes", description="The NET Bible's translators' notes for a verse")
+@app_commands.describe(reference="e.g. John 3:16 or Genesis 1:1-3")
+async def notes_slash(interaction: discord.Interaction, reference: str):
+    await interaction.response.defer()
+    ctx = await bot.get_context(interaction)
+    await cmd_notes(ctx, reference=reference)
 
 
 # ── !dictionary — Easton's + Smith's Bible Dictionary ────────────────────────────

@@ -58,6 +58,10 @@
   "mp": [
    "matins"
   ],
+  "notes": [
+   "netnote",
+   "netnotes"
+  ],
   "oracle": [],
   "parallel": [
    "classical",
@@ -175,6 +179,7 @@
   "homer",
   "interlinear",
   "leaderboard",
+  "notes",
   "oracle",
   "parallel",
   "plan",

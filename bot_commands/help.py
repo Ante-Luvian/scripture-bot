@@ -293,6 +293,19 @@ async def cmd_help(ctx, *, topic: str = ""):
         await ctx.send(embed=embed)
         return
 
+    if topic in ("notes", "netnotes", "netnote"):
+        embed = discord.Embed(title="📝 !notes — NET Bible Notes", color=discord.Color.dark_gold())
+        embed.description = (
+            "`!notes John 3:16` — the NET Bible translators' notes for a verse\n"
+            "`!notes Genesis 1:1-3` — several verses at once (up to 5)\n\n"
+            "Three kinds of note: **translator's notes** (why a word was rendered as it was, and "
+            "the alternatives), **study notes** (background and interpretation), and "
+            "**text-critical notes** (where the manuscripts differ).\n\n"
+            "Notes © Biblical Studies Press; the title links to the chapter on netbible.org."
+        )
+        await ctx.send(embed=embed)
+        return
+
     if topic in ("topic", "topics", "naves", "topical"):
         embed = discord.Embed(title="📚 !topic — Nave's Topical Bible", color=discord.Color.dark_gold())
         embed.description = (
@@ -662,6 +675,7 @@ async def cmd_help(ctx, *, topic: str = ""):
         "`!discover` — random passage from any loaded tradition · `!help discover`\n"
         "`!study` — verse + patristic commentary together · `!help study`\n"
         "`!xref` — cross-references (Treasury of Scripture Knowledge) · `!help xref`\n"
+        "`!notes` — NET Bible translators' notes on a verse · `!help notes`\n"
         "`!topic` — browse scripture by subject (Nave's Topical Bible) · `!help topic`\n"
         "`!save` / `!saved` / `!unsave` — personal bookmarks · `!help save`\n"
         "`!plan` — chapter-a-day reading plan · `!help plan`\n"
@@ -679,7 +693,7 @@ async def cmd_help(ctx, *, topic: str = ""):
         "`!compare strong <ref>` — KJV + original-language Strong's tagging · `!help compare`\n"
         "`!strong G3588` / `!strong H7225` — Strong's lexicon lookup · `!help strong`"
     ), inline=False)
-    embed.set_footer(text="!help verse · !help compare · !help votd · !help votdsetup · !help features · !help today · !help bcp · !help prayer · !help strong · !help books · !help parallel · !help oracle · !help discover · !help study · !help xref · !help topic · !help save · !help plan · !help leaderboard · !help subscribe · !help card · !help creed · !help ccc · !help summa")
+    embed.set_footer(text="!help verse · !help compare · !help votd · !help votdsetup · !help features · !help today · !help bcp · !help prayer · !help strong · !help books · !help parallel · !help oracle · !help discover · !help study · !help xref · !help notes · !help topic · !help save · !help plan · !help leaderboard · !help subscribe · !help card · !help creed · !help ccc · !help summa")
     await ctx.send(embed=embed)
 
 
