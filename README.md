@@ -242,7 +242,8 @@ to `data/` as it runs — `stats.json`, `guild_activity.json`, `guild_config.jso
 them up separately if you move machines.
 
 **Online services.** Some commands fetch from the web, so they need internet
-access (local `!verse` lookups don't): bolls.life (translations, `!notes`), sefaria.org
+access (local `!verse` lookups don't): bolls.life (translations), netbible.org (`!notes`;
+bolls.life as backup), sefaria.org
 (rabbinic texts), catenabible.com (`!catena`), newadvent.org (`!summa`),
 gematrix.org (`!gematria`), verseoftheday.com (`!votd`), openbible.info (`!xref`),
 deadseascrolls.org.il (`!variants`), and hebcal.com / orthocal.info /
