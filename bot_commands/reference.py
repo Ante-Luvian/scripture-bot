@@ -220,9 +220,11 @@ def _apocrypha_ref_matches(query_ref: str, table_ref: str) -> bool:
 
 @bot.command(name="quoted", aliases=["otnt", "quotedin"])
 async def cmd_quoted(ctx, *, reference: str = ""):
-    """Direct Old Testament <-> New Testament quotations involving a verse
-    (a curated, non-exhaustive set of well-established direct quotations --
-    see !xref for the much larger general cross-reference dataset).
+    """Old Testament <-> New Testament quotations involving a verse, plus NT
+    quotations of / close parallels with non-canonical works (Enoch, the
+    Ascension of Isaiah, etc.), each labelled with its evidential status.
+    A curated, non-exhaustive set -- see !xref for the much larger general
+    cross-reference dataset.
     Usage: !quoted Isaiah 53:5   |   !quoted Matthew 1:23"""
     ref = reference.strip()
     if not ref:
@@ -264,14 +266,14 @@ async def cmd_quoted(ctx, *, reference: str = ""):
             embed.add_field(name=side_ref, value=text, inline=False)
         if note:
             embed.add_field(name="​", value=f"*{note}*", inline=False)
-    footer = "Curated set of well-established direct quotations, not exhaustive"
+    footer = "Curated set of well-established quotations and parallels, not exhaustive"
     if len(matches) > SHOWN:
         footer = f"Showing {SHOWN} of {len(matches)} pairs · {footer}"
     embed.set_footer(text=footer)
     await ctx.send(embed=embed)
 
 
-@bot.tree.command(name="quoted", description="Direct OT <-> NT quotations involving a verse")
+@bot.tree.command(name="quoted", description="OT <-> NT quotations, and NT parallels with Enoch and other works, for a verse")
 @app_commands.describe(reference="e.g. Isaiah 53:5")
 async def quoted_slash(interaction: discord.Interaction, reference: str):
     await interaction.response.defer()

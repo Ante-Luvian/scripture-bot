@@ -1,236 +1,272 @@
 # Scripture Discord Bot
 
-A Discord bot that looks up scripture verses across:
-- **King James Bible + Apocrypha** (15 deuterocanonical books)
-- **LDS Standard Works** (Book of Mormon, D&C, Pearl of Great Price)
-- **Brenton Septuagint** (including Psalms of Solomon, 3 & 4 Maccabees, Odes)
-- **R.H. Charles** – Book of Enoch (1917) & Book of Jubilees (1902)
+A Discord bot for looking up, comparing, and studying scripture and related
+texts across many traditions: the Bible in dozens of translations (plus the
+Septuagint, Vulgate, Peshitta, and Dead Sea Scrolls), the Apocrypha, LDS
+scripture, the Apostolic and Church Fathers, Enoch and Jubilees, the Quran and
+hadith, the Talmud and other rabbinic literature (via Sefaria), and Gnostic,
+Hermetic, Neoplatonic, Classical, Norse, Dharmic, and Ancient Near Eastern texts.
+It also has study tools (Strong's, interlinears, cross-references, topical and
+dictionary lookups), the Book of Common Prayer daily office, a liturgical
+calendar, and a daily Verse of the Day.
 
 ---
 
-## Quick Start
+## Quick start
 
-### 1. Create a Discord Bot
+### 1. Create the Discord application
 
-1. Go to https://discord.com/developers/applications → **New Application**
-2. Go to **Bot** tab → **Reset Token** → copy it
+1. https://discord.com/developers/applications → **New Application**
+2. **Bot** tab → **Reset Token** → copy it
 3. Under **Privileged Gateway Intents**, enable **Message Content Intent**
-4. Go to **OAuth2 → URL Generator**: scopes = `bot` + `applications.commands`; permissions = `Send Messages`, `Embed Links`
-5. Open the generated URL to invite the bot to your server
+4. **OAuth2 → URL Generator**: scopes `bot` + `applications.commands`;
+   permissions `Send Messages`, `Embed Links`, `Attach Files`, `Add Reactions`
+5. Open the generated URL to invite the bot
 
-### 2. Install Python dependencies
+### 2. Get the code and data
+
+The text corpus is in this repo under `data/`; six large third-party corpora
+(Perseus Greek/Latin, Swete LXX, ETCBC Peshitta/Syriac NT, Tischendorf) are git
+submodules, so clone with:
 
 ```bash
-python -m pip install -r requirements.txt
+git clone --recurse-submodules https://github.com/Ante-Luvian/scripture-bot
 ```
 
-### 3. Build the data files
+(Already cloned without them? `git submodule update --init`.)
+
+### 3. Install dependencies
 
 ```bash
-python build_data.py
+python -m pip install -r requirements.txt        # running the bot
+python -m pip install -r requirements-dev.txt    # + pytest, for development
 ```
 
-This downloads public-domain texts and writes structured JSON into `data/`.
-Some sources require manual steps (see below).
+### 4. Run
 
-### 4. Run the bot
+Put the bot token in a `.env` file next to `bot.py` (it's gitignored):
+
+```
+DISCORD_TOKEN=your_token_here
+```
+
+then:
 
 ```bash
-export DISCORD_TOKEN=your_token_here      # Linux/Mac
-set DISCORD_TOKEN=your_token_here         # Windows CMD
-$env:DISCORD_TOKEN="your_token_here"      # PowerShell
-
 python bot.py
 ```
 
----
+### Running as a Windows service (NSSM)
 
-## Data Acquisition
+In production the bot runs as the Windows service **ScriptureBot** under
+[NSSM](https://nssm.cc/), starting `python bot.py` in the project folder.
 
-### KJV + Apocrypha
-`build_data.py` fetches the KJV automatically from the public `bcbooks/scriptures-json` repo.
-
-For the **Apocryphal books** (Tobit, Judith, Wisdom, Sirach, Maccabees, etc.) the automated script writes stubs. To get the real text:
-
-Option A – Use the SWORD Project's KJV+Apocrypha module:
-1. Install [SWORD utilities](https://crosswire.org/sword/software/swordutils.jsp)
-2. Download module `KJV` and `KJVApoc`
-3. Export with `mod2osis KJVApoc` and parse the XML into the JSON schema
-
-Option B – Use the [eBible.org eng-kjv+dc download](https://ebible.org/find/show.php?id=engkjvapoc), which is public domain.
-
-### LDS Standard Works
-Fetched automatically from `bcbooks/scriptures-json`. ✓
-
-### Brenton Septuagint
-The `Logosio/brenton-septuagint` repo (GitHub) may not have a single combined JSON. If the automated fetch fails:
-
-1. Clone https://github.com/Logosio/brenton-septuagint
-2. Combine individual book files into `data/brenton/brenton_septuagint.json` with schema:
-   ```json
-   {
-     "source": "Brenton Septuagint (1851)",
-     "books": {
-       "Psalms of Solomon": { "1": { "1": "Blessed is the man…" } }
-     }
-   }
-   ```
-
-Alternatively, [Unbound Bible](https://unbound.biola.edu/) hosts the LXX in tab-delimited format (free download after registration).
-
-### Apostolic Fathers (J.B. Lightfoot)
-
-Lightfoot's *The Apostolic Fathers* (1889–1890, 5 vols.) is fully public domain. The texts are widely reproduced but rarely in clean verse-addressable JSON. `build_data.py` will attempt a scrollmapper bundle first, then write annotated stubs with source URLs.
-
-**Manual acquisition options:**
-
-| Text | Best free source |
+| Task | Command (PowerShell) |
 |---|---|
-| 1 & 2 Clement | [CCEL – Lightfoot](https://www.ccel.org/ccel/lightfoot/fathers2.html) |
-| Ignatius (7 letters) | Same CCEL link; use the **middle recension** (authentic) only |
-| Polycarp to Philippians | [earlychristianwritings.com](https://earlychristianwritings.com/polycarp.html) |
-| Martyrdom of Polycarp | [earlychristianwritings.com](https://earlychristianwritings.com/martyrdompolycarp.html) |
-| Epistle of Barnabas | [earlychristianwritings.com](https://earlychristianwritings.com/barnabas.html) |
-| Didache | [earlychristianwritings.com](https://earlychristianwritings.com/didache.html) |
-| Shepherd of Hermas | [earlychristianwritings.com](https://earlychristianwritings.com/shepherd.html) |
+| Restart after code changes | `Restart-Service ScriptureBot` |
+| Status | `Get-Service ScriptureBot` |
+| Logs | `C:\ProgramData\nssm\logs\scripturebot.err.log` (the bot logs to stderr) |
 
-Once you have the text, structure it into the standard JSON schema. The Shepherd of Hermas is a single file (`shepherd_of_hermas.json`) using Lightfoot's continuous chapter numbering, 1–114.
-
-**A note on verse numbers:** The Apostolic Fathers don't have traditional chapter:verse divisions like the Bible. The convention used here is `chapter:sentence-group`, following the Lightfoot/Harmer paragraph numbering. For example:
-
-- `1 Clement 5:1` → Chapter 5, first sentence-unit
-- `Didache 9:1`
-- `Herm Sim 9:1` → Hermas, Similitude 9, chapter 1 (the traditional citation; continuous ch. 78)
-- `Herm Sim 9:1:3` or `Herm Sim 9.1.3` → …verse 3
-- `Hermas 78:3` → the same verse, by continuous chapter
-
-
-These require manual preparation:
-
-1. Sacred-texts.com hosts plain HTML: 
-   - Enoch: https://sacred-texts.com/bib/boe/
-   - Jubilees: https://sacred-texts.com/bib/jub/
-2. Each chapter is a separate HTML page. Scrape them (respecting their terms) or use a pre-converted source.
-3. A community-prepared JSON of 1 Enoch is available at:
-   https://github.com/scrollmapper/bible_databases (check the `formats/json/` folder)
-4. Place the results in:
-   - `data/charles/book_of_enoch.json`
-   - `data/charles/book_of_jubilees.json`
+The running bot only picks up code changes after a restart.
 
 ---
 
-## JSON Schema
+## Commands
 
-Every data file must follow this schema:
+Prefix commands use `!`; most also have a `/` slash-command version.
+`!help` in Discord shows the full in-bot help.
+
+### Looking up text
+
+| Command | Aliases | What it does |
+|---|---|---|
+| `!verse <ref>` | `!v`, `!scripture` | Look up a verse, range, or chapter. `!verse` alone = random verse; `!verse Enoch` = random verse from a book. Add a translation (`!verse John 3:16 esv`) or several for a side-by-side (`!verse John 3:16 kjv web`). |
+| `!search <text>` | `!find` | Full-text search |
+| `!books [filter]` | | Browse every collection, book, and chapter |
+| `!discover` | | Random passage from any tradition |
+| `!compare <ref>` | `!cmp` | One verse across many translations |
+| `!parallel <ref>` | `!poem`, `!par`, `!classical` | Bible or classical text in parallel languages |
+| `!variants <ref>` | `!dss`, `!scrollcompare` | KJV vs Septuagint vs Dead Sea Scroll witness |
+| `!translations` | `!trans`, `!tl` | List available translations |
+| `!export <book> [chapters]` | | Download a book or chapter range as a text file |
+| `!card <ref>` | `!versecard`, `!quotecard` | Render a verse as a shareable image |
+
+### Study tools
+
+| Command | Aliases | What it does |
+|---|---|---|
+| `!study <ref>` | | Verse plus patristic commentary |
+| `!catena <ref>` | | Patristic commentary (catenabible.com) |
+| `!xref <ref>` | `!crossref` | Cross-references (Treasury of Scripture Knowledge) |
+| `!quoted <ref>` | `!otnt`, `!quotedin` | OT ↔ NT quotations, and NT quotations of / parallels with Enoch and other non-canonical works |
+| `!strong <number or ref>` | `!strongs` | Strong's entry, or a verse with Strong's tagging |
+| `!root <number or word>` | `!cognates` | A Hebrew/Greek word's root and its direct derivatives |
+| `!concordance <number or word>` | `!conc` | Every verse tagged with a Strong's number |
+| `!interlinear <ref>` | `!il` | Word-by-word interlinear image |
+| `!reverseinterlinear <ref>` | `!ril` | KJV text tagged with Strong's numbers, as an image |
+| `!topic <subject>` | `!naves` | Nave's Topical Bible |
+| `!dictionary <term>` | `!dict`, `!define` | Easton's / Smith's Bible Dictionary |
+| `!timeline <subject>` | `!chronology` | Ussher's *Annals of the World* |
+| `!gematria <word or number>` | `!gem` | Gematria values (gematrix.org) |
+
+### Church, liturgy, and the daily office
+
+| Command | Aliases | What it does |
+|---|---|---|
+| `!today [date]` | `!calendar`, `!liturgy` | Observances across traditions for a date |
+| `!bcp` | | BCP daily office: psalms, lessons, collect |
+| `!mp` / `!ep` | `!matins` / `!evensong`, `!vespers` | Morning / Evening Prayer lessons |
+| `!psalm` | `!psalms` | Today's appointed psalm(s) |
+| `!collect` | | Collect of the day |
+| `!prayer` | | Random BCP prayer or collect |
+| `!creed [name]` | `!creeds` | Apostles', Nicene, or Athanasian Creed (English/Latin/Greek) |
+| `!ccc <n>` | | Catechism of the Catholic Church |
+| `!canon <n>` | | Code of Canon Law |
+| `!summa <ref>` | `!aquinas` | Summa Theologica article |
+
+### Oracles
+
+| Command | Aliases | What it does |
+|---|---|---|
+| `!oracle` | | Random verse from an oracular corpus |
+| `!delphi` | | Random Delphic maxim |
+| `!homer` | `!homeromanteion`, `!sortes` | Homeric dice oracle |
+| `!virgil [question]` | `!aeneid` | Sortes Vergilianae |
+
+### Verse of the Day
+
+| Command | What it does |
+|---|---|
+| `!votd [translation \| full \| extended]` | Today's verse |
+| `!votdsetup` | (Admins) Configure this server's daily post: channel, time, style |
+| `!subscribe` / `!unsubscribe` | Daily verse by DM |
+
+### Personal
+
+| Command | Aliases | What it does |
+|---|---|---|
+| `!save <ref> [note]` | `!bookmark` | Bookmark a verse |
+| `!saved [export]` | `!bookmarks` | List (or export) bookmarks |
+| `!unsave <n>` | | Remove a bookmark |
+| `!plan` | | Chapter-a-day reading plan |
+| `!prefer <translation>` | | Default translation for plain `!verse` |
+| `!leaderboard` | `!lb` | Most active bookmarkers |
+| `!features` | | (Admins) Opt-in server features |
+
+Plus `!stats`, and owner/admin tools `!guildactivity` and `!scanstats`.
+
+### Reference formats
+
+```
+Genesis 1:1     Gen 1:1     Jn 3:16           ← names, abbreviations, any case
+John 3:16-18    John 3:16 – 18                ← verse ranges
+John 7:53-8:11  John 3-5                      ← cross-chapter / chapter ranges
+Psalm 23                                      ← whole chapter (paginated)
+1 Nephi 3:7     1Ne 3:7     D&C 76:22         ← LDS
+Wisdom 7:22     Ps Sol 17:1 Psalm 151:1       ← Apocrypha / LXX
+Enoch 1:9       Jubilees 3:4
+1 Clem 5:1      Ign Eph 7:2  Pol Phil 2:1  Mart Pol 9:1  Barn 4:1  Did 9:1
+Herm Sim 9:1    Herm Sim 9:1:3   Herm. Sim. 9.1.3   Hermas 78:3
+Quran 1:1       Surah 1:1
+Rig Veda 10.121:9
+Gilgamesh 1:1   Baal 1:1     Aten 1       Muallaqat 1:1
+Delphi 1:1      Kitab-i-Aqdas 1:1
+Berakhot 2a     Shabbat 31a                ← Talmud, via Sefaria
+Berakhot 1:1    M Berakhot 1:1   Avot 1:1  ← Mishnah, via Sefaria
+```
+
+**Apostolic Fathers** use Lightfoot/Harmer `chapter:sentence-group` numbering.
+**Shepherd of Hermas** takes the traditional citation — `Herm Sim 9:1` is
+Similitude 9, chapter 1 (Lightfoot's continuous chapter 78); add a third number
+for a verse — or Lightfoot's continuous chapters directly (`Hermas 78:3`).
+
+---
+
+## Project layout
+
+```
+bot.py                  Entry point: startup (on_ready) and bot.run()
+core.py                 Shared state & helpers: the Bot, the ScriptureLookup
+                        engine, logging, per-guild/per-user persistence,
+                        stats, and the common result/embed senders
+bot_commands/           One module per feature area; each registers its
+  verse.py              commands on core.bot when imported:
+  books.py                !verse/!search/!discover/!study · !books/!export
+  translations.py         !compare/!variants/!strong/!parallel
+  card.py                 !card/!interlinear/!reverseinterlinear/!concordance
+  reference.py            !xref/!quoted/!root/!topic/!dictionary/!timeline
+  church.py               !catena/!ccc/!canon/!creed/!summa
+  liturgy.py              !today/!bcp/!prayer/!mp/!ep/!psalm/!collect
+  oracles.py              !gematria/!virgil/!homer/!delphi/!oracle
+  votd.py                 !votd/!votdsetup/!subscribe + the daily task
+  personal.py             !save/!plan/!prefer/!leaderboard/!features
+  stats.py, help.py, autodetect.py, slash.py
+scripture_lookup.py     Reference parsing and the local-corpus lookup engine
+*_lookup.py             Other sources: translations (bolls.life), Sefaria,
+                        Strong's, cross-refs, topics, dictionary, timeline,
+                        interlinear, hadith, Summa, BCP, poems
+liturgical_calendar.py  !today's multi-tradition calendar
+data/                   The text corpus (JSON) — see below
+fonts/                  Fonts for !card / interlinear images
+tests/                  pytest suite
+deprecated/             Old one-off build/fix scripts, kept for reference
+<six submodules>        Third-party corpora (Perseus, LXX, Peshitta, ...)
+```
+
+---
+
+## Data
+
+Every corpus file in `data/` follows one schema:
 
 ```json
 {
   "source": "Human-readable source name",
   "books": {
     "Book Name": {
-      "1": {
-        "1": "Verse text here.",
-        "2": "Next verse."
-      },
-      "2": { ... }
+      "1": { "1": "Verse text here.", "2": "Next verse." },
+      "2": { "...": "..." }
     }
   }
 }
 ```
 
-- All keys (chapter and verse numbers) must be **strings**.
-- D&C sections are treated as "chapters".
-- Articles of Faith: chapter `"1"`, verses `"1"`–`"13"`.
+Chapter and verse keys are **strings**. D&C sections are chapters; Articles of
+Faith are chapter `"1"`, verses `"1"`–`"13"`.
+
+**Runtime state is not in git.** The bot writes per-server and per-user data
+to `data/` as it runs — `stats.json`, `guild_activity.json`, `guild_config.json`,
+`user_prefs.json`, `bookmarks.json`, `reading_plans.json`, `subscribers.json`,
+`votd_mode.json`. These contain Discord user/server IDs and are gitignored; back
+them up separately if you move machines.
+
+**Online services.** Some commands fetch from the web, so they need internet
+access (local `!verse` lookups don't): bolls.life (translations), sefaria.org
+(rabbinic texts), catenabible.com (`!catena`), newadvent.org (`!summa`),
+gematrix.org (`!gematria`), verseoftheday.com (`!votd`), openbible.info (`!xref`),
+deadseascrolls.org.il (`!variants`), and hebcal.com / orthocal.info /
+universalis.com / api.aladhan.com (`!today`).
+
+### Adding a corpus
+
+1. Add `data/<corpus>/<book>.json` in the schema above.
+2. In `scripture_lookup.py`: list the file under its corpus in
+   `ScriptureLookup._load_all()`, add the corpus to `CORPUS_PRIORITY` and to
+   the `source_map` in `get_verse()`, and add book abbreviations to `ALIASES`.
+3. Add a few lookups to `tests/test_lookup.py`.
 
 ---
 
-## Commands
+## Development
 
-| Command | Example | Description |
-|---|---|---|
-| `/verse <ref>` | `/verse John 3:16` | Slash command verse lookup |
-| `!verse <ref>` | `!verse 2 Nephi 2:25` | Prefix command |
-| `!v <ref>` | `!v Enoch 1:9` | Short alias |
-| `!scripture <ref>` | `!scripture Wisdom 7:22` | Another alias |
-| `!search <text>` | `!search faith hope charity` | Full-text search |
-| `!books` | `!books lds` | List books (optional filter) |
-
-### Supported Reference Formats
-
-```
-Genesis 1:1
-Gen 1:1
-Jn 3:16
-1 Nephi 3:7
-1Ne 3:7
-D&C 76:22
-Doctrine and Covenants 76:22–24     ← verse range
-Wisdom 7:22
-Ps Sol 17:1
-Enoch 1:9
-Jubilees 3:4
-1 Clement 5:1
-1 Clem 5:1
-Ign Eph 7:2                         ← Ignatius to the Ephesians
-Ign Rom 4:1
-Pol Phil 2:1                        ← Polycarp to the Philippians
-Mart Pol 9:1                        ← Martyrdom of Polycarp
-Barn 4:1                            ← Epistle of Barnabas
-Did 9:1                             ← Didache
-Herm Vis 1:1                        ← Shepherd of Hermas, Vision 1, ch. 1
-Herm Man 6:1                        ← Shepherd of Hermas, Mandate 6, ch. 1
-Herm Sim 9:1:3                      ← Shepherd of Hermas, Similitude 9, ch. 1, v. 3
-Hermas 78:3                         ← same verse, Lightfoot continuous chapters
+```bash
+python -m pytest            # ~130 tests, a few seconds, no network needed
 ```
 
----
-
-## File Structure
-
-```
-scripture-bot/
-├── bot.py                  ← Discord bot (entry point)
-├── scripture_lookup.py     ← Verse lookup engine
-├── build_data.py           ← Data download/build script
-├── requirements.txt
-├── README.md
-└── data/
-    ├── kjv/
-    │   └── kjv_with_apocrypha.json
-    ├── lds/
-    │   ├── book_of_mormon.json
-    │   ├── doctrine_and_covenants.json
-    │   └── pearl_of_great_price.json
-    ├── brenton/
-    │   └── brenton_septuagint.json
-    ├── charles/
-    │   ├── book_of_enoch.json
-    │   └── book_of_jubilees.json
-    └── apostolic_fathers/
-        ├── 1_clement.json
-        ├── 2_clement.json
-        ├── ignatius_ephesians.json
-        ├── ignatius_magnesians.json
-        ├── ignatius_trallians.json
-        ├── ignatius_romans.json
-        ├── ignatius_philadelphians.json
-        ├── ignatius_smyrnaeans.json
-        ├── ignatius_polycarp.json
-        ├── polycarp_philippians.json
-        ├── martyrdom_of_polycarp.json
-        ├── epistle_of_barnabas.json
-        ├── didache.json
-        ├── hermas_visions.json
-        ├── hermas_mandates.json
-        └── hermas_similitudes.json
-```
-
----
-
-## Extending
-
-To add a new corpus (e.g. the Dead Sea Scrolls, Nag Hammadi texts):
-1. Add a `data/newcorpus/mybook.json` with the standard schema
-2. Add an entry in `build_data.py`'s `corpus_dirs` dict inside `ScriptureLookup._load_all()`
-3. Add book aliases to the `ALIASES` dict in `scripture_lookup.py`
-4. Add the corpus to `CORPUS_PRIORITY`
+- **Adding a command:** put it in the fitting `bot_commands/` module (or a new
+  one, imported in `bot.py`), decorated with `@bot.command` from `core`.
+- **Command registry snapshot:** `tests/test_command_registry.py` fails if any
+  command, alias, or slash command appears or disappears. After adding or
+  removing one on purpose, regenerate it:
+  `python -c "import tests.test_command_registry as t; t.regenerate()"`
+- **Deploying:** commit, push, then `Restart-Service ScriptureBot`.

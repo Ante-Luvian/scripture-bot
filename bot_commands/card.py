@@ -1,5 +1,7 @@
 """
-!card shareable verse images (and Greek transliteration).
+Image commands: !card shareable verse images, !interlinear and
+!reverseinterlinear word-by-word images, plus !concordance and the Greek
+transliteration they use.
 """
 import asyncio
 import discord

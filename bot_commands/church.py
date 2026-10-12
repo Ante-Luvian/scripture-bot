@@ -208,9 +208,6 @@ def _fetch_catena_sections(reference: str) -> dict:
 @bot.command(name="catena")
 async def cmd_catena(ctx, *, reference: str = ""):
     """Fetch patristic commentary from catenabible.com. Usage: !catena John 3:16"""
-    import urllib.request
-    import html as html_mod
-
     # If no reference given, use today's Verse of the Day reference
     if not reference:
         ref_raw, _ = _scrape_votd()
