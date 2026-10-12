@@ -13,6 +13,11 @@ data/subscribers.json
 data/error_log.json
 data/weekly_report.json
 data/quiz_scores.json
+data/daily_quiz.json
+data/memorize.json
+
+# Daily copies of the runtime state above (bot_commands/backup.py)
+backups/
 
 # Raw downloads / leftover duplicates (already extracted into data/)
 data/patristics/crap/

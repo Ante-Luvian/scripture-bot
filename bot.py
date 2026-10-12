@@ -23,6 +23,9 @@ from bot_commands.changelog import (
     announce_changelog,
     refresh_introductions,
 )
+from bot_commands.backup import (
+    daily_backup_task,
+)
 from bot_commands.health import (
     weekly_notes_check,
 )
@@ -95,6 +98,7 @@ async def on_ready():
     daily_oracle_task.start()
     plan_reminder_task.start()
     weekly_report_task.start()
+    daily_backup_task.start()    # backs up data/ now if today's copy is missing
     weekly_notes_check.start()   # first check now, then weekly
 
     # Post any CHANGELOG.md entries each server hasn't seen yet, and bring

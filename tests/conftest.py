@@ -29,7 +29,8 @@ def lookup(bot_module):
 # and fake John 3:16 lookups to data/stats.json on every run).
 RUNTIME_FILES = ["VOTD_MODE_PATH", "STATS_PATH", "GUILD_ACTIVITY_PATH", "GUILD_CONFIG_PATH",
                  "USER_PREFS_PATH", "BOOKMARKS_PATH", "READING_PLANS_PATH", "SUBSCRIBERS_PATH",
-                 "ERROR_LOG_PATH", "REPORT_STATE_PATH", "QUIZ_SCORES_PATH"]
+                 "ERROR_LOG_PATH", "REPORT_STATE_PATH", "QUIZ_SCORES_PATH", "DAILY_QUIZ_PATH",
+                 "MEMORIZE_PATH"]
 
 
 @pytest.fixture(autouse=True)
@@ -42,6 +43,8 @@ def isolate_runtime_files(tmp_path, monkeypatch):
         for attr in RUNTIME_FILES:
             if hasattr(module, attr):
                 monkeypatch.setattr(module, attr, tmp_path / attr.lower().replace("_path", ".json"))
+        if hasattr(module, "BACKUP_DIR"):
+            monkeypatch.setattr(module, "BACKUP_DIR", tmp_path / "backups")
 
 
 class FakeCtx:
