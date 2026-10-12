@@ -26,3 +26,6 @@ data/classical/New folder/
 # Python
 __pycache__/
 *.pyc
+
+# Downloads cached by scripts/build_world_texts.py
+scripts/.cache/

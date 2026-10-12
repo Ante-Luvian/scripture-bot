@@ -569,6 +569,8 @@ ALIASES: dict[str, str] = {
     "rig veda": "Rig Veda", "rigveda": "Rig Veda", "rig": "Rig Veda",
     "yajur veda": "Yajur Veda", "yajurveda": "Yajur Veda", "yajur": "Yajur Veda",
     "sama veda": "Sama Veda", "samaveda": "Sama Veda", "sama": "Sama Veda",
+    "dhammapada": "Dhammapada", "dhp": "Dhammapada",
+    "diamond sutra": "Diamond Sutra", "vajracchedika": "Diamond Sutra",
     "atharva veda": "Atharva Veda", "atharvaveda": "Atharva Veda", "atharva": "Atharva Veda",
     "divine names": "Divine Names", "the divine names": "Divine Names",
     "mystical theology": "Mystical Theology", "mystic theology": "Mystical Theology",
@@ -1288,7 +1290,7 @@ ALIASES: dict[str, str] = {
 
 # Priority order when the same book name exists in multiple corpora
 # (first match wins unless the user specifies a corpus)
-CORPUS_PRIORITY = ["kjv", "lds", "brenton", "charles", "apostolic_fathers", "quran", "classical", "jewish", "bahai", "qumran", "gnostic", "dharmic", "norse", "ancient_near_east", "patristics", "medieval"]
+CORPUS_PRIORITY = ["kjv", "lds", "brenton", "charles", "apostolic_fathers", "quran", "classical", "jewish", "bahai", "qumran", "gnostic", "dharmic", "buddhist", "norse", "ancient_near_east", "patristics", "medieval"]
 
 
 # Shepherd of Hermas: (first, last) Lightfoot continuous chapter of each
@@ -1422,6 +1424,10 @@ class ScriptureLookup:
                 "mandaean_book_of_john.json",
                 "nag_hammadi_zinner.json",
                 "manichaean_psalms.json",
+            ],
+            "buddhist": [
+                "dhammapada.json",
+                "diamond_sutra.json",
             ],
             "norse": [
                 "poetic_edda.json",
@@ -1759,6 +1765,28 @@ class ScriptureLookup:
         last = nxt[0] - 1 if nxt else max(chosen[-1], min(chosen[-1] + 4, end))
         return first, last, chosen
 
+    # Works whose verses are numbered straight through the book and cited by
+    # that number alone ("Dhammapada 183"), though stored by chapter.
+    _VERSE_NUMBERED = ("Dhammapada",)
+
+    def _locate_numbered_verse(self, book: str, chap_key: str, verse_start, verse_end):
+        """A bare number beyond the last chapter is a verse number; a verse
+        given with the wrong chapter is found in the right one."""
+        chapters = self._data.get("buddhist", {}).get(book, {})
+        if verse_start is None and chap_key.isdigit() and chap_key not in chapters:
+            verse_start = verse_end = int(chap_key)
+        if verse_start is None:
+            return chap_key, verse_start, verse_end
+        end = verse_end or verse_start
+        for key, verses in chapters.items():
+            if str(verse_start) in verses:
+                return key, verse_start, end
+            # a verse Müller paired with the one before is stored under that one ("58" holds 58-59)
+            prev = verses.get(str(verse_start - 1), "")
+            if prev.startswith(f"(vv. {verse_start - 1}–{verse_start})"):
+                return key, verse_start - 1, end
+        return chap_key, verse_start, verse_end
+
     def get_verse(self, reference: str) -> dict:
         """
         Parse a free-form reference like "John 3:16" or "D&C 76:22-24"
@@ -1895,6 +1923,10 @@ class ScriptureLookup:
             }
 
         chap_key = chapter if isinstance(chapter, str) else str(chapter)
+        if canon_book in self._VERSE_NUMBERED:
+            chap_key, verse_start, verse_end = self._locate_numbered_verse(
+                canon_book, chap_key, verse_start, verse_end)
+            chapter = chap_key
         chap_data = self._data[corpus].get(canon_book, {}).get(chap_key)
         if chap_data is None:
             def _chap_sort(k):
@@ -1923,6 +1955,7 @@ class ScriptureLookup:
             "qumran":            "Open Dead Sea (machine draft)",
             "gnostic":           "Gnostic & Esoteric Texts",
             "dharmic":           "Dharmic Scriptures Team (2008)",
+            "buddhist":          "Buddhist Texts",
             "norse":            "Trans. Henry Adams Bellows (1923)",
             "patristics":       "Church Fathers (ANF/NPNF/Pearse)",
             "medieval":         "Medieval (Bede, Golden Legend)",
@@ -2061,6 +2094,7 @@ class ScriptureLookup:
             "qumran":           "🏺 Dead Sea Scrolls",
             "gnostic":          "🧿 Gnostic / Hermetic",
             "dharmic":          "☸️ Dharmic",
+            "buddhist":         "☸️ Buddhist",
             "norse":            "🌲 Norse",
             "ancient_near_east":          "🌙 Ancient Near East",
             "patristics":       "⛪ Church Fathers",

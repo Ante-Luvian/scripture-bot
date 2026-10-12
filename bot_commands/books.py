@@ -765,6 +765,10 @@ BOOKS_TREE = [
             "Atharva Veda",
         ]),
     ]),
+    ("☸️ Buddhist", [
+        "Dhammapada",
+        "Diamond Sutra",
+    ]),
     ("⛪ Patristics & Church History", [
         ("Apostolic Fathers", [
             "1 Clement","2 Clement",
@@ -1001,8 +1005,11 @@ _SUPERGROUP_ORDER = [
         "☪️ Islamic", "🧿 Gnostic", "📯 LDS", "🌍 Bahá'í", "🏺 Dead Sea Scrolls",
         "⛪ Patristics & Church History",
     ]),
+    ("🪷 Eastern Traditions", [
+        "☸️ Dharmic", "☸️ Buddhist",
+    ]),
     ("🌐 Mythology & Classical Traditions", [
-        "🏛️ Classical", "🌲 Norse", "🌙 Ancient Near East", "☸️ Dharmic",
+        "🏛️ Classical", "🌲 Norse", "🌙 Ancient Near East",
         "🔥 Zoroastrian",
     ]),
 ]

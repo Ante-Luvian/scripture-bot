@@ -578,6 +578,7 @@ _CATEGORY_BOOKS = {
         "Manichaean Psalms of Thomas","Manichaean Psalms (Separate)",
     },
     "☸️ Dharmic":           {"Rig Veda","Yajur Veda","Sama Veda","Atharva Veda"},
+    "☸️ Buddhist":          {"Dhammapada","Diamond Sutra"},
     "🌲 Norse":             {"Voluspo","Hovamol","Iliad"},
     "🔥 Zoroastrian":       {"Gathas"},
     "🌍 Baháʼí":            {
