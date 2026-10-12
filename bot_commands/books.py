@@ -467,7 +467,7 @@ BOOKS_TREE = [
             ("Virgil", ["Aeneid"]),
         ]),
         ("Theogonies & Hymns", [
-            ("Hesiod", ["Theogony"]),
+            ("Hesiod", ["Theogony", "Works and Days", "Shield of Heracles"]),
             ("Homeric", ["Homeric Hymns"]),
             ("Orphic", ["Orphic Hymns"]),
             ("Pythagorean", ["Golden Verses of Pythagoras"]),

@@ -569,6 +569,8 @@ ALIASES: dict[str, str] = {
     "rig veda": "Rig Veda", "rigveda": "Rig Veda", "rig": "Rig Veda",
     "yajur veda": "Yajur Veda", "yajurveda": "Yajur Veda", "yajur": "Yajur Veda",
     "sama veda": "Sama Veda", "samaveda": "Sama Veda", "sama": "Sama Veda",
+    "works and days": "Works and Days", "erga": "Works and Days", "op": "Works and Days",
+    "shield of heracles": "Shield of Heracles", "shield": "Shield of Heracles",
     "meditations": "Meditations", "marcus aurelius": "Meditations", "med": "Meditations",
     "enchiridion": "Enchiridion", "epictetus": "Enchiridion", "ench": "Enchiridion",
     "imitation of christ": "Imitation of Christ", "imitation": "Imitation of Christ",
@@ -1401,6 +1403,7 @@ class ScriptureLookup:
                 "iamblichus.json",
                 "aristotle_perseus.json",
                 "aristotle_mit.json",
+                "hesiod_evelyn_white.json",
                 "meditations_long.json",
                 "enchiridion_higginson.json",
                 "julian.json",
@@ -1774,7 +1777,8 @@ class ScriptureLookup:
     # each passage matches the same Greek lines). Regrouped on load into
     # book -> {first line: text}, so "Iliad 1" is a book and "Iliad 1:7" the
     # passage containing line 7.
-    _LINE_CHUNKED = ("Iliad", "Odyssey", "Inferno", "Purgatorio", "Paradiso")
+    _LINE_CHUNKED = ("Iliad", "Odyssey", "Inferno", "Purgatorio", "Paradiso",
+                     "Works and Days", "Shield of Heracles")
 
     def _regroup_line_chunks(self, corpus: str, books) -> None:
         for book in books:
@@ -1966,6 +1970,11 @@ class ScriptureLookup:
         if (verse_start is not None and verse_end is None and chap_key not in book_chapters
                 and f"{chap_key}.{verse_start}" in book_chapters):
             chap_key, chapter, verse_start = f"{chap_key}.{verse_start}", f"{chap_key}.{verse_start}", None
+        # A one-part poem cited by line alone ("Works and Days 289")
+        if (canon_book in self._LINE_CHUNKED and list(book_chapters) == ["1"] and verse_start is None
+                and chap_key.isdigit() and chap_key != "1"):
+            verse_start = verse_end = int(chap_key)
+            chap_key = chapter = "1"
         if canon_book in self._VERSE_NUMBERED:
             chap_key, verse_start, verse_end = self._locate_numbered_verse(
                 canon_book, chap_key, verse_start, verse_end)

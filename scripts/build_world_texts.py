@@ -333,6 +333,45 @@ def meditations():
           {"Meditations": book})
 
 
+def _perseus_lines(path: Path) -> dict:
+    """{first line: text} from a Perseus TEI translation marked <l n="..."> every
+    few lines (notes dropped)."""
+    import xml.etree.ElementTree as ET
+    ns = "{http://www.tei-c.org/ns/1.0}"
+    root = ET.parse(path).getroot()
+    for note in root.iter(f"{ns}note"):
+        note.text = ""
+        for child in list(note):
+            note.remove(child)
+    out = {}
+    for l in root.iter(f"{ns}l"):
+        out[l.get("n")] = tidy("".join(l.itertext()))
+    return out
+
+
+def hesiod():
+    """Works and Days and the Shield of Heracles, trans. Hugh G. Evelyn-White
+    (Loeb, 1914), from the Perseus TEI in the canonical-greekLit submodule.
+    Passages run from one 5-line marker to the next, keyed "1.line" so the
+    lookup treats them like Homer's (and "Works and Days 289" finds line 289)."""
+    base = ROOT / "canonical-greekLit" / "data" / "tlg0020"
+    out = {}
+    for name, work in (("Works and Days", "tlg002"), ("Shield of Heracles", "tlg003")):
+        lines = _perseus_lines(base / work / f"tlg0020.{work}.perseus-eng2.xml")
+        expect(len(lines) > 50 and "1" in lines, f"{name}: {len(lines)} passages")
+        passages = {}
+        for n, t in lines.items():
+            if not t:
+                continue
+            if n.isdigit():
+                passages[f"1.{n}"] = {"1": t}
+            elif passages:                       # an interpolated line ("169a") joins the passage before it
+                last = list(passages)[-1]
+                passages[last]["1"] += " " + t
+        out[name] = passages
+    write("classical", "hesiod_evelyn_white.json", "Hesiod, trans. Hugh G. Evelyn-White (Loeb Classical Library, 1914). Perseus Digital Library (CC-BY-SA).", out)
+
+
 def enchiridion():
     """Epictetus, trans. T. W. Higginson (1865; Library of Liberal Arts ed.),
     Gutenberg #45109: his 51 chapters (the usual count is 53: his last
@@ -466,7 +505,7 @@ def hafiz():
 
 BUILDERS = {f.__name__: f for f in (dhammapada, diamond_sutra, tao_te_ching, analects, i_ching, hafiz,
                                     bhagavad_gita, upanishads, meditations, enchiridion, imitation_of_christ,
-                                    rule_of_benedict, divine_comedy)}
+                                    rule_of_benedict, divine_comedy, hesiod)}
 
 if __name__ == "__main__":
     for name in sys.argv[1:] or BUILDERS:
