@@ -699,7 +699,8 @@ async def cmd_help(ctx, *, topic: str = ""):
         "`!features` — turn optional features on/off · `!help features`\n"
         "`!changelogsetup #channel` — where I announce my updates · `!changelog` — recent updates\n"
         "`!changelogintro` — post my full introduction + latest updates there (`fresh` clears my old posts first)\n"
-        "`!oraclesetup channel #chan` — a daily oracle post (`time`, `kind`, `test`, `off`)"
+        "`!oraclesetup channel #chan` — a daily oracle post (`time`, `kind`, `test`, `off`)\n"
+        "`!quizsetup channel #chan` — a daily quiz question (`time`, `kind bible|hard`, `test`, `off`)"
     ), inline=False)
     embed.add_field(name="🏛️ Ancient Languages & Strong's", value=(
         "Append to `!verse`: `OE` `WLC` `LXX` `TR` `VULG` `peshitta` `CSL`\n"

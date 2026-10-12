@@ -6,6 +6,7 @@
 Everyone gets one answer per question, told privately whether they were
 right; after ROUND_SECONDS the answer is revealed in the channel with who
 got it. Scores (per server) live in data/quiz_scores.json.
+  !quizsetup         (admins) a daily quiz question in a channel; see below
 """
 import datetime
 import json
@@ -14,8 +15,9 @@ import re
 
 import discord
 from discord import app_commands
+from discord.ext import commands, tasks
 
-from core import ROOT, _atomic_write_json, bot, log, lookup
+from core import ROOT, _atomic_write_json, _load_guild_config, _update_guild_config, bot, log, lookup
 from scripture_lookup import BIBLE_NT, BIBLE_OT
 
 QUIZ_SCORES_PATH = ROOT / "data" / "quiz_scores.json"
@@ -179,18 +181,10 @@ class QuizView(discord.ui.View):
         return callback
 
     def reveal_embed(self) -> discord.Embed:
-        winners = [name for name, ok in self.answers.values() if ok]
-        embed = question_embed(self.question, self.hard)
-        embed.add_field(name="Answer", value=f"**{self.question['answer']}** — {self.question['reference']}", inline=False)
-        embed.add_field(name="Got it right", value=", ".join(winners) if winners else "Nobody this time!", inline=False)
-        embed.set_footer(text=f"{len(self.answers)} answered · !quiz for another · !quiz leaderboard")
-        return embed
+        return reveal_embed(question_embed(self.question, self.hard), self.question, list(self.answers.values()))
 
     async def on_timeout(self):
-        for item in self.children:
-            item.disabled = True
-            if item.label == self.question["answer"][:80]:
-                item.style = discord.ButtonStyle.success
+        _mark_answer(self.children, self.question)
         if self.message is not None:
             try:
                 await self.message.edit(embed=self.reveal_embed(), view=self)
@@ -206,6 +200,22 @@ def question_embed(question: dict, hard: bool) -> discord.Embed:
     )
     embed.set_footer(text=f"Pick an answer below — one try each. Revealed in {ROUND_SECONDS} seconds.")
     return embed
+
+
+def reveal_embed(embed: discord.Embed, question: dict, answers: list) -> discord.Embed:
+    """`embed` (the question) with the answer and who got it; answers: [(name, correct), ...]."""
+    winners = [name for name, ok in answers if ok]
+    embed.add_field(name="Answer", value=f"**{question['answer']}** — {question['reference']}", inline=False)
+    embed.add_field(name="Got it right", value=", ".join(winners)[:1024] if winners else "Nobody this time!", inline=False)
+    embed.set_footer(text=f"{len(answers)} answered · !quiz for another · !quiz leaderboard")
+    return embed
+
+
+def _mark_answer(buttons, question: dict) -> None:
+    for item in buttons:
+        item.disabled = True
+        if item.label == question["answer"][:80]:
+            item.style = discord.ButtonStyle.success
 
 
 @bot.command(name="quiz", aliases=["guess"])
@@ -238,3 +248,194 @@ async def quiz_slash(interaction: discord.Interaction, mode: str = ""):
     await interaction.response.defer()
     ctx = await bot.get_context(interaction)
     await cmd_quiz(ctx, mode=mode)
+
+
+# ── Daily quiz (!quizsetup) ─────────────────────────────────────────────────
+# One question a day in a channel the admins choose; posting the next one
+# first reveals the previous one's answer. Unlike !quiz a round lasts a day,
+# across restarts, so the buttons are persistent (DynamicItem, carrying the
+# round number) and the round lives in data/daily_quiz.json: {guild id:
+# {"round", "date", "question", "hard", "channel_id", "message_id",
+# "answers": {user id: [name, correct]}}}.
+# Settings in guild_config.json: quiz_channel_id, quiz_time, quiz_kind.
+
+DAILY_QUIZ_PATH = ROOT / "data" / "daily_quiz.json"
+DEFAULT_QUIZ_TIME = "18:00"
+
+
+def _load_daily() -> dict:
+    try:
+        return json.loads(DAILY_QUIZ_PATH.read_text(encoding="utf-8")) if DAILY_QUIZ_PATH.exists() else {}
+    except Exception:
+        return {}
+
+
+class DailyQuizButton(discord.ui.DynamicItem[discord.ui.Button],
+                      template=r"dquiz:(?P<guild>\d+):(?P<round>\d+):(?P<idx>\d)"):
+    def __init__(self, guild_id, round_no: int, idx: int, label: str):
+        super().__init__(discord.ui.Button(label=label[:80], style=discord.ButtonStyle.secondary,
+                                           custom_id=f"dquiz:{guild_id}:{round_no}:{idx}"))
+        self.guild_id, self.round_no, self.idx = str(guild_id), int(round_no), idx
+
+    @classmethod
+    async def from_custom_id(cls, interaction, item, match):
+        return cls(match["guild"], int(match["round"]), int(match["idx"]), item.label or "")
+
+    async def callback(self, interaction: discord.Interaction):
+        await answer_daily(interaction, self.guild_id, self.round_no, self.idx)
+
+
+bot.add_dynamic_items(DailyQuizButton)
+
+
+async def answer_daily(interaction, guild_id: str, round_no: int, idx: int) -> None:
+    daily = _load_daily()
+    state = daily.get(guild_id)
+    if not state or state["round"] != round_no:
+        await interaction.response.send_message("This daily quiz is over — try the newest one, "
+                                                "or `!quiz` any time!", ephemeral=True)
+        return
+    uid = str(interaction.user.id)
+    if uid in state["answers"]:
+        await interaction.response.send_message("You've already answered this one — the answer comes "
+                                                "with the next question.", ephemeral=True)
+        return
+    correct = state["question"]["choices"][idx] == state["question"]["answer"]
+    state["answers"][uid] = [str(interaction.user.display_name), correct]
+    _atomic_write_json(DAILY_QUIZ_PATH, daily)
+    score = record_answer(guild_id, interaction.user.id, correct)
+    verdict = "✅ Correct!" if correct else "❌ Not quite — the answer is revealed with the next question."
+    await interaction.response.send_message(f"{verdict} {score_line(score)}", ephemeral=True)
+
+
+def _daily_view(guild_id, round_no: int, question: dict, revealed: bool = False) -> discord.ui.View:
+    view = discord.ui.View(timeout=None)          # persistent buttons: must never time out
+    for i, choice in enumerate(question["choices"]):
+        view.add_item(DailyQuizButton(guild_id, round_no, i, choice))
+    if revealed:
+        _mark_answer([item.item for item in view.children], question)
+    return view
+
+
+def _daily_embed(question: dict, hard: bool) -> discord.Embed:
+    embed = question_embed(question, hard)
+    embed.title = "📅 Daily quiz: " + ("which tradition's text is this?" if hard else "which book is this from?")
+    embed.set_footer(text="One guess each · the answer comes with the next question · !quiz leaderboard")
+    return embed
+
+
+async def post_daily_quiz(client, guild_id, channel, today: datetime.date, kind: str = "bible") -> bool:
+    """Reveal this server's previous daily quiz, then post a new one in `channel`."""
+    gid = str(guild_id)
+    previous = _load_daily().get(gid)
+    if previous:
+        old_channel = client.get_channel(int(previous["channel_id"]))
+        if old_channel is not None:
+            try:
+                embed = reveal_embed(_daily_embed(previous["question"], previous.get("hard", False)),
+                                     previous["question"], [tuple(a) for a in previous["answers"].values()])
+                await old_channel.get_partial_message(int(previous["message_id"])).edit(
+                    embed=embed, view=_daily_view(gid, previous["round"], previous["question"], revealed=True))
+            except discord.HTTPException as e:
+                log.warning(f"Couldn't reveal the previous daily quiz in guild {gid}: {e}")
+    hard = kind == "hard"
+    question = make_question(hard)
+    if question is None:
+        return False
+    round_no = (previous or {}).get("round", 0) + 1
+    message = await channel.send(embed=_daily_embed(question, hard), view=_daily_view(gid, round_no, question))
+    daily = _load_daily()
+    daily[gid] = {"round": round_no, "date": today.isoformat(), "question": question, "hard": hard,
+                  "channel_id": channel.id, "message_id": message.id, "answers": {}}
+    _atomic_write_json(DAILY_QUIZ_PATH, daily)
+    return True
+
+
+async def run_daily_quizzes(client, today: datetime.date, current_hm: str) -> int:
+    posted = 0
+    for guild_id, g in _load_guild_config().items():
+        channel_id = g.get("quiz_channel_id")
+        if not channel_id or g.get("quiz_time", DEFAULT_QUIZ_TIME) != current_hm:
+            continue
+        channel = client.get_channel(int(channel_id))
+        if channel is None:
+            continue
+        try:
+            posted += await post_daily_quiz(client, guild_id, channel, today, g.get("quiz_kind", "bible"))
+        except Exception:
+            log.exception(f"Failed to post the daily quiz for guild {guild_id}")
+    return posted
+
+
+@tasks.loop(minutes=1)
+async def daily_quiz_task():
+    now = datetime.datetime.now(datetime.timezone.utc)
+    await run_daily_quizzes(bot, now.date(), f"{now.hour:02d}:{now.minute:02d}")
+
+
+@daily_quiz_task.before_loop
+async def _before_daily_quiz():
+    await bot.wait_until_ready()
+
+
+@bot.command(name="quizsetup", aliases=["quizconfig"])
+@commands.has_permissions(administrator=True)
+async def cmd_quizsetup(ctx, action: str = "", *, arg: str = ""):
+    """Configure this server's daily quiz.
+    Usage: !quizsetup                  — show this server's settings
+           !quizsetup channel #chan    — post a daily quiz question there
+           !quizsetup time 18:00       — daily post time (24h UTC)
+           !quizsetup kind bible       — bible | hard (passages from many traditions)
+           !quizsetup test             — post one now (reveals the current one)
+           !quizsetup off              — stop the daily quiz"""
+    if not ctx.guild:
+        await ctx.send("This command only works in a server.")
+        return
+    g = _load_guild_config().get(str(ctx.guild.id), {})
+    channel_id = g.get("quiz_channel_id")
+    time_hm, kind = g.get("quiz_time", DEFAULT_QUIZ_TIME), g.get("quiz_kind", "bible")
+    action = action.strip().lower()
+
+    if not action:
+        embed = discord.Embed(title=f"📅 Daily quiz — {ctx.guild.name}", color=discord.Color.dark_teal())
+        embed.add_field(name="Channel", value=f"<#{channel_id}>" if channel_id else "*not set — daily quiz is off*")
+        embed.add_field(name="Time (UTC)", value=time_hm)
+        embed.add_field(name="Kind", value=kind)
+        embed.set_footer(text="!quizsetup channel #chan · time HH:MM · kind bible|hard · test · off")
+        await ctx.send(embed=embed)
+        return
+    if action == "off":
+        _update_guild_config(ctx.guild.id, quiz_channel_id=None)
+        await ctx.send("The daily quiz is off for this server.")
+        return
+    if action == "channel":
+        channel = ctx.message.channel_mentions[0] if ctx.message.channel_mentions else None
+        if channel is None:
+            await ctx.send("Mention a channel: `!quizsetup channel #general`")
+            return
+        _update_guild_config(ctx.guild.id, quiz_channel_id=channel.id)
+        await ctx.send(f"A daily quiz question will be posted in {channel.mention} at {time_hm} UTC ({kind}).")
+        return
+    if action == "time":
+        m = re.match(r"^(\d{1,2}):(\d{2})$", arg.strip())
+        if not m or not (0 <= int(m.group(1)) <= 23 and 0 <= int(m.group(2)) <= 59):
+            await ctx.send("Use 24-hour UTC time: `!quizsetup time 18:00`")
+            return
+        hm = f"{int(m.group(1)):02d}:{int(m.group(2)):02d}"
+        _update_guild_config(ctx.guild.id, quiz_time=hm)
+        await ctx.send(f"Daily quiz time set to **{hm} UTC**.")
+        return
+    if action == "kind":
+        new_kind = arg.strip().lower()
+        if new_kind not in ("bible", "hard"):
+            await ctx.send("Choose `bible` or `hard`.")
+            return
+        _update_guild_config(ctx.guild.id, quiz_kind=new_kind)
+        await ctx.send(f"Daily quiz set to **{new_kind}**.")
+        return
+    if action == "test":
+        channel = bot.get_channel(int(channel_id)) if channel_id else ctx.channel
+        if not await post_daily_quiz(bot, ctx.guild.id, channel, datetime.datetime.now(datetime.timezone.utc).date(), kind):
+            await ctx.send("⚠️ I couldn't come up with a question just now — try again.")
+        return
+    await ctx.send("Unknown option. Use `channel`, `time`, `kind`, `test`, or `off` — see `!help quizsetup`.")

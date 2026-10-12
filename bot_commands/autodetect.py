@@ -61,7 +61,8 @@ async def on_guild_join(guild: discord.Guild):
             "• `!changelogsetup #channel` then `!changelogintro` — a channel that introduces me to "
             "everyone (what I can do, every command explained) and where I announce my updates\n"
             "• `!votdsetup channel #channel` — a daily Verse of the Day\n"
-            "• `!oraclesetup channel #channel` — a daily oracle (Virgil, Homer, Delphi…)\n\n"
+            "• `!oraclesetup channel #channel` — a daily oracle (Virgil, Homer, Delphi…)\n"
+            "• `!quizsetup channel #channel` — a daily quiz question: which book is this verse from?\n\n"
             "**Optional features (all off by default)** — turn on with `!features <name> on`:\n"
             + "\n".join(f"• `{k}` — {v}" for k, v in GUILD_FEATURES.items())
         ),

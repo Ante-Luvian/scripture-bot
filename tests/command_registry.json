@@ -92,6 +92,9 @@
   "quiz": [
    "guess"
   ],
+  "quizsetup": [
+   "quizconfig"
+  ],
   "quoted": [
    "otnt",
    "quotedin"
@@ -216,6 +219,7 @@
   "prefer",
   "psalm",
   "quiz",
+  "quizsetup",
   "quoted",
   "reverseinterlinear",
   "root",

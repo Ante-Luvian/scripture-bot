@@ -35,6 +35,9 @@ from bot_commands.oracles import (
 from bot_commands.personal import (
     plan_reminder_task,
 )
+from bot_commands.quiz import (
+    daily_quiz_task,
+)
 from bot_commands.report import (
     weekly_report_task,
 )
@@ -96,6 +99,7 @@ async def on_ready():
     log.info(f"Daily VOTD configured for {active_votd} guild(s) — admins can run !votdsetup")
     _daily_votd_task.start()
     daily_oracle_task.start()
+    daily_quiz_task.start()
     plan_reminder_task.start()
     weekly_report_task.start()
     daily_backup_task.start()    # backs up data/ now if today's copy is missing

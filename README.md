@@ -134,11 +134,17 @@ Prefix commands use `!`; most also have a `/` slash-command version.
 | `!homer` | `!homeromanteion`, `!sortes` | Homeric dice oracle |
 | `!virgil [question]` | `!aeneid` | Sortes Vergilianae |
 | `!sortesbiblicae` | `!bibliomancy` | Sortes Biblicae: the Bible opened at random (with the study buttons) |
-
 | `!oraclesetup` | | (Admins) A daily oracle in a channel: `channel #chan`, `time HH:MM` (UTC), `kind any\|virgil\|…`, `test`, `off` |
 
 Every oracle takes an optional question (`!virgil will I find work?`), shown with the
 answer, and every answer has a 🖼️ Card button that renders it as an image.
+
+### Quiz
+
+| Command | Aliases | What it does |
+|---|---|---|
+| `!quiz [hard \| leaderboard]` | `!guess` | Which book is this verse from? One private guess each, revealed after 60s. Scores per server, weekly and all-time, with streaks |
+| `!quizsetup` | `!quizconfig` | (Admins) A daily quiz question in a channel, revealed with the next: `channel #chan`, `time HH:MM` (UTC), `kind bible\|hard`, `test`, `off` |
 
 ### Verse of the Day
 
