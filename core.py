@@ -104,6 +104,22 @@ async def on_command_error(ctx, error):
 # study buttons greyed out and did nothing, and only the log knew.
 
 USER_ERROR_MESSAGE = "⚠️ Sorry — something went wrong with that. My owner has been told about it."
+ERROR_LOG_PATH = Path(__file__).parent / "data" / "error_log.json"   # recent errors, for the weekly report
+_ERROR_LOG_KEEP = 500
+
+
+def _append_error_log(where: str, error: BaseException) -> None:
+    import datetime
+    try:
+        entries = json.loads(ERROR_LOG_PATH.read_text(encoding="utf-8")) if ERROR_LOG_PATH.exists() else []
+    except Exception:
+        entries = []
+    entries.append({"at": datetime.datetime.now(datetime.timezone.utc).isoformat(timespec="seconds"),
+                    "where": where, "error": type(error).__name__})
+    try:
+        _atomic_write_json(ERROR_LOG_PATH, entries[-_ERROR_LOG_KEEP:])
+    except Exception as e:
+        log.warning(f"Couldn't write the error log: {e}")
 _ERROR_DM_INTERVAL = 6 * 60 * 60   # the same error DMs the owner at most once per 6 hours
 _last_error_dm: dict[str, float] = {}
 
@@ -119,6 +135,7 @@ async def report_error(where: str, error: BaseException) -> None:
     place, type, and line), so a recurring bug can't flood the DMs."""
     log.error(f"Unhandled error in {where}: {type(error).__name__}: {error}\n"
               + "".join(traceback.format_exception(type(error), error, error.__traceback__)))
+    _append_error_log(where, error)
     location = _error_location(error)
     signature = f"{where}|{type(error).__name__}|{location}"
     now = time.monotonic()

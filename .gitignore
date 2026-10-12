@@ -10,6 +10,8 @@ data/user_prefs.json
 data/bookmarks.json
 data/reading_plans.json
 data/subscribers.json
+data/error_log.json
+data/weekly_report.json
 
 # Raw downloads / leftover duplicates (already extracted into data/)
 data/patristics/crap/

@@ -28,7 +28,8 @@ def lookup(bot_module):
 # touch the live copies (an earlier version of this suite added a fake user
 # and fake John 3:16 lookups to data/stats.json on every run).
 RUNTIME_FILES = ["VOTD_MODE_PATH", "STATS_PATH", "GUILD_ACTIVITY_PATH", "GUILD_CONFIG_PATH",
-                 "USER_PREFS_PATH", "BOOKMARKS_PATH", "READING_PLANS_PATH", "SUBSCRIBERS_PATH"]
+                 "USER_PREFS_PATH", "BOOKMARKS_PATH", "READING_PLANS_PATH", "SUBSCRIBERS_PATH",
+                 "ERROR_LOG_PATH", "REPORT_STATE_PATH"]
 
 
 @pytest.fixture(autouse=True)

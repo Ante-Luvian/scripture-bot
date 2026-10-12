@@ -32,6 +32,9 @@ from bot_commands.oracles import (
 from bot_commands.personal import (
     plan_reminder_task,
 )
+from bot_commands.report import (
+    weekly_report_task,
+)
 # Importing a feature module registers its commands.
 from bot_commands import (  # noqa: F401
     autodetect,
@@ -39,6 +42,7 @@ from bot_commands import (  # noqa: F401
     card,
     changelog,
     church,
+    report,
     help,
     liturgy,
     oracles,
@@ -89,6 +93,7 @@ async def on_ready():
     _daily_votd_task.start()
     daily_oracle_task.start()
     plan_reminder_task.start()
+    weekly_report_task.start()
     weekly_notes_check.start()   # first check now, then weekly
 
     # Post any CHANGELOG.md entries each server hasn't seen yet, and bring
