@@ -702,7 +702,7 @@ async def cmd_help(ctx, *, topic: str = ""):
     ), inline=False)
     embed.add_field(name="🎲 Divination", value=(
         "`!oracle` `!delphi` `!homer` `!virgil` `!sortesbiblicae` `!iching` `!hafez` — oracular & sortes · `!help oracle`\n"
-        "`!quiz` — guess which book a verse is from (`!quiz hard`, `!quiz leaderboard`)"
+        "`!quiz` — guess which book a verse is from (`!quiz hard`, `!quiz buddhist`, `!quiz leaderboard`)"
     ), inline=False)
     embed.add_field(name="🔭 Discovery & Personal", value=(
         "`!discover` — random passage from any loaded tradition · `!help discover`\n"

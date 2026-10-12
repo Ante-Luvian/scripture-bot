@@ -30,6 +30,35 @@ def test_hard_question_mixes_traditions(quiz, seed):
     assert "no recoverable text" not in q["text"].lower()
 
 
+@pytest.mark.parametrize("key", ["buddhist", "chinese", "hindu", "classical", "christian", "jewish",
+                                 "apocrypha", "gnostic", "norse", "neareast", "lds", "bahai"])
+def test_tradition_quiz(quiz, lookup, key):
+    for book in quiz.QUIZ_POOLS[key]:
+        assert lookup._resolve_book(book)[1] == book, book
+        assert lookup.random_verse_from_book(book).get("found"), book
+    for seed in range(5):
+        q = quiz.make_question(rng=random.Random(seed), tradition=key)
+        assert q and q["answer"] in q["choices"] and set(q["choices"]) <= set(quiz.QUIZ_POOLS[key])
+        assert len(q["choices"]) == min(4, len(quiz.QUIZ_POOLS[key]))
+        assert not q["text"].startswith("*") and "(vv." not in q["text"][:6]     # no title giving it away
+    assert quiz.question_embed(q, False).title.startswith("❓ Which book is this from? (")
+
+
+def test_random_passage_skips_empty_chapters(lookup):
+    import random as r
+    for seed in range(40):                     # the Enneads and Enoch have empty chapters
+        r.seed(seed)
+        assert lookup.random_verse_from_book("Enneads")["found"]
+        assert lookup.random_verse_from_book("Book of Enoch")["found"]
+
+
+def test_quiz_command_traditions(quiz, fake_ctx):
+    asyncio.run(quiz.cmd_quiz.callback(fake_ctx, mode="Buddhism"))
+    assert fake_ctx.sent[-1]["embed"].title == "❓ Which book is this from? (☸️ Buddhist)"
+    asyncio.run(quiz.cmd_quiz.callback(fake_ctx, mode="islamic"))          # one book only: not a quiz
+    assert "Pick a quiz" in fake_ctx.sent[-1]["content"]
+
+
 def test_every_hard_pool_work_exists(quiz, lookup):
     for book, _ in quiz.HARD_POOL:
         assert lookup._resolve_book(book)[1] is not None, book

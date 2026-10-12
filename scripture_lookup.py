@@ -1752,8 +1752,12 @@ class ScriptureLookup:
         if not chapters:
             return {"found": False, "error": f"No data found for **{canon_book}**.", "suggestions": []}
 
-        chap = _random.choice(list(chapters.keys()))
+        # (some books have empty chapters -- gaps in the Enneads, Enoch -- which
+        # random.choice would crash on)
+        chap = _random.choice([c for c, v in chapters.items() if v] or list(chapters))
         verses = chapters[chap]
+        if not verses:
+            return {"found": False, "error": f"No data found for **{canon_book}**.", "suggestions": []}
         verse = _random.choice(list(verses.keys()))
         text = verses[verse]
         source = self._book_sources.get(canon_book, canon_book)

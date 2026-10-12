@@ -18,7 +18,7 @@ from discord import app_commands
 from discord.ext import commands, tasks
 
 from core import ROOT, _atomic_write_json, _load_guild_config, _update_guild_config, bot, log, lookup
-from scripture_lookup import BIBLE_NT, BIBLE_OT
+from scripture_lookup import BIBLE_NT, BIBLE_OT, TRADITIONS, tradition
 
 QUIZ_SCORES_PATH = ROOT / "data" / "quiz_scores.json"
 ROUND_SECONDS = 60
@@ -37,8 +37,37 @@ HARD_POOL = [
 ]
 
 
+# !quiz <tradition>: which of a tradition's best-known books is this from?
+# (The whole of a big tradition -- ~400 Church Fathers' works -- would be a
+# lottery, so each has a short list; every book here is checked by a test.)
+QUIZ_POOLS = {
+    "jewish":    ["Jewish War", "Jewish Antiquities", "On the Creation", "On the Life of Moses I",
+                  "Community Rule", "War Scroll", "Hodayot", "Damascus Document"],
+    "christian": ["Confessions", "City of God", "1 Clement", "Didache", "Shepherd of Hermas",
+                  "Imitation of Christ", "Rule of Benedict", "Inferno", "Ignatius to the Romans"],
+    "apocrypha": ["Book of Enoch", "Book of Jubilees", "2 Enoch", "Odes of Solomon", "Wisdom of Solomon",
+                  "Sirach", "The Protevangelium of James", "Acts of Paul and Thecla", "Acts of Pilate: First Greek Form"],
+    "hindu":     ["Rig Veda", "Atharva Veda", "Bhagavad Gita", "Isa Upanishad", "Katha Upanishad", "Kena Upanishad"],
+    "buddhist":  ["Dhammapada", "Sutta Nipata", "Diamond Sutra"],
+    "chinese":   ["Tao Te Ching", "Analects", "I Ching"],
+    "classical": ["Iliad", "Odyssey", "Aeneid", "Republic", "Meditations", "Enchiridion of Epictetus",
+                  "Works and Days", "Enneads", "Nicomachean Ethics", "Corpus Hermeticum"],
+    "gnostic":   ["Gospel of Thomas", "Ginza Rba", "The Thunder, Perfect Mind", "The Secret Book of James",
+                  "The Tripartite Tractate", "Manichaean Bema Psalms"],
+    "norse":     ["Voluspo", "Hovamol", "Lokasenna", "Thrymskvitha", "Grimnismol", "Vafthruthnismol"],
+    "neareast":  ["Enuma Elish", "Book of the Dead", "The Instruction of Amenemope", "The Story of Ahikar",
+                  "The Great Hymn to the Aten", "Baal and Mot"],
+    "lds":       ["1 Nephi", "Mosiah", "Alma", "Ether", "Doctrine and Covenants", "Moses"],
+    "bahai":     ["The Hidden Words (Arabic)", "The Hidden Words (Persian)", "Gleanings from the Writings of Baha'u'llah",
+                  "Kitab-i-Iqan", "Some Answered Questions", "Prayers and Meditations"],
+}
+
+
 def _clean(text: str) -> str:
-    text = re.sub(r"\*\*\[\d+\]\*\*\s*", "", text or "").strip()
+    text = re.sub(r"\*\*\[\d+\]\*\*\s*", "", text or "")
+    # a chapter title or heading would give the answer away ("*Of the imitation of Christ*", "**Chapter 28**")
+    text = re.sub(r"^(?:\*{1,2}[^*\n]+\*{1,2}\s*\n)+", "", text.strip())
+    text = re.sub(r"^\(vv\. [\d–]+\) ", "", text).strip()
     return text if len(text) <= MAX_TEXT else text[:MAX_TEXT - 1] + "…"
 
 
@@ -46,9 +75,22 @@ def _usable(text: str) -> bool:
     return len(text) >= 25 and "no recoverable text" not in text.lower()
 
 
-def make_question(hard: bool = False, rng: random.Random = random) -> "dict | None":
-    """{"text", "answer", "choices": [4 names, shuffled], "reference"} or None."""
+def make_question(hard: bool = False, rng: random.Random = random, tradition: str = "") -> "dict | None":
+    """{"text", "answer", "choices": [up to 4 names, shuffled], "reference"} or
+    None. `tradition`: a QUIZ_POOLS key, for a question within one tradition."""
     for _ in range(10):
+        if tradition:
+            pool = QUIZ_POOLS[tradition]
+            answer = rng.choice(pool)
+            result = lookup.random_verse_from_book(answer)
+            others = [b for b in pool if b != answer]
+            text = _clean(result.get("text", "")) if result.get("found") else ""
+            if not _usable(text):
+                continue
+            choices = rng.sample(others, min(3, len(others))) + [answer]
+            rng.shuffle(choices)
+            return {"text": text, "answer": answer, "choices": choices, "reference": result.get("reference", ""),
+                    "tradition": tradition}
         if hard:
             book, answer = rng.choice(HARD_POOL)
             result = lookup.random_verse_from_book(book)
@@ -195,9 +237,16 @@ class QuizView(discord.ui.View):
                 log.warning(f"Couldn't reveal the quiz answer: {e}")
 
 
+def _question_title(question: dict, hard: bool) -> str:
+    if question.get("tradition"):
+        return f"which book is this from? ({TRADITIONS[question['tradition']][0]})"
+    return "which tradition's text is this?" if hard else "which book is this from?"
+
+
 def question_embed(question: dict, hard: bool) -> discord.Embed:
+    title = _question_title(question, hard)
     embed = discord.Embed(
-        title="❓ Which book is this from?" if not hard else "❓ Which tradition's text is this?",
+        title=f"❓ {title[0].upper()}{title[1:]}",
         description=f"*{question['text']}*",
         color=discord.Color.dark_teal(),
     )
@@ -226,6 +275,7 @@ async def cmd_quiz(ctx, *, mode: str = ""):
     """Guess which book a verse comes from.
     Usage: !quiz              — a Bible verse
            !quiz hard         — a passage from one of many traditions
+           !quiz buddhist     — which of a tradition's books (also chinese, hindu, classical, ...)
            !quiz leaderboard  — top scorers"""
     mode = mode.strip().lower()
     if mode in ("leaderboard", "lb", "scores"):
@@ -233,8 +283,13 @@ async def cmd_quiz(ctx, *, mode: str = ""):
         await ctx.send(embed=leaderboard_embed(guild.id if guild else None),
                        allowed_mentions=discord.AllowedMentions.none())
         return
+    key = tradition(mode) if mode not in ("", "hard") else None
+    if mode and mode != "hard" and key != "bible" and key not in QUIZ_POOLS:
+        await ctx.send("Pick a quiz: `!quiz` (the Bible), `!quiz hard` (many traditions), or one tradition: "
+                       + ", ".join(f"`!quiz {k}`" for k in QUIZ_POOLS) + ".")
+        return
     hard = mode == "hard"
-    question = make_question(hard)
+    question = make_question(hard, tradition=key if key in QUIZ_POOLS else "")
     if question is None:
         await ctx.send("⚠️ I couldn't come up with a question just now — try again.")
         return
@@ -243,9 +298,10 @@ async def cmd_quiz(ctx, *, mode: str = ""):
 
 
 @bot.tree.command(name="quiz", description="Guess which book a verse comes from")
-@app_commands.describe(mode="Bible (default), hard (many traditions), or leaderboard")
+@app_commands.describe(mode="Bible (default), hard (many traditions), one tradition, or leaderboard")
 @app_commands.choices(mode=[app_commands.Choice(name="Bible", value=""),
                             app_commands.Choice(name="Hard: many traditions", value="hard"),
+                            *[app_commands.Choice(name=TRADITIONS[k][0].split(" ", 1)[1], value=k) for k in QUIZ_POOLS],
                             app_commands.Choice(name="Leaderboard", value="leaderboard")])
 async def quiz_slash(interaction: discord.Interaction, mode: str = ""):
     await interaction.response.defer()
@@ -322,7 +378,7 @@ def _daily_view(guild_id, round_no: int, question: dict, revealed: bool = False)
 
 def _daily_embed(question: dict, hard: bool) -> discord.Embed:
     embed = question_embed(question, hard)
-    embed.title = "📅 Daily quiz: " + ("which tradition's text is this?" if hard else "which book is this from?")
+    embed.title = "📅 Daily quiz: " + _question_title(question, hard)
     embed.set_footer(text="One guess each · the answer comes with the next question · !quiz leaderboard")
     return embed
 
@@ -342,7 +398,7 @@ async def post_daily_quiz(client, guild_id, channel, today: datetime.date, kind:
             except discord.HTTPException as e:
                 log.warning(f"Couldn't reveal the previous daily quiz in guild {gid}: {e}")
     hard = kind == "hard"
-    question = make_question(hard)
+    question = make_question(hard, tradition=kind if kind in QUIZ_POOLS else "")
     if question is None:
         return False
     round_no = (previous or {}).get("round", 0) + 1
@@ -388,7 +444,7 @@ async def cmd_quizsetup(ctx, action: str = "", *, arg: str = ""):
     Usage: !quizsetup                  — show this server's settings
            !quizsetup channel #chan    — post a daily quiz question there
            !quizsetup time 18:00       — daily post time (24h UTC)
-           !quizsetup kind bible       — bible | hard (passages from many traditions)
+           !quizsetup kind bible       — bible | hard (many traditions) | a tradition (buddhist, chinese, ...)
            !quizsetup test             — post one now (reveals the current one)
            !quizsetup off              — stop the daily quiz"""
     if not ctx.guild:
@@ -404,7 +460,7 @@ async def cmd_quizsetup(ctx, action: str = "", *, arg: str = ""):
         embed.add_field(name="Channel", value=f"<#{channel_id}>" if channel_id else "*not set — daily quiz is off*")
         embed.add_field(name="Time (UTC)", value=time_hm)
         embed.add_field(name="Kind", value=kind)
-        embed.set_footer(text="!quizsetup channel #chan · time HH:MM · kind bible|hard · test · off")
+        embed.set_footer(text="!quizsetup channel #chan · time HH:MM · kind bible|hard|<tradition> · test · off")
         await ctx.send(embed=embed)
         return
     if action == "off":
@@ -430,8 +486,9 @@ async def cmd_quizsetup(ctx, action: str = "", *, arg: str = ""):
         return
     if action == "kind":
         new_kind = arg.strip().lower()
-        if new_kind not in ("bible", "hard"):
-            await ctx.send("Choose `bible` or `hard`.")
+        new_kind = new_kind if new_kind in ("bible", "hard") else (tradition(new_kind) or new_kind)
+        if new_kind not in ("bible", "hard", *QUIZ_POOLS):
+            await ctx.send("Choose `bible`, `hard`, or a tradition: " + ", ".join(f"`{k}`" for k in QUIZ_POOLS) + ".")
             return
         _update_guild_config(ctx.guild.id, quiz_kind=new_kind)
         await ctx.send(f"Daily quiz set to **{new_kind}**.")

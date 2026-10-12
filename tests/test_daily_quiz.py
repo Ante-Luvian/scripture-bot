@@ -18,7 +18,7 @@ def quiz(bot_module):
 
 @pytest.fixture(autouse=True)
 def fixed_question(quiz, monkeypatch):
-    monkeypatch.setattr(quiz, "make_question", lambda hard=False: dict(QUESTION))
+    monkeypatch.setattr(quiz, "make_question", lambda hard=False, tradition="": dict(QUESTION))
 
 
 class Channel:
