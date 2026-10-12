@@ -511,29 +511,42 @@ async def cmd_notes(ctx, *, reference: str = ""):
     multi = len(result["verses"]) > 1
     blocks, number = [], 0
     for verse in result["verses"]:
-        first = number + 1
+        notes, marks = verse["notes"], verse.get("marker_count", 0)
+        # heading notes are numbered first; the verse's own markers follow
+        first = number + sum(1 for nt in notes if nt.get("heading")) + 1
         if verse["segments"]:
-            # interleave superscript note numbers where the NET places them
             segs = verse["segments"]
             text = segs[0] + "".join(_superscript(first + i) + seg for i, seg in enumerate(segs[1:]))
         else:
             text = verse["text"]
         lines = [f"**[{verse['verse']}]** *{text}*" if multi else f"*{text}*"]
-        if not verse["notes"] and verse.get("marker_count"):
-            lines.append(f"*The NET has {verse['marker_count']} note(s) on this verse, but the notes "
-                         f"source is missing them — see [netbible.org]({result['url']}).*")
-        elif not verse["notes"]:
+        # Notes come from the current NET edition; note positions from the
+        # publisher's API, which serves the older edition (see net_notes_lookup).
+        if not notes and marks:
+            lines.append(f"*No notes on this verse in the current edition's notes data, though the older "
+                         f"edition marks {marks}. See [netbible.org]({result['url']}).*")
+        elif not notes:
             lines.append("*No notes on this verse.*")
-        elif verse.get("marker_count", 0) > len(verse["notes"]):
-            lines.append(f"*(The NET marks {verse['marker_count']} notes on this verse; only "
-                         f"{len(verse['notes'])} could be retrieved, so where they attach can't be "
-                         f"shown — full notes at [netbible.org]({result['url']}).)*")
+        elif not verse["segments"] and marks and marks != len(notes):
+            lines.append(f"*(Positions not shown: the current edition has {len(notes)} note(s) here, "
+                         f"the older edition the positions come from has {marks}.)*")
+        elif not verse["segments"] and marks:
+            lines.append("*(Positions not shown: the wording here differs between the current edition "
+                         "and the older one the positions come from.)*")
         elif not verse["segments"]:
-            lines.append("*(Where each note attaches isn't available for this verse.)*")
+            lines.append("*(Note positions aren't available for this verse right now.)*")
         blocks.append("\n".join(lines))
-        for note in verse["notes"]:
+        if verse.get("intro"):
+            body = "\n".join(f"*{NOTE_KINDS.get(kind, 'Note')}:* {txt}" for kind, txt in verse["intro"])
+            blocks.append(f"**About this psalm**\n{body}")
+        for note in notes:
             number += 1
-            head = f"**{_superscript(number)} {note['anchor']}**" if note["anchor"] else f"**Note {number}**"
+            if note.get("heading"):
+                head = f"**{_superscript(number)}** *(on the psalm's heading)*"
+            elif note["anchor"]:
+                head = f"**{_superscript(number)} {note['anchor']}**"
+            else:
+                head = f"**Note {number}**"
             body = "\n".join(f"*{NOTE_KINDS.get(kind, 'Note')}:* {txt}" for kind, txt in note["parts"])
             blocks.append(f"{head}\n{body}")
     pages = _paginate_blocks(blocks)

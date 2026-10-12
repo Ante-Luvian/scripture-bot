@@ -7,16 +7,26 @@ Two sources, combined:
   group per note marker.
 - labs.bible.org (the publisher's API) has the verse text with an inline
   <n id="k"/> marker where each note attaches, so the verse can show which
-  word each note is about. Markers are only placed when the two sources
-  agree on that verse (same number of notes, same text) -- otherwise the
-  notes are shown unanchored rather than risk pointing at the wrong word.
+  word each note is about.
+
+The two serve DIFFERENT EDITIONS: bolls.life has the current (2nd) edition,
+text and notes ("Listen, Israel", Deut 6:4); labs.bible.org the older 1st
+edition ("Hear, O Israel"). So the bot always shows bolls.life's text, and
+uses labs' marker positions only for verses whose words are identical in
+both editions and which have the same number of notes in both (~89% of
+verses sampled). Where the newer edition reworded a verse it sometimes
+re-anchored its notes too, so those verses show notes without positions
+rather than risk pointing at the wrong word. A count
+difference may be a real gap in bolls.life's data or a genuine edition
+change -- the bot can't tell which, so it never claims notes are "missing".
+(netbible.org itself has the current notes, but only serves them to its
+own in-browser reader.)
 
 The NET's free non-commercial quotation permission covers the Scripture text
 only, not the notes. The bot owner chose to show one passage's notes on
 request with full credit: every display carries the copyright notice and a
 link to the chapter on netbible.org. Keep both.
 """
-import difflib
 import html as html_mod
 import json
 import logging
@@ -196,9 +206,53 @@ def _anchor_word(segment: str) -> Optional[str]:
     return words[-1] if words else None
 
 
-def _same_text(a: str, b: str) -> bool:
-    norm = lambda s: re.sub(r"\W+", " ", s).lower().strip()
-    return difflib.SequenceMatcher(None, norm(a), norm(b)).ratio() >= 0.9
+_PSALM_HEADING = re.compile(r'\s*<p class="psasuper">(.*?)(?=<p\b|$)', re.S)
+
+
+def _split_heading(labs_raw: str) -> tuple[str, str]:
+    """(psalm-heading html, body html). bolls.life's verse text omits Psalm
+    headings ("For the music director..."), so their markers are handled apart."""
+    m = _PSALM_HEADING.match(labs_raw)
+    return (m.group(1), labs_raw[m.end():]) if m else ("", labs_raw)
+
+
+_WORD = re.compile(r"[\w’'-]+")
+
+
+def _project_markers(labs_body: str, text: str) -> Optional[list[str]]:
+    """Split `text` (bolls.life's edition) at the note markers in `labs_body`
+    (labs.bible.org's older edition), or None.
+
+    Only when the verse's WORDS are identical in both editions (ignoring
+    case -- "LORD" vs "Lord" -- and punctuation). Where the newer edition
+    reworded a verse it sometimes also reordered or re-anchored its notes
+    (Genesis 1:11: the old edition's note on "and" became a note on
+    "kinds"), so old positions can't be trusted there at all, however well
+    the words align."""
+    segs = _marked_segments(labs_body)
+    labs_text = "".join(segs)
+    labs_words = list(_WORD.finditer(labs_text))
+    text_words = list(_WORD.finditer(text))
+    if [m.group(0).lower() for m in labs_words] != [m.group(0).lower() for m in text_words]:
+        return None
+
+    cuts, offset = [], 0
+    for seg in segs[:-1]:
+        offset += len(seg)
+        before = [i for i, m in enumerate(labs_words) if m.end() <= offset]
+        if not before:
+            return None
+        i = before[-1]
+        target = text_words[i]
+        cut = target.end()
+        trailing = labs_text[labs_words[i].end():offset].strip()   # e.g. "." or "”" before the marker
+        if trailing and text.startswith(trailing, cut):
+            cut += len(trailing)
+        cuts.append(cut)
+    if cuts != sorted(cuts):
+        return None
+    bounds = [0, *cuts, len(text)]
+    return [text[bounds[i]:bounds[i + 1]] for i in range(len(bounds) - 1)]
 
 
 # ── lookup ──────────────────────────────────────────────────────────────────
@@ -212,8 +266,11 @@ def get_net_notes(reference: str) -> dict:
     -> {"found", "reference", "url", "verses": [
           {"verse": n, "text": str,
            "segments": [str, ...] | None,   # text split at note markers, if placed
-           "notes": [{"anchor": str | None, "parts": [(kind, text), ...]}, ...],
-           "marker_count": int}]}           # notes the publisher's text marks (0 if unknown)"""
+           "notes": [{"anchor": str | None,   # word the note is attached to
+                      "heading": bool,         # attached to the psalm heading, not the verse
+                      "parts": [(kind, text), ...]}, ...],
+           "marker_count": int,             # notes labs.bible.org marks (0 if unknown)
+           "intro": [(kind, text), ...] | None}]}   # a psalm's overview note, on verse 1"""
     m = re.match(r"^(.*?)\s+(\d+)[:.](\d+)(?:\s*[-–—]\s*(\d+))?$", reference.strip())
     if not m:
         return _err(f"Give a verse, e.g. `!notes John 3:16` or `!notes Genesis 1:1-3` "
@@ -243,14 +300,32 @@ def get_net_notes(reference: str) -> dict:
             continue
         text = _plain_verse(v["text"])
         groups = split_note_groups(v["comment"])
-        segments = _marked_segments(labs[n]) if n in labs else None
-        marker_count = len(segments) - 1 if segments else 0
-        if not (segments and marker_count == len(groups) and _same_text("".join(segments), text)):
-            segments = None
-        notes = [{"anchor": _anchor_word(segments[i]) if segments else None, "parts": parts}
-                 for i, parts in enumerate(groups)]
+        # A psalm's overview note ("Psalm 22. The psalmist cries out...") is
+        # attached to the psalm as a whole, not to a word -- the publisher's
+        # text has no marker for it -- but bolls files it as verse 1's first note.
+        intro = None
+        if groups and re.match(rf"Psalm {chapter}\.", groups[0][0][1]):
+            intro = groups.pop(0)
+        heading_html, body_html = _split_heading(labs.get(n, ""))
+        heading_segs = _marked_segments(heading_html) if heading_html else [""]
+        heading_count = len(heading_segs) - 1
+        marker_count = heading_count + body_html.count("<n ") if n in labs else 0
+        segments = None
+        if n in labs and marker_count == len(groups):
+            segments = _project_markers(body_html, text)
+        notes = []
+        for i, parts in enumerate(groups):
+            if segments is None:
+                anchor, heading = None, False
+            elif i < heading_count:
+                # bolls.life has no heading text to check the old edition's
+                # wording against, so don't name a word
+                anchor, heading = None, True
+            else:
+                anchor, heading = _anchor_word(segments[i - heading_count]), False
+            notes.append({"anchor": anchor, "heading": heading, "parts": parts})
         out.append({"verse": n, "text": text, "segments": segments, "notes": notes,
-                    "marker_count": marker_count})
+                    "marker_count": marker_count, "intro": intro})
     if not out:
         return _err(f"**{canon} {chapter}:{v1}** isn't in the NET.")
 

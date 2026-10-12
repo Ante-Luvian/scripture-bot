@@ -94,6 +94,23 @@ def test_marked_segments_from_labs_markup():
     assert [N._anchor_word(s) for s in segs[:4]] == ["beginning", "God", "created", "earth"]
 
 
+def test_markers_carry_across_when_only_case_differs():
+    # Older edition "Lord", current edition "LORD": same words, markers carry over,
+    # including punctuation that precedes a marker.
+    labs = "The Lord<n id=\"1\" /> is my shepherd.<n id=\"2\" />"
+    assert N._project_markers(labs, "The LORD is my shepherd.") == ["The LORD", " is my shepherd.", ""]
+
+
+def test_no_markers_when_the_newer_edition_reworded_the_verse():
+    # Genesis 1:11, real texts: the newer edition reworded the verse and
+    # re-anchored a note, so the old positions would mislabel it.
+    labs = ("God said, “Let the land produce vegetation:<n id=\"1\" /> plants yielding seeds and<n id=\"2\" /> "
+            "trees on the land bearing fruit with seed in it, according to their kinds.”<n id=\"3\" /> It was so.")
+    current = ("God said, “Let the land produce vegetation: plants yielding seeds according to their kinds, "
+               "and trees bearing fruit with seed in it according to their kinds.” It was so.")
+    assert N._project_markers(labs, current) is None
+
+
 # ── lookup (network stubbed) ────────────────────────────────────────────────
 
 FAKE_BOLLS = {
@@ -122,15 +139,36 @@ def test_lookup_places_markers_when_sources_agree(stub_net):
     assert r["reference"] == "John 3:16"
     assert r["url"] == "https://netbible.org/bible/John+3"
     v = r["verses"][0]
-    assert v["segments"] == ["For this is the way", " God loved the world.", ""]
+    assert v["segments"] == ["For this is the way", " God loved the world", ""]   # current edition's text
     assert [n["anchor"] for n in v["notes"]] == ["way", "world"]
     assert v["notes"][0]["parts"] == [("tn", "Or “this is how much.”")]
+    assert v["intro"] is None
 
 
 def test_lookup_skips_markers_when_text_disagrees(stub_net):
     v = N.get_net_notes("John 3:17")["verses"][0]
     assert v["segments"] is None
-    assert v["notes"] == [{"anchor": None, "parts": [("sn", "That is, “to judge.”")]}]
+    assert v["notes"] == [{"anchor": None, "heading": False, "parts": [("sn", "That is, “to judge.”")]}]
+
+
+def test_lookup_psalm_overview_and_heading_notes(monkeypatch):
+    # Psalm 22:1: bolls files the psalm's overview note first; the next note
+    # is on the heading ("...the tune 'Morning Doe'"), which bolls' verse text
+    # doesn't include; then the verse's own note.
+    monkeypatch.setattr(N, "_get_trans_book_id", lambda slug, book: 19)
+    monkeypatch.setattr(N, "_get_canon_name", lambda slug, bid, fallback: "Psalms")
+    monkeypatch.setattr(N, "_fetch_chapter", lambda bid, ch: {1: {
+        "text": "My God, my God, why have you abandoned me?",
+        "comment": "sn Psalm 22. The psalmist cries out.<br>tn The meaning of the tune title is uncertain."
+                   "<br>sn Abandoned. The verb expresses alienation."}})
+    monkeypatch.setattr(N, "_fetch_labs_chapter", lambda book, ch: {1: (
+        '<p class="psasuper">For the music director, according to the tune “Morning Doe”;<n id="1" /> '
+        'a psalm of David.<p class="poetry">My God, my God, why have you abandoned me?<n id="2" />')})
+    v = N.get_net_notes("Psalm 22:1")["verses"][0]
+    assert v["intro"] == [("sn", "Psalm 22. The psalmist cries out.")]
+    assert v["marker_count"] == 2
+    assert [(n["anchor"], n["heading"]) for n in v["notes"]] == [(None, True), ("me", False)]
+    assert v["segments"] == ["My God, my God, why have you abandoned me?", ""]
 
 
 def test_lookup_reports_marked_notes_missing_from_source(stub_net):
@@ -220,27 +258,49 @@ def test_notes_command_numbers_continue_across_verses(reference, monkeypatch, fa
     assert "**⁴ here**" in d
 
 
-def test_notes_command_unanchored_and_missing(reference, monkeypatch, fake_ctx):
+def test_notes_command_unanchored_and_edition_gaps(reference, monkeypatch, fake_ctx):
     msg = _run_notes(reference, monkeypatch, fake_ctx, {
-        "found": True, "reference": "John 3:17–18", "url": "https://netbible.org/bible/John+3",
+        "found": True, "reference": "John 3:17–19", "url": "https://netbible.org/bible/John+3",
         "verses": [{"verse": 17, "text": "For God did not send his Son", "segments": None,
                     "marker_count": 1, "notes": [{"anchor": None, "parts": [("sn", "To judge.")]}]},
                    {"verse": 18, "text": "The one who believes", "segments": None,
-                    "marker_count": 2, "notes": []}],
+                    "marker_count": 2, "notes": []},
+                   {"verse": 19, "text": "Now this is the basis", "segments": None,
+                    "marker_count": 0, "notes": [{"anchor": None, "parts": [("tn", "Or “verdict.”")]}]}],
     })
     d = msg["embed"].description
-    assert "isn't available for this verse" in d and "**Note 1**\n*Study note:* To judge." in d
-    assert "The NET has 2 note(s) on this verse, but the notes source is missing them" in d
+    assert "the wording here differs between the current edition" in d
+    assert "**Note 1**\n*Study note:* To judge." in d
+    assert "No notes on this verse in the current edition's notes data, though the older edition marks 2" in d
+    assert "Note positions aren't available for this verse right now" in d
+    assert "missing" not in d   # never claims notes are missing -- it can't tell
 
 
-def test_notes_command_reports_partially_missing_notes(reference, monkeypatch, fake_ctx):
-    # Psalm 23:4: the NET marks 4 notes, the notes source has 1.
+def test_notes_command_count_differs_between_editions(reference, monkeypatch, fake_ctx):
+    # Psalm 23:4: the older edition marks 4 notes, the current edition's data has 1.
     msg = _run_notes(reference, monkeypatch, fake_ctx, {
         "found": True, "reference": "Psalms 23:4", "url": "https://netbible.org/bible/Psalms+23",
         "verses": [{"verse": 4, "text": "Even when I must walk", "segments": None, "marker_count": 4,
                     "notes": [{"anchor": None, "parts": [("tn", "The Piel of nakham.")]}]}],
     })
-    assert "The NET marks 4 notes on this verse; only 1 could be retrieved" in msg["embed"].description
+    assert ("the current edition has 1 note(s) here, the older edition the positions come from has 4"
+            in msg["embed"].description)
+
+
+def test_notes_command_psalm_heading_and_overview(reference, monkeypatch, fake_ctx):
+    msg = _run_notes(reference, monkeypatch, fake_ctx, {
+        "found": True, "reference": "Psalms 22:1", "url": "u",
+        "verses": [{"verse": 1, "text": "My God, my God, why have you abandoned me?",
+                    "segments": ["My God, my God, why have you abandoned me?", ""], "marker_count": 2,
+                    "intro": [("sn", "Psalm 22. The psalmist cries out.")],
+                    "notes": [{"anchor": None, "heading": True, "parts": [("tn", "Tune title.")]},
+                              {"anchor": "me", "heading": False, "parts": [("sn", "Abandoned.")]}]}],
+    })
+    d = msg["embed"].description
+    assert d.startswith("*My God, my God, why have you abandoned me?²*")   # ¹ is the heading's
+    assert "**About this psalm**\n*Study note:* Psalm 22. The psalmist cries out." in d
+    assert "**¹** *(on the psalm's heading)*\n*Translator's note:* Tune title." in d
+    assert "**² me**\n*Study note:* Abandoned." in d
 
 
 def test_notes_command_paginates_long_results(reference, monkeypatch, fake_ctx):
