@@ -121,6 +121,8 @@ For centuries people have sought guidance by opening a revered book at random or
 • `!oracle` — a saying from the Delphic oracles, the *Chaldaean Oracles* or the Golden Verses of Pythagoras
 • `!sortesbiblicae` (or `!bibliomancy`) — the Bible opened at random
 
+**Play a game:** `!quiz` shows a verse and four buttons — which book is it from? `!quiz hard` mixes traditions (Proverbs? the Quran? the Norse Edda?), and `!quiz leaderboard` shows the top scorers. Everyone gets one guess; the answer is revealed after a minute.
+
 **Ask a question** by typing it after the command — `!virgil will I find work?` — and I'll show it with the answer.
 Every answer has a **🖼️ Card** button that turns it into an image to share.
 

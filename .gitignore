@@ -12,6 +12,7 @@ data/reading_plans.json
 data/subscribers.json
 data/error_log.json
 data/weekly_report.json
+data/quiz_scores.json
 
 # Raw downloads / leftover duplicates (already extracted into data/)
 data/patristics/crap/

@@ -88,6 +88,9 @@
   "psalm": [
    "psalms"
   ],
+  "quiz": [
+   "guess"
+  ],
   "quoted": [
    "otnt",
    "quotedin"
@@ -210,6 +213,7 @@
   "prayer",
   "prefer",
   "psalm",
+  "quiz",
   "quoted",
   "reverseinterlinear",
   "root",

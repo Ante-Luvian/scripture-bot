@@ -29,7 +29,7 @@ def lookup(bot_module):
 # and fake John 3:16 lookups to data/stats.json on every run).
 RUNTIME_FILES = ["VOTD_MODE_PATH", "STATS_PATH", "GUILD_ACTIVITY_PATH", "GUILD_CONFIG_PATH",
                  "USER_PREFS_PATH", "BOOKMARKS_PATH", "READING_PLANS_PATH", "SUBSCRIBERS_PATH",
-                 "ERROR_LOG_PATH", "REPORT_STATE_PATH"]
+                 "ERROR_LOG_PATH", "REPORT_STATE_PATH", "QUIZ_SCORES_PATH"]
 
 
 @pytest.fixture(autouse=True)

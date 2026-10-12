@@ -47,6 +47,7 @@ from bot_commands import (  # noqa: F401
     liturgy,
     oracles,
     personal,
+    quiz,
     reference,
     slash,
     stats,
