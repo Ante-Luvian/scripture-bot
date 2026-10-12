@@ -133,6 +133,9 @@ Prefix commands use `!`; most also have a `/` slash-command version.
 | `!delphi` | | Random Delphic maxim |
 | `!homer` | `!homeromanteion`, `!sortes` | Homeric dice oracle |
 | `!virgil [question]` | `!aeneid` | Sortes Vergilianae |
+| `!sortesbiblicae` | `!bibliomancy` | Sortes Biblicae: the Bible opened at random (with the study buttons) |
+
+Every oracle answer has a 🖼️ Card button that renders it as an image.
 
 ### Verse of the Day
 

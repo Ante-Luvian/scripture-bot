@@ -103,6 +103,10 @@
   "search": [
    "find"
   ],
+  "sortesbiblicae": [
+   "biblicae",
+   "bibliomancy"
+  ],
   "stats": [
    "botstats"
   ],
@@ -189,6 +193,7 @@
   "root",
   "save",
   "saved",
+  "sortesbiblicae",
   "strong",
   "study",
   "subscribe",

@@ -569,12 +569,16 @@ async def cmd_help(ctx, *, topic: str = ""):
         await ctx.send(embed=embed)
         return
 
-    if topic in ("oracle", "delphi", "homer", "virgil", "sortes"):
+    if topic in ("oracle", "delphi", "homer", "virgil", "sortes", "sortesbiblicae", "bibliomancy"):
         embed = discord.Embed(title="🎲 Divination Commands", color=discord.Color.dark_gold())
-        embed.add_field(name="!oracle", value="Random verse from an oracular corpus (Sibylline, Enoch, etc.)", inline=False)
+        embed.add_field(name="!oracle", value="Random saying from an oracular corpus (Delphic maxims and oracles, "
+                                              "Chaldaean Oracles, Golden Verses of Pythagoras)", inline=False)
         embed.add_field(name="!delphi", value="Random Delphic maxim", inline=False)
         embed.add_field(name="!homer", value="Roll three dice → receive a Homeric oracle", inline=False)
         embed.add_field(name="!virgil", value="Sortes Virgilianae — random passage from the Aeneid", inline=False)
+        embed.add_field(name="!sortesbiblicae", value="Sortes Biblicae — the Bible opened at random (also `!bibliomancy`)",
+                        inline=False)
+        embed.set_footer(text="Every answer has a 🖼️ Card button to turn it into an image.")
         await ctx.send(embed=embed)
         return
 
@@ -669,7 +673,7 @@ async def cmd_help(ctx, *, topic: str = ""):
         "`!prayer` — random devotional prayer from the BCP · `!help prayer`"
     ), inline=False)
     embed.add_field(name="🎲 Divination", value=(
-        "`!oracle` `!delphi` `!homer` `!virgil` — oracular & sortes · `!help oracle`"
+        "`!oracle` `!delphi` `!homer` `!virgil` `!sortesbiblicae` — oracular & sortes · `!help oracle`"
     ), inline=False)
     embed.add_field(name="🔭 Discovery & Personal", value=(
         "`!discover` — random passage from any loaded tradition · `!help discover`\n"

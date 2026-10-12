@@ -1,9 +1,16 @@
 """
-!gematria, !virgil / !homer / !delphi, !oracle.
+!gematria, !virgil / !homer / !delphi, !oracle, !sortesbiblicae.
 """
 import discord
 import random
 import re
+from scripture_lookup import BIBLE_NT, BIBLE_OT
+from bot_commands.card import (
+    _make_card_image_button,
+)
+from bot_commands.verse import (
+    _study_buttons,
+)
 from core import (
     bot,
     log,
@@ -11,6 +18,14 @@ from core import (
     record_special_stat,
 )
 from core import ROOT
+
+
+def _card_view(title: str, text: str, source: str) -> discord.ui.View:
+    """The 🖼️ Card button under an oracle answer (oracles are the bot's most
+    used commands, and !card its most used image)."""
+    view = discord.ui.View(timeout=600)
+    view.add_item(_make_card_image_button(title, text, source))
+    return view
 
 # ── !gematria — Gematria lookup via gematrix.org ─────────────────────────────
 
@@ -249,7 +264,8 @@ async def cmd_virgil(ctx, *, question: str = ""):
     )
     embed.set_footer(text="The Aeneid — Virgil (trans. John Dryden, 1697)")
     record_special_stat(ctx.author.id, "virgil", f"Aeneid {book_num}.{line_num}")
-    await ctx.send(embed=embed)
+    await ctx.send(embed=embed, view=_card_view(f"Sortes Vergilianae — Aeneid {book_num}.{line_num}",
+                                                verse_text, "The Aeneid — Virgil (trans. John Dryden, 1697)"))
 
 
 _HOMER_DATA = None
@@ -293,7 +309,11 @@ async def cmd_homer(ctx, *, question: str = ""):
         )
     embed.set_footer(text="Sortes Homericae — PMG VII, Oxford Classical Text translations")
     record_special_stat(ctx.author.id, "homer", roll_str)
-    await ctx.send(embed=embed)
+    if text is None:
+        await ctx.send(embed=embed)   # the oracle is silent: nothing to put on a card
+    else:
+        await ctx.send(embed=embed, view=_card_view(f"Homeromanteion — {roll_str}", text,
+                                                    "Sortes Homericae — PMG VII"))
 
 
 @bot.command(name="delphi")
@@ -313,7 +333,8 @@ async def cmd_delphi(ctx):
     )
     embed.set_footer(text="Delphic Maxims — trans. Melissa Gold (Hellenion)")
     record_special_stat(ctx.author.id, "delphi", f"Maxim {num}")
-    await ctx.send(embed=embed)
+    await ctx.send(embed=embed, view=_card_view(f"Delphic Maxim {num}", text,
+                                                "Delphic Maxims — trans. Melissa Gold (Hellenion)"))
 
 
 # ── !oracle — random verse from any oracular corpus ───────────────────────────
@@ -352,4 +373,39 @@ async def cmd_oracle(ctx, *, question: str = ""):
     )
     embed.set_footer(text=source)
     record_special_stat(ctx.author.id, "oracle", f"{ref_prefix} {num}")
-    await ctx.send(embed=embed)
+    await ctx.send(embed=embed, view=_card_view(f"{book} — {num}", text, source))
+
+
+# ── !sortesbiblicae — the Bible opened at random ──────────────────────────────
+
+@bot.command(name="sortesbiblicae", aliases=["bibliomancy", "biblicae"])
+async def cmd_sortes_biblicae(ctx, *, question: str = ""):
+    """Sortes Biblicae: open the Bible at random and read the verse your eye
+    falls on -- the old practice of bibliomancy. Usage: !sortesbiblicae [optional question]"""
+    result = lookup.random_verse_from_books(BIBLE_OT + BIBLE_NT)
+    if not result.get("found"):
+        await ctx.send(f"⚠️ {result.get('error', 'Could not open the Bible.')}")
+        return
+    log.info(f"RNG  sortes biblicae        → {result['reference']} (user: {ctx.author})")
+
+    chapter_verse = f"{result['chapter']}:{result['verse']}"
+    embed = discord.Embed(
+        title="Sortes Biblicae",
+        description=f"📖 {result['book']}  🕯️ {chapter_verse}  👈\n\n*{result['text']}*",
+        color=discord.Color.dark_gold(),
+    )
+    embed.set_footer(text=f"{result['reference']} — {result.get('source', 'King James Version')}")
+    record_special_stat(ctx.author.id, "sortesbiblicae", result["reference"])
+
+    # It's a Bible verse, so it gets the same study buttons as !verse (Card included)
+    view = discord.ui.View(timeout=600)
+    for b in _study_buttons(result):
+        view.add_item(b)
+    await ctx.send(embed=embed, view=view)
+
+
+@bot.tree.command(name="sortesbiblicae", description="Open the Bible at random (Sortes Biblicae)")
+async def sortes_biblicae_slash(interaction: discord.Interaction):
+    await interaction.response.defer()
+    ctx = await bot.get_context(interaction)
+    await cmd_sortes_biblicae(ctx)

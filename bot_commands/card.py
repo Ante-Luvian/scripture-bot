@@ -778,6 +778,25 @@ def _make_card_text_button(reference: str, content_lines: list[str]) -> discord.
     return btn
 
 
+def _make_card_image_button(title: str, text: str, source: str) -> discord.ui.Button:
+    """A 🖼️ button that renders this text as a !card-style image -- for
+    oracle answers, which aren't verse references !card could look up."""
+    btn = discord.ui.Button(label="Card", emoji="🖼️", style=discord.ButtonStyle.secondary)
+
+    async def callback(interaction: discord.Interaction):
+        btn.disabled = True   # one image per answer; the edit is also the interaction's response
+        if btn.view is not None:
+            await interaction.response.edit_message(view=btn.view)
+        else:
+            await interaction.response.defer()
+        loop = asyncio.get_event_loop()
+        buf = await loop.run_in_executor(None, _render_verse_card, title, text, source)
+        await interaction.followup.send(file=discord.File(buf, filename="oracle.png"))
+
+    btn.callback = callback
+    return btn
+
+
 @bot.command(name="card", aliases=["versecard", "quotecard"])
 async def cmd_card(ctx, *, reference: str = ""):
     """Render a verse as a shareable image.
