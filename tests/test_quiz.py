@@ -46,10 +46,10 @@ class Response:
         self.sent.append((text, ephemeral))
 
 
-def _click(view, label, user_id, name="tester"):
+def _click(view, label, user_id, name="tester", guild_id=10):
     button = next(b for b in view.children if b.label == label)
     user = type("U", (), {"id": user_id, "display_name": name})()
-    interaction = type("I", (), {"user": user, "response": Response()})()
+    interaction = type("I", (), {"user": user, "response": Response(), "guild_id": guild_id})()
     asyncio.run(button.callback(interaction))
     return interaction.response.sent
 
@@ -61,8 +61,40 @@ def test_answers_are_private_one_per_person_and_scored(quiz):
     assert "already answered" in _click(view, "Mark", 1)[0][0]     # one try each
     reply = _click(view, "Luke", 2, "Bob")[0]
     assert reply[0].startswith("❌") and reply[1]                    # ephemeral
-    scores = quiz._load_scores()
-    assert scores["1"] == {"correct": 1, "answered": 1} and scores["2"] == {"correct": 0, "answered": 1}
+    scores = quiz._load_scores()["guilds"]["10"]
+    assert (scores["1"]["correct"], scores["1"]["answered"]) == (1, 1)
+    assert (scores["2"]["correct"], scores["2"]["answered"]) == (0, 1)
+
+
+def test_scores_are_kept_per_server(quiz):
+    quiz.record_answer(10, 1, True)
+    quiz.record_answer(20, 2, True)
+    board = quiz.leaderboard_embed(10).fields[1].value
+    assert "<@1>" in board and "<@2>" not in board
+    assert "No answers in this server" in quiz.leaderboard_embed(30).description
+    quiz.record_answer(None, 3, True)              # in DMs
+    assert "3" in quiz._load_scores()["guilds"]["dm"]
+
+
+def test_weekly_scores_restart_on_monday(quiz):
+    import datetime
+    sunday, monday = datetime.date(2026, 10, 18), datetime.date(2026, 10, 19)
+    quiz.record_answer(10, 1, True, today=sunday)
+    quiz.record_answer(10, 1, True, today=sunday)
+    assert quiz.weekly_top(quiz.week_key(sunday)) == {"10": [("1", 2, 2)]}   # still readable on Monday
+    s = quiz.record_answer(10, 1, False, today=monday)
+    assert (s["week_correct"], s["week_answered"], s["correct"], s["answered"]) == (0, 1, 2, 3)
+    week, all_time = quiz.leaderboard_embed(10, today=monday).fields
+    assert week.value == "1. <@1> — 0 right of 1" and all_time.value.startswith("1. <@1> — 2 right of 3")
+
+
+def test_streaks(quiz):
+    for _ in range(3):
+        s = quiz.record_answer(10, 1, True)
+    assert s["streak"] == 3 and quiz.score_line(s).startswith("🔥 3 in a row!")
+    s = quiz.record_answer(10, 1, False)
+    assert s["streak"] == 0 and s["best_streak"] == 3 and "🔥" not in quiz.score_line(s)
+    assert "best run 3 🔥" in quiz.leaderboard_embed(10).fields[1].value
 
 
 def test_reveal_after_the_round(quiz):
@@ -87,8 +119,9 @@ def test_quiz_command_and_leaderboard(quiz, fake_ctx):
     asyncio.run(quiz.cmd_quiz.callback(fake_ctx, mode=""))
     msg = fake_ctx.sent[0]
     assert msg["embed"].title == "❓ Which book is this from?" and len(msg["view"].children) == 4
-    quiz.record_answer(5, True)
-    quiz.record_answer(6, False)
+    fake_ctx.guild = type("G", (), {"id": 10})()
+    quiz.record_answer(10, 5, True)
+    quiz.record_answer(10, 6, False)
     asyncio.run(quiz.cmd_quiz.callback(fake_ctx, mode="leaderboard"))
-    board = fake_ctx.sent[-1]["embed"].description.splitlines()
+    board = fake_ctx.sent[-1]["embed"].fields[1].value.splitlines()
     assert board[0] == "1. <@5> — 1 right of 1"

@@ -2,11 +2,12 @@
 !quiz: guess which book a verse comes from.
   !quiz              a Bible verse; the other choices are books from the same Testament
   !quiz hard         a passage from one of several traditions (Proverbs? the Quran? the Edda?)
-  !quiz leaderboard  top scorers
+  !quiz leaderboard  this server's top scorers, this week and all time
 Everyone gets one answer per question, told privately whether they were
 right; after ROUND_SECONDS the answer is revealed in the channel with who
-got it. Scores live in data/quiz_scores.json.
+got it. Scores (per server) live in data/quiz_scores.json.
 """
+import datetime
 import json
 import random
 import re
@@ -62,21 +63,90 @@ def make_question(hard: bool = False, rng: random.Random = random) -> "dict | No
 
 
 # ── scores ──────────────────────────────────────────────────────────────────
+# Kept per server, so a leaderboard only ever shows that server's members:
+# {"guilds": {guild id (or "dm"): {user id: record}}}. A record holds all-time
+# totals, this week's (Monday-to-Sunday UTC; reset on the first answer of a new
+# week, the old week left readable for the Monday report until then), and the
+# current and best run of right answers in a row.
 
 def _load_scores() -> dict:
     try:
-        return json.loads(QUIZ_SCORES_PATH.read_text(encoding="utf-8")) if QUIZ_SCORES_PATH.exists() else {}
+        data = json.loads(QUIZ_SCORES_PATH.read_text(encoding="utf-8")) if QUIZ_SCORES_PATH.exists() else {}
     except Exception:
-        return {}
+        data = {}
+    data.setdefault("guilds", {})
+    return data
 
 
-def record_answer(user_id: int, correct: bool) -> dict:
+def week_key(day: datetime.date) -> str:
+    iso = day.isocalendar()
+    return f"{iso.year}-W{iso.week:02d}"
+
+
+def _guild_key(guild_id) -> str:
+    return str(guild_id) if guild_id else "dm"
+
+
+def record_answer(guild_id, user_id: int, correct: bool, today: "datetime.date | None" = None) -> dict:
+    today = today or datetime.datetime.now(datetime.timezone.utc).date()
     scores = _load_scores()
-    s = scores.setdefault(str(user_id), {"correct": 0, "answered": 0})
+    s = scores["guilds"].setdefault(_guild_key(guild_id), {}).setdefault(str(user_id), {})
+    for key in ("correct", "answered", "streak", "best_streak", "week_correct", "week_answered"):
+        s.setdefault(key, 0)
+    if s.get("week") != week_key(today):
+        s.update(week=week_key(today), week_correct=0, week_answered=0)
     s["answered"] += 1
-    s["correct"] += int(correct)
+    s["week_answered"] += 1
+    if correct:
+        s["correct"] += 1
+        s["week_correct"] += 1
+        s["streak"] += 1
+        s["best_streak"] = max(s["best_streak"], s["streak"])
+    else:
+        s["streak"] = 0
     _atomic_write_json(QUIZ_SCORES_PATH, scores)
     return s
+
+
+def _ranked(records: dict, correct: str, answered: str) -> list:
+    return sorted(((uid, s) for uid, s in records.items() if s.get(answered)),
+                  key=lambda kv: (-kv[1][correct], kv[1][answered]))
+
+
+def leaderboard_embed(guild_id, today: "datetime.date | None" = None) -> discord.Embed:
+    today = today or datetime.datetime.now(datetime.timezone.utc).date()
+    records = _load_scores()["guilds"].get(_guild_key(guild_id), {})
+    this_week = {uid: s for uid, s in records.items() if s.get("week") == week_key(today)}
+    week_lines = [f"{i}. <@{uid}> — {s['week_correct']} right of {s['week_answered']}"
+                  for i, (uid, s) in enumerate(_ranked(this_week, "week_correct", "week_answered")[:10], 1)]
+    all_lines = [f"{i}. <@{uid}> — {s['correct']} right of {s['answered']}"
+                 + (f" · best run {s['best_streak']} 🔥" if s.get("best_streak", 0) >= 3 else "")
+                 for i, (uid, s) in enumerate(_ranked(records, "correct", "answered")[:10], 1)]
+    embed = discord.Embed(title="🏆 Quiz leaderboard", color=discord.Color.dark_teal())
+    if not all_lines:
+        embed.description = "No answers in this server yet — try `!quiz`!"
+        return embed
+    embed.add_field(name="This week", value="\n".join(week_lines) or "No answers yet this week.", inline=False)
+    embed.add_field(name="All time", value="\n".join(all_lines), inline=False)
+    embed.set_footer(text="Weekly scores start fresh every Monday (UTC).")
+    return embed
+
+
+def weekly_top(week: str, n: int = 3) -> dict:
+    """{guild key: [(user id, right, answered), ...]} for a finished week --
+    for the owner's Monday report."""
+    out = {}
+    for gid, records in _load_scores()["guilds"].items():
+        week_records = {uid: s for uid, s in records.items() if s.get("week") == week}
+        ranked = _ranked(week_records, "week_correct", "week_answered")[:n]
+        if ranked:
+            out[gid] = [(uid, s["week_correct"], s["week_answered"]) for uid, s in ranked]
+    return out
+
+
+def score_line(score: dict) -> str:
+    streak = f"🔥 {score['streak']} in a row! " if score["streak"] >= 3 else ""
+    return f"{streak}(Your score here: {score['correct']} right out of {score['answered']}.)"
 
 
 # ── the round ───────────────────────────────────────────────────────────────
@@ -103,10 +173,9 @@ class QuizView(discord.ui.View):
                 return
             correct = choice == self.question["answer"]
             self.answers[interaction.user.id] = (str(interaction.user.display_name), correct)
-            score = record_answer(interaction.user.id, correct)
+            score = record_answer(getattr(interaction, "guild_id", None), interaction.user.id, correct)
             verdict = "✅ Correct!" if correct else f"❌ Not quite — the answer is revealed in {ROUND_SECONDS}s."
-            await interaction.response.send_message(
-                f"{verdict} (Your score: {score['correct']} right out of {score['answered']}.)", ephemeral=True)
+            await interaction.response.send_message(f"{verdict} {score_line(score)}", ephemeral=True)
         return callback
 
     def reveal_embed(self) -> discord.Embed:
@@ -147,12 +216,9 @@ async def cmd_quiz(ctx, *, mode: str = ""):
            !quiz leaderboard  — top scorers"""
     mode = mode.strip().lower()
     if mode in ("leaderboard", "lb", "scores"):
-        scores = _load_scores()
-        top = sorted(scores.items(), key=lambda kv: (-kv[1]["correct"], kv[1]["answered"]))[:10]
-        lines = [f"{i}. <@{uid}> — {s['correct']} right of {s['answered']}" for i, (uid, s) in enumerate(top, 1)]
-        embed = discord.Embed(title="🏆 Quiz leaderboard", description="\n".join(lines) or "No answers yet — try `!quiz`!",
-                              color=discord.Color.dark_teal())
-        await ctx.send(embed=embed, allowed_mentions=discord.AllowedMentions.none())
+        guild = getattr(ctx, "guild", None)
+        await ctx.send(embed=leaderboard_embed(guild.id if guild else None),
+                       allowed_mentions=discord.AllowedMentions.none())
         return
     hard = mode == "hard"
     question = make_question(hard)

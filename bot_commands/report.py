@@ -16,6 +16,7 @@ import discord
 from discord.ext import commands, tasks
 
 from core import ERROR_LOG_PATH, ROOT, _atomic_write_json, _load_stats, bot, log
+from bot_commands.quiz import week_key, weekly_top
 from net_notes_lookup import health_check
 
 REPORT_STATE_PATH = ROOT / "data" / "weekly_report.json"
@@ -47,7 +48,8 @@ def _top(counter: Counter, n: int = 5) -> str:
 
 
 def build_report(stats: dict, previous: "dict | None", errors: list, since: datetime.datetime,
-                 guild_count: int, notes_check: tuple) -> discord.Embed:
+                 guild_count: int, notes_check: tuple, quiz_top: "list | None" = None) -> discord.Embed:
+    """quiz_top: [(server name, [(user id, right, answered), ...]), ...]"""
     now = _snapshot(stats)
     first = previous is None
     before = previous or {"total_commands": 0, "users": 0, "command_counts": {}, "verse_counts": {}}
@@ -68,10 +70,22 @@ def build_report(stats: dict, previous: "dict | None", errors: list, since: date
     else:
         error_text = "None 🎉"
     embed.add_field(name="Errors", value=error_text[:1024], inline=False)
+    if quiz_top:
+        lines = [f"**{name}:** " + ", ".join(f"<@{uid}> {right}/{answered}" for uid, right, answered in top)
+                 for name, top in quiz_top]
+        embed.add_field(name="Quiz champions last week", value="\n".join(lines)[:1024], inline=False)
     ok, detail = notes_check
     embed.add_field(name="!notes source (netbible.org)", value=("✅ " if ok else "⚠️ ") + detail, inline=False)
     embed.set_footer(text=f"Since {since:%Y-%m-%d %H:%M} UTC")
     return embed
+
+
+def _quiz_champions(client, week: str) -> list:
+    out = []
+    for gid, top in weekly_top(week).items():
+        guild = client.get_guild(int(gid)) if gid.isdigit() and hasattr(client, "get_guild") else None
+        out.append((guild.name if guild else ("DMs" if gid == "dm" else f"server {gid}"), top))
+    return out
 
 
 async def make_report(client, now: datetime.datetime) -> tuple[discord.Embed, dict]:
@@ -82,8 +96,10 @@ async def make_report(client, now: datetime.datetime) -> tuple[discord.Embed, di
     since = (datetime.datetime.fromisoformat(state["sent_at"]) if state.get("sent_at")
              else now - datetime.timedelta(days=7))
     notes_check = await asyncio.to_thread(health_check)
+    last_sunday = now.date() - datetime.timedelta(days=now.weekday() + 1)
     embed = build_report(stats, previous, _load_json(ERROR_LOG_PATH, []), since,
-                         len(getattr(client, "guilds", [])), notes_check)
+                         len(getattr(client, "guilds", [])), notes_check,
+                         _quiz_champions(client, week_key(last_sunday)))
     return embed, {"sent_at": now.isoformat(timespec="seconds"), "snapshot": _snapshot(stats)}
 
 

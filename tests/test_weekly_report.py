@@ -78,6 +78,18 @@ def test_sent_monday_morning_once_then_snapshot_moves(report):
     assert state["snapshot"]["total_commands"] == 160 and state["sent_at"].startswith("2026-10-12")
 
 
+def test_report_names_last_weeks_quiz_champions(report):
+    from bot_commands import quiz
+    sunday = datetime.date(2026, 10, 11)
+    quiz.record_answer(5, 1, True, today=sunday)
+    quiz.record_answer(5, 2, False, today=sunday)
+    quiz.record_answer(5, 3, True, today=MONDAY_9.date())          # this week: not in last week's
+    client = FakeClient()
+    client.get_guild = lambda gid: type("G", (), {"name": "Bible Study"})() if gid == 5 else None
+    embed, _ = asyncio.run(report.make_report(client, MONDAY_9))
+    assert _field(embed, "Quiz champions last week") == "**Bible Study:** <@1> 1/1, <@2> 0/1"
+
+
 def test_errors_are_logged_for_the_report(bot_module, monkeypatch):
     import core
     monkeypatch.setattr(core, "_last_error_dm", {})
