@@ -782,6 +782,76 @@ async def _send_bcp_collect(ctx_or_channel, target_date):
     await ctx_or_channel.send(embed=embed)
 
 
+# ── 📅 "Today's readings" button (under the Verse of the Day) ────────────────
+# One look at the day's whole daily office -- psalms and lessons for morning
+# and evening, and the collect -- as references; !mp / !ep / !collect give
+# the full texts. The button carries its date, so it shows that day's
+# readings (and keeps working after a restart: see verse.StudyButton).
+
+def _pretty_date(d) -> str:
+    return d.strftime("%A, ") + d.strftime("%d").lstrip("0") + d.strftime(" %B %Y")
+
+
+def readings_embed(d) -> "discord.Embed | None":
+    import bcp_lookup as _bcp
+    offices = {p: _bcp.bcp_for_date(d, p) for p in ("morning", "evening")}
+    morning = offices["morning"]
+    if not morning.get("found"):
+        return None
+    heading = morning.get("label", "")
+    if morning.get("section_title") and morning["section_title"] != heading:
+        heading = f"{heading} — {morning['section_title']}" if heading else morning["section_title"]
+    embed = discord.Embed(title=f"📅 Readings for {_pretty_date(d)}", description=f"**{heading}**" if heading else None,
+                          color=discord.Color.dark_blue())
+    for period, info in offices.items():
+        lines = []
+        psalms = (info.get("psalter") or {}).get("psalms") or []
+        if psalms:
+            lines.append(("Psalm " if len(psalms) == 1 else "Psalms ") + ", ".join(psalms))
+        for les in info.get("lessons", []):
+            lines.append(f"{les['slot']}: {les['ref']}")
+        name = "🌅 Morning Prayer" if period == "morning" else "🌙 Evening Prayer"
+        embed.add_field(name=name, value="\n".join(lines) or "—", inline=False)
+    collect = morning.get("collect") or {}
+    if collect.get("name"):
+        # Weekdays use the Sunday's collect, which the data just calls "Sunday"
+        week = (morning.get("section_title") or "").removeprefix("The Week of ").strip()
+        generic = collect["name"] in ("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
+        name = f"the collect of {week}" if generic and week else collect["name"]
+        embed.add_field(name="📿 Collect", value=f"{name[0].upper()}{name[1:]} (`!collect`)", inline=False)
+    embed.set_footer(text="Book of Common Prayer (Canada 1962) · full texts: !mp · !ep · !psalm · !collect")
+    return embed
+
+
+class ReadingsButton(discord.ui.DynamicItem[discord.ui.Button],
+                     template=r"readings:(?P<date>\d{4}-\d{2}-\d{2})"):
+    def __init__(self, date_iso: str):
+        super().__init__(discord.ui.Button(label="Today's readings", emoji="📅", style=discord.ButtonStyle.secondary,
+                                           custom_id=f"readings:{date_iso}"))
+        self.date_iso = date_iso
+
+    @classmethod
+    async def from_custom_id(cls, interaction, item, match):
+        return cls(match["date"])
+
+    async def callback(self, interaction: discord.Interaction):
+        import datetime as _dt
+        embed = await asyncio.to_thread(readings_embed, _dt.date.fromisoformat(self.date_iso))
+        if embed is None:
+            await interaction.response.send_message("⚠️ I couldn't find the readings for that day.", ephemeral=True)
+            return
+        await interaction.response.send_message(embed=embed, ephemeral=True)
+
+
+bot.add_dynamic_items(ReadingsButton)
+
+
+def readings_view(d) -> discord.ui.View:
+    view = discord.ui.View(timeout=None)      # holds a DynamicItem: must never time out
+    view.add_item(ReadingsButton(d.isoformat()))
+    return view
+
+
 # ── !prayer — random devotional prayer from the BCP ──────────────────────────
 
 _PRAYERS_DATA: dict | None = None

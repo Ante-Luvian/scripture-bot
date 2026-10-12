@@ -128,7 +128,7 @@ For centuries people have sought guidance by opening a revered book at random or
 Every answer has a **🖼️ Card** button that turns it into an image to share.
 
 ## 🌅 Every day, and just for you
-**`!votd`** — today's Verse of the Day. `!votd ESV` gives it in another translation; `!votd full` adds the ancient translations and a Church Father's commentary; `!votd extended` adds today's calendar too. Servers can have it posted automatically each day.
+**`!votd`** — today's Verse of the Day. `!votd ESV` gives it in another translation; `!votd full` adds the ancient translations and a Church Father's commentary; `!votd extended` adds today's calendar too. Servers can have it posted automatically each day. Press **📅 Today's readings** under it to see that day's psalms and Bible readings for morning and evening prayer (from the Book of Common Prayer) — just for you.
 **`!subscribe`** — get the Verse of the Day sent to your private messages every day · `!unsubscribe` to stop.
 
 **Your own bookmarks**

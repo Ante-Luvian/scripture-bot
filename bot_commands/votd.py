@@ -29,6 +29,7 @@ from core import (
 from bot_commands.liturgy import (
     _TODAY_GROUPS,
     _send_today,
+    readings_view,
 )
 from bot_commands.translations import (
     _fetch_one_translation,
@@ -78,8 +79,14 @@ async def _send_votd(ctx_or_channel, translation: str = ""):
     buf = await loop.run_in_executor(
         None, _render_verse_card, result["reference"], result["text"], " · ".join(footer_parts)
     )
-    await ctx_or_channel.send(file=discord.File(buf, filename="votd.png"))
+    await ctx_or_channel.send(file=discord.File(buf, filename="votd.png"), view=_todays_readings())
     _record_last_cited(ctx_or_channel, result)
+
+
+def _todays_readings() -> discord.ui.View:
+    """The 📅 Today's readings button under every Verse of the Day."""
+    import datetime
+    return readings_view(datetime.datetime.now(datetime.timezone.utc).date())
 
 
 @bot.command(name="votd", aliases=["verseoftheday", "dayverse"])
@@ -314,7 +321,7 @@ async def _send_votd_full(ctx_or_channel):
         footer_parts.append("Commentary: catenabible.com")
     embed.set_footer(text=" | ".join(footer_parts) if footer_parts else "Verse of the Day")
 
-    await ctx_or_channel.send(embed=embed)
+    await ctx_or_channel.send(embed=embed, view=_todays_readings())
 
 
 async def _send_votd_extended(ctx_or_channel):
