@@ -66,6 +66,25 @@ _BIBLE_BOOKS = set(BIBLE_OT + BIBLE_NT)
 _STUDY_REF = re.compile(r"^(?P<book>.+?) (?P<ch>\d+):(?P<v1>\d+)(?:[–-](?P<v2>\d+))?(?: \([^)]*\))?$")
 
 
+class _ButtonContext:
+    """Just enough of commands.Context to run a prefix command from a button
+    press (what the study commands use: author, channel, send, typing).
+    bot.get_context() can't be used here -- it only accepts slash-command
+    interactions and raises "interaction does not have command data" for a
+    button click. Replies are posted in the channel, as if typed."""
+
+    def __init__(self, interaction: discord.Interaction):
+        self.author = interaction.user
+        self.channel = interaction.channel
+        self.guild = interaction.guild
+
+    async def send(self, *args, **kwargs):
+        return await self.channel.send(*args, **kwargs)
+
+    def typing(self):
+        return self.channel.typing()
+
+
 def _study_buttons(result: dict) -> list:
     """Notes / Cross-refs / Interlinear / Card buttons for a Bible verse or
     short range ("John 3:16", "John 3:16–18 (ESV)"); [] for anything else --
@@ -90,8 +109,7 @@ def _study_buttons(result: dict) -> list:
                 await interaction.response.edit_message(view=btn.view)
             else:
                 await interaction.response.defer()
-            ctx = await bot.get_context(interaction)
-            await command(ctx, reference=ref)
+            await command(_ButtonContext(interaction), reference=ref)
 
         btn.callback = callback
         buttons.append(btn)

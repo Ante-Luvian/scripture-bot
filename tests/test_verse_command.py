@@ -66,6 +66,11 @@ def test_no_study_buttons_on_errors(verse):
     assert verse._study_buttons({"found": False, "error": "nope"}) == []
 
 
+# A button press, faked at the Discord-object level only: the button
+# callbacks and the commands they run are the real ones. (An earlier test
+# faked bot.get_context itself -- exactly the call that failed in Discord --
+# so it passed while every study button was broken.)
+
 class _FakeResponse:
     def __init__(self):
         self.edited_view = None
@@ -77,29 +82,56 @@ class _FakeResponse:
         pass
 
 
-def test_study_button_runs_its_command_once(verse, monkeypatch):
-    calls = []
+class _FakeChannel:
+    id = 555
 
-    async def fake_xref(ctx, reference=""):
-        calls.append((ctx, reference))
+    def __init__(self):
+        self.sent = []
 
-    class FakeBot:
-        async def get_context(self, interaction):
-            return "ctx-from-interaction"
+    async def send(self, content=None, **kwargs):
+        self.sent.append({"content": content, **kwargs})
 
-    monkeypatch.setattr(verse, "cmd_xref", fake_xref)
-    monkeypatch.setattr(verse, "bot", FakeBot())
-    buttons = verse._study_buttons({"found": True, "reference": "John 3:16–18 (ESV)"})
-    xref = next(b for b in buttons if b.label == "Cross-refs")
+    def typing(self):
+        class _Typing:
+            async def __aenter__(self): return self
+            async def __aexit__(self, *exc): return False
+        return _Typing()
+
+
+def _press(buttons, label):
+    """Press the real button: returns (interaction, button, view)."""
     view = discord.ui.View()
     for b in buttons:
         view.add_item(b)
+    btn = next(b for b in buttons if b.label == label)
+    interaction = type("Interaction", (), {
+        "response": _FakeResponse(), "channel": _FakeChannel(), "guild": None,
+        "user": type("User", (), {"id": 1, "__str__": lambda self: "tester"})(),
+    })()
+    asyncio.run(btn.callback(interaction))
+    return interaction, btn, view
 
-    interaction = type("I", (), {"response": _FakeResponse()})()
-    asyncio.run(xref.callback(interaction))
 
-    assert calls == [("ctx-from-interaction", "John 3:16-18")]   # translation suffix dropped
-    assert xref.disabled and interaction.response.edited_view is view
+def test_cross_refs_button_runs_the_real_command(verse):
+    interaction, btn, view = _press(verse._study_buttons({"found": True, "reference": "John 3:16"}), "Cross-refs")
+    assert btn.disabled and interaction.response.edited_view is view   # one use, and the press is answered
+    embed = interaction.channel.sent[0]["embed"]
+    assert embed.title == "🔗 Cross-references — John 3:16"
+
+
+def test_card_button_renders_the_verse(verse):
+    interaction, _, _ = _press(verse._study_buttons({"found": True, "reference": "John 3:16"}), "Card")
+    sent = interaction.channel.sent[0]
+    assert sent["file"].fp.read(8) == b"\x89PNG\r\n\x1a\n"
+
+
+def test_notes_button_passes_the_reference_without_translation_suffix(verse, monkeypatch):
+    from bot_commands import reference
+    seen = []
+    monkeypatch.setattr(reference, "get_net_notes", lambda ref: seen.append(ref) or {"found": False, "error": "x"})
+    interaction, _, _ = _press(verse._study_buttons({"found": True, "reference": "John 3:16–18 (ESV)"}), "Notes")
+    assert seen == ["John 3:16-18"]
+    assert interaction.channel.sent[0]["content"] == "⚠️ x"
 
 
 def test_verse_command_attaches_study_buttons(verse, monkeypatch, fake_ctx):
