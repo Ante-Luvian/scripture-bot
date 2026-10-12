@@ -19,11 +19,15 @@ from core import (
 from bot_commands.votd import (
     _daily_votd_task,
 )
+from bot_commands.changelog import (
+    announce_changelog,
+)
 # Importing a feature module registers its commands.
 from bot_commands import (  # noqa: F401
     autodetect,
     books,
     card,
+    changelog,
     church,
     help,
     liturgy,
@@ -73,6 +77,12 @@ async def on_ready():
     active_votd = sum(1 for g in _load_guild_config().values() if g.get("votd_channel_id"))
     log.info(f"Daily VOTD configured for {active_votd} guild(s) — admins can run !votdsetup")
     _daily_votd_task.start()
+
+    # Post any CHANGELOG.md entries each server hasn't seen yet
+    try:
+        await announce_changelog(bot)
+    except Exception as e:
+        log.warning(f"Changelog announcement failed: {e}")
 
     import pathlib, hashlib
     for ext in ("png", "jpg", "jpeg", "gif", "webp"):

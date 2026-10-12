@@ -9,6 +9,12 @@
   ],
   "catena": [],
   "ccc": [],
+  "changelog": [
+   "whatsnew"
+  ],
+  "changelogsetup": [
+   "changelogconfig"
+  ],
   "collect": [],
   "compare": [
    "cmp"
@@ -172,6 +178,7 @@
   "card",
   "catena",
   "ccc",
+  "changelog",
   "compare",
   "concordance",
   "creed",

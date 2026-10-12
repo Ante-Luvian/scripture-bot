@@ -15,6 +15,15 @@ See README.md for what the bot does, the command list, layout, and data schema.
   bookmarks, reading_plans, subscribers, votd_mode). `.gitignore` covers them.
 - Commit messages: a summary line plus a body explaining *why*, and noting anything
   verified or deliberately left out.
+- **Add a `CHANGELOG.md` entry for every user-visible change worth announcing** (new
+  commands, new features, fixes users would notice) as part of the same change. The bot
+  posts unseen entries to each server's changelog channel when it next starts, so write
+  the bullets for Discord users, newest entry first, heading `## YYYY-MM-DD · Title`.
+  Never edit the heading of an entry that's been announced (it's the entry's ID).
+  Internal refactors and test-only changes don't get entries.
+- Only commit when the full test suite passes (guard the commit on the test exit code).
+- Tests must never touch the live runtime files; `tests/conftest.py` redirects them
+  to a temp folder for every test. Keep new runtime-file paths in its `RUNTIME_FILES`.
 
 ## Code layout rules
 

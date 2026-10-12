@@ -159,6 +159,16 @@ Every oracle answer has a 🖼️ Card button that renders it as an image.
 
 Plus `!stats`, and owner/admin tools `!guildactivity` and `!scanstats`.
 
+### Updates
+
+| Command | What it does |
+|---|---|
+| `!changelog` | Recent updates (also `!whatsnew`) |
+| `!changelogsetup #channel` | (Admins) Where the bot announces new updates; `off` to stop |
+
+Updates come from [`CHANGELOG.md`](CHANGELOG.md): when the bot starts after an
+update, she posts each entry a server hasn't seen yet to its changelog channel.
+
 ### Reference formats
 
 ```

@@ -689,7 +689,8 @@ async def cmd_help(ctx, *, topic: str = ""):
     ), inline=False)
     embed.add_field(name="⚙️ Server Setup (Admin)", value=(
         "`!votdsetup` — configure this server's daily VOTD channel/time/mode · `!help votdsetup`\n"
-        "`!features` — turn optional features on/off · `!help features`"
+        "`!features` — turn optional features on/off · `!help features`\n"
+        "`!changelogsetup #channel` — where I announce my updates · `!changelog` — recent updates"
     ), inline=False)
     embed.add_field(name="🏛️ Ancient Languages & Strong's", value=(
         "Append to `!verse`: `OE` `WLC` `LXX` `TR` `VULG` `peshitta` `CSL`\n"
