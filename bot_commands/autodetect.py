@@ -138,10 +138,17 @@ async def on_message(message: discord.Message):
     if message.content.startswith("!"):
         return
 
-    # Scan the message for scripture references
-    matches = _AUTO_RE.findall(message.content)
-    if not matches:
-        return
+    for embed, view in find_verses(message.content, limit=3):
+        if view is not None:
+            await message.channel.send(embed=embed, view=view)
+        else:
+            await message.channel.send(embed=embed)
+
+
+def find_verses(content: str, limit: int = 3) -> list:
+    """[(embed, study-button view or None), ...] for the first `limit`
+    references in `content` that resolve to real verses."""
+    matches = _AUTO_RE.findall(content)
 
     # De-duplicate while preserving order
     seen = set()
@@ -155,13 +162,9 @@ async def on_message(message: discord.Message):
             seen.add(ref.lower())
             unique.append(ref)
 
-    if not unique:
-        return
-
     # Only respond if at least one reference actually resolves to a real verse
     replies = []   # (embed, result)
-    content = message.content
-    for ref in unique[:3]:
+    for ref in unique[:limit]:
         escaped = re.escape(ref)
         suffix_m = re.search(escaped + r"\s+(\S+)", content, re.IGNORECASE)
         suffix = suffix_m.group(1).lower() if suffix_m else ""
@@ -178,14 +181,35 @@ async def on_message(message: discord.Message):
         if result["found"]:
             replies.append((_build_embed(result), result))
 
+    out = []
     for embed, result in replies:
         # Bible verses get the same Notes / Cross-refs / Interlinear / Card
         # buttons as !verse (persistent buttons: the view must never time out)
         buttons = _study_buttons(result)
+        view = None
         if buttons:
             view = discord.ui.View(timeout=None)
             for b in buttons:
                 view.add_item(b)
-            await message.channel.send(embed=embed, view=view)
-        else:
-            await message.channel.send(embed=embed)
+        out.append((embed, view))
+    return out
+
+
+# ── Right-click a message → Apps → "Look up verses" ─────────────────────────
+# For messages auto-detection didn't answer: ones starting with "!", with
+# more than 3 references, or from before I joined. The reply is private.
+
+CONTEXT_MENU_LIMIT = 5
+
+
+@bot.tree.context_menu(name="Look up verses")
+async def look_up_verses(interaction: discord.Interaction, message: discord.Message):
+    found = find_verses(message.content or "", limit=CONTEXT_MENU_LIMIT)
+    if not found:
+        await interaction.response.send_message(
+            "I couldn't find any scripture references in that message (like `John 3:16`).", ephemeral=True)
+        return
+    await interaction.response.defer(ephemeral=True, thinking=True)
+    for embed, view in found:
+        kwargs = {"view": view} if view is not None else {}
+        await interaction.followup.send(embed=embed, ephemeral=True, **kwargs)

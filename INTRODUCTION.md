@@ -9,10 +9,11 @@ checks both. Written for people who have never used the bot.
 ## 👋 Hello! I'm ScriptureBot
 I'm a library of sacred and ancient texts that lives in this server. I can look up a verse from the Bible in dozens of translations, show you the original Hebrew and Greek, tell you what the translators were thinking, pray the daily office with you, consult an ancient oracle — and a great deal more, across about **a thousand works** from more than a dozen traditions.
 
-**Three ways to talk to me**
+**Four ways to talk to me**
 **1. Commands starting with `!`** — for example `!verse John 3:16`. This is the main way.
 **2. Slash commands** — type `/` and pick from the list (for example `/verse`). They work the same, and Discord shows you what to fill in. `/verse` even suggests book names as you type.
 **3. Just chat.** If you mention a Bible reference in an ordinary message — *"as it says in Romans 8:28…"* — I'll reply with the verse.
+**4. Right-click any message** (on a phone: press and hold it), choose **Apps**, then **Look up verses** — I'll show you every reference in it (up to five), privately, just for you. Handy for long lists of verses, or older messages.
 
 **Buttons**
 Many of my answers come with buttons underneath. Under a Bible verse you'll see **Notes · Cross-refs · Interlinear · Card**, which dig deeper into that verse with one click (each is explained below). Long answers have **◀ ▶** buttons to turn the page.
