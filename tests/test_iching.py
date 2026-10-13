@@ -62,6 +62,23 @@ def test_hafez(oracles, fake_ctx, lookup):
     assert r["found"] and "Arise, oh Cup-bearer" in r["text"]
 
 
+def test_rumi(oracles, fake_ctx, lookup):
+    import random
+    for seed in range(20):                     # always couplets, never a story's prose summary
+        key, text = oracles.rumi_passage(random.Random(seed))
+        assert "\n" in text and not text.startswith("*") and lookup.get_verse(f"Masnavi {key}")["found"]
+    asyncio.run(oracles.cmd_rumi.callback(fake_ctx, question="what should I do?"))
+    msg = fake_ctx.sent[0]
+    assert msg["embed"].title.startswith("🌹 The Masnavi — Book ")
+    assert msg["embed"].author.name == "❓ what should I do?"
+    key = msg["view"].children[0].custom_id.removeprefix("ocard:rumi:")
+    assert msg["embed"].description.strip("*") == lookup._data["sufi"]["Masnavi"][key.split(":")[0]][key.split(":")[1]]
+    assert oracles._rumi_parts("1.0:2")[0] == "Book 1, Prologue"
+    assert oracles._rumi_parts("1.1:2")[2] == "The Prince and the Handmaid"
+    title, text, source = oracles._oracle_card_content("rumi", "1.0:2")
+    assert title == "The Masnavi — Book 1, Prologue" and "Whinfield" in source
+
+
 def test_card_content(oracles):
     title, text, source = oracles._oracle_card_content("iching", "11:1")
     assert title.startswith("I Ching — 11. Tài") and "Legge" in source

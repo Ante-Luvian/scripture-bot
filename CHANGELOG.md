@@ -14,6 +14,11 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-13 · !rumi: open the Masnavi at random
+- 🌹 **New oracle: `!rumi` opens the *Masnavi* of Rumi at random**, the way `!hafez` opens the poems of Hafiz. Rumi was the 13th-century Persian poet and mystic whose *Masnavi*, a long poem of stories and teaching, has been called "the Quran in Persian". Hold a question in mind, or write it after the command (`!rumi what should I do?`), and I'll read you a few couplets from wherever the book falls open. Under them I name the story they come from, such as "The Falcon and the Owls", and the footer gives the command to read the whole story.
+- 🖼️ Like the other oracles, the answer has a **Card** button that turns it into an image, and server admins can make it the **daily oracle**: `!oraclesetup kind rumi`.
+- 🔧 **Fixed:** in the *Masnavi* added earlier today, many words lost their final "l": "Soul" came out as "Sou", and "all" and "will" were clipped too. That's corrected throughout.
+
 ## 2026-10-13 · Seven new traditions and thirty new scriptures
 - 📚 **The library has grown by about 30 sacred texts, and seven religions and traditions it didn't have before.** Every one works with `!verse`, `!search`, `!theme` (one passage on a subject from each tradition), `!discover`, `!card` and `!books`. Most are the classic translations of the *Sacred Books of the East*, the 50-volume series edited by Max Müller in the 1880s and 90s.
 - 🪯 **Sikhism:** the whole **Guru Granth Sahib**, the Sikh scripture, cited by page (*Ang*) and line just as Sikhs cite it: `!verse Guru Granth Sahib 1:1`. Also the **Japji**, Guru Nanak's morning prayer that opens it, by stanza: `!verse Japji 1`.

@@ -728,7 +728,7 @@ async def cmd_help(ctx, *, topic: str = ""):
         await ctx.send(embed=embed)
         return
 
-    if topic in ("oracle", "delphi", "homer", "virgil", "sortes", "sortesbiblicae", "bibliomancy", "iching", "yijing", "hafez", "hafiz"):
+    if topic in ("oracle", "delphi", "homer", "virgil", "sortes", "sortesbiblicae", "bibliomancy", "iching", "yijing", "hafez", "hafiz", "rumi", "masnavi"):
         embed = discord.Embed(title="🎲 Divination Commands", color=discord.Color.dark_gold())
         embed.add_field(name="!oracle", value="Random saying from an oracular corpus (Delphic maxims and oracles, "
                                               "Chaldaean Oracles, Golden Verses of Pythagoras)", inline=False)
@@ -742,6 +742,9 @@ async def cmd_help(ctx, *, topic: str = ""):
                         inline=False)
         embed.add_field(name="!hafez", value="Fāl-e Hāfez — the Persian custom of opening the Divan of Hafiz at random "
                                              "and reading the poem as your answer (Gertrude Bell's translation)",
+                        inline=False)
+        embed.add_field(name="!rumi", value="The same with Rumi's Masnavi: open it anywhere and read a few couplets "
+                                            "as your answer, with the story they come from (Whinfield's translation)",
                         inline=False)
         embed.add_field(name="Ask a question", value="Add one after any of these — `!virgil will I find work?` — "
                                                      "and it's shown with the answer and on its card.", inline=False)
@@ -843,7 +846,7 @@ async def cmd_help(ctx, *, topic: str = ""):
         "`!prayer` — random devotional prayer from the BCP · `!help prayer`"
     ), inline=False)
     embed.add_field(name="🎲 Divination", value=(
-        "`!oracle` `!delphi` `!homer` `!virgil` `!sortesbiblicae` `!iching` `!hafez` — oracular & sortes · `!help oracle`\n"
+        "`!oracle` `!delphi` `!homer` `!virgil` `!sortesbiblicae` `!iching` `!hafez` `!rumi` — oracular & sortes · `!help oracle`\n"
         "`!quiz` — guess which book a verse is from (`!quiz hard`, `!quiz buddhist`, `!quiz leaderboard`)\n"
         "`!whoami` — Who Am I? Guess a Bible figure from clues that get easier · `!help whoami`\n"
         "`!versle` — the daily verse puzzle: where in the Bible is it? · `!help versle`"

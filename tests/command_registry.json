@@ -146,6 +146,10 @@
   "root": [
    "cognates"
   ],
+  "rumi": [
+   "masnavi",
+   "mathnawi"
+  ],
   "save": [
    "bookmark"
   ],
@@ -291,6 +295,7 @@
   "quoted",
   "reverseinterlinear",
   "root",
+  "rumi",
   "save",
   "saved",
   "search",

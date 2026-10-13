@@ -144,6 +144,7 @@ Prefix commands use `!`; most also have a `/` slash-command version.
 | `!virgil [question]` | `!aeneid` | Sortes Vergilianae |
 | `!sortesbiblicae` | `!bibliomancy` | Sortes Biblicae: the Bible opened at random (with the study buttons) |
 | `!hafez [question]` | `!hafiz`, `!fal` | Fāl-e Hāfez: a random poem from the Divan of Hafiz (Bell's 43 ghazals) |
+| `!rumi [question]` | `!masnavi`, `!mathnawi` | A random run of couplets from Rumi's Masnavi (Whinfield), with the story it comes from; also a daily-oracle kind |
 | `!iching [question]` | `!yijing`, `!hexagram` | Cast an I Ching hexagram (three coins): Judgment, Image, changing lines, the hexagram it becomes (Legge) |
 | `!oraclesetup` | | (Admins) A daily oracle in a channel: `channel #chan`, `time HH:MM` (UTC), `kind any\|virgil\|…`, `test`, `off` |
 

@@ -81,6 +81,9 @@ def _oracle_card_content(kind: str, key: str) -> "tuple[str, str, str] | None":
     if kind == "hafez":                        # key: poem number; the card shows its opening stanza
         stanza = _hafiz_poems().get(key, {}).get("1")
         return (f"Fāl-e Hāfez — Poem {key}", stanza, HAFIZ_SOURCE) if stanza else None
+    if kind == "rumi":                         # key "1.5:3": book.story:passage
+        parts = _rumi_parts(key)
+        return (f"The Masnavi — {parts[0]}", parts[1], RUMI_SOURCE) if parts else None
     if kind == "iching":                       # key "3:15": hexagram, changing lines
         n, _, moving = key.partition(":")
         texts = _iching_texts(n)
@@ -104,7 +107,7 @@ def _oracle_card_content(kind: str, key: str) -> "tuple[str, str, str] | None":
 
 
 class OracleCardButton(discord.ui.DynamicItem[discord.ui.Button],
-                       template=r"ocard:(?P<kind>virgil|homer|delphi|oracle|iching|hafez):(?P<key>.+)"):
+                       template=r"ocard:(?P<kind>virgil|homer|delphi|oracle|iching|hafez|rumi):(?P<key>.+)"):
     """Renders an oracle answer as a !card-style image. Like the study
     buttons, its custom_id carries what it needs, so it keeps working after a
     restart; only ever sent in timeout=None views (see verse.StudyButton)."""
@@ -126,7 +129,7 @@ class OracleCardButton(discord.ui.DynamicItem[discord.ui.Button],
             await interaction.followup.send("⚠️ I can't find that answer's text any more.", ephemeral=True)
             return
         question = _question_from(interaction.message)
-        style = {"iching": "ink", "hafez": "persian"}.get(self.kind, "classical")
+        style = {"iching": "ink", "hafez": "persian", "rumi": "persian"}.get(self.kind, "classical")
         buf = await asyncio.to_thread(_render_verse_card, *content, question, style)
         await interaction.followup.send(file=discord.File(buf, filename="oracle.png"))
 
@@ -635,6 +638,72 @@ async def cmd_hafez(ctx, *, question: str = ""):
     await ctx.send(embed=embed, view=_card_view("hafez", num))
 
 
+# ── !rumi — the Masnavi opened at random ──────────────────────────────────────
+# The same custom as the Fāl-e Hāfez, with Rumi's Masnavi: open it anywhere and
+# read what you find. Whinfield's abridgement keeps each story's prose summary
+# as its first passage; the oracle reads a run of the couplets themselves.
+
+RUMI_SOURCE = "Rumi, The Masnavi, abridged and trans. E. H. Whinfield (1898)"
+
+
+def _masnavi() -> dict:
+    return lookup._data.get("sufi", {}).get("Masnavi", {})
+
+
+def _story_title(passage: str) -> str:
+    m = re.match(r"\*(.+?)\*\n", passage)
+    return m.group(1) if m else ""
+
+
+def rumi_passage(rng=random) -> "tuple[str, str] | None":
+    """("book.story:passage", its text): a run of couplets, not a story's prose summary."""
+    stories = _masnavi()
+    couplets = [(s, v) for s, passages in stories.items() for v, t in passages.items()
+                if "\n" in t and not t.startswith("*")]
+    if not couplets:
+        return None
+    story, verse = rng.choice(couplets)
+    return f"{story}:{verse}", stories[story][verse]
+
+
+def _rumi_parts(key: str) -> "tuple[str, str, str] | None":
+    """(heading, couplets, story title) for a passage key "1.5:3"."""
+    story, _, verse = key.partition(":")
+    passages = _masnavi().get(story, {})
+    text = passages.get(verse)
+    if not text:
+        return None
+    book, _, num = story.partition(".")
+    title = _story_title(passages.get("1", ""))
+    if num == "0":
+        part = "Prologue"
+    elif title.startswith("Epilogue"):
+        part = "Epilogue"
+    else:
+        part = f"Story {num}"
+    return f"Book {book}, {part}", text, title
+
+
+@bot.command(name="rumi", aliases=["masnavi", "mathnawi"])
+async def cmd_rumi(ctx, *, question: str = ""):
+    """Open Rumi's Masnavi at random. Usage: !rumi [optional question]"""
+    pick = rumi_passage()
+    if pick is None:
+        await ctx.send("⚠️ The Masnavi isn't loaded.")
+        return
+    key, _ = pick
+    where, text, title = _rumi_parts(key)
+    log.info(f"RNG  masnavi                → {key} (user: {ctx.author})")
+    embed = discord.Embed(title=f"🌹 The Masnavi — {where}", description=f"*{text}*"[:4096],
+                          color=discord.Color.dark_red())
+    if title and not title.startswith(("Prologue", "Epilogue")):
+        embed.add_field(name="From the story", value=title, inline=False)
+    embed.set_footer(text=f"{RUMI_SOURCE} · the whole story: !verse Masnavi {key.split(':')[0]}")
+    _ask(embed, question)
+    _record(ctx, "rumi", f"Masnavi {key}")
+    await ctx.send(embed=embed, view=_card_view("rumi", key))
+
+
 # ── Daily oracle (!oraclesetup) ───────────────────────────────────────────────
 # Like the daily verse: an oracle posted each day in a channel of the
 # server's choosing. Per-guild settings in guild_config.json:
@@ -650,6 +719,7 @@ _DAILY_KINDS = {
     "oracle": cmd_oracle,
     "iching": cmd_iching,
     "hafez": cmd_hafez,
+    "rumi": cmd_rumi,
 }
 
 
@@ -719,7 +789,7 @@ async def cmd_oraclesetup(ctx, action: str = "", *, arg: str = ""):
     Usage: !oraclesetup                  — show this server's settings
            !oraclesetup channel #chan    — post the daily oracle there
            !oraclesetup time 12:00       — daily post time (24h UTC)
-           !oraclesetup kind any         — any | virgil | homer | delphi | oracle | iching | hafez
+           !oraclesetup kind any         — any | virgil | homer | delphi | oracle | iching | hafez | rumi
            !oraclesetup test             — post one now, to try it
            !oraclesetup off              — stop the daily oracle"""
     if not ctx.guild:
@@ -734,7 +804,7 @@ async def cmd_oraclesetup(ctx, action: str = "", *, arg: str = ""):
         embed.add_field(name="Channel", value=f"<#{channel_id}>" if channel_id else "*not set — daily oracle is off*")
         embed.add_field(name="Time (UTC)", value=time_hm)
         embed.add_field(name="Oracle", value=kind)
-        embed.set_footer(text="!oraclesetup channel #chan · time HH:MM · kind any|virgil|homer|delphi|oracle|iching|hafez · test · off")
+        embed.set_footer(text="!oraclesetup channel #chan · time HH:MM · kind any|virgil|homer|delphi|oracle|iching|hafez|rumi · test · off")
         await ctx.send(embed=embed)
         return
     if action == "off":
@@ -761,7 +831,7 @@ async def cmd_oraclesetup(ctx, action: str = "", *, arg: str = ""):
     if action == "kind":
         new_kind = arg.strip().lower()
         if new_kind not in ("any", *_DAILY_KINDS):
-            await ctx.send("Choose `any`, `virgil`, `homer`, `delphi`, `oracle`, `iching`, or `hafez`.")
+            await ctx.send("Choose `any`, `virgil`, `homer`, `delphi`, `oracle`, `iching`, `hafez`, or `rumi`.")
             return
         _update_guild_config(ctx.guild.id, oracle_kind=new_kind)
         await ctx.send(f"Daily oracle set to **{new_kind}**.")

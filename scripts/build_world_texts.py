@@ -1579,7 +1579,8 @@ def masnavi():
     text = re.sub(r"(?m)^.*at sacred-texts\.com\s*$", "", text)
     text = re.sub(r"(?m)^[ \t]*\*NOTES:[ \t]*\n(?:[ \t]*\d+\..*\n|[ \t]*\n)*", "", text)
     # note numbers: "Adam, l" / "Pure One! 2" at a line's end, "willing,1 we" inside it
-    text = re.sub(r"(?:(?<=[^\W\d_])|(?<=[,;:!?'’\"]))[ \t]?(?:\d{1,2}|l)(?=[ \t]*$|[ \t]*[,.;:])", "", text, flags=re.M)
+    # (an OCR'd "l" for "1" only after a space: "Adam, l" -- never the end of "Soul")
+    text = re.sub(r"(?:(?<=[^\W\d_])|(?<=[,;:!?'’\"]))(?:[ \t]?\d{1,2}|[ \t]l)(?=[ \t]*$|[ \t]*[,.;:])", "", text, flags=re.M)
     text = re.sub(r"(?<=[,;:.!?'’\"])[ \t]?\d{1,2}(?=\s)", "", text)       # (this text has no verse numbers)
     books = re.split(r"(?m)^\s*Book ([IVX]+)\.\s*$", text)[1:]
     out = {}
