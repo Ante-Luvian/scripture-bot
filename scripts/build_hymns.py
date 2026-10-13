@@ -512,7 +512,51 @@ EXTRA_HYMNS = [
      "composer": "English traditional melody", "local": "Kingsfold.mid"},
     {"text": "each_day_ill_do_a_golden_deed", "title": "A Beautiful Life", "tune": "A Beautiful Life",
      "composer": "William M. Golden (1878–1934)", "local": "A_Beautiful_Life.mid"},
+    # Hymnary refuses this page outright, so the words come from Wikipedia's article
+    {"wikipedia": "I Vow to Thee, My Country", "title": "I Vow to Thee, My Country", "tune": "Thaxted",
+     "author": "Cecil Spring Rice (1918)", "meter": "13 13 13 13 13 13",
+     "scripture": ["Proverbs 3:17", "Genesis 22:2"],          # the article's notes on its last line and its altar
+     "composer": "Gustav Holst (1874–1934)", "local": "Thaxted.mid"},
 ]
+WIKIPEDIA_CACHE = ROOT / "scripts" / ".cache" / "wikipedia"
+
+
+def wikipedia_hymn(spec: dict) -> dict:
+    """Words from the {{poemquote}} block of a hymn's Wikipedia article."""
+    name = re.sub(r"[^A-Za-z0-9]+", "_", spec["wikipedia"]).strip("_")
+    url = ("https://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=content&rvslots=main"
+           "&format=json&formatversion=2&redirects=1&titles=" + urllib.parse.quote(spec["wikipedia"]))
+    cached = WIKIPEDIA_CACHE / f"{name}.wiki"
+    if cached.exists():
+        wikitext = cached.read_text(encoding="utf-8")
+    else:
+        page = json.loads(_fetch(url, WIKIPEDIA_CACHE / f"{name}.json"))["query"]["pages"][0]
+        wikitext = page["revisions"][0]["slots"]["main"]["content"]
+        cached.write_text(wikitext, encoding="utf-8")
+    m = re.search(r"\{\{poemquote\|(.*?)\}\}", re.sub(r"<ref[^>]*>.*?</ref>|<ref[^>]*/>", "", wikitext, flags=re.S), re.S)
+    if not m:
+        raise RuntimeError(f"no {{{{poemquote}}}} in Wikipedia's {spec['wikipedia']}")
+    text = re.sub(r"\[\[(?:[^|\]]*\|)?([^\]]*)\]\]", r"\1", m.group(1)).replace("''", "")
+    stanzas = ["\n".join(l.strip() for l in s.strip().splitlines()) for s in re.split(r"\n\s*\n", text) if s.strip()]
+    hymn = {
+        "title": spec["title"], "also": [], "author": spec["author"], "translator": "",
+        "composer": spec["composer"], "tune": spec["tune"], "meter": spec["meter"],
+        "scripture": spec["scripture"], "topics": [], "stanzas": stanzas, "refrain": "",
+        "first_line": stanzas[0].split("\n")[0].rstrip(",;"),
+        "file": f"en.wikipedia.org/wiki/{spec['wikipedia'].replace(' ', '_')}", "source": "Wikipedia",
+    }
+    return _local_tune(hymn, spec)
+
+
+def _local_tune(hymn: dict, spec: dict) -> dict:
+    midi = (LOCAL_MIDI / spec["local"]).read_bytes()
+    if not midi.startswith(b"MThd"):
+        raise RuntimeError(f"{spec['local']} isn't a MIDI file")
+    MIDI.mkdir(parents=True, exist_ok=True)
+    (MIDI / spec["local"]).write_bytes(midi)
+    import mido
+    hymn.update(midi=spec["local"], seconds=round(mido.MidiFile(MIDI / spec["local"]).length))
+    return hymn
 LOCAL_MIDI = ROOT / "scripts" / "hymn_midi"      # tunes the owner supplied, where no source could be fetched
 
 
@@ -615,13 +659,7 @@ def hymnary_hymn(spec: dict) -> dict:
         hymn.update(midi=name, seconds=round(mido.MidiFile(MIDI / name).length))
         hymn["source"] = "Hymnary.org; tune from Wikimedia Commons"
     elif spec.get("local"):
-        midi = (LOCAL_MIDI / spec["local"]).read_bytes()
-        if not midi.startswith(b"MThd"):
-            raise RuntimeError(f"{spec['local']} isn't a MIDI file")
-        MIDI.mkdir(parents=True, exist_ok=True)
-        (MIDI / spec["local"]).write_bytes(midi)
-        import mido
-        hymn.update(midi=spec["local"], seconds=round(mido.MidiFile(MIDI / spec["local"]).length))
+        hymn = _local_tune(hymn, spec)
     return hymn
 
 
@@ -660,7 +698,7 @@ def main():
         h["seconds"] = round(write_midi(tempo, voices, MIDI / h["midi"]))
         hymns[h["title"].lower()] = h
     for spec in EXTRA_HYMNS:
-        h = hymnary_hymn(spec)
+        h = wikipedia_hymn(spec) if spec.get("wikipedia") else hymnary_hymn(spec)
         hymns.setdefault(h["title"].lower(), h)
     for name, ends in misaligned:
         print(f"  voices end at different times: {name} {ends}", file=sys.stderr)

@@ -5222,6 +5222,30 @@
    "seconds": 30
   },
   {
+   "title": "I Vow to Thee, My Country",
+   "also": [],
+   "author": "Cecil Spring Rice (1918)",
+   "translator": "",
+   "composer": "Gustav Holst (1874–1934)",
+   "tune": "Thaxted",
+   "meter": "13 13 13 13 13 13",
+   "scripture": [
+    "Proverbs 3:17",
+    "Genesis 22:2"
+   ],
+   "topics": [],
+   "stanzas": [
+    "I vow to thee, my country, all earthly things above,\nEntire and whole and perfect, the service of my love;\nThe love that asks no questions, the love that stands the test,\nThat lays upon the altar the dearest and the best;\nThe love that never falters, the love that pays the price,\nThe love that makes undaunted the final sacrifice.",
+    "And there's another country, I've heard of long ago,\nMost dear to them that love her, most great to them that know;\nWe may not count her armies, we may not see her King;\nHer fortress is a faithful heart, her pride is suffering;\nAnd soul by soul and silently her shining bounds increase,\nAnd her ways are ways of gentleness, and all her paths are peace."
+   ],
+   "refrain": "",
+   "first_line": "I vow to thee, my country, all earthly things above",
+   "file": "en.wikipedia.org/wiki/I_Vow_to_Thee,_My_Country",
+   "source": "Wikipedia",
+   "midi": "Thaxted.mid",
+   "seconds": 47
+  },
+  {
    "title": "I'm But A Stranger Here",
    "also": [],
    "author": "Thomas Rawson Taylor (1807–1835)",

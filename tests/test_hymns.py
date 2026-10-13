@@ -136,10 +136,11 @@ def test_passages_button(hy):
     ("Jerusalem (And Did Those Feet in Ancient Time)", "And did those feet in ancient time"),
     ("I Heard the Voice of Jesus Say", "I heard the voice of Jesus say,"),
     ("A Beautiful Life", "Each day I'll do a golden deed,"),
+    ("I Vow to Thee, My Country", "I vow to thee, my country, all earthly things above"),
 ])
 def test_hymns_from_hymnary(hy, title, first):
     h = _one(hy, title)
-    assert h["first_line"] == first and h["source"].startswith("Hymnary.org") and h["scripture"]
+    assert h["first_line"] == first and h["source"].startswith(("Hymnary.org", "Wikipedia")) and h["scripture"]
     assert (hy.MIDI_DIR / h["midi"]).read_bytes().startswith(b"MThd") and hy.audio_path(h)
     if title == "A Beautiful Life":                              # its refrain, printed once, without "[Refrain]"
         assert h["refrain"].startswith("Life's evening sun is sinking low")

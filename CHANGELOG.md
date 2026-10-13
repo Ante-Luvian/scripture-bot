@@ -14,6 +14,9 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-12 · I Vow to Thee, My Country
+- 🎵 **New hymn: *I Vow to Thee, My Country*.** Cecil Spring Rice's poem, sung to *Thaxted*, the tune Gustav Holst made from the great melody in *Jupiter* from his suite *The Planets*. You get both verses and the Bible passages behind it: its last line, "all her paths are peace", comes from Proverbs 3:17. Press **▶️ Play the tune** to hear it. Try `!hymn I vow to thee`.
+
 ## 2026-10-12 · Two more hymn tunes
 - 🎵 **I Heard the Voice of Jesus Say and A Beautiful Life now have their tunes.** Until now these two had only their words. Press **▶️ Play the tune** under either one to hear it: *I Heard the Voice of Jesus Say* is set to *Kingsfold*, an old English folk melody, and *A Beautiful Life* to William Golden's own tune. Try `!hymn I heard the voice of Jesus`.
 - 🎵 **Play the tune now posts just the music.** You get a single sound file that plays right in Discord, without the extra MIDI file that used to come with it.
