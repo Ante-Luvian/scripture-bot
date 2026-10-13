@@ -111,15 +111,47 @@ def _stanza_text(stanza: dict) -> str:
     return num + "\n".join(stanza["lines"])
 
 
+# Psalm 119 is an acrostic: 22 parts of eight verses, each headed by the Hebrew
+# letter that every verse of the part begins with (as printed in the KJV)
+LETTERS = [("Aleph", "א"), ("Beth", "ב"), ("Gimel", "ג"), ("Daleth", "ד"), ("He", "ה"), ("Vau", "ו"),
+           ("Zain", "ז"), ("Cheth", "ח"), ("Teth", "ט"), ("Jod", "י"), ("Caph", "כ"), ("Lamed", "ל"),
+           ("Mem", "מ"), ("Nun", "נ"), ("Samech", "ס"), ("Ain", "ע"), ("Pe", "פ"), ("Tzaddi", "צ"),
+           ("Koph", "ק"), ("Resh", "ר"), ("Schin", "ש"), ("Tau", "ת")]
+
+
+def section_heading(psalm: dict, stanza: dict) -> str:
+    """The Hebrew-letter heading a Psalm 119 stanza starts, or ''."""
+    first = stanza["verses"][0] if stanza["verses"] else 0
+    if psalm["number"] != 119 or first % 8 != 1:
+        return ""
+    name, letter = LETTERS[first // 8]
+    return f"__**{letter} {name.upper()}**__ · verses {first}–{first + 7}"
+
+
+def letter_verses(name: str) -> "tuple | None":
+    """'nun' -> (105, 112): the verses of that part of Psalm 119."""
+    for i, (n, _) in enumerate(LETTERS):
+        if n.lower() == name.lower():
+            return 8 * i + 1, 8 * i + 8
+    return None
+
+
 def pages(psalm: dict, verses: "tuple | None" = None) -> list:
-    """The stanzas (those for `verses`, if given) in embed-sized pages."""
+    """The stanzas (those for `verses`, if given) in embed-sized pages; a
+    Psalm 119 part stays on one page with its heading."""
     stanzas = psalm["stanzas"]
     if verses:
         lo, hi = verses
         stanzas = [s for s in stanzas if s["verses"] and s["verses"][0] <= hi and lo <= s["verses"][-1]]
-    out, page = [], ""
+    blocks = []
     for s in stanzas:
-        text = _stanza_text(s)
+        heading = section_heading(psalm, s)
+        if heading or not blocks or psalm["number"] != 119:
+            blocks.append(f"{heading}\n{_stanza_text(s)}" if heading else _stanza_text(s))
+        else:
+            blocks[-1] += "\n\n" + _stanza_text(s)
+    out, page = [], ""
+    for text in blocks:
         if page and len(page) + len(text) + 2 > PAGE_CHARS:
             out.append(page)
             page = ""
@@ -166,7 +198,9 @@ def psalm_embed(psalm: dict, page: int = 0, verses: "tuple | None" = None) -> di
     if len(shown) > 1 and verses:
         footer = "Too long to show at once — ask for fewer verses · " + footer
     elif len(shown) > 1:
-        footer = f"Page {page + 1} of {len(shown)} · " + footer
+        parts = [name for name, letter in LETTERS if f"{letter} {name.upper()}" in shown[page]]
+        here = f" ({parts[0]}–{parts[-1]})" if psalm["number"] == 119 and parts else ""
+        footer = f"Page {page + 1} of {len(shown)}{here} · " + footer
     embed.set_footer(text=footer)
     return embed
 
@@ -258,7 +292,33 @@ class TuneMenu(discord.ui.DynamicItem[discord.ui.Select], template=r"metrical:tu
         await play(interaction, psalm, self.item.values[0])
 
 
-bot.add_dynamic_items(PsalterButton, TuneMenu)
+class PartMenu(discord.ui.DynamicItem[discord.ui.Select], template=r"metrical:part:119"):
+    """Psalm 119: jump to the page with one of its 22 lettered parts."""
+
+    def __init__(self):
+        options = [discord.SelectOption(label=f"{letter} {name}", value=str(i),
+                                        description=f"Verses {8 * i + 1}–{8 * i + 8}")
+                   for i, (name, letter) in enumerate(LETTERS)]
+        super().__init__(discord.ui.Select(placeholder="Go to a part: Aleph, Beth, Gimel…", options=options,
+                                           custom_id="metrical:part:119"))
+
+    @classmethod
+    async def from_custom_id(cls, interaction, item, match):
+        return cls()
+
+    async def callback(self, interaction: discord.Interaction):
+        psalm = get_psalm(119)
+        page = part_page(psalm, int(self.item.values[0]))
+        await interaction.response.edit_message(embed=psalm_embed(psalm, page), view=psalm_view(psalm, page))
+
+
+def part_page(psalm: dict, index: int) -> int:
+    """The page of Psalm 119 that its `index`th lettered part is on."""
+    name, letter = LETTERS[index]
+    return next(i for i, page in enumerate(pages(psalm)) if f"{letter} {name.upper()}" in page)
+
+
+bot.add_dynamic_items(PsalterButton, TuneMenu, PartMenu)
 
 
 def psalm_view(psalm: dict, page: int = 0, verses: "tuple | None" = None) -> discord.ui.View:
@@ -276,6 +336,8 @@ def psalm_view(psalm: dict, page: int = 0, verses: "tuple | None" = None) -> dis
             view.add_item(PsalterButton("page", key, page - 1, label="◀ Earlier verses"))
         if page < total - 1:
             view.add_item(PsalterButton("page", key, page + 1, label="Later verses ▶"))
+        if psalm["number"] == 119:
+            view.add_item(PartMenu())
     if len(same_meter_tunes(psalm)) > 1:
         view.add_item(TuneMenu(key))
     return view
@@ -312,6 +374,9 @@ async def send_metrical(ctx, query: str) -> None:
         await ctx.send(embed=psalm_embed(psalm), view=psalm_view(psalm))
         return
     request = parse_request(query)
+    part = re.fullmatch(r"(?:ps(?:alms?)?\.?\s*)?119\s+([a-z]+)", query.lower())
+    if part and letter_verses(part.group(1)):
+        request = (119, False, letter_verses(part.group(1)))
     if request:
         number, second, verses = request
         psalm = get_psalm(number, second)

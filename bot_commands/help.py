@@ -326,6 +326,7 @@ async def cmd_help(ctx, *, topic: str = ""):
             "`!metrical 23` — Psalm 23 in metre, with the tune it's sung to (also `!psalm 23 sing`)\n"
             "`!metrical 100b` — a psalm's second version, where the Psalter has two\n"
             "`!metrical 119:105-112` — just the stanzas for those verses\n"
+            "`!metrical 119 nun` — one of Psalm 119's 22 lettered parts (Aleph, Beth, Gimel…)\n"
             "`!metrical shepherd` — psalms with those words; `!metrical crimond` lists a tune's psalms\n"
             "`!metrical` — a random psalm\n\n"
             "Stanzas are numbered by the Bible verse they start at, as in the old psalm books. "

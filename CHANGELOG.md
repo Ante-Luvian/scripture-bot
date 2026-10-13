@@ -14,6 +14,11 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-13 · Psalm 119's lettered parts
+- 🔤 **Psalm 119 now shows its 22 parts in `!metrical 119`.** Psalm 119 is an *acrostic*: in Hebrew it has 22 parts of eight verses, one for each letter of the Hebrew alphabet, and every verse in a part begins with that letter. Bibles print each letter as a heading (ALEPH, BETH, GIMEL…), and now the metrical psalm does too, for example **נ NUN · verses 105–112**. Each page keeps whole parts together, the page footer says which parts it holds, and a menu jumps straight to any of them.
+- 🎯 **Ask for a part by its letter:** `!metrical 119 nun` gives the part that begins "Thy word is a lamp unto my feet".
+- 🩹 **Fixed: verses 41–48 of Psalm 119 showed up twice** in `!metrical 119`. They now appear once.
+
 ## 2026-10-13 · Sing the Psalms: the Scottish Metrical Psalter
 - 🎶 **New: `!metrical` — the Psalms set to sing.** A *metrical psalter* is the Book of Psalms rewritten in rhyme and a steady beat, so that a whole congregation can sing any psalm to a simple tune. The Scottish Psalter of 1650 is the most famous one; it's still sung in Scottish churches, and it gave us *The Lord's my shepherd, I'll not want*. All 150 psalms are here. Try `!metrical 23`. (`!psalm 23 sing` does the same thing.)
 - ▶️ **Every psalm comes with its tune.** Each psalm shows the traditional tune it's sung to (Psalm 23 to *Crimond*, Psalm 100 to *Old Hundredth*) and who wrote it. Press **▶️ Play the tune** to hear one verse of it in four parts on an organ, then sing every stanza to it.

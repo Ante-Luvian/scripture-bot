@@ -74,7 +74,11 @@ def read_psalm(raw: dict) -> dict:
     stanzas = []
     for s in raw["stanzas"]:
         lines = [tidy(l["text"]["normalized"]) for l in s["lines"]]
-        stanzas.append({"verses": s.get("biblical_verses") or [], "lines": lines})
+        stanza = {"verses": s.get("biblical_verses") or [], "lines": lines}
+        if stanza in stanzas:                 # the source prints Psalm 119:41-48 twice
+            print(f"Psalm {raw['psalm_number']}: skipped a repeated stanza (v. {stanza['verses']})")
+            continue
+        stanzas.append(stanza)
     return {
         "number": raw["psalm_number"],
         "version": raw["version"],

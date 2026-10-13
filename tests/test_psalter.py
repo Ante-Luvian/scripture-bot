@@ -69,11 +69,29 @@ def test_long_psalms_turn_pages(ps):
     p = ps.get_psalm(119)
     shown = ps.pages(p)
     assert len(shown) > 3 and all(len(page) <= ps.PAGE_CHARS for page in shown)
-    assert "".join(shown).count("**") // 2 == len(p["stanzas"])            # nothing lost between pages
+    assert "".join(shown).count("**") // 2 == len(p["stanzas"]) + 22       # nothing lost; 22 part headings
     some = ps.pages(p, (105, 112))
-    assert len(some) == 1 and some[0].startswith("**105** ")
+    assert len(some) == 1 and some[0].startswith("__**נ NUN**__ · verses 105–112\n**105** ")
     labels = [c.item.label for c in ps.psalm_view(p, page=1).children if hasattr(c.item, "label")]
     assert "◀ Earlier verses" in labels and "Later verses ▶" in labels
+
+
+def test_psalm_119_parts(ps, fake_ctx):
+    p = ps.get_psalm(119)
+    shown = ps.pages(p)
+    for i, (name, letter) in enumerate(ps.LETTERS):                      # each part whole, on one page
+        page = shown[ps.part_page(p, i)]
+        for s in p["stanzas"]:
+            if 8 * i < s["verses"][0] <= 8 * i + 8:
+                assert ps._stanza_text(s) in page, (name, s["verses"])
+    starts = [s["verses"][0] for s in p["stanzas"]]
+    assert starts == sorted(set(starts))                                  # in order, none repeated
+    assert "Aleph–" in ps.psalm_embed(p).footer.text
+    assert "PartMenu" in [type(c).__name__ for c in ps.psalm_view(p).children]
+    asyncio.run(ps.send_metrical(fake_ctx, "119 nun"))
+    sent = fake_ctx.sent[-1]["embed"]
+    assert sent.title == "🎶 Psalm 119, verses 105–112" and "Thy word" in sent.description
+    assert ps.section_heading(ps.get_psalm(23), ps.get_psalm(23)["stanzas"][0]) == ""
 
 
 def test_metrical_command(ps, fake_ctx):
