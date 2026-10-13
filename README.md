@@ -221,6 +221,15 @@ Guru Granth Sahib 1:1   Japji 1           ← Ang (page):line; Japji by pauri (0
 Akaranga Sutra 1.1.1:3  Mencius 6.1.2:1   Chandogya Upanishad 6.8:7   Masnavi 1.0:1
 ```
 
+**The Perseus library** (`scripts/build_perseus.py`, from the `canonical-greekLit` and
+`canonical-latinLit` submodules): ~600 Greek and Latin works in English, a file per
+author in `data/classical/perseus/` (loaded by globbing that folder, with `index.json`
+for `!books` and `aliases.json` for catalogue titles like "Germania"). The last
+citation level is the verse, the rest the chapter (`History of the Peloponnesian War 2.40:1`);
+a work cited by one level is chapter 1 (`Antigone 1:450`); Perseus "card" levels are
+dropped. Works already in the library are skipped; a title shared by two authors
+keeps the author's name (`Sophocles: Electra`).
+
 **World texts** (built by `scripts/build_world_texts.py`, mostly from the Sacred
 Books of the East on archive.sacred-texts.com) keep each tradition's own
 divisions: book.lecture.lesson for the Akaranga, book.part.chapter for Mencius

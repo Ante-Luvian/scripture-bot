@@ -1106,6 +1106,19 @@ BOOKS_TREE = [
     ]),
 ]
 
+def _perseus_authors() -> list:
+    """[(author, [book names])] of the Perseus library (scripts/build_perseus.py writes the index)."""
+    import json
+    from pathlib import Path
+    path = Path(__file__).resolve().parent.parent / "data" / "classical" / "perseus" / "index.json"
+    try:
+        return [(author, books) for author, books in json.loads(path.read_text(encoding="utf-8")).items()]
+    except (OSError, ValueError):
+        return []
+
+
+dict(BOOKS_TREE)["🏛️ Classical"].append(("The Perseus Library: Greek & Latin authors", _perseus_authors()))
+
 # Top-level browsing groups two supergroups on top of BOOKS_TREE without
 # reordering it: Abrahamic-descended scripture/commentary traditions (still
 # living faiths with a canon + commentary literature) vs. mythological and
@@ -2215,7 +2228,7 @@ class _ChapterJumpModal(discord.ui.Modal, title="Jump to chapter"):
         await _send_result(interaction, result, extra_buttons=nav_btns)
 
 
-def _author_works_node(author_name: str) -> tuple | None:
+def _author_works_node(author_name: str, fuzzy: bool = True) -> tuple | None:
     """
     Search loaded patristics data for an author by name (fuzzy).
     Returns (display_name, works_list) or None.
@@ -2257,6 +2270,8 @@ def _author_works_node(author_name: str) -> tuple | None:
             return (name, works)
 
     # Fuzzy match
+    if not fuzzy:
+        return None
     matches = get_close_matches(query, all_names, n=1, cutoff=0.55)
     if matches:
         name = matches[0]
@@ -2292,8 +2307,14 @@ async def list_books(ctx, *, section: str = ""):
             view = BooksView(stack)
             view.message = await ctx.send(embed=_books_embed(node, label), view=view)
         else:
-            # 2. Try author name match against loaded data
-            author_result = _author_works_node(section.strip())
+            # 2. An author by name; a book by name before a merely similar author
+            #    ("Genesis" is a book, not something like "Gellius")
+            from scripture_lookup import ALIASES
+            q = section.strip()
+            exact_book = (lookup._resolve_book(q)[1] or "").lower() == q.lower() or q.lower() in ALIASES
+            author_result = _author_works_node(q, fuzzy=False)
+            if author_result is None and not exact_book:
+                author_result = _author_works_node(q)
             if author_result:
                 author_name, works = author_result
                 embed = discord.Embed(

@@ -1750,6 +1750,22 @@ class ScriptureLookup:
                 # Book names repeat across corpora (Plato's "Apology" and
                 # Rufinus' in patristics): keep each corpus's own credits too
                 self._corpus_sources.setdefault(corpus, {}).update(sources)
+        # The Perseus library (scripts/build_perseus.py): a file per author, all classical
+        perseus = self.data_dir / "classical" / "perseus"
+        if (perseus / "aliases.json").exists():         # catalogue titles: "Germania", "Annales"...
+            for alias, book in json.loads((perseus / "aliases.json").read_text(encoding="utf-8")).items():
+                ALIASES.setdefault(alias, book)
+        for path in sorted(perseus.glob("*.json")):
+            if path.name in ("index.json", "aliases.json"):
+                continue
+            with open(path, encoding="utf-8") as f:
+                payload = json.load(f)
+            books = payload.get("books", {})
+            self._data["classical"].update(books)
+            sources = {b: payload.get("source", "") for b in books}
+            sources.update(payload.get("book_sources", {}))
+            self._book_sources.update(sources)
+            self._corpus_sources.setdefault("classical", {}).update(sources)
         for corpus in ("classical", "medieval", "ancient_near_east"):
             self._regroup_line_chunks(corpus, self._LINE_CHUNKED)
         # Normalize chapter shape: some source files store a chapter as a bare

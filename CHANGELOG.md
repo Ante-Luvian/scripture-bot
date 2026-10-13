@@ -14,6 +14,14 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-13 · Six hundred Greek and Latin classics
+- 🏛️ **About 600 works of ancient Greek and Roman literature have been added, all in English.** They come from the Perseus Digital Library, the great online collection of the classics run by Tufts University, and add 62 authors to the library's Homer, Plato, Aristotle and Virgil. Read any of them with `!verse`, search them with `!search … in:classical`, and browse them author by author with `!books` → Classical → The Perseus Library.
+- 🎭 **The plays:** all the surviving tragedies of Aeschylus, Sophocles and Euripides (`!verse Antigone 1:450`, "it was not Zeus that published me that edict"), the comedies of Aristophanes (`!verse Clouds 1:1`), and the Roman comedies of Plautus and Terence.
+- 📜 **The historians:** Herodotus, Thucydides (`!verse History of the Peloponnesian War 2.40`, Pericles's funeral oration), Xenophon's *Anabasis*, Polybius, Appian, Livy, Caesar's *Gallic War*, Sallust, Tacitus (`!verse Germania 1:1`), Suetonius's *Lives of the Caesars* and Ammianus Marcellinus.
+- 🗣️ **Lives, essays and speeches:** Plutarch's *Lives* and *Moralia*; the speeches of Demosthenes, Lysias, Isocrates and the other Athenian orators; Cicero's speeches, letters and *On Duties*; and Lucian's satires.
+- 📖 **Poetry and learning:** Lucretius, Ovid's *Metamorphoses* and love poems, Horace, Catullus, Lucan, Pindar, Pausanias's guide to Greece, Diogenes Laertius's *Lives of the Philosophers*, Epictetus's *Discourses*, Hippocrates, Galen, Euclid's *Elements*, and more.
+- 🔢 **How to cite them:** the way scholars do. The last number is the verse and the rest the chapter: Thucydides 2.40.1 is `History of the Peloponnesian War 2.40:1`, and a play by its line, `Antigone 1:450`. Where two authors wrote works of the same name, the author's name comes first: `Sophocles: Electra` and `Euripides: Electra`.
+
 ## 2026-10-13 · Footnotes cleared out of the new books
 - 🧹 **Footnote numbers are gone from Rumi's *Masnavi*.** Some lines had a stray note number in the middle, like "the Dragon's tail 2 dulls the brightness of the moon", and that's what `!rumi` would show you. Now it reads as the poem should, and an "A11" that should have been "All" is fixed too.
 - 📖 **Julian of Norwich's *Revelations of Divine Love* is now Julian's words only.** Her 1901 editor's footnotes and glossary had been mixed in as if they were part of the text, so `!verse Julian of Norwich 51` included notes like "See preceding note." Each chapter now ends where Julian's own writing ends.
