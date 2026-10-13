@@ -277,6 +277,46 @@ async def cmd_help(ctx, *, topic: str = ""):
         await ctx.send(embed=embed)
         return
 
+    if topic in ("who", "person", "whois"):
+        embed = discord.Embed(title="👤 !who — People of the Bible", color=discord.Color.dark_gold())
+        embed.description = (
+            "`!who Ruth` — who she was, her family and tribe, where she was born and died, "
+            "and every verse that names her\n"
+            "`!who Mary` — when several people share a name, pick the one you mean from a list\n"
+            "`!who John all` — list everyone of that name\n\n"
+            "The menu under a card opens a parent, spouse, child or sibling, so you can walk a family "
+            "tree (Ruth → Obed → Jesse → David). About 3,000 people, from Theographic Bible Metadata; "
+            "descriptions from Easton's Bible Dictionary."
+        )
+        await ctx.send(embed=embed)
+        return
+
+    if topic in ("place", "where", "map"):
+        embed = discord.Embed(title="📍 !place — Places of the Bible", color=discord.Color.dark_gold())
+        embed.description = (
+            "`!place Bethel` — a map card marking it, with nearby places named, what it was, "
+            "who was born or died there, and every verse that names it\n"
+            "`!place Sea of Galilee` · `!place Rome` · `!place Ur`\n\n"
+            "Where a site is uncertain the map says so and rings the likely spot. About 1,250 places; "
+            "locations from OpenBible.info, maps drawn from Natural Earth."
+        )
+        await ctx.send(embed=embed)
+        return
+
+    if topic in ("hymn", "hymns", "hymnal"):
+        embed = discord.Embed(title="🎵 !hymn — Hymns", color=discord.Color.dark_gold())
+        embed.description = (
+            "`!hymn amazing grace` — by title, first line, or a line from the words\n"
+            "`!hymn christmas` — hymns on a topic\n"
+            "`!hymn Psalm 23` — hymns drawn from a passage\n"
+            "`!hymn` — a random hymn\n\n"
+            "**▶️ Play the tune** posts the hymn tune, once through in four parts on an organ, as audio "
+            "you can play in Discord, plus the .mid file. **📖 Read the passages** shows the Bible verses "
+            "the hymn draws on. About 290 public-domain hymns, from the Open Hymnal Project and Hymnary.org."
+        )
+        await ctx.send(embed=embed)
+        return
+
     if topic in ("leaderboard", "lb"):
         embed = discord.Embed(title="🏆 !leaderboard — Bookmark Leaderboard", color=discord.Color.dark_gold())
         embed.description = (
@@ -717,6 +757,11 @@ async def cmd_help(ctx, *, topic: str = ""):
         "`!subscribe` / `!unsubscribe` — daily verse by DM · `!help subscribe`\n"
         "`!card` — shareable verse image · `!help card`"
     ), inline=False)
+    embed.add_field(name="🗺️ People, Places & Hymns", value=(
+        "`!who Ruth` — who someone was, their family, every verse naming them · `!help who`\n"
+        "`!place Bethel` — a place on a map, with its verses · `!help place`\n"
+        "`!hymn amazing grace` — a hymn's words, its tune to play, the Bible behind it · `!help hymn`"
+    ), inline=False)
     embed.add_field(name="⚙️ Server Setup (Admin)", value=(
         "`!votdsetup` — configure this server's daily VOTD channel/time/mode · `!help votdsetup`\n"
         "`!features` — turn optional features on/off · `!help features`\n"
@@ -731,7 +776,7 @@ async def cmd_help(ctx, *, topic: str = ""):
         "`!compare strong <ref>` — KJV + original-language Strong's tagging · `!help compare`\n"
         "`!strong G3588` / `!strong H7225` — Strong's lexicon lookup · `!help strong`"
     ), inline=False)
-    embed.set_footer(text="!help verse · !help compare · !help votd · !help votdsetup · !help features · !help today · !help bcp · !help prayer · !help strong · !help books · !help parallel · !help oracle · !help discover · !help study · !help xref · !help notes · !help topic · !help save · !help plan · !help leaderboard · !help subscribe · !help card · !help creed · !help ccc · !help summa")
+    embed.set_footer(text="!help verse · !help compare · !help votd · !help votdsetup · !help features · !help today · !help bcp · !help prayer · !help strong · !help books · !help parallel · !help oracle · !help discover · !help study · !help xref · !help notes · !help topic · !help save · !help plan · !help leaderboard · !help subscribe · !help card · !help who · !help place · !help hymn · !help creed · !help ccc · !help summa")
     await ctx.send(embed=embed)
 
 

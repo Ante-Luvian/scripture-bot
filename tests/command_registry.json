@@ -60,6 +60,10 @@
    "homeromanteion",
    "sortes"
   ],
+  "hymn": [
+   "hymnal",
+   "hymns"
+  ],
   "iching": [
    "hexagram",
    "yijing"
@@ -91,6 +95,10 @@
    "par",
    "po",
    "poem"
+  ],
+  "place": [
+   "map",
+   "where"
   ],
   "plan": [],
   "prayer": [],
@@ -193,6 +201,10 @@
    "votdconfig"
   ],
   "weeklyreport": [],
+  "who": [
+   "person",
+   "whois"
+  ],
   "xref": [
    "crossref",
    "crossreference",
@@ -224,6 +236,7 @@
   "hafez",
   "help",
   "homer",
+  "hymn",
   "iching",
   "interlinear",
   "leaderboard",
@@ -233,6 +246,7 @@
   "oracle",
   "oraclesetup",
   "parallel",
+  "place",
   "plan",
   "prayer",
   "prefer",
@@ -263,6 +277,7 @@
   "virgil",
   "votd",
   "votdsetup",
+  "who",
   "xref"
  ]
 }

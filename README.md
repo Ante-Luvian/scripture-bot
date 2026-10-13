@@ -110,6 +110,9 @@ Prefix commands use `!`; most also have a `/` slash-command version.
 | `!dictionary <term>` | `!dict`, `!define` | Easton's / Smith's Bible Dictionary |
 | `!timeline <subject>` | `!chronology` | Ussher's *Annals of the World* |
 | `!gematria <word or number>` | `!gem` | Gematria values (gematrix.org) |
+| `!who <name>` | `!person`, `!whois` | A person: description, family (with a menu to walk the tree), tribe, birth/death places, every verse naming them; namesakes offered as a list (Theographic) |
+| `!place <name>` | `!where`, `!map` | A place on a drawn map card (nearby places, locator inset, scale; uncertain sites ringed), with its verses |
+| `!hymn [title \| words \| topic \| passage]` | `!hymns`, `!hymnal` | A public-domain hymn: words, author, tune, Bible passages; ▶️ plays the tune (organ WAV + .mid) |
 
 ### Church, liturgy, and the daily office
 
@@ -235,6 +238,8 @@ bot_commands/           One module per feature area; each registers its
   personal.py             !save/!plan/!prefer/!leaderboard/!features
   quiz.py                 !quiz/!quizsetup + the daily quiz
   memorize.py             !memorize + its DM reviews
+  people.py               !who/!place (map cards: bible_map.py)
+  hymns.py                !hymn (tunes played by hymn_audio.py)
   report.py               the owner's weekly report, !errors
   backup.py               daily backup of data/
   stats.py, help.py, autodetect.py, slash.py, changelog.py, health.py
@@ -270,6 +275,17 @@ Every corpus file in `data/` follows one schema:
 
 Chapter and verse keys are **strings**. D&C sections are chapters; Articles of
 Faith are chapter `"1"`, verses `"1"`–`"13"`.
+
+Two reference datasets have their own shape, each rebuilt by a script in `scripts/`:
+
+- `data/people_places/` (`build_people_places.py`): `people_places.json` holds
+  `{"people": {slug: {name, family links, verses, ...}}, "places": {slug: {name,
+  lat, lon, approx, verses, ...}}}` from Theographic Bible Metadata, and
+  `basemap.json` the Natural Earth coastlines, lakes and rivers for the map cards.
+- `data/hymns/` (`build_hymns.py`): `hymns.json` (`{"hymns": [{title, author,
+  tune, meter, scripture, stanzas, refrain, midi, ...}]}`) and `midi/`. The
+  Open Hymnal's ABC scores are converted to the words and MIDI; a few extra hymns
+  (`EXTRA_HYMNS`) take their words from Hymnary.org and tunes from Wikimedia Commons.
 
 **Runtime state is not in git.** The bot writes per-server and per-user data
 to `data/` as it runs — `stats.json`, `guild_activity.json`, `guild_config.json`,

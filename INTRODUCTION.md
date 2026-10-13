@@ -104,6 +104,16 @@ Abbreviations are fine (`Jn`, `1 Cor`, `Ps`). Bible verses come with the four st
 • `!timeline Abraham` — where a person or event falls in James Ussher's famous chronology (*Annals of the World*, 1658), with what came just before and after
 • `!gematria love` — the numerical values of a word in Hebrew and English gematria (numbers work too: `!gematria 666`)
 
+## 🗺️ People, places and hymns
+**`!who Ruth`** — who someone in the Bible was: a short description, their family (parents, husband or wife, children, brothers and sisters), their tribe, where they were born and died, and every verse that names them. When several people share a name — there are seven Marys and a dozen Johns — I'll list them so you can pick the one you mean (`!who Mary`). The menu under the card opens any of their relatives, so you can follow a family tree: Ruth → her son Obed → his son Jesse → his son David.
+
+**`!place Bethel`** — a place in the Bible on a map: the place marked in red with the towns, seas and regions around it named so you can get your bearings, a small map of the whole Bible world in the corner showing where you are, and a scale in kilometres and miles. Under it: what the place was, who was born or died there, and every verse that names it. Where nobody is quite sure where a place was, the map says so. Try `!place Sea of Galilee`, `!place Rome` or `!place Ur`.
+
+**`!hymn amazing grace`** — a hymn's words, who wrote them and the tune, and the Bible passages it draws on. Search by title, first line, a line you remember from the words, a topic (`!hymn christmas`) or a passage (`!hymn Psalm 23` finds hymns based on it). `!hymn` alone picks one at random. Two buttons sit under each hymn:
+• **▶️ Play the tune** — I play the hymn tune once through, in four-part harmony on an organ, as audio you can listen to right in Discord. The MIDI file comes too, for a keyboard or music app.
+• **📖 Read the passages** — the Bible verses behind the hymn.
+About 290 public-domain hymns and carols, from the Open Hymnal Project and Hymnary.org.
+
 ## ⛪ Prayer, liturgy & the Church
 **`!today`** — what's happening today across traditions: the Catholic, Anglican and Orthodox calendars (feasts, saints, seasons, Orthodox fasting), the Hebrew date and Jewish holidays, and the Islamic date and holidays. Narrow it down with `!today catholic`, `!today orthodox`, `!today jewish`, `!today islam`; add a date with `!today 12-25`.
 
