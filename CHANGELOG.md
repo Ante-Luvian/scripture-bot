@@ -14,6 +14,12 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-13 · Versle: the daily verse puzzle
+- 📜 **New game: `!versle`, a verse puzzle for every day, a bit like Wordle.** Everyone gets the same well-known verse each day. The puzzle is to say where in the Bible it is, and you have six guesses. Press **✍️ Guess** and type a verse, like `John 3:16`.
+- 🟩 **After each guess you get a row of squares and a hint, shown only to you.** The three squares are for the book, the chapter and the verse: 🟩 means right, 🟨 means within three, ⬛ means further off. The hint says which way to go, such as "later in the Bible (by 5 books) — in the New Testament" or "Right book! Chapter: earlier (by 2 chapters)".
+- 📣 **Share without spoilers:** when you finish, **Share my result** posts your rows of squares in the channel (like "Versle #1 3/6"), but not the answer. `!versle stats` shows how many you've solved and your streak of days in a row.
+- A new verse comes every day at midnight UTC. The verses are ones people know and look up most, so you'll often recognise them: well over a year of puzzles before any repeats.
+
 ## 2026-10-13 · The four Gospels side by side
 - 📖 **New: `!harmony` shows one event in the life of Jesus as each Gospel tells it, side by side.** Matthew, Mark, Luke and John often tell the same story, but each puts in or leaves out different details. Seeing them together shows what each one adds. Try `!harmony feeding five thousand`, the one miracle all four Gospels record. A line under the title says who tells each story ("Told by Matthew, Mark and Luke", "Only in John").
 - 🧭 **Walk through the whole life of Christ.** The events follow a *harmony of the Gospels*, a scholar's arrangement of all four accounts into one timeline: A. T. Robertson's of 1922, which has 185 events from the birth of John the Baptist to the Ascension. **◀ Event before** and **Event after ▶** step through them in order, and a button under each passage reads that Gospel's account in full.

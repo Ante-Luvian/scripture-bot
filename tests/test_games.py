@@ -93,6 +93,55 @@ def test_a_round(games, fake_ctx):
     asyncio.run(run())
 
 
+def test_versle_pool(games):
+    import json
+    pool = json.loads(games.POOL_PATH.read_text(encoding="utf-8"))["verses"]
+    assert len(pool) >= 365 and len(set(pool)) == len(pool)
+    assert all(games.split_ref(r) for r in pool)                       # single verses in the 66 books
+    assert games.puzzle_number(games.FIRST_DAY) == 1 and games.answer_for(1) == pool[0]
+
+
+@pytest.mark.parametrize("guess, answer, squares, hint", [
+    ("John 3:16", "John 3:16", "🟩🟩🟩", "That's it!"),
+    ("John 3:10", "John 3:16", "🟩🟩⬛", "Right chapter! Verse: later (by 6 verses)"),
+    ("John 4:16", "John 3:16", "🟩🟨⬛", "Right book! Chapter: earlier (by 1 chapter)"),
+    ("Luke 3:16", "John 3:16", "🟨⬛⬛", "Book: later in the Bible (by 1 book)"),
+    ("Genesis 1:1", "John 3:16", "⬛⬛⬛", "Book: later in the Bible (by 42 books) — in the New Testament"),
+    ("Romans 8:28", "Psalms 23:1", "⬛⬛⬛", "Book: earlier in the Bible (by 26 books) — in the Old Testament"),
+])
+def test_versle_judging(games, guess, answer, squares, hint):
+    assert games.judge(guess, answer) == (squares, hint)
+
+
+def test_versle_guesses(games):
+    assert games.read_guess("jn 3:16") == ("John 3:16", "")
+    assert games.read_guess("Tobit 1:1")[0] is None                    # not one of the 66 books
+    assert games.read_guess("nonsense")[0] is None
+
+
+def test_versle_game_and_streak(games, monkeypatch):
+    monkeypatch.setattr(games, "answer_for", lambda n: "John 3:16")
+    g = games.record_guess(7, 10, "Genesis 1:1")
+    assert g == {"guesses": ["Genesis 1:1"], "done": False, "won": False}
+    g = games.record_guess(7, 10, "John 3:16")
+    assert g["done"] and g["won"]
+    assert games.player_stats(7)["streak"] == 1
+    games.record_guess(7, 11, "John 3:16")
+    assert games.player_stats(7) == {"played": 2, "won": 2, "streak": 2, "best": 2, "last": 11}
+    for _ in range(6):
+        games.record_guess(7, 12, "Genesis 1:1")
+    assert games.player_game(7, 12)["done"] and games.player_stats(7)["streak"] == 0
+    assert "X/6" in games.share_text("Ann", games.player_game(7, 12), 12)
+    assert "John 3:16" not in games.share_text("Ann", games.player_game(7, 11), 11)   # sharing spoils nothing
+
+
+def test_versle_command(games, fake_ctx):
+    asyncio.run(games.send_versle(fake_ctx))
+    sent = fake_ctx.sent[-1]
+    assert sent["embed"].title == f"📜 Versle #{games.puzzle_number()}"
+    assert games.answer_for(games.puzzle_number()) not in sent["embed"].description
+
+
 def test_whoami_command(games, fake_ctx):
     asyncio.run(games.start_whoami(fake_ctx))
     sent = fake_ctx.sent[-1]

@@ -305,6 +305,20 @@ async def cmd_help(ctx, *, topic: str = ""):
         await ctx.send(embed=embed)
         return
 
+    if topic in ("versle", "dailyverse"):
+        embed = discord.Embed(title="📜 !versle — Versle, the daily verse puzzle", color=discord.Color.dark_gold())
+        embed.description = (
+            "Every day everyone gets the same well-known verse. Where in the Bible is it? Press **✍️ Guess** "
+            "and type a verse (`John 3:16`); you have six tries.\n\n"
+            "After each guess I tell you, privately, how close you were: 🟩 right, 🟨 within three, "
+            "⬛ further off — for the book, then the chapter, then the verse — and which way to go "
+            "(\"later in the Bible, by 5 books\").\n\n"
+            "When you're done, **📣 Share my result** posts your squares (not the answer) for the channel.\n"
+            "`!versle stats` — your record and streak. A new verse at midnight UTC."
+        )
+        await ctx.send(embed=embed)
+        return
+
     if topic in ("whoami", "mystery", "whoisit"):
         embed = discord.Embed(title="🕵️ !whoami — Who Am I?", color=discord.Color.dark_gold())
         embed.description = (
@@ -817,7 +831,8 @@ async def cmd_help(ctx, *, topic: str = ""):
     embed.add_field(name="🎲 Divination", value=(
         "`!oracle` `!delphi` `!homer` `!virgil` `!sortesbiblicae` `!iching` `!hafez` — oracular & sortes · `!help oracle`\n"
         "`!quiz` — guess which book a verse is from (`!quiz hard`, `!quiz buddhist`, `!quiz leaderboard`)\n"
-        "`!whoami` — Who Am I? Guess a Bible figure from clues that get easier · `!help whoami`"
+        "`!whoami` — Who Am I? Guess a Bible figure from clues that get easier · `!help whoami`\n"
+        "`!versle` — the daily verse puzzle: where in the Bible is it? · `!help versle`"
     ), inline=False)
     embed.add_field(name="🔭 Discovery & Personal", value=(
         "`!discover` — random passage from any loaded tradition · `!help discover`\n"
@@ -856,7 +871,7 @@ async def cmd_help(ctx, *, topic: str = ""):
         "`!compare strong <ref>` — KJV + original-language Strong's tagging · `!help compare`\n"
         "`!strong G3588` / `!strong H7225` — Strong's lexicon lookup · `!help strong`"
     ), inline=False)
-    embed.set_footer(text="!help verse · !help compare · !help votd · !help votdsetup · !help features · !help today · !help bcp · !help prayer · !help strong · !help books · !help parallel · !help oracle · !help discover · !help study · !help xref · !help notes · !help topic · !help save · !help plan · !help leaderboard · !help subscribe · !help card · !help who · !help tree · !help whoami · !help place · !help journey · !help harmony · !help hymn · !help metrical · !help creed · !help ccc · !help summa")
+    embed.set_footer(text="!help verse · !help compare · !help votd · !help votdsetup · !help features · !help today · !help bcp · !help prayer · !help strong · !help books · !help parallel · !help oracle · !help discover · !help study · !help xref · !help notes · !help topic · !help save · !help plan · !help leaderboard · !help subscribe · !help card · !help who · !help tree · !help whoami · !help versle · !help place · !help journey · !help harmony · !help hymn · !help metrical · !help creed · !help ccc · !help summa")
     await ctx.send(embed=embed)
 
 

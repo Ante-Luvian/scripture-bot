@@ -3,14 +3,21 @@ Games.
   !whoami      Who Am I? -- a mystery person from the Bible, with clues that
                get easier one at a time (from the !who data). Anyone in the
                channel can guess; the first right answer wins.
+  !versle      Versle -- the same well-known verse for everyone each day
+               (data/versle_pool.json); guess where it is in six tries, told
+               after each guess how close the book, chapter and verse were.
+               Progress and streaks: data/versle.json.
 """
+import datetime
+import json
 import random
 import re
 
 import discord
 
-from core import bot, log, lookup
+from core import ROOT, _atomic_write_json, bot, log, lookup
 from bot_commands import people
+from scripture_lookup import BIBLE_NT, BIBLE_OT
 
 BLANK = "❓"
 GAME_SECONDS = 600
@@ -293,3 +300,234 @@ async def whoami_slash(interaction: discord.Interaction):
     await interaction.response.defer()
     ctx = await bot.get_context(interaction)
     await start_whoami(ctx)
+
+
+# ── Versle ──────────────────────────────────────────────────────────────────
+
+VERSLE_PATH = ROOT / "data" / "versle.json"
+POOL_PATH = ROOT / "data" / "versle_pool.json"
+FIRST_DAY = datetime.date(2026, 10, 13)            # Versle #1
+TRIES = 6
+NEAR = 3                                            # within this many books/chapters/verses: 🟨
+CANON = BIBLE_OT + BIBLE_NT
+
+
+def today_utc() -> datetime.date:
+    return datetime.datetime.now(datetime.timezone.utc).date()
+
+
+def puzzle_number(day: "datetime.date | None" = None) -> int:
+    return ((day or today_utc()) - FIRST_DAY).days + 1
+
+
+def answer_for(number: int) -> str:
+    pool = json.loads(POOL_PATH.read_text(encoding="utf-8"))["verses"]
+    return pool[(number - 1) % len(pool)]
+
+
+def split_ref(ref: str) -> "tuple | None":
+    """'1 Corinthians 13:4' -> ('1 Corinthians', 13, 4)"""
+    m = re.match(r"^(.+?) (\d+):(\d+)$", ref)
+    return (m.group(1), int(m.group(2)), int(m.group(3))) if m and m.group(1) in CANON else None
+
+
+def read_guess(text: str) -> "tuple[str | None, str]":
+    """A player's guess -> (canonical reference, '') or (None, why not)."""
+    result = lookup.get_verse(text.strip())
+    if not result.get("found"):
+        return None, "I couldn't find that verse — try something like `John 3:16`."
+    ref = result["reference"]
+    if not split_ref(ref):
+        return None, "Guess a single verse from the 66 books of the Bible, like `Psalms 23:1`."
+    return ref, ""
+
+
+def judge(guess: str, answer: str) -> "tuple[str, str]":
+    """(three squares for book, chapter and verse, a hint in words)"""
+    (gb, gc, gv), (ab, ac, av) = split_ref(guess), split_ref(answer)
+    gi, ai = CANON.index(gb), CANON.index(ab)
+
+    def square(diff):
+        return "🟩" if diff == 0 else "🟨" if abs(diff) <= NEAR else "⬛"
+
+    def way(diff, unit, later, earlier):
+        n = abs(diff)
+        return f"{later if diff > 0 else earlier} (by {n} {unit}{'s' if n != 1 else ''})"
+    squares = square(ai - gi)
+    if gi != ai:
+        testament = "" if (gi < len(BIBLE_OT)) == (ai < len(BIBLE_OT)) else \
+            (" — in the New Testament" if ai >= len(BIBLE_OT) else " — in the Old Testament")
+        hint = "Book: " + way(ai - gi, "book", "later in the Bible", "earlier in the Bible") + testament
+        return squares + "⬛⬛", hint
+    squares += square(ac - gc)
+    if gc != ac:
+        return squares + "⬛", "Right book! Chapter: " + way(ac - gc, "chapter", "later", "earlier")
+    squares += square(av - gv)
+    if gv != av:
+        return squares, "Right chapter! Verse: " + way(av - gv, "verse", "later", "earlier")
+    return squares, "That's it!"
+
+
+def _load_versle() -> dict:
+    try:
+        data = json.loads(VERSLE_PATH.read_text(encoding="utf-8")) if VERSLE_PATH.exists() else {}
+    except Exception:
+        data = {}
+    data.setdefault("days", {})
+    data.setdefault("players", {})
+    return data
+
+
+def _blank_game() -> dict:
+    return {"guesses": [], "done": False, "won": False}
+
+
+def record_guess(user_id: int, number: int, ref: str) -> dict:
+    """Add a guess to that day's game; returns the player's game {"guesses", "done", "won"}."""
+    data = _load_versle()
+    game = data["days"].setdefault(str(number), {}).setdefault(str(user_id), _blank_game())
+    if game["done"]:
+        return game
+    game["guesses"].append(ref)
+    game["won"] = ref == answer_for(number)
+    game["done"] = game["won"] or len(game["guesses"]) >= TRIES
+    if game["done"]:
+        p = data["players"].setdefault(str(user_id), {"played": 0, "won": 0, "streak": 0, "best": 0, "last": 0})
+        p["played"] += 1
+        if game["won"]:
+            p["won"] += 1
+            p["streak"] = p["streak"] + 1 if p["last"] == number - 1 else 1
+            p["best"] = max(p["best"], p["streak"])
+        else:
+            p["streak"] = 0
+        p["last"] = number
+    for day in [d for d in data["days"] if int(d) < number - 7]:      # a week of old games is plenty
+        del data["days"][day]
+    _atomic_write_json(VERSLE_PATH, data)
+    return game
+
+
+def player_game(user_id: int, number: int) -> dict:
+    return _load_versle()["days"].get(str(number), {}).get(str(user_id), _blank_game())
+
+
+def player_stats(user_id: int) -> dict:
+    return _load_versle()["players"].get(str(user_id), {"played": 0, "won": 0, "streak": 0, "best": 0, "last": 0})
+
+
+def grid(game: dict, answer: str) -> str:
+    return "\n".join(judge(g, answer)[0] for g in game["guesses"])
+
+
+def puzzle_embed(number: int) -> discord.Embed:
+    answer = answer_for(number)
+    text = re.sub(r"\*\*\[\d+\]\*\*\s*", "", lookup.get_verse(answer)["text"]).strip()
+    embed = discord.Embed(title=f"📜 Versle #{number}", color=COLOR,
+                          description=f"*{text}*\n\nWhere in the Bible is this verse? You have {TRIES} guesses. "
+                                      f"After each one I'll tell you privately how close you are:\n"
+                                      f"🟩 right · 🟨 within {NEAR} · ⬛ further off — for the **book**, the "
+                                      f"**chapter** and the **verse**.")
+    embed.set_footer(text="A new verse every day at midnight UTC · everyone gets the same one · KJV")
+    return embed
+
+
+def progress_text(game: dict, number: int) -> str:
+    answer = answer_for(number)
+    lines = []
+    for g in game["guesses"]:
+        squares, hint = judge(g, answer)
+        lines.append(f"{squares} **{g}** — {hint}")
+    if game["won"]:
+        lines.append(f"\n🎉 **Solved in {len(game['guesses'])}/{TRIES}!**")
+    elif game["done"]:
+        lines.append(f"\nThe verse was **{answer}**. Better luck tomorrow!")
+    else:
+        lines.append(f"\n{TRIES - len(game['guesses'])} guess(es) left — press **Guess** again.")
+    return "\n".join(lines)
+
+
+def share_text(name: str, game: dict, number: int) -> str:
+    score = f"{len(game['guesses'])}/{TRIES}" if game["won"] else f"X/{TRIES}"
+    return f"📜 **{name}** — Versle #{number} {score}\n{grid(game, answer_for(number))}"
+
+
+class VersleModal(discord.ui.Modal, title="Versle: where is it?"):
+    guess = discord.ui.TextInput(label="Your guess (a verse)", placeholder="e.g. John 3:16", max_length=40)
+
+    def __init__(self, number: int):
+        super().__init__()
+        self.number = number
+
+    async def on_submit(self, interaction: discord.Interaction):
+        ref, why = read_guess(str(self.guess.value))
+        if ref is None:
+            await interaction.response.send_message(why, ephemeral=True)
+            return
+        game = record_guess(interaction.user.id, self.number, ref)
+        text, extra = progress_text(game, self.number), {}
+        if game["done"]:
+            s = player_stats(interaction.user.id)
+            text += f"\nStreak: {s['streak']} 🔥 · solved {s['won']} of {s['played']}"
+            view = discord.ui.View(timeout=None)
+            view.add_item(VersleButton("share", self.number))
+            extra["view"] = view
+        await interaction.response.send_message(text, ephemeral=True, **extra)
+
+
+class VersleButton(discord.ui.DynamicItem[discord.ui.Button], template=r"versle:(?P<action>guess|share):(?P<n>\d+)"):
+    def __init__(self, action: str, number: int):
+        label, emoji, style = {"guess": ("Guess", "✍️", discord.ButtonStyle.primary),
+                               "share": ("Share my result", "📣", discord.ButtonStyle.secondary)}[action]
+        super().__init__(discord.ui.Button(label=label, emoji=emoji, style=style,
+                                           custom_id=f"versle:{action}:{number}"))
+        self.action, self.number = action, number
+
+    @classmethod
+    async def from_custom_id(cls, interaction, item, match):
+        return cls(match["action"], int(match["n"]))
+
+    async def callback(self, interaction: discord.Interaction):
+        today = puzzle_number()
+        game = player_game(interaction.user.id, self.number)
+        if self.action == "share":
+            if not game["done"]:
+                await interaction.response.send_message("Finish the puzzle first!", ephemeral=True)
+                return
+            await interaction.response.send_message(share_text(interaction.user.display_name, game, self.number))
+        elif self.number != today:
+            await interaction.response.send_message(f"That puzzle is over — today's is Versle #{today}: `!versle`.",
+                                                    ephemeral=True)
+        elif game["done"]:
+            await interaction.response.send_message(progress_text(game, self.number), ephemeral=True)
+        else:
+            await interaction.response.send_modal(VersleModal(self.number))
+
+
+bot.add_dynamic_items(VersleButton)
+
+
+async def send_versle(ctx, arg: str = "") -> None:
+    number = puzzle_number()
+    if arg.strip().lower() in ("stats", "streak", "me"):
+        s = player_stats(ctx.author.id)
+        await ctx.send(f"📜 Versle: solved **{s['won']}** of **{s['played']}** · streak **{s['streak']}** "
+                       f"(best {s['best']})")
+        return
+    view = discord.ui.View(timeout=None)            # persistent: the button works all day
+    view.add_item(VersleButton("guess", number))
+    await ctx.send(embed=puzzle_embed(number), view=view)
+
+
+@bot.command(name="versle", aliases=["dailyverse"])
+async def cmd_versle(ctx, *, arg: str = ""):
+    """Versle: today's verse -- where in the Bible is it? Six guesses.
+    Usage: !versle         — today's puzzle
+           !versle stats   — your record and streak"""
+    await send_versle(ctx, arg)
+
+
+@bot.tree.command(name="versle", description="Versle: today's verse — where in the Bible is it? Six guesses")
+async def versle_slash(interaction: discord.Interaction):
+    await interaction.response.defer()
+    ctx = await bot.get_context(interaction)
+    await send_versle(ctx)

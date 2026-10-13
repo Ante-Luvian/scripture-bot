@@ -154,6 +154,7 @@ answer, and every answer has a 🖼️ Card button that renders it as an image.
 | Command | Aliases | What it does |
 |---|---|---|
 | `!quiz [hard \| leaderboard]` | `!guess` | Which book is this verse from? One private guess each, revealed after 60s. Scores per server, weekly and all-time, with streaks |
+| `!versle [stats]` | `!dailyverse` | Versle: a daily well-known verse (`data/versle_pool.json`, from `build_versle_pool.py`); guess its reference in six tries with private 🟩🟨⬛ book/chapter/verse feedback; shareable grid; streaks in `data/versle.json` |
 | `!whoami` | `!mystery`, `!whoisit` | Who Am I? A Bible figure (named in 20+ verses) from clues generated from the !who data, easiest last; guess via a modal, first right answer wins (`games.py`) |
 | `!quizsetup` | `!quizconfig` | (Admins) A daily quiz question in a channel, revealed with the next: `channel #chan`, `time HH:MM` (UTC), `kind bible\|hard`, `test`, `off` |
 
@@ -246,7 +247,7 @@ bot_commands/           One module per feature area; each registers its
   people.py               !who/!place/!tree (map cards: bible_map.py; trees: family_tree.py)
   hymns.py                !hymn (tunes played by hymn_audio.py)
   psalter.py              !metrical (the Scottish Metrical Psalter)
-  games.py                !whoami
+  games.py                !whoami, !versle
   journeys.py             !journey (route maps: bible_map.py)
   harmony.py              !harmony (data/harmony.json)
   report.py               the owner's weekly report, !errors
@@ -308,7 +309,8 @@ Three reference datasets have their own shape, each rebuilt by a script in `scri
 **Runtime state is not in git.** The bot writes per-server and per-user data
 to `data/` as it runs — `stats.json`, `guild_activity.json`, `guild_config.json`,
 `user_prefs.json`, `bookmarks.json`, `reading_plans.json`, `subscribers.json`,
-`votd_mode.json`. These contain Discord user/server IDs and are gitignored; back
+`votd_mode.json`, plus game state (`quiz_scores.json`, `daily_quiz.json`, `memorize.json`,
+`versle.json`). These contain Discord user/server IDs and are gitignored; back
 them up separately if you move machines.
 
 **Online services.** Some commands fetch from the web, so they need internet

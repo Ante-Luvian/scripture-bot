@@ -206,6 +206,9 @@
    "scripture",
    "v"
   ],
+  "versle": [
+   "dailyverse"
+  ],
   "virgil": [
    "aeneid",
    "sortesvir"
@@ -300,6 +303,7 @@
   "unsubscribe",
   "variants",
   "verse",
+  "versle",
   "virgil",
   "votd",
   "votdsetup",
