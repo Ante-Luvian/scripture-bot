@@ -72,6 +72,32 @@ def test_conversions(measures):
     assert measures.convert_line(Fraction(300), "cubit") == "**300 × Cubit** ≈ 154 m (506 ft)"
     assert "1/40 of a denarius" in measures.convert_line(Fraction(2), "mite")
     assert "1,000 days' wages" in measures.convert_line(Fraction(10), "mina")
+    assert "about $7.01–$7.48 today" in measures.convert_line(Fraction(1), "denarius")   # 7½d.–8d. in 1897
+    assert measures.size_text("day", Fraction(1)) == "25.7 km (16 miles) to 32.2 km (20 miles)"
+
+
+def test_judas_silver_is_zechariahs(measures):
+    assert "thirty pieces of silver" in _kjv("Matthew 27:9") and "thirty pieces of silver" in _kjv("Zechariah 11:12")
+    embed = measures.verse_embed("Matthew 26:15", _kjv("Matthew 26:15"),
+                                 measures.measurements_in(_kjv("Matthew 26:15"), "Matthew 26:15"))
+    assert "Zechariah 11:12–13" in embed.description
+    assert "as silver money: 120 denarii" in embed.description
+    assert '“shekel” in R.V.' in measures_easton_stater()
+
+
+def measures_easton_stater():
+    entries = json.loads((ROOT / "data" / "dictionary" / "bible_dictionary.json").read_text(encoding="utf-8"))["entries"]
+    return entries["STATER"]["definitions"][0]["text"]
+
+
+def test_parable_talents_are_money(measures):
+    embed = measures.verse_embed("Matthew 25:15", _kjv("Matthew 25:15"),
+                                 measures.measurements_in(_kjv("Matthew 25:15"), "Matthew 25:15"))
+    assert "as silver money: 60,000 denarii" in embed.description
+
+
+def test_penny_value_is_eastons(easton):
+    assert "about 7 1/2d. or 8d. of our present money" in easton["PENNY"]
 
 
 @pytest.mark.parametrize("ref, expected", [
@@ -81,11 +107,14 @@ def test_conversions(measures):
     ("Hosea 3:2", [("fifteen pieces of silver", 15, "shekel"), ("an homer", 1, "homer"), ("an half homer", Fraction(1, 2), "homer")]),
     ("Luke 19:13", [("ten pounds", 10, "mina")]),
     ("John 12:3", [("a pound", 1, "litra")]),
-    ("Ezra 2:69", [("five thousand pound", 5000, "maneh")]),
+    ("Ezra 2:69", [("threescore and one thousand drams", 61000, "dram"), ("five thousand pound", 5000, "maneh")]),
+    ("1 Samuel 17:4", [("six cubits", 6, "cubit"), ("a span", 1, "span")]),
+    ("Exodus 3:18", [("three days' journey", 3, "day")]),
+    ("Acts 19:19", [("fifty thousand pieces of silver", 50000, "drachma")]),
     ("Mark 12:42", [("two mites", 2, "mite"), ("a farthing", 1, "quadrans")]),
     ("Matthew 10:29", [("a farthing", 1, "assarion")]),
     ("Matthew 11:7", []),                            # "a reed shaken with the wind" is not a measurement
-    ("Matthew 26:15", []),                           # Judas's "pieces of silver": which coin is uncertain
+    ("Matthew 26:15", [("thirty pieces of silver", 30, "shekel")]),   # Zechariah's shekels (Matthew 27:9)
 ])
 def test_verses(measures, ref, expected):
     found = [(w, a, k) for w, a, k, _ in measures.measurements_in(_kjv(ref), ref)]

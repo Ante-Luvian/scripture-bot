@@ -314,7 +314,7 @@ async def cmd_help(ctx, *, topic: str = ""):
             "`!measure Genesis 6:15` — every measurement in a verse, converted (the size of the ark)\n\n"
             "Sizes today are the estimates of Easton's Bible Dictionary (1897), quoted with each unit; "
             "ancient measures varied, so treat them as rough. Money is given in denarii, a labourer's "
-            "pay for a day (Matthew 20:2), rather than in today's prices."
+            "pay for a day (Matthew 20:2), and in dollars from Easton's 1897 values adjusted for inflation."
         )
         await ctx.send(embed=embed)
         return

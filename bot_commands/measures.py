@@ -25,6 +25,12 @@ COLOR = discord.Color.from_rgb(140, 110, 60)
 INCH, GRAIN, GALLON = 0.0254, 0.06479891, 4.54609      # Easton's figures are English (imperial) units
 QUART, PINT, PECK, BUSHEL = GALLON / 4, GALLON / 8, GALLON * 2, GALLON * 8
 
+# Easton's PENNY: the denarius was "about 7 1/2d. or 8d. of our present money" (1897). £1 in 1897
+# is worth £168.71 in 2026 (officialdata.org, from the ONS composite price index), at about
+# $1.33 to the pound: so an 1897 penny is about 93 US cents.
+DENARIUS_PENCE = (Fraction(15, 2), Fraction(8))
+USD_PER_1897_PENNY = 168.71 * 1.33 / 240
+
 KINDS = {"length": "📏 Length", "area": "📐 Area", "weight": "⚖️ Weight",
          "dry": "🌾 Dry measure (grain, flour)", "liquid": "🫗 Liquid measure (oil, wine)",
          "money": "🪙 Money"}
@@ -40,6 +46,14 @@ UNITS = {
         relation=None,
         example=("Genesis 6:15", "The length of the ark shall be three hundred cubits"),
         note="Easton's gives 21.888 inches for the longer “sacred” cubit."),
+    "span": dict(
+        name="Span", kind="length", value=20.24 / 2 * INCH, words=["span"],
+        about="The width of the spread hand, thumb tip to little finger: half a cubit.",
+        easton=None,
+        relation=("Half a cubit: the altar's border is “a span” in Ezekiel 43:13 and “half a cubit” here",
+                  "Ezekiel 43:17", "the border about it shall be half a cubit"),
+        example=("1 Samuel 17:4", "Goliath, of Gath, whose height was six cubits and a span"),
+        note="Easton's has no entry for the span; this is half its cubit, the usual reckoning."),
     "handbreadth": dict(
         name="Handbreadth", kind="length", value=4 * INCH, words=["handbreadth", "hand breadth"],
         about="The width of the four fingers.",
@@ -80,6 +94,14 @@ UNITS = {
         easton=("SABBATH DAY’S JOURNEY", "Supposed to be a distance of 2,000 cubits"),
         relation=None,
         example=("Acts 1:12", "from the mount called Olivet, which is from Jerusalem a sabbath day’s journey")),
+    "day": dict(
+        name="Day's journey", kind="length", value=16 * 1760 * 36 * INCH, high=20 * 1760 * 36 * INCH,
+        words=["day's journey", "days journey"],
+        about="How far a traveller went in a day, on foot or with flocks.",
+        easton=("JOURNEY", "A day’s journey in the East is from 16 to 20 miles"),
+        relation=None,
+        example=("Exodus 3:18", "let us go, we beseech thee, three days’ journey into the wilderness"),
+        note="Easton's DAY'S JOURNEY entry gives 25 or 30 miles for a day on a camel or horse."),
     "acre": dict(
         name="Acre", kind="area", value=4046.86, words=["acre"],
         about="As much ground as a yoke of oxen could plough in a day.",
@@ -207,7 +229,7 @@ UNITS = {
         easton=("FARTHING", "a tenth of a denarius or drachma"),
         relation=None,
         example=("Luke 15:8", "what woman having ten pieces of silver"),
-        note="In the Old Testament “pieces of silver” are shekels' weight of silver, not coins."),
+        note="In the Old Testament, and for Judas's thirty in Matthew, “pieces of silver” are shekels."),
     "stater": dict(
         name="Piece of money (stater)", kind="money", value=Fraction(4), words=["stater", "piece of money"],
         about="A silver coin of four drachmas: the temple tax for two people, found in the fish's mouth.",
@@ -220,6 +242,14 @@ UNITS = {
         easton=("POUND", "It was equal to 100 drachmas"),
         relation=None,
         example=("Luke 19:13", "delivered them ten pounds")),
+    "dram": dict(
+        name="Dram (daric)", kind="money", value=Fraction(252) / DENARIUS_PENCE[0],
+        words=["dram", "daric"],
+        about="A Persian gold coin, struck by King Darius, given for the Temple and after the return from Babylon.",
+        easton=("DARIC", "of the value of about one guinea or rather more of our money"),
+        relation=None,
+        example=("1 Chronicles 29:7", "ten thousand drams"),
+        note="A guinea was 21 shillings; in denarii this uses Easton's 7½d. for the denarius."),
     "assarion": dict(
         name="Farthing (assarion)", kind="money", value=Fraction(1, 10), words=["assarion", "farthing"],
         about="A small copper coin: the price of two sparrows.",
@@ -376,12 +406,36 @@ def modern(kind: str, amount: float) -> str:
     if kind == "money":
         d = Fraction(amount).limit_denominator(1000)
         if d < 1:
-            return f"{d.numerator}/{d.denominator} of a denarius (a denarius was a day's wage)"
-        if d == 1:
-            return "1 denarius: a day's wage for a labourer"
-        n = f"{d.numerator:,}" if d.denominator == 1 else _num(float(d))
-        return f"{n} denarii: {n} days' wages for a labourer"
+            wages = f"{d.numerator}/{d.denominator} of a denarius (a denarius was a day's wage)"
+        elif d == 1:
+            wages = "1 denarius: a day's wage for a labourer"
+        else:
+            n = f"{d.numerator:,}" if d.denominator == 1 else _num(float(d))
+            wages = f"{n} denarii: {n} days' wages for a labourer"
+        low, high = (float(d * p) * USD_PER_1897_PENNY for p in DENARIUS_PENCE)
+        return f"{wages}; by Easton's 1897 value, about {_usd(low, high)} today"
     raise ValueError(kind)
+
+
+def _usd(low: float, high: float) -> str:
+    def one(x):
+        if x < 1:
+            return f"{round(x * 100)}¢"
+        return f"${x:,.2f}" if x < 10 else f"${round(x):,}"
+    a, b = one(low), one(high)
+    return a if a == b else f"{a}–{b}"
+
+
+def size_text(key: str, amount: Fraction, low: "Fraction | None" = None) -> str:
+    """The modern size of an amount of a unit; a range for "two or three" or a unit Easton's gives as a range."""
+    u = UNITS[key]
+    if u["kind"] == "money":
+        return modern("money", u["value"] * amount)
+    small = float(low if low is not None else amount) * u["value"]
+    big = float(amount) * u.get("high", u["value"])
+    if abs(big - small) < 1e-9:
+        return modern(u["kind"], big)
+    return f"{modern(u['kind'], small)} to {modern(u['kind'], big)}"
 
 
 def _amount_text(amount: Fraction) -> str:
@@ -392,17 +446,15 @@ def _amount_text(amount: Fraction) -> str:
     return _num(float(amount))
 
 
-def _total(amount: Fraction, key: str):
-    u = UNITS[key]
-    return u["value"] * amount if u["kind"] == "money" else float(amount) * u["value"]
-
-
 def convert_line(amount: Fraction, key: str) -> str:
-    u = UNITS[key]
-    return f"**{_amount_text(amount)} × {u['name']}** ≈ {modern(u['kind'], _total(amount, key))}"
+    return f"**{_amount_text(amount)} × {UNITS[key]['name']}** ≈ {size_text(key, amount)}"
 
 
 # ── measurements in a verse ───────────────────────────────────────────────────
+
+# Silver counted by weight, as money: Easton's STATER makes the stater ("shekel" in the R.V.)
+# four drachmas, and a talent is 3,000 shekels (Exodus 38:25-26).
+SILVER_DENARII = {"shekel": Fraction(4), "talent": Fraction(12000)}
 
 QUADRANS_VERSES = {"Matthew 5:26", "Mark 12:42"}       # Easton's FARTHING: the kodrantes; elsewhere the assarion
 
@@ -414,7 +466,9 @@ def _unit_for(phrase: str, ref: str) -> "str | None":
     old = book in BIBLE_OT
     if phrase.startswith("piece"):
         if "silver" in phrase:
-            return "shekel" if old else ("drachma" if book == "Luke" else None)
+            # Smith's PIECE OF SILVER: in the Old Testament, shekels are meant. Matthew's thirty
+            # are Zechariah's (Matthew 27:9), so shekels too; Luke's and Ephesus's are drachmas.
+            return "shekel" if old or book == "Matthew" else ("drachma" if book in ("Luke", "Acts") else None)
         return "stater" if book == "Matthew" else None
     if not keys:
         return None
@@ -426,7 +480,7 @@ def _unit_for(phrase: str, ref: str) -> "str | None":
 
 
 UNIT_PATTERN = re.compile(
-    r"\b(sabbath day's journey|hand ?breadths?|tenth deals?|pieces? of (?:silver|money)|"
+    r"\b(sabbath day's journey|day's journey|days' journey|spans?|drams?|hand ?breadths?|tenth deals?|pieces? of (?:silver|money)|"
     r"cubits?|reeds?|fathoms?|furlongs?|miles?|acres?|gerahs?|bekah|shekels?|talents?|pounds?|"
     r"cabs?|omers?|ephahs?|homers?|logs?|hin|baths|bath|firkins?|pence|penny|farthings?|mites?)\b")
 _TOKEN = (r"(?:" + "|".join(sorted(NUMBER_WORDS | {"and", "a", "an", "half"}, key=len, reverse=True))
@@ -466,7 +520,7 @@ def measurements_in(text: str, ref: str) -> list:
 
 def unit_field(key: str) -> "tuple[str, str]":
     u = UNITS[key]
-    lines = [u["about"], f"**≈ {modern(u['kind'], u['value'])}**"]
+    lines = [u["about"], f"**≈ {size_text(key, Fraction(1))}**"]
     if u.get("relation"):
         what, ref, words = u["relation"]
         lines.append(f"{what}: “…{words}…” ({ref})")
@@ -504,13 +558,18 @@ def unit_embed(keys: list, amount: "Fraction | None" = None) -> discord.Embed:
 
 def verse_embed(ref: str, text: str, found: list) -> discord.Embed:
     plain = re.sub(r"\*\*\[\d+\]\*\*\s*", "", text).strip()
+    book = re.sub(r"\s*\d+:\d+.*$", "", ref)
+    norm = _norm(plain)
     lines = []
     for words, amount, key, low in found:
-        kind = UNITS[key]["kind"]
-        size = modern(kind, _total(amount, key))
-        if low:
-            size = f"{modern(kind, _total(low, key))} to {size}"
-        lines.append(f"**{words}** ≈ {size} · {UNITS[key]['name']}")
+        line = f"**{words}** ≈ {size_text(key, amount, low)} · {UNITS[key]['name']}"
+        if key in SILVER_DENARII and ("silver" in words or f"{words} of silver" in norm
+                                      or (key == "talent" and book not in BIBLE_OT)):
+            line += f"\n  ↳ as silver money: {modern('money', SILVER_DENARII[key] * amount)}"
+        lines.append(line)
+    if book == "Matthew" and any("silver" in words for words, *_ in found):
+        lines.append("*Matthew's Greek says only “silvers”; Matthew 27:9 says they fulfil the prophecy of "
+                     "the thirty pieces of silver (Zechariah 11:12–13), which were shekels.*")
     embed = discord.Embed(title=f"📏 {ref}", description=f"> {plain[:1500]}\n\n" + "\n".join(lines), color=COLOR)
     embed.set_footer(text=FOOTER)
     return embed
