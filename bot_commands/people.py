@@ -240,6 +240,91 @@ async def send_place(target, slug: str) -> None:
         await target.send(**kwargs)
 
 
+# ── family trees ────────────────────────────────────────────────────────────
+
+def descent(ancestors: list, descendants: list) -> "list | None":
+    """The shortest line from one of `ancestors` down to one of `descendants`
+    (slugs), through fathers before mothers; None if there isn't one. The
+    descendants are tried best-known first: "Jesus" means Jesus Christ, though
+    a Joshua (also "Jesus" in Greek) may have a shorter line."""
+    people = data()["people"]
+    for start in descendants:
+        prev, frontier = {start: None}, [start]
+        found = None
+        while frontier and not found:
+            nxt = []
+            for slug in frontier:
+                for parent in people[slug]["father"] + people[slug]["mother"]:
+                    if parent in people and parent not in prev:
+                        prev[parent] = slug
+                        nxt.append(parent)
+                        if parent in ancestors:
+                            found = parent
+                            break
+                if found:
+                    break
+            frontier = nxt
+        if found:
+            line = [found]
+            while prev[line[-1]]:
+                line.append(prev[line[-1]])
+            return line
+    return None
+
+
+def _pick(query: str) -> list:
+    """Candidates for a name in a tree request, best known first."""
+    return find("people", query)[:6]
+
+
+async def send_tree(ctx, query: str) -> None:
+    import family_tree
+    query = query.strip()
+    if not query:
+        await ctx.send("Usage: `!tree David` (a family tree), or `!tree Abraham to David` (a line of descent).")
+        return
+    parts = re.split(r"\s+to\s+", query, maxsplit=1, flags=re.I)
+    people = data()["people"]
+    if len(parts) == 2:
+        first, second = _pick(parts[0]), _pick(parts[1])
+        for name, found in ((parts[0], first), (parts[1], second)):
+            if not found:
+                await ctx.send(f"I don't know anyone in the Bible called **{name}**.")
+                return
+        line = descent(first, second) or descent(second, first)
+        if not line:
+            await ctx.send(f"I can't find a line of descent between **{label('people', first[0])}** and "
+                           f"**{label('people', second[0])}**. The records only join parents and children where "
+                           f"the Bible names them.")
+            return
+        buf = await asyncio.to_thread(family_tree.lineage_chart, line, people)
+        names = " → ".join(family_tree.short_name(people[s]) for s in line)
+        embed = discord.Embed(title=f"🌳 From {family_tree.short_name(people[line[0]])} to "
+                                    f"{family_tree.short_name(people[line[-1]])}",
+                              description=f"**{len(line)} generations:** {names}"[:4000], color=PERSON_COLOR)
+    else:
+        slugs = find("people", query)
+        if not slugs:
+            await ctx.send(f"I don't know anyone in the Bible called **{query}**.")
+            return
+        slug = slugs[0]
+        buf = await asyncio.to_thread(family_tree.family_chart, slug, people)
+        p = people[slug]
+        embed = discord.Embed(title=f"🌳 The family of {p['name']}", color=PERSON_COLOR)
+        line = family_tree.paternal_line(slug, people, limit=200)
+        if line:
+            embed.description = (f"{len(line)} generation{'s' if len(line) != 1 else ''} of fathers on record, back to "
+                                 f"**{family_tree.short_name(people[line[-1]])}**. "
+                                 f"Trace any line with `!tree {family_tree.short_name(people[line[-1]])} to "
+                                 f"{family_tree.short_name(p)}`; more about anyone with `!who`.")
+        note = _others_note("people", slugs, "tree") if not _clear_winner("people", slugs) else ""
+        if note:
+            await ctx.send(note)
+    embed.set_image(url="attachment://tree.png")
+    embed.set_footer(text="Theographic Bible Metadata · from the Bible's genealogies and family records")
+    await ctx.send(embed=embed, file=discord.File(buf, filename="tree.png"))
+
+
 # ── choosing among namesakes ────────────────────────────────────────────────
 
 class Picker(discord.ui.View):
@@ -344,6 +429,15 @@ async def cmd_place(ctx, *, name: str = ""):
         await lookup_place(ctx, name)
 
 
+@bot.command(name="tree", aliases=["familytree", "lineage", "genealogy"])
+async def cmd_tree(ctx, *, query: str = ""):
+    """A family tree picture, or a line of descent from one person to another.
+    Usage: !tree David            — David among his family
+           !tree Abraham to David — every generation between them"""
+    async with ctx.typing():
+        await send_tree(ctx, query)
+
+
 def _autocomplete(kind: str):
     async def complete(interaction: discord.Interaction, current: str) -> list:
         q = _norm(current)
@@ -362,6 +456,16 @@ async def who_slash(interaction: discord.Interaction, name: str):
     await interaction.response.defer()
     ctx = await bot.get_context(interaction)
     await lookup_person(ctx, name)
+
+
+@bot.tree.command(name="tree", description="A family tree, or the line of descent from one person to another")
+@app_commands.describe(person="Whose family, e.g. David, Ruth, Moses",
+                       down_to="Optional: a descendant, to show every generation between them")
+@app_commands.autocomplete(person=_autocomplete("people"), down_to=_autocomplete("people"))
+async def tree_slash(interaction: discord.Interaction, person: str, down_to: str = ""):
+    await interaction.response.defer()
+    ctx = await bot.get_context(interaction)
+    await send_tree(ctx, f"{person} to {down_to}" if down_to else person)
 
 
 @bot.tree.command(name="place", description="A place in the Bible on a map, with the verses naming it")

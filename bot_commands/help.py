@@ -277,6 +277,19 @@ async def cmd_help(ctx, *, topic: str = ""):
         await ctx.send(embed=embed)
         return
 
+    if topic in ("tree", "familytree", "lineage", "genealogy"):
+        embed = discord.Embed(title="🌳 !tree — Family trees", color=discord.Color.dark_gold())
+        embed.description = (
+            "`!tree David` — a picture of someone's family: grandparents and parents above, brothers and "
+            "sisters beside, husband or wives, and children below, with their line of fathers across the top\n"
+            "`!tree Abraham to David` — every generation from one person down to another, as a chart "
+            "(either order works; try `!tree Adam to Jesus`)\n\n"
+            "From the Bible's genealogies and family records (Theographic Bible Metadata). When a name is "
+            "shared, I draw the best-known one and list the others — `!who <name>` tells them apart."
+        )
+        await ctx.send(embed=embed)
+        return
+
     if topic in ("who", "person", "whois"):
         embed = discord.Embed(title="👤 !who — People of the Bible", color=discord.Color.dark_gold())
         embed.description = (
@@ -779,6 +792,7 @@ async def cmd_help(ctx, *, topic: str = ""):
     ), inline=False)
     embed.add_field(name="🗺️ People, Places & Hymns", value=(
         "`!who Ruth` — who someone was, their family, every verse naming them · `!help who`\n"
+        "`!tree David` / `!tree Abraham to David` — a family tree, or a line of descent, drawn · `!help tree`\n"
         "`!place Bethel` — a place on a map, with its verses · `!help place`\n"
         "`!hymn amazing grace` — a hymn's words, its tune to play, the Bible behind it · `!help hymn`\n"
         "`!metrical 23` — a psalm in rhyming verse to sing (Scottish Psalter, 1650), with its tune · "
@@ -798,7 +812,7 @@ async def cmd_help(ctx, *, topic: str = ""):
         "`!compare strong <ref>` — KJV + original-language Strong's tagging · `!help compare`\n"
         "`!strong G3588` / `!strong H7225` — Strong's lexicon lookup · `!help strong`"
     ), inline=False)
-    embed.set_footer(text="!help verse · !help compare · !help votd · !help votdsetup · !help features · !help today · !help bcp · !help prayer · !help strong · !help books · !help parallel · !help oracle · !help discover · !help study · !help xref · !help notes · !help topic · !help save · !help plan · !help leaderboard · !help subscribe · !help card · !help who · !help place · !help hymn · !help metrical · !help creed · !help ccc · !help summa")
+    embed.set_footer(text="!help verse · !help compare · !help votd · !help votdsetup · !help features · !help today · !help bcp · !help prayer · !help strong · !help books · !help parallel · !help oracle · !help discover · !help study · !help xref · !help notes · !help topic · !help save · !help plan · !help leaderboard · !help subscribe · !help card · !help who · !help tree · !help place · !help hymn · !help metrical · !help creed · !help ccc · !help summa")
     await ctx.send(embed=embed)
 
 

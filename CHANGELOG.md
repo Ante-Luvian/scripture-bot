@@ -14,6 +14,11 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-13 · Family trees
+- 🌳 **New: `!tree` draws a family tree.** `!tree David` puts David in the middle of a picture of his family. His brothers and sisters are beside him, his wives next to him, and his children below (sons and daughters marked). His parents and grandparents are above, and across the top runs his line of fathers going back (… Judah › Pharez › … › Boaz › Obed › Jesse). In big families the best-known names come first: David had more than twenty children, and you'll see Solomon and Absalom before the rest.
+- 📜 **Follow a line of descent:** `!tree Abraham to David` draws every generation from one person down to another as a chart, here all 14 from Abraham to David. `!tree Adam to Jesus` runs right through the Bible's genealogies, 65 generations. The names can go in either order, and `/tree` suggests names as you type.
+- The family links come from the Bible's own genealogies and family records, so where the Bible doesn't say who someone's parents were, the tree stops there.
+
 ## 2026-10-13 · Psalm 119's lettered parts
 - 🔤 **Psalm 119 now shows its 22 parts in `!metrical 119`.** Psalm 119 is an *acrostic*: in Hebrew it has 22 parts of eight verses, one for each letter of the Hebrew alphabet, and every verse in a part begins with that letter. Bibles print each letter as a heading (ALEPH, BETH, GIMEL…), and now the metrical psalm does too, for example **נ NUN · verses 105–112**. Each page keeps whole parts together, the page footer says which parts it holds, and a menu jumps straight to any of them.
 - 🎯 **Ask for a part by its letter:** `!metrical 119 nun` gives the part that begins "Thy word is a lamp unto my feet".

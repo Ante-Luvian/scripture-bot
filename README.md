@@ -111,6 +111,7 @@ Prefix commands use `!`; most also have a `/` slash-command version.
 | `!timeline <subject>` | `!chronology` | Ussher's *Annals of the World* |
 | `!gematria <word or number>` | `!gem` | Gematria values (gematrix.org) |
 | `!who <name>` | `!person`, `!whois` | A person: description, family (with a menu to walk the tree), tribe, birth/death places, every verse naming them; namesakes offered as a list (Theographic) |
+| `!tree <name> [to <name>]` | `!familytree`, `!lineage`, `!genealogy` | A family-tree picture (grandparents to children, paternal line), or a chart of every generation between two people (`family_tree.py`) |
 | `!place <name>` | `!where`, `!map` | A place on a drawn map card (nearby places, locator inset, scale; uncertain sites ringed), with its verses |
 | `!hymn [title \| words \| topic \| passage]` | `!hymns`, `!hymnal` | A public-domain hymn: words, author, tune, Bible passages; ▶️ plays the tune (an organ .ogg) |
 | `!metrical [n \| nb \| n:v-v \| words \| tune]` | `!metricalpsalm`, `!singpsalm`, `!psalter1650`; `!psalm 23 sing` | A psalm from the Scottish Metrical Psalter (1650) with its tune to play, a menu of other same-meter tunes, KJV button, second versions, pages |
@@ -239,7 +240,7 @@ bot_commands/           One module per feature area; each registers its
   personal.py             !save/!plan/!prefer/!leaderboard/!features
   quiz.py                 !quiz/!quizsetup + the daily quiz
   memorize.py             !memorize + its DM reviews
-  people.py               !who/!place (map cards: bible_map.py)
+  people.py               !who/!place/!tree (map cards: bible_map.py; trees: family_tree.py)
   hymns.py                !hymn (tunes played by hymn_audio.py)
   psalter.py              !metrical (the Scottish Metrical Psalter)
   report.py               the owner's weekly report, !errors

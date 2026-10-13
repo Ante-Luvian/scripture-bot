@@ -181,6 +181,11 @@
    "tl",
    "trans"
   ],
+  "tree": [
+   "familytree",
+   "genealogy",
+   "lineage"
+  ],
   "unsave": [
    "unbookmark"
   ],
@@ -276,6 +281,7 @@
   "today",
   "topic",
   "translations",
+  "tree",
   "unsave",
   "unsubscribe",
   "variants",
