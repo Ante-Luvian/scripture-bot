@@ -78,6 +78,15 @@ def test_every_hymn_has_a_tune(hy):
             assert "midi" not in h and [i.item.label for i in hy.hymn_view(h).children] == ["Read the passages"]
             continue
         assert (hy.MIDI_DIR / h["midi"]).exists(), h["title"]
+        assert hy.audio_path(h) is not None, h["title"]          # rendered ahead: python scripts/render_hymn_audio.py
+
+
+def test_the_bot_needs_nothing_to_play_a_tune(hy):
+    # the live service runs as SYSTEM without numpy/mido: playing only sends a file
+    source = (ROOT / "bot_commands" / "hymns.py").read_text(encoding="utf-8")
+    assert "import hymn_audio" not in source and "numpy" not in source
+    path = hy.audio_path(_one(hy, "Amazing Grace"))
+    assert path.suffix == ".ogg" and path.read_bytes()[:4] == b"OggS" and path.stat().st_size < 1_000_000
 
 
 def test_the_tune_is_right(hy):

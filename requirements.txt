@@ -1,5 +1,3 @@
 discord.py>=2.3.0
 Pillow>=10.0        # !card / !interlinear images
 python-dotenv>=1.0  # optional: load DISCORD_TOKEN from .env
-numpy>=1.26         # !hymn: playing the tunes
-mido>=1.3           # !hymn: reading the tunes' MIDI files

@@ -112,7 +112,7 @@ Prefix commands use `!`; most also have a `/` slash-command version.
 | `!gematria <word or number>` | `!gem` | Gematria values (gematrix.org) |
 | `!who <name>` | `!person`, `!whois` | A person: description, family (with a menu to walk the tree), tribe, birth/death places, every verse naming them; namesakes offered as a list (Theographic) |
 | `!place <name>` | `!where`, `!map` | A place on a drawn map card (nearby places, locator inset, scale; uncertain sites ringed), with its verses |
-| `!hymn [title \| words \| topic \| passage]` | `!hymns`, `!hymnal` | A public-domain hymn: words, author, tune, Bible passages; ▶️ plays the tune (organ WAV + .mid) |
+| `!hymn [title \| words \| topic \| passage]` | `!hymns`, `!hymnal` | A public-domain hymn: words, author, tune, Bible passages; ▶️ plays the tune (organ .ogg + .mid) |
 
 ### Church, liturgy, and the daily office
 
@@ -283,7 +283,9 @@ Two reference datasets have their own shape, each rebuilt by a script in `script
   lat, lon, approx, verses, ...}}}` from Theographic Bible Metadata, and
   `basemap.json` the Natural Earth coastlines, lakes and rivers for the map cards.
 - `data/hymns/` (`build_hymns.py`): `hymns.json` (`{"hymns": [{title, author,
-  tune, meter, scripture, stanzas, refrain, midi, ...}]}`) and `midi/`. The
+  tune, meter, scripture, stanzas, refrain, midi, ...}]}`), `midi/`, and `audio/`
+  (each tune rendered to Ogg Opus by `render_hymn_audio.py`, which needs numpy,
+  mido and ffmpeg; the bot itself only sends the file). The
   Open Hymnal's ABC scores are converted to the words and MIDI; a few extra hymns
   (`EXTRA_HYMNS`) take their words from Hymnary.org and tunes from Wikimedia Commons.
 

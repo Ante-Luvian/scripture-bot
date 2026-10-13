@@ -7,11 +7,10 @@ built by scripts/build_hymns.py).
   !hymn                      a random hymn
 Each hymn shows its words, who wrote the words and the tune, and the Bible
 passages it draws on, with buttons to hear the tune (an organ rendering of
-the four-part score, as audio plus the .mid) and to read those passages.
+the four-part score, rendered ahead by scripts/render_hymn_audio.py and
+sent as an .ogg with the .mid) and to read those passages.
 """
-import asyncio
 import functools
-import io
 import json
 import random
 import re
@@ -21,10 +20,11 @@ import zlib
 import discord
 from discord import app_commands
 
-from core import ROOT, bot, log, lookup
+from core import ROOT, bot, lookup
 
 HYMNS_PATH = ROOT / "data" / "hymns" / "hymns.json"
 MIDI_DIR = ROOT / "data" / "hymns" / "midi"
+AUDIO_DIR = ROOT / "data" / "hymns" / "audio"
 COLOR = discord.Color.from_rgb(120, 60, 110)
 MAX_LIST = 20
 
@@ -181,7 +181,7 @@ bot.add_dynamic_items(HymnButton)
 
 def hymn_view(hymn: dict) -> discord.ui.View:
     view = discord.ui.View(timeout=None)            # persistent buttons: must never time out
-    if hymn.get("midi") and (MIDI_DIR / hymn["midi"]).exists():
+    if audio_path(hymn):
         view.add_item(HymnButton("play", hymn_key(hymn)))
     if hymn["scripture"]:
         view.add_item(HymnButton("bible", hymn_key(hymn)))
@@ -207,25 +207,24 @@ def passages_embed(hymn: dict) -> discord.Embed:
     return embed
 
 
-@functools.lru_cache(maxsize=12)
-def _audio(midi_name: str) -> bytes:
-    import hymn_audio
-    return hymn_audio.render(MIDI_DIR / midi_name)
+def audio_path(hymn: dict):
+    """The tune as Ogg Opus, rendered ahead by scripts/render_hymn_audio.py; None if there isn't one."""
+    if not hymn.get("midi"):
+        return None
+    path = AUDIO_DIR / (hymn["midi"].rsplit(".", 1)[0] + ".ogg")
+    return path if path.exists() else None
 
 
 async def play(interaction: discord.Interaction, hymn: dict) -> None:
-    await interaction.response.defer(thinking=True)
-    try:
-        audio = await asyncio.to_thread(_audio, hymn["midi"])
-    except Exception:
-        log.exception(f"Couldn't render the tune for {hymn['title']}")
-        await interaction.followup.send("⚠️ I couldn't play that tune just now.", ephemeral=True)
+    path = audio_path(hymn)
+    if path is None:
+        await interaction.response.send_message("⚠️ I don't have that tune to play.", ephemeral=True)
         return
     stem = re.sub(r"[^A-Za-z0-9]+", "_", hymn["title"]).strip("_")[:60] or "hymn"
-    files = [discord.File(io.BytesIO(audio), filename=f"{stem}.wav"),
+    files = [discord.File(path, filename=f"{stem}.ogg"),
              discord.File(MIDI_DIR / hymn["midi"], filename=f"{stem}.mid")]
     tune = f" — {hymn['tune'].upper()}" if hymn["tune"] else ""
-    await interaction.followup.send(
+    await interaction.response.send_message(
         f"🎵 **{hymn['title']}**{tune}: the tune once through, in four parts on an organ. "
         f"The .mid file is there too, for a music app or keyboard.", files=files)
 

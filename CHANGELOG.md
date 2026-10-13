@@ -14,6 +14,9 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-12 · Hymn tunes now play
+- 🔧 **Fixed: Play the tune.** Pressing **▶️ Play the tune** under a hymn said "I couldn't play that tune just now" instead of playing anything. Now it posts the tune straight away as a sound file you can play right in Discord (plus the MIDI file, as before). Try `!hymn amazing grace` and press Play.
+
 ## 2026-10-12 · Hymns you can hear, and the people and places of the Bible
 - 🎵 **New: `!hymn`.** About 290 well-loved public-domain hymns and carols, among them *Amazing Grace*, *Abide With Me*, *It Is Well With My Soul*, *Silent Night*, *Hark! The Herald Angels Sing*, *Once in Royal David's City*, *Jerusalem* ("And did those feet in ancient time"), *I Heard the Voice of Jesus Say*, *A Beautiful Life* and *A Mighty Fortress Is Our God*. You get all the verses, with the chorus printed once, plus who wrote the words, the tune's name and composer, and the Bible passages the hymn draws on. Find one by its title (`!hymn amazing grace`), by a line you half-remember (`!hymn when peace like a river`), by topic (`!hymn christmas`, `!hymn easter`), or by Bible passage (`!hymn Psalm 23` finds hymns based on it). `!hymn` on its own picks one at random. With `/hymn`, titles are suggested as you type.
 - ▶️ **Hear the tune.** Press **Play the tune** under a hymn and I'll post the melody once through in four-part harmony, played on an organ, as a sound file you can play right in Discord. The MIDI file comes too: that's the format keyboards and music apps read, if you'd like to play along or print the music. Nearly every hymn has its tune; *I Heard the Voice of Jesus Say* and *A Beautiful Life* have just their words for now.
