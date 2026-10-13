@@ -219,6 +219,9 @@
   "versle": [
    "dailyverse"
   ],
+  "verslesetup": [
+   "versleconfig"
+  ],
   "virgil": [
    "aeneid",
    "sortesvir"
@@ -316,6 +319,7 @@
   "variants",
   "verse",
   "versle",
+  "verslesetup",
   "virgil",
   "votd",
   "votdsetup",

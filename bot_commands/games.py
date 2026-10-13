@@ -14,8 +14,9 @@ import random
 import re
 
 import discord
+from discord.ext import commands, tasks
 
-from core import ROOT, _atomic_write_json, bot, log, lookup
+from core import ROOT, _atomic_write_json, _load_guild_config, _update_guild_config, bot, log, lookup
 from bot_commands import people
 from scripture_lookup import BIBLE_NT, BIBLE_OT
 
@@ -516,6 +517,111 @@ async def send_versle(ctx, arg: str = "") -> None:
     view = discord.ui.View(timeout=None)            # persistent: the button works all day
     view.add_item(VersleButton("guess", number))
     await ctx.send(embed=puzzle_embed(number), view=view)
+
+
+def yesterday_line(number: int) -> str:
+    """'Yesterday's verse (Versle #4) was John 3:16 -- 5 of 7 players solved it.'"""
+    if number <= 1:
+        return ""
+    games = _load_versle()["days"].get(str(number - 1), {})
+    done = [g for g in games.values() if g["done"]]
+    solved = sum(1 for g in done if g["won"])
+    who = f" — {solved} of {len(done)} player{'s' if len(done) != 1 else ''} solved it" if done else ""
+    return f"Yesterday's verse (Versle #{number - 1}) was **{answer_for(number - 1)}**{who}."
+
+
+# ── the daily post (!verslesetup) ───────────────────────────────────────────
+# Per-server settings in guild_config.json: versle_channel_id, versle_time ("HH:MM" UTC).
+# versle.json "posted" {guild: puzzle number} stops a restart posting twice.
+
+DEFAULT_VERSLE_TIME = "00:05"
+
+
+async def post_daily_versle(guild_id, channel, number: int, force: bool = False) -> bool:
+    data = _load_versle()
+    posted = data.setdefault("posted", {})
+    if posted.get(str(guild_id)) == number and not force:
+        return False
+    view = discord.ui.View(timeout=None)
+    view.add_item(VersleButton("guess", number))
+    await channel.send(content=yesterday_line(number) or None, embed=puzzle_embed(number), view=view)
+    data = _load_versle()                         # (a guess may have been saved meanwhile)
+    data.setdefault("posted", {})[str(guild_id)] = number
+    _atomic_write_json(VERSLE_PATH, data)
+    return True
+
+
+async def run_daily_versles(client, number: int, current_hm: str) -> int:
+    posted = 0
+    for guild_id, g in _load_guild_config().items():
+        channel_id = g.get("versle_channel_id")
+        if not channel_id or g.get("versle_time", DEFAULT_VERSLE_TIME) != current_hm:
+            continue
+        channel = client.get_channel(int(channel_id))
+        if channel is None:
+            continue
+        try:
+            posted += await post_daily_versle(guild_id, channel, number)
+        except Exception:
+            log.exception(f"Failed to post the daily Versle for guild {guild_id}")
+    return posted
+
+
+@tasks.loop(minutes=1)
+async def daily_versle_task():
+    now = datetime.datetime.now(datetime.timezone.utc)
+    await run_daily_versles(bot, puzzle_number(now.date()), f"{now.hour:02d}:{now.minute:02d}")
+
+
+@daily_versle_task.before_loop
+async def _before_daily_versle():
+    await bot.wait_until_ready()
+
+
+@bot.command(name="verslesetup", aliases=["versleconfig"])
+@commands.has_permissions(administrator=True)
+async def cmd_verslesetup(ctx, action: str = "", *, arg: str = ""):
+    """Post each day's Versle in a channel.
+    Usage: !verslesetup                  — show this server's settings
+           !verslesetup channel #chan    — post the day's puzzle there
+           !verslesetup time 00:05       — daily post time (24h UTC; a new verse starts at midnight UTC)
+           !verslesetup test             — post today's now
+           !verslesetup off              — stop the daily post"""
+    if not ctx.guild:
+        await ctx.send("This command only works in a server.")
+        return
+    g = _load_guild_config().get(str(ctx.guild.id), {})
+    channel_id, time_hm = g.get("versle_channel_id"), g.get("versle_time", DEFAULT_VERSLE_TIME)
+    action = action.strip().lower()
+    if not action:
+        embed = discord.Embed(title=f"📜 Daily Versle — {ctx.guild.name}", color=COLOR)
+        embed.add_field(name="Channel", value=f"<#{channel_id}>" if channel_id else "*not set — no daily post*")
+        embed.add_field(name="Time (UTC)", value=time_hm)
+        embed.set_footer(text="!verslesetup channel #chan · time HH:MM · test · off")
+        await ctx.send(embed=embed)
+    elif action == "off":
+        _update_guild_config(ctx.guild.id, versle_channel_id=None)
+        await ctx.send("The daily Versle post is off for this server. (`!versle` still works.)")
+    elif action == "channel":
+        channel = ctx.message.channel_mentions[0] if ctx.message.channel_mentions else None
+        if channel is None:
+            await ctx.send("Mention a channel: `!verslesetup channel #games`")
+            return
+        _update_guild_config(ctx.guild.id, versle_channel_id=channel.id)
+        await ctx.send(f"Each day's Versle will be posted in {channel.mention} at {time_hm} UTC.")
+    elif action == "time":
+        m = re.match(r"^(\d{1,2}):(\d{2})$", arg.strip())
+        if not m or not (0 <= int(m.group(1)) <= 23 and 0 <= int(m.group(2)) <= 59):
+            await ctx.send("Use 24-hour UTC time: `!verslesetup time 07:00`")
+            return
+        hm = f"{int(m.group(1)):02d}:{int(m.group(2)):02d}"
+        _update_guild_config(ctx.guild.id, versle_time=hm)
+        await ctx.send(f"Daily Versle time set to **{hm} UTC**.")
+    elif action == "test":
+        channel = bot.get_channel(int(channel_id)) if channel_id else ctx.channel
+        await post_daily_versle(ctx.guild.id, channel, puzzle_number(), force=True)
+    else:
+        await ctx.send("Unknown option. Use `channel`, `time`, `test`, or `off`.")
 
 
 @bot.command(name="versle", aliases=["dailyverse"])

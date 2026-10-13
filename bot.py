@@ -41,6 +41,9 @@ from bot_commands.personal import (
 from bot_commands.quiz import (
     daily_quiz_task,
 )
+from bot_commands.games import (
+    daily_versle_task,
+)
 from bot_commands.report import (
     weekly_report_task,
 )
@@ -111,6 +114,7 @@ async def on_ready():
     _daily_votd_task.start()
     daily_oracle_task.start()
     daily_quiz_task.start()
+    daily_versle_task.start()
     plan_reminder_task.start()
     memorize_review_task.start()
     weekly_report_task.start()

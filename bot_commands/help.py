@@ -328,7 +328,9 @@ async def cmd_help(ctx, *, topic: str = ""):
             "⬛ further off — for the book, then the chapter, then the verse — and which way to go "
             "(\"later in the Bible, by 5 books\").\n\n"
             "When you're done, **📣 Share my result** posts your squares (not the answer) for the channel.\n"
-            "`!versle stats` — your record and streak. A new verse at midnight UTC."
+            "`!versle stats` — your record and streak. A new verse at midnight UTC.\n\n"
+            "**Admins:** `!verslesetup channel #chan` posts each day's puzzle there, with yesterday's "
+            "answer and how many solved it (`time HH:MM` UTC, `test`, `off`)."
         )
         await ctx.send(embed=embed)
         return
@@ -881,7 +883,8 @@ async def cmd_help(ctx, *, topic: str = ""):
         "`!changelogsetup #channel` — where I announce my updates · `!changelog` — recent updates\n"
         "`!changelogintro` — post my full introduction + latest updates there (`fresh` clears my old posts first)\n"
         "`!oraclesetup channel #chan` — a daily oracle post (`time`, `kind`, `test`, `off`)\n"
-        "`!quizsetup channel #chan` — a daily quiz question (`time`, `kind bible|hard`, `test`, `off`)"
+        "`!quizsetup channel #chan` — a daily quiz question (`time`, `kind bible|hard`, `test`, `off`)\n"
+        "`!verslesetup channel #chan` — the day's Versle puzzle (`time`, `test`, `off`)"
     ), inline=False)
     embed.add_field(name="🏛️ Ancient Languages & Strong's", value=(
         "Append to `!verse`: `OE` `WLC` `LXX` `TR` `VULG` `peshitta` `CSL`\n"

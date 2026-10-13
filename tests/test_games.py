@@ -142,6 +142,54 @@ def test_versle_command(games, fake_ctx):
     assert games.answer_for(games.puzzle_number()) not in sent["embed"].description
 
 
+class _Channel:
+    def __init__(self, cid):
+        self.id, self.sent, self.mention = cid, [], f"<#{cid}>"
+
+    async def send(self, content=None, **kwargs):
+        self.sent.append({"content": content, **kwargs})
+
+
+def test_daily_versle(games, monkeypatch):
+    import core
+    monkeypatch.setattr(games, "answer_for", lambda n: "John 3:16" if n == 9 else "Psalms 23:1")
+    games.record_guess(1, 9, "John 3:16")
+    games.record_guess(2, 9, "Genesis 1:1")
+    for _ in range(5):
+        games.record_guess(2, 9, "Genesis 1:2")
+    assert games.yesterday_line(10) == "Yesterday's verse (Versle #9) was **John 3:16** — 1 of 2 players solved it."
+    core._update_guild_config(1, versle_channel_id=100, versle_time="07:00")
+    core._update_guild_config(2, versle_channel_id=200)                            # the default time
+    a, b = _Channel(100), _Channel(200)
+    client = type("C", (), {"get_channel": lambda self, cid: {100: a, 200: b}.get(cid)})()
+    assert asyncio.run(games.run_daily_versles(client, 10, "07:00")) == 1
+    assert a.sent[0]["embed"].title == "📜 Versle #10" and "John 3:16" in a.sent[0]["content"]
+    assert a.sent[0]["view"].children[0].custom_id == "versle:guess:10"
+    assert asyncio.run(games.run_daily_versles(client, 10, "07:00")) == 0      # not twice (a restart)
+    assert asyncio.run(games.run_daily_versles(client, 10, games.DEFAULT_VERSLE_TIME)) == 1 and b.sent
+
+
+def test_versle_setup(games, bot_module):
+    from conftest import FakeCtx
+    import core
+
+    def run(action="", arg="", mentions=()):
+        ctx = FakeCtx()
+        ctx.guild = type("G", (), {"id": 1, "name": "Test"})()
+        ctx.message = type("M", (), {"channel_mentions": list(mentions)})()
+        ctx.channel = _Channel(555)
+        asyncio.run(games.cmd_verslesetup.callback(ctx, action, arg=arg))
+        return ctx
+
+    assert "will be posted in <#100>" in run("channel", mentions=[_Channel(100)]).sent[-1]["content"]
+    assert run("time", "7:30").sent[-1]["content"] == "Daily Versle time set to **07:30 UTC**."
+    assert core._load_guild_config()["1"] == {"versle_channel_id": 100, "versle_time": "07:30"}
+    run("off")
+    assert core._load_guild_config()["1"]["versle_channel_id"] is None
+    ctx = run("test")
+    assert ctx.channel.sent[0]["embed"].title.startswith("📜 Versle #")
+
+
 def test_whoami_command(games, fake_ctx):
     asyncio.run(games.start_whoami(fake_ctx))
     sent = fake_ctx.sent[-1]

@@ -158,6 +158,7 @@ answer, and every answer has a 🖼️ Card button that renders it as an image.
 | `!quiz [hard \| leaderboard]` | `!guess` | Which book is this verse from? One private guess each, revealed after 60s. Scores per server, weekly and all-time, with streaks |
 | `!versle [stats]` | `!dailyverse` | Versle: a daily well-known verse (`data/versle_pool.json`, from `build_versle_pool.py`); guess its reference in six tries with private 🟩🟨⬛ book/chapter/verse feedback; shareable grid; streaks in `data/versle.json` |
 | `!whoami` | `!mystery`, `!whoisit` | Who Am I? A Bible figure (named in 20+ verses) from clues generated from the !who data, easiest last; guess via a modal, first right answer wins (`games.py`) |
+| `!verslesetup` | `!versleconfig` | (Admins) Each day's Versle posted in a channel with yesterday's answer and solve count: `channel #chan`, `time HH:MM` (UTC, default 00:05), `test`, `off`; `versle.json` "posted" stops double posts |
 | `!quizsetup` | `!quizconfig` | (Admins) A daily quiz question in a channel, revealed with the next: `channel #chan`, `time HH:MM` (UTC), `kind bible\|hard`, `test`, `off` |
 
 ### Verse of the Day

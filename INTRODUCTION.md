@@ -199,6 +199,7 @@ These need the server's Administrator permission.
 • `!votdsetup channel #channel` — post the Verse of the Day there every day; `!votdsetup time 04:00` sets the time (24-hour, UTC), `!votdsetup mode full` the style (`basic`, `full` or `extended`), `!votdsetup off` stops it
 • `!oraclesetup channel #channel` — a daily oracle; `!oraclesetup time 12:00`, `!oraclesetup kind virgil` (or `homer`, `delphi`, `oracle`, `iching`, `hafez`, `rumi`, `any`), `!oraclesetup test` to try one now, `!oraclesetup off`
 • `!quizsetup channel #channel` — a daily quiz question that everyone can answer all day; the answer is revealed when the next one is posted. `!quizsetup time 18:00`, `!quizsetup kind hard` (or `bible`, or a tradition like `buddhist`), `!quizsetup test` to post one now, `!quizsetup off`
+• `!verslesetup channel #channel` — post each day's Versle puzzle in a channel, with yesterday's answer and how many people solved it. `!verslesetup time 07:00`, `!verslesetup test`, `!verslesetup off`
 • `!changelogsetup #channel` — where I announce my updates (like this channel); `!changelogsetup off` to stop
 • `!changelogintro` — post this introduction, followed by the latest updates, in the updates channel (`!changelogintro fresh` first clears my earlier messages there)
 • `!features` — optional extras, all off unless you turn them on: `!features react_save on` lets people bookmark a verse by reacting 📌, `!features streaks on` shows reading-plan streaks, `!features export on` lets people download their bookmarks with `!saved export`

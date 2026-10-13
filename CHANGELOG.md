@@ -14,6 +14,10 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-13 · Versle every morning
+- 📜 **Server admins can now have each day's Versle posted in a channel automatically:** `!verslesetup channel #games`. Versle is the daily puzzle where everyone gets the same well-known verse and tries to say where in the Bible it is. The post comes with its **✍️ Guess** button, so people can play straight from it, and a line revealing yesterday's verse and how many people solved it.
+- ⏰ It posts just after midnight UTC, when the new verse starts. Choose another time with `!verslesetup time 07:00` (24-hour, UTC), try it with `!verslesetup test`, and stop it with `!verslesetup off`. `!versle` still works any time.
+
 ## 2026-10-13 · Greek and Latin side by side, a fairer !discover, new quizzes
 - 🏛️ **`!parallel` now shows the original Greek or Latin beside the English for about 470 of the new classics.** Try `!parallel Antigone 1:450` for Antigone's defiance of Creon in Sophocles's own Greek, or `!parallel History of the Peloponnesian War 2.40:1` for Pericles's funeral oration. It works for Sophocles, Euripides, Aeschylus, Aristophanes, Thucydides, Herodotus, Plutarch, Cicero, Livy and many more. A few works number their parts so differently from the original that the two can't be matched passage by passage, so for those you get the English alone rather than the wrong lines.
 - 🎲 **`!discover` is fairer.** It used to pick from every passage in the library at once, so the biggest books came up again and again (the Guru Granth Sahib alone has 60,000 lines). Now it picks a tradition first, each as likely as the next, then a book, then a passage. So you're as likely to get the Bible or the Quran as Plutarch, and every tradition gets its turn.
