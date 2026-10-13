@@ -14,6 +14,12 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-13 · Greek and Latin side by side, a fairer !discover, new quizzes
+- 🏛️ **`!parallel` now shows the original Greek or Latin beside the English for about 470 of the new classics.** Try `!parallel Antigone 1:450` for Antigone's defiance of Creon in Sophocles's own Greek, or `!parallel History of the Peloponnesian War 2.40:1` for Pericles's funeral oration. It works for Sophocles, Euripides, Aeschylus, Aristophanes, Thucydides, Herodotus, Plutarch, Cicero, Livy and many more. A few works number their parts so differently from the original that the two can't be matched passage by passage, so for those you get the English alone rather than the wrong lines.
+- 🎲 **`!discover` is fairer.** It used to pick from every passage in the library at once, so the biggest books came up again and again (the Guru Granth Sahib alone has 60,000 lines). Now it picks a tradition first, each as likely as the next, then a book, then a passage. So you're as likely to get the Bible or the Quran as Plutarch, and every tradition gets its turn.
+- ❓ **`!quiz classical` now covers far more:** Sophocles, Aeschylus and Euripides, Aristophanes, Thucydides, Xenophon, Caesar, Lucretius, Ovid, Tacitus and Pausanias, alongside Homer, Virgil and Plato.
+- 🌹 **New quiz, `!quiz sufi`:** a passage of Persian poetry. Is it Hafiz, Rumi's *Masnavi*, or Omar Khayyam's *Rubaiyat*?
+
 ## 2026-10-13 · Six hundred Greek and Latin classics
 - 🏛️ **About 600 works of ancient Greek and Roman literature have been added, all in English.** They come from the Perseus Digital Library, the great online collection of the classics run by Tufts University, and add 62 authors to the library's Homer, Plato, Aristotle and Virgil. Read any of them with `!verse`, search them with `!search … in:classical`, and browse them author by author with `!books` → Classical → The Perseus Library.
 - 🎭 **The plays:** all the surviving tragedies of Aeschylus, Sophocles and Euripides (`!verse Antigone 1:450`, "it was not Zeus that published me that edict"), the comedies of Aristophanes (`!verse Clouds 1:1`), and the Roman comedies of Plautus and Terence.

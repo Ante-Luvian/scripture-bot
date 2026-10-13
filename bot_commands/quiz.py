@@ -58,7 +58,12 @@ QUIZ_POOLS = {
     "jain":      ["Akaranga Sutra", "Sutrakritanga", "Uttaradhyayana Sutra", "Kalpa Sutra"],
     "zoroastrian": ["Gathas", "Yasna", "Yashts", "Vendidad", "Bundahishn"],
     "classical": ["Iliad", "Odyssey", "Aeneid", "Republic", "Meditations", "Enchiridion of Epictetus",
-                  "Works and Days", "Enneads", "Nicomachean Ethics", "Corpus Hermeticum"],
+                  "Works and Days", "Enneads", "Nicomachean Ethics", "Corpus Hermeticum",
+                  # from the Perseus library
+                  "Antigone", "Oedipus Tyrannus", "Agamemnon", "Medea", "Clouds",
+                  "History of the Peloponnesian War", "Anabasis", "Gallic War", "De Rerum Natura",
+                  "Metamorphoses", "The Annals", "Description of Greece"],
+    "sufi":      ["Divan of Hafiz", "Masnavi", "Rubaiyat"],
     "gnostic":   ["Gospel of Thomas", "Ginza Rba", "The Thunder, Perfect Mind", "The Secret Book of James",
                   "The Tripartite Tractate", "Manichaean Bema Psalms"],
     "norse":     ["Voluspo", "Hovamol", "Lokasenna", "Thrymskvitha", "Grimnismol", "Vafthruthnismol"],

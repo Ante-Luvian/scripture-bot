@@ -53,6 +53,21 @@ def test_traditions(lookup):
     assert hits and all(label == "🤚 Jain" for label in hits)
 
 
+def test_discover_is_spread_across_traditions(lookup):
+    """!discover picks a tradition first: the Guru Granth Sahib's 60,000 lines don't swamp the rest."""
+    import collections
+    import random
+    from scripture_lookup import TRADITIONS
+    covered = {c for _, corpora in TRADITIONS.values() for c in corpora}
+    assert all(c in covered for c, books in lookup._data.items() if books)      # nothing left out of !discover
+    label = {c: l for l, corpora in TRADITIONS.values() for c in corpora}
+    corpus_of = {b: c for c, books in lookup._data.items() for b in books}
+    rng = random.Random(7)
+    picks = collections.Counter(label[corpus_of[lookup.random_verse(rng)["book"]]] for _ in range(2200))
+    share = 2200 / len(TRADITIONS)
+    assert len(picks) == len(TRADITIONS) and max(picks.values()) < 1.6 * share and min(picks.values()) > 0.5 * share
+
+
 def test_aliases(lookup):
     for name, book in (("Chuang Tzu", "Zhuangzi"), ("Manusmriti", "Laws of Manu"), ("Nihon Shoki", "Nihongi"),
                        ("Mathnawi", "Masnavi"), ("Japji Sahib", "Japji"), ("Milindapanha", "Questions of King Milinda")):

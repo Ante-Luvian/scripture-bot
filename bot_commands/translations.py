@@ -1020,6 +1020,38 @@ LANG_COLOR = {
 }
 
 
+def perseus_parallel(reference: str) -> "tuple[dict, dict] | None":
+    """(English, original) for a passage of a Perseus work whose Greek or Latin lines up
+    with its translation (perseus_tei.original_for), or None if it isn't one."""
+    import perseus_tei
+    parsed = lookup._parse_reference(reference)
+    if not parsed or len(parsed) != 4:
+        return None
+    book_raw, chapter, first, last = parsed
+    corpus, book = lookup._resolve_book(book_raw)
+    if corpus != "classical" or not perseus_tei.has_original(book):
+        return None
+    chapter = str(chapter)
+    verses = lookup._data["classical"].get(book, {}).get(chapter)
+    if not verses:
+        return None
+    first = first if first is not None else min(int(v) for v in verses if v.isdigit())
+    last = last or first
+    english = lookup.get_verse(f"{book} {chapter}:{first}" + (f"-{last}" if last != first else ""))
+    if not english.get("found"):
+        return None
+    original = perseus_tei.original_for(book, chapter, first, last, verses)
+    primary = dict(found=True, reference=english["reference"], lang="en",
+                   text=re.sub(r"\*\*\[\d+\]\*\*\s*", "", english["text"]), source=english.get("source", ""))
+    if original is None:
+        pair = dict(found=False, lang="grc", error="The original isn't available for this passage.")
+    else:
+        text, lang = original
+        pair = dict(found=True, text=text, lang=lang,
+                    source=f"{LANG_LABEL[lang]} text, Perseus Digital Library (CC-BY-SA)")
+    return primary, pair
+
+
 @bot.command(name="parallel", aliases=["poem", "po", "par", "classical"])
 async def cmd_parallel(ctx, *, reference: str = ""):
     """Look up a Bible verse or classical text in parallel languages. !parallel works for a list."""
@@ -1048,6 +1080,9 @@ async def cmd_parallel(ctx, *, reference: str = ""):
 
         # ── Classical poetry reference ─────────────────────────────────────
         spec = parse_poem_ref(ref_clean)
+        if spec is None and (both := await asyncio.to_thread(perseus_parallel, ref_clean)):
+            await _send_parallel(ctx, *both)           # a Perseus work, with its Greek or Latin
+            return
         if spec is None:
             await ctx.send(
                 f"⚠️ Couldn't parse `{ref}`.\n"
@@ -1085,6 +1120,9 @@ async def poem_slash(interaction: discord.Interaction,
         await _send_poem_scripture(ctx, ref_clean, scripture_type, drb)
         return
     spec = parse_poem_ref(ref_clean)
+    if spec is None and (both := await asyncio.to_thread(perseus_parallel, ref_clean)):
+        await _send_parallel(ctx, *both)
+        return
     if spec is None:
         await ctx.send(f"⚠️ Couldn't parse `{reference}`.")
         return

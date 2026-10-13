@@ -31,7 +31,7 @@ def test_hard_question_mixes_traditions(quiz, seed):
 
 
 @pytest.mark.parametrize("key", ["buddhist", "chinese", "hindu", "classical", "christian", "jewish",
-                                 "apocrypha", "gnostic", "norse", "neareast", "lds", "bahai", "jain", "zoroastrian"])
+                                 "apocrypha", "gnostic", "norse", "neareast", "lds", "bahai", "jain", "zoroastrian", "sufi"])
 def test_tradition_quiz(quiz, lookup, key):
     for book in quiz.QUIZ_POOLS[key]:
         assert lookup._resolve_book(book)[1] == book, book

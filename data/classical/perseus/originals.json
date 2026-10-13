@@ -1,0 +1,2347 @@
+{
+ "History of the Peloponnesian War": {
+  "file": "canonical-greekLit/data/tlg0003/tlg001/tlg0003.tlg001.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Lives of Eminent Philosophers": {
+  "file": "canonical-greekLit/data/tlg0004/tlg001/tlg0004.tlg001.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "The Cyclops": {
+  "file": "canonical-greekLit/data/tlg0006/tlg001/tlg0006.tlg001.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Alcestis": {
+  "file": "canonical-greekLit/data/tlg0006/tlg002/tlg0006.tlg002.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.998
+ },
+ "Medea": {
+  "file": "canonical-greekLit/data/tlg0006/tlg003/tlg0006.tlg003.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Heracleidae": {
+  "file": "canonical-greekLit/data/tlg0006/tlg004/tlg0006.tlg004.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Hippolytus": {
+  "file": "canonical-greekLit/data/tlg0006/tlg005/tlg0006.tlg005.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Andromache": {
+  "file": "canonical-greekLit/data/tlg0006/tlg006/tlg0006.tlg006.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.995
+ },
+ "Hecuba": {
+  "file": "canonical-greekLit/data/tlg0006/tlg007/tlg0006.tlg007.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "The Suppliants": {
+  "file": "canonical-greekLit/data/tlg0006/tlg008/tlg0006.tlg008.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Heracles Mad": {
+  "file": "canonical-greekLit/data/tlg0006/tlg009/tlg0006.tlg009.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Euripides: Ion": {
+  "file": "canonical-greekLit/data/tlg0006/tlg010/tlg0006.tlg010.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "The Trojan Women": {
+  "file": "canonical-greekLit/data/tlg0006/tlg011/tlg0006.tlg011.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Euripides: Electra": {
+  "file": "canonical-greekLit/data/tlg0006/tlg012/tlg0006.tlg012.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Iphigenia Among the Tauri": {
+  "file": "canonical-greekLit/data/tlg0006/tlg013/tlg0006.tlg013.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Euripides: Helen": {
+  "file": "canonical-greekLit/data/tlg0006/tlg014/tlg0006.tlg014.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.999
+ },
+ "The Phoenician Maidens": {
+  "file": "canonical-greekLit/data/tlg0006/tlg015/tlg0006.tlg015.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Orestes": {
+  "file": "canonical-greekLit/data/tlg0006/tlg016/tlg0006.tlg016.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "The Bacchae": {
+  "file": "canonical-greekLit/data/tlg0006/tlg017/tlg0006.tlg017.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Iphigenia at Aulis": {
+  "file": "canonical-greekLit/data/tlg0006/tlg018/tlg0006.tlg018.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Rhesus": {
+  "file": "canonical-greekLit/data/tlg0006/tlg019/tlg0006.tlg019.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.994
+ },
+ "Theseus": {
+  "file": "canonical-greekLit/data/tlg0007/tlg001/tlg0007.tlg001.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Romulus": {
+  "file": "canonical-greekLit/data/tlg0007/tlg002/tlg0007.tlg002.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Comparison of Theseus and Romulus": {
+  "file": "canonical-greekLit/data/tlg0007/tlg003/tlg0007.tlg003.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Lycurgus": {
+  "file": "canonical-greekLit/data/tlg0007/tlg004/tlg0007.tlg004.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Numa": {
+  "file": "canonical-greekLit/data/tlg0007/tlg005/tlg0007.tlg005.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Comparison of Lycurgus and Numa": {
+  "file": "canonical-greekLit/data/tlg0007/tlg006/tlg0007.tlg006.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Solon": {
+  "file": "canonical-greekLit/data/tlg0007/tlg007/tlg0007.tlg007.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.993
+ },
+ "Publicola": {
+  "file": "canonical-greekLit/data/tlg0007/tlg008/tlg0007.tlg008.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Comparison of Solon and Publicola": {
+  "file": "canonical-greekLit/data/tlg0007/tlg009/tlg0007.tlg009.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Themistocles": {
+  "file": "canonical-greekLit/data/tlg0007/tlg010/tlg0007.tlg010.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Camillus": {
+  "file": "canonical-greekLit/data/tlg0007/tlg011/tlg0007.tlg011.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.99
+ },
+ "Pericles": {
+  "file": "canonical-greekLit/data/tlg0007/tlg012/tlg0007.tlg012.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Fabius Maximus": {
+  "file": "canonical-greekLit/data/tlg0007/tlg013/tlg0007.tlg013.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Comparison of Pericles and Fabius Maximus": {
+  "file": "canonical-greekLit/data/tlg0007/tlg014/tlg0007.tlg014.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Alcibiades": {
+  "file": "canonical-greekLit/data/tlg0007/tlg015/tlg0007.tlg015.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Caius Marcius Coriolanus": {
+  "file": "canonical-greekLit/data/tlg0007/tlg016/tlg0007.tlg016.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Comparison of Alcibiades and Coriolanus": {
+  "file": "canonical-greekLit/data/tlg0007/tlg017/tlg0007.tlg017.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Timoleon": {
+  "file": "canonical-greekLit/data/tlg0007/tlg018/tlg0007.tlg018.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Aemilius Paulus": {
+  "file": "canonical-greekLit/data/tlg0007/tlg019/tlg0007.tlg019.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Comparison of Timoleon and Aemilius": {
+  "file": "canonical-greekLit/data/tlg0007/tlg020/tlg0007.tlg020.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Pelopidas": {
+  "file": "canonical-greekLit/data/tlg0007/tlg021/tlg0007.tlg021.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Marcellus": {
+  "file": "canonical-greekLit/data/tlg0007/tlg022/tlg0007.tlg022.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Comparison of Pelopidas and Marcellus": {
+  "file": "canonical-greekLit/data/tlg0007/tlg023/tlg0007.tlg023.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Aristides": {
+  "file": "canonical-greekLit/data/tlg0007/tlg024/tlg0007.tlg024.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Marcus Cato": {
+  "file": "canonical-greekLit/data/tlg0007/tlg025/tlg0007.tlg025.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Comparison of Aristides and Marcus Cato": {
+  "file": "canonical-greekLit/data/tlg0007/tlg026/tlg0007.tlg026.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Philopoemen": {
+  "file": "canonical-greekLit/data/tlg0007/tlg027/tlg0007.tlg027.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Titus Flamininus": {
+  "file": "canonical-greekLit/data/tlg0007/tlg028/tlg0007.tlg028.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Comparison of Philopoemen and Titus": {
+  "file": "canonical-greekLit/data/tlg0007/tlg029/tlg0007.tlg029.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Pyrrhus": {
+  "file": "canonical-greekLit/data/tlg0007/tlg030/tlg0007.tlg030.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Caius Marius": {
+  "file": "canonical-greekLit/data/tlg0007/tlg031/tlg0007.tlg031.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Lysander": {
+  "file": "canonical-greekLit/data/tlg0007/tlg032/tlg0007.tlg032.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Sulla": {
+  "file": "canonical-greekLit/data/tlg0007/tlg033/tlg0007.tlg033.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Comparison of Lysander and Sulla": {
+  "file": "canonical-greekLit/data/tlg0007/tlg034/tlg0007.tlg034.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Cimon": {
+  "file": "canonical-greekLit/data/tlg0007/tlg035/tlg0007.tlg035.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Lucullus": {
+  "file": "canonical-greekLit/data/tlg0007/tlg036/tlg0007.tlg036.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Comparison of Lucullus and Cimon": {
+  "file": "canonical-greekLit/data/tlg0007/tlg037/tlg0007.tlg037.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Nicias": {
+  "file": "canonical-greekLit/data/tlg0007/tlg038/tlg0007.tlg038.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Crassus": {
+  "file": "canonical-greekLit/data/tlg0007/tlg039/tlg0007.tlg039.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Comparison of Nicias and Crassus": {
+  "file": "canonical-greekLit/data/tlg0007/tlg040/tlg0007.tlg040.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Eumenes": {
+  "file": "canonical-greekLit/data/tlg0007/tlg041/tlg0007.tlg041.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Sertorius": {
+  "file": "canonical-greekLit/data/tlg0007/tlg042/tlg0007.tlg042.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Comparison of Sertorius and Eumenes": {
+  "file": "canonical-greekLit/data/tlg0007/tlg043/tlg0007.tlg043.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Plutarch: Agesilaus": {
+  "file": "canonical-greekLit/data/tlg0007/tlg044/tlg0007.tlg044.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.995
+ },
+ "Pompey": {
+  "file": "canonical-greekLit/data/tlg0007/tlg045/tlg0007.tlg045.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Comparison of Agesilaus and Pompey": {
+  "file": "canonical-greekLit/data/tlg0007/tlg046/tlg0007.tlg046.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Alexander": {
+  "file": "canonical-greekLit/data/tlg0007/tlg047/tlg0007.tlg047.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Caesar": {
+  "file": "canonical-greekLit/data/tlg0007/tlg048/tlg0007.tlg048.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Phocion": {
+  "file": "canonical-greekLit/data/tlg0007/tlg049/tlg0007.tlg049.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Cato the Younger": {
+  "file": "canonical-greekLit/data/tlg0007/tlg050/tlg0007.tlg050.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Agis and Cleomenes": {
+  "file": "canonical-greekLit/data/tlg0007/tlg051/tlg0007.tlg051.perseus-grc1.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Tiberius and Caius Gracchus": {
+  "file": "canonical-greekLit/data/tlg0007/tlg052/tlg0007.tlg052.perseus-grc1.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Comparison of Agis and Cleomenes and the Gracchi": {
+  "file": "canonical-greekLit/data/tlg0007/tlg053/tlg0007.tlg053.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Demosthenes": {
+  "file": "canonical-greekLit/data/tlg0007/tlg054/tlg0007.tlg054.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Cicero": {
+  "file": "canonical-greekLit/data/tlg0007/tlg055/tlg0007.tlg055.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Comparison of Demosthenes and Cicero": {
+  "file": "canonical-greekLit/data/tlg0007/tlg056/tlg0007.tlg056.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Plutarch: Demetrius": {
+  "file": "canonical-greekLit/data/tlg0007/tlg057/tlg0007.tlg057.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.996
+ },
+ "Antony": {
+  "file": "canonical-greekLit/data/tlg0007/tlg058/tlg0007.tlg058.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Comparison of Demetrius and Antony": {
+  "file": "canonical-greekLit/data/tlg0007/tlg059/tlg0007.tlg059.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Dion": {
+  "file": "canonical-greekLit/data/tlg0007/tlg060/tlg0007.tlg060.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.997
+ },
+ "Brutus": {
+  "file": "canonical-greekLit/data/tlg0007/tlg061/tlg0007.tlg061.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Comparison of Dion and Brutus": {
+  "file": "canonical-greekLit/data/tlg0007/tlg062/tlg0007.tlg062.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Aratus": {
+  "file": "canonical-greekLit/data/tlg0007/tlg063/tlg0007.tlg063.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Artaxerxes": {
+  "file": "canonical-greekLit/data/tlg0007/tlg064/tlg0007.tlg064.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Plutarch: Galba": {
+  "file": "canonical-greekLit/data/tlg0007/tlg065/tlg0007.tlg065.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Plutarch: Otho": {
+  "file": "canonical-greekLit/data/tlg0007/tlg066/tlg0007.tlg066.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Virtue and Vice": {
+  "file": "canonical-greekLit/data/tlg0007/tlg075/tlg0007.tlg075.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Advice to Bride and Groom": {
+  "file": "canonical-greekLit/data/tlg0007/tlg078/tlg0007.tlg078.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.929
+ },
+ "Sayings of Kings and Commanders": {
+  "file": "canonical-greekLit/data/tlg0007/tlg081/tlg0007.tlg081.perseus-grc3.xml",
+  "lang": "grc",
+  "match": 0.98
+ },
+ "Sayings of Spartans": {
+  "file": "canonical-greekLit/data/tlg0007/tlg082/tlg0007.tlg082.perseus-grc4.xml",
+  "lang": "grc",
+  "match": 0.998
+ },
+ "The Roman Questions": {
+  "file": "canonical-greekLit/data/tlg0007/tlg084a/tlg0007.tlg084a.perseus-grc3.xml",
+  "lang": "grc",
+  "match": 0.941
+ },
+ "The Greek Questions": {
+  "file": "canonical-greekLit/data/tlg0007/tlg084b/tlg0007.tlg084b.perseus-grc3.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Greek and Roman Parallel Stories": {
+  "file": "canonical-greekLit/data/tlg0007/tlg085/tlg0007.tlg085.perseus-grc4.xml",
+  "lang": "grc",
+  "match": 0.976
+ },
+ "Can Virtue Be Taught?": {
+  "file": "canonical-greekLit/data/tlg0007/tlg093/tlg0007.tlg093.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Whether the Affections of the Soul are Worse Than Those of the Body": {
+  "file": "canonical-greekLit/data/tlg0007/tlg100/tlg0007.tlg100.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "On Being a Busybody": {
+  "file": "canonical-greekLit/data/tlg0007/tlg102/tlg0007.tlg102.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Of Bashfulness": {
+  "file": "canonical-greekLit/data/tlg0007/tlg104/tlg0007.tlg104.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Of Envy and Hatred": {
+  "file": "canonical-greekLit/data/tlg0007/tlg105/tlg0007.tlg105.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "How a Man May Inoffensively Praise Himself Without Being Liable to Envy": {
+  "file": "canonical-greekLit/data/tlg0007/tlg106/tlg0007.tlg106.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.84
+ },
+ "A Discourse Concerning Socrates's Daemon": {
+  "file": "canonical-greekLit/data/tlg0007/tlg109/tlg0007.tlg109.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.854
+ },
+ "Plutarch's Consolatory Letter to His Wife": {
+  "file": "canonical-greekLit/data/tlg0007/tlg111/tlg0007.tlg111.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Whether an Old Man Should Engage in Public Affairs": {
+  "file": "canonical-greekLit/data/tlg0007/tlg117/tlg0007.tlg117.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.9
+ },
+ "Of the Three Sorts of Government": {
+  "file": "canonical-greekLit/data/tlg0007/tlg119/tlg0007.tlg119.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Summary of a Comparison Between Aristophanes and Menander": {
+  "file": "canonical-greekLit/data/tlg0007/tlg122/tlg0007.tlg122.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Of Herodotus's Malice": {
+  "file": "canonical-greekLit/data/tlg0007/tlg123/tlg0007.tlg123.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.825
+ },
+ "Plutarch's Natural Questions": {
+  "file": "canonical-greekLit/data/tlg0007/tlg125/tlg0007.tlg125.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Concerning the Face which Appears in the Orb Of the Moon": {
+  "file": "canonical-greekLit/data/tlg0007/tlg126/tlg0007.tlg126.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.843
+ },
+ "Whether fire or water is most useful": {
+  "file": "canonical-greekLit/data/tlg0007/tlg128/tlg0007.tlg128.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "On the eating of flesh I": {
+  "file": "canonical-greekLit/data/tlg0007/tlg131/tlg0007.tlg131.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "On the eating of flesh II": {
+  "file": "canonical-greekLit/data/tlg0007/tlg132/tlg0007.tlg132.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Plutarch's Platonic questions": {
+  "file": "canonical-greekLit/data/tlg0007/tlg133/tlg0007.tlg133.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.814
+ },
+ "Against Euthynus": {
+  "file": "canonical-greekLit/data/tlg0010/tlg001/tlg0010.tlg001.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Against Callimachus": {
+  "file": "canonical-greekLit/data/tlg0010/tlg002/tlg0010.tlg002.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Against Lochites": {
+  "file": "canonical-greekLit/data/tlg0010/tlg003/tlg0010.tlg003.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Concerning the Team of Horses": {
+  "file": "canonical-greekLit/data/tlg0010/tlg004/tlg0010.tlg004.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Trapeziticus": {
+  "file": "canonical-greekLit/data/tlg0010/tlg005/tlg0010.tlg005.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Aegineticus": {
+  "file": "canonical-greekLit/data/tlg0010/tlg006/tlg0010.tlg006.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "To Demonicus": {
+  "file": "canonical-greekLit/data/tlg0010/tlg007/tlg0010.tlg007.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Against the Sophists": {
+  "file": "canonical-greekLit/data/tlg0010/tlg008/tlg0010.tlg008.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Isocrates: Helen": {
+  "file": "canonical-greekLit/data/tlg0010/tlg009/tlg0010.tlg009.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Busiris": {
+  "file": "canonical-greekLit/data/tlg0010/tlg010/tlg0010.tlg010.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Panegyricus": {
+  "file": "canonical-greekLit/data/tlg0010/tlg011/tlg0010.tlg011.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Plataicus": {
+  "file": "canonical-greekLit/data/tlg0010/tlg012/tlg0010.tlg012.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "To Nicocles": {
+  "file": "canonical-greekLit/data/tlg0010/tlg013/tlg0010.tlg013.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Nicocles or the Cyprians": {
+  "file": "canonical-greekLit/data/tlg0010/tlg014/tlg0010.tlg014.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Evagoras": {
+  "file": "canonical-greekLit/data/tlg0010/tlg015/tlg0010.tlg015.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "To Archidamus": {
+  "file": "canonical-greekLit/data/tlg0010/tlg016/tlg0010.tlg016.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Isocrates: On the Peace": {
+  "file": "canonical-greekLit/data/tlg0010/tlg017/tlg0010.tlg017.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Areopagiticus": {
+  "file": "canonical-greekLit/data/tlg0010/tlg018/tlg0010.tlg018.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Antidosis": {
+  "file": "canonical-greekLit/data/tlg0010/tlg019/tlg0010.tlg019.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "To Philip": {
+  "file": "canonical-greekLit/data/tlg0010/tlg020/tlg0010.tlg020.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Panathenaicus": {
+  "file": "canonical-greekLit/data/tlg0010/tlg021/tlg0010.tlg021.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Letter 1: To Dionysius": {
+  "file": "canonical-greekLit/data/tlg0010/tlg022/tlg0010.tlg022.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Letter 6: To the Children of Jason": {
+  "file": "canonical-greekLit/data/tlg0010/tlg023/tlg0010.tlg023.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Letter 9: To Archidamus": {
+  "file": "canonical-greekLit/data/tlg0010/tlg024/tlg0010.tlg024.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Letter 8: To the Rulers of the Mytilenaeans": {
+  "file": "canonical-greekLit/data/tlg0010/tlg025/tlg0010.tlg025.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Letter 7: To Timotheus": {
+  "file": "canonical-greekLit/data/tlg0010/tlg026/tlg0010.tlg026.perseus-grc3.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Letter 2: To Philip": {
+  "file": "canonical-greekLit/data/tlg0010/tlg027/tlg0010.tlg027.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Letter 5: To Alexander": {
+  "file": "canonical-greekLit/data/tlg0010/tlg028/tlg0010.tlg028.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Letter 4: To Antipater": {
+  "file": "canonical-greekLit/data/tlg0010/tlg029/tlg0010.tlg029.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Letter 3: To Philip": {
+  "file": "canonical-greekLit/data/tlg0010/tlg030/tlg0010.tlg030.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Trachiniae": {
+  "file": "canonical-greekLit/data/tlg0011/tlg001/tlg0011.tlg001.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Antigone": {
+  "file": "canonical-greekLit/data/tlg0011/tlg002/tlg0011.tlg002.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.998
+ },
+ "Ajax": {
+  "file": "canonical-greekLit/data/tlg0011/tlg003/tlg0011.tlg003.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Oedipus Tyrannus": {
+  "file": "canonical-greekLit/data/tlg0011/tlg004/tlg0011.tlg004.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.996
+ },
+ "Sophocles: Electra": {
+  "file": "canonical-greekLit/data/tlg0011/tlg005/tlg0011.tlg005.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.989
+ },
+ "Philoctetes": {
+  "file": "canonical-greekLit/data/tlg0011/tlg006/tlg0011.tlg006.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.995
+ },
+ "Oedipus at Colonus": {
+  "file": "canonical-greekLit/data/tlg0011/tlg007/tlg0011.tlg007.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.987
+ },
+ "Tracking Satyrs": {
+  "file": "canonical-greekLit/data/tlg0011/tlg008/tlg0011.tlg008.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "First Olynthiac": {
+  "file": "canonical-greekLit/data/tlg0014/tlg001/tlg0014.tlg001.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Second Olynthiac": {
+  "file": "canonical-greekLit/data/tlg0014/tlg002/tlg0014.tlg002.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Third Olynthiac": {
+  "file": "canonical-greekLit/data/tlg0014/tlg003/tlg0014.tlg003.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "First Philippic": {
+  "file": "canonical-greekLit/data/tlg0014/tlg004/tlg0014.tlg004.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Demosthenes: On the Peace": {
+  "file": "canonical-greekLit/data/tlg0014/tlg005/tlg0014.tlg005.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Second Philippic": {
+  "file": "canonical-greekLit/data/tlg0014/tlg006/tlg0014.tlg006.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "On Halonnesus": {
+  "file": "canonical-greekLit/data/tlg0014/tlg007/tlg0014.tlg007.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "On the Chersonese": {
+  "file": "canonical-greekLit/data/tlg0014/tlg008/tlg0014.tlg008.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Third Philippic": {
+  "file": "canonical-greekLit/data/tlg0014/tlg009/tlg0014.tlg009.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Fourth Philippic": {
+  "file": "canonical-greekLit/data/tlg0014/tlg010/tlg0014.tlg010.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Answer to Philip’s Letter": {
+  "file": "canonical-greekLit/data/tlg0014/tlg011/tlg0014.tlg011.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Philip’s Letter": {
+  "file": "canonical-greekLit/data/tlg0014/tlg012/tlg0014.tlg012.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "On Organization": {
+  "file": "canonical-greekLit/data/tlg0014/tlg013/tlg0014.tlg013.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "On the Navy-Boards": {
+  "file": "canonical-greekLit/data/tlg0014/tlg014/tlg0014.tlg014.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "For the Liberty of the Rhodians": {
+  "file": "canonical-greekLit/data/tlg0014/tlg015/tlg0014.tlg015.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "For the People of Megalopolis": {
+  "file": "canonical-greekLit/data/tlg0014/tlg016/tlg0014.tlg016.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "On the Treaty with Alexander": {
+  "file": "canonical-greekLit/data/tlg0014/tlg017/tlg0014.tlg017.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "On the Crown": {
+  "file": "canonical-greekLit/data/tlg0014/tlg018/tlg0014.tlg018.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Demosthenes: On the Embassy": {
+  "file": "canonical-greekLit/data/tlg0014/tlg019/tlg0014.tlg019.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.942
+ },
+ "Against Leptines": {
+  "file": "canonical-greekLit/data/tlg0014/tlg020/tlg0014.tlg020.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Against Meidias": {
+  "file": "canonical-greekLit/data/tlg0014/tlg021/tlg0014.tlg021.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Against Androtion": {
+  "file": "canonical-greekLit/data/tlg0014/tlg022/tlg0014.tlg022.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Against Aristocrates": {
+  "file": "canonical-greekLit/data/tlg0014/tlg023/tlg0014.tlg023.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Against Timocrates": {
+  "file": "canonical-greekLit/data/tlg0014/tlg024/tlg0014.tlg024.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Against Aristogeiton I": {
+  "file": "canonical-greekLit/data/tlg0014/tlg025/tlg0014.tlg025.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Against Aristogeiton II": {
+  "file": "canonical-greekLit/data/tlg0014/tlg026/tlg0014.tlg026.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Against Aphobus I": {
+  "file": "canonical-greekLit/data/tlg0014/tlg027/tlg0014.tlg027.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Against Aphobus II": {
+  "file": "canonical-greekLit/data/tlg0014/tlg028/tlg0014.tlg028.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Against Aphobus III": {
+  "file": "canonical-greekLit/data/tlg0014/tlg029/tlg0014.tlg029.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Demosthenes: Against Onetor": {
+  "file": "canonical-greekLit/data/tlg0014/tlg030/tlg0014.tlg030.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Demosthenes: Against Onetor II": {
+  "file": "canonical-greekLit/data/tlg0014/tlg031/tlg0014.tlg031.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Plea of Demo Against Zenothemis": {
+  "file": "canonical-greekLit/data/tlg0014/tlg032/tlg0014.tlg032.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Unknown Pleader Against Apaturius": {
+  "file": "canonical-greekLit/data/tlg0014/tlg033/tlg0014.tlg033.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Plea of Chrysipus and Partner Against Phormio": {
+  "file": "canonical-greekLit/data/tlg0014/tlg034/tlg0014.tlg034.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Androcles Against Lacritus": {
+  "file": "canonical-greekLit/data/tlg0014/tlg035/tlg0014.tlg035.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "A Friend Pleading for Phormio": {
+  "file": "canonical-greekLit/data/tlg0014/tlg036/tlg0014.tlg036.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Nicobulus Against Pantaenetus": {
+  "file": "canonical-greekLit/data/tlg0014/tlg037/tlg0014.tlg037.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "One of the Sons of Aristaechmus Against Nausimachus and Xenopeithes": {
+  "file": "canonical-greekLit/data/tlg0014/tlg038/tlg0014.tlg038.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Mantitheus Against Boeotus I": {
+  "file": "canonical-greekLit/data/tlg0014/tlg039/tlg0014.tlg039.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Mantitheus Against Boeotus II": {
+  "file": "canonical-greekLit/data/tlg0014/tlg040/tlg0014.tlg040.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "An Unknown Pleader Against Spudias in the Matter of a Marriage Proposal": {
+  "file": "canonical-greekLit/data/tlg0014/tlg041/tlg0014.tlg041.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Unknown Pleader Against Phaenippus": {
+  "file": "canonical-greekLit/data/tlg0014/tlg042/tlg0014.tlg042.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.969
+ },
+ "Sositheus Against Macartatus in Regard to the Estate of Hagnias": {
+  "file": "canonical-greekLit/data/tlg0014/tlg043/tlg0014.tlg043.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.988
+ },
+ "Aristodemus Against Leochares Regarding the Estate of Archiades": {
+  "file": "canonical-greekLit/data/tlg0014/tlg044/tlg0014.tlg044.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Demosthenes: Apollodorus Against Stephanus": {
+  "file": "canonical-greekLit/data/tlg0014/tlg045/tlg0014.tlg045.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Demosthenes: Apollodorus Against Stephanus II": {
+  "file": "canonical-greekLit/data/tlg0014/tlg046/tlg0014.tlg046.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Unknown Pleader Against Evergus and Mnesibulus": {
+  "file": "canonical-greekLit/data/tlg0014/tlg047/tlg0014.tlg047.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.988
+ },
+ "Callistratus Against Olympiodorus": {
+  "file": "canonical-greekLit/data/tlg0014/tlg048/tlg0014.tlg048.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Apollodorus Against Timotheus in the Matter of a Debt": {
+  "file": "canonical-greekLit/data/tlg0014/tlg049/tlg0014.tlg049.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Apollodorus Against Polycles for Expenses Incurred while Serving as Trierarch": {
+  "file": "canonical-greekLit/data/tlg0014/tlg050/tlg0014.tlg050.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "On the Trierarchic Crown": {
+  "file": "canonical-greekLit/data/tlg0014/tlg051/tlg0014.tlg051.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Apollodorus Against Callippus": {
+  "file": "canonical-greekLit/data/tlg0014/tlg052/tlg0014.tlg052.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Apollodorus Against Nicostratus in the Matter of Slaves of Aresthusius": {
+  "file": "canonical-greekLit/data/tlg0014/tlg053/tlg0014.tlg053.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Ariston Against Conon": {
+  "file": "canonical-greekLit/data/tlg0014/tlg054/tlg0014.tlg054.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "The Son of Teisias Against Callicles": {
+  "file": "canonical-greekLit/data/tlg0014/tlg055/tlg0014.tlg055.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.971
+ },
+ "Dareius Against Dionysodorus in the Matter of a Loan": {
+  "file": "canonical-greekLit/data/tlg0014/tlg056/tlg0014.tlg056.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Euxitheus Against Eubulides": {
+  "file": "canonical-greekLit/data/tlg0014/tlg057/tlg0014.tlg057.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Epichares Against Theocrines": {
+  "file": "canonical-greekLit/data/tlg0014/tlg058/tlg0014.tlg058.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Theomnestus and Apollodorus Against Neaera": {
+  "file": "canonical-greekLit/data/tlg0014/tlg059/tlg0014.tlg059.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "The Funeral Speech": {
+  "file": "canonical-greekLit/data/tlg0014/tlg060/tlg0014.tlg060.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "The Erotic Essay": {
+  "file": "canonical-greekLit/data/tlg0014/tlg061/tlg0014.tlg061.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Exordia": {
+  "file": "canonical-greekLit/data/tlg0014/tlg062/tlg0014.tlg062.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Demosthenes: Letters": {
+  "file": "canonical-greekLit/data/tlg0014/tlg063/tlg0014.tlg063.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Histories": {
+  "file": "canonical-greekLit/data/tlg0016/tlg001/tlg0016.tlg001.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.997
+ },
+ "On The Estate of Cleonymus": {
+  "file": "canonical-greekLit/data/tlg0017/tlg001/tlg0017.tlg001.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "On the Estate of Menecles": {
+  "file": "canonical-greekLit/data/tlg0017/tlg002/tlg0017.tlg002.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "On The Estate Of Pyrrhus": {
+  "file": "canonical-greekLit/data/tlg0017/tlg003/tlg0017.tlg003.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "On the Estate of Nicostratus": {
+  "file": "canonical-greekLit/data/tlg0017/tlg004/tlg0017.tlg004.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "On the Estate of Dicaeogenes": {
+  "file": "canonical-greekLit/data/tlg0017/tlg005/tlg0017.tlg005.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "On the Estate of Philoctemon": {
+  "file": "canonical-greekLit/data/tlg0017/tlg006/tlg0017.tlg006.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "On The Estate of Apollodorus": {
+  "file": "canonical-greekLit/data/tlg0017/tlg007/tlg0017.tlg007.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "On The Estate of Ciron": {
+  "file": "canonical-greekLit/data/tlg0017/tlg008/tlg0017.tlg008.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "On the Estate of Astyphilus": {
+  "file": "canonical-greekLit/data/tlg0017/tlg009/tlg0017.tlg009.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "On The Estate of Aristarchus": {
+  "file": "canonical-greekLit/data/tlg0017/tlg010/tlg0017.tlg010.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "On the Estate of Hagnias": {
+  "file": "canonical-greekLit/data/tlg0017/tlg011/tlg0017.tlg011.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "On Behalf of Euphiletus": {
+  "file": "canonical-greekLit/data/tlg0017/tlg012/tlg0017.tlg012.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Clouds": {
+  "file": "canonical-greekLit/data/tlg0019/tlg003/tlg0019.tlg003.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Birds": {
+  "file": "canonical-greekLit/data/tlg0019/tlg006/tlg0019.tlg006.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Against Timarchus": {
+  "file": "canonical-greekLit/data/tlg0026/tlg001/tlg0026.tlg001.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Aeschines: On the Embassy": {
+  "file": "canonical-greekLit/data/tlg0026/tlg002/tlg0026.tlg002.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Against Ctesiphon": {
+  "file": "canonical-greekLit/data/tlg0026/tlg003/tlg0026.tlg003.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "On the Peace with Sparta": {
+  "file": "canonical-greekLit/data/tlg0027/tlg003/tlg0027.tlg003.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Prosecution Of The Stepmother For Poisoning": {
+  "file": "canonical-greekLit/data/tlg0028/tlg001/tlg0028.tlg001.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "The First Tetralogy: Anonymous Prosecution for Murder": {
+  "file": "canonical-greekLit/data/tlg0028/tlg002/tlg0028.tlg002.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "The Second Tetralogy: Prosecution for Accidental Homicide": {
+  "file": "canonical-greekLit/data/tlg0028/tlg003/tlg0028.tlg003.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "The Third Tetralogy: Prosecution for Murder Of One Who Pleads That He Was Acting in Self-Defence": {
+  "file": "canonical-greekLit/data/tlg0028/tlg004/tlg0028.tlg004.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "On the Murder of Herodes": {
+  "file": "canonical-greekLit/data/tlg0028/tlg005/tlg0028.tlg005.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "On the Choreutes": {
+  "file": "canonical-greekLit/data/tlg0028/tlg006/tlg0028.tlg006.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Dinarchus: Against Demosthenes": {
+  "file": "canonical-greekLit/data/tlg0029/tlg004/tlg0029.tlg004.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Against Aristogiton": {
+  "file": "canonical-greekLit/data/tlg0029/tlg005/tlg0029.tlg005.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Against Philocles": {
+  "file": "canonical-greekLit/data/tlg0029/tlg006/tlg0029.tlg006.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "In Defence of Lycophron": {
+  "file": "canonical-greekLit/data/tlg0030/tlg001/tlg0030.tlg001.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Against Philippides": {
+  "file": "canonical-greekLit/data/tlg0030/tlg002/tlg0030.tlg002.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Against Athenogenes": {
+  "file": "canonical-greekLit/data/tlg0030/tlg003/tlg0030.tlg003.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "In Defence of Euxenippus": {
+  "file": "canonical-greekLit/data/tlg0030/tlg004/tlg0030.tlg004.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Hyperides: Against Demosthenes": {
+  "file": "canonical-greekLit/data/tlg0030/tlg005/tlg0030.tlg005.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Hyperides: Funeral Oration": {
+  "file": "canonical-greekLit/data/tlg0030/tlg006/tlg0030.tlg006.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Hellenica": {
+  "file": "canonical-greekLit/data/tlg0032/tlg001/tlg0032.tlg001.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Memorabilia": {
+  "file": "canonical-greekLit/data/tlg0032/tlg002/tlg0032.tlg002.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Xenophon: Economics": {
+  "file": "canonical-greekLit/data/tlg0032/tlg003/tlg0032.tlg003.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Xenophon: Symposium": {
+  "file": "canonical-greekLit/data/tlg0032/tlg004/tlg0032.tlg004.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Xenophon: Apology": {
+  "file": "canonical-greekLit/data/tlg0032/tlg005/tlg0032.tlg005.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Anabasis": {
+  "file": "canonical-greekLit/data/tlg0032/tlg006/tlg0032.tlg006.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.992
+ },
+ "Cyropaedia": {
+  "file": "canonical-greekLit/data/tlg0032/tlg007/tlg0032.tlg007.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Hiero": {
+  "file": "canonical-greekLit/data/tlg0032/tlg008/tlg0032.tlg008.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Xenophon: Agesilaus": {
+  "file": "canonical-greekLit/data/tlg0032/tlg009/tlg0032.tlg009.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Constitution of the Lacedaimonians": {
+  "file": "canonical-greekLit/data/tlg0032/tlg010/tlg0032.tlg010.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Ways and Means": {
+  "file": "canonical-greekLit/data/tlg0032/tlg011/tlg0032.tlg011.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Xenophon: On the Cavalry Commander": {
+  "file": "canonical-greekLit/data/tlg0032/tlg012/tlg0032.tlg012.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Xenophon: On the Cavalry Commander II": {
+  "file": "canonical-greekLit/data/tlg0032/tlg013/tlg0032.tlg013.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "On Hunting": {
+  "file": "canonical-greekLit/data/tlg0032/tlg014/tlg0032.tlg014.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Olympian Odes": {
+  "file": "canonical-greekLit/data/tlg0033/tlg001/tlg0033.tlg001.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Pythian Odes": {
+  "file": "canonical-greekLit/data/tlg0033/tlg002/tlg0033.tlg002.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Nemean Odes": {
+  "file": "canonical-greekLit/data/tlg0033/tlg003/tlg0033.tlg003.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Isthmean Odes": {
+  "file": "canonical-greekLit/data/tlg0033/tlg004/tlg0033.tlg004.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "On the Natural Faculties": {
+  "file": "canonical-greekLit/data/tlg0057/tlg010/tlg0057.tlg010.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.954
+ },
+ "Phalaris": {
+  "file": "canonical-greekLit/data/tlg0062/tlg001/tlg0062.tlg001.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Hippias, or the Bath": {
+  "file": "canonical-greekLit/data/tlg0062/tlg002/tlg0062.tlg002.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Dionysus: an Introduction": {
+  "file": "canonical-greekLit/data/tlg0062/tlg003/tlg0062.tlg003.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Heracles: an Introduction": {
+  "file": "canonical-greekLit/data/tlg0062/tlg004/tlg0062.tlg004.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Amber, or the Swan": {
+  "file": "canonical-greekLit/data/tlg0062/tlg005/tlg0062.tlg005.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "The Fly": {
+  "file": "canonical-greekLit/data/tlg0062/tlg006/tlg0062.tlg006.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Nigrinus": {
+  "file": "canonical-greekLit/data/tlg0062/tlg007/tlg0062.tlg007.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Demonax": {
+  "file": "canonical-greekLit/data/tlg0062/tlg008/tlg0062.tlg008.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "The Hall": {
+  "file": "canonical-greekLit/data/tlg0062/tlg009/tlg0062.tlg009.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "My Native Land": {
+  "file": "canonical-greekLit/data/tlg0062/tlg010/tlg0062.tlg010.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Octogenerians": {
+  "file": "canonical-greekLit/data/tlg0062/tlg011/tlg0062.tlg011.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "A True Story": {
+  "file": "canonical-greekLit/data/tlg0062/tlg012/tlg0062.tlg012.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Slander: on not Being Quick to Put Faith in it": {
+  "file": "canonical-greekLit/data/tlg0062/tlg013/tlg0062.tlg013.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "The Consonants at Law Sigma Vs. Tau": {
+  "file": "canonical-greekLit/data/tlg0062/tlg014/tlg0062.tlg014.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "The Carousal, or the Lapiths": {
+  "file": "canonical-greekLit/data/tlg0062/tlg015/tlg0062.tlg015.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "The Downward Journey, or the Tyrant": {
+  "file": "canonical-greekLit/data/tlg0062/tlg016/tlg0062.tlg016.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Zeus Catechized": {
+  "file": "canonical-greekLit/data/tlg0062/tlg017/tlg0062.tlg017.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Zeus Rants": {
+  "file": "canonical-greekLit/data/tlg0062/tlg018/tlg0062.tlg018.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "The Dream, or the Cock": {
+  "file": "canonical-greekLit/data/tlg0062/tlg019/tlg0062.tlg019.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Prometheus": {
+  "file": "canonical-greekLit/data/tlg0062/tlg020/tlg0062.tlg020.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Icaromenippus, or the Sky-man": {
+  "file": "canonical-greekLit/data/tlg0062/tlg021/tlg0062.tlg021.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Timon, or the Misanthrope": {
+  "file": "canonical-greekLit/data/tlg0062/tlg022/tlg0062.tlg022.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Charon, or the Inspectors": {
+  "file": "canonical-greekLit/data/tlg0062/tlg023/tlg0062.tlg023.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Philosophies for Sale": {
+  "file": "canonical-greekLit/data/tlg0062/tlg024/tlg0062.tlg024.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "The Dead Come to Life, or the Fisherman": {
+  "file": "canonical-greekLit/data/tlg0062/tlg025/tlg0062.tlg025.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "The Double Indictment": {
+  "file": "canonical-greekLit/data/tlg0062/tlg026/tlg0062.tlg026.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.895
+ },
+ "On Sacrifices": {
+  "file": "canonical-greekLit/data/tlg0062/tlg027/tlg0062.tlg027.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "The Ignorant Book Collector": {
+  "file": "canonical-greekLit/data/tlg0062/tlg028/tlg0062.tlg028.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "The Dream or Lucian’s Career": {
+  "file": "canonical-greekLit/data/tlg0062/tlg029/tlg0062.tlg029.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "The Parasite Tychiades": {
+  "file": "canonical-greekLit/data/tlg0062/tlg030/tlg0062.tlg030.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "The Lover of Lies, or the Doubter Tychiades": {
+  "file": "canonical-greekLit/data/tlg0062/tlg031/tlg0062.tlg031.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "The Judgement of the Goddesses": {
+  "file": "canonical-greekLit/data/tlg0062/tlg032/tlg0062.tlg032.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "On Salaried Posts in Great Houses": {
+  "file": "canonical-greekLit/data/tlg0062/tlg033/tlg0062.tlg033.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.932
+ },
+ "Anacharsis, or Athletics": {
+  "file": "canonical-greekLit/data/tlg0062/tlg034/tlg0062.tlg034.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Menippus, or the Descent Into Hades": {
+  "file": "canonical-greekLit/data/tlg0062/tlg035/tlg0062.tlg035.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "On Funerals": {
+  "file": "canonical-greekLit/data/tlg0062/tlg036/tlg0062.tlg036.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "A Professor of Public Speaking": {
+  "file": "canonical-greekLit/data/tlg0062/tlg037/tlg0062.tlg037.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Alexander the False Prophet": {
+  "file": "canonical-greekLit/data/tlg0062/tlg038/tlg0062.tlg038.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Essays in Portraiture": {
+  "file": "canonical-greekLit/data/tlg0062/tlg039/tlg0062.tlg039.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Essays in Portraiture Defended": {
+  "file": "canonical-greekLit/data/tlg0062/tlg040/tlg0062.tlg040.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "The Goddesse of Surrye": {
+  "file": "canonical-greekLit/data/tlg0062/tlg041/tlg0062.tlg041.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "The Passing of Peregrinus": {
+  "file": "canonical-greekLit/data/tlg0062/tlg042/tlg0062.tlg042.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "The Runaways": {
+  "file": "canonical-greekLit/data/tlg0062/tlg043/tlg0062.tlg043.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Toxaris, or Friendship": {
+  "file": "canonical-greekLit/data/tlg0062/tlg044/tlg0062.tlg044.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "The Dance": {
+  "file": "canonical-greekLit/data/tlg0062/tlg045/tlg0062.tlg045.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Lexiphanes": {
+  "file": "canonical-greekLit/data/tlg0062/tlg046/tlg0062.tlg046.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "The Eunuch": {
+  "file": "canonical-greekLit/data/tlg0062/tlg047/tlg0062.tlg047.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Astrology": {
+  "file": "canonical-greekLit/data/tlg0062/tlg048/tlg0062.tlg048.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "The Mistaken Critic, or a Discourse on the Word": {
+  "file": "canonical-greekLit/data/tlg0062/tlg049/tlg0062.tlg049.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "The Parliament of the Gods": {
+  "file": "canonical-greekLit/data/tlg0062/tlg050/tlg0062.tlg050.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "The Tyrannicide": {
+  "file": "canonical-greekLit/data/tlg0062/tlg051/tlg0062.tlg051.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Disowned": {
+  "file": "canonical-greekLit/data/tlg0062/tlg052/tlg0062.tlg052.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "How to write history": {
+  "file": "canonical-greekLit/data/tlg0062/tlg053/tlg0062.tlg053.perseus-grc3.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "The Dipsads": {
+  "file": "canonical-greekLit/data/tlg0062/tlg054/tlg0062.tlg054.perseus-grc3.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "A Conversation with Cronus": {
+  "file": "canonical-greekLit/data/tlg0062/tlg055/tlg0062.tlg055.perseus-grc3.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Herodotus or Aëtion": {
+  "file": "canonical-greekLit/data/tlg0062/tlg056/tlg0062.tlg056.perseus-grc3.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Zeuxis or Antiochus": {
+  "file": "canonical-greekLit/data/tlg0062/tlg057/tlg0062.tlg057.perseus-grc3.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "A Slip of the Tongue in Greeting": {
+  "file": "canonical-greekLit/data/tlg0062/tlg058/tlg0062.tlg058.perseus-grc3.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Lucian: Harmonides": {
+  "file": "canonical-greekLit/data/tlg0062/tlg059/tlg0062.tlg059.perseus-grc3.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Lucian: Harmonides II": {
+  "file": "canonical-greekLit/data/tlg0062/tlg060/tlg0062.tlg060.perseus-grc3.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "A conversation with Hesiod": {
+  "file": "canonical-greekLit/data/tlg0062/tlg061/tlg0062.tlg061.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Lucian: The Scythian or Consul": {
+  "file": "canonical-greekLit/data/tlg0062/tlg062/tlg0062.tlg062.perseus-grc3.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Lucian: The Scythian or Consul II": {
+  "file": "canonical-greekLit/data/tlg0062/tlg063/tlg0062.tlg063.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "To one who said \"You're a Prometheus in words.\"": {
+  "file": "canonical-greekLit/data/tlg0062/tlg064/tlg0062.tlg064.perseus-grc3.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "The ship or the wishes": {
+  "file": "canonical-greekLit/data/tlg0062/tlg065/tlg0062.tlg065.perseus-grc3.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Lucian: Dialogues of the Gods": {
+  "file": "canonical-greekLit/data/tlg0062/tlg067/tlg0062.tlg067.perseus-grc3.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Dialogues of the Courtesans": {
+  "file": "canonical-greekLit/data/tlg0062/tlg069/tlg0062.tlg069.perseus-grc3.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "The Purist Purized": {
+  "file": "canonical-greekLit/data/tlg0062/tlg070/tlg0062.tlg070.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Persians": {
+  "file": "canonical-greekLit/data/tlg0085/tlg002/tlg0085.tlg002.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Prometheus Bound": {
+  "file": "canonical-greekLit/data/tlg0085/tlg003/tlg0085.tlg003.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Seven Against Thebes": {
+  "file": "canonical-greekLit/data/tlg0085/tlg004/tlg0085.tlg004.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Agamemnon": {
+  "file": "canonical-greekLit/data/tlg0085/tlg005/tlg0085.tlg005.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.979
+ },
+ "Libation Bearers": {
+  "file": "canonical-greekLit/data/tlg0085/tlg006/tlg0085.tlg006.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Eumenides": {
+  "file": "canonical-greekLit/data/tlg0085/tlg007/tlg0085.tlg007.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Poetics": {
+  "file": "canonical-greekLit/data/tlg0086/tlg034/tlg0086.tlg034.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Concerning music": {
+  "file": "canonical-greekLit/data/tlg0094/tlg002/tlg0094.tlg002.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.977
+ },
+ "Epinicians": {
+  "file": "canonical-greekLit/data/tlg0199/tlg001/tlg0199.tlg001.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.996
+ },
+ "Dithyrambs": {
+  "file": "canonical-greekLit/data/tlg0199/tlg002/tlg0199.tlg002.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Description of Greece": {
+  "file": "canonical-greekLit/data/tlg0525/tlg001/tlg0525.tlg001.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "On the Twelve Years": {
+  "file": "canonical-greekLit/data/tlg0535/tlg001/tlg0535.tlg001.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "On the Murder of Eratosthenes": {
+  "file": "canonical-greekLit/data/tlg0540/tlg001/tlg0540.tlg001.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Lysias: Funeral Oration": {
+  "file": "canonical-greekLit/data/tlg0540/tlg002/tlg0540.tlg002.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Against Simon": {
+  "file": "canonical-greekLit/data/tlg0540/tlg003/tlg0540.tlg003.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "On A Wound By Premeditation": {
+  "file": "canonical-greekLit/data/tlg0540/tlg004/tlg0540.tlg004.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.95
+ },
+ "For Callias": {
+  "file": "canonical-greekLit/data/tlg0540/tlg005/tlg0540.tlg005.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Against Andocides": {
+  "file": "canonical-greekLit/data/tlg0540/tlg006/tlg0540.tlg006.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "On the Olive Stump": {
+  "file": "canonical-greekLit/data/tlg0540/tlg007/tlg0540.tlg007.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Accusation of Calumny": {
+  "file": "canonical-greekLit/data/tlg0540/tlg008/tlg0540.tlg008.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "For The Soldier": {
+  "file": "canonical-greekLit/data/tlg0540/tlg009/tlg0540.tlg009.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Against Theomnestus I": {
+  "file": "canonical-greekLit/data/tlg0540/tlg010/tlg0540.tlg010.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Against Theomnestus II": {
+  "file": "canonical-greekLit/data/tlg0540/tlg011/tlg0540.tlg011.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Against Eratosthenes": {
+  "file": "canonical-greekLit/data/tlg0540/tlg012/tlg0540.tlg012.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Against Agoratus": {
+  "file": "canonical-greekLit/data/tlg0540/tlg013/tlg0540.tlg013.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Against Alcibiades I": {
+  "file": "canonical-greekLit/data/tlg0540/tlg014/tlg0540.tlg014.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Against Alcibiades II": {
+  "file": "canonical-greekLit/data/tlg0540/tlg015/tlg0540.tlg015.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "In Defense of Mantitheus": {
+  "file": "canonical-greekLit/data/tlg0540/tlg016/tlg0540.tlg016.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "On The Property Of Eraton": {
+  "file": "canonical-greekLit/data/tlg0540/tlg017/tlg0540.tlg017.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "On the Confiscation of the Property Of The Brother Of Nicias": {
+  "file": "canonical-greekLit/data/tlg0540/tlg018/tlg0540.tlg018.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.963
+ },
+ "On the Property of Aristophanes": {
+  "file": "canonical-greekLit/data/tlg0540/tlg019/tlg0540.tlg019.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "For Polystratus": {
+  "file": "canonical-greekLit/data/tlg0540/tlg020/tlg0540.tlg020.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Defense Against A Charge Of Taking Bribes": {
+  "file": "canonical-greekLit/data/tlg0540/tlg021/tlg0540.tlg021.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Against The Corn-Dealers": {
+  "file": "canonical-greekLit/data/tlg0540/tlg022/tlg0540.tlg022.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Against Pancleon": {
+  "file": "canonical-greekLit/data/tlg0540/tlg023/tlg0540.tlg023.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "On The Refusal Of A Pension": {
+  "file": "canonical-greekLit/data/tlg0540/tlg024/tlg0540.tlg024.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Defense Against a Charge of Subverting the Democracy": {
+  "file": "canonical-greekLit/data/tlg0540/tlg025/tlg0540.tlg025.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "On the Scrutiny of Evandros": {
+  "file": "canonical-greekLit/data/tlg0540/tlg026/tlg0540.tlg026.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Against Epicrates and his Fellow-envoys": {
+  "file": "canonical-greekLit/data/tlg0540/tlg027/tlg0540.tlg027.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Against Ergocles": {
+  "file": "canonical-greekLit/data/tlg0540/tlg028/tlg0540.tlg028.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Against Philocrates": {
+  "file": "canonical-greekLit/data/tlg0540/tlg029/tlg0540.tlg029.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Against Nicomachus": {
+  "file": "canonical-greekLit/data/tlg0540/tlg030/tlg0540.tlg030.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Against Philon": {
+  "file": "canonical-greekLit/data/tlg0540/tlg031/tlg0540.tlg031.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.971
+ },
+ "Against Diogeiton": {
+  "file": "canonical-greekLit/data/tlg0540/tlg032/tlg0540.tlg032.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Olympic Oration": {
+  "file": "canonical-greekLit/data/tlg0540/tlg033/tlg0540.tlg033.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Against The Subversion of the Ancestral Constitution": {
+  "file": "canonical-greekLit/data/tlg0540/tlg034/tlg0540.tlg034.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Library": {
+  "file": "canonical-greekLit/data/tlg0548/tlg001/tlg0548.tlg001.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.995
+ },
+ "Epitome": {
+  "file": "canonical-greekLit/data/tlg0548/tlg002/tlg0548.tlg002.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Concerning the Kings": {
+  "file": "canonical-greekLit/data/tlg0551/tlg002/tlg0551.tlg002.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Concerning Italy": {
+  "file": "canonical-greekLit/data/tlg0551/tlg003/tlg0551.tlg003.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "The Samnite History": {
+  "file": "canonical-greekLit/data/tlg0551/tlg004/tlg0551.tlg004.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "The Gallic History": {
+  "file": "canonical-greekLit/data/tlg0551/tlg005/tlg0551.tlg005.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "The Wars in Spain": {
+  "file": "canonical-greekLit/data/tlg0551/tlg007/tlg0551.tlg007.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "The Hannibalic War": {
+  "file": "canonical-greekLit/data/tlg0551/tlg008/tlg0551.tlg008.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.953
+ },
+ "The Punic Wars": {
+  "file": "canonical-greekLit/data/tlg0551/tlg009/tlg0551.tlg009.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.965
+ },
+ "Numidian Affairs": {
+  "file": "canonical-greekLit/data/tlg0551/tlg010/tlg0551.tlg010.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Macedonian Affairs": {
+  "file": "canonical-greekLit/data/tlg0551/tlg011/tlg0551.tlg011.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "The Illyrian Wars": {
+  "file": "canonical-greekLit/data/tlg0551/tlg012/tlg0551.tlg012.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "The Syrian Wars": {
+  "file": "canonical-greekLit/data/tlg0551/tlg013/tlg0551.tlg013.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "The Mithridatic Wars": {
+  "file": "canonical-greekLit/data/tlg0551/tlg014/tlg0551.tlg014.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "The Civil Wars": {
+  "file": "canonical-greekLit/data/tlg0551/tlg017/tlg0551.tlg017.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.972
+ },
+ "Ancient Medicine": {
+  "file": "canonical-greekLit/data/tlg0627/tlg001/tlg0627.tlg001.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.958
+ },
+ "Airs": {
+  "file": "canonical-greekLit/data/tlg0627/tlg002/tlg0627.tlg002.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Of the Prognostics": {
+  "file": "canonical-greekLit/data/tlg0627/tlg003/tlg0627.tlg003.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.96
+ },
+ "On Injuries of the Head": {
+  "file": "canonical-greekLit/data/tlg0627/tlg007/tlg0627.tlg007.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.952
+ },
+ "On the Surgery": {
+  "file": "canonical-greekLit/data/tlg0627/tlg008/tlg0627.tlg008.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "On Fractures": {
+  "file": "canonical-greekLit/data/tlg0627/tlg009/tlg0627.tlg009.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.896
+ },
+ "On the Articulations": {
+  "file": "canonical-greekLit/data/tlg0627/tlg010/tlg0627.tlg010.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.943
+ },
+ "Mochlicus": {
+  "file": "canonical-greekLit/data/tlg0627/tlg011/tlg0627.tlg011.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.929
+ },
+ "Aphorisms": {
+  "file": "canonical-greekLit/data/tlg0627/tlg012/tlg0627.tlg012.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.832
+ },
+ "Nutriment": {
+  "file": "canonical-greekLit/data/tlg0627/tlg046/tlg0627.tlg046.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "Precepts": {
+  "file": "canonical-greekLit/data/tlg0627/tlg051/tlg0627.tlg051.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 1.0
+ },
+ "On the Causes and Symptoms of Acute Diseases": {
+  "file": "canonical-greekLit/data/tlg0719/tlg001/tlg0719.tlg001.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.868
+ },
+ "On the Causes and Symptoms of Chronic Diseases": {
+  "file": "canonical-greekLit/data/tlg0719/tlg002/tlg0719.tlg002.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.823
+ },
+ "On the Cure of Chronic Diseases": {
+  "file": "canonical-greekLit/data/tlg0719/tlg004/tlg0719.tlg004.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.947
+ },
+ "Amphitryon, or Jupiter in Disguise": {
+  "file": "canonical-latinLit/data/phi0119/phi001/phi0119.phi001.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 0.998
+ },
+ "Asinaria, or The Ass-Dealer": {
+  "file": "canonical-latinLit/data/phi0119/phi002/phi0119.phi002.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 0.998
+ },
+ "Aulularia, or The Concealed Treasure": {
+  "file": "canonical-latinLit/data/phi0119/phi003/phi0119.phi003.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 0.985
+ },
+ "Bacchides, or The Twin Sisters": {
+  "file": "canonical-latinLit/data/phi0119/phi004/phi0119.phi004.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 0.889
+ },
+ "Captivi: The Captives": {
+  "file": "canonical-latinLit/data/phi0119/phi005/phi0119.phi005.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 0.994
+ },
+ "Casina, or The Stratagem Defeated": {
+  "file": "canonical-latinLit/data/phi0119/phi006/phi0119.phi006.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 1.0
+ },
+ "Cistellaria, or The Casket": {
+  "file": "canonical-latinLit/data/phi0119/phi007/phi0119.phi007.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 0.984
+ },
+ "Curculio, or The Forgery": {
+  "file": "canonical-latinLit/data/phi0119/phi008/phi0119.phi008.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 1.0
+ },
+ "Epidicus, or The Fortunate Discovery": {
+  "file": "canonical-latinLit/data/phi0119/phi009/phi0119.phi009.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 0.998
+ },
+ "Menaechmi, or The Twin Brothers": {
+  "file": "canonical-latinLit/data/phi0119/phi010/phi0119.phi010.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 0.994
+ },
+ "Mercator, or The Merchant": {
+  "file": "canonical-latinLit/data/phi0119/phi011/phi0119.phi011.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 0.985
+ },
+ "Mostellaria, or The Haunted House": {
+  "file": "canonical-latinLit/data/phi0119/phi013/phi0119.phi013.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 0.996
+ },
+ "Persa, or The Persian": {
+  "file": "canonical-latinLit/data/phi0119/phi014/phi0119.phi014.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 0.998
+ },
+ "Poenulus, or The Young Carthaginian": {
+  "file": "canonical-latinLit/data/phi0119/phi015/phi0119.phi015.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 0.987
+ },
+ "Pseudolus, or The Cheat": {
+  "file": "canonical-latinLit/data/phi0119/phi016/phi0119.phi016.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 0.994
+ },
+ "Rudens, or The Fisherman's Rope": {
+  "file": "canonical-latinLit/data/phi0119/phi017/phi0119.phi017.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 0.999
+ },
+ "Stichus, or The Parasite Rebuffed": {
+  "file": "canonical-latinLit/data/phi0119/phi018/phi0119.phi018.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 0.99
+ },
+ "Trinummus: The Three Pieces of Money": {
+  "file": "canonical-latinLit/data/phi0119/phi019/phi0119.phi019.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 0.998
+ },
+ "Truculentus, or The Churl": {
+  "file": "canonical-latinLit/data/phi0119/phi020/phi0119.phi020.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 0.998
+ },
+ "Andria": {
+  "file": "canonical-latinLit/data/phi0134/phi001/phi0134.phi001.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 0.996
+ },
+ "Heautontimorumenos": {
+  "file": "canonical-latinLit/data/phi0134/phi002/phi0134.phi002.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 1.0
+ },
+ "Eunuchus": {
+  "file": "canonical-latinLit/data/phi0134/phi003/phi0134.phi003.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 0.998
+ },
+ "Phormio": {
+  "file": "canonical-latinLit/data/phi0134/phi004/phi0134.phi004.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 0.998
+ },
+ "Hecyra": {
+  "file": "canonical-latinLit/data/phi0134/phi005/phi0134.phi005.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 1.0
+ },
+ "Adelphi": {
+  "file": "canonical-latinLit/data/phi0134/phi006/phi0134.phi006.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 0.987
+ },
+ "The African War": {
+  "file": "canonical-latinLit/data/phi0426/phi001/phi0426.phi001.perseus-lat1.xml",
+  "lang": "lat",
+  "match": 1.0
+ },
+ "The Alexandrian War": {
+  "file": "canonical-latinLit/data/phi0428/phi001/phi0428.phi001.perseus-lat1.xml",
+  "lang": "lat",
+  "match": 1.0
+ },
+ "For Publius Quinctius": {
+  "file": "canonical-latinLit/data/phi0474/phi001/phi0474.phi001.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 1.0
+ },
+ "For Sextus Roscius of Ameria": {
+  "file": "canonical-latinLit/data/phi0474/phi002/phi0474.phi002.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 1.0
+ },
+ "For Quintus Roscius the Actor": {
+  "file": "canonical-latinLit/data/phi0474/phi003/phi0474.phi003.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 1.0
+ },
+ "Divinatio against Q. Caecilius": {
+  "file": "canonical-latinLit/data/phi0474/phi004/phi0474.phi004.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 1.0
+ },
+ "Against Verres": {
+  "file": "canonical-latinLit/data/phi0474/phi005/phi0474.phi005.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 1.0
+ },
+ "For M. Tullius": {
+  "file": "canonical-latinLit/data/phi0474/phi006/phi0474.phi006.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 0.982
+ },
+ "For M. Fonteius": {
+  "file": "canonical-latinLit/data/phi0474/phi007/phi0474.phi007.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 1.0
+ },
+ "For Aulus Caecina": {
+  "file": "canonical-latinLit/data/phi0474/phi008/phi0474.phi008.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 1.0
+ },
+ "In Defense of the Proposed Manilian Law": {
+  "file": "canonical-latinLit/data/phi0474/phi009/phi0474.phi009.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 1.0
+ },
+ "For A. Cluentius": {
+  "file": "canonical-latinLit/data/phi0474/phi010/phi0474.phi010.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 1.0
+ },
+ "On the Agrarian Law": {
+  "file": "canonical-latinLit/data/phi0474/phi011/phi0474.phi011.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 0.993
+ },
+ "For C. Rabirius": {
+  "file": "canonical-latinLit/data/phi0474/phi012/phi0474.phi012.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 1.0
+ },
+ "Against L. Catiline": {
+  "file": "canonical-latinLit/data/phi0474/phi013/phi0474.phi013.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 1.0
+ },
+ "For L. Murena": {
+  "file": "canonical-latinLit/data/phi0474/phi014/phi0474.phi014.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 1.0
+ },
+ "For P. Sulla": {
+  "file": "canonical-latinLit/data/phi0474/phi015/phi0474.phi015.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 1.0
+ },
+ "For A.L. Archias": {
+  "file": "canonical-latinLit/data/phi0474/phi016/phi0474.phi016.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 1.0
+ },
+ "For L. Flaccus": {
+  "file": "canonical-latinLit/data/phi0474/phi017/phi0474.phi017.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 1.0
+ },
+ "Second Oration After Cicero's Return: Addressed to the People": {
+  "file": "canonical-latinLit/data/phi0474/phi018/phi0474.phi018.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 1.0
+ },
+ "In the Senate after his Return": {
+  "file": "canonical-latinLit/data/phi0474/phi019/phi0474.phi019.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 1.0
+ },
+ "Laelius on Friendship": {
+  "file": "canonical-latinLit/data/phi0474/phi052/phi0474.phi052.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 0.99
+ },
+ "De Divinatione": {
+  "file": "canonical-latinLit/data/phi0474/phi053/phi0474.phi053.perseus-lat1.xml",
+  "lang": "lat",
+  "match": 1.0
+ },
+ "De Officiis": {
+  "file": "canonical-latinLit/data/phi0474/phi055/phi0474.phi055.perseus-lat1.xml",
+  "lang": "lat",
+  "match": 0.996
+ },
+ "Six Poems": {
+  "file": "canonical-latinLit/data/phi0660/phi003/phi0660.phi003.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 1.0
+ },
+ "Georgics": {
+  "file": "canonical-latinLit/data/phi0690/phi002/phi0690.phi002.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 1.0
+ },
+ "Odes": {
+  "file": "canonical-latinLit/data/phi0893/phi001/phi0893.phi001.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 1.0
+ },
+ "Epistles": {
+  "file": "canonical-latinLit/data/phi0959/phi002/phi0959.phi002.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 1.0
+ },
+ "The Art of Beauty": {
+  "file": "canonical-latinLit/data/phi0959/phi003/phi0959.phi003.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 1.0
+ },
+ "Remedy of Love": {
+  "file": "canonical-latinLit/data/phi0959/phi005/phi0959.phi005.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 0.891
+ },
+ "Institutio Oratoria": {
+  "file": "canonical-latinLit/data/phi1002/phi001/phi1002.phi001.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 0.986
+ },
+ "On Architecture": {
+  "file": "canonical-latinLit/data/phi1056/phi001/phi1056.phi001.perseus-lat1.xml",
+  "lang": "lat",
+  "match": 0.993
+ },
+ "Julius Caesar": {
+  "file": "canonical-latinLit/data/phi1348/abo011/phi1348.abo011.rolfe-lat1.xml",
+  "lang": "lat",
+  "match": 0.958
+ },
+ "The History": {
+  "file": "canonical-latinLit/data/phi1351/phi004/phi1351.phi004.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 0.995
+ },
+ "History": {
+  "file": "canonical-latinLit/data/stoa0023/stoa001/stoa0023.stoa001.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 1.0
+ }
+}

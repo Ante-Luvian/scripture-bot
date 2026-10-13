@@ -22,7 +22,6 @@ one level is chapter 1 ("On the Murder of Eratosthenes 1:4" is section 4).
 Verse translations keyed by line number begin at that line. Notes are left
 out.
 """
-import html
 import json
 import re
 import sys
@@ -30,6 +29,9 @@ import xml.etree.ElementTree as ET
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT))
+from perseus_tei import passages, to_book  # noqa: E402
+
 OUT = ROOT / "data" / "classical" / "perseus"
 REPOS = ("canonical-greekLit", "canonical-latinLit")
 CTS = "{http://chs.harvard.edu/xmlns/cts}"
@@ -42,11 +44,6 @@ SKIP_GROUPS = {"New Testament", "Old Testament", "Homeric Hymns", "Flavius Josep
 SKIP_WORKS = {("Plato", "Alcibiades 1"), ("Plato", "Alcibiades 2"), ("Plato", "Lovers"), ("Epictetus", "The Handbook")}
 SKIP_LABELS = {"The Martydom of St. Polycarp",      # the Martyrdom of Polycarp is with the Apostolic Fathers
                'The "Art" of Rhetoric'}             # Aristotle's Rhetoric is in aristotle_perseus.json
-SKIP_BOOK_TITLES = {"Epigrams"}        # Homer's (left by SKIP_GROUPS); placeholder
-
-
-def local(tag) -> str:
-    return tag.rsplit("}", 1)[-1] if isinstance(tag, str) else ""
 
 
 def text_of(el, tag) -> str:
@@ -67,10 +64,16 @@ def short_author(name: str) -> str:
 
 
 def translator_of(description: str) -> str:
-    """'... Perrin, Bernadotte, translator. Cambridge...' -> 'Bernadotte Perrin'."""
-    m = re.search(r"([A-Z][\w'\-]+(?: [A-Z][\w'\-]+)?),\s*([A-Z][\w.\- ]+?)(?:\s+and\s+[^,]+)?,\s*(?:translator|editor)",
-                  description)
-    return f"{m.group(2).strip()} {m.group(1)}".strip() if m else ""
+    """'... Perrin, Bernadotte, translator.' -> 'Bernadotte Perrin'; also 'Frazer, James George, Sir, editor',
+    'Shuckburgh, Evelyn S, 1843-1906, editor, translator', 'Watson, J. S. (John Selby), translator',
+    'translated by W.R.M. Lamb'."""
+    m = re.search(r"([A-Z][\w'\-]+(?: [A-Z][\w'\-]+)?),\s*(Sir\s+)?([A-Z][\w.\- ]*?)\s*(?:\([^)]*\))?"
+                  r"(,\s*Sir)?(?:,\s*[\d\-]+)?(?:\s+and\s+[^,]+)?,\s*(?:editor,\s*)?(?:translator|editor)", description)
+    if m:
+        sir = "Sir " if (m.group(2) or m.group(4)) else ""
+        return f"{sir}{m.group(3).strip()} {m.group(1)}".strip()
+    m = re.search(r"translated by ((?:[A-Z]\.\s?)*[A-Z][a-z'\-]+(?: [A-Z][a-z'\-]+)*)", description)
+    return m.group(1).strip() if m else ""
 
 
 # ── which works, which translation ──────────────────────────────────────────
@@ -99,190 +102,18 @@ def catalogue() -> list:
                     _, _, path, label, description = sorted(options)[0]
                     if label in SKIP_LABELS:
                         continue
+                    # the original: Perseus's Greek or Latin edition, the fullest if several
+                    # (some catalogue entries give no language: "phi0448.phi001.perseus-lat2" says it)
+                    originals = sorted((-p.stat().st_size, p) for e in root.iter(CTS + "edition")
+                                       if e.get(XML_LANG) in ("grc", "lat")
+                                       or (not e.get(XML_LANG) and re.search(r"-(lat|grc)\d+$", e.get("urn", "")))
+                                       for p in [work_meta.parent / (e.get("urn", "").split(":")[-1] + ".xml")]
+                                       if p.exists())
                     works.append({"group": group_meta.parent.name, "author": author, "title": title,
-                                  "label": label or title, "translator": translator_of(description), "path": path})
+                                  "label": label or title, "translator": translator_of(description), "path": path,
+                                  "original": originals[0][1] if originals else None,
+                                  "lang": "lat" if repo.endswith("latinLit") else "grc"})
     return works
-
-
-# ── TEI to passages ─────────────────────────────────────────────────────────
-
-_XML_ENTITIES = {"amp", "lt", "gt", "quot", "apos"}
-
-
-def load_tei(path: Path) -> ET.Element:
-    raw = path.read_text(encoding="utf-8", errors="replace")
-    raw = re.sub(r"<!DOCTYPE[^>\[]*(\[.*?\])?\s*>", "", raw, flags=re.S)
-    raw = re.sub(r"&(\w+);", lambda m: m.group(0) if m.group(1) in _XML_ENTITIES
-                 else html.unescape(m.group(0)) if html.unescape(m.group(0)) != m.group(0) else "", raw)
-    return ET.fromstring(raw)
-
-
-# (in <choice>, the editors' regularised form -- "Bodrum [27.466,37.5] (inhabited place)" for the
-# translator's "Halicarnassus" -- and an uncorrected <sic> go; <orig> and <corr> stay)
-_DROP = {"note", "bibl", "ref", "figure", "gap", "del", "teiHeader", "reg", "sic"}
-
-
-def drop(el: ET.Element) -> None:
-    """Remove notes and the like, keeping the text that follows them."""
-    for child in list(el):
-        if local(child.tag) in _DROP:
-            tail = child.tail or ""
-            idx = list(el).index(child)
-            if idx:
-                prev = el[idx - 1]
-                prev.tail = (prev.tail or "") + tail
-            else:
-                el.text = (el.text or "") + tail
-            el.remove(child)
-        else:
-            drop(child)
-
-
-def citable(el) -> bool:
-    tag = local(el.tag)
-    return el.get("n") is not None and (
-        (tag == "div" and el.get("type") in ("textpart", None) and el.get("subtype") != "edition")
-        or re.fullmatch(r"div[1-7]", tag) is not None)
-
-
-def has_citable(el) -> bool:
-    return any(citable(d) for d in el.iter() if d is not el)
-
-
-def events(el):
-    """("text", s) / ("mark", unit, n) / ("break",) through an element, in order."""
-    tag = local(el.tag)
-    if tag == "milestone" and el.get("n") is not None:
-        yield ("mark", (el.get("unit") or "").lower(), el.get("n"))
-    elif tag == "l" and el.get("n") is not None:
-        yield ("mark", "l", el.get("n"))
-    elif tag in ("head",):
-        yield ("text", "")
-    # (the file's own line breaks are just spacing; real breaks come from the structure)
-    if el.text and tag not in ("head",):
-        yield ("text", el.text.replace("\n", " "))
-    for child in el:
-        yield from events(child)
-        if child.tail:
-            yield ("text", child.tail.replace("\n", " "))
-    if tag == "lb":
-        yield ("break",)
-    if tag in ("l", "p", "lg", "sp", "speaker", "div", "quote") or re.fullmatch(r"div\d", tag):
-        yield ("break",)
-
-
-def tidy(s: str) -> str:
-    lines = [re.sub(r"[ \t\r\f\v]+", " ", l).strip() for l in s.split("\n")]
-    out = "\n".join(l for l in lines if l)
-    return re.sub(r" ([,.;:!?])", r"\1", out).strip()
-
-
-def split_leaf(el, unit: str) -> list:
-    """[(marker n or None, text)] for one cited division, cut at its markers."""
-    # (a marker without a number -- Lucan's translator marks every line "tr" -- is no place to cut)
-    evs = [e for e in events(el) if not (e[0] == "mark" and not re.match(r"\d", e[2]))]
-    marks = [e for e in evs if e[0] == "mark"]
-    units = [m[1] for m in marks]
-    # the declared unit's markers, or for verse its numbered lines -- whichever there are
-    # more of (The Phoenician Maidens has one stray line milestone among 600 numbered lines)
-    candidates = [u for u in ([unit] if unit else []) + (["l", "line"] if unit in ("line", "l", "verse", "") else [])
-                  if u in units]
-    cut = max(candidates, key=units.count) if candidates else None
-    pieces, key, buf = [], None, []
-    for e in evs:
-        if e[0] == "mark" and e[1] == cut:
-            if "".join(buf).strip() or key is not None:
-                pieces.append((key, "".join(buf)))
-            key, buf = e[2], []
-        elif e[0] == "text":
-            buf.append(e[1])
-        elif e[0] == "break":
-            buf.append("\n")
-    pieces.append((key, "".join(buf)))
-    pieces = [(k, tidy(t)) for k, t in pieces]
-    pieces = [(k, t) for k, t in pieces if t]
-    # text before the first marker (a heading, a speaker) joins the first passage
-    if len(pieces) > 1 and pieces[0][0] is None:
-        pieces[1] = (pieces[1][0], pieces[0][1] + "\n" + pieces[1][1])
-        pieces = pieces[1:]
-    return pieces
-
-
-def passages(path: Path) -> list:
-    """[(citation levels, text)] for a TEI file."""
-    root = load_tei(path)
-    # (the citation levels are declared in the header, which drop() removes)
-    units = [(c.get("n") or "").lower() for c in root.iter() if local(c.tag) == "cRefPattern"][::-1]
-    drop(root)
-    body = next(el for el in root.iter() if local(el.tag) == "body")
-    out = []
-
-    def unit_at(depth):
-        return units[depth] if depth < len(units) else (units[-1] if units else "")
-
-    def walk(el, levels):
-        cited = [c for c in el if citable(c)]
-        if cited:
-            ns = [c.get("n") for c in cited]
-            for i, c in enumerate(cited, 1):
-                unit = (c.get("subtype") or c.get("type") or unit_at(len(levels))).lower()
-                n = c.get("n")
-                # a container named, not numbered ("Tiberius", "Caius"), or numbered twice
-                # (De Officiis's third book is "1"), takes its place among its siblings
-                if (not re.fullmatch(r"\d+", n) or ns.count(n) > 1) and has_citable(c):
-                    n = "0" if re.match(r"intro|pr(o|ae)f|prolog", n, re.I) else str(i)
-                walk(c, levels + [(unit, n)])
-            return
-        unit = unit_at(len(levels))
-        pieces = split_leaf(el, unit)
-        if len(pieces) == 1 and pieces[0][0] is None and len(pieces[0][1]) > 3000:
-            # a long division with no numbered parts (Claudian's poems): a verse per paragraph
-            paras = [p for p in pieces[0][1].split("\n") if p.strip()]
-            pieces = [(str(i), p) for i, p in enumerate(paras, 1)]
-        for n, text in pieces:
-            out.append((levels + ([(unit, n)] if n is not None else []), text))
-
-    start = body
-    # the edition / translation wrapper div is not a citation level
-    while len(start) == 1 and local(start[0].tag) == "div" and start[0].get("type") in ("edition", "translation"):
-        start = start[0]
-    walk(start, [])
-    cleaned = []
-    for levels, text in out:
-        # an editor's introduction ("intro") is not the author's text
-        if any(re.match(r"intro", str(n), re.I) for _, n in levels):
-            continue
-        # a "card" is Perseus's page of verse, not part of the citation: Metamorphoses 1:5, not 1.1:5
-        if len(levels) > 1:
-            levels = [lv for lv in levels[:-1] if lv[0] != "card"] + [levels[-1]]
-        cleaned.append(([n for _, n in levels], text))
-    return cleaned
-
-
-def to_book(items: list) -> dict:
-    """{chapter: {verse: text}}; the last level is the verse, a single level is chapter 1."""
-    book = {}
-    if all(len(levels) == 0 for levels, _ in items):              # no structure at all: a verse per paragraph
-        paras = [p for _, t in items for p in t.split("\n") if p.strip()]
-        return {"1": {str(i): p for i, p in enumerate(paras, 1)}}
-    last = None
-    for levels, text in items:
-        levels = [re.sub(r"\s+", "", str(x)) for x in levels] or ["1"]
-        if levels[0] == "front":                                   # a play's cast list and argument
-            continue
-        # a half-line, part-section or speaker's share ("293b", "12a", "1034_sp2", "159_160") is its number
-        levels = [re.sub(r"^(\d+)(?:[a-z]|[_\-].*)$", r"\1", x) for x in levels]
-        # a named division in the chapter ("pr", "prologue") is 0
-        levels = levels[:-1 if len(levels) > 1 else 0] and \
-            [x if re.fullmatch(r"\d+", x) else "0" for x in levels[:-1]] + [levels[-1]] or levels
-        chapter, verse = (".".join(levels[:-1]), levels[-1]) if len(levels) > 1 else ("1", levels[0])
-        if not re.fullmatch(r"\d+", verse):
-            # an unnumbered piece joins the verse before; a preface before verse 1 is verse 0
-            chapter, verse = last if last and last[0] == chapter else (chapter, "0")
-        verses = book.setdefault(chapter, {})
-        verses[verse] = (verses[verse] + "\n" + text) if verse in verses else text
-        last = (chapter, verse)
-    return book
 
 
 # ── naming and writing ──────────────────────────────────────────────────────
@@ -303,8 +134,48 @@ def book_name(work: dict) -> str:
     return name
 
 
+def coverage(book: dict, original: dict) -> float:
+    """How much of a translation the original lines up with: the share of its
+    passages whose chapter is in the original with a verse from that passage's
+    number up to the next one's (an English play keyed every few lines, the
+    Greek at every line)."""
+    hits = total = 0
+    for chapter, verses in book.items():
+        nums = sorted(int(v) for v in verses)
+        theirs = sorted(int(v) for v in original.get(chapter, {}) if v.isdigit())
+        for i, v in enumerate(nums):
+            total += 1
+            upto = nums[i + 1] if i + 1 < len(nums) else float("inf")
+            hits += any(v <= k < upto for k in theirs)
+    return hits / total if total else 0.0
+
+
+PARALLEL_MIN = 0.8          # below this the two don't line up well enough to show side by side
+
+
+def proportion(book: dict, original: dict) -> "tuple[float, float]":
+    """(share of passages in proportion, median original/English length): numbers can line
+    up while the texts don't -- Golding numbers only his first 113 lines of Metamorphoses 1,
+    so "his" line 113 faces 600 lines of Latin; Claudian's English is numbered by paragraph,
+    his Latin by line. Aligned works keep the original at a steady ~0.6-0.9 of the English."""
+    import statistics
+    ratios = []
+    for chapter, verses in book.items():
+        theirs = original.get(chapter, {})
+        nums = sorted(int(v) for v in verses)
+        keys = sorted((int(k), k) for k in theirs if k.isdigit())
+        for i, v in enumerate(nums):
+            upto = nums[i + 1] if i + 1 < len(nums) else float("inf")
+            text = "".join(theirs[k] for n, k in keys if v <= n < upto)
+            if text:
+                ratios.append(len(text) / max(1, len(verses[str(v)])))
+    if not ratios:
+        return 0.0, 0.0
+    median = statistics.median(ratios)
+    return sum(1 for r in ratios if median / 4 <= r <= median * 4) / len(ratios), median
+
+
 def main(only=None):
-    sys.path.insert(0, str(ROOT))
     works = catalogue()
     if only:
         works = [w for w in works if w["group"] in only]
@@ -322,6 +193,7 @@ def main(only=None):
         names.setdefault(book_name(w).lower(), []).append(w)
     OUT.mkdir(parents=True, exist_ok=True)
     by_group, index, failures, alias_votes = {}, {}, [], {}
+    originals, unmatched = {}, []          # book -> its Greek/Latin original, where the citations line up
     for w in works:
         name = book_name(w)
         author = short_author(w["author"])
@@ -353,6 +225,18 @@ def main(only=None):
         credit = f"{w['author']}, {w['label']}" + (f", trans. {w['translator']}" if w["translator"] else "")
         g["book_sources"][name] = credit + ". Perseus Digital Library (CC-BY-SA)."
         index.setdefault(short_author(w["author"]), []).append(name)
+        if w["original"]:
+            try:
+                original = to_book(passages(w["original"]))
+                match = coverage(book, original)
+                steady, median = proportion(book, original)
+            except Exception:
+                match = steady = median = 0.0
+            if match >= PARALLEL_MIN and steady >= 0.9 and 0.4 <= median <= 2.5:
+                originals[name] = {"file": w["original"].relative_to(ROOT).as_posix(), "lang": w["lang"],
+                                   "match": round(match, 3)}
+            else:
+                unmatched.append((name, round(match, 2)))
         # the catalogue's own title ("Germania", "Annales") and the name without "The" also find it
         for alias in {w["title"].lower(), re.sub(r"^the ", "", name.lower())} - {name.lower()}:
             alias_votes.setdefault(alias, set()).add(name)
@@ -369,8 +253,11 @@ def main(only=None):
         aliases = {a: next(iter(books)) for a, books in sorted(alias_votes.items())
                    if len(books) == 1 and a not in all_names and not re.search(r"\d$", a)}
         (OUT / "aliases.json").write_text(json.dumps(aliases, ensure_ascii=False, indent=1), encoding="utf-8")
+        (OUT / "originals.json").write_text(json.dumps(originals, ensure_ascii=False, indent=1), encoding="utf-8")
     total = sum(len(g["books"]) for g in by_group.values())
-    print(f"wrote {total} works by {len(by_group)} authors to {OUT.relative_to(ROOT)}")
+    print(f"wrote {total} works by {len(by_group)} authors to {OUT.relative_to(ROOT)}; "
+          f"{len(originals)} with their original lined up, {len(unmatched)} without")
+    print("  not lined up:", sorted(unmatched, key=lambda x: -x[1])[:40])
     for f in failures:
         print("  FAILED", *f)
 

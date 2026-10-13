@@ -1756,7 +1756,7 @@ class ScriptureLookup:
             for alias, book in json.loads((perseus / "aliases.json").read_text(encoding="utf-8")).items():
                 ALIASES.setdefault(alias, book)
         for path in sorted(perseus.glob("*.json")):
-            if path.name in ("index.json", "aliases.json"):
+            if path.name in ("index.json", "aliases.json", "originals.json"):
                 continue
             with open(path, encoding="utf-8") as f:
                 payload = json.load(f)
@@ -1789,24 +1789,27 @@ class ScriptureLookup:
 
     # ── Public API ─────────────────────────────────────────────────────────────
 
-    def random_verse(self) -> dict:
-        """Pick a completely random verse from any loaded corpus."""
+    def random_verse(self, rng=None) -> dict:
+        """A random passage from anywhere: a tradition first, each as likely as
+        the next, then a book in it, then a passage in the book -- so the
+        biggest texts (the Guru Granth Sahib's 60,000 lines, Plutarch) don't
+        crowd out the rest, as picking among all passages at once did."""
         import random as _random
-        # Build a flat list of (corpus, book, chapter, verse) tuples
+        rng = rng or _random
         # Skip Mishnah/Talmud/Zohar/Hadith (live API) and Vivec (sermon-length)
         SKIP_BOOKS = {"Vivec"}
-        candidates = []
-        for corpus, books in self._data.items():
-            for book, chapters in books.items():
-                if book in SKIP_BOOKS:
-                    continue
-                for chap, verses in chapters.items():
-                    for verse in verses.keys():
-                        candidates.append((corpus, book, chap, verse))
-        if not candidates:
+        traditions = []
+        for _, corpora in TRADITIONS.values():
+            books = [(c, b) for c in corpora for b, chapters in self._data.get(c, {}).items()
+                     if b not in SKIP_BOOKS and any(chapters.values())]
+            if books:
+                traditions.append(books)
+        if not traditions:
             return {"found": False, "error": "No verse data loaded.", "suggestions": []}
-
-        corpus, book, chap, verse = _random.choice(candidates)
+        corpus, book = rng.choice(rng.choice(traditions))
+        chapters = self._data[corpus][book]
+        chap = rng.choice([c for c, v in chapters.items() if v])
+        verse = rng.choice(list(chapters[chap]))
         text = self._data[corpus][book][chap][verse]
         source = self._book_sources.get(book, book)
         ref = f"{book} {chap}:{verse}"

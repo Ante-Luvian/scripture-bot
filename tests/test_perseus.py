@@ -41,6 +41,20 @@ def test_names(lookup):
         assert lookup._resolve_book(name)[1] == name
 
 
+def test_parallel_original(bot_module):
+    from bot_commands.translations import perseus_parallel
+    english, greek = perseus_parallel("Antigone 1:450")
+    assert "it was not Zeus that published me that edict" in english["text"]
+    assert greek["found"] and greek["lang"] == "grc" and "Ζεὺς" in greek["text"]
+    english, greek = perseus_parallel("History of the Peloponnesian War 2.40:1")
+    assert greek["text"].lstrip("‘").startswith("φιλοκαλοῦμέν")
+    originals = json.loads((PERSEUS / "originals.json").read_text(encoding="utf-8"))
+    assert sum(v["lang"] == "lat" for v in originals.values()) >= 30
+    # numbers can match where the texts don't: Golding numbers only 113 lines of Metamorphoses 1
+    assert "Metamorphoses" not in originals
+    assert perseus_parallel("Metamorphoses 1:1") is None
+
+
 def test_bible_still_wins(lookup):
     # 600 new titles must not capture the Bible's abbreviations
     for typed, book in (("Gen", "Genesis"), ("Jn", "John"), ("1 Thess", "1 Thessalonians"), ("Rev", "Revelation"),
@@ -50,7 +64,7 @@ def test_bible_still_wins(lookup):
 
 def test_clean_text(lookup):
     for path in sorted(PERSEUS.glob("*.json")):
-        if path.name in ("index.json", "aliases.json"):
+        if path.name in ("index.json", "aliases.json", "originals.json"):
             continue
         for book in json.loads(path.read_text(encoding="utf-8"))["books"].values():
             for chapter, verses in book.items():
