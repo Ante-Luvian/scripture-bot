@@ -14,6 +14,13 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-13 · Bible measures in today's terms
+- 📏 **New: `!measure`, which turns Bible weights, measures and money into today's units.** The Bible measures in cubits, shekels, talents, ephahs and pence, and it's hard to picture what "an hundred talents" or "an omer for every man" means. `!measure talent` tells you what a talent was (the largest weight, 3,000 shekels), roughly what it weighs today (about 47 kg, or 103 lb), the verse that shows how many shekels it held, and a verse that uses it.
+- 🔢 **Convert any amount:** `!measure 300 cubits` gives about 154 metres (506 feet). You can write the number the Bible's way too: `!measure three hundred cubits`, `!measure half a shekel`.
+- 🚢 **Every measurement in a verse at once:** `!measure Genesis 6:15` reads the verse and converts each measurement in it, here the length, width and height of Noah's ark. Try `!measure Exodus 38:25` for the silver given for the tabernacle, or `!measure John 2:6` for the water jars at the wedding at Cana.
+- 🪙 **Money is given in days' wages, not today's prices.** A "penny" in the Gospels is a denarius, a labourer's pay for a day (Matthew 20:2). So `!measure Luke 19:13` shows that the "ten pounds" in the parable of the pounds came to about 1,000 days' wages, and the widow's two mites to 1/40 of a day's wage.
+- 📚 **Where the numbers come from:** the sizes are the estimates of *Easton's Bible Dictionary* (1897), quoted with each unit. Measures varied from place to place and century to century, and scholars still disagree, so take them as rough guides. Where Easton's gives two different figures, both are shown. Some KJV words mean different things in different books: a "pound" is a weight of 60 shekels in Kings, a Roman pound of ointment in John, and a sum of money in Luke. Bare `!measure` lists all 30 units.
+
 ## 2026-10-13 · Versle: the daily verse puzzle
 - 📜 **New game: `!versle`, a verse puzzle for every day, a bit like Wordle.** Everyone gets the same well-known verse each day. The puzzle is to say where in the Bible it is, and you have six guesses. Press **✍️ Guess** and type a verse, like `John 3:16`.
 - 🟩 **After each guess you get a row of squares and a hint, shown only to you.** The three squares are for the book, the chapter and the verse: 🟩 means right, 🟨 means within three, ⬛ means further off. The hint says which way to go, such as "later in the Bible (by 5 books) — in the New Testament" or "Right book! Chapter: earlier (by 2 chapters)".

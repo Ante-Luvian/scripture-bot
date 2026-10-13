@@ -305,6 +305,20 @@ async def cmd_help(ctx, *, topic: str = ""):
         await ctx.send(embed=embed)
         return
 
+    if topic in ("measure", "measures", "weights", "money", "convert"):
+        embed = discord.Embed(title="📏 !measure — Bible weights, measures and money", color=discord.Color.dark_gold())
+        embed.description = (
+            "`!measure` — the list: cubits, shekels, talents, ephahs, pence and more\n"
+            "`!measure talent` — what a unit was, its size today, and verses that use it\n"
+            "`!measure 300 cubits` — a conversion (`three hundred cubits` and `half a shekel` work too)\n"
+            "`!measure Genesis 6:15` — every measurement in a verse, converted (the size of the ark)\n\n"
+            "Sizes today are the estimates of Easton's Bible Dictionary (1897), quoted with each unit; "
+            "ancient measures varied, so treat them as rough. Money is given in denarii, a labourer's "
+            "pay for a day (Matthew 20:2), rather than in today's prices."
+        )
+        await ctx.send(embed=embed)
+        return
+
     if topic in ("versle", "dailyverse"):
         embed = discord.Embed(title="📜 !versle — Versle, the daily verse puzzle", color=discord.Color.dark_gold())
         embed.description = (
@@ -853,6 +867,7 @@ async def cmd_help(ctx, *, topic: str = ""):
         "`!tree David` / `!tree Abraham to David` — a family tree, or a line of descent, drawn · `!help tree`\n"
         "`!place Bethel` — a place on a map, with its verses · `!help place`\n"
         "`!journey paul 2` — a journey on a map: Paul's, the Exodus, Abraham's… · `!help journey`\n"
+        "`!measure 300 cubits` — Bible weights, measures and money in today's terms · `!help measure`\n"
         "`!hymn amazing grace` — a hymn's words, its tune to play, the Bible behind it · `!help hymn`\n"
         "`!metrical 23` — a psalm in rhyming verse to sing (Scottish Psalter, 1650), with its tune · "
         "`!help metrical`"
@@ -871,7 +886,7 @@ async def cmd_help(ctx, *, topic: str = ""):
         "`!compare strong <ref>` — KJV + original-language Strong's tagging · `!help compare`\n"
         "`!strong G3588` / `!strong H7225` — Strong's lexicon lookup · `!help strong`"
     ), inline=False)
-    embed.set_footer(text="!help verse · !help compare · !help votd · !help votdsetup · !help features · !help today · !help bcp · !help prayer · !help strong · !help books · !help parallel · !help oracle · !help discover · !help study · !help xref · !help notes · !help topic · !help save · !help plan · !help leaderboard · !help subscribe · !help card · !help who · !help tree · !help whoami · !help versle · !help place · !help journey · !help harmony · !help hymn · !help metrical · !help creed · !help ccc · !help summa")
+    embed.set_footer(text="!help verse · !help compare · !help votd · !help votdsetup · !help features · !help today · !help bcp · !help prayer · !help strong · !help books · !help parallel · !help oracle · !help discover · !help study · !help xref · !help notes · !help topic · !help save · !help plan · !help leaderboard · !help subscribe · !help card · !help who · !help tree · !help whoami · !help versle · !help place · !help journey · !help measure · !help harmony · !help hymn · !help metrical · !help creed · !help ccc · !help summa")
     await ctx.send(embed=embed)
 
 

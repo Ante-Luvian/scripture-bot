@@ -83,6 +83,12 @@
   "leaderboard": [
    "lb"
   ],
+  "measure": [
+   "convert",
+   "measures",
+   "money",
+   "weights"
+  ],
   "memorize": [
    "learn",
    "memorise"
@@ -267,6 +273,7 @@
   "interlinear",
   "journey",
   "leaderboard",
+  "measure",
   "memorize",
   "metrical",
   "mp",
