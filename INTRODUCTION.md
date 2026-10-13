@@ -34,24 +34,35 @@ Many of my answers come with buttons underneath. Under a Bible verse you'll see 
 
 **Jewish writers of the Greek world** — the complete works of **Josephus** (Antiquities, Jewish War…) and **Philo of Alexandria**.
 
-**The early Church** — the **Apostolic Fathers** (Clement, Ignatius, Polycarp, the Didache, the Shepherd of Hermas…), Dionysius the Areopagite, and about **400 works of the Church Fathers**, from Justin Martyr and Irenaeus through Augustine, Chrysostom and Jerome, plus early church histories. From the Middle Ages: **Bede**, **The Golden Legend**, the **Rule of St Benedict**, Thomas à Kempis's **Imitation of Christ** and Dante's **Divine Comedy** (Longfellow's translation, by canto and line: `!verse Inferno 1.1`).
+**The early Church** — the **Apostolic Fathers** (Clement, Ignatius, Polycarp, the Didache, the Shepherd of Hermas…), Dionysius the Areopagite, and about **400 works of the Church Fathers**, from Justin Martyr and Irenaeus through Augustine, Chrysostom and Jerome, plus early church histories. From the Middle Ages: **Bede**, **The Golden Legend**, the **Rule of St Benedict**, Thomas à Kempis's **Imitation of Christ** and Dante's **Divine Comedy** (Longfellow's translation, by canto and line: `!verse Inferno 1.1`). And three classics of Christian prayer: **The Cloud of Unknowing**, Julian of Norwich's **Revelations of Divine Love** (`!verse Julian of Norwich 5:1`) and Brother Lawrence's **Practice of the Presence of God**.
 
 ## 📚 My library: other traditions
 **Rabbinic & mystical Judaism** (from Sefaria) — the **Mishnah**, **Tosefta**, **Babylonian** and **Jerusalem Talmud**, the Targumim (Aramaic Bible translations), **Midrash Rabbah** and other midrashim, **Maimonides** (Mishneh Torah, Guide for the Perplexed), and Kabbalah: the **Zohar**, Sefer Yetzirah, the Bahir and the Tanya. `!help jewish` shows how to cite each.
 
-**Islam** — the **Quran** (all 114 surahs, Pickthall's translation) and nine **hadith** collections, including Sahih al-Bukhari and Sahih Muslim. `!help islamic` has the details. From the Sufi poets: 43 poems from the **Divan of Hafiz** (`!verse Hafiz 1`).
+**Islam** — the **Quran** (all 114 surahs, Pickthall's translation) and nine **hadith** collections, including Sahih al-Bukhari and Sahih Muslim. `!help islamic` has the details. From the Persian poets: 43 poems from the **Divan of Hafiz** (`!verse Hafiz 1`), Rumi's **Masnavi** (its stories, by book and story: `!verse Masnavi 1.0` is the song of the reed flute) and Omar Khayyam's **Rubaiyat** (`!verse Rubaiyat 1:12`).
 
 **The Greek and Roman world** — Homer (*Iliad*, *Odyssey*), Virgil's *Aeneid*, Hesiod (*Theogony*, *Works and Days*, *Shield of Heracles*), Ovid, the Homeric and Orphic Hymns; philosophy from **Plato** and **Aristotle** to the Neoplatonists (Plotinus, Porphyry, Iamblichus, Proclus) and the emperor Julian; the Stoics **Marcus Aurelius** (*Meditations*) and **Epictetus** (*Enchiridion*); the **Hermetic** writings (Corpus Hermeticum, the Emerald Tablet); and oracles (Delphic maxims, the Chaldaean Oracles, the Golden Verses of Pythagoras).
 
 **Gnostic & related** — the **Gospel of Thomas**, 114 sayings of Jesus (`!verse Gospel of Thomas 77`), the **Nag Hammadi library** (41 texts), the Mandaean *Ginza Rba* and *Book of John*, and Manichaean psalms.
 
-**Buddhism and China** — the **Dhammapada** (the Buddha's sayings in verse: `!verse Dhammapada 183`), the **Sutta Nipāta** (some of the oldest Buddhist teachings: `!verse Sutta Nipata 143`) and the **Diamond Sutra**; the **Tao Te Ching**, Confucius's **Analects** (`!verse Analects 2.4`) and the **I Ching**, the ancient Chinese Book of Changes.
-
-**Hinduism** — the four **Vedas**, the **Bhagavad Gita** (every verse, in Shri Purohit Swami's translation: `!verse Gita 2:47`) and three of the **Upanishads**, the philosophical heart of the Vedas (the Isa, Katha and Kena).
-
-**Further afield** — the Zoroastrian **Gathas**; eight works of the **Bahá'í** faith, including the Kitáb-i-Aqdas; the Norse **Poetic Edda**; and the **ancient Near East**: the Epic of Gilgamesh, the Babylonian creation epic **Enuma Elish** (`!verse Enuma Elish 4`), the Canaanite Baal Cycle, the Egyptian Book of the Dead and Hymn to the Aten, the Wisdom of Ahikar, and the pre-Islamic Arabic Mu'allaqat poems. (I even have the Sermons of Vivec from *The Elder Scrolls*.)
+**Further afield** — eight works of the **Bahá'í** faith, including the Kitáb-i-Aqdas; the Norse **Poetic Edda**; and the **ancient Near East**: the Epic of Gilgamesh, the Babylonian creation epic **Enuma Elish** (`!verse Enuma Elish 4`), the Canaanite Baal Cycle, the Egyptian Book of the Dead and Hymn to the Aten, the Wisdom of Ahikar, and the pre-Islamic Arabic Mu'allaqat poems. (I even have the Sermons of Vivec from *The Elder Scrolls*.)
 
 Browse all of it with `!books`, or let me pick something at random with `!discover`.
+
+## 📚 My library: Asia and the wider world
+**Hinduism** — the four **Vedas**; the **Bhagavad Gita** (every verse, in Shri Purohit Swami's translation: `!verse Gita 2:47`); twelve **Upanishads**, the philosophical heart of the Vedas — the Isa, Katha and Kena, and in Max Müller's translation the Chandogya, Brihadaranyaka, Mundaka, Taittiriya and more (`!verse Chandogya Upanishad 6.8:7`: "thou, O Svetaketu, art it", the famous "Thou art that"); the **Yoga Sutras** of Patanjali (`!verse Yoga Sutras 1:2`); and the **Laws of Manu**.
+
+**Sikhism** — the whole **Guru Granth Sahib**, the Sikh scripture, cited by page (*Ang*) and line as Sikhs cite it (`!verse Guru Granth Sahib 1:1`), and the **Japji**, Guru Nanak's morning prayer that opens it, by stanza (`!verse Japji 1`).
+
+**Jainism** — the oldest Jain scriptures: the **Akaranga Sutra** (the conduct of monks, cited book.lecture.lesson: `!verse Akaranga Sutra 1.1.1`), the **Sutrakritanga**, the **Uttaradhyayana Sutra** (Mahavira's last teachings) and the **Kalpa Sutra** (the lives of the Jinas).
+
+**Buddhism** — the **Dhammapada** (the Buddha's sayings in verse: `!verse Dhammapada 183`), the **Sutta Nipāta** (some of the oldest teachings), all 547 **Jataka** tales of the Buddha's former lives (`!verse Jataka 7`), the **Questions of King Milinda**, and two great Mahayana sutras, the **Diamond Sutra** and the **Lotus Sutra**.
+
+**China and Japan** — the **Tao Te Ching** and the **Zhuangzi** (`!verse Zhuangzi 2`, the butterfly dream is at its end); Confucius's **Analects** (`!verse Analects 2.4`), **Mencius** (by book, part and chapter: `!verse Mencius 6.1.2`), the **Great Learning** and the **Doctrine of the Mean**; the **I Ching**; and Shinto's sacred histories, the **Kojiki** and the **Nihongi**.
+
+**Persia, the Americas and old Europe** — the **Zoroastrian** scriptures: the **Gathas** (Zarathustra's own hymns), the **Yasna**, the **Yashts**, the **Vendidad** and the **Bundahishn**, the Zoroastrian account of creation; the Maya **Popol Vuh**; the Finnish **Kalevala**; and the Welsh **Mabinogion**.
+
+`!search` and `!theme` know each of these as a tradition: `in:sikh`, `in:jain`, `in:shinto`, `in:zoroastrian`, `in:mesoamerican`, `in:finnish`, `in:celtic`.
 
 ## 📖 Reading scripture
 **`!verse`** (or `!v`) is my main command.

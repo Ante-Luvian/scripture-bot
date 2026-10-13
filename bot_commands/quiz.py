@@ -34,6 +34,10 @@ HARD_POOL = [
     ("Divan of Hafiz", "Hafiz (Sufi poetry)"), ("Bhagavad Gita", "Bhagavad Gita"),
     ("Meditations", "Marcus Aurelius, Meditations"), ("Imitation of Christ", "The Imitation of Christ"), ("Didache", "Didache"), ("Golden Verses of Pythagoras", "Golden Verses of Pythagoras"),
     ("The Hidden Words (Arabic)", "The Hidden Words (Bahá'í)"), ("Ginza Rba", "Ginza Rba (Mandaean)"),
+    ("Guru Granth Sahib", "Guru Granth Sahib (Sikh)"), ("Uttaradhyayana Sutra", "Uttaradhyayana Sutra (Jain)"),
+    ("Kojiki", "Kojiki (Shinto)"), ("Popol Vuh", "Popol Vuh (Maya)"), ("Kalevala", "Kalevala (Finnish)"),
+    ("Masnavi", "Rumi's Masnavi"), ("Zhuangzi", "Zhuangzi (Taoist)"), ("Lotus Sutra", "Lotus Sutra (Buddhist)"),
+    ("Cloud of Unknowing", "The Cloud of Unknowing"), ("Yoga Sutras", "Yoga Sutras of Patanjali"),
 ]
 
 
@@ -47,9 +51,12 @@ QUIZ_POOLS = {
                   "Imitation of Christ", "Rule of Benedict", "Inferno", "Ignatius to the Romans"],
     "apocrypha": ["Book of Enoch", "Book of Jubilees", "2 Enoch", "Odes of Solomon", "Wisdom of Solomon",
                   "Sirach", "The Protevangelium of James", "Acts of Paul and Thecla", "Acts of Pilate: First Greek Form"],
-    "hindu":     ["Rig Veda", "Atharva Veda", "Bhagavad Gita", "Isa Upanishad", "Katha Upanishad", "Kena Upanishad"],
-    "buddhist":  ["Dhammapada", "Sutta Nipata", "Diamond Sutra"],
-    "chinese":   ["Tao Te Ching", "Analects", "I Ching"],
+    "hindu":     ["Rig Veda", "Atharva Veda", "Bhagavad Gita", "Isa Upanishad", "Katha Upanishad", "Kena Upanishad",
+                  "Chandogya Upanishad", "Brihadaranyaka Upanishad", "Laws of Manu", "Yoga Sutras"],
+    "buddhist":  ["Dhammapada", "Sutta Nipata", "Diamond Sutra", "Lotus Sutra", "Jataka", "Questions of King Milinda"],
+    "chinese":   ["Tao Te Ching", "Analects", "I Ching", "Zhuangzi", "Mencius"],
+    "jain":      ["Akaranga Sutra", "Sutrakritanga", "Uttaradhyayana Sutra", "Kalpa Sutra"],
+    "zoroastrian": ["Gathas", "Yasna", "Yashts", "Vendidad", "Bundahishn"],
     "classical": ["Iliad", "Odyssey", "Aeneid", "Republic", "Meditations", "Enchiridion of Epictetus",
                   "Works and Days", "Enneads", "Nicomachean Ethics", "Corpus Hermeticum"],
     "gnostic":   ["Gospel of Thomas", "Ginza Rba", "The Thunder, Perfect Mind", "The Secret Book of James",

@@ -216,7 +216,18 @@ Gilgamesh 1:1   Baal 1:1     Aten 1       Muallaqat 1:1
 Delphi 1:1      Kitab-i-Aqdas 1:1
 Berakhot 2a     Shabbat 31a                ← Talmud, via Sefaria
 Berakhot 1:1    M Berakhot 1:1   Avot 1:1  ← Mishnah, via Sefaria
+Guru Granth Sahib 1:1   Japji 1           ← Ang (page):line; Japji by pauri (0 = Mool Mantar)
+Akaranga Sutra 1.1.1:3  Mencius 6.1.2:1   Chandogya Upanishad 6.8:7   Masnavi 1.0:1
 ```
+
+**World texts** (built by `scripts/build_world_texts.py`, mostly from the Sacred
+Books of the East on archive.sacred-texts.com) keep each tradition's own
+divisions: book.lecture.lesson for the Akaranga, book.part.chapter for Mencius
+(lost chapters in that copy are gaps, not renumbered), prapathaka.khanda for the
+Chandogya, book.story for the Masnavi, Ang:line for the Guru Granth Sahib. Where a
+source has no verse numbers (Kojiki, Jataka, Popol Vuh, Mabinogion) a verse is a
+paragraph, long ones cut into runs of sentences; long poems without stanzas
+(Kalevala, Masnavi) are runs of eight lines.
 
 **Apostolic Fathers** use Lightfoot/Harmer `chapter:sentence-group` numbering.
 **Shepherd of Hermas** takes the traditional citation — `Herm Sim 9:1` is
@@ -329,7 +340,11 @@ universalis.com / api.aladhan.com (`!today`).
 2. In `scripture_lookup.py`: list the file under its corpus in
    `ScriptureLookup._load_all()`, add the corpus to `CORPUS_PRIORITY` and to
    the `source_map` in `get_verse()`, and add book abbreviations to `ALIASES`.
-3. Add a few lookups to `tests/test_lookup.py`.
+   A new corpus also needs a `TRADITIONS` entry (for `!theme`/`!search in:`),
+   a label in `search_by_corpus`'s `_LABELS`, a group in `BOOKS_TREE` and
+   `_SUPERGROUP_ORDER` (`bot_commands/books.py`), and its books in core's
+   `_CATEGORY_BOOKS`; optionally a `QUIZ_POOLS` entry and a card style.
+3. Add a few lookups to `tests/test_lookup.py` (or `tests/test_world_corpora.py`).
 
 ---
 

@@ -380,6 +380,42 @@ ALIASES: dict[str, str] = {
     "gatha": "Gathas",
     "gathas of zarathushtra": "Gathas",
     "gathas of zarathustra": "Gathas",
+    # Zoroastrian (Avesta, Bundahishn)
+    "videvdad": "Vendidad", "vendidad": "Vendidad", "yasht": "Yashts", "yashts": "Yashts", "yasts": "Yashts",
+    "bundahis": "Bundahishn", "bundahishn": "Bundahishn", "bundahism": "Bundahishn",
+    # Sikh
+    "granth": "Guru Granth Sahib", "guru granth": "Guru Granth Sahib", "adi granth": "Guru Granth Sahib",
+    "sggs": "Guru Granth Sahib", "japji sahib": "Japji", "jap ji": "Japji", "jupji": "Japji", "jup": "Japji",
+    # Jain
+    "akaranga": "Akaranga Sutra", "acaranga": "Akaranga Sutra", "acaranga sutra": "Akaranga Sutra",
+    "kalpa": "Kalpa Sutra", "uttaradhyayana": "Uttaradhyayana Sutra", "uttaradhyayana sutra": "Uttaradhyayana Sutra",
+    "sutrakritanga sutra": "Sutrakritanga", "sutrakrtanga": "Sutrakritanga",
+    # Shinto, Maya, Finnish, Welsh
+    "nihon shoki": "Nihongi", "nihonshoki": "Nihongi", "popol wuj": "Popol Vuh",
+    "mabinogi": "Mabinogion",
+    # Chinese
+    "chuang tzu": "Zhuangzi", "chuang-tzu": "Zhuangzi", "zhuang zi": "Zhuangzi", "kwang-dze": "Zhuangzi",
+    "kwang dze": "Zhuangzi", "mengzi": "Mencius", "meng tzu": "Mencius", "da xue": "Great Learning",
+    "ta hsueh": "Great Learning", "zhongyong": "Doctrine of the Mean", "zhong yong": "Doctrine of the Mean",
+    "chung yung": "Doctrine of the Mean", "doctrine of mean": "Doctrine of the Mean",
+    # Persian poetry
+    "mathnawi": "Masnavi", "masnavi-i-ma'navi": "Masnavi", "rumi": "Masnavi", "khayyam": "Rubaiyat",
+    "rubaiyat of omar khayyam": "Rubaiyat", "rubayyat": "Rubaiyat",
+    # Buddhist
+    "saddharma pundarika": "Lotus Sutra", "saddharma-pundarika": "Lotus Sutra", "lotus": "Lotus Sutra",
+    "milinda": "Questions of King Milinda", "milindapanha": "Questions of King Milinda",
+    "milinda panha": "Questions of King Milinda", "jatakas": "Jataka", "jataka tales": "Jataka",
+    # Hindu
+    "chandogya": "Chandogya Upanishad", "khandogya": "Chandogya Upanishad", "brihadaranyaka": "Brihadaranyaka Upanishad",
+    "mundaka": "Mundaka Upanishad", "taittiriya": "Taittiriya Upanishad", "svetasvatara": "Svetasvatara Upanishad",
+    "shvetashvatara": "Svetasvatara Upanishad", "prasna": "Prasna Upanishad", "prashna": "Prasna Upanishad",
+    "maitri": "Maitrayana Upanishad", "maitrayani": "Maitrayana Upanishad", "kaushitaki": "Kaushitaki Upanishad",
+    "manu": "Laws of Manu", "manusmriti": "Laws of Manu", "manava dharmashastra": "Laws of Manu",
+    "yoga sutra": "Yoga Sutras", "yoga sutras of patanjali": "Yoga Sutras", "patanjali": "Yoga Sutras",
+    # Christian mystics
+    "cloud": "Cloud of Unknowing", "the cloud of unknowing": "Cloud of Unknowing",
+    "julian of norwich": "Revelations of Divine Love", "showings": "Revelations of Divine Love",
+    "brother lawrence": "Practice of the Presence of God", "practice of the presence": "Practice of the Presence of God",
     # Kitáb-i-Aqdas
     "kitab-i-aqdas": "Kitab-i-Aqdas",
     "kitab i aqdas": "Kitab-i-Aqdas",
@@ -1353,12 +1389,19 @@ TRADITIONS = {
     "islamic":   ("☪️ Islamic", ("quran",)),
     "sufi":      ("🌹 Sufi", ("sufi",)),
     "hindu":     ("🕉️ Hindu", ("dharmic",)),
+    "sikh":      ("🪯 Sikh", ("sikh",)),
+    "jain":      ("🤚 Jain", ("jain",)),
     "buddhist":  ("☸️ Buddhist", ("buddhist",)),
     "chinese":   ("☯️ Chinese", ("chinese",)),
+    "shinto":    ("⛩️ Shinto", ("shinto",)),
+    "zoroastrian": ("🔥 Zoroastrian", ("zoroastrian",)),
     "classical": ("🏛️ Greek & Roman", ("classical",)),
     "gnostic":   ("🧿 Gnostic", ("gnostic",)),
     "norse":     ("🌲 Norse", ("norse",)),
+    "finnish":   ("🦢 Finnish", ("finnish",)),
+    "celtic":    ("☘️ Celtic", ("celtic",)),
     "neareast":  ("🌙 Ancient Near East", ("ancient_near_east",)),
+    "mesoamerican": ("🌽 Mesoamerican", ("mesoamerican",)),
     "bahai":     ("🌍 Baháʼí", ("bahai",)),
     "lds":       ("📯 Latter-day Saint", ("lds",)),
 }
@@ -1370,6 +1413,9 @@ TRADITION_ALIASES = {
     "greek": "classical", "roman": "classical", "stoic": "classical", "gnosticism": "gnostic",
     "ane": "neareast", "babylonian": "neareast", "egyptian": "neareast", "mormon": "lds",
     "bahá'í": "bahai", "baha'i": "bahai", "pseudepigrapha": "apocrypha",
+    "sikhism": "sikh", "jainism": "jain", "jaina": "jain", "japanese": "shinto", "japan": "shinto",
+    "zoroastrianism": "zoroastrian", "parsi": "zoroastrian", "avestan": "zoroastrian",
+    "maya": "mesoamerican", "mayan": "mesoamerican", "welsh": "celtic", "finland": "finnish",
 }
 
 
@@ -1380,7 +1426,7 @@ def tradition(name: str):
     return key if key in TRADITIONS else None
 
 
-CORPUS_PRIORITY = ["kjv", "lds", "brenton", "charles", "nt_apocrypha", "apostolic_fathers", "quran", "classical", "jewish", "bahai", "qumran", "gnostic", "dharmic", "buddhist", "chinese", "sufi", "norse", "ancient_near_east", "patristics", "medieval"]
+CORPUS_PRIORITY = ["kjv", "lds", "brenton", "charles", "nt_apocrypha", "apostolic_fathers", "quran", "classical", "jewish", "bahai", "qumran", "gnostic", "dharmic", "buddhist", "chinese", "sufi", "sikh", "jain", "shinto", "zoroastrian", "mesoamerican", "finnish", "celtic", "norse", "ancient_near_east", "patristics", "medieval"]
 
 
 # Shepherd of Hermas: (first, last) Lightfoot continuous chapter of each
@@ -1459,7 +1505,6 @@ class ScriptureLookup:
                 "asclepius.json",
                 "chaldaean_oracles.json",
                 "hesiod_theogony.json",
-                "gathas.json",
                 "vivec_sermons.json",
                 "proclus.json",
                 "elements_of_theology.json",
@@ -1525,15 +1570,30 @@ class ScriptureLookup:
                 "dhammapada.json",
                 "diamond_sutra.json",
                 "sutta_nipata.json",
+                "lotus_sutra.json",
+                "milinda.json",
+                "jataka.json",
             ],
             "chinese": [
                 "tao_te_ching.json",
                 "analects.json",
                 "i_ching.json",
+                "zhuangzi.json",
+                "mencius.json",
+                "great_learning_mean.json",
             ],
             "sufi": [
                 "hafiz_bell.json",
+                "masnavi_whinfield.json",
+                "rubaiyat_fitzgerald.json",
             ],
+            "sikh": ["guru_granth_sahib.json"],
+            "jain": ["jaina_sutras.json"],
+            "shinto": ["kojiki.json", "nihongi.json"],
+            "zoroastrian": ["gathas.json", "avesta.json"],
+            "mesoamerican": ["popol_vuh.json"],
+            "finnish": ["kalevala.json"],
+            "celtic": ["mabinogion.json"],
             "norse": [
                 "poetic_edda.json",
             ],
@@ -1556,6 +1616,9 @@ class ScriptureLookup:
                 "atharva_veda.json",
                 "bhagavad_gita.json",
                 "upanishads_paramananda.json",
+                "upanishads_muller.json",
+                "laws_of_manu.json",
+                "yoga_sutras.json",
             ],
             "patristics": [
                 # ── Original 15 (ANF/NPNF epub) ───────────────────────────
@@ -1662,6 +1725,9 @@ class ScriptureLookup:
                 "imitation_of_christ.json",
                 "rule_of_benedict.json",
                 "divine_comedy_longfellow.json",
+                "cloud_of_unknowing.json",
+                "julian_revelations.json",
+                "practice_of_presence.json",
             ],
         }
         for corpus, filenames in corpus_dirs.items():
@@ -2091,6 +2157,13 @@ class ScriptureLookup:
             "nt_apocrypha":      "Apocrypha of the New Testament (ANF VIII)",
             "chinese":           "Chinese Classics (Legge)",
             "sufi":              "Sufi Poetry",
+            "sikh":              "Sikh Scripture",
+            "jain":              "Jaina Sutras (Jacobi)",
+            "shinto":            "Shinto Texts",
+            "zoroastrian":       "Zoroastrian Texts",
+            "mesoamerican":      "Mesoamerican Texts",
+            "finnish":           "The Kalevala",
+            "celtic":            "The Mabinogion",
             "norse":            "Trans. Henry Adams Bellows (1923)",
             "patristics":       "Church Fathers (ANF/NPNF/Pearse)",
             "medieval":         "Medieval (Bede, Golden Legend)",
@@ -2234,6 +2307,13 @@ class ScriptureLookup:
             "nt_apocrypha":     "📜 New Testament Apocrypha",
             "chinese":          "☯️ Chinese Classics",
             "sufi":             "🌹 Sufi Poetry",
+            "sikh":             "🪯 Sikh",
+            "jain":             "🤚 Jain",
+            "shinto":           "⛩️ Shinto",
+            "zoroastrian":      "🔥 Zoroastrian",
+            "mesoamerican":     "🌽 Mesoamerican",
+            "finnish":          "🦢 Finnish",
+            "celtic":           "☘️ Celtic",
             "norse":            "🌲 Norse",
             "ancient_near_east":          "🌙 Ancient Near East",
             "patristics":       "⛪ Church Fathers",

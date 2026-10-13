@@ -477,8 +477,10 @@ BOOKS_TREE = [
                 "Quran 114 — An-Naas (Mankind, 6v)",
             ]),
         ]),
-        ("Sufi Poetry", [
+        ("Sufi & Persian Poetry", [
             "Divan of Hafiz",
+            "Masnavi",
+            "Rubaiyat",
         ]),
         ("Hadith", [
             ("The Six Books (Kutub al-Sittah)", [
@@ -702,7 +704,31 @@ BOOKS_TREE = [
         "Daniel (4Q114)",
     ]),
     ("🔥 Zoroastrian", [
-        "Gathas",
+        ("The Avesta", ["Gathas", "Yasna", "Yashts", "Vendidad"]),
+        ("Pahlavi texts", ["Bundahishn"]),
+    ]),
+    ("🪯 Sikh", [
+        "Guru Granth Sahib",
+        "Japji",
+    ]),
+    ("🤚 Jain", [
+        "Akaranga Sutra",
+        "Sutrakritanga",
+        "Uttaradhyayana Sutra",
+        "Kalpa Sutra",
+    ]),
+    ("⛩️ Shinto", [
+        "Kojiki",
+        "Nihongi",
+    ]),
+    ("🌽 Mesoamerican", [
+        "Popol Vuh",
+    ]),
+    ("🦢 Finnish", [
+        "Kalevala",
+    ]),
+    ("☘️ Celtic", [
+        "Mabinogion",
     ]),
     ("🧿 Gnostic", [
         ("Gospel of Thomas (trans. Lambdin)", [
@@ -814,20 +840,36 @@ BOOKS_TREE = [
             "Isa Upanishad",
             "Katha Upanishad",
             "Kena Upanishad",
+            "Chandogya Upanishad",
+            "Brihadaranyaka Upanishad",
+            "Mundaka Upanishad",
+            "Taittiriya Upanishad",
+            "Svetasvatara Upanishad",
+            "Prasna Upanishad",
+            "Kaushitaki Upanishad",
+            "Maitrayana Upanishad",
+            "Aitareya Aranyaka",
         ]),
         ("Bhagavad Gita", [
             "Bhagavad Gita",
+        ]),
+        ("Yoga & Law", [
+            "Yoga Sutras",
+            "Laws of Manu",
         ]),
     ]),
     ("☸️ Buddhist", [
         "Dhammapada",
         "Sutta Nipata",
+        "Jataka",
+        "Questions of King Milinda",
         "Diamond Sutra",
+        "Lotus Sutra",
     ]),
     ("☯️ Chinese Classics", [
-        "Tao Te Ching",
-        "Analects",
-        "I Ching",
+        ("Laozi & Zhuangzi", ["Tao Te Ching", "Zhuangzi"]),
+        ("Confucius & Mencius", ["Analects", "Mencius", "Great Learning", "Doctrine of the Mean"]),
+        ("The Book of Changes", ["I Ching"]),
     ]),
     ("⛪ Patristics & Church History", [
         ("Apostolic Fathers", [
@@ -1018,6 +1060,11 @@ BOOKS_TREE = [
             ("Thomas à Kempis", ["Imitation of Christ"]),
             ("Dante — The Divine Comedy", ["Inferno", "Purgatorio", "Paradiso"]),
         ]),
+        ("Christian Mystics", [
+            ("Anonymous (14th century)", ["Cloud of Unknowing"]),
+            ("Julian of Norwich", ["Revelations of Divine Love"]),
+            ("Brother Lawrence", ["Practice of the Presence of God"]),
+        ]),
         ("Pearse Collection", [
             ("Hermias", ["Derision of Gentile Philosophers"]),
             ("Eunomius of Cyzicus", ["The First Apology"]),
@@ -1071,11 +1118,11 @@ _SUPERGROUP_ORDER = [
         "⛪ Patristics & Church History",
     ]),
     ("🪷 Eastern Traditions", [
-        "☸️ Dharmic", "☸️ Buddhist", "☯️ Chinese Classics",
+        "☸️ Dharmic", "🪯 Sikh", "🤚 Jain", "☸️ Buddhist", "☯️ Chinese Classics", "⛩️ Shinto",
     ]),
     ("🌐 Mythology & Classical Traditions", [
-        "🏛️ Classical", "🌲 Norse", "🌙 Ancient Near East",
-        "🔥 Zoroastrian",
+        "🏛️ Classical", "🌲 Norse", "🦢 Finnish", "☘️ Celtic", "🌙 Ancient Near East",
+        "🔥 Zoroastrian", "🌽 Mesoamerican",
     ]),
 ]
 _books_tree_by_name = {name: contents for name, contents in BOOKS_TREE}

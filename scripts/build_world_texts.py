@@ -902,11 +902,875 @@ def hafiz():
           {"Divan of Hafiz": book})
 
 
+# ── Sacred Books of the East (sacred-texts.com .txt.gz) ─────────────────────
+
+_ORD_WORDS = ["FIRST", "SECOND", "THIRD", "FOURTH", "FIFTH", "SIXTH", "SEVENTH", "EIGHTH", "NINTH", "TENTH",
+              "ELEVENTH", "TWELFTH", "THIRTEENTH", "FOURTEENTH", "FIFTEENTH", "SIXTEENTH", "SEVENTEENTH",
+              "EIGHTEENTH", "NINETEENTH"]
+_TENS_ORD = {"TWENTIETH": 20, "THIRTIETH": 30, "FORTIETH": 40, "FIFTIETH": 50}
+_TENS_CARD = {"TWENTY": 20, "THIRTY": 30, "FORTY": 40, "FIFTY": 50}
+ORDINAL = (r"(?:(?:TWENTY|THIRTY|FORTY|FIFTY)-)?(?:" + "|".join(_ORD_WORDS) + r")|TWENTIETH|THIRTIETH|FORTIETH|FIFTIETH")
+
+
+def ordinal(word: str) -> int:
+    """'TWENTY-THIRD' -> 23; also a plain number or a Roman numeral."""
+    word = word.upper().strip(" .,")
+    if word.isdigit():
+        return int(word)
+    if re.fullmatch(r"[IVXLC]+", word):
+        return roman(word)
+    if word in _TENS_ORD:
+        return _TENS_ORD[word]
+    tens, _, unit = word.rpartition("-")
+    return _TENS_CARD.get(tens, 0) + _ORD_WORDS.index(unit) + 1
+
+
+def sbe_clean(text: str) -> str:
+    """A sacred-texts.com SBE text without its page furniture: the running
+    header after each page group, the footnotes gathered under it, page
+    numbers, and footnote markers."""
+    text = re.sub(r"(?ms)^Footnotes\s*\n.*?(?=^.*at sacred-texts\.com\s*$|\Z)", "", text)
+    text = re.sub(r"(?m)^Footnotes\s*$|^\^\d+:\w+.*$", "", text)                # any left (no header after them)
+    text = re.sub(r"(?m)^.*at sacred-texts\.com\s*$", "", text)
+    text = re.sub(r"\[p\. [\divxlc]+\]|\s*\[\*\d+\]|\[paragraph continues\]", "", text)
+    # a paragraph cut by a page break: the next "paragraph" carries on in lower case
+    # (only after a lower-case word, so a heading such as "EIGHTH LECTURE," keeps its line)
+    text = re.sub(r"(?:(?<=[a-z])|(?<=[a-z][,\-]))[ \t]*\n(?:[ \t]*\n)+(?=[ \t]*[a-z(])", " ", text)
+    return text
+
+
+def sentence_groups(paras: list, size: int = 700, longest: int = 1200) -> list:
+    """Paragraphs, with any longer than `longest` cut into runs of whole
+    sentences of about `size` characters (for texts with no verse numbers
+    whose paragraphs run on for pages)."""
+    out = []
+    for p in paras:
+        if len(p) <= longest:
+            out.append(p)
+            continue
+        run = ""
+        for s in re.split(r"(?:(?<=[.!?])|(?<=[.!?][\"'”’)\]]))\s+(?=[A-Z\"“‘(\[])", p):
+            if run and len(run) + len(s) > size:
+                out.append(run)
+                run = s
+            else:
+                run = f"{run} {s}".strip()
+        if run:
+            out.append(run)
+    return out
+
+
+def heading_at(text: str, *lines: str, after: int = 0) -> int:
+    """Where a heading starts that is these lines in a row (blank lines between
+    allowed), at or after `after` -- to find a text's real start rather than
+    its entry in the contents."""
+    m = re.compile(r"(?m)^\s*" + r"\s*\n\s*".join(re.escape(l) for l in lines) + r"\s*$").search(text, after)
+    expect(m is not None, f"heading {lines}")
+    return m.start()
+
+
+def last_verse(verses: dict) -> int:
+    """The highest verse number in a numbered_verses result, ranges included."""
+    ends = [int(m.group(1)) for v in verses.values() if (m := re.match(r"(?:\*.*\*\n)?\(vv\. \d+–(\d+)\)", v))]
+    return max([int(k) for k in verses] + ends)
+
+
+def numbered_verses(chunk: str, last: int = 0) -> dict:
+    """Verses that end in a running "(n)" marker, the SBE's usual way of
+    numbering. A marker counts only if it moves the count on (by up to 20:
+    translators print several verses as one, "(7-9)", and skip numbers), so a
+    stray "(2)" inside a sentence is text; an OCR'd "(t)" or "(l)" is "(1)".
+    Verses printed as one are kept under the first number, labelled with the
+    range, as the Dhammapada's are. Without markers, each paragraph is a verse.
+    `last` continues a count that runs on from an earlier part."""
+    verses, pos = {}, 0
+    flat = " ".join(" ".join(l.strip() for l in p.splitlines()) for p in re.split(r"\n\s*\n", chunk))
+    for m in re.finditer(r"\((?:(\d+)(?:\s*[-–,]\s*(\d+))?|([tlI]))\)", flat):
+        n = 1 if m.group(3) else int(m.group(1))
+        end = int(m.group(2)) if m.group(2) else None
+        if last < n <= last + 20 and (end is None or n < end <= n + 20):
+            body = tidy(flat[pos:m.start()])
+            if body:
+                verses[str(n)] = (f"(vv. {n}–{end}) " if end else "") + body
+                last, pos = end or n, m.end()
+    tail = tidy(flat[pos:])
+    if not verses or (len(flat) / len(verses) > 2500 and len(paragraphs(chunk)) > 2 * len(verses)):
+        # unnumbered, or numbered only here and there (the Kalpa Sutra's List of Sthaviras)
+        return {str(i): tidy(p) for i, p in enumerate(paragraphs(chunk), 1)}
+    if tail and len(tail) > 3:
+        verses[list(verses)[-1]] += " " + tail
+    return verses
+
+
+def sbe_sections(text: str, levels: list, title_pattern: str = r"^[A-Z][A-Z0-9 ,;:'’\-()&.!?]+$",
+                 verses_of=None) -> dict:
+    """{chapter key: {verse: text}} from a cleaned SBE text whose headings are
+    lines matching `levels` -- a list of regexes, outermost first, each with a
+    group for its number (an ordinal word, digits or a Roman numeral). The
+    key joins the numbers of the levels in force ("1.2.3"). An all-capitals
+    line after a heading is its title and leads the section's first verse.
+    Verses are numbered_verses ("...text. (3)") unless `verses_of` says
+    otherwise (leading_numbered for "3. text...")."""
+    counters = [0] * len(levels)
+    sections, current, title, body = {}, None, "", []
+    verses_of = verses_of or numbered_verses
+
+    def flush():
+        if current is not None and "".join(body).strip():
+            verses = verses_of("\n".join(body))
+            first = next(iter(verses))
+            if title:
+                verses[first] = f"*{title}*\n{verses[first]}"
+            sections[current] = verses
+
+    for line in text.splitlines():
+        s = line.strip()
+        hit = next(((i, m) for i, lv in enumerate(levels) if (m := re.fullmatch(lv, s))), None)
+        if hit:
+            flush()
+            i, m = hit
+            counters[i] = ordinal(m.group(1))
+            for j in range(i + 1, len(levels)):
+                counters[j] = 0
+            current = ".".join(str(c) for c in counters if c)
+            # a lecture's title, given before its first lesson, leads that lesson
+            title = title if not "".join(body).strip() else ""
+            body = []
+        elif current is not None and not "".join(body).strip() and s and re.fullmatch(title_pattern, s) \
+                and len(s) < 90:
+            if s.rstrip(".,") not in ("CALLED",):
+                title = (title + " " if title else "") + s.rstrip(".,").title()
+        elif current is not None:
+            body.append(line)
+    flush()
+    return sections
+
+
+# ── sacred-texts.com books with a page per chapter ─────────────────────────
+
+def st_index(path: str) -> list:
+    """[(page, label)] of an archive index, in order, without repeats."""
+    import html
+    page = sacred_text(path)
+    base = path.rsplit("/", 1)[0] + "/"
+    out, seen = [], set()
+    for href, label in re.findall(r'(?is)<a\s+href="?([^"\s>#]+)"?[^>]*>(.*?)</a>', page):
+        label = re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", "", label))).strip()
+        # (a page can be linked twice -- once as a highlight, "Mithra", once in the contents)
+        if href.startswith(("http", "/", "..")) or (href, label) in seen or not href.endswith(".htm") or "index" in href:
+            continue
+        seen.add((href, label))
+        out.append((base + href, label))
+    return out
+
+
+def st_page(path: str) -> str:
+    """A chapter page's text: from after the site's navigation to its
+    footnotes, without page numbers or the plain-number footnote markers the
+    HTML pages leave in the text ("did converse 1, whom")."""
+    text = _html_text(sacred_text(path))
+    nav = list(re.finditer(r"(?m)^\s*Next\s*$", text[:3000]))
+    text = text[nav[0].end() if nav else 0:]
+    text = re.split(r"(?m)^\s*(?:Footnotes|Next: .*|Sacred Texts \|.*)\s*$", text)[0]
+    text = re.sub(r"(?m)^\s*p\. [\divxlc]+\s*$|\[paragraph continues\]", "", text)
+    text = re.sub(r"(?m)^[^\n]*?\bat sacred-texts\.com\s*", "", text)              # the running header
+    text = re.sub(r"\s+p\. \d+(?=\s|$)", "", text)                                 # a page number left inline
+    text = text.replace("\xa0", " ")
+    text = re.sub(r"(?:(?<=[^\W\d_])|(?<=[,;:!?'’”)\]]))[ \t]+\d{1,2}(?=[\s,.;:!?'’”)]|$)", "", text)
+    text = re.sub(r"\n[ \t]*\n(?=[ \t]*[a-z])", "\n", text)        # a paragraph cut by a page number
+    return text
+
+
+def leading_numbered(text: str) -> dict:
+    """Verses that start with their number ("12. ..." or "12 (40). ..."), as
+    the Avesta and Pahlavi texts print them; a number counts only if it moves
+    the count on, and what comes before verse 1 (the translator's summary)
+    is left out. Without numbers, a verse per paragraph."""
+    lines = [l.strip() for l in text.splitlines() if l.strip()]       # the HTML puts each paragraph on a line
+    flat = "\n".join(lines)
+    # a number opens a verse at the start of a line, or after a sentence ends
+    # (West runs the Bundahishn's verses on: "...goodness. 2. As revealed...")
+    starts, last = [], -1
+    for m in re.finditer(r"(^|\n|[.!?'’”)\]][ \t]+)(\d+)(?:\s*\(\d+\))?\s*[.:][ \t]+(?=\S)", flat):
+        n = int(m.group(2))
+        # the first number can be anything (Milinda's similes run on from 11, 21...)
+        if (last == -1 and n <= 500) or (last < n <= last + 10 and n > 0):
+            starts.append((n, m.start(2), m.end()))
+            last = n
+    verses = {}
+    for i, (n, at, body) in enumerate(starts):
+        end = starts[i + 1][1] if i + 1 < len(starts) else len(flat)
+        verse = "\n".join(tidy(l) for l in flat[body:end].split("\n") if l.strip())
+        verses[str(n)] = re.sub(r"\n(?=[a-z])", " ", verse)              # a sentence carried over a page break
+    if not verses:
+        verses = {str(i): tidy(p) for i, p in enumerate(lines, 1)}
+    return {k: v for k, v in verses.items() if v}
+
+
+# ── Chinese, more ───────────────────────────────────────────────────────────
+
+def zhuangzi():
+    """The Zhuangzi (Kwang-dze), trans. James Legge (SBE 39-40, 1891),
+    sacred-texts.com archive: 33 books, Legge's paragraph numbers as verses,
+    each book's title leading its first. (The site's index calls Book XXIX
+    "XXIV", so the books are numbered in order.)"""
+    pages = [(p, l) for p, l in st_index("tao/sbe39/index.htm") if re.match(r"Book [IVXL]+[:.] .*, or ", l)]
+    pages += [(p, l) for p, l in st_index("tao/sbe40/index.htm") if re.match(r"Book [IVXL]+\. ", l)]
+    book = {}
+    for n, (page, label) in enumerate(pages, 1):
+        verses = leading_numbered(st_page(page))
+        title = re.search(r"or '(.*?)'?\.?'?$", label)
+        title = title.group(1).strip(".'") if title else re.sub(r"^Book [IVXL]+[.:]\s*", "", label).strip(". ")
+        verses["1"] = f"*{title}*\n{verses['1']}"
+        book[str(n)] = verses
+    expect(len(book) == 33, f"{len(book)} books")
+    write("chinese", "zhuangzi.json", "The Zhuangzi (Writings of Kwang-dze), trans. James Legge (Sacred Books of the East 39-40, 1891)",
+          {"Zhuangzi": book})
+
+
+def mencius():
+    """The Works of Mencius, trans. James Legge, sacred-texts.com archive
+    (cfu/menc, 28 pages: each of the 7 books' two parts spans two pages).
+    Cited the usual way, book.part.chapter -- "Mencius 1.1.1" is Book I,
+    Part A (King Hui of Liang I), chapter 1 -- with Legge's paragraph
+    numbers as verses. Chapters are set apart by a wider gap (Legge leaves a
+    one-paragraph chapter unnumbered).
+
+    This copy has lost some chapters (mostly one-sentence sayings) and a few
+    opening paragraphs, but each lost chapter left two more blank lines in
+    the gap (four lines between chapters, six where one is missing, eight
+    for two...), so counting them keeps every chapter on its standard
+    number; the lost ones are simply absent, and checked against the
+    standard count of chapters in each part."""
+    book, page_last = {}, {}
+    for page in range(1, 29):
+        b, part = (page - 1) // 4 + 1, (page - 1) // 2 % 2 + 1
+        text = _html_text(sacred_text(f"cfu/menc/menc{page:02d}.htm"))
+        text = text[text.index("\n", text.index(f"Mencius Chapter {page}")):]
+        text = re.split(r"(?m)^\s*(?:Next: |Sacred Texts \|)", text)[0]
+        chapter = page_last.get((b, part), 0)
+        # paragraphs are two lines apart, verse quotations three, chapters four or more
+        # (a chapter after a quotation can be three apart, but then opens "1." or "Mencius said")
+        pieces = re.split(r"(\n(?:[ \t]*\n){3,}|\n(?:[ \t]*\n){2}(?=[ \t]*(?:1\. |Mencius said)))", "\n" + text)
+        gap = 4
+        for i, chunk in enumerate(pieces):
+            if i % 2:
+                gap = chunk.count("\n")
+                continue
+            paras = paragraphs(chunk)
+            if not paras:
+                continue
+            chapter += 1 + max(0, gap - 4) // 2 if chapter or gap > 4 else 1
+            verses = book.setdefault(f"{b}.{part}.{chapter}", {})
+            for p in paras:
+                m = re.match(r"^(\d+)\.\s+(.*)$", p)
+                last = max(map(int, verses), default=0)
+                if m and last < int(m.group(1)) <= last + 3:
+                    verses[m.group(1)] = tidy(m.group(2))
+                elif verses:
+                    verses[str(last)] += "\n" + tidy(p)
+                else:
+                    verses["1"] = tidy(p)
+        page_last[(b, part)] = chapter
+    standard = {(1, 1): 7, (1, 2): 16, (2, 1): 9, (2, 2): 14, (3, 1): 5, (3, 2): 10, (4, 1): 28, (4, 2): 33,
+                (5, 1): 9, (5, 2): 9, (6, 1): 20, (6, 2): 16, (7, 1): 46, (7, 2): 38}
+    print(f"  Mencius: last chapter of each part {page_last} (standard {standard}); "
+          f"{len(book)} of {sum(standard.values())} chapters")
+    # 6B's last chapter (16, "There are many arts in teaching") is lost at the end of its page,
+    # where no gap shows it -- checked by hand: 6B.1-15 open where they should
+    expect(all(page_last[k] == v - (k == (6, 2)) for k, v in standard.items()), "chapter numbering")
+    write("chinese", "mencius.json", "The Works of Mencius, trans. James Legge (The Chinese Classics, 1861-1895)", {"Mencius": book})
+
+
+def great_learning_and_mean():
+    """The Great Learning and the Doctrine of the Mean, trans. James Legge
+    (1893), sacred-texts.com archive (cfu/conf2.htm, conf3.htm). This copy
+    has lost the traditional chapter numbers, so each is kept by paragraph:
+    the Great Learning's classic text is chapter 1 and the commentary of
+    the philosopher Tsang chapter 2; the Doctrine of the Mean is chapter 1."""
+    out = {}
+    for path, name in (("cfu/conf2.htm", "Great Learning"), ("cfu/conf3.htm", "Doctrine of the Mean")):
+        text = _html_text(sacred_text(path))
+        text = text[text.index("translated by James Legge"):text.rindex("THE END")]
+        text = text[text.index("\n"):]
+        parts = re.split(r"(?m)^\s*COMMENTARY OF THE PHILOSOPHER TSANG\s*$", text)
+        book = {}
+        for c, part in enumerate(parts, 1):
+            paras = [tidy(p) for p in re.split(r"\n(?=[ \t]{2,}\S)|\n\s*\n", part) if p.strip()]
+            book[str(c)] = {str(i): p for i, p in enumerate(paras, 1)}
+        out[name] = book
+    print(f"  {[(k, [len(c) for c in v.values()]) for k, v in out.items()]}")
+    write("chinese", "great_learning_mean.json", "The Great Learning and The Doctrine of the Mean, trans. James Legge (1893)", out)
+
+
+# ── Hindu, more ─────────────────────────────────────────────────────────────
+
+def upanishads_muller():
+    """The principal Upanishads in F. Max Müller's translation (SBE 1, 1879;
+    SBE 15, 1884), sacred-texts.com archive -- those not already here in
+    Paramananda's (the Isa, Katha and Kena: Müller's Vagasaneyi and
+    Talavakara are those two). Chapters follow each Upanishad's own
+    divisions (Chandogya 1.1 = first prapathaka, first khanda; Brihadaranyaka
+    4.3 = fourth adhyaya, third brahmana...), verses Müller's numbers."""
+    sbe01 = sbe_clean(sacred_text("hin/sbe01/sbe01.txt.gz"))
+    sbe15 = sbe_clean(sacred_text("hin/sbe15/sbe15.txt.gz"))
+    O = rf"({ORDINAL})"
+    plan = [  # (book, text, heading, first division, levels, the heading that ends it)
+        ("Chandogya Upanishad", sbe01, "KHANDOGYA-UPANISHAD.", "FIRST PRAPATHAKA.",
+         [rf"{O} PRAPATHAKA\.?", rf"{O} KHANDA\.?"], "TALAVAKARA"),
+        ("Aitareya Aranyaka", sbe01, "AITAREYA-ARANYAKA.", "FIRST ARANYAKA.",
+         [rf"{O} ARANYAKA\.?", rf"{O} ADHYAYA\.?", rf"{O} KHANDA\.?"], "KAUSHITAKI-BRAHMANA-UPANISHAD."),
+        ("Kaushitaki Upanishad", sbe01, "KAUSHITAKI-BRAHMANA-UPANISHAD.", "KAUSHITAKI-UPANISHAD.",
+         [rf"{O} ADHYAYA\.?"], "VAGASANEYI-SAMHITA-UPANISHAD,"),
+        ("Mundaka Upanishad", sbe15, "MUNDAKA-UPANISHAD.", "FIRST MUNDAKA.",
+         [rf"{O} MUNDAKA\.?", rf"{O} KHANDA\.?"], "TAITTIRIYAKA-UPANISHAD."),
+        ("Taittiriya Upanishad", sbe15, "TAITTIRIYAKA-UPANISHAD.", "FIRST VALLI,",
+         [rf"{O} VALLI[.,]?", rf"{O} ANUVAKA\.?"], "BRIHADARANYAKA-UPANISHAD."),
+        ("Brihadaranyaka Upanishad", sbe15, "BRIHADARANYAKA-UPANISHAD.", "FIRST ADHYAYA.",
+         [rf"{O} ADHYAYA\.?", rf"{O} BRAHMANA\.?"], "SVETASVATARA-UPANISHAD."),
+        ("Svetasvatara Upanishad", sbe15, "SVETASVATARA-UPANISHAD.", "FIRST ADHYAYA.",
+         [rf"{O} ADHYAYA\.?"], "PRASNA-UPANISHAD."),
+        ("Prasna Upanishad", sbe15, "PRASNA-UPANISHAD.", "FIRST QUESTION.",
+         [rf"{O} QUESTION\.?"], "Maitrayana-Brahmana-Upanishad"),
+        ("Maitrayana Upanishad", sbe15, "Maitrayana-Brahmana-Upanishad", "FIRST PRAPATHAKA.",
+         [rf"{O} PRAPATHAKA\.?"], None),
+    ]
+    out = {}
+    for name, text, heading, first, levels, end in plan:
+        a = heading_at(text, heading, first)
+        b = heading_at(text, end, after=a + 10) if end else len(text)
+        out[name] = sbe_sections(text[a:b], levels, verses_of=leading_numbered)
+    counts = {k: (len(v), sum(map(len, v.values()))) for k, v in out.items()}
+    print(f"  Upanishads (chapters, verses): {counts}")
+    expect(all(c > 0 and v >= 2 * c for c, v in counts.values()), "an Upanishad with too few verses")
+    write("dharmic", "upanishads_muller.json", "The Upanishads, trans. F. Max Müller (Sacred Books of the East 1 and 15, 1879-1884)", out)
+
+
+def laws_of_manu():
+    """The Laws of Manu (Manusmriti), trans. Georg Bühler (SBE 25, 1886),
+    sacred-texts.com archive (hin/manu/manu01-12.htm): 12 chapters, verses
+    by Bühler's numbers."""
+    book = {}
+    for n in range(1, 13):
+        book[str(n)] = leading_numbered(st_page(f"hin/manu/manu{n:02d}.htm"))
+    counts = [len(v) for v in book.values()]
+    print(f"  Manu verses per chapter: {counts}")
+    expect(sum(counts) >= 2600, f"{sum(counts)} verses")      # the Manusmriti has 2,684
+    write("dharmic", "laws_of_manu.json", "The Laws of Manu, trans. Georg Bühler (Sacred Books of the East 25, 1886)",
+          {"Laws of Manu": book})
+
+
+def yoga_sutras():
+    """The Yoga Sutras of Patanjali, trans. BonGiovanni ("The Threads of
+    Union"), sacred-texts.com archive (hin/yogasutr.htm): four chapters, the
+    sutras numbered as everywhere ("Yoga Sutras 1.2")."""
+    text = _html_text(sacred_text("hin/yogasutr.htm"))
+    book = {}
+    for m in re.finditer(r"(?ms)^\s*([1-4])\.(\d+)\.?\s+(.*?)(?=^\s*[1-4]\.\d+\.?\s|^\s*(?:Sacred Texts|Next:)|\Z)", text):
+        book.setdefault(m.group(1), {})[m.group(2)] = tidy(m.group(3))
+    counts = [len(v) for v in book.values()]
+    expect(counts == [51, 55, 56, 34] or sum(counts) >= 190, f"sutras per chapter {counts}")
+    print(f"  Yoga Sutras: {counts}")
+    write("dharmic", "yoga_sutras.json", "The Yoga Sutras of Patanjali, trans. BonGiovanni (The Threads of Union)",
+          {"Yoga Sutras": book})
+
+
+# ── Zoroastrian ─────────────────────────────────────────────────────────────
+
+def avesta():
+    """The Zend-Avesta and Pahlavi texts of the Sacred Books of the East,
+    sacred-texts.com archive (a page per chapter): the Vendidad (22
+    fargards) and the Yashts (the 21 hymns) trans. James Darmesteter (SBE 4,
+    1880; SBE 23, 1883), the Yasna (72 chapters) trans. L. H. Mills (SBE 31,
+    1887), and the Bundahishn, the Zoroastrian account of creation, trans.
+    E. W. West (SBE 5, 1880). Verses by the translators' numbers; their
+    introductions to each chapter and their footnotes are left out."""
+    out = {}
+
+    def collect(index, pattern, name, numbering=lambda m: str(roman(m.group(1)))):
+        book = {}
+        for page, label in st_index(index):
+            m = re.fullmatch(pattern, label)
+            if m:
+                key = numbering(m)
+                if key in book:
+                    continue
+                verses = leading_numbered(st_page(page))
+                if verses:
+                    book[key] = verses
+        out[name] = dict(sorted(book.items(), key=lambda kv: int(kv[0])))
+
+    collect("zor/sbe04/index.htm", r"Fargard ([IVXL]+)\b.*", "Vendidad")
+    collect("zor/sbe23/index.htm", r"([IVXL]+)\. .*Yast\b.*", "Yashts")
+    collect("zor/sbe31/index.htm", r"Yasna ([IVXL]+)\b.*", "Yasna")
+    collect("zor/sbe05/index.htm", r"Chapter ([IVXL]+)\b.*", "Bundahishn")
+    counts = {k: len(v) for k, v in out.items()}
+    print(f"  chapters: {counts}")
+    expect(counts["Vendidad"] == 22 and counts["Yashts"] >= 19 and counts["Yasna"] >= 70 and counts["Bundahishn"] >= 30,
+           f"chapters {counts}")
+    write("zoroastrian", "avesta.json",
+          "The Zend-Avesta (Vendidad, Yashts trans. James Darmesteter; Yasna trans. L. H. Mills) and the Bundahishn "
+          "(trans. E. W. West), Sacred Books of the East 4, 5, 23, 31 (1880-1887)", out)
+
+
+# ── Jain ────────────────────────────────────────────────────────────────────
+
+def jaina_sutras():
+    """The Jaina Sutras, trans. Hermann Jacobi (SBE 22, 1884; SBE 45, 1895),
+    sacred-texts.com archive: the Akaranga Sutra (book.lecture.lesson; the
+    second book's last lectures have no lessons), the Kalpa Sutra (its parts,
+    with Jacobi's running section numbers as verses), the Uttaradhyayana (36
+    lectures) and the Sutrakritanga (book.lecture.chapter). Verses are the
+    "(n)" numbers Jacobi prints; his footnotes are left out."""
+    sbe22 = sbe_clean(sacred_text("jai/sbe22/sbe22.txt.gz"))
+    sbe45 = sbe_clean(sacred_text("jai/sbe45/sbe45.txt.gz"))
+    out = {}
+
+    aka = sbe22[heading_at(sbe22, "AKARANGA SUTRA.", "FIRST BOOK.", "FIRST LECTURE,"):heading_at(sbe22, "THE KALPA SUTRA")]
+    out["Akaranga Sutra"] = sbe_sections(aka, [rf"({ORDINAL}) BOOK\.?", rf"({ORDINAL}) LECTURE[.,]?",
+                                               rf"({ORDINAL}) LESSON\.?"])
+    kalpa = sbe22[heading_at(sbe22, "LIFE OF MAHAVIRA."):sbe22.rindex("INDEX")]
+    parts = ["LIFE OF MAHAVIRA", "LIFE OF PARSVA", "LIFE OF ARISHTANEMI", "EPOCHS OF THE INTERMEDIATE TIRTHAKARAS",
+             "LIFE OF RISHABHA", "LIST OF THE STHAVIRAS", "RULES FOR YATIS"]
+    book, last = {}, 0
+    for i, name in enumerate(parts):
+        a = kalpa.index(name + ".") if name + "." in kalpa else kalpa.index(name)
+        b = kalpa.index(parts[i + 1]) if i + 1 < len(parts) else len(kalpa)
+        chunk = re.sub(r"(?m)^\s*(End of the .*|Life of Mahavira, Lecture \d+|" + re.escape(name) + r"\.?)\s*$", "", kalpa[a:b])
+        # the Lives number their sections straight through; the List and the Rules start again
+        verses = numbered_verses(chunk, 0 if name in ("RULES FOR YATIS", "LIST OF THE STHAVIRAS") else last)
+        last = last_verse(verses)
+        first = next(iter(verses))
+        verses[first] = f"*{name.title()}*\n{verses[first]}"
+        book[str(i + 1)] = verses
+    out["Kalpa Sutra"] = book
+
+    utt_at = heading_at(sbe45, "UTTARADHYAYANA.", "FIRST LECTURE.")
+    sut_at = heading_at(sbe45, "SUTRAKRITANGA.", "FIRST BOOK.", after=utt_at)
+    utt = sbe45[utt_at:sut_at]
+    out["Uttaradhyayana Sutra"] = sbe_sections(utt, [rf"({ORDINAL}) LECTURE\.?"])
+    sut = sbe45[sut_at:sbe45.rindex("INDEX")]
+    out["Sutrakritanga"] = sbe_sections(sut, [rf"({ORDINAL}) BOOK\.?", rf"({ORDINAL}) LECTURE[.,]?",
+                                              rf"({ORDINAL}) CHAPTER\.?"])
+    counts = {k: len(v) for k, v in out.items()}
+    print(f"  chapters: {counts}")
+    expect(counts["Uttaradhyayana Sutra"] == 36, f"Uttaradhyayana {counts}")
+    write("jain", "jaina_sutras.json", "The Jaina Sutras, trans. Hermann Jacobi (Sacred Books of the East 22 and 45, 1884-1895)", out)
+
+
+# ── Shinto ──────────────────────────────────────────────────────────────────
+
+def kojiki():
+    """The Kojiki, trans. Basil Hall Chamberlain (1882; 1919 ed.), sacred-texts.com
+    archive. Chamberlain's 180 sections are the chapters, a verse per
+    paragraph, the section's title leading the first. The headings' numbers
+    have OCR slips (two "XLI"s, a "SECT. ."), so sections are numbered in
+    order and the count checked. The appendix and footnotes are left out."""
+    text = sbe_clean(sacred_text("shi/kj/kj.txt.gz"))
+    text = text[heading_at(text, "RECORDS OF ANCIENT MATTERS"):]
+    text = text[:re.search(r"(?m)^\s*I\. \(SECT\. ", text).start()]
+    text = re.sub(r"\s\[\d+\](?=\s)", " ", text)                           # the original's page numbers
+    # "[SECT. XIX.--...]", and two with "SECT" lost: "[ XVIII.--...]", "[. CXLI.--...]"
+    heads = list(re.finditer(r"(?m)^\s*(?:\[?SECT\b|\[[\s.]*[IVXLC]+\.--)[^\n]*$", text))
+    book = {}
+    for i, m in enumerate(heads, 1):
+        title = re.sub(r"^\s*\[?(?:SECT)?[\s.]*[IVXLC ]*[.:]?\s*[-—.:]*\s*|\]?\s*$", "", m.group(0)).strip()
+        body = text[m.end():heads[i].start() if i < len(heads) else len(text)]
+        paras = [tidy(p) for p in paragraphs(body) if not re.fullmatch(r"(VOL\.|VOLUME) [IVX]+\.?.*|\[?END.*", p.strip())]
+        verses = {str(n): p for n, p in enumerate(sentence_groups([p for p in paras if p]), 1)}
+        if verses:
+            verses["1"] = f"*{title.rstrip('.').title()}*\n{verses['1']}"
+        book[str(i)] = verses
+    expect(len(book) == 180, f"{len(book)} sections")
+    write("shinto", "kojiki.json", "The Kojiki (Records of Ancient Matters), trans. Basil Hall Chamberlain (1882)",
+          {"Kojiki": book})
+
+
+def nihongi():
+    """The Nihongi (Chronicles of Japan), trans. W. G. Aston (1896), as given on
+    the sacred-texts.com archive (shi/nihon0-3.htm): selections -- the Age of
+    the Gods (Books I-II), the first Emperor Jimmu (Book III) and the Taika
+    reforms (Books XXV-XXVI) -- not the whole. Chapter = Aston's book, a
+    verse per paragraph."""
+    book, current = {}, None
+    for n in range(4):
+        text = _html_text(sacred_text(f"shi/nihon{n}.htm"))
+        text = text[text.index("Internet Sacred Text Archive") + 30:]           # after the page title
+        text = re.split(r"(?m)^\s*(?:Next: |Sacred Texts \||END OF THE NIHONGI)", text)[0]
+        text = re.sub(r"(?m)^\s*(?:Sacred-texts|Shinto|Index|Previous|Next)\s*$", "", text)
+        for p in paragraphs(text):
+            m = re.fullmatch(r"(?:Book|BOOK) ([IVXL]+)\.?", p.strip())
+            if m:
+                current = str(roman(m.group(1)))
+                book.setdefault(current, {})
+                continue
+            if p.strip() == "THE NIHONGI" or current is None or re.fullmatch(r"[A-Z][A-Z ,.'\-]+", p.strip()):
+                if current and book[current] == {}:
+                    book[current]["title"] = p.strip().title()
+                continue
+            verses = book[current]
+            verses[str(len([k for k in verses if k != "title"]) + 1)] = tidy(p)
+    for key, verses in book.items():
+        title = verses.pop("title", "")
+        if title and "1" in verses:
+            verses["1"] = f"*{title}*\n{verses['1']}"
+    print(f"  Nihongi books: {[(k, len(v)) for k, v in book.items()]}")
+    expect(set(book) >= {"1", "3", "25", "26"}, f"books {list(book)}")
+    write("shinto", "nihongi.json", "The Nihongi (Chronicles of Japan), trans. W. G. Aston (1896): selections, as on sacred-texts.com",
+          {"Nihongi": book})
+
+
+# ── Mesoamerican ────────────────────────────────────────────────────────────
+
+def popol_vuh():
+    """The Popol Vuh, the K'iche' Maya book of creation, in Lewis Spence's
+    rendering (The Popol Vuh, 1908; sacred-texts.com nam/pvuheng.htm): his
+    retelling of its four books, with passages translated, not a
+    line-by-line translation. Chapter = book, a verse per paragraph (long
+    ones cut into runs of sentences); his commentary and notes after the
+    fourth book are left out."""
+    text = _html_text(sacred_text("nam/pvuheng.htm"))
+    body = text[text.index("THE FIRST BOOK"):text.index("THE VUKUB-CAKIX MYTH")]
+    parts = re.split(r"(?m)^\s*THE (FIRST|SECOND|THIRD|FOURTH) BOOK\s*$", body)[1:]
+    book = {}
+    for word, chunk in zip(parts[0::2], parts[1::2]):
+        paras = [tidy(re.sub(r"\s?\[\d+\]", "", p)) for p in paragraphs(chunk)
+                 if p.strip() and not re.fullmatch(r"[A-Z][A-Z ,.'\-:]+", p.strip())]   # sub-headings
+        book[str(_ORD_WORDS.index(word) + 1)] = {str(i): p for i, p in enumerate(sentence_groups(paras), 1)}
+    expect(list(book) == ["1", "2", "3", "4"], f"books {list(book)}")
+    write("mesoamerican", "popol_vuh.json",
+          "The Popol Vuh, retold with translated passages by Lewis Spence (The Popol Vuh, 1908)", {"Popol Vuh": book})
+
+
+# ── Sikh ────────────────────────────────────────────────────────────────────
+
+def guru_granth_sahib():
+    """Shri Guru Granth Sahib, English of Sant Singh Khalsa, sacred-texts.com
+    archive (skh/granth/gr01-45.htm). The site splits each section into
+    "Part NNN", numbered afresh in each section but one per Ang (page) of
+    the standard 1,430-page edition -- the 45 sections' parts total exactly
+    1,430 -- so counting parts straight through gives the Ang, which is how
+    the Granth is cited: chapter = Ang, verse = line on that Ang. The
+    Japji (Jup), the morning prayer that opens it, is also kept as its own
+    book, by pauri (stanza): its prologue is 0, pauris 1-38, closing salok 39."""
+    angs: dict = {}
+    jup = ""
+    for n in range(1, 46):
+        text = _html_text(sacred_text(f"skh/granth/gr{n:02d}.htm"))
+        text = re.split(r"(?m)^\s*(?:Next: |Sacred Texts \|)", text[text.index("Shri Guru Granth Sahib:"):])[0]
+        parts = re.split(r"(?m)^\s*Section \d+ - .*? - Part (\d+)\s*$", text)[1:]
+        for num, chunk in zip(parts[0::2], parts[1::2]):
+            lines = [tidy(l) for l in chunk.splitlines() if l.strip()]
+            page = angs.setdefault(str(len(angs) + 1), {})
+            for line in lines:
+                page[str(len(page) + 1)] = line
+            if n == 1:
+                jup += "\n".join(lines) + "\n"
+    expect(sorted(map(int, angs)) == list(range(1, 1431)), f"angs {min(map(int, angs))}-{max(map(int, angs))} ({len(angs)})")
+    # The Japji: the prologue (Mool Mantar) ends at the first ||1||, then each pauri ends ||n||
+    pieces = re.split(r"\|\|(\d+)\|\|\s*\n?", jup.strip())
+    japji, pauri = {}, 0
+    expect(pieces[1] == "1", "the Japji's prologue")
+    japji["0"] = {str(i): l for i, l in enumerate(pieces[0].splitlines(), 1)}       # "One Universal Creator God...  ||1||"
+    japji["0"][str(len(japji["0"]))] += " ||1||"
+    for body, num in zip(pieces[2::2], pieces[3::2]):
+        lines = body.strip().splitlines()
+        if int(num) == pauri + 1:
+            pauri += 1
+            japji[num] = {str(i): l for i, l in enumerate(lines, 1)}
+            japji[num][str(len(lines))] += f" ||{num}||"
+        else:                                       # the closing Shalok ("Air is the Guru...") ends ||1||
+            japji["39"] = {str(i): l for i, l in enumerate(lines, 1)}
+            japji["39"][str(len(lines))] += " ||1||"
+            break
+    expect(pauri == 38 and "39" in japji, f"Japji: {pauri} pauris")
+    write("sikh", "guru_granth_sahib.json",
+          "Shri Guru Granth Sahib, English translation by Sant Singh Khalsa (sacred-texts.com)",
+          {"Guru Granth Sahib": angs, "Japji": japji})
+
+
+# ── Buddhist, more ──────────────────────────────────────────────────────────
+
+def lotus_sutra():
+    """The Saddharma-pundarika (Lotus Sutra), trans. H. Kern (SBE 21, 1884),
+    sacred-texts.com archive: 27 chapters (Kern's numbering, from the
+    Sanskrit), a verse per paragraph of prose or numbered stanza (the
+    stanza's number is kept in its text, as it restarts in each group), the
+    chapter's title leading the first."""
+    book = {}
+    for n in range(1, 28):
+        text = st_page(f"bud/lotus/lot{n:02d}.htm")
+        lines = [l.strip() for l in text.splitlines() if l.strip()]
+        start = next(i for i, l in enumerate(lines) if re.fullmatch(r"CHAPTER [IVXL]+\.?", l))
+        title, body = lines[start + 1].title(), lines[start + 2:]
+        verses = {str(i): tidy(l) for i, l in enumerate(body, 1)}
+        verses["1"] = f"*{title}*\n{verses['1']}"
+        book[str(n)] = verses
+    write("buddhist", "lotus_sutra.json", "The Saddharma-pundarika or Lotus of the True Law, trans. H. Kern (Sacred Books of the East 21, 1884)",
+          {"Lotus Sutra": book})
+
+
+def milinda():
+    """The Questions of King Milinda, trans. T. W. Rhys Davids (SBE 35-36,
+    1890-1894), sacred-texts.com archive. Chapters are "book.chapter" from
+    each page's own heading ("BOOK II. CHAPTER 2."; a book with no chapters
+    is chapter 1), verses Rhys Davids's paragraph numbers; the bracketed page
+    numbers of the Pali edition are left out."""
+    book = {}
+    for index in ("bud/sbe35/index.htm", "bud/sbe36/index.htm"):
+        for page, label in st_index(index):
+            if not re.match(r"(Book [IVX]+|Chapter \d+)", label):
+                continue
+            # (the heading from the raw page: st_page's footnote-marker cleaning would take "CHAPTER 2"'s 2)
+            raw = _html_text(sacred_text(page))
+            head = re.search(r"(?m)^\s*BOOK ([IVX]+)\b", raw)
+            if not head:
+                continue
+            chap = re.search(r"CHAPTER (\d+)", raw[head.start():head.start() + 400])
+            key = f"{roman(head.group(1))}.{chap.group(1) if chap else 1}"
+            text = re.sub(r"\[\d+\]\s*", "", st_page(page))
+            text = text[re.search(r"(?m)^\s*BOOK [IVX]+\b.*$", text).end():]
+            text = re.sub(r"^\s*(?:[A-Z][A-Z\-ÂÎÛÑ' .,]+\n)*\s*CHAPTER \d*\.?", "", text)      # the rest of the heading
+            # (a chapter can run over two pages: II.3 continues at its verse 15)
+            book.setdefault(key, {}).update(leading_numbered(text))
+    book = dict(sorted(book.items(), key=lambda kv: tuple(map(int, kv[0].split(".")))))
+    print(f"  Milinda: {list(book)}")
+    expect(len(book) >= 20, f"{len(book)} chapters")
+    write("buddhist", "milinda.json", "The Questions of King Milinda, trans. T. W. Rhys Davids (Sacred Books of the East 35-36, 1890-1894)",
+          {"Questions of King Milinda": book})
+
+
+def jataka():
+    """The Jataka, or Stories of the Buddha's Former Births, ed. E. B. Cowell
+    (1895-1907), sacred-texts.com archive (six volumes, bud/j1-j6): all 547
+    tales, each a chapter by its number, a verse per paragraph (long ones
+    cut into runs of sentences), the tale's name leading the first."""
+    book = {}
+    for vol in range(1, 7):
+        text = sbe_clean(sacred_text(f"bud/j{vol}/j{vol}.txt.gz"))
+        text = re.sub(r"\[j\d+\]|\[\d+\.?\]|^_{5,}\s*$", "", text, flags=re.M)
+        heads = list(re.finditer(r"(?m)^\s*No\. (\d+)\.\s*$", text))
+        for i, m in enumerate(heads):
+            body = text[m.end():heads[i + 1].start() if i + 1 < len(heads) else len(text)]
+            if i + 1 == len(heads):
+                body = re.split(r"(?m)^\s*(?:INDEX|Index)\s*$", body)[0]
+            paras = [tidy(p) for p in paragraphs(body)]
+            title = paras.pop(0).rstrip(".").title() if paras and re.fullmatch(r"[A-Z][A-Z\-' ]+\.?", paras[0]) else ""
+            verses = {str(n): p for n, p in enumerate(sentence_groups([p for p in paras if p]), 1)}
+            if title and verses:
+                verses["1"] = f"*{title}*\n{verses['1']}"
+            book.setdefault(m.group(1), verses)
+    numbers = sorted(map(int, book))
+    print(f"  Jataka: {len(book)} tales, {numbers[0]}-{numbers[-1]}; missing {sorted(set(range(1, 548)) - set(numbers))[:20]}")
+    expect(len(book) >= 540, f"{len(book)} tales")
+    write("buddhist", "jataka.json", "The Jataka, or Stories of the Buddha's Former Births, ed. E. B. Cowell (1895-1907)",
+          {"Jataka": dict(sorted(book.items(), key=lambda kv: int(kv[0])))})
+
+
+def masnavi():
+    """Rumi's Masnavi, abridged and trans. E. H. Whinfield (1898),
+    sacred-texts.com archive (isl/masnavi/msn.txt.gz). Chapters are
+    "book.story" (the prologue 0, an epilogue after the last story);
+    Whinfield's prose summary of each story, after its title, is the first
+    verse, then the couplets in runs of eight lines (his sub-headings, such
+    as "Description of Love.", can't be told from a couplet line ending in a
+    full stop, so they stay in the run). His notes are left out."""
+    text = sacred_text("isl/masnavi/msn.txt.gz")
+    text = re.sub(r"(?m)^.*at sacred-texts\.com\s*$", "", text)
+    text = re.sub(r"(?m)^[ \t]*\*NOTES:[ \t]*\n(?:[ \t]*\d+\..*\n|[ \t]*\n)*", "", text)
+    # note numbers: "Adam, l" / "Pure One! 2" at a line's end, "willing,1 we" inside it
+    text = re.sub(r"(?:(?<=[^\W\d_])|(?<=[,;:!?'’\"]))[ \t]?(?:\d{1,2}|l)(?=[ \t]*$|[ \t]*[,.;:])", "", text, flags=re.M)
+    text = re.sub(r"(?<=[,;:.!?'’\"])[ \t]?\d{1,2}(?=\s)", "", text)       # (this text has no verse numbers)
+    books = re.split(r"(?m)^\s*Book ([IVX]+)\.\s*$", text)[1:]
+    out = {}
+    for num, chunk in zip(books[0::2], books[1::2]):
+        b = roman(num)
+        parts = re.split(r"(?m)^\s*(PROLOGUE\.|STORY ([IVXL]+)\.|Epilogue to Book [IVX]+\.)\s*$", chunk)
+        stories = len(re.findall(r"(?m)^\s*STORY [IVXL]+\.\s*$", chunk))
+        for i in range(1, len(parts), 3):
+            head, story_num, body = parts[i], parts[i + 1], parts[i + 2]
+            key = "0" if head.startswith("PROLOGUE") else str(roman(story_num)) if story_num else str(stories + 1)
+            lines = [l.strip() for l in body.splitlines() if l.strip()]
+            if not lines:
+                continue
+            verses, run = [], []
+            title = lines.pop(0) if story_num else head.rstrip(".").title()
+            for line in lines:
+                prose = len(line) > 160
+                if prose or len(run) >= 8:
+                    if run:
+                        verses.append("\n".join(run))
+                    run = []
+                if prose:
+                    verses.append(tidy(line))
+                else:
+                    run.append(line)
+            if run:
+                verses.append("\n".join(run))
+            book = {str(n): v for n, v in enumerate(verses, 1)}
+            if book:
+                book["1"] = f"*{title.rstrip('.')}*\n{book['1']}"
+            out[f"{b}.{key}"] = book
+    counts = [sum(1 for k in out if k.startswith(f"{b}.")) for b in range(1, 7)]
+    print(f"  Masnavi stories per book: {counts}")
+    expect(len(counts) == 6 and min(counts) >= 8, f"stories {counts}")
+    write("sufi", "masnavi_whinfield.json", "Rumi, The Masnavi, abridged and trans. E. H. Whinfield (1898)", {"Masnavi": out})
+
+
+def rubaiyat():
+    """The Rubaiyat of Omar Khayyam, trans. Edward FitzGerald, as on the
+    sacred-texts.com archive (isl/khayyam.txt), one chapter of numbered
+    quatrains. (The file says 1859 but runs past that edition's 75.)"""
+    text = sacred_text("isl/khayyam.txt")
+    parts = re.split(r"(?m)^([IVXLC]+)[.:]\s*$", text)[1:]
+    book = {str(roman(n)): "\n".join(l.strip() for l in q.strip().splitlines() if l.strip())
+            for n, q in zip(parts[0::2], parts[1::2])}
+    expect(list(book) == [str(i) for i in range(1, len(book) + 1)] and len(book) >= 75,
+           f"quatrains {list(book)[:3]}...{list(book)[-3:]}")
+    write("sufi", "rubaiyat_fitzgerald.json", "The Rubaiyat of Omar Khayyam, trans. Edward FitzGerald",
+          {"Rubaiyat": {"1": book}})
+
+
+# ── European myth ──────────────────────────────────────────────────────────
+
+def kalevala():
+    """The Kalevala, the Finnish national epic, trans. John Martin Crawford
+    (1888), sacred-texts.com archive (neu/kveng/kv.txt.gz): the proem
+    (chapter 0) and 50 runes, in runs of eight lines (the poem has no
+    stanzas), the rune's title leading the first."""
+    text = re.sub(r"(?m)^.*at sacred-texts\.com\s*$|\[p\. \d+\]", "", sacred_text("neu/kveng/kv.txt.gz"))
+    heads = [m for m in re.finditer(r"(?m)^\s*(PROEM|RUNE ([IVXL]+))\.?(.*)$", text)]
+    body_heads, seen = [], set()
+    for m in reversed(heads):                       # the last of each is the text's own (the first, the contents)
+        key = "0" if m.group(1) == "PROEM" else str(roman(m.group(2)))
+        if key not in seen:
+            seen.add(key)
+            body_heads.append((key, m))
+    body_heads = sorted(body_heads, key=lambda km: km[1].start())
+    book = {}
+    for i, (key, m) in enumerate(body_heads):
+        end = body_heads[i + 1][1].start() if i + 1 < len(body_heads) else len(text)
+        lines = [l.strip() for l in text[m.end():end].splitlines() if l.strip()]
+        lines = [l for l in lines if not re.fullmatch(r"(?:END OF|THE END|Footnotes|\^.*|Next:.*)", l)]
+        title = m.group(3).strip(" .").title() if m.group(3).strip(" .") else ("Proem" if key == "0" else "")
+        if lines and not title and re.fullmatch(r"[A-Z][A-Z' ,\-]+\.?", lines[0]):
+            title = lines.pop(0).strip(".").title()
+        runs = ["\n".join(lines[j:j + 8]) for j in range(0, len(lines), 8)]
+        verses = {str(n): r for n, r in enumerate(runs, 1)}
+        if verses and title:
+            verses["1"] = f"*{title}*\n{verses['1']}"
+        book[key] = verses
+    expect(sorted(map(int, book)) == list(range(0, 51)), f"runes {sorted(map(int, book))[:3]}... ({len(book)})")
+    write("finnish", "kalevala.json", "The Kalevala, trans. John Martin Crawford (1888)",
+          {"Kalevala": dict(sorted(book.items(), key=lambda kv: int(kv[0])))})
+
+
+def mabinogion():
+    """The Mabinogion, the medieval Welsh tales, trans. Lady Charlotte Guest
+    (1838-1849), Project Gutenberg #5160: the twelve tales (Kilhwch and
+    Olwen with its Twrch Trwyth) and Taliesin, each a chapter in the
+    order of this edition, a verse per paragraph; her notes are left out."""
+    text = gutenberg(5160)
+    text = text[:text.rindex("FOOTNOTES")]
+    names = ["THE LADY OF THE FOUNTAIN", "PEREDUR THE SON OF EVRAWC", "GERAINT THE SON OF ERBIN", "KILHWCH AND OLWEN",
+             "THE DREAM OF RHONABWY", "PWYLL PRINCE OF DYVED", "BRANWEN THE DAUGHTER OF LLYR", "MANAWYDDAN THE SON OF LLYR",
+             "MATH THE SON OF MATHONWY", "THE DREAM OF MAXEN WLEDIG", "HERE IS THE STORY OF LLUDD AND LLEVELYS", "TALIESIN"]
+    starts = [heading_at(text, n, after=15000) for n in names]
+    expect(starts == sorted(starts), "tale order")
+    book = {}
+    for i, (name, a) in enumerate(zip(names, starts)):
+        body = text[a + len(name) + 3:starts[i + 1] if i + 1 < len(starts) else len(text)]
+        body = re.sub(r"\[\d+\]|\[Footnote.*?\]", "", body)
+        paras = [tidy(p) for p in paragraphs(body)
+                 if not re.fullmatch(r"[A-Z][A-Z ,'\-]+|[*\s]+", p.strip())]       # headings, "* * * * *"
+        # a stray capital printed as its own paragraph ("N" before "In times past") is dropped
+        joined = [p for i, p in enumerate(paras)
+                  if not (len(p) <= 2 and p.isalpha() and i + 1 < len(paras) and paras[i + 1][:1].isupper())]
+        verses = {str(n): p for n, p in enumerate(sentence_groups(joined), 1)}
+        verses["1"] = f"*{name.replace('HERE IS THE STORY OF ', '').title()}*\n{verses['1']}"
+        book[str(i + 1)] = verses
+    write("celtic", "mabinogion.json", "The Mabinogion, trans. Lady Charlotte Guest (1849)", {"Mabinogion": book})
+
+
+# ── Christian mystics ──────────────────────────────────────────────────────
+
+def cloud_of_unknowing():
+    """The Cloud of Unknowing, ed. Evelyn Underhill (1922), sacred-texts.com
+    archive (chr/cou): 75 chapters, a verse per paragraph, the chapter's
+    own heading (its summary) leading the first."""
+    book = {}
+    for page, label in st_index("chr/cou/index.htm"):
+        m = re.match(r"Chapter (\d+): (.*)", label)
+        if not m or m.group(1) in book:
+            continue
+        text = re.sub(r"\[[a-z]+-p\d+\]", "", st_page(page))
+        lines = [tidy(l) for l in text.splitlines() if l.strip()]
+        # the page opens "HERE BEGINNETH THE FIRST CHAPTER" and repeats its summary
+        start = next((i for i, l in enumerate(lines) if re.fullmatch(r"(HERE BEGINNETH )?(THE )?[A-Z\-]+ CHAPTER\.?", l)), -1)
+        lines = lines[start + 2:] if start >= 0 else lines
+        verses = {str(i): l for i, l in enumerate(lines, 1)}
+        if verses:
+            verses["1"] = f"*{m.group(2).strip(' .')}*\n{verses['1']}"
+        book[m.group(1)] = verses
+    expect(sorted(map(int, book)) == list(range(1, 76)), f"chapters ({len(book)})")
+    write("medieval", "cloud_of_unknowing.json", "The Cloud of Unknowing, ed. Evelyn Underhill (1922)",
+          {"Cloud of Unknowing": dict(sorted(book.items(), key=lambda kv: int(kv[0])))})
+
+
+def julian_of_norwich():
+    """Julian of Norwich, Revelations of Divine Love, ed. Grace Warrack
+    (1901), Project Gutenberg #52958: 86 chapters, a verse per paragraph;
+    the editor's summary under each chapter number and her notes are left
+    out."""
+    text = gutenberg(52958)
+    text = text[:text.rindex("CHAPTER LXXXVI")] + text[text.rindex("CHAPTER LXXXVI"):].split("\nINDEX")[0]
+    heads = list(re.finditer(r"(?m)^\s*CHAPTER ([IVXL]+)\s*$", text))
+    book = {}
+    for i, m in enumerate(heads):
+        body = text[m.end():heads[i + 1].start() if i + 1 < len(heads) else len(text)]
+        body = re.sub(r"\[\d+\]", "", body)
+        body = re.split(r"(?m)^\s*(?:FOOTNOTES?:?|\[Footnote)", body)[0]
+        body = re.sub(r"(?m)^\s*THE [A-Z\-]+ REVELATION_?\s*$", "", body)
+        paras = [tidy(p) for p in paragraphs(body)]
+        if paras and paras[0].startswith(('"', "“")) and len(paras) > 1:
+            paras = paras[1:]                             # the editor's summary, in quotation marks
+        book[str(roman(m.group(1)))] = {str(n): p for n, p in enumerate(paras, 1) if p}
+    expect(sorted(map(int, book)) == list(range(1, 87)), f"chapters ({len(book)})")
+    write("medieval", "julian_revelations.json", "Julian of Norwich, Revelations of Divine Love, ed. Grace Warrack (1901)",
+          {"Revelations of Divine Love": book})
+
+
+def brother_lawrence():
+    """Brother Lawrence, The Practice of the Presence of God, Project
+    Gutenberg #5657: chapter 1 the four Conversations (recorded by Joseph de
+    Beaufort), chapter 2 the Letters, a verse per conversation or letter
+    paragraph -- "1.2" is the second conversation."""
+    text = gutenberg(5657)
+    convs = text[text.index("First Conversation:"):text.index("\nLetters")]
+    letters = text[text.index("\nLetters"):]
+    book = {}
+    for c, (part, word) in enumerate(((convs, "Conversation"), (letters, "Letter")), 1):
+        pieces = re.split(rf"(?m)^(\w+ {word}):\s*", part)[1:]
+        for n, (head, body) in enumerate(zip(pieces[0::2], pieces[1::2]), 1):
+            paras = [tidy(p) for p in paragraphs(body)]
+            verses = {str(i): p for i, p in enumerate(paras, 1) if p}
+            verses["1"] = f"*{head}*\n{verses['1']}"
+            book[f"{c}.{n}"] = verses
+    print(f"  Brother Lawrence: {list(book)}")
+    expect(sum(1 for k in book if k.startswith("1.")) == 4, "four conversations")
+    write("medieval", "practice_of_presence.json", "Brother Lawrence, The Practice of the Presence of God (Project Gutenberg)",
+          {"Practice of the Presence of God": book})
+
+
 BUILDERS = {f.__name__: f for f in (dhammapada, diamond_sutra, tao_te_ching, analects, i_ching, hafiz,
                                     bhagavad_gita, upanishads, meditations, enchiridion, imitation_of_christ,
                                     rule_of_benedict, divine_comedy, hesiod, nt_apocrypha, secrets_of_enoch,
                                     forgotten_books_of_eden, sutta_nipata, gospel_of_thomas, enuma_elish,
-                                    enneads, enoch_missing_chapters)}
+                                    enneads, enoch_missing_chapters, guru_granth_sahib,
+                                    jaina_sutras, kojiki, nihongi, popol_vuh, avesta,
+                                    zhuangzi, mencius, great_learning_and_mean, masnavi, rubaiyat,
+                                    lotus_sutra, milinda, jataka, upanishads_muller, laws_of_manu, yoga_sutras,
+                                    kalevala, mabinogion, cloud_of_unknowing, julian_of_norwich, brother_lawrence)}
 
 if __name__ == "__main__":
     for name in sys.argv[1:] or BUILDERS:

@@ -134,7 +134,8 @@ CARD_STYLES = {
                       frame="key", ornament="diamond"),
 }
 _STYLE_BY_CORPUS = {"chinese": "ink", "sufi": "persian", "quran": "persian", "buddhist": "buddhist",
-                    "dharmic": "hindu", "norse": "norse", "classical": "classical"}
+                    "dharmic": "hindu", "norse": "norse", "classical": "classical",
+                    "zoroastrian": "persian", "shinto": "ink", "finnish": "norse"}
 
 
 def style_for_reference(reference: str) -> str:
