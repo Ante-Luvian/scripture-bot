@@ -14,6 +14,9 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-13 · !hymnlist fix
+- 🔧 **Fixed: picking a hymn from the `!hymnlist` menu could say "This interaction failed".** It happened after a ◀ ▶ page turn that didn't go through: the list kept showing the old page, but its menu had stopped responding. Now the menu always works, and the page you see is the page you get. Also, `!hymn list` now shows the hymnal list instead of searching for a hymn called "list".
+
 ## 2026-10-13 · 552 ancient hymns in Gregorian chant, Babylon Is Fallen, !midi and !hymnlist
 - ⛪ **`!hymn` now has 552 ancient Latin hymns, sung as Gregorian chant.** Gregorian chant is the old unaccompanied melody of the Western Church, sung for over a thousand years. Each hymn comes with its Latin words and a ▶️ button that plays the chant from beginning to end, every verse. You'll find the hymns of the Church's daily prayer (`!hymn Te lucis ante terminum`, `!hymn Veni Creator Spiritus`, `!hymn Vexilla Regis`, `!hymn Pange lingua`), the great sequences, long hymns sung at Mass on particular days (`!hymn Dies irae`, `!hymn Stabat Mater`, `!hymn Victimae paschali laudes`), the *Te Deum*, and the antiphons to the Virgin Mary (`!hymn Salve Regina`, `!hymn Regina caeli`), plus `!hymn Ubi caritas`. The melodies come from GregoBase, a library of chant scores transcribed from the old chant books, played here on an organ.
 - 🎶 **From the Sacred Harp: *Babylon Is Fallen*.** The Sacred Harp is the American shape-note songbook, sung loud in four parts. `!hymn Babylon is fallen` gives the words and plays it sung in four parts by a synthesised choir.

@@ -20,7 +20,7 @@ import zlib
 import discord
 from discord import app_commands
 
-from core import ROOT, bot, lookup
+from core import ROOT, bot, log, lookup
 
 HYMNS_PATH = ROOT / "data" / "hymns" / "hymns.json"
 # the ancient Latin hymns in Gregorian chant, and pieces like Babylon Is Fallen (scripts/build_chant.py)
@@ -282,6 +282,9 @@ async def send_hymn_search(ctx, query: str) -> None:
         hymn = random.choice(hymns())
         await ctx.send(embed=hymn_embed(hymn), view=hymn_view(hymn))
         return
+    if query.lower() in ("list", "index", "all"):                # people try this before !hymnlist
+        await send_hymn_list(ctx, "")
+        return
     found = find_hymns(query)
     if not found:
         await ctx.send(f"No hymn found for **{query}**. Try a title (`!hymn amazing grace`), a line "
@@ -405,28 +408,38 @@ class HymnListView(discord.ui.View):
         super().__init__(timeout=600)
         self.heading, self.found, self.page = heading, found, 0
         self.pages = max(1, -(-len(found) // LIST_PAGE))
-        self.prev = discord.ui.Button(emoji="◀", style=discord.ButtonStyle.secondary)
-        self.next = discord.ui.Button(emoji="▶", style=discord.ButtonStyle.secondary)
-        self.prev.callback = lambda i: self._turn(i, -1)
-        self.next.callback = lambda i: self._turn(i, 1)
-        self._build()
+        # the same three items for the view's whole life: replacing them would leave the message's
+        # old ones unanswered (Discord's "This interaction failed") if an edit didn't go through
+        if self.pages == 1:
+            self.remove_item(self.turn_back)
+            self.remove_item(self.turn_on)
+        self.select.callback = self._chosen
+        self._fill()
 
-    def _build(self):
-        self.clear_items()
-        if self.pages > 1:
-            self.add_item(self.prev)
-            self.add_item(self.next)
+    def _fill(self):
         chunk = self.found[self.page * LIST_PAGE:(self.page + 1) * LIST_PAGE]
-        select = discord.ui.Select(placeholder="Open a hymn…", options=[
-            discord.SelectOption(label=h["title"][:100], description=h["first_line"][:100], value=hymn_key(h))
-            for h in chunk])
-        select.callback = self._chosen
-        self.select = select
-        self.add_item(select)
+        self.select.options = [
+            discord.SelectOption(label=h["title"][:100], description=h["first_line"][:100] or None, value=hymn_key(h))
+            for h in chunk]
+
+    @discord.ui.button(emoji="◀", style=discord.ButtonStyle.secondary)
+    async def turn_back(self, interaction: discord.Interaction, button: discord.ui.Button):
+        await self._turn(interaction, -1)
+
+    @discord.ui.button(emoji="▶", style=discord.ButtonStyle.secondary)
+    async def turn_on(self, interaction: discord.Interaction, button: discord.ui.Button):
+        await self._turn(interaction, 1)
+
+    @discord.ui.select(placeholder="Open a hymn…", options=[discord.SelectOption(label="-")])
+    async def select(self, interaction: discord.Interaction, select: discord.ui.Select):
+        pass                                                   # (replaced by _chosen in __init__)
 
     async def _turn(self, interaction: discord.Interaction, step: int):
+        late = (discord.utils.utcnow() - interaction.created_at).total_seconds()
+        if late > 2:
+            log.warning("hymnlist: page turn reached the bot %.1fs after the click", late)
         self.page = (self.page + step) % self.pages
-        self._build()
+        self._fill()
         await interaction.response.edit_message(embed=hymn_list_embed(self.heading, self.found, self.page), view=self)
 
     async def _chosen(self, interaction: discord.Interaction):

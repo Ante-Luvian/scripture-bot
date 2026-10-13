@@ -94,3 +94,21 @@ def test_hymnlist_sections(hymns):
     assert "Babylon Is Fallen" in hymns.hymn_list_overview().description or "Sacred Harp" in hymns.hymn_list_overview().description
     page = hymns.hymn_list_embed("Every hymn", every, 0)
     assert page.description.count("\n") == hymns.LIST_PAGE - 1
+
+
+def test_hymnlist_pages_keep_their_items(hymns):
+    """Turning a page refills the same menu instead of replacing it: a replaced menu left the
+    message's old one unanswered ("This interaction failed") when an edit didn't go through."""
+    import asyncio
+
+    async def check():
+        view = hymns.HymnListView(*hymns.hymn_list("chant"))
+        items, first = list(view.children), view.select.options[0].label
+        assert len(items) == 3 and len(view.select.options) == hymns.LIST_PAGE
+        view.page = 1
+        view._fill()
+        assert list(view.children) == items and view.select.options[0].label != first
+        assert view.select.callback == view._chosen
+        single = hymns.HymnListView(*hymns.hymn_list("harp"))           # one page: no arrows
+        assert single.children == [single.select] and len(single.select.options) == 1
+    asyncio.run(check())
