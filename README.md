@@ -113,6 +113,7 @@ Prefix commands use `!`; most also have a `/` slash-command version.
 | `!who <name>` | `!person`, `!whois` | A person: description, family (with a menu to walk the tree), tribe, birth/death places, every verse naming them; namesakes offered as a list (Theographic) |
 | `!place <name>` | `!where`, `!map` | A place on a drawn map card (nearby places, locator inset, scale; uncertain sites ringed), with its verses |
 | `!hymn [title \| words \| topic \| passage]` | `!hymns`, `!hymnal` | A public-domain hymn: words, author, tune, Bible passages; ▶️ plays the tune (an organ .ogg) |
+| `!metrical [n \| nb \| n:v-v \| words \| tune]` | `!metricalpsalm`, `!singpsalm`, `!psalter1650`; `!psalm 23 sing` | A psalm from the Scottish Metrical Psalter (1650) with its tune to play, a menu of other same-meter tunes, KJV button, second versions, pages |
 
 ### Church, liturgy, and the daily office
 
@@ -240,6 +241,7 @@ bot_commands/           One module per feature area; each registers its
   memorize.py             !memorize + its DM reviews
   people.py               !who/!place (map cards: bible_map.py)
   hymns.py                !hymn (tunes played by hymn_audio.py)
+  psalter.py              !metrical (the Scottish Metrical Psalter)
   report.py               the owner's weekly report, !errors
   backup.py               daily backup of data/
   stats.py, help.py, autodetect.py, slash.py, changelog.py, health.py
@@ -276,7 +278,7 @@ Every corpus file in `data/` follows one schema:
 Chapter and verse keys are **strings**. D&C sections are chapters; Articles of
 Faith are chapter `"1"`, verses `"1"`–`"13"`.
 
-Two reference datasets have their own shape, each rebuilt by a script in `scripts/`:
+Three reference datasets have their own shape, each rebuilt by a script in `scripts/`:
 
 - `data/people_places/` (`build_people_places.py`): `people_places.json` holds
   `{"people": {slug: {name, family links, verses, ...}}, "places": {slug: {name,
@@ -289,6 +291,12 @@ Two reference datasets have their own shape, each rebuilt by a script in `script
   Open Hymnal's ABC scores are converted to the words and MIDI; a few extra hymns
   (`EXTRA_HYMNS`) take their words from Hymnary.org and tunes from Wikimedia Commons
   or, where none could be fetched, from MIDI files the owner supplied in `scripts/hymn_midi/`.
+- `data/psalter/` (`build_psalter.py`): `psalter.json` (`{"psalms": [{number,
+  version ("primary"/"alternate"), meter, first_line, stanzas: [{verses, lines}],
+  tune}], "tunes": {id: {title, meter, attribution, seconds}}}`), `midi/` and
+  `audio/` (one Ogg per tune), all from the Open 1650 project's corpus: the 1650
+  Scottish Psalter text, its psalm-to-tune settings, and 27 four-part tunes as
+  note events. Needs numpy, mido and ffmpeg, like the hymn audio.
 
 **Runtime state is not in git.** The bot writes per-server and per-user data
 to `data/` as it runs — `stats.json`, `guild_activity.json`, `guild_config.json`,

@@ -114,6 +114,13 @@ Abbreviations are fine (`Jn`, `1 Cor`, `Ps`). Bible verses come with the four st
 • **📖 Read the passages** — the Bible verses behind the hymn.
 About 290 public-domain hymns and carols, from the Open Hymnal Project and Hymnary.org.
 
+**`!metrical 23`** — a psalm from the **Scottish Metrical Psalter** of 1650: all 150 Psalms rewritten in rhyme and a steady beat so a whole congregation could sing them, still sung in Scottish churches today (it gave us *The Lord's my shepherd, I'll not want*). I show the psalm with its stanzas numbered by Bible verse, and the tune it's traditionally sung to:
+• **▶️ Play the tune** — one verse of the tune in four parts on an organ; every stanza is sung to it.
+• **The tune menu** — play the psalm to any other tune in the same rhythm, since any of them fits the words.
+• **📖 Read in the KJV** — the same psalm in ordinary prose, to compare.
+• **Second version** — some psalms (like Psalm 100) have two versions in the Psalter, and this switches between them. Ask for one directly with `!metrical 100b`.
+Long psalms have buttons to turn the page, or ask for some verses: `!metrical 119:105-112`. You can also search the words (`!metrical shepherd`), list every psalm sung to a tune (`!metrical crimond`), or get a random one with `!metrical`. `!psalm 23 sing` does the same as `!metrical 23`.
+
 ## ⛪ Prayer, liturgy & the Church
 **`!today`** — what's happening today across traditions: the Catholic, Anglican and Orthodox calendars (feasts, saints, seasons, Orthodox fasting), the Hebrew date and Jewish holidays, and the Islamic date and holidays. Narrow it down with `!today catholic`, `!today orthodox`, `!today jewish`, `!today islam`; add a date with `!today 12-25`.
 

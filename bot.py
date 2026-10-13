@@ -59,6 +59,7 @@ from bot_commands import (  # noqa: F401
     oracles,
     people,
     personal,
+    psalter,
     quiz,
     reference,
     slash,

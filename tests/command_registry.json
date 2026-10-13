@@ -79,6 +79,11 @@
    "learn",
    "memorise"
   ],
+  "metrical": [
+   "metricalpsalm",
+   "psalter1650",
+   "singpsalm"
+  ],
   "mp": [
    "matins"
   ],
@@ -241,6 +246,7 @@
   "interlinear",
   "leaderboard",
   "memorize",
+  "metrical",
   "mp",
   "notes",
   "oracle",

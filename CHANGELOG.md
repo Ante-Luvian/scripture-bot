@@ -14,6 +14,15 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-13 · Sing the Psalms: the Scottish Metrical Psalter
+- 🎶 **New: `!metrical` — the Psalms set to sing.** A *metrical psalter* is the Book of Psalms rewritten in rhyme and a steady beat, so that a whole congregation can sing any psalm to a simple tune. The Scottish Psalter of 1650 is the most famous one; it's still sung in Scottish churches, and it gave us *The Lord's my shepherd, I'll not want*. All 150 psalms are here. Try `!metrical 23`. (`!psalm 23 sing` does the same thing.)
+- ▶️ **Every psalm comes with its tune.** Each psalm shows the traditional tune it's sung to (Psalm 23 to *Crimond*, Psalm 100 to *Old Hundredth*) and who wrote it. Press **▶️ Play the tune** to hear one verse of it in four parts on an organ, then sing every stanza to it.
+- 🎼 **Try it to a different tune.** Any tune with the same rhythm (the *meter*) fits a psalm's words, which is how these psalms have always been sung. The menu under each psalm plays its words' other possible tunes: Psalm 23 to *Dundee*, *St Anne*, *Martyrdom* and more. There are 27 tunes in all, from the 1500s to the 1800s.
+- 🔢 **Stanzas are numbered by Bible verse**, as in the old psalm books, so you can see which verse each one comes from. Press **📖 Read in the KJV** to compare with the same psalm in ordinary prose.
+- 📄 **Long psalms have page buttons**, or you can ask for just a few verses: `!metrical 119:105-112` ("Thy word is a lamp unto my feet").
+- 🔁 **Some psalms have two versions.** The Psalter gives a few psalms a second version in a different rhythm. Psalm 100, for example, has a second version beginning "O all ye lands, unto the LORD". A button switches between them, or ask for one directly with `!metrical 100b`.
+- 🔎 **Search by words or by tune.** `!metrical shepherd` finds psalms with that word, and `!metrical crimond` lists every psalm sung to *Crimond*. `!metrical` on its own picks one at random.
+
 ## 2026-10-12 · I Vow to Thee, My Country
 - 🎵 **New hymn: *I Vow to Thee, My Country*.** Cecil Spring Rice's poem, sung to *Thaxted*, the tune Gustav Holst made from the great melody in *Jupiter* from his suite *The Planets*. You get both verses and the Bible passages behind it: its last line, "all her paths are peace", comes from Proverbs 3:17. Press **▶️ Play the tune** to hear it. Try `!hymn I vow to thee`.
 

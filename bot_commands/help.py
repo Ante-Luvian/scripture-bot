@@ -317,6 +317,25 @@ async def cmd_help(ctx, *, topic: str = ""):
         await ctx.send(embed=embed)
         return
 
+    if topic in ("metrical", "metricalpsalm", "singpsalm", "psalter1650"):
+        embed = discord.Embed(title="🎶 !metrical — The Scottish Metrical Psalter", color=discord.Color.dark_gold())
+        embed.description = (
+            "The Psalms in rhymed, regular verse for a congregation to sing, from the Scottish Psalter "
+            "of 1650 — still sung in Scottish churches, and the source of *The Lord's my shepherd, "
+            "I'll not want*.\n\n"
+            "`!metrical 23` — Psalm 23 in metre, with the tune it's sung to (also `!psalm 23 sing`)\n"
+            "`!metrical 100b` — a psalm's second version, where the Psalter has two\n"
+            "`!metrical 119:105-112` — just the stanzas for those verses\n"
+            "`!metrical shepherd` — psalms with those words; `!metrical crimond` lists a tune's psalms\n"
+            "`!metrical` — a random psalm\n\n"
+            "Stanzas are numbered by the Bible verse they start at, as in the old psalm books. "
+            "**▶️ Play the tune** posts one verse of the tune in four parts on an organ — every stanza "
+            "is sung to it. The menu plays the psalm's other possible tunes (any tune in the same meter "
+            "fits the words). **📖 Read in the KJV** shows the same psalm in prose."
+        )
+        await ctx.send(embed=embed)
+        return
+
     if topic in ("leaderboard", "lb"):
         embed = discord.Embed(title="🏆 !leaderboard — Bookmark Leaderboard", color=discord.Color.dark_gold())
         embed.description = (
@@ -760,7 +779,9 @@ async def cmd_help(ctx, *, topic: str = ""):
     embed.add_field(name="🗺️ People, Places & Hymns", value=(
         "`!who Ruth` — who someone was, their family, every verse naming them · `!help who`\n"
         "`!place Bethel` — a place on a map, with its verses · `!help place`\n"
-        "`!hymn amazing grace` — a hymn's words, its tune to play, the Bible behind it · `!help hymn`"
+        "`!hymn amazing grace` — a hymn's words, its tune to play, the Bible behind it · `!help hymn`\n"
+        "`!metrical 23` — a psalm in rhyming verse to sing (Scottish Psalter, 1650), with its tune · "
+        "`!help metrical`"
     ), inline=False)
     embed.add_field(name="⚙️ Server Setup (Admin)", value=(
         "`!votdsetup` — configure this server's daily VOTD channel/time/mode · `!help votdsetup`\n"
@@ -776,7 +797,7 @@ async def cmd_help(ctx, *, topic: str = ""):
         "`!compare strong <ref>` — KJV + original-language Strong's tagging · `!help compare`\n"
         "`!strong G3588` / `!strong H7225` — Strong's lexicon lookup · `!help strong`"
     ), inline=False)
-    embed.set_footer(text="!help verse · !help compare · !help votd · !help votdsetup · !help features · !help today · !help bcp · !help prayer · !help strong · !help books · !help parallel · !help oracle · !help discover · !help study · !help xref · !help notes · !help topic · !help save · !help plan · !help leaderboard · !help subscribe · !help card · !help who · !help place · !help hymn · !help creed · !help ccc · !help summa")
+    embed.set_footer(text="!help verse · !help compare · !help votd · !help votdsetup · !help features · !help today · !help bcp · !help prayer · !help strong · !help books · !help parallel · !help oracle · !help discover · !help study · !help xref · !help notes · !help topic · !help save · !help plan · !help leaderboard · !help subscribe · !help card · !help who · !help place · !help hymn · !help metrical · !help creed · !help ccc · !help summa")
     await ctx.send(embed=embed)
 
 

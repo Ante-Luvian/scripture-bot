@@ -12,6 +12,7 @@ from core import (
     lookup,
 )
 from core import ROOT
+from bot_commands import psalter
 
 # ── !today — Liturgical / religious calendar across traditions ─────────────────
 
@@ -1084,8 +1085,13 @@ async def cmd_psalm(ctx, *, args: str = ""):
       !psalm mp        — Morning Prayer psalms
       !psalm ep        — Evening Prayer psalms
       !psalm mp 12-25  — Morning Prayer psalms for Dec 25
+      !psalm 23 sing   — Psalm 23 in metre, to sing (same as !metrical 23)
     """
     parts = args.strip().split()
+    sung = [p for p in parts if p.lower() not in ("sing", "metrical", "metre", "meter")]
+    if len(sung) < len(parts):
+        await psalter.send_metrical(ctx, " ".join(sung))
+        return
     period = _bcp_period_for_now()
     date_raw = ""
     if parts:
