@@ -23,6 +23,8 @@ from discord import app_commands
 from core import ROOT, bot, lookup
 
 HYMNS_PATH = ROOT / "data" / "hymns" / "hymns.json"
+# the ancient Latin hymns in Gregorian chant, and pieces like Babylon Is Fallen (scripts/build_chant.py)
+MORE_PATH = ROOT / "data" / "hymns" / "more_hymns.json"
 MIDI_DIR = ROOT / "data" / "hymns" / "midi"
 AUDIO_DIR = ROOT / "data" / "hymns" / "audio"
 COLOR = discord.Color.from_rgb(120, 60, 110)
@@ -31,7 +33,10 @@ MAX_LIST = 20
 
 @functools.lru_cache(maxsize=1)
 def hymns() -> list:
-    return json.loads(HYMNS_PATH.read_text(encoding="utf-8"))["hymns"]
+    found = json.loads(HYMNS_PATH.read_text(encoding="utf-8"))["hymns"]
+    if MORE_PATH.exists():
+        found = found + json.loads(MORE_PATH.read_text(encoding="utf-8"))["hymns"]
+    return found
 
 
 def hymn_key(hymn: dict) -> str:
@@ -91,6 +96,7 @@ def find_hymns(query: str) -> list:
         return []
     all_hymns = hymns()
     exact = [h for h in all_hymns if q in [_norm(h["title"]), *map(_norm, h["also"]), _norm(h["first_line"])]]
+    exact.sort(key=lambda h: q != _norm(h["title"]))         # a title match before a first line
     if exact:
         return exact
     titles = [h for h in all_hymns if any(_norm(t).startswith(q) for t in (h["title"], h["first_line"], *h["also"]))]
@@ -146,8 +152,9 @@ def hymn_embed(hymn: dict) -> discord.Embed:
     embed.add_field(name="About", value="\n".join(credit_lines(hymn))[:1024], inline=False)
     if hymn["scripture"]:
         embed.add_field(name="Drawn from", value=", ".join(hymn["scripture"])[:1024], inline=False)
-    played = " · ▶ Play the tune for an organ rendering" if audio_path(hymn) else ""
-    embed.set_footer(text=f"Public domain · {hymn.get('source', 'The Open Hymnal Project')}{played}")
+    played = " · ▶ Play the tune to hear it" if audio_path(hymn) else ""
+    language = f"In {hymn['language']} · " if hymn.get("language") else ""
+    embed.set_footer(text=f"{language}Public domain · {hymn.get('source', 'The Open Hymnal Project')}{played}")
     return embed
 
 
@@ -208,23 +215,38 @@ def passages_embed(hymn: dict) -> discord.Embed:
 
 
 def audio_path(hymn: dict):
-    """The tune as Ogg Opus, rendered ahead by scripts/render_hymn_audio.py; None if there isn't one."""
-    if not hymn.get("midi"):
+    """The tune as Ogg Opus, rendered ahead (scripts/render_hymn_audio.py, build_chant.py); None if there isn't one."""
+    if hymn.get("audio"):
+        path = AUDIO_DIR / hymn["audio"]
+    elif hymn.get("midi"):
+        path = AUDIO_DIR / (hymn["midi"].rsplit(".", 1)[0] + ".ogg")
+    else:
         return None
-    path = AUDIO_DIR / (hymn["midi"].rsplit(".", 1)[0] + ".ogg")
     return path if path.exists() else None
 
 
-async def play(interaction: discord.Interaction, hymn: dict) -> None:
+PLAYED = {"chant": "the chant melody, on an organ",
+          "sung": "sung in four parts (a synthesised choir)",
+          None: "the tune once through, in four parts on an organ"}
+
+
+def audio_message(hymn: dict) -> "tuple | None":
+    """(caption, file) for posting a hymn's tune; None if it has none."""
     path = audio_path(hymn)
     if path is None:
+        return None
+    stem = re.sub(r"[^A-Za-z0-9]+", "_", unicodedata.normalize("NFKD", hymn["title"])).strip("_")[:60] or "hymn"
+    tune = f" — {hymn['tune'].upper()}" if hymn.get("tune") else ""
+    return (f"🎵 **{hymn['title']}**{tune}: {PLAYED.get(hymn.get('audio_kind'), PLAYED[None])}.",
+            discord.File(path, filename=f"{stem}.ogg"))
+
+
+async def play(interaction: discord.Interaction, hymn: dict) -> None:
+    message = audio_message(hymn)
+    if message is None:
         await interaction.response.send_message("⚠️ I don't have that tune to play.", ephemeral=True)
         return
-    stem = re.sub(r"[^A-Za-z0-9]+", "_", hymn["title"]).strip("_")[:60] or "hymn"
-    tune = f" — {hymn['tune'].upper()}" if hymn["tune"] else ""
-    await interaction.response.send_message(
-        f"🎵 **{hymn['title']}**{tune}: the tune once through, in four parts on an organ.",
-        file=discord.File(path, filename=f"{stem}.ogg"))
+    await interaction.response.send_message(message[0], file=message[1])
 
 
 def list_embed(query: str, found: list) -> discord.Embed:
@@ -236,8 +258,9 @@ def list_embed(query: str, found: list) -> discord.Embed:
 
 
 class HymnPicker(discord.ui.View):
-    def __init__(self, found: list):
+    def __init__(self, found: list, tune_only: bool = False):
         super().__init__(timeout=300)
+        self.tune_only = tune_only
         options = [discord.SelectOption(label=h["title"][:100], description=h["first_line"][:100], value=hymn_key(h))
                    for h in found[:25]]
         select = discord.ui.Select(placeholder="Choose a hymn…", options=options)
@@ -247,6 +270,9 @@ class HymnPicker(discord.ui.View):
 
     async def _chosen(self, interaction: discord.Interaction):
         hymn = by_key(self.select.values[0])
+        if self.tune_only:
+            await play(interaction, hymn)
+            return
         await interaction.response.send_message(embed=hymn_embed(hymn), view=hymn_view(hymn))
 
 
@@ -277,6 +303,167 @@ async def cmd_hymn(ctx, *, query: str = ""):
     await send_hymn_search(ctx, query)
 
 
+async def send_hymn_tune(ctx, query: str) -> None:
+    """Just the tune: the audio straight away, no words."""
+    query = query.strip()
+    if not query or query.lower() == "random":
+        found = [h for h in hymns() if audio_path(h)]
+        found = [random.choice(found)] if found else []
+    else:
+        found = [h for h in find_hymns(query) if audio_path(h)]
+    if not found:
+        await ctx.send(f"I have no tune to play for **{query}**. Try `!hymn {query}` for the words, "
+                       f"or a title such as `!midi amazing grace` or `!midi Salve Regina`.")
+        return
+    exact = [h for h in found if _norm(h["title"]) == _norm(query)]
+    if len(found) == 1 or exact:
+        caption, file = audio_message((exact or found)[0])
+        await ctx.send(caption, file=file)
+        return
+    await ctx.send(embed=list_embed(query, found), view=HymnPicker(found, tune_only=True))
+
+
+@bot.command(name="midi", aliases=["tune"])
+async def cmd_midi(ctx, *, query: str = ""):
+    """Play a hymn's tune straight away, without the words.
+    Usage: !midi amazing grace   — by title, first line, words, topic or passage
+           !midi                 — a random hymn's tune"""
+    await send_hymn_tune(ctx, query)
+
+
+# ── the whole hymnal, listed ────────────────────────────────────────────────
+
+LIST_PAGE = 20
+SHELVES = {"hymns": "Hymns and carols", "chant": "Ancient hymns in Gregorian chant", "harp": "The Sacred Harp"}
+PLURALS = {"Invitatory": "Invitatories", "Chant": "Other chants"}   # the rest just add an s
+SHELF_WORDS = {"hymns": "hymns", "hymn": "hymns", "carols": "hymns", "english": "hymns",
+               "chant": "chant", "chants": "chant", "latin": "chant", "gregorian": "chant",
+               "harp": "harp", "sacred harp": "harp", "shape note": "harp"}
+
+
+def shelf(hymn: dict) -> str:
+    return {"chant": "chant", "sung": "harp"}.get(hymn.get("audio_kind"), "hymns")
+
+
+def chant_part(hymn: dict) -> str:
+    """Hymn, Sequence, Antiphon... (a chant's first topic)."""
+    return hymn["topics"][0] if shelf(hymn) == "chant" and hymn["topics"] else ""
+
+
+def plural(part: str) -> str:
+    return PLURALS.get(part, part + "s")
+
+
+def hymn_list(query: str) -> "tuple[str, list]":
+    """(heading, hymns sorted by title) for !hymnlist: a shelf, a kind of chant, or titles containing the words."""
+    q = _norm(query)
+    every = sorted(hymns(), key=lambda h: _norm(h["title"]))
+    if not q:
+        return "Every hymn", every
+    if q in SHELF_WORDS:
+        key = SHELF_WORDS[q]
+        return SHELVES[key], [h for h in every if shelf(h) == key]
+    parts = {_norm(chant_part(h)) for h in every} - {""}
+    p = re.sub(r"^(chant|latin|gregorian) ", "", q)                # "chant hymns": the Latin ones, not the English
+    named = {_norm(x): x for x in parts} | {_norm(plural(chant_part(h))): _norm(chant_part(h)) for h in every if chant_part(h)}
+    part = named.get(p)
+    if part:
+        found = [h for h in every if _norm(chant_part(h)) == part]
+        return f"Chant: {plural(chant_part(found[0]))}", found
+    return f"Titles with “{query}”", [h for h in every if q in _norm(h["title"]) or any(q in _norm(a) for a in h["also"])]
+
+
+def hymn_list_overview() -> discord.Embed:
+    every = hymns()
+    count = {k: sum(shelf(h) == k for h in every) for k in SHELVES}
+    parts = {}
+    for h in every:
+        if chant_part(h):
+            parts[chant_part(h)] = parts.get(chant_part(h), 0) + 1
+    embed = discord.Embed(title=f"🎵 The hymnal — {len(every)} hymns", color=COLOR)
+    embed.description = (
+        f"**{SHELVES['hymns']}** — {count['hymns']}, in English · `!hymnlist hymns`\n"
+        f"**{SHELVES['chant']}** — {count['chant']}, in Latin · `!hymnlist chant`\n"
+        + "".join(f"  ↳ {plural(p)} — {n} · `!hymnlist chant {plural(p).lower()}`\n" for p, n in sorted(parts.items(), key=lambda x: -x[1]))
+        + f"**{SHELVES['harp']}** — {count['harp']} · `!hymnlist harp`\n\n"
+        "`!hymnlist all` lists every title; `!hymnlist <words>` lists titles containing them. "
+        "Open one with `!hymn <title>`, or play just its tune with `!midi <title>`.")
+    return embed
+
+
+def hymn_list_embed(heading: str, found: list, page: int) -> discord.Embed:
+    pages = max(1, -(-len(found) // LIST_PAGE))
+    chunk = found[page * LIST_PAGE:(page + 1) * LIST_PAGE]
+    lines = [f"• **{h['title']}**" + (f" — *{chant_part(h).lower()}*" if chant_part(h) else "") for h in chunk]
+    embed = discord.Embed(title=f"🎵 {heading} ({len(found)})", description="\n".join(lines), color=COLOR)
+    embed.set_footer(text=f"Page {page + 1} of {pages} · pick one below to open it, or !hymn <title>")
+    return embed
+
+
+class HymnListView(discord.ui.View):
+    def __init__(self, heading: str, found: list):
+        super().__init__(timeout=600)
+        self.heading, self.found, self.page = heading, found, 0
+        self.pages = max(1, -(-len(found) // LIST_PAGE))
+        self.prev = discord.ui.Button(emoji="◀", style=discord.ButtonStyle.secondary)
+        self.next = discord.ui.Button(emoji="▶", style=discord.ButtonStyle.secondary)
+        self.prev.callback = lambda i: self._turn(i, -1)
+        self.next.callback = lambda i: self._turn(i, 1)
+        self._build()
+
+    def _build(self):
+        self.clear_items()
+        if self.pages > 1:
+            self.add_item(self.prev)
+            self.add_item(self.next)
+        chunk = self.found[self.page * LIST_PAGE:(self.page + 1) * LIST_PAGE]
+        select = discord.ui.Select(placeholder="Open a hymn…", options=[
+            discord.SelectOption(label=h["title"][:100], description=h["first_line"][:100], value=hymn_key(h))
+            for h in chunk])
+        select.callback = self._chosen
+        self.select = select
+        self.add_item(select)
+
+    async def _turn(self, interaction: discord.Interaction, step: int):
+        self.page = (self.page + step) % self.pages
+        self._build()
+        await interaction.response.edit_message(embed=hymn_list_embed(self.heading, self.found, self.page), view=self)
+
+    async def _chosen(self, interaction: discord.Interaction):
+        hymn = by_key(self.select.values[0])
+        await interaction.response.send_message(embed=hymn_embed(hymn), view=hymn_view(hymn))
+
+    async def on_timeout(self):
+        try:
+            await self.message.edit(view=None)
+        except Exception:
+            pass
+
+
+async def send_hymn_list(ctx, query: str) -> None:
+    query = query.strip()
+    if not query:
+        await ctx.send(embed=hymn_list_overview())
+        return
+    heading, found = hymn_list("" if query.lower() in ("all", "every", "everything") else query)
+    if not found:
+        await ctx.send(f"No hymn titles with **{query}**. Try `!hymnlist` to see the sections, "
+                       f"or `!hymn {query}` to search the words too.")
+        return
+    view = HymnListView(heading, found)
+    view.message = await ctx.send(embed=hymn_list_embed(heading, found, 0), view=view)
+
+
+@bot.command(name="hymnlist", aliases=["hymnindex", "listhymns"])
+async def cmd_hymnlist(ctx, *, query: str = ""):
+    """Every hymn the bot has, by title.
+    Usage: !hymnlist              — the sections, with how many hymns in each
+           !hymnlist all          — every title, a page at a time
+           !hymnlist chant        — one section (hymns, chant, harp) or kind of chant (sequences, antiphons)
+           !hymnlist veni         — titles containing a word"""
+    await send_hymn_list(ctx, query)
+
+
 async def _title_autocomplete(interaction: discord.Interaction, current: str) -> list:
     q = _norm(current)
     names = [h["title"] for h in hymns() if not q or q in _norm(h["title"])]
@@ -290,3 +477,20 @@ async def hymn_slash(interaction: discord.Interaction, query: str = ""):
     await interaction.response.defer()
     ctx = await bot.get_context(interaction)
     await send_hymn_search(ctx, query)
+
+
+@bot.tree.command(name="midi", description="Play a hymn's tune straight away, without the words")
+@app_commands.describe(query="A title, first line, words, topic or passage; empty for random")
+@app_commands.autocomplete(query=_title_autocomplete)
+async def midi_slash(interaction: discord.Interaction, query: str = ""):
+    await interaction.response.defer()
+    ctx = await bot.get_context(interaction)
+    await send_hymn_tune(ctx, query)
+
+
+@bot.tree.command(name="hymnlist", description="Every hymn the bot has, by title, a page at a time")
+@app_commands.describe(query="all, hymns, chant, harp, a kind of chant (sequences), or words in the title; empty for the sections")
+async def hymnlist_slash(interaction: discord.Interaction, query: str = ""):
+    await interaction.response.defer()
+    ctx = await bot.get_context(interaction)
+    await send_hymn_list(ctx, query)

@@ -399,16 +399,21 @@ async def cmd_help(ctx, *, topic: str = ""):
         await ctx.send(embed=embed)
         return
 
-    if topic in ("hymn", "hymns", "hymnal"):
+    if topic in ("hymn", "hymns", "hymnal", "midi", "tune", "hymnlist"):
         embed = discord.Embed(title="🎵 !hymn — Hymns", color=discord.Color.dark_gold())
         embed.description = (
             "`!hymn amazing grace` — by title, first line, or a line from the words\n"
             "`!hymn christmas` — hymns on a topic\n"
             "`!hymn Psalm 23` — hymns drawn from a passage\n"
-            "`!hymn` — a random hymn\n\n"
+            "`!hymn` — a random hymn\n"
+            "`!midi amazing grace` — just the tune, no words (`!midi` alone: a random one)\n"
+            "`!hymnlist` — the whole hymnal by title (`!hymnlist all`, `!hymnlist chant`, `!hymnlist veni`)\n\n"
             "**▶️ Play the tune** posts the hymn tune, once through in four parts on an organ, as audio "
             "you can play in Discord. **📖 Read the passages** shows the Bible verses "
-            "the hymn draws on. About 290 public-domain hymns, from the Open Hymnal Project and Hymnary.org."
+            "the hymn draws on. About 290 public-domain hymns, from the Open Hymnal Project and Hymnary.org.\n\n"
+            "**Ancient hymns:** 552 Latin hymns, sequences and antiphons in Gregorian chant, with the "
+            "chant to play — `!hymn Salve Regina`, `!hymn Te lucis`, `!hymn Dies irae`, `!hymn Ubi caritas`. "
+            "Also `!hymn Babylon is fallen` (Sacred Harp)."
         )
         await ctx.send(embed=embed)
         return
@@ -886,7 +891,7 @@ async def cmd_help(ctx, *, topic: str = ""):
         "`!journey paul 2` — a journey on a map: Paul's, the Exodus, Abraham's… · `!help journey`\n"
         "`!measure 300 cubits` — Bible weights, measures and money in today's terms · `!help measure`\n"
         "`!kings` — every king of Israel and Judah: reigns and the Bible's verdict, as a chart · `!help kings`\n"
-        "`!hymn amazing grace` — a hymn's words, its tune to play, the Bible behind it · `!help hymn`\n"
+        "`!hymn amazing grace` — a hymn's words, its tune to play, the Bible behind it · `!midi <hymn>` just the tune · `!hymnlist` · `!help hymn`\n"
         "`!metrical 23` — a psalm in rhyming verse to sing (Scottish Psalter, 1650), with its tune · "
         "`!help metrical`"
     ), inline=False)
