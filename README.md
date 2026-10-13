@@ -118,6 +118,8 @@ Prefix commands use `!`; most also have a `/` slash-command version.
 | `!harmony [words \| verse \| n]` | `!gospels`, `!synoptic` | An event in the life of Christ as each Gospel tells it, side by side (Robertson's Harmony, 185 sections, `data/harmony.json` from `build_harmony.py`); buttons read each account and step through the events |
 | `!journey [name]` | `!journeys`, `!route` | A journey on a route map (`bible_map.render_route`) with its stops and verses: Abraham, Exodus, Paul 1–3, Rome, Egypt, Jonah. Every stop's verse is checked against the KJV by a test |
 | `!hymn [title \| words \| topic \| passage]` | `!hymns`, `!hymnal` | A public-domain hymn: words, author, tune, Bible passages; ▶️ plays the tune (an organ .ogg) |
+| `!midi [title \| words \| topic \| passage]` | `!tune` | Just a hymn's tune, posted straight away without the words |
+| `!hymnlist [all \| hymns \| chant \| harp \| chant kind \| words]` | `!hymnindex`, `!listhymns` | The hymnal by title: section counts, or a paged list to open from |
 | `!metrical [n \| nb \| n:v-v \| words \| tune]` | `!metricalpsalm`, `!singpsalm`, `!psalter1650`; `!psalm 23 sing` | A psalm from the Scottish Metrical Psalter (1650) with its tune to play, a menu of other same-meter tunes, KJV button, second versions, pages |
 
 ### Church, liturgy, and the daily office
@@ -325,6 +327,10 @@ Three reference datasets have their own shape, each rebuilt by a script in `scri
   Open Hymnal's ABC scores are converted to the words and MIDI; a few extra hymns
   (`EXTRA_HYMNS`) take their words from Hymnary.org and tunes from Wikimedia Commons
   or, where none could be fetched, from MIDI files the owner supplied in `scripts/hymn_midi/`.
+  `more_hymns.json` and `audio/more/` (`build_chant.py`) add the ancient Latin hymns,
+  sequences and antiphons from the GregoBase chant corpus (each gabc score parsed to its
+  words and melody, the whole piece synthesised as chant), plus *Babylon Is Fallen*
+  from the Sacred Harp. Entries carry their own `audio` path and `audio_kind`.
 - `data/psalter/` (`build_psalter.py`): `psalter.json` (`{"psalms": [{number,
   version ("primary"/"alternate"), meter, first_line, stanzas: [{verses, lines}],
   tune}], "tunes": {id: {title, meter, attribution, seconds}}}`), `midi/` and

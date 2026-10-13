@@ -1,0 +1,96 @@
+"""The ancient hymns (scripts/build_chant.py): Gregorian chant from GregoBase, and Babylon Is Fallen."""
+import json
+
+import pytest
+
+from core import ROOT
+
+MORE = ROOT / "data" / "hymns" / "more_hymns.json"
+
+
+@pytest.fixture(scope="module")
+def hymns(bot_module):
+    from bot_commands import hymns
+    return hymns
+
+
+@pytest.fixture(scope="module")
+def more():
+    return json.loads(MORE.read_text(encoding="utf-8"))["hymns"]
+
+
+def _one(hymns, query):
+    found = hymns.find_hymns(query)
+    assert found, query
+    return found[0]
+
+
+@pytest.mark.parametrize("query, opening", [
+    ("Te lucis ante terminum", "Te lucis ante términum,"),
+    ("Salve Regina", "Salve, Regína,"),
+    ("Veni Creator Spiritus", "Veni Creátor Spíritus,"),
+    ("Dies irae", "Dies iræ, dies illa,"),
+    ("Ubi caritas", "Ubi cáritas et amor"),
+    ("Vexilla Regis", "Vexílla Regis pródeunt"),
+])
+def test_the_requested_chants(hymns, query, opening):
+    hymn = _one(hymns, query)
+    assert hymn["stanzas"][0].startswith(opening), hymn["stanzas"][0][:60]
+    assert hymn.get("language") == "Latin" and hymns.audio_path(hymn) is not None
+
+
+def test_stanzas_and_melody(hymns):
+    veni = _one(hymns, "Veni Creator Spiritus")
+    assert len(veni["stanzas"]) == 7                                  # its later verses, kept apart in the corpus
+    te_lucis = _one(hymns, "Te lucis ante terminum")
+    assert "(" not in te_lucis["title"] and len(te_lucis["stanzas"]) == 3      # the plain version, not a variant
+    assert te_lucis["seconds"] > 40                                   # every stanza is sung, not just the first
+
+
+def test_babylon_is_fallen(hymns):
+    hymn = _one(hymns, "Babylon is fallen")
+    assert hymn["stanzas"][0].startswith("Hail the day so long expected")
+    assert "Chute" in hymn["composer"] and hymns.audio_path(hymn) is not None and hymn["audio_kind"] == "sung"
+
+
+def test_names_keys_and_audio(hymns, more):
+    titles = [h["title"] for h in hymns.hymns()]
+    assert len(titles) == len(set(titles))
+    keys = [hymns.hymn_key(h) for h in hymns.hymns()]
+    assert len(keys) == len(set(keys))                                # each hymn's buttons find it
+    assert len(more) >= 400
+    for h in more:
+        assert h["stanzas"] and all(s.strip() for s in h["stanzas"]), h["title"]
+        if h.get("audio"):
+            assert hymns.audio_path(h) is not None, h["title"]
+        assert "<" not in " ".join(h["stanzas"]), h["title"]          # no gabc markup left
+
+
+def test_midi_posts_just_the_tune(hymns, fake_ctx):
+    import asyncio
+    asyncio.run(hymns.send_hymn_tune(fake_ctx, "Salve Regina"))
+    sent = fake_ctx.sent[-1]
+    assert "Salve Regina" in sent["content"] and sent["file"].filename.endswith(".ogg")
+    assert "embed" not in sent                                   # no words
+
+
+def test_midi_with_no_tune_says_so(hymns, fake_ctx):
+    import asyncio
+    asyncio.run(hymns.send_hymn_tune(fake_ctx, "zzzz no such hymn"))
+    assert "no tune" in fake_ctx.sent[-1]["content"]
+
+
+def test_hymnlist_sections(hymns):
+    heading, chant = hymns.hymn_list("chant")
+    assert len(chant) >= 400 and all(h["language"] == "Latin" for h in chant)
+    _, english = hymns.hymn_list("hymns")
+    assert "Amazing Grace" in [h["title"] for h in english] and not set(map(id, english)) & set(map(id, chant))
+    _, sequences = hymns.hymn_list("chant sequences")
+    assert "Dies irae" in [h["title"] for h in sequences]
+    _, harp = hymns.hymn_list("harp")
+    assert [h["title"] for h in harp] == ["Babylon Is Fallen"]
+    _, every = hymns.hymn_list("")
+    assert len(every) == len(hymns.hymns())
+    assert "Babylon Is Fallen" in hymns.hymn_list_overview().description or "Sacred Harp" in hymns.hymn_list_overview().description
+    page = hymns.hymn_list_embed("Every hymn", every, 0)
+    assert page.description.count("\n") == hymns.LIST_PAGE - 1

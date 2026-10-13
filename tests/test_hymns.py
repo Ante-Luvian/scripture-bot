@@ -73,7 +73,8 @@ def test_refrains_are_printed_once(hy):
 
 def test_every_hymn_has_a_tune(hy):
     for h in hy.hymns():
-        assert (hy.MIDI_DIR / h["midi"]).exists(), h["title"]
+        if "midi" in h:                                           # (the chant is rendered from its score)
+            assert (hy.MIDI_DIR / h["midi"]).exists(), h["title"]
         assert hy.audio_path(h) is not None, h["title"]          # rendered ahead: python scripts/render_hymn_audio.py
 
 
