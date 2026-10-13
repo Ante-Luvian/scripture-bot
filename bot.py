@@ -52,6 +52,7 @@ from bot_commands import (  # noqa: F401
     changelog,
     church,
     games,
+    harmony,
     report,
     help,
     hymns,

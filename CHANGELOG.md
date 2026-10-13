@@ -14,6 +14,11 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-13 · The four Gospels side by side
+- 📖 **New: `!harmony` shows one event in the life of Jesus as each Gospel tells it, side by side.** Matthew, Mark, Luke and John often tell the same story, but each puts in or leaves out different details. Seeing them together shows what each one adds. Try `!harmony feeding five thousand`, the one miracle all four Gospels record. A line under the title says who tells each story ("Told by Matthew, Mark and Luke", "Only in John").
+- 🧭 **Walk through the whole life of Christ.** The events follow a *harmony of the Gospels*, a scholar's arrangement of all four accounts into one timeline: A. T. Robertson's of 1922, which has 185 events from the birth of John the Baptist to the Ascension. **◀ Event before** and **Event after ▶** step through them in order, and a button under each passage reads that Gospel's account in full.
+- 🔎 **Find an event** by words from it (`!harmony transfiguration`, `!harmony lazarus`), by a verse (`!harmony Mark 6:41` finds the event that verse belongs to), or by its number (`!harmony 72`). `!harmony` on its own picks one at random.
+
 ## 2026-10-13 · Journeys on a map
 - 🧭 **New: `!journey` draws the great journeys of the Bible on a map.** The stops are numbered and joined by arrows so you can follow the route. Underneath is a list of what happened at each stop, with the verse that tells it, for example "7. Philippi — Lydia baptised; Paul and Silas jailed; the earthquake (Acts 16:12)". Try `!journey paul 2`.
 - 🗺️ **Eight journeys so far:** Abraham's journey from Ur (`!journey abraham`), the Exodus from Egypt to Jericho (`!journey exodus`), Paul's three missionary journeys (`!journey paul 1`, `paul 2`, `paul 3`), Paul's voyage and shipwreck on the way to Rome (`!journey rome`), the holy family's flight into Egypt (`!journey egypt`), and Jonah's (`!journey jonah`). `!journey` on its own lists them, and the menu under each map opens another.

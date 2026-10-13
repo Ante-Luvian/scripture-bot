@@ -277,6 +277,20 @@ async def cmd_help(ctx, *, topic: str = ""):
         await ctx.send(embed=embed)
         return
 
+    if topic in ("harmony", "gospels", "synoptic"):
+        embed = discord.Embed(title="📖 !harmony — The four Gospels side by side", color=discord.Color.dark_gold())
+        embed.description = (
+            "`!harmony feeding five thousand` — an event, found by words from it\n"
+            "`!harmony Mark 6:41` — the event a verse belongs to\n"
+            "`!harmony 72` — an event by its number (1 to 184)\n"
+            "`!harmony` — a random event told by more than one Gospel\n\n"
+            "Each Gospel's account is shown side by side, with buttons to read any of them in full and to "
+            "step to the event before or after. The order of events follows A. T. Robertson's "
+            "*A Harmony of the Gospels* (1922)."
+        )
+        await ctx.send(embed=embed)
+        return
+
     if topic in ("journey", "journeys", "route"):
         embed = discord.Embed(title="🧭 !journey — Journeys on a map", color=discord.Color.dark_gold())
         embed.description = (
@@ -809,6 +823,7 @@ async def cmd_help(ctx, *, topic: str = ""):
         "`!discover` — random passage from any loaded tradition · `!help discover`\n"
         "`!study` — verse + patristic commentary together · `!help study`\n"
         "`!xref` — cross-references (Treasury of Scripture Knowledge) · `!help xref`\n"
+        "`!harmony feeding five thousand` — the four Gospels side by side · `!help harmony`\n"
         "`!notes` — NET Bible translators' notes on a verse · `!help notes`\n"
         "`!topic` — browse scripture by subject (Nave's Topical Bible) · `!help topic`\n"
         "`!save` / `!saved` / `!unsave` — personal bookmarks · `!help save`\n"
@@ -841,7 +856,7 @@ async def cmd_help(ctx, *, topic: str = ""):
         "`!compare strong <ref>` — KJV + original-language Strong's tagging · `!help compare`\n"
         "`!strong G3588` / `!strong H7225` — Strong's lexicon lookup · `!help strong`"
     ), inline=False)
-    embed.set_footer(text="!help verse · !help compare · !help votd · !help votdsetup · !help features · !help today · !help bcp · !help prayer · !help strong · !help books · !help parallel · !help oracle · !help discover · !help study · !help xref · !help notes · !help topic · !help save · !help plan · !help leaderboard · !help subscribe · !help card · !help who · !help tree · !help whoami · !help place · !help journey · !help hymn · !help metrical · !help creed · !help ccc · !help summa")
+    embed.set_footer(text="!help verse · !help compare · !help votd · !help votdsetup · !help features · !help today · !help bcp · !help prayer · !help strong · !help books · !help parallel · !help oracle · !help discover · !help study · !help xref · !help notes · !help topic · !help save · !help plan · !help leaderboard · !help subscribe · !help card · !help who · !help tree · !help whoami · !help place · !help journey · !help harmony · !help hymn · !help metrical · !help creed · !help ccc · !help summa")
     await ctx.send(embed=embed)
 
 

@@ -104,6 +104,8 @@ Abbreviations are fine (`Jn`, `1 Cor`, `Ps`). Bible verses come with the four st
 • `!timeline Abraham` — where a person or event falls in James Ussher's famous chronology (*Annals of the World*, 1658), with what came just before and after
 • `!gematria love` — the numerical values of a word in Hebrew and English gematria (numbers work too: `!gematria 666`)
 
+**`!harmony feeding five thousand`** — one event in the life of Jesus as each Gospel tells it, side by side, so you can see at a glance what Matthew, Mark, Luke and John each include or leave out. It follows a classic *harmony of the Gospels* (A. T. Robertson's, 1922), which puts the whole story in order in 185 events, from the birth of John the Baptist to the Ascension. Find an event by words from it, by a verse (`!harmony Mark 6:41`) or by its number (`!harmony 72`). Buttons read each Gospel's account in full and step to the event before or after, so you can walk through the whole life of Christ. `!harmony` alone picks an event at random.
+
 ## 🗺️ People and places
 **`!who Ruth`** — who someone in the Bible was: a short description, their family (parents, husband or wife, children, brothers and sisters), their tribe, where they were born and died, and every verse that names them. When several people share a name — there are seven Marys and a dozen Johns — I'll list them so you can pick the one you mean (`!who Mary`). The menu under the card opens any of their relatives, so you can follow a family tree: Ruth → her son Obed → his son Jesse → his son David.
 

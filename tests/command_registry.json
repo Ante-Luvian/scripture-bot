@@ -51,6 +51,10 @@
    "fal",
    "hafiz"
   ],
+  "harmony": [
+   "gospels",
+   "synoptic"
+  ],
   "help": [
    "?",
    "commands",
@@ -252,6 +256,7 @@
   "features",
   "gematria",
   "hafez",
+  "harmony",
   "help",
   "homer",
   "hymn",
