@@ -14,6 +14,11 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-13 · Journeys on a map
+- 🧭 **New: `!journey` draws the great journeys of the Bible on a map.** The stops are numbered and joined by arrows so you can follow the route. Underneath is a list of what happened at each stop, with the verse that tells it, for example "7. Philippi — Lydia baptised; Paul and Silas jailed; the earthquake (Acts 16:12)". Try `!journey paul 2`.
+- 🗺️ **Eight journeys so far:** Abraham's journey from Ur (`!journey abraham`), the Exodus from Egypt to Jericho (`!journey exodus`), Paul's three missionary journeys (`!journey paul 1`, `paul 2`, `paul 3`), Paul's voyage and shipwreck on the way to Rome (`!journey rome`), the holy family's flight into Egypt (`!journey egypt`), and Jonah's (`!journey jonah`). `!journey` on its own lists them, and the menu under each map opens another.
+- A place visited twice shows both numbers, as in "Antioch (1, 17)". A dashed ring means nobody is sure exactly where the place was, which is true of many stops on the Exodus.
+
 ## 2026-10-13 · Who Am I?, and taller family trees
 - 🕵️ **New game: `!whoami`.** I think of someone from the Bible and give you one clue, a hard one: how many verses name them and where in the Bible they appear. Each press of **💡 Next clue** gives an easier one: the size of their family, where they were born and died, what their name means, a verse about them with the name hidden, their relatives' names, and finally the first letter of their name. Anyone in the channel can press **✍️ Guess**, one guess per clue each, and the first right answer wins. Other names count too, like "Israel" for Jacob or "Cephas" for Peter. **🏳️ Give up** shows who it was.
 - 🌳 **Family trees now show far more ancestors.** `!tree` used to stop at the grandparents, which made Jesus's tree look tiny for a family the Bible traces back to Adam. Now the line of fathers climbs up the picture: great-grandfather, 2× great-grandfather, and so on for six generations. A box at the top says how much further it goes, such as "… 57 more generations, back to Adam". To see all of them, use `!tree Adam to Jesus`.

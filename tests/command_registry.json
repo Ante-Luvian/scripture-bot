@@ -72,6 +72,10 @@
    "il",
    "inter"
   ],
+  "journey": [
+   "journeys",
+   "route"
+  ],
   "leaderboard": [
    "lb"
   ],
@@ -253,6 +257,7 @@
   "hymn",
   "iching",
   "interlinear",
+  "journey",
   "leaderboard",
   "memorize",
   "metrical",

@@ -55,6 +55,7 @@ from bot_commands import (  # noqa: F401
     report,
     help,
     hymns,
+    journeys,
     liturgy,
     memorize,
     oracles,

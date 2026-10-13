@@ -277,6 +277,20 @@ async def cmd_help(ctx, *, topic: str = ""):
         await ctx.send(embed=embed)
         return
 
+    if topic in ("journey", "journeys", "route"):
+        embed = discord.Embed(title="🧭 !journey — Journeys on a map", color=discord.Color.dark_gold())
+        embed.description = (
+            "`!journey` — the list\n"
+            "`!journey paul 2` — Paul's second missionary journey (also `paul 1`, `paul 3`)\n"
+            "`!journey rome` — Paul's voyage and shipwreck on the way to Rome\n"
+            "`!journey exodus` · `!journey abraham` · `!journey egypt` (the flight into Egypt) · `!journey jonah`\n\n"
+            "Each is a map with the stops numbered in order and joined by arrows, and a list of what "
+            "happened at each stop with the verse that tells it. A dashed ring means nobody is sure "
+            "exactly where the place was."
+        )
+        await ctx.send(embed=embed)
+        return
+
     if topic in ("whoami", "mystery", "whoisit"):
         embed = discord.Embed(title="🕵️ !whoami — Who Am I?", color=discord.Color.dark_gold())
         embed.description = (
@@ -808,6 +822,7 @@ async def cmd_help(ctx, *, topic: str = ""):
         "`!who Ruth` — who someone was, their family, every verse naming them · `!help who`\n"
         "`!tree David` / `!tree Abraham to David` — a family tree, or a line of descent, drawn · `!help tree`\n"
         "`!place Bethel` — a place on a map, with its verses · `!help place`\n"
+        "`!journey paul 2` — a journey on a map: Paul's, the Exodus, Abraham's… · `!help journey`\n"
         "`!hymn amazing grace` — a hymn's words, its tune to play, the Bible behind it · `!help hymn`\n"
         "`!metrical 23` — a psalm in rhyming verse to sing (Scottish Psalter, 1650), with its tune · "
         "`!help metrical`"
@@ -826,7 +841,7 @@ async def cmd_help(ctx, *, topic: str = ""):
         "`!compare strong <ref>` — KJV + original-language Strong's tagging · `!help compare`\n"
         "`!strong G3588` / `!strong H7225` — Strong's lexicon lookup · `!help strong`"
     ), inline=False)
-    embed.set_footer(text="!help verse · !help compare · !help votd · !help votdsetup · !help features · !help today · !help bcp · !help prayer · !help strong · !help books · !help parallel · !help oracle · !help discover · !help study · !help xref · !help notes · !help topic · !help save · !help plan · !help leaderboard · !help subscribe · !help card · !help who · !help tree · !help whoami · !help place · !help hymn · !help metrical · !help creed · !help ccc · !help summa")
+    embed.set_footer(text="!help verse · !help compare · !help votd · !help votdsetup · !help features · !help today · !help bcp · !help prayer · !help strong · !help books · !help parallel · !help oracle · !help discover · !help study · !help xref · !help notes · !help topic · !help save · !help plan · !help leaderboard · !help subscribe · !help card · !help who · !help tree · !help whoami · !help place · !help journey · !help hymn · !help metrical · !help creed · !help ccc · !help summa")
     await ctx.send(embed=embed)
 
 

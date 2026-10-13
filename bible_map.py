@@ -179,6 +179,130 @@ def render_map(place: dict, places: list) -> io.BytesIO:
     return buf
 
 
+def _arrow(draw, a: tuple, b: tuple, colour, size: float) -> None:
+    """A small arrowhead halfway along a->b, pointing towards b."""
+    (x1, y1), (x2, y2) = a, b
+    length = math.hypot(x2 - x1, y2 - y1)
+    if length < size * 4:
+        return
+    ux, uy = (x2 - x1) / length, (y2 - y1) / length
+    mx, my = (x1 + x2) / 2 + ux * size / 2, (y1 + y2) / 2 + uy * size / 2
+    draw.polygon([(mx, my), (mx - ux * size - uy * size * 0.6, my - uy * size + ux * size * 0.6),
+                  (mx - ux * size + uy * size * 0.6, my - uy * size - ux * size * 0.6)], fill=colour)
+
+
+def render_route(title: str, stops: list, places: list) -> io.BytesIO:
+    """A PNG map of a journey: `stops` (place dicts, in order, repeats allowed)
+    joined by a line with arrows, each place numbered by when it is reached."""
+    w, h = W * SCALE, H * SCALE
+    img = Image.new("RGB", (w, h), SEA)
+    draw = ImageDraw.Draw(img)
+    lats, lons = [s["lat"] for s in stops], [s["lon"] for s in stops]
+    lat0, lon0 = (min(lats) + max(lats)) / 2, (min(lons) + max(lons)) / 2
+    c = math.cos(math.radians(lat0))
+    half = max((max(lats) - min(lats)) / 2 * 1.35 + 0.3,
+               (max(lons) - min(lons)) * c / 2 * H / W * 1.35 + 0.3, 0.7)
+    proj = _Projection(lat0 + half * 0.08, lon0, half, w, h)    # a little room above for the title
+    _draw_geography(draw, proj)
+    pts = [proj(s["lon"], s["lat"]) for s in stops]
+
+    # which numbers each place gets: "Bethel 4, 6"
+    order, numbers = [], {}
+    for i, s in enumerate(stops, 1):
+        key = s["name"]
+        if key not in numbers:
+            order.append(s)
+            numbers[key] = []
+        numbers[key].append(i)
+
+    title_font = _font("georgiab.ttf", 24)
+    tw = draw.textlength(title, font=title_font)
+    title_box = (0, 0, tw + 40 * SCALE, 52 * SCALE)
+    # the locator goes in whichever corner the route leaves empty
+    trail = [(a[0] + (b[0] - a[0]) * t / 20, a[1] + (b[1] - a[1]) * t / 20)
+             for a, b in zip(pts, pts[1:] or pts) for t in range(21)]
+    corner = next((c for c, box in LOCATOR_SPOTS(w, h).items()
+                   if not any(box[0] - 20 * SCALE < x < box[2] and box[1] < y < box[3] + 20 * SCALE
+                              for x, y in trail)), "tr")
+    boxes = [title_box, LOCATOR_SPOTS(w, h)[corner], (0, h - 60 * SCALE, 300 * SCALE, h),
+             (w - 360 * SCALE, h - 30 * SCALE, w, h)]
+
+    for a, b in zip(pts, pts[1:]):
+        draw.line([a, b], fill=RED, width=4 * SCALE)
+    for a, b in zip(pts, pts[1:]):
+        _arrow(draw, a, b, RED, 11 * SCALE)
+
+    r = 11 * SCALE
+    for s in order:
+        x, y = proj(s["lon"], s["lat"])
+        boxes.append((x - r, y - r, x + r, y + r))
+    font, num_font = _font("georgiab.ttf", 17), _font("georgiab.ttf", 15)
+    th = 22 * SCALE
+    labels = []
+    for s in order:
+        x, y = proj(s["lon"], s["lat"])
+        nums = numbers[s["name"]]
+        text = s["name"].split(" (")[0] + (f"  ({', '.join(map(str, nums))})" if len(nums) > 1 else "")
+        t = draw.textlength(text, font=font)
+        # beside the dot if there's room, else further out (with a leader line), in eight directions
+        placed = None
+        for d in (r + 5 * SCALE, r + 34 * SCALE, r + 70 * SCALE, r + 110 * SCALE):
+            for ux, uy in ((1, 0), (-1, 0), (0, -1), (0, 1), (1, -1), (-1, -1), (1, 1), (-1, 1)):
+                cx = x + ux * (d + t / 2) if ux else x
+                cy = y + uy * (d + th / 2) if uy else y
+                if ux and uy:
+                    cx, cy = x + ux * (d * 0.7 + t / 2), y + uy * (d * 0.7 + th / 2)
+                box = (cx - t / 2 - 4 * SCALE, cy - th / 2 - 2 * SCALE, cx + t / 2 + 4 * SCALE, cy + th / 2 + 2 * SCALE)
+                if box[0] >= 0 and box[2] <= w and box[1] >= 0 and box[3] <= h and not _overlaps(box, boxes):
+                    placed = (box, d > r + 5 * SCALE)
+                    break
+            if placed:
+                break
+        if placed is None:
+            box = (x + r, y - th / 2, x + r + t + 8 * SCALE, y + th / 2 + 4 * SCALE)
+            placed = (box, False)
+        boxes.append(placed[0])
+        labels.append((x, y, text, *placed))
+    for x, y, text, box, leader in labels:
+        if leader:
+            bx = min(max(x, box[0]), box[2])
+            by = min(max(y, box[1]), box[3])
+            draw.line([(x, y), (bx, by)], fill=INK, width=2 * SCALE)
+    for x, y, text, box, leader in labels:
+        draw.rounded_rectangle(box, radius=4 * SCALE, fill=(255, 250, 240), outline=MUTED if leader else None,
+                               width=SCALE)
+        draw.text((box[0] + 4 * SCALE, box[1] + 2 * SCALE), text, font=font, fill=INK)
+
+    for s in order:
+        x, y = proj(s["lon"], s["lat"])
+        if s.get("approx"):
+            ring = 20 * SCALE
+            for a in range(0, 360, 30):
+                draw.arc((x - ring, y - ring, x + ring, y + ring), a, a + 15, fill=RED, width=3 * SCALE)
+        first = numbers[s["name"]][0]
+        draw.ellipse((x - r, y - r, x + r, y + r), fill=RED if first == 1 else (255, 255, 255),
+                     outline=RED, width=3 * SCALE)
+        draw.text((x, y + SCALE), str(first), font=num_font, fill=(255, 255, 255) if first == 1 else RED,
+                  anchor="mm")
+
+    draw.rectangle(title_box, fill=(255, 250, 240))
+    draw.text((20 * SCALE, 12 * SCALE), title, font=title_font, fill=INK)
+    _draw_scale(draw, proj, w, h)
+    _draw_locator(img, proj, {"lat": lat0, "lon": lon0}, corner)
+    note = "Dashed rings: site uncertain · " if any(s.get("approx") for s in stops) else ""
+    text = note + "Map: Natural Earth · places: OpenBible.info / Theographic"
+    cf = _font("georgia.ttf", 13)
+    cw = draw.textlength(text, font=cf)
+    draw.rectangle((w - cw - 16 * SCALE, h - 24 * SCALE, w, h), fill=(255, 255, 255))
+    draw.text((w - cw - 8 * SCALE, h - 21 * SCALE), text, font=cf, fill=MUTED)
+
+    img = img.resize((W, H), Image.LANCZOS)
+    buf = io.BytesIO()
+    img.save(buf, format="PNG", optimize=True)
+    buf.seek(0)
+    return buf
+
+
 def _draw_scale(draw, proj, w: int, h: int) -> None:
     km_per_px = 111.0 / proj.k
     target = km_per_px * 160 * SCALE
@@ -194,8 +318,15 @@ def _draw_scale(draw, proj, w: int, h: int) -> None:
     draw.text((x0 + px + 8 * SCALE, y0 - 4 * SCALE), f"{miles} mi", font=_font("georgia.ttf", 12), fill=MUTED)
 
 
-def _draw_locator(img, main, place: dict) -> None:
-    """A small map of the whole region in the top-right corner, the main map's area boxed in red."""
+def LOCATOR_SPOTS(w: int, h: int) -> dict:
+    """Where the locator map can go: the area it covers, by corner (top right first)."""
+    return {"tr": (w - 270 * SCALE, 0, w, 170 * SCALE),
+            "br": (w - 270 * SCALE, h - 200 * SCALE, w, h - 30 * SCALE),
+            "bl": (0, h - 230 * SCALE, 270 * SCALE, h - 60 * SCALE)}
+
+
+def _draw_locator(img, main, place: dict, corner: str = "tr") -> None:
+    """A small map of the whole region in a corner (top right unless told), the main map's area boxed in red."""
     iw, ih = 250 * SCALE, 150 * SCALE
     lon_a, lat_a, lon_b, lat_b = LOCATOR
     lat0, lon0 = (lat_a + lat_b) / 2, (lon_a + lon_b) / 2
@@ -212,4 +343,6 @@ def _draw_locator(img, main, place: dict) -> None:
     else:
         d.rectangle((x1, y1, x2, y2), outline=RED, width=3 * SCALE)
     d.rectangle((0, 0, iw - 1, ih - 1), outline=INK, width=2 * SCALE)
-    img.paste(inset, (img.width - iw - 16 * SCALE, 16 * SCALE))
+    spot = LOCATOR_SPOTS(img.width, img.height)[corner]
+    img.paste(inset, (int(spot[0] + 10 * SCALE) if corner != "bl" else 16 * SCALE, int(spot[1]) + 16 * SCALE
+                      if corner == "tr" else int(spot[3] - ih - 4 * SCALE)))

@@ -113,6 +113,7 @@ Prefix commands use `!`; most also have a `/` slash-command version.
 | `!who <name>` | `!person`, `!whois` | A person: description, family (with a menu to walk the tree), tribe, birth/death places, every verse naming them; namesakes offered as a list (Theographic) |
 | `!tree <name> [to <name>]` | `!familytree`, `!lineage`, `!genealogy` | A family-tree picture (grandparents to children, paternal line), or a chart of every generation between two people (`family_tree.py`) |
 | `!place <name>` | `!where`, `!map` | A place on a drawn map card (nearby places, locator inset, scale; uncertain sites ringed), with its verses |
+| `!journey [name]` | `!journeys`, `!route` | A journey on a route map (`bible_map.render_route`) with its stops and verses: Abraham, Exodus, Paul 1–3, Rome, Egypt, Jonah. Every stop's verse is checked against the KJV by a test |
 | `!hymn [title \| words \| topic \| passage]` | `!hymns`, `!hymnal` | A public-domain hymn: words, author, tune, Bible passages; ▶️ plays the tune (an organ .ogg) |
 | `!metrical [n \| nb \| n:v-v \| words \| tune]` | `!metricalpsalm`, `!singpsalm`, `!psalter1650`; `!psalm 23 sing` | A psalm from the Scottish Metrical Psalter (1650) with its tune to play, a menu of other same-meter tunes, KJV button, second versions, pages |
 
@@ -245,6 +246,7 @@ bot_commands/           One module per feature area; each registers its
   hymns.py                !hymn (tunes played by hymn_audio.py)
   psalter.py              !metrical (the Scottish Metrical Psalter)
   games.py                !whoami
+  journeys.py             !journey (route maps: bible_map.py)
   report.py               the owner's weekly report, !errors
   backup.py               daily backup of data/
   stats.py, help.py, autodetect.py, slash.py, changelog.py, health.py
