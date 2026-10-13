@@ -509,10 +509,11 @@ EXTRA_HYMNS = [
      "tune": "Jerusalem", "composer": "C. Hubert H. Parry (1848–1918)",
      "commons": "And Did Those Feet In Ancient Time (Jerusalem).mid"},
     {"text": "i_heard_the_voice_of_jesus_say_come_unto", "tune": "Kingsfold",
-     "composer": "English traditional melody", "commons": None},
+     "composer": "English traditional melody", "local": "Kingsfold.mid"},
     {"text": "each_day_ill_do_a_golden_deed", "title": "A Beautiful Life", "tune": "A Beautiful Life",
-     "composer": "William M. Golden (1878–1934)", "commons": None},
+     "composer": "William M. Golden (1878–1934)", "local": "A_Beautiful_Life.mid"},
 ]
+LOCAL_MIDI = ROOT / "scripts" / "hymn_midi"      # tunes the owner supplied, where no source could be fetched
 
 
 def _fetch(url: str, cached: Path, refusals=(403,)) -> bytes:
@@ -613,6 +614,14 @@ def hymnary_hymn(spec: dict) -> dict:
         import mido
         hymn.update(midi=name, seconds=round(mido.MidiFile(MIDI / name).length))
         hymn["source"] = "Hymnary.org; tune from Wikimedia Commons"
+    elif spec.get("local"):
+        midi = (LOCAL_MIDI / spec["local"]).read_bytes()
+        if not midi.startswith(b"MThd"):
+            raise RuntimeError(f"{spec['local']} isn't a MIDI file")
+        MIDI.mkdir(parents=True, exist_ok=True)
+        (MIDI / spec["local"]).write_bytes(midi)
+        import mido
+        hymn.update(midi=spec["local"], seconds=round(mido.MidiFile(MIDI / spec["local"]).length))
     return hymn
 
 

@@ -112,7 +112,7 @@ Prefix commands use `!`; most also have a `/` slash-command version.
 | `!gematria <word or number>` | `!gem` | Gematria values (gematrix.org) |
 | `!who <name>` | `!person`, `!whois` | A person: description, family (with a menu to walk the tree), tribe, birth/death places, every verse naming them; namesakes offered as a list (Theographic) |
 | `!place <name>` | `!where`, `!map` | A place on a drawn map card (nearby places, locator inset, scale; uncertain sites ringed), with its verses |
-| `!hymn [title \| words \| topic \| passage]` | `!hymns`, `!hymnal` | A public-domain hymn: words, author, tune, Bible passages; ▶️ plays the tune (organ .ogg + .mid) |
+| `!hymn [title \| words \| topic \| passage]` | `!hymns`, `!hymnal` | A public-domain hymn: words, author, tune, Bible passages; ▶️ plays the tune (an organ .ogg) |
 
 ### Church, liturgy, and the daily office
 
@@ -287,7 +287,8 @@ Two reference datasets have their own shape, each rebuilt by a script in `script
   (each tune rendered to Ogg Opus by `render_hymn_audio.py`, which needs numpy,
   mido and ffmpeg; the bot itself only sends the file). The
   Open Hymnal's ABC scores are converted to the words and MIDI; a few extra hymns
-  (`EXTRA_HYMNS`) take their words from Hymnary.org and tunes from Wikimedia Commons.
+  (`EXTRA_HYMNS`) take their words from Hymnary.org and tunes from Wikimedia Commons
+  or, where none could be fetched, from MIDI files the owner supplied in `scripts/hymn_midi/`.
 
 **Runtime state is not in git.** The bot writes per-server and per-user data
 to `data/` as it runs — `stats.json`, `guild_activity.json`, `guild_config.json`,

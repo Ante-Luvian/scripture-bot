@@ -311,7 +311,7 @@ async def cmd_help(ctx, *, topic: str = ""):
             "`!hymn Psalm 23` — hymns drawn from a passage\n"
             "`!hymn` — a random hymn\n\n"
             "**▶️ Play the tune** posts the hymn tune, once through in four parts on an organ, as audio "
-            "you can play in Discord, plus the .mid file. **📖 Read the passages** shows the Bible verses "
+            "you can play in Discord. **📖 Read the passages** shows the Bible verses "
             "the hymn draws on. About 290 public-domain hymns, from the Open Hymnal Project and Hymnary.org."
         )
         await ctx.send(embed=embed)

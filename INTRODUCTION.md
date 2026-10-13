@@ -110,7 +110,7 @@ Abbreviations are fine (`Jn`, `1 Cor`, `Ps`). Bible verses come with the four st
 **`!place Bethel`** — a place in the Bible on a map: the place marked in red with the towns, seas and regions around it named so you can get your bearings, a small map of the whole Bible world in the corner showing where you are, and a scale in kilometres and miles. Under it: what the place was, who was born or died there, and every verse that names it. Where nobody is quite sure where a place was, the map says so. Try `!place Sea of Galilee`, `!place Rome` or `!place Ur`.
 
 **`!hymn amazing grace`** — a hymn's words, who wrote them and the tune, and the Bible passages it draws on. Search by title, first line, a line you remember from the words, a topic (`!hymn christmas`) or a passage (`!hymn Psalm 23` finds hymns based on it). `!hymn` alone picks one at random. Two buttons sit under each hymn:
-• **▶️ Play the tune** — I play the hymn tune once through, in four-part harmony on an organ, as audio you can listen to right in Discord. The MIDI file comes too, for a keyboard or music app.
+• **▶️ Play the tune** — I play the hymn tune once through, in four-part harmony on an organ, as audio you can listen to right in Discord.
 • **📖 Read the passages** — the Bible verses behind the hymn.
 About 290 public-domain hymns and carols, from the Open Hymnal Project and Hymnary.org.
 

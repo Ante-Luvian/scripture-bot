@@ -155,7 +155,9 @@
    "refrain": "Life's evening sun is sinking low,\nA few more days and I must go,\nTo meet the deeds that I have done,\nWhere there will be no setting sun.",
    "first_line": "Each day I'll do a golden deed,",
    "file": "hymnary.org/text/each_day_ill_do_a_golden_deed",
-   "source": "Hymnary.org"
+   "source": "Hymnary.org",
+   "midi": "A_Beautiful_Life.mid",
+   "seconds": 40
   },
   {
    "title": "A Child of The King",
@@ -5009,7 +5011,9 @@
    "refrain": "",
    "first_line": "I heard the voice of Jesus say,",
    "file": "hymnary.org/text/i_heard_the_voice_of_jesus_say_come_unto",
-   "source": "Hymnary.org"
+   "source": "Hymnary.org",
+   "midi": "Kingsfold.mid",
+   "seconds": 32
   },
   {
    "title": "I Know That My Redeemer Lives",

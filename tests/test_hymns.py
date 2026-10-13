@@ -69,14 +69,10 @@ def test_refrains_are_printed_once(hy):
     assert child["stanzas"][0].endswith("The Babe, the Son of Mary.") and not child["refrain"]
 
 
-WORDS_ONLY = {"I Heard the Voice of Jesus Say", "A Beautiful Life"}        # no complete tune found to fetch
 
 
 def test_every_hymn_has_a_tune(hy):
     for h in hy.hymns():
-        if h["title"] in WORDS_ONLY:
-            assert "midi" not in h and [i.item.label for i in hy.hymn_view(h).children] == ["Read the passages"]
-            continue
         assert (hy.MIDI_DIR / h["midi"]).exists(), h["title"]
         assert hy.audio_path(h) is not None, h["title"]          # rendered ahead: python scripts/render_hymn_audio.py
 
@@ -144,8 +140,21 @@ def test_passages_button(hy):
 def test_hymns_from_hymnary(hy, title, first):
     h = _one(hy, title)
     assert h["first_line"] == first and h["source"].startswith("Hymnary.org") and h["scripture"]
-    if title not in WORDS_ONLY:
-        assert (hy.MIDI_DIR / h["midi"]).read_bytes().startswith(b"MThd")
+    assert (hy.MIDI_DIR / h["midi"]).read_bytes().startswith(b"MThd") and hy.audio_path(h)
     if title == "A Beautiful Life":                              # its refrain, printed once, without "[Refrain]"
         assert h["refrain"].startswith("Life's evening sun is sinking low")
         assert len(h["stanzas"]) == 5 and "Refrain" not in "".join(h["stanzas"])
+
+
+def test_play_sends_just_the_audio(hy):
+    sent = {}
+
+    class Response:
+        async def send_message(self, content=None, **kwargs):
+            sent.update(kwargs, content=content)
+
+    class Interaction:
+        response = Response()
+
+    asyncio.run(hy.play(Interaction(), _one(hy, "I Heard the Voice of Jesus Say")))
+    assert "files" not in sent and sent["file"].filename.endswith(".ogg")

@@ -8,7 +8,7 @@ built by scripts/build_hymns.py).
 Each hymn shows its words, who wrote the words and the tune, and the Bible
 passages it draws on, with buttons to hear the tune (an organ rendering of
 the four-part score, rendered ahead by scripts/render_hymn_audio.py and
-sent as an .ogg with the .mid) and to read those passages.
+sent as an .ogg) and to read those passages.
 """
 import functools
 import json
@@ -146,7 +146,7 @@ def hymn_embed(hymn: dict) -> discord.Embed:
     embed.add_field(name="About", value="\n".join(credit_lines(hymn))[:1024], inline=False)
     if hymn["scripture"]:
         embed.add_field(name="Drawn from", value=", ".join(hymn["scripture"])[:1024], inline=False)
-    played = " · ▶ Play the tune for an organ rendering" if hymn.get("midi") else ""
+    played = " · ▶ Play the tune for an organ rendering" if audio_path(hymn) else ""
     embed.set_footer(text=f"Public domain · {hymn.get('source', 'The Open Hymnal Project')}{played}")
     return embed
 
@@ -221,12 +221,10 @@ async def play(interaction: discord.Interaction, hymn: dict) -> None:
         await interaction.response.send_message("⚠️ I don't have that tune to play.", ephemeral=True)
         return
     stem = re.sub(r"[^A-Za-z0-9]+", "_", hymn["title"]).strip("_")[:60] or "hymn"
-    files = [discord.File(path, filename=f"{stem}.ogg"),
-             discord.File(MIDI_DIR / hymn["midi"], filename=f"{stem}.mid")]
     tune = f" — {hymn['tune'].upper()}" if hymn["tune"] else ""
     await interaction.response.send_message(
-        f"🎵 **{hymn['title']}**{tune}: the tune once through, in four parts on an organ. "
-        f"The .mid file is there too, for a music app or keyboard.", files=files)
+        f"🎵 **{hymn['title']}**{tune}: the tune once through, in four parts on an organ.",
+        file=discord.File(path, filename=f"{stem}.ogg"))
 
 
 def list_embed(query: str, found: list) -> discord.Embed:

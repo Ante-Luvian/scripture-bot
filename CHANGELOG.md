@@ -14,6 +14,10 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-12 · Two more hymn tunes
+- 🎵 **I Heard the Voice of Jesus Say and A Beautiful Life now have their tunes.** Until now these two had only their words. Press **▶️ Play the tune** under either one to hear it: *I Heard the Voice of Jesus Say* is set to *Kingsfold*, an old English folk melody, and *A Beautiful Life* to William Golden's own tune. Try `!hymn I heard the voice of Jesus`.
+- 🎵 **Play the tune now posts just the music.** You get a single sound file that plays right in Discord, without the extra MIDI file that used to come with it.
+
 ## 2026-10-12 · Hymn tunes now play
 - 🔧 **Fixed: Play the tune.** Pressing **▶️ Play the tune** under a hymn said "I couldn't play that tune just now" instead of playing anything. Now it posts the tune straight away as a sound file you can play right in Discord (plus the MIDI file, as before). Try `!hymn amazing grace` and press Play.
 
