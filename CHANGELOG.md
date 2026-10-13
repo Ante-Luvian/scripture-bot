@@ -14,6 +14,11 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-13 · Footnotes cleared out of the new books
+- 🧹 **Footnote numbers are gone from Rumi's *Masnavi*.** Some lines had a stray note number in the middle, like "the Dragon's tail 2 dulls the brightness of the moon", and that's what `!rumi` would show you. Now it reads as the poem should, and an "A11" that should have been "All" is fixed too.
+- 📖 **Julian of Norwich's *Revelations of Divine Love* is now Julian's words only.** Her 1901 editor's footnotes and glossary had been mixed in as if they were part of the text, so `!verse Julian of Norwich 51` included notes like "See preceding note." Each chapter now ends where Julian's own writing ends.
+- 🔧 A few smaller misprints from the old scans are fixed: in Mencius, "0 prince" now reads "O prince"; there are two garbled words in the *Kalevala*, and a quotation mark that came out as "11" in the *Popol Vuh*. Max Müller's notes are also removed from the end of the *Brihadaranyaka Upanishad*.
+
 ## 2026-10-13 · !rumi: open the Masnavi at random
 - 🌹 **New oracle: `!rumi` opens the *Masnavi* of Rumi at random**, the way `!hafez` opens the poems of Hafiz. Rumi was the 13th-century Persian poet and mystic whose *Masnavi*, a long poem of stories and teaching, has been called "the Quran in Persian". Hold a question in mind, or write it after the command (`!rumi what should I do?`), and I'll read you a few couplets from wherever the book falls open. Under them I name the story they come from, such as "The Falcon and the Owls", and the footer gives the command to read the whole story.
 - 🖼️ Like the other oracles, the answer has a **Card** button that turns it into an image, and server admins can make it the **daily oracle**: `!oraclesetup kind rumi`.

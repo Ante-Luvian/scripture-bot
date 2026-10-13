@@ -67,4 +67,21 @@ def test_no_page_furniture(lookup):
         corpus, _ = lookup._resolve_book(book)
         for chapter in lookup._data[corpus][book].values():
             for text in chapter.values():
-                assert not re.search(r"sacred-texts\.com|\[\*\d+\]|\[p\. \d+\]|^Footnotes$|^\^\d+:", text, re.M), book
+                assert not re.search(r"sacred-texts\.com|\[\*\d+\]|\[p\. \d+\]|^Footnotes$|^\^\d+\w*:", text, re.M), book
+
+
+def test_no_footnotes(lookup):
+    import re
+    masnavi = lookup._data["sufi"]["Masnavi"]
+    for chapter in masnavi.values():
+        for text in chapter.values():
+            # a note number left after a word ("the Dragon's tail 2 dulls") -- Whinfield writes numbers in words
+            assert not re.search(r"(?:[^\W\d_]|\))[ \t]\d{1,2}(?=[ \t,.;:!?]|$)", text, re.M), text[:80]
+            assert "Apocryphal Supplements" not in text
+    assert "the Dragon's tail dulls" in lookup.get_verse("Masnavi 1.17")["text"]
+    julian = lookup._data["medieval"]["Revelations of Divine Love"]
+    for chapter in julian.values():
+        for text in chapter.values():
+            # the editor's notes ("[7] MS. ...", "See preceding note.") and glossary are left out
+            assert not re.search(r"^\[\d+\]|\bnote\b|Sloane|\bMS\b", text, re.M | re.I), text[:80]
+    assert list(julian["86"].values())[-1].startswith("And I saw full surely that ere God made us He loved us")

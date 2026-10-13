@@ -930,7 +930,7 @@ def sbe_clean(text: str) -> str:
     header after each page group, the footnotes gathered under it, page
     numbers, and footnote markers."""
     text = re.sub(r"(?ms)^Footnotes\s*\n.*?(?=^.*at sacred-texts\.com\s*$|\Z)", "", text)
-    text = re.sub(r"(?m)^Footnotes\s*$|^\^\d+:\w+.*$", "", text)                # any left (no header after them)
+    text = re.sub(r"(?m)^Footnotes\s*$|^\^\d+\w*:\w+.*$", "", text)             # any left ("^15:1", "^168hume:1")
     text = re.sub(r"(?m)^.*at sacred-texts\.com\s*$", "", text)
     text = re.sub(r"\[p\. [\divxlc]+\]|\s*\[\*\d+\]|\[paragraph continues\]", "", text)
     # a paragraph cut by a page break: the next "paragraph" carries on in lower case
@@ -1163,6 +1163,7 @@ def mencius():
             chapter += 1 + max(0, gap - 4) // 2 if chapter or gap > 4 else 1
             verses = book.setdefault(f"{b}.{part}.{chapter}", {})
             for p in paras:
+                p = re.sub(r"\b0 (?=[a-z])", "O ", p)                     # OCR: "0 prince" for "O prince"
                 m = re.match(r"^(\d+)\.\s+(.*)$", p)
                 last = max(map(int, verses), default=0)
                 if m and last < int(m.group(1)) <= last + 3:
@@ -1434,6 +1435,7 @@ def popol_vuh():
     parts = re.split(r"(?m)^\s*THE (FIRST|SECOND|THIRD|FOURTH) BOOK\s*$", body)[1:]
     book = {}
     for word, chunk in zip(parts[0::2], parts[1::2]):
+        chunk = re.sub(r'\s11\s(\w+)\s"', r' "\1"', chunk)                 # OCR: 'term 11 hurricane "' (an opening quote)
         paras = [tidy(re.sub(r"\s?\[\d+\]", "", p)) for p in paragraphs(chunk)
                  if p.strip() and not re.fullmatch(r"[A-Z][A-Z ,.'\-:]+", p.strip())]   # sub-headings
         book[str(_ORD_WORDS.index(word) + 1)] = {str(i): p for i, p in enumerate(sentence_groups(paras), 1)}
@@ -1576,12 +1578,15 @@ def masnavi():
     as "Description of Love.", can't be told from a couplet line ending in a
     full stop, so they stay in the run). His notes are left out."""
     text = sacred_text("isl/masnavi/msn.txt.gz")
+    text = re.split(r"(?m)^\s*Note on Apocryphal Supplements", text)[0]       # Whinfield's appendix
     text = re.sub(r"(?m)^.*at sacred-texts\.com\s*$", "", text)
     text = re.sub(r"(?m)^[ \t]*\*NOTES:[ \t]*\n(?:[ \t]*\d+\..*\n|[ \t]*\n)*", "", text)
     # note numbers: "Adam, l" / "Pure One! 2" at a line's end, "willing,1 we" inside it
     # (an OCR'd "l" for "1" only after a space: "Adam, l" -- never the end of "Soul")
     text = re.sub(r"(?:(?<=[^\W\d_])|(?<=[,;:!?'’\"]))(?:[ \t]?\d{1,2}|[ \t]l)(?=[ \t]*$|[ \t]*[,.;:])", "", text, flags=re.M)
     text = re.sub(r"(?<=[,;:.!?'’\"])[ \t]?\d{1,2}(?=\s)", "", text)       # (this text has no verse numbers)
+    text = re.sub(r"(?:(?<=[^\W\d_])|(?<=\)))[ \t]\d{1,2}(?=[ \t]+\S)", "", text)   # mid-line: "the Dragon's tail 2 dulls"
+    text = re.sub(r"\bA11\b", "All", text)                                     # OCR
     books = re.split(r"(?m)^\s*Book ([IVX]+)\.\s*$", text)[1:]
     out = {}
     for num, chunk in zip(books[0::2], books[1::2]):
@@ -1640,6 +1645,7 @@ def kalevala():
     (chapter 0) and 50 runes, in runs of eight lines (the poem has no
     stanzas), the rune's title leading the first."""
     text = re.sub(r"(?m)^.*at sacred-texts\.com\s*$|\[p\. \d+\]", "", sacred_text("neu/kveng/kv.txt.gz"))
+    text = text.replace("whirlpoo4", "whirlpool,").replace("adjuste4", "adjusted,")      # OCR
     heads = [m for m in re.finditer(r"(?m)^\s*(PROEM|RUNE ([IVXL]+))\.?(.*)$", text)]
     body_heads, seen = [], set()
     for m in reversed(heads):                       # the last of each is the text's own (the first, the contents)
@@ -1729,10 +1735,14 @@ def julian_of_norwich():
     book = {}
     for i, m in enumerate(heads):
         body = text[m.end():heads[i + 1].start() if i + 1 < len(heads) else len(text)]
-        body = re.sub(r"\[\d+\]", "", body)
         body = re.split(r"(?m)^\s*(?:FOOTNOTES?:?|\[Footnote)", body)[0]
         body = re.sub(r"(?m)^\s*THE [A-Z\-]+ REVELATION_?\s*$", "", body)
-        paras = [tidy(p) for p in paragraphs(body)]
+        body = re.split(r"(?m)^\s*GLOSSARY\s*$", body)[0]                  # after the last chapter
+        # the editor's notes follow each chapter, the first opening "[1] ..." (a note can run
+        # to several paragraphs): the chapter ends there; then the markers go from the text
+        paras = paragraphs(body)
+        first_note = next((k for k, p in enumerate(paras) if re.match(r"\[\d+\]", p.strip())), len(paras))
+        paras = [tidy(re.sub(r"\[\d+\]", "", p)) for p in paras[:first_note]]
         if paras and paras[0].startswith(('"', "“")) and len(paras) > 1:
             paras = paras[1:]                             # the editor's summary, in quotation marks
         book[str(roman(m.group(1)))] = {str(n): p for n, p in enumerate(paras, 1) if p}
