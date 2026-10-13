@@ -115,6 +115,7 @@ Abbreviations are fine (`Jn`, `1 Cor`, `Ps`). Bible verses come with the four st
 • `!timeline Abraham` — where a person or event falls in James Ussher's famous chronology (*Annals of the World*, 1658), with what came just before and after
 • `!gematria love` — the numerical values of a word in Hebrew and English gematria (numbers work too: `!gematria 666`)
 • `!measure 300 cubits` — Bible weights, measures and money in today's terms: how long a cubit was, how heavy a talent, what a penny was worth (a day's wage). `!measure Genesis 6:15` converts every measurement in a verse — there, the size of Noah's ark. `!measure` alone lists them all
+• `!kings` — every king of Israel and Judah from Saul to Zedekiah, drawn as a chart: each reign a block as long as the Bible says it lasted, coloured by the Bible's own verdict on it ("did that which was right" or "did evil"). `!kings Hezekiah` shows one king with the verses
 
 **`!harmony feeding five thousand`** — one event in the life of Jesus as each Gospel tells it, side by side, so you can see at a glance what Matthew, Mark, Luke and John each include or leave out. It follows a classic *harmony of the Gospels* (A. T. Robertson's, 1922), which puts the whole story in order in 185 events, from the birth of John the Baptist to the Ascension. Find an event by words from it, by a verse (`!harmony Mark 6:41`) or by its number (`!harmony 72`). Buttons read each Gospel's account in full and step to the event before or after, so you can walk through the whole life of Christ. `!harmony` alone picks an event at random.
 

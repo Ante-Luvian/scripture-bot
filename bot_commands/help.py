@@ -305,6 +305,18 @@ async def cmd_help(ctx, *, topic: str = ""):
         await ctx.send(embed=embed)
         return
 
+    if topic in ("kings", "king", "monarchs"):
+        embed = discord.Embed(title="👑 !kings — The kings of Israel and Judah", color=discord.Color.dark_gold())
+        embed.description = (
+            "`!kings` — a chart of every king from Saul to Zedekiah: the united kingdom, then Israel and Judah "
+            "side by side, each reign a block as long as the Bible says it lasted, coloured by the Bible's "
+            "verdict on it (green: “did that which was right”, red: “did evil”, gold: both).\n"
+            "`!kings Hezekiah` — one king: how long he reigned and the verdict, quoted, with the verses.\n\n"
+            "Reigns overlapped, so the chart stacks them in order rather than on a timeline."
+        )
+        await ctx.send(embed=embed)
+        return
+
     if topic in ("measure", "measures", "weights", "money", "convert"):
         embed = discord.Embed(title="📏 !measure — Bible weights, measures and money", color=discord.Color.dark_gold())
         embed.description = (
@@ -873,6 +885,7 @@ async def cmd_help(ctx, *, topic: str = ""):
         "`!place Bethel` — a place on a map, with its verses · `!help place`\n"
         "`!journey paul 2` — a journey on a map: Paul's, the Exodus, Abraham's… · `!help journey`\n"
         "`!measure 300 cubits` — Bible weights, measures and money in today's terms · `!help measure`\n"
+        "`!kings` — every king of Israel and Judah: reigns and the Bible's verdict, as a chart · `!help kings`\n"
         "`!hymn amazing grace` — a hymn's words, its tune to play, the Bible behind it · `!help hymn`\n"
         "`!metrical 23` — a psalm in rhyming verse to sing (Scottish Psalter, 1650), with its tune · "
         "`!help metrical`"
@@ -892,7 +905,7 @@ async def cmd_help(ctx, *, topic: str = ""):
         "`!compare strong <ref>` — KJV + original-language Strong's tagging · `!help compare`\n"
         "`!strong G3588` / `!strong H7225` — Strong's lexicon lookup · `!help strong`"
     ), inline=False)
-    embed.set_footer(text="!help verse · !help compare · !help votd · !help votdsetup · !help features · !help today · !help bcp · !help prayer · !help strong · !help books · !help parallel · !help oracle · !help discover · !help study · !help xref · !help notes · !help topic · !help save · !help plan · !help leaderboard · !help subscribe · !help card · !help who · !help tree · !help whoami · !help versle · !help place · !help journey · !help measure · !help harmony · !help hymn · !help metrical · !help creed · !help ccc · !help summa")
+    embed.set_footer(text="!help verse · !help compare · !help votd · !help votdsetup · !help features · !help today · !help bcp · !help prayer · !help strong · !help books · !help parallel · !help oracle · !help discover · !help study · !help xref · !help notes · !help topic · !help save · !help plan · !help leaderboard · !help subscribe · !help card · !help who · !help tree · !help whoami · !help versle · !help place · !help journey · !help measure · !help kings · !help harmony · !help hymn · !help metrical · !help creed · !help ccc · !help summa")
     await ctx.send(embed=embed)
 
 

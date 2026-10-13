@@ -14,6 +14,11 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-13 · The kings of Israel and Judah
+- 👑 **New: `!kings` draws every king of Israel and Judah as a chart.** It runs from Saul, David and Solomon, through the kingdom splitting in two, to the fall of Samaria and of Jerusalem. Each reign is a block as long as the Bible says it lasted, so Manasseh's 55 years tower over Zimri's seven days. Each is coloured by the Bible's own verdict: green for "did that which was right in the sight of the Lord", red for "did evil", gold where the text says both (Solomon, Jehu).
+- 📖 **One king at a time:** `!kings Hezekiah` gives how long he reigned and the verdict on him, quoted, with the verses to read. Other names work too: `!kings Uzziah` finds Azariah, and `!kings Jehoram` shows both kings of that name.
+- ✔️ Every length and verdict is quoted from the King James Version and checked word for word against it. Where the text is uncertain, the bot says so: the Hebrew of Saul's reign in 1 Samuel 13:1 is damaged, so his forty years come from Acts 13:21. The reigns overlapped, with sons often ruling alongside their fathers, so the chart shows them in order, not as a timeline.
+
 ## 2026-10-13 · Versle every morning
 - 📜 **Server admins can now have each day's Versle posted in a channel automatically:** `!verslesetup channel #games`. Versle is the daily puzzle where everyone gets the same well-known verse and tries to say where in the Bible it is. The post comes with its **✍️ Guess** button, so people can play straight from it, and a line revealing yesterday's verse and how many people solved it.
 - ⏰ It posts just after midnight UTC, when the new verse starts. Choose another time with `!verslesetup time 07:00` (24-hour, UTC), try it with `!verslesetup test`, and stop it with `!verslesetup off`. `!versle` still works any time.

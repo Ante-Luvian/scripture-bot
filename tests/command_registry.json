@@ -80,6 +80,10 @@
    "journeys",
    "route"
   ],
+  "kings": [
+   "king",
+   "monarchs"
+  ],
   "leaderboard": [
    "lb"
   ],
@@ -279,6 +283,7 @@
   "iching",
   "interlinear",
   "journey",
+  "kings",
   "leaderboard",
   "measure",
   "memorize",

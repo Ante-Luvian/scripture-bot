@@ -110,6 +110,7 @@ Prefix commands use `!`; most also have a `/` slash-command version.
 | `!dictionary <term>` | `!dict`, `!define` | Easton's / Smith's Bible Dictionary |
 | `!timeline <subject>` | `!chronology` | Ussher's *Annals of the World* |
 | `!gematria <word or number>` | `!gem` | Gematria values (gematrix.org) |
+| `!kings [name]` | `!king`, `!monarchs` | The 42 kings (and Athaliah) from Saul to Zedekiah: reign lengths and verdicts quoted from the KJV with verses (`kings.py`, checked by `test_kings.py`), drawn as a chart (Pillow) or one king at a time |
 | `!measure [unit \| amount unit \| verse]` | `!measures`, `!weights`, `!money`, `!convert` | Bible weights, measures and money in modern terms (`measures.py`): 33 units with Easton's figures quoted, KJV relations ("the shekel shall be twenty gerahs"), conversions (`300 cubits`, `half a shekel`), and every measurement in a verse (`Genesis 6:15`). Money in denarii / days' wages and in USD (Easton's 1897 pence × UK inflation × exchange rate, constants in the module); silver shekels/talents also as money. Quotes and verses are checked by `test_measures.py` |
 | `!who <name>` | `!person`, `!whois` | A person: description, family (with a menu to walk the tree), tribe, birth/death places, every verse naming them; namesakes offered as a list (Theographic) |
 | `!tree <name> [to <name>]` | `!familytree`, `!lineage`, `!genealogy` | A family-tree picture (grandparents to children, paternal line), or a chart of every generation between two people (`family_tree.py`) |
@@ -274,6 +275,7 @@ bot_commands/           One module per feature area; each registers its
   journeys.py             !journey (route maps: bible_map.py)
   harmony.py              !harmony (data/harmony.json)
   measures.py             !measure (weights, measures, money; Easton's figures)
+  kings.py                !kings (the kings of Israel and Judah, chart)
   report.py               the owner's weekly report, !errors
   backup.py               daily backup of data/
   stats.py, help.py, autodetect.py, slash.py, changelog.py, health.py
