@@ -14,6 +14,11 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-13 · Who Am I?, and taller family trees
+- 🕵️ **New game: `!whoami`.** I think of someone from the Bible and give you one clue, a hard one: how many verses name them and where in the Bible they appear. Each press of **💡 Next clue** gives an easier one: the size of their family, where they were born and died, what their name means, a verse about them with the name hidden, their relatives' names, and finally the first letter of their name. Anyone in the channel can press **✍️ Guess**, one guess per clue each, and the first right answer wins. Other names count too, like "Israel" for Jacob or "Cephas" for Peter. **🏳️ Give up** shows who it was.
+- 🌳 **Family trees now show far more ancestors.** `!tree` used to stop at the grandparents, which made Jesus's tree look tiny for a family the Bible traces back to Adam. Now the line of fathers climbs up the picture: great-grandfather, 2× great-grandfather, and so on for six generations. A box at the top says how much further it goes, such as "… 57 more generations, back to Adam". To see all of them, use `!tree Adam to Jesus`.
+- 🩹 **`!who Peter` now finds Simon Peter.** Before, it said it didn't know anyone called Peter, because his full name is "Simon Peter". The same goes for others known by the second part of their name, like `!who Iscariot` or `!who Magdalene`.
+
 ## 2026-10-13 · Family trees
 - 🌳 **New: `!tree` draws a family tree.** `!tree David` puts David in the middle of a picture of his family. His brothers and sisters are beside him, his wives next to him, and his children below (sons and daughters marked). His parents and grandparents are above, and across the top runs his line of fathers going back (… Judah › Pharez › … › Boaz › Obed › Jesse). In big families the best-known names come first: David had more than twenty children, and you'll see Solomon and Absalom before the rest.
 - 📜 **Follow a line of descent:** `!tree Abraham to David` draws every generation from one person down to another as a chart, here all 14 from Abraham to David. `!tree Adam to Jesus` runs right through the Bible's genealogies, 65 generations. The names can go in either order, and `/tree` suggests names as you type.

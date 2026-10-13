@@ -277,6 +277,19 @@ async def cmd_help(ctx, *, topic: str = ""):
         await ctx.send(embed=embed)
         return
 
+    if topic in ("whoami", "mystery", "whoisit"):
+        embed = discord.Embed(title="🕵️ !whoami — Who Am I?", color=discord.Color.dark_gold())
+        embed.description = (
+            "I think of someone from the Bible and give you a clue. **💡 Next clue** gives an easier one — "
+            "their family, where they lived and died, what their name means, a verse with their name "
+            "hidden, their relatives' names, and last of all the first letter.\n\n"
+            "Anyone in the channel can press **✍️ Guess** — one guess per clue each — and the first right "
+            "answer wins. Other names count too (`Israel` for Jacob, `Cephas` for Peter). "
+            "**🏳️ Give up** shows who it was."
+        )
+        await ctx.send(embed=embed)
+        return
+
     if topic in ("tree", "familytree", "lineage", "genealogy"):
         embed = discord.Embed(title="🌳 !tree — Family trees", color=discord.Color.dark_gold())
         embed.description = (
@@ -775,7 +788,8 @@ async def cmd_help(ctx, *, topic: str = ""):
     ), inline=False)
     embed.add_field(name="🎲 Divination", value=(
         "`!oracle` `!delphi` `!homer` `!virgil` `!sortesbiblicae` `!iching` `!hafez` — oracular & sortes · `!help oracle`\n"
-        "`!quiz` — guess which book a verse is from (`!quiz hard`, `!quiz buddhist`, `!quiz leaderboard`)"
+        "`!quiz` — guess which book a verse is from (`!quiz hard`, `!quiz buddhist`, `!quiz leaderboard`)\n"
+        "`!whoami` — Who Am I? Guess a Bible figure from clues that get easier · `!help whoami`"
     ), inline=False)
     embed.add_field(name="🔭 Discovery & Personal", value=(
         "`!discover` — random passage from any loaded tradition · `!help discover`\n"
@@ -812,7 +826,7 @@ async def cmd_help(ctx, *, topic: str = ""):
         "`!compare strong <ref>` — KJV + original-language Strong's tagging · `!help compare`\n"
         "`!strong G3588` / `!strong H7225` — Strong's lexicon lookup · `!help strong`"
     ), inline=False)
-    embed.set_footer(text="!help verse · !help compare · !help votd · !help votdsetup · !help features · !help today · !help bcp · !help prayer · !help strong · !help books · !help parallel · !help oracle · !help discover · !help study · !help xref · !help notes · !help topic · !help save · !help plan · !help leaderboard · !help subscribe · !help card · !help who · !help tree · !help place · !help hymn · !help metrical · !help creed · !help ccc · !help summa")
+    embed.set_footer(text="!help verse · !help compare · !help votd · !help votdsetup · !help features · !help today · !help bcp · !help prayer · !help strong · !help books · !help parallel · !help oracle · !help discover · !help study · !help xref · !help notes · !help topic · !help save · !help plan · !help leaderboard · !help subscribe · !help card · !help who · !help tree · !help whoami · !help place · !help hymn · !help metrical · !help creed · !help ccc · !help summa")
     await ctx.send(embed=embed)
 
 

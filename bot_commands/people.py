@@ -59,6 +59,9 @@ def _index(kind: str) -> dict:
         names = {_norm(e["name"]), _bare(e["name"]), *(_norm(a) for a in e.get("also", []))}
         if kind == "people":
             names.add(_norm(e["short"]))
+            words = re.sub(r"\s*\(.*\)$", "", e["name"]).split()
+            if len(words) == 2 and words[1][0].isupper():      # "Simon Peter" is also just "Peter"
+                names.add(_norm(words[1]))
         for n in names:
             if n:
                 index.setdefault(n, []).append(slug)

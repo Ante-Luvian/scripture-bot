@@ -152,6 +152,7 @@ answer, and every answer has a 🖼️ Card button that renders it as an image.
 | Command | Aliases | What it does |
 |---|---|---|
 | `!quiz [hard \| leaderboard]` | `!guess` | Which book is this verse from? One private guess each, revealed after 60s. Scores per server, weekly and all-time, with streaks |
+| `!whoami` | `!mystery`, `!whoisit` | Who Am I? A Bible figure (named in 20+ verses) from clues generated from the !who data, easiest last; guess via a modal, first right answer wins (`games.py`) |
 | `!quizsetup` | `!quizconfig` | (Admins) A daily quiz question in a channel, revealed with the next: `channel #chan`, `time HH:MM` (UTC), `kind bible\|hard`, `test`, `off` |
 
 ### Verse of the Day
@@ -243,6 +244,7 @@ bot_commands/           One module per feature area; each registers its
   people.py               !who/!place/!tree (map cards: bible_map.py; trees: family_tree.py)
   hymns.py                !hymn (tunes played by hymn_audio.py)
   psalter.py              !metrical (the Scottish Metrical Psalter)
+  games.py                !whoami
   report.py               the owner's weekly report, !errors
   backup.py               daily backup of data/
   stats.py, help.py, autodetect.py, slash.py, changelog.py, health.py

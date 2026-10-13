@@ -215,6 +215,10 @@
    "person",
    "whois"
   ],
+  "whoami": [
+   "mystery",
+   "whoisit"
+  ],
   "xref": [
    "crossref",
    "crossreference",
@@ -290,6 +294,7 @@
   "votd",
   "votdsetup",
   "who",
+  "whoami",
   "xref"
  ]
 }

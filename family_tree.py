@@ -27,6 +27,7 @@ HIGHLIGHT = (252, 236, 205)
 BOX_H, GAP, ROW_GAP, MARGIN = 46, 14, 40, 28
 MAX_ROW = 8                                # boxes in a row before "and N more"
 MAX_CHILDREN = 15                          # two full rows with "and N more"
+UP_GENERATIONS, UP_GAP = 6, 18             # fathers drawn above the grandfather
 
 
 @functools.lru_cache(maxsize=16)
@@ -102,7 +103,8 @@ def _render(boxes: list, links: list, title: str, subtitle: str, credit: str) ->
     """Draw boxes and links ([(x1, y1, x2, y2), ...] in layout units) under a title."""
     left = min(b.x - b.w / 2 for b in boxes)
     right = max(b.x + b.w / 2 for b in boxes)
-    bottom = max(b.y + BOX_H for b in boxes)
+    top = min(b.y for b in boxes)
+    bottom = max(b.y + BOX_H for b in boxes) - top
     title_font, sub_font = _font("georgiab.ttf", 22), _font("georgiai.ttf", 14)
     sub_lines = _wrap(subtitle, sub_font, 900) if subtitle else []
     head = 40 + 20 * len(sub_lines) + 24
@@ -110,7 +112,7 @@ def _render(boxes: list, links: list, title: str, subtitle: str, credit: str) ->
                     max((sub_font.getlength(t) / S for t in sub_lines), default=0) + 2 * MARGIN, 420))
     height = int(head + bottom + MARGIN + 22)
     dx = (width - (right - left)) / 2 - left
-    dy = head
+    dy = head - top
     img = Image.new("RGB", (width * S, height * S), PAPER)
     d = ImageDraw.Draw(img)
     d.text((width / 2 * S, 24 * S), title, font=title_font, fill=INK, anchor="mm")
@@ -158,13 +160,37 @@ def paternal_line(slug: str, people: dict, limit: int = 12) -> list:
     """The person's father, his father, and so on: nearest first."""
     out, seen = [], {slug}
     while len(out) < limit:
-        fathers = [f for f in people[slug]["father"] if f in people and f not in seen]
+        # Luke 3:38 ends "Adam, which was the son of God": the line of fathers stops at Adam
+        fathers = [f for f in people[slug]["father"] if f in people and f not in seen
+                   and people[f]["name"] != "God"]
         if not fathers:
             break
         slug = fathers[0]
         seen.add(slug)
         out.append(slug)
     return out
+
+
+def _forefathers(grandfather: str, gf_box: "_Box", people: dict, links: list) -> list:
+    """A column of fathers above the grandfather (great-grandfather and up), then a
+    box for how much further the line goes: '… 58 more generations, back to Adam'."""
+    line = paternal_line(grandfather, people, limit=1000)
+    boxes, below = [], gf_box
+    for i, slug in enumerate(line[:UP_GENERATIONS]):
+        note = "great-grandfather" if i == 0 else f"{i + 1}× great-grandfather"
+        b = _Box(short_name(people[slug]), note)
+        b.x, b.y = gf_box.x, below.y - BOX_H - UP_GAP
+        links.append((b.x, b.y + BOX_H, b.x, below.y))
+        boxes.append(b)
+        below = b
+    rest = len(line) - UP_GENERATIONS
+    if rest > 0:
+        b = _Box(f"… {rest} more generation{'s' if rest != 1 else ''}",
+                 f"back to {short_name(people[line[-1]])}", faint=True)
+        b.x, b.y = gf_box.x, below.y - BOX_H - UP_GAP
+        links.append((b.x, b.y + BOX_H, b.x, below.y))
+        boxes.append(b)
+    return boxes
 
 
 def family_chart(slug: str, people: dict) -> io.BytesIO:
@@ -229,6 +255,8 @@ def family_chart(slug: str, people: dict) -> io.BytesIO:
             _row(gp_boxes, pb.x, y_gp)
             boxes += gp_boxes
             _fork((sum(b.x for b in gp_boxes) / len(gp_boxes), y_gp + BOX_H), [pb], links)
+            if pb is par_boxes[0] and gps[0][1] == "father":
+                boxes += _forefathers(gps[0][0], gp_boxes[0], people, links)
 
     # children below, in up to two rows
     kids = _best_known(me["children"], people)
@@ -254,14 +282,7 @@ def family_chart(slug: str, people: dict) -> io.BytesIO:
                 links += [(b.x, bar, b.x, b.y) for b in row if b.text and not b.faint]
         boxes += kid_boxes
 
-    line = paternal_line(slug, people)
-    subtitle = ""
-    if len(line) > 2:
-        names = [short_name(people[s]) for s in reversed(line)]
-        subtitle = "Line of descent: " + (" › ".join(names) if len(names) < 12 else "… › " + " › ".join(names))
-        subtitle += f" › {short_name(me)}"
-    return _render(boxes, links, f"The family of {short_name(me)}", subtitle,
-                   "Theographic Bible Metadata")
+    return _render(boxes, links, f"The family of {short_name(me)}", "", "Theographic Bible Metadata")
 
 
 def lineage_chart(slugs: list, people: dict) -> io.BytesIO:
