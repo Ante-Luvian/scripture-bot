@@ -12321,6 +12321,32 @@
    "gregobase": 5617
   },
   {
+   "title": "Magnificat (chant)",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 8",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Chant",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "1. Magníficat\nánima méa Dóminum.\n2. Et exsultávit spíritus méus\nin Déo salutári méo."
+   ],
+   "refrain": "",
+   "first_line": "1. Magníficat",
+   "source": "GregoBase, from The Liber Usualis (Solesmes)",
+   "audio": "more/chant-08149.ogg",
+   "audio_kind": "chant",
+   "seconds": 26,
+   "language": "Latin",
+   "gregobase": 8149
+  },
+  {
    "title": "Magnis prophetae",
    "also": [],
    "author": "",
