@@ -127,3 +127,12 @@ def test_hymnlist_pages_keep_their_items(hymns):
         single = hymns.HymnListView(*hymns.hymn_list("babylon"))        # one page: no arrows
         assert single.children == [single.select] and len(single.select.options) == 1
     asyncio.run(check())
+
+
+def test_hymn_harp_is_a_random_sacred_harp_song(hymns, fake_ctx):
+    import asyncio
+    titles = {h["title"] for h in hymns.hymns() if hymns.shelf(h) == "harp"}
+    for query in ("harp", "Sacred Harp"):
+        asyncio.run(hymns.send_hymn_search(fake_ctx, query))
+        assert fake_ctx.sent[-1]["embed"].title.split(" — ")[0].lstrip("🎵 ").strip() in titles or \
+            any(t in fake_ctx.sent[-1]["embed"].title for t in titles)

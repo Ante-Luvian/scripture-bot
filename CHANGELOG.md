@@ -14,6 +14,9 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-14 · A random Sacred Harp song
+- 🎲 **`!hymn harp` now gives a random song from the Sacred Harp**, with its words and the four-part singing to play. Before, it searched for hymns with the word "harp" in them. `!hymn` on its own still picks from the whole hymnal.
+
 ## 2026-10-14 · One story, many traditions
 - 📚 **New: `!story`, the same story as the world's traditions tell it, side by side.** `!story flood` puts Noah's ark next to Uta-Napishtim's boat in the Epic of Gilgamesh, Deucalion and Pyrrha in Greek myth, Ovid's Jupiter drowning the world, Noah in the Quran, and the Maya Popol Vuh's flood that destroys the first people, made of wood. Each comes with a few lines from the passage, and a menu to read any of them in full.
 - 🌌 **Eight stories to explore:** `!story creation` (Genesis, the Babylonian Enuma Elish, Hesiod, the Rig Veda's Hymn of Creation, the Tao Te Ching, Japan's Kojiki, the Norse Edda, the Finnish Kalevala…), `!story humans` (the first people made from dust, clay, a god's blood, or maize), `!story tower` (Babel, and Ovid's giants piling mountain on mountain), `!story underworld` (Odysseus, Aeneas, Gilgamesh, the Katha Upanishad's Nachiketas, the Maya road to Xibalba, Christ harrowing hell, Dante), `!story ages` (the golden age and the ages after it), and `!story end` (Revelation, the Quran, the Norse Ragnarok, the Zoroastrian renewal of the world).
