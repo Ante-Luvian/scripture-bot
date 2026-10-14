@@ -465,7 +465,7 @@
    "gregobase": 8674
   },
   {
-   "title": "Aeterna… Apostolorum (I)",
+   "title": "Aeterna… Apostolorum",
    "also": [],
    "author": "",
    "translator": "",
@@ -1214,7 +1214,7 @@
     "Gregorian chant"
    ],
    "stanzas": [
-    "Atténde Dómine, et miserére,\nquia peccávimus tibi.\nThe Choir repeats : Atténde. \r\n1. Ad te Rex summe, ómnium Redémptor,\nóculos nostros sublevámus flentes:\nexáudi, Christe, supplicántum preces.\n℟. Atténde. \n2. Déxtera Pátris, lápis anguláris,\nvía salútis, jánua cæléstis,\náblue nóstri máculas delícti.\n℟. Atténde. \n\n3. Rogámus, Déus, túam majestátem:\náuribus sácris gémitus exáudi:\ncrímina nóstra plácidus indúlge.\n℟. Atténde. \n\n4. Tíbi fatémur crímina admíssa:\ncontríto córde pándimus occúlta:\ntúa, Redémptor, píetas ignóscat.\n℟. Atténde. \n\n5. Innocens cáptus, nec repúgnans dúctus,\ntéstibus fálsis pro ímpiis damnátus:\nquos redemísti, tu consérva, Chríste.\n℟. Atténde."
+    "Atténde Dómine, et miserére,\nquia peccávimus tibi.\nThe Choir repeats : Atténde. \n1. Ad te Rex summe, ómnium Redémptor,\nóculos nostros sublevámus flentes:\nexáudi, Christe, supplicántum preces.\n℟. Atténde. \n2. Déxtera Pátris, lápis anguláris,\nvía salútis, jánua cæléstis,\náblue nóstri máculas delícti.\n℟. Atténde. \n\n3. Rogámus, Déus, túam majestátem:\náuribus sácris gémitus exáudi:\ncrímina nóstra plácidus indúlge.\n℟. Atténde. \n\n4. Tíbi fatémur crímina admíssa:\ncontríto córde pándimus occúlta:\ntúa, Redémptor, píetas ignóscat.\n℟. Atténde. \n\n5. Innocens cáptus, nec repúgnans dúctus,\ntéstibus fálsis pro ímpiis damnátus:\nquos redemísti, tu consérva, Chríste.\n℟. Atténde."
    ],
    "refrain": "",
    "first_line": "Atténde Dómine, et miserére,",
@@ -1328,7 +1328,7 @@
    ],
    "stanzas": [
     "Audit tyránnus ánxius\nAdésse regum príncipem,\nQui nomen Israel regat\nTeneátque David régiam.",
-    "2. Exclámat amens núntio :\r\n«\nSuccéssor instat, péllimur;\nSatélles, i, ferrum rape,\nPerfúnde cunas sánguine.",
+    "2. Exclámat amens núntio :\n«\nSuccéssor instat, péllimur;\nSatélles, i, ferrum rape,\nPerfúnde cunas sánguine.",
     "3. Quo próficit tantum nefas ?\nQuid crimen Heródem iuvat ?\nUnus tot inter fúnera\nImpúne Christus tóllitur.",
     "4. Salvéte, flores mártyrum,\nQuos lucis ipso in límine\nChristi in secutor sústulit.\nCeu turbo nascéntes rosas.",
     "5. Vos prima Christi víctima,\nGrex immolatórum tener,\nAram sub ipsam símplices\nPalma et corónis lúditis.",
@@ -1921,7 +1921,7 @@
    ],
    "stanzas": [
     "Beata cæli regia,\nLætis resultet cantibus\nPlausuque terra subdita\nPolis utrisque consonet.",
-    "2. Præcincta nimbo gloriæ\nFrancisca inhærens impigra\r\nXaverii vestigiis\r\nTriumphat inter Cælites.",
+    "2. Præcincta nimbo gloriæ\nFrancisca inhærens impigra\nXaverii vestigiis\nTriumphat inter Cælites.",
     "3. Ætate iam tenellula\nAmore Iesum deperit\nIpsumque volvit pectore\nInferre cunctis gentibus.",
     "4. Vox ecce dia propulit\nNido columbam patrio;\nFines ad orbis ultimos\nFrequenter ipsa convolat.",
     "5. Virtus, honor, laus, gloria,\nDeo Patri cum Filio,\nSancto simul Paraclito\nIn sæculorum sæcula.\nAmen."
@@ -2676,7 +2676,7 @@
     "2. Hunc tibi eléctum\nfáciens minístrum\nAc sacerdótem\nsócians, dedísti\nDux ut astáret\npópulo fidélis\nAc bonus altor.",
     "3. Hic gregis ductor\nfuit atque forma,\nLux erat cæco,\nmísero levámen,\nPróvidus cunctis\npater omnibúsque\nOmnia factus.",
     "4. Christe, qui sanctis\nméritam corónam\nReddis in cælis,\ndócili magístrum\nFac sequi vi-ta,\nsimilíque tandem\nFine potíri.",
-    "5. Æqua laus summum\ncélebret\r\nParéntem\nteque, Salvátor,\npie rex,\r\nPer ævum;\nSpíritus Sancti\nrésonet\r\nPer omnem\nglória mundum.\nAmen."
+    "5. Æqua laus summum\ncélebret\nParéntem\nteque, Salvátor,\npie rex,\nPer ævum;\nSpíritus Sancti\nrésonet\nPer omnem\nglória mundum.\nAmen."
    ],
    "refrain": "",
    "first_line": "Christe pastórum",
@@ -3016,14 +3016,14 @@
     "Tobie Cherubini i Serafini\nnieustannym głoszą pieniem:",
     "Święty,",
     "Święty,",
-    "Święty\r\nPan Bóg Zastępów!",
+    "Święty\nPan Bóg Zastępów!",
     "Pełne są niebiosa i ziemia\nmajestatu chwały Twojej.",
     "Ciebie przesławny\nchór Apostołów,",
     "Ciebie Proroków\npoczet chwalebny,",
     "Ciebie wychwala\nMęczenników zastęp świetlany.",
     "Ciebie po wszystkiej ziemi\nwysławia Kościół święty:",
     "Ojca\nniezmierzonego majestatu,",
-    "godnego uwielbienia,\nprawdziwego\r\ni Jedynego Twojego Syna,",
+    "godnego uwielbienia,\nprawdziwego\ni Jedynego Twojego Syna,",
     "Świętego także\nDucha Pocieszyciela.",
     "Tyś Królem chwały, o Chryste,",
     "Tyś Ojca\nSynem Przedwiecznym.",
@@ -3638,7 +3638,7 @@
     "Gregorian chant"
    ],
    "stanzas": [
-    "Defecérunt\nPrae lácrimis óculi méi.\nDefecérunt\nPrae lácrimis óculi méi.\r\n℣.\nConturbáta sunt\nómnia víscera méa. Prae lácrimis óculi méi.\r\n ℣\nGlória Pátri, et Fílio,\net Spirítui Sáncto.\nDefecérunt\nPrae lácrimis óculi méi."
+    "Defecérunt\nPrae lácrimis óculi méi.\nDefecérunt\nPrae lácrimis óculi méi.\n℣.\nConturbáta sunt\nómnia víscera méa. Prae lácrimis óculi méi.\n ℣\nGlória Pátri, et Fílio,\net Spirítui Sáncto.\nDefecérunt\nPrae lácrimis óculi méi."
    ],
    "refrain": "",
    "first_line": "Defecérunt",
@@ -4432,10 +4432,10 @@
     "Gregorian chant"
    ],
    "stanzas": [
-    "Ecce nómen Dómini Emmánuel,\r\nquod annuntiátum est per Gábriel \r\nhódie appáruit in Israel:\nper Maríam Vírginem est nátus Rex.\nEia! Vírgo Déum génuit\nut divína vóluit cleméntia.\nIn Béthleem nátus est, \r\net in Jerúsalem vísus est,\net in ómnem térram \r\nhonorificátus est Rex Israel."
+    "Ecce nómen Dómini Emmánuel,\nquod annuntiátum est per Gábriel \nhódie appáruit in Israel:\nper Maríam Vírginem est nátus Rex.\nEia! Vírgo Déum génuit\nut divína vóluit cleméntia.\nIn Béthleem nátus est, \net in Jerúsalem vísus est,\net in ómnem térram \nhonorificátus est Rex Israel."
    ],
    "refrain": "",
-   "first_line": "Ecce nómen Dómini Emmánuel,\r",
+   "first_line": "Ecce nómen Dómini Emmánuel,",
    "source": "GregoBase, from Chants of the Church (Solesmes)",
    "audio": "more/chant-03024.ogg",
    "audio_kind": "chant",
@@ -4951,7 +4951,7 @@
     "Gregorian chant"
    ],
    "stanzas": [
-    "Exsúltet iam angélica turba cæ-ló-rum:\nexsúltent di-ví-na mysté-ria:\net pro tanti Re-gis victó-ria\ntu-ba ínsonet sa-lu-táris.\nGáude-at et tellus, tantis irradiáta fulgó-ri-bus:\net æ-térni Re-gis splendó-re illustráta,\ntó-ti-us orbis se séntiat\namisísse calíginem.\nLæ-té-tur et mater Ecclésia, \r\ntanti lúminis adorná-ta fulgó-ribus:\net magnis popu-ló-rum vó-ci-bus\nhæc au-la re-súltet.\nQuaprópter astántes vos, fratres ca-ríssimi, \r\nad tam mi-ram hu-ius sancti lúmi-nis claritátem,\nuna mecum, quæso, \r\nDei omni-po-téntis\nmi-se-ri-córdi-am invocáte.\nUt, qui me non me-is méri-tis \r\nintra Le-vi-tá-rum númerum digná-tus est aggre-gá-re,\nlúmi-nis sui cla-ritá-tem infúndens,\ncé-rei huius laudem implé-re perfíciat.\n℣. Dómi-nus vo-bíscum.\n℟. Et cum spí-ri-tu tuo.\n℣. Sursum corda.\n℟. Habémus ad Dómi-num.\n℣. Grá-tias agámus Dómi-no Deo nostro.\n℟. Dignum et iustum est.\nVere dignum et iustum est, \r\ninvisíbi-lem De-um Patrem omnipoténtem\nFili-úmque e-ius uni-gé-nitum, \r\nDómi-num nostrum Ie-sum Christum,\ntoto cordis ac mentis af-féctu\net vo-cis mi-nisté-rio personáre.\nQui pro nobis æ-térno Patri Adæ débi-tum solvit,\net vé-te-ris pi-á-culi cautiónem\npio cruóre detérsit.\nHæc sunt e-nim festa paschá-lia,\nin quibus ve-rus ille Agnus occíditur,\ncu-ius sángui-ne postes fi-dé-lium consecrántur.\nHæc nox est,\nin qua primum patres nostros, fílios Isra-el\nedúctos de Æ-gypto,\nMare Rubrum\nsicco vestígio transíre fecísti.\nHæc ígitur nox est,\nquæ pecca-tó-rum ténebras\nco-lúmnæ illumi-natióne purgávit.\nHæc nox est,\nquæ hó-die per uni-vérsum mundum\nin Christo credéntes,\na vítiis sæcu-li\net calígi-ne pecca-tó-rum segre-gá-tos,\nreddit gráti-æ,\nsó-ciat sanctitáti.\nHæc nox est,\nin qua, destrúctis vínculis mortis,\nChristus ab ínfe-ris victor ascéndit.\nNi-hil enim nobis nasci pró-fu-it,\nnisi rédimi pro-fu-ís-set.\nO mi-ra circa nos\ntuæ pietátis digná-tio!\nO in-æstimá-bi-lis di-léctio caritá-tis:\nut servum redíme-res, Fílium tradi-dísti!\nO certe ne-cessá-ri-um Adæ peccátum,\nquod Christi mor-te de-lé-tum est!\nO felix culpa,\nquæ ta-lem ac tantum mé-ru-it habére Red-emptó-rem!\nO ve-re beáta nox,\nquæ sola méruit scire tempus et horam,\nin qua Christus ab ínferis re-surré-xit!\nHæc nox est,\nde qua scriptum est:\nEt nox sic-ut di-es illumi-ná-bi-tur:\net nox illumi-ná-tio mea in delíciis meis.\nHuius ígi-tur sanctificátio noctis\nfugat scélera,\nculpas lavat:\net reddit innocénti-am lapsis\net mæstis lætítiam.\nFugat ódi-a,\nconcórdi-am pa-rat\net curvat impéria.\nIn huius ígitur noctis grátia, súsci-pe, sancte Pa-ter, \r\nlaudis hu-ius sacrifíci-um vesper-tí-num,\nquod tibi in hac cé-rei oblatióne solémni,\nper mi-nistró-rum manus \r\nde opé-ri-bus a-pum,\nsacrosáncta reddit Ecclé-sia.\nSed iam co-lúmnæ hu-ius præcó-nia nóvimus,\nquam in honórem Dei rú-ti-lans ignis accéndit.\nQui, lí-cet sit di-ví-sus in partes,\nmutuáti tamen lúminis detrimenta non no-vit.\nAli-tur enim liquánti-bus ce-ris,\nquas in substánti-am pre-tió-sæ huius lámpa-dis\na-pis mater e-dú-xit.\nO ve-re beáta nox,\nin qua terré-nis cælésti-a,\nhumá-nis divína iungúntur!\nO-rámus ergo te, Dómi-ne,\nut cé-re-us iste in honórem tui nóminis consecrá-tus,\nad noctis hu-ius calíginem destru-éndam,\ninde-fíci-ens perse-vé-ret.\nEt in odó-rem suavitá-tis accéptus,\nsupérnis lumináribus misceátur.\nFlammas eius\nlúcifer matutínus invéni-at:\nil-le, inquam, Lú-cifer, qui nescit occá-sum.\nChristus Fílius tuus \r\nqui, regréssus ab ínferis, humáno géne-ri se-rénus illúxit,\net tecum vivit et regnat in sæcula sæcu-ló-rum.\n℟. Amen"
+    "Exsúltet iam angélica turba cæ-ló-rum:\nexsúltent di-ví-na mysté-ria:\net pro tanti Re-gis victó-ria\ntu-ba ínsonet sa-lu-táris.\nGáude-at et tellus, tantis irradiáta fulgó-ri-bus:\net æ-térni Re-gis splendó-re illustráta,\ntó-ti-us orbis se séntiat\namisísse calíginem.\nLæ-té-tur et mater Ecclésia, \ntanti lúminis adorná-ta fulgó-ribus:\net magnis popu-ló-rum vó-ci-bus\nhæc au-la re-súltet.\nQuaprópter astántes vos, fratres ca-ríssimi, \nad tam mi-ram hu-ius sancti lúmi-nis claritátem,\nuna mecum, quæso, \nDei omni-po-téntis\nmi-se-ri-córdi-am invocáte.\nUt, qui me non me-is méri-tis \nintra Le-vi-tá-rum númerum digná-tus est aggre-gá-re,\nlúmi-nis sui cla-ritá-tem infúndens,\ncé-rei huius laudem implé-re perfíciat.\n℣. Dómi-nus vo-bíscum.\n℟. Et cum spí-ri-tu tuo.\n℣. Sursum corda.\n℟. Habémus ad Dómi-num.\n℣. Grá-tias agámus Dómi-no Deo nostro.\n℟. Dignum et iustum est.\nVere dignum et iustum est, \ninvisíbi-lem De-um Patrem omnipoténtem\nFili-úmque e-ius uni-gé-nitum, \nDómi-num nostrum Ie-sum Christum,\ntoto cordis ac mentis af-féctu\net vo-cis mi-nisté-rio personáre.\nQui pro nobis æ-térno Patri Adæ débi-tum solvit,\net vé-te-ris pi-á-culi cautiónem\npio cruóre detérsit.\nHæc sunt e-nim festa paschá-lia,\nin quibus ve-rus ille Agnus occíditur,\ncu-ius sángui-ne postes fi-dé-lium consecrántur.\nHæc nox est,\nin qua primum patres nostros, fílios Isra-el\nedúctos de Æ-gypto,\nMare Rubrum\nsicco vestígio transíre fecísti.\nHæc ígitur nox est,\nquæ pecca-tó-rum ténebras\nco-lúmnæ illumi-natióne purgávit.\nHæc nox est,\nquæ hó-die per uni-vérsum mundum\nin Christo credéntes,\na vítiis sæcu-li\net calígi-ne pecca-tó-rum segre-gá-tos,\nreddit gráti-æ,\nsó-ciat sanctitáti.\nHæc nox est,\nin qua, destrúctis vínculis mortis,\nChristus ab ínfe-ris victor ascéndit.\nNi-hil enim nobis nasci pró-fu-it,\nnisi rédimi pro-fu-ís-set.\nO mi-ra circa nos\ntuæ pietátis digná-tio!\nO in-æstimá-bi-lis di-léctio caritá-tis:\nut servum redíme-res, Fílium tradi-dísti!\nO certe ne-cessá-ri-um Adæ peccátum,\nquod Christi mor-te de-lé-tum est!\nO felix culpa,\nquæ ta-lem ac tantum mé-ru-it habére Red-emptó-rem!\nO ve-re beáta nox,\nquæ sola méruit scire tempus et horam,\nin qua Christus ab ínferis re-surré-xit!\nHæc nox est,\nde qua scriptum est:\nEt nox sic-ut di-es illumi-ná-bi-tur:\net nox illumi-ná-tio mea in delíciis meis.\nHuius ígi-tur sanctificátio noctis\nfugat scélera,\nculpas lavat:\net reddit innocénti-am lapsis\net mæstis lætítiam.\nFugat ódi-a,\nconcórdi-am pa-rat\net curvat impéria.\nIn huius ígitur noctis grátia, súsci-pe, sancte Pa-ter, \nlaudis hu-ius sacrifíci-um vesper-tí-num,\nquod tibi in hac cé-rei oblatióne solémni,\nper mi-nistró-rum manus \nde opé-ri-bus a-pum,\nsacrosáncta reddit Ecclé-sia.\nSed iam co-lúmnæ hu-ius præcó-nia nóvimus,\nquam in honórem Dei rú-ti-lans ignis accéndit.\nQui, lí-cet sit di-ví-sus in partes,\nmutuáti tamen lúminis detrimenta non no-vit.\nAli-tur enim liquánti-bus ce-ris,\nquas in substánti-am pre-tió-sæ huius lámpa-dis\na-pis mater e-dú-xit.\nO ve-re beáta nox,\nin qua terré-nis cælésti-a,\nhumá-nis divína iungúntur!\nO-rámus ergo te, Dómi-ne,\nut cé-re-us iste in honórem tui nóminis consecrá-tus,\nad noctis hu-ius calíginem destru-éndam,\ninde-fíci-ens perse-vé-ret.\nEt in odó-rem suavitá-tis accéptus,\nsupérnis lumináribus misceátur.\nFlammas eius\nlúcifer matutínus invéni-at:\nil-le, inquam, Lú-cifer, qui nescit occá-sum.\nChristus Fílius tuus \nqui, regréssus ab ínferis, humáno géne-ri se-rénus illúxit,\net tecum vivit et regnat in sæcula sæcu-ló-rum.\n℟. Amen"
    ],
    "refrain": "",
    "first_line": "Exsúltet iam angélica turba cæ-ló-rum:",
@@ -5212,10 +5212,10 @@
     "Gregorian chant"
    ],
    "stanzas": [
-    "Flos Carméli, \r\nvitis florígera,\nsplendor cæli, \r\nVirgo puérpera\nsinguláris.\n2. Mater mitis, \r\nsed viri néscia,\nCarmelítis \r\nesto propítia,\nStella maris.\n3. Radix Jesse \r\ngérminans flósculum,\nnos adésse \r\ntecum in sǽculum\npatiáris.\n4. Inter spinas \r\nquæ crescis lílium,\nserva puras \r\nmentes fragílium,\ntuteláris.\n5. Armatúra \r\nfortis pugnántium,\nfurunt bella, \r\ntende præsídium\nScapuláris.\n6. Per incérta \r\nprudens consílium,\nper advérsa \r\njuge solátium\nlargiáris.\n7. Mater dulcis \r\nCarméli dómina,\nplebem tuam \r\nreple lætítia\nqua beáris.\n8. Paradísi \r\nclavis et jánua,\nfac nos duci \r\nquo, Mater, gloria\ncoronáris.\nAmen."
+    "Flos Carméli, \nvitis florígera,\nsplendor cæli, \nVirgo puérpera\nsinguláris.\n2. Mater mitis, \nsed viri néscia,\nCarmelítis \nesto propítia,\nStella maris.\n3. Radix Jesse \ngérminans flósculum,\nnos adésse \ntecum in sǽculum\npatiáris.\n4. Inter spinas \nquæ crescis lílium,\nserva puras \nmentes fragílium,\ntuteláris.\n5. Armatúra \nfortis pugnántium,\nfurunt bella, \ntende præsídium\nScapuláris.\n6. Per incérta \nprudens consílium,\nper advérsa \njuge solátium\nlargiáris.\n7. Mater dulcis \nCarméli dómina,\nplebem tuam \nreple lætítia\nqua beáris.\n8. Paradísi \nclavis et jánua,\nfac nos duci \nquo, Mater, gloria\ncoronáris.\nAmen."
    ],
    "refrain": "",
-   "first_line": "Flos Carméli, \r",
+   "first_line": "Flos Carméli, ",
    "source": "GregoBase (Solesmes)",
    "audio": "more/chant-08418.ogg",
    "audio_kind": "chant",
@@ -6669,7 +6669,7 @@
     "Gregorian chant"
    ],
    "stanzas": [
-    "Jesu, nostra redémptio,\nAmor et \r\n\r\ndesidérium,\nDeus Creátor ómnium,\nHomo in fine témporum",
+    "Jesu, nostra redémptio,\nAmor et \n\ndesidérium,\nDeus Creátor ómnium,\nHomo in fine témporum",
     "Quæ te vicit cleméntia,\nUt ferres nostra crímina,\nCrudélem mortem pátiens,\nUt nos a morte tólleres!"
    ],
    "refrain": "",
@@ -7312,7 +7312,7 @@
     "Gregorian chant"
    ],
    "stanzas": [
-    "Inter natos mulíerum\nNon surréxit major.\nInter natos mulíerum\nNon surréxit major.\r\n℣.\nJoánne Baptísta. Non surréxit major.\r\n ℣\nGlória Patri, et Fílio,\net Spirítui Sancto.\nInter natos mulíerum\nNon surréxit major."
+    "Inter natos mulíerum\nNon surréxit major.\nInter natos mulíerum\nNon surréxit major.\n℣.\nJoánne Baptísta. Non surréxit major.\n ℣\nGlória Patri, et Fílio,\net Spirítui Sancto.\nInter natos mulíerum\nNon surréxit major."
    ],
    "refrain": "",
    "first_line": "Inter natos mulíerum",
@@ -7674,7 +7674,7 @@
     "Gregorian chant"
    ],
    "stanzas": [
-    "Laetabúndus\nExsúltet fidélis chórus,\nAllelúia:\n2. Régem régum\nIntáctae profúdit thórus,\nRes miránda.\n3. Angelus consílii\nNátus est de Vírgine,\nSol de stélla:\n4. Sol occásum nésciens,\nStélla semper rútilans,\nSemper clára.\n5. Sicut sídus rádium\nPrófert Vírgo Fílium,\nPári fórma.\n6. Neque sídus rádio,\nNeque Máter Fílio,\nFit corrúpta.\n7. Cédrus álta Líbani\nConformátur hýsopo\nVálle nóstra.\n8. Vérbum ens Altíssimi,\nCorporári pássum est,\nCárne súmpta.\n9. Isaías cécinit,\nSynagóga méminit,\nNumquam tamen désinit\nEsse caéca.\n10. Si non súis vátibus,\nCrédat vel gentílibus\nSibyllínis vérsibus\nHaec praedícta.\n11. Infélix própera,\nCréde vel vétera:\nCur damnáberis,\nGens mísera?\n12. Quem dócet lítera,\nNátum consídera:\nIpsum génuit\npuérpera. \r\nAllelúia."
+    "Laetabúndus\nExsúltet fidélis chórus,\nAllelúia:\n2. Régem régum\nIntáctae profúdit thórus,\nRes miránda.\n3. Angelus consílii\nNátus est de Vírgine,\nSol de stélla:\n4. Sol occásum nésciens,\nStélla semper rútilans,\nSemper clára.\n5. Sicut sídus rádium\nPrófert Vírgo Fílium,\nPári fórma.\n6. Neque sídus rádio,\nNeque Máter Fílio,\nFit corrúpta.\n7. Cédrus álta Líbani\nConformátur hýsopo\nVálle nóstra.\n8. Vérbum ens Altíssimi,\nCorporári pássum est,\nCárne súmpta.\n9. Isaías cécinit,\nSynagóga méminit,\nNumquam tamen désinit\nEsse caéca.\n10. Si non súis vátibus,\nCrédat vel gentílibus\nSibyllínis vérsibus\nHaec praedícta.\n11. Infélix própera,\nCréde vel vétera:\nCur damnáberis,\nGens mísera?\n12. Quem dócet lítera,\nNátum consídera:\nIpsum génuit\npuérpera. \nAllelúia."
    ],
    "refrain": "",
    "first_line": "Laetabúndus",
@@ -9317,7 +9317,7 @@
     "Gregorian chant"
    ],
    "stanzas": [
-    "Niebiosa, rosę ślijcie nam z góry,\nNiech serca nawiedzi Zbawca nasz.\n1. Nie bądź zagniewany, Panie. \r\nNie pomnij dłużej nieprawości naszych.\nWszakże Tyś Ojcem naszym, \r\nA my rąk Twoich dziełem.\nWejrzyj przeto z miłosierdzia swego.\nPomóż nam być wiernym ludem Twoim,\nByśmy Cię chwalili jak ojcowie nasi.\n℟. Niebiosa… \n2. Myśmy grzeszni i nieczyści, \nOpadliśmy wszyscy tak, jak zwiędłe liście.\nNieprawości nasze \nporwały nas niby wicher,\nbo imienia Twego nikt nie wzywał.\nAlbowiem skryłeś przed nami oblicze swoje.\nI oddałeś nas w niewolę nieprawości naszych.\n℟. Niebiosa… \n\n\n3. Pociesz się, mój ludu, pociesz: \nWkrótce nadejdzie twe zbawienie!\nCzemu smutkiem się trapisz, \nCzyż nie ma nad tobą Króla?\nJa cię zbawię, nie traćże nadziei!\nWezwałem cię po imieniu: „Tyś jest moim”,\nAlbowiem Jam jest Bóg twój, Dawca odkupienia.\n℟. Niebiosa…"
+    "Niebiosa, rosę ślijcie nam z góry,\nNiech serca nawiedzi Zbawca nasz.\n1. Nie bądź zagniewany, Panie. \nNie pomnij dłużej nieprawości naszych.\nWszakże Tyś Ojcem naszym, \nA my rąk Twoich dziełem.\nWejrzyj przeto z miłosierdzia swego.\nPomóż nam być wiernym ludem Twoim,\nByśmy Cię chwalili jak ojcowie nasi.\n℟. Niebiosa… \n2. Myśmy grzeszni i nieczyści, \nOpadliśmy wszyscy tak, jak zwiędłe liście.\nNieprawości nasze \nporwały nas niby wicher,\nbo imienia Twego nikt nie wzywał.\nAlbowiem skryłeś przed nami oblicze swoje.\nI oddałeś nas w niewolę nieprawości naszych.\n℟. Niebiosa… \n\n\n3. Pociesz się, mój ludu, pociesz: \nWkrótce nadejdzie twe zbawienie!\nCzemu smutkiem się trapisz, \nCzyż nie ma nad tobą Króla?\nJa cię zbawię, nie traćże nadziei!\nWezwałem cię po imieniu: „Tyś jest moim”,\nAlbowiem Jam jest Bóg twój, Dawca odkupienia.\n℟. Niebiosa…"
    ],
    "refrain": "",
    "first_line": "Niebiosa, rosę ślijcie nam z góry,",
@@ -10943,7 +10943,7 @@
     "3. Hoc opus nostræ salútis\nOrdo depopóscerat;\nMultifórmis proditóris\nArs ut artem fálleret,\nEt medélam ferret inde,\nHostis unde lǽserat.",
     "4. Quando venit ergo sacri\nPlenitúdo témporis,\nMissus est ab arce Patris\nNatus, orbis Cónditor;\nAtque ventre virgináli\nCaro factus pródiit.",
     "5. Vagit infans inter arcta\nCónditus præsépia:\nMembra pannis involúta\nVirgo Mater álligat:\nEt manus pedésque et crura\nStricta cingit fáscia.",
-    "6. Glória et honor Deo\nUsquequáque altíssimo,\nUna Patri, Filióque,\nInclýto Paráclito:\nCui laus et potéstas\r\nPar\nætérna sǽcula.\r\nAmen."
+    "6. Glória et honor Deo\nUsquequáque altíssimo,\nUna Patri, Filióque,\nInclýto Paráclito:\nCui laus et potéstas\nPar\nætérna sǽcula.\nAmen."
    ],
    "refrain": "",
    "first_line": "Pange lingua, gloriósi",
@@ -11174,10 +11174,10 @@
     "Gregorian chant"
    ],
    "stanzas": [
-    "Parce Dómine, \r\npárce pópulo túo:\nne in aetérnum irascáris nóbis.\nRepetitur: Parce. \n1. Flectámus íram víndicem, \nPlorémus ante Júdicem;\nClamémus óre súpplici, \nDicámus ómnes cérnui:\n℟. Párce. \n\n2. Nóstris mális offéndimus \nTúam Déus cleméntiam\nEffúnde nóbis désuper \nRemíssor indulgéntiam.\n℟. Párce. \n\n3. Dans témpus acceptábile, \nDa lacrimárum rívulis\nLaváre córdis víctimam, \nQuam lǽta adúrat cáritas.\n℟. Párce. \n\n4. Audi, benígne Cónditor, \nNóstras préces cum flétibus\nIn hoc sácro jejúnio \nFúsas quadragenário.\n℟. Párce. \n\n5. Scrutátor álme córdium, \nInfírma tu scis vírium;\nAd te revérsis éxhibe \nRemissiónis grátiam.\n℟. Párce."
+    "Parce Dómine, \npárce pópulo túo:\nne in aetérnum irascáris nóbis.\nRepetitur: Parce. \n1. Flectámus íram víndicem, \nPlorémus ante Júdicem;\nClamémus óre súpplici, \nDicámus ómnes cérnui:\n℟. Párce. \n\n2. Nóstris mális offéndimus \nTúam Déus cleméntiam\nEffúnde nóbis désuper \nRemíssor indulgéntiam.\n℟. Párce. \n\n3. Dans témpus acceptábile, \nDa lacrimárum rívulis\nLaváre córdis víctimam, \nQuam lǽta adúrat cáritas.\n℟. Párce. \n\n4. Audi, benígne Cónditor, \nNóstras préces cum flétibus\nIn hoc sácro jejúnio \nFúsas quadragenário.\n℟. Párce. \n\n5. Scrutátor álme córdium, \nInfírma tu scis vírium;\nAd te revérsis éxhibe \nRemissiónis grátiam.\n℟. Párce."
    ],
    "refrain": "",
-   "first_line": "Parce Dómine, \r",
+   "first_line": "Parce Dómine, ",
    "source": "GregoBase, from The Liber Usualis (Solesmes)",
    "audio": "more/chant-03038.ogg",
    "audio_kind": "chant",
@@ -11210,6 +11210,32 @@
    "seconds": 59,
    "language": "Latin",
    "gregobase": 7632
+  },
+  {
+   "title": "Pater noster",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Chant",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Præcéptis salutáribus móniti,\net divína institutióne formáti,\naudémus dícere:\nPater noster, qui es in cælis:\nsanctificétur nomen tuum;\nadvéniat régnum tuum;\nfiat volúntas tua,\nsicut in cælo et in terra.\nPanem nostrum cotidiánum da nobis hódie;\net dimitte nobis débita nostra,\nsicut et nos dimíttimus debitóribus nostris;\net ne nos indúcas in tentatiónem;\nsed líbera nos a malo."
+   ],
+   "refrain": "",
+   "first_line": "Præcéptis salutáribus móniti,",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-03326.ogg",
+   "audio_kind": "chant",
+   "seconds": 73,
+   "language": "Latin",
+   "gregobase": 3326
   },
   {
    "title": "Pater superni luminis",
@@ -12628,10 +12654,10 @@
     "Gregorian chant"
    ],
    "stanzas": [
-    "Resonet in láudibus \r\nCum jucúndis pláusibus,\nSion cum fidélibus: \r\n\r\n℟. Appáruit quem génuit María.\nGaudéte, gaudéte, \r\nChristus natus hódie!\nGaudéte, gaudéte, \r\nex María Vírgine.\n2. Sion lauda Dóminum, \r\nSalvatórem ómnium,\nVirgo parit Fílium. \r\n\r\n℟. Appáruit quem génuit María.\nGaudéte, gaudéte, \r\nChristus natus hódie!\nGaudéte, gaudéte, \r\nex María Vírgine.\n3. Púeri concúrrite, \r\nNato Regi psállite,\nVoce pia dícite. \r\n\r\n℟. Appáruit quem génuit María.\nGaudéte, gaudéte, \r\nChristus natus hódie!\nGaudéte, gaudéte, \r\nex María Vírgine.\n4. Natus est Emmánuel, \r\nQuem praedíxit Gábriel\nTestis est Ezéchiel. \r\n\r\n℟. Appáruit quem génuit María.\nGaudéte, gaudéte, \r\nChristus natus hódie!\nGaudéte, gaudéte, \r\nex María Vírgine.\n5. Juda cum cantóribus. \r\nGrádere de fóribus\nEt dic cum pastóribus. \r\n\r\n℟. Appáruit quem génuit María.\nGaudéte, gaudéte, \r\nChristus natus hódie!\nGaudéte, gaudéte, \r\nex María Vírgine.\n6. Qui regnat in aéthere, \r\nVenit ovem quaérere,\nNolens eam pérdere. \r\n\r\n℟. Appáruit quem génuit María.\nGaudéte, gaudéte, \r\nChristus natus hódie!\nGaudéte, gaudéte, \r\nex María Vírgine.\n7. Sancta tibi Trínitas, \r\nOs ómnium grátias\nRésonet altíssimas. \r\n\r\n℟. Appáruit quem génuit María.\nGaudéte, gaudéte, \r\nChristus natus hódie!\nGaudéte, gaudéte, \r\nex María Vírgine."
+    "Resonet in láudibus \nCum jucúndis pláusibus,\nSion cum fidélibus: \n\n℟. Appáruit quem génuit María.\nGaudéte, gaudéte, \nChristus natus hódie!\nGaudéte, gaudéte, \nex María Vírgine.\n2. Sion lauda Dóminum, \nSalvatórem ómnium,\nVirgo parit Fílium. \n\n℟. Appáruit quem génuit María.\nGaudéte, gaudéte, \nChristus natus hódie!\nGaudéte, gaudéte, \nex María Vírgine.\n3. Púeri concúrrite, \nNato Regi psállite,\nVoce pia dícite. \n\n℟. Appáruit quem génuit María.\nGaudéte, gaudéte, \nChristus natus hódie!\nGaudéte, gaudéte, \nex María Vírgine.\n4. Natus est Emmánuel, \nQuem praedíxit Gábriel\nTestis est Ezéchiel. \n\n℟. Appáruit quem génuit María.\nGaudéte, gaudéte, \nChristus natus hódie!\nGaudéte, gaudéte, \nex María Vírgine.\n5. Juda cum cantóribus. \nGrádere de fóribus\nEt dic cum pastóribus. \n\n℟. Appáruit quem génuit María.\nGaudéte, gaudéte, \nChristus natus hódie!\nGaudéte, gaudéte, \nex María Vírgine.\n6. Qui regnat in aéthere, \nVenit ovem quaérere,\nNolens eam pérdere. \n\n℟. Appáruit quem génuit María.\nGaudéte, gaudéte, \nChristus natus hódie!\nGaudéte, gaudéte, \nex María Vírgine.\n7. Sancta tibi Trínitas, \nOs ómnium grátias\nRésonet altíssimas. \n\n℟. Appáruit quem génuit María.\nGaudéte, gaudéte, \nChristus natus hódie!\nGaudéte, gaudéte, \nex María Vírgine."
    ],
    "refrain": "",
-   "first_line": "Resonet in láudibus \r",
+   "first_line": "Resonet in láudibus ",
    "source": "GregoBase",
    "audio": "more/chant-07427.ogg",
    "audio_kind": "chant",
@@ -12939,7 +12965,7 @@
     "Gregorian chant"
    ],
    "stanzas": [
-    "Salus et glória et virtus Deo nostro, ℟.\nAllelúia ℣.\nquia vera et iusta iudícia eius. ℟.\nAllelúia.\r\nAllelúia. ℣.\nLaudem dícite Deo nostro, omnes servi eius ℟.\nAllelúia. ℣.\net qui timétis eum, pusílli et magni ℟.\nAllelúia.\r\nAlléluia. ℣.\nQuóniam regnávit Dóminus, Deus noster omnípotens. ℟.\nAllelúia. ℣.\nGaudeámus et exsultémus et demus glóriam ei. ℟.\nAllelúia.\r\nAllelúia. ℣.\nQuia venérunt núptiæ Agni, ℟.\nAllelúia. ℣.\net uxor eius præparávit se. ℟.\nAllelúia. Allelúia. ℣.\nGlória Patri, et Fílio, ℟.\nAllelúia. ℣.\net Spirítui Sancto. ℟.\nAllelúia.\r\nAllelúia. ℣.\nSicut erat in princípio, et nunc et semper, ℟.\nAllelúia. ℣.\net in sǽcula sæculórum. Amen. ℟.\nAllelúia.\r\nAllelúia."
+    "Salus et glória et virtus Deo nostro, ℟.\nAllelúia ℣.\nquia vera et iusta iudícia eius. ℟.\nAllelúia.\nAllelúia. ℣.\nLaudem dícite Deo nostro, omnes servi eius ℟.\nAllelúia. ℣.\net qui timétis eum, pusílli et magni ℟.\nAllelúia.\nAlléluia. ℣.\nQuóniam regnávit Dóminus, Deus noster omnípotens. ℟.\nAllelúia. ℣.\nGaudeámus et exsultémus et demus glóriam ei. ℟.\nAllelúia.\nAllelúia. ℣.\nQuia venérunt núptiæ Agni, ℟.\nAllelúia. ℣.\net uxor eius præparávit se. ℟.\nAllelúia. Allelúia. ℣.\nGlória Patri, et Fílio, ℟.\nAllelúia. ℣.\net Spirítui Sancto. ℟.\nAllelúia.\nAllelúia. ℣.\nSicut erat in princípio, et nunc et semper, ℟.\nAllelúia. ℣.\net in sǽcula sæculórum. Amen. ℟.\nAllelúia.\nAllelúia."
    ],
    "refrain": "",
    "first_line": "Salus et glória et virtus Deo nostro, ℟.",
@@ -13162,7 +13188,7 @@
     "Gregorian chant"
    ],
    "stanzas": [
-    "Salve máter misericórdiæ,\nMáter Déi et máter véniæ,\nMáter spéi, et máter grátiæ,\nMáter pléna sánctæ lætítiæ, \r\nO María!\nSálve máter.\n1. Sálve, décus humáni géneris.\nSálve, Vírgo dígnior céteris,\nQuæ vírgines ómnes transgréderis\nEt áltius sédes in súperis. \nO María!\nSálve máter.\n2. Sálve félix Vírgo puérpera:\nNam qui sédet in Pátris déxtera,\nCǽlum régens, térram et ǽthera,\nIntra túa se cláusit víscera, \nO María!\nSálve máter.\n3. Te creávit Páter ingénitus,\nAdamávit te Unigénitus,\nFecundávit te Sánctus Spíritus,\nTu es fácta tóta divínitus, \nO María!\nSálve máter.\n4. Te creávit Déus mirábilem,\nTe respéxit ancíllam húmilem,\nTe quæsívit spónsam amábilem,\nTíbi núnquam fécit consímilem, \nO María!\nSálve máter.\n5. Te beátam laudáre cúpiunt\nOmnes jústi, sed non suffíciunt;\nMúltas láudes de te concípiunt,\nSed in íllis prórsus defíciunt, \nO María!\nSálve máter.\n6. Esto, Máter, nóstrum solátium;\nNóstrum ésto, tu Vírgo, gáudium;\nEt nos tándem post hoc exsílium,\nLǽtos júnge chóris cæléstium, \nO María!\nSálve máter."
+    "Salve máter misericórdiæ,\nMáter Déi et máter véniæ,\nMáter spéi, et máter grátiæ,\nMáter pléna sánctæ lætítiæ, \nO María!\nSálve máter.\n1. Sálve, décus humáni géneris.\nSálve, Vírgo dígnior céteris,\nQuæ vírgines ómnes transgréderis\nEt áltius sédes in súperis. \nO María!\nSálve máter.\n2. Sálve félix Vírgo puérpera:\nNam qui sédet in Pátris déxtera,\nCǽlum régens, térram et ǽthera,\nIntra túa se cláusit víscera, \nO María!\nSálve máter.\n3. Te creávit Páter ingénitus,\nAdamávit te Unigénitus,\nFecundávit te Sánctus Spíritus,\nTu es fácta tóta divínitus, \nO María!\nSálve máter.\n4. Te creávit Déus mirábilem,\nTe respéxit ancíllam húmilem,\nTe quæsívit spónsam amábilem,\nTíbi núnquam fécit consímilem, \nO María!\nSálve máter.\n5. Te beátam laudáre cúpiunt\nOmnes jústi, sed non suffíciunt;\nMúltas láudes de te concípiunt,\nSed in íllis prórsus defíciunt, \nO María!\nSálve máter.\n6. Esto, Máter, nóstrum solátium;\nNóstrum ésto, tu Vírgo, gáudium;\nEt nos tándem post hoc exsílium,\nLǽtos júnge chóris cæléstium, \nO María!\nSálve máter."
    ],
    "refrain": "",
    "first_line": "Salve máter misericórdiæ,",
@@ -13818,7 +13844,7 @@
     "Gregorian chant"
    ],
    "stanzas": [
-    "Stabat Mater speciósa,\nJuxta fœnum gaudiósa,\nDum jacébat pérvulus.\nCujus ánimam gaudéntem,\nLætabúndam et fervéntem\nPertransíbat júbilus.\nO quam læta et beáta\nFuit illa immaculáta\nMater Unigéniti.\nQuæ gaudébat et ridébat, Exsultábat cum vidébat Nati partum ínclyti.\r\n\r\nQuis est qui non gaudéret,\nChristi Matrem si vidéret\nIn tanto solátio?\nQuis non posset collætári,\nChristi Matrem contemplári\nLudéntem cum Fílio?\nPro peccátis suæ gentis\nChristum vidit cum juméntis,\nEt algóri súbditum.\nVidit Jesum dulcem Natum,\nVagiéntem adorátum,\nVili diversório;\nNato Christo in præsépe,\nCæli cives canunt læte\nCum imménso gáudio.\nStabat senex cum puélla,\nNon cum verbo nec loquéla\nStupescéntes córdibus.\nEia! Mater, fons amóris,\nMe sentíre vim ardóris,\nFac ut tecum séntiam!\nFac ut árdeat cor meum\nIn amándo Christum Deum,\nUt sibi compláceam!\nSancta Mater, istud agas;\nPro væ nostro ducas plagas\nCordi fixas válide.\nTui Nati cælo lapsi,\nTam dignáti fœno nasci\nPœnas mecum dívide.\nFac me vere congaudére,\nJesulíno cohærére,\nDonec ego víxero.\nJuxta stramen tecum stare,\nLibentérque associáre\nIn fœno desídero\nIn me sistat ardor tui,\nPueríno fac me frui,\nDum sum in exsílio.\nHunc ardórem fac commúnem,\nNe fácias me immúnem\nAb hoc desidério.\nVirgo vírginum præclára,\nMihi jam non sis avára;\nFac me Parvum rápere.\nFac ut portem parvum fantem,\nQui nascéndo vicit mortem,\nVolens vitam trádere.\nFac me tecum satiári,\nNato tuo inebriári,\nStans inter tripúdia.\nInflammátus et accénsus,\nObstupéscit omnis sensus\nTali de commércio.\nFac me Nato custodíri,\nVerbo Dei præmuníri,\nConservári grátia.\nQuando corpus moriétur,\nFac ut ánimæ donétur,\nTui Nati vísio.\nOmnes stábulum amántes,\nEt pastóres vigilántes,\nPernoctántes sóciant.\nPer virtútem Nati tui,\nOra ut elécti sui\nAd pátriam véniant."
+    "Stabat Mater speciósa,\nJuxta fœnum gaudiósa,\nDum jacébat pérvulus.\nCujus ánimam gaudéntem,\nLætabúndam et fervéntem\nPertransíbat júbilus.\nO quam læta et beáta\nFuit illa immaculáta\nMater Unigéniti.\nQuæ gaudébat et ridébat, Exsultábat cum vidébat Nati partum ínclyti.\n\nQuis est qui non gaudéret,\nChristi Matrem si vidéret\nIn tanto solátio?\nQuis non posset collætári,\nChristi Matrem contemplári\nLudéntem cum Fílio?\nPro peccátis suæ gentis\nChristum vidit cum juméntis,\nEt algóri súbditum.\nVidit Jesum dulcem Natum,\nVagiéntem adorátum,\nVili diversório;\nNato Christo in præsépe,\nCæli cives canunt læte\nCum imménso gáudio.\nStabat senex cum puélla,\nNon cum verbo nec loquéla\nStupescéntes córdibus.\nEia! Mater, fons amóris,\nMe sentíre vim ardóris,\nFac ut tecum séntiam!\nFac ut árdeat cor meum\nIn amándo Christum Deum,\nUt sibi compláceam!\nSancta Mater, istud agas;\nPro væ nostro ducas plagas\nCordi fixas válide.\nTui Nati cælo lapsi,\nTam dignáti fœno nasci\nPœnas mecum dívide.\nFac me vere congaudére,\nJesulíno cohærére,\nDonec ego víxero.\nJuxta stramen tecum stare,\nLibentérque associáre\nIn fœno desídero\nIn me sistat ardor tui,\nPueríno fac me frui,\nDum sum in exsílio.\nHunc ardórem fac commúnem,\nNe fácias me immúnem\nAb hoc desidério.\nVirgo vírginum præclára,\nMihi jam non sis avára;\nFac me Parvum rápere.\nFac ut portem parvum fantem,\nQui nascéndo vicit mortem,\nVolens vitam trádere.\nFac me tecum satiári,\nNato tuo inebriári,\nStans inter tripúdia.\nInflammátus et accénsus,\nObstupéscit omnis sensus\nTali de commércio.\nFac me Nato custodíri,\nVerbo Dei præmuníri,\nConservári grátia.\nQuando corpus moriétur,\nFac ut ánimæ donétur,\nTui Nati vísio.\nOmnes stábulum amántes,\nEt pastóres vigilántes,\nPernoctántes sóciant.\nPer virtútem Nati tui,\nOra ut elécti sui\nAd pátriam véniant."
    ],
    "refrain": "",
    "first_line": "Stabat Mater speciósa,",
@@ -14979,7 +15005,7 @@
     "Gregorian chant"
    ],
    "stanzas": [
-    "Ubi cáritas et ámor, Deus ibi est.\n℣. Congregávit nos in únum Chrísti ámor.\n℣. Exultémus, et in ipso jucundémur.\n℣. Timeámus, et amémus Déum vivum.\n℣. Et ex córde diligámus nos sincéro.\nAnt. Ubi cáritas et ámor, Déus ibi est.\n℣. \r\nSimul ergo cum in únum congregámur :\n℣. Ne nos ménte dividámur caveámus.\n℣. Céssent júrgia malígna, céssent lítes.\n℣. Et in médio nóstri sit Chrístus Déus.\nAnt. Ubi cáritas et amor, Deus ibi est.\n℣. Simul quoque cum beátis videámus.\n℣. Gloriánter vúltum túum, Christe Déus:\n℣. Gáudium, quod est imménsum, atque próbum.\n℣. Saécula per infiníta saeculórum.\nAmen."
+    "Ubi cáritas et ámor, Deus ibi est.\n℣. Congregávit nos in únum Chrísti ámor.\n℣. Exultémus, et in ipso jucundémur.\n℣. Timeámus, et amémus Déum vivum.\n℣. Et ex córde diligámus nos sincéro.\nAnt. Ubi cáritas et ámor, Déus ibi est.\n℣. \nSimul ergo cum in únum congregámur :\n℣. Ne nos ménte dividámur caveámus.\n℣. Céssent júrgia malígna, céssent lítes.\n℣. Et in médio nóstri sit Chrístus Déus.\nAnt. Ubi cáritas et amor, Deus ibi est.\n℣. Simul quoque cum beátis videámus.\n℣. Gloriánter vúltum túum, Christe Déus:\n℣. Gáudium, quod est imménsum, atque próbum.\n℣. Saécula per infiníta saeculórum.\nAmen."
    ],
    "refrain": "",
    "first_line": "Ubi cáritas et ámor, Deus ibi est.",
@@ -15705,7 +15731,7 @@
    "gregobase": 8216
   },
   {
-   "title": "Virginis proles (I)",
+   "title": "Virginis proles",
    "also": [],
    "author": "",
    "translator": "",
