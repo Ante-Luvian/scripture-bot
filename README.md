@@ -349,7 +349,10 @@ Three reference datasets have their own shape, each rebuilt by a script in `scri
   words and melody, the whole piece synthesised as chant). `sacred_harp.json` and
   `audio/harp/` (`build_sacred_harp.py`) are the Sacred Harp (1991 ed.): words from
   fasola.org, the sung four-part recordings from Sacred Harp Bremen. Entries carry
-  their own `audio` path and `audio_kind`.
+  their own `audio` path and `audio_kind`. `translations.json` (`build_translations.py`) holds
+  published English for the Latin chants, by title: the Book of Common Prayer (1662 texts, from
+  Gutenberg #29622) for the Mass Ordinary, Pater noster and canticles, and J. M. Neale's
+  *Mediaeval Hymns and Sequences* (Wikisource), matched on the chant's opening words.
 - `data/saints/` (`build_saints.py`): `saints.json` (`{"saints": [{month, day, name,
   life, reflection, source, golden_legend: [book keys], also: [names], ...}]}`). Butler's
   abridged *Lives* (Benziger, 1894) from archive.sacred-texts.com/chr/lots, a saint for

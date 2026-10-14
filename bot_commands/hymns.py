@@ -162,8 +162,8 @@ def hymn_embed(hymn: dict) -> discord.Embed:
 
 
 class HymnButton(discord.ui.DynamicItem[discord.ui.Button],
-                 template=r"hymn:(?P<action>play|bible):(?P<key>[0-9a-f]{8})"):
-    LOOK = {"play": ("Play the tune", "▶️"), "bible": ("Read the passages", "📖")}
+                 template=r"hymn:(?P<action>play|bible|english):(?P<key>[0-9a-f]{8})"):
+    LOOK = {"play": ("Play the tune", "▶️"), "bible": ("Read the passages", "📖"), "english": ("English", "🇬🇧")}
 
     def __init__(self, action: str, key: str):
         label, emoji = self.LOOK[action]
@@ -182,6 +182,8 @@ class HymnButton(discord.ui.DynamicItem[discord.ui.Button],
             return
         if self.action == "play":
             await play(interaction, hymn)
+        elif self.action == "english":
+            await interaction.response.send_message(embed=english_embed(hymn))
         else:
             await interaction.response.send_message(embed=passages_embed(hymn), ephemeral=True)
 
@@ -195,7 +197,35 @@ def hymn_view(hymn: dict) -> discord.ui.View:
         view.add_item(HymnButton("play", hymn_key(hymn)))
     if hymn["scripture"]:
         view.add_item(HymnButton("bible", hymn_key(hymn)))
+    if translation(hymn):
+        view.add_item(HymnButton("english", hymn_key(hymn)))
     return view
+
+
+# published English translations of the Latin chants (scripts/build_translations.py), by title
+TRANSLATIONS_PATH = ROOT / "data" / "hymns" / "translations.json"
+
+
+@functools.lru_cache(maxsize=1)
+def _translations() -> dict:
+    if not TRANSLATIONS_PATH.exists():
+        return {}
+    return json.loads(TRANSLATIONS_PATH.read_text(encoding="utf-8"))["translations"]
+
+
+def translation(hymn: dict) -> "dict | None":
+    return _translations().get(hymn["title"])
+
+
+def english_embed(hymn: dict) -> discord.Embed:
+    t = translation(hymn)
+    text = "\n\n".join(t["stanzas"])
+    if len(text) > 4000:
+        text = text[:4000].rsplit("\n", 1)[0] + "\n…"
+    embed = discord.Embed(title=f"🇬🇧 {hymn['title']}, in English", description=text, color=COLOR)
+    embed.set_footer(text=f"Translated by {t['translator']} · {t['source']}" if t["translator"] != "The Book of Common Prayer"
+                     else t["source"])
+    return embed
 
 
 def passages_embed(hymn: dict) -> discord.Embed:

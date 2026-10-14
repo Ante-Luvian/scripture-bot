@@ -144,3 +144,16 @@ def test_hymn_harp_is_a_random_sacred_harp_song(hymns, fake_ctx):
 def test_the_mass_and_the_requiem(hymns, title):
     hymn = next(h for h in hymns.hymns() if h["title"] == title)
     assert hymns.audio_path(hymn) is not None and hymn["stanzas"]
+
+
+def test_english_translations(hymns):
+    credo = next(h for h in hymns.hymns() if h["title"] == "Credo III")
+    t = hymns.translation(credo)
+    assert t and t["stanzas"][0].startswith("I believe in one God the Father Almighty")
+    assert "Book of Common Prayer" in t["source"]
+    view_buttons = [getattr(i, "item", i).label for i in hymns.hymn_view(credo).children]
+    assert "English" in view_buttons
+    embed = hymns.english_embed(credo)
+    assert embed.title == "🇬🇧 Credo III, in English" and "Pontius Pilate" in embed.description
+    salve = next(h for h in hymns.hymns() if h["title"] == "Amazing Grace")
+    assert hymns.translation(salve) is None and "English" not in [getattr(i, "item", i).label for i in hymns.hymn_view(salve).children]

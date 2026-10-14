@@ -14,6 +14,12 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-14 · English translations of the Latin chants
+- 🇬🇧 **New: an English button on the Latin chants.** Many of the Latin hymns and chants now have a **🇬🇧 English** button under them that shows a published English translation beside the Latin. Only real, published translations are used; chants without one stay in Latin.
+- ⛪ **The Mass in the Prayer Book's English.** Every setting of the Kyrie, Gloria, Credo, Sanctus and Agnus Dei shows the Book of Common Prayer's English: "Lord, have mercy upon us", "Glory be to God on high", "I believe in one God", "Holy, holy, holy, Lord God of hosts", "O Lamb of God, that takest away the sins of the world". So do the *Pater noster* (the Lord's Prayer), the *Te Deum* ("We praise thee, O God"), the *Nunc dimittis* and the *Magnificat*. Try `!hymn Credo III` and press 🇬🇧 English.
+- 📜 **Hymns in J. M. Neale's translations.** Neale was the great Victorian translator of Latin hymns. His versions are here for *Adoro te devote* ("Humbly I adore Thee, hidden Deity"), *Pange lingua* ("Of the glorious Body telling"), *Vexilla Regis* ("The Royal Banners forward go"), *Veni, veni, Emmanuel* ("Draw nigh, draw nigh, Emmanuel"), *Gloria, laus et honor* and more.
+- 🎶 **Added: the *Magnificat*** in Gregorian chant, Mary's song from Luke 1, sung to the eighth psalm tone. The chant book gives the tone with the first two verses; the 🇬🇧 English button has the whole canticle. Try `!hymn Magnificat chant`.
+
 ## 2026-10-14 · Hail, Gladdening Light
 - 🕯️ **The *Phos Hilaron* is now John Keble's translation, *Hail, gladdening Light, of His pure glory poured* (1834)**, the best-loved English version, in place of Robert Bridges's *O Gladsome Light*. It comes with the tune Sir John Stainer wrote for it in 1875, *Sebaste*. Try `!hymn Hail gladdening light` or `!hymn Phos Hilaron`.
 
