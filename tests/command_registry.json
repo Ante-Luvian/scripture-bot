@@ -68,6 +68,13 @@
    "hymnal",
    "hymns"
   ],
+  "hymnday": [
+   "hotd",
+   "hymnoftheday"
+  ],
+  "hymndaysetup": [
+   "hymndayconfig"
+  ],
   "hymnlist": [
    "hymnindex",
    "listhymns"
@@ -287,6 +294,8 @@
   "help",
   "homer",
   "hymn",
+  "hymnday",
+  "hymndaysetup",
   "hymnlist",
   "iching",
   "interlinear",

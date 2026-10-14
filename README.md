@@ -161,6 +161,8 @@ answer, and every answer has a 🖼️ Card button that renders it as an image.
 | `!quiz [hard \| leaderboard]` | `!guess` | Which book is this verse from? One private guess each, revealed after 60s. Scores per server, weekly and all-time, with streaks |
 | `!versle [stats]` | `!dailyverse` | Versle: a daily well-known verse (`data/versle_pool.json`, from `build_versle_pool.py`); guess its reference in six tries with private 🟩🟨⬛ book/chapter/verse feedback; shareable grid; streaks in `data/versle.json` |
 | `!whoami` | `!mystery`, `!whoisit` | Who Am I? A Bible figure (named in 20+ verses) from clues generated from the !who data, easiest last; guess via a modal, first right answer wins (`games.py`) |
+| `!hymnday [YYYY-MM-DD]` | `!hymnoftheday`, `!hotd` | The hymn of the day for the Church year (`hymnday.py`): the feast's hymn on great feasts, a seasonal one in Advent/Christmas/Lent/Passiontide/Easter/Pentecost week, else English hymn, Latin chant and Sacred Harp in turn; the same for everyone on a UTC day |
+| `!hymndaysetup` | `!hymndayconfig` | (Admins) Post the hymn of the day in a channel: `channel #chan`, `time HH:MM` (UTC, default 08:00), `test`, `off`; `hymnday.json` stops double posts |
 | `!verslesetup` | `!versleconfig` | (Admins) Each day's Versle posted in a channel with yesterday's answer and solve count: `channel #chan`, `time HH:MM` (UTC, default 00:05), `test`, `off`; `versle.json` "posted" stops double posts |
 | `!quizsetup` | `!quizconfig` | (Admins) A daily quiz question in a channel, revealed with the next: `channel #chan`, `time HH:MM` (UTC), `kind bible\|hard`, `test`, `off` |
 
@@ -272,6 +274,7 @@ bot_commands/           One module per feature area; each registers its
   memorize.py             !memorize + its DM reviews
   people.py               !who/!place/!tree (map cards: bible_map.py; trees: family_tree.py)
   hymns.py                !hymn (tunes played by hymn_audio.py)
+  hymnday.py              !hymnday, !hymndaysetup (the hymn of the day)
   psalter.py              !metrical (the Scottish Metrical Psalter)
   games.py                !whoami, !versle
   journeys.py             !journey (route maps: bible_map.py)

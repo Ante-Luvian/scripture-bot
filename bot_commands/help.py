@@ -399,7 +399,7 @@ async def cmd_help(ctx, *, topic: str = ""):
         await ctx.send(embed=embed)
         return
 
-    if topic in ("hymn", "hymns", "hymnal", "midi", "tune", "hymnlist"):
+    if topic in ("hymn", "hymns", "hymnal", "midi", "tune", "hymnlist", "hymnday", "hymndaysetup"):
         embed = discord.Embed(title="🎵 !hymn — Hymns", color=discord.Color.dark_gold())
         embed.description = (
             "`!hymn amazing grace` — by title, first line, or a line from the words\n"
@@ -407,7 +407,9 @@ async def cmd_help(ctx, *, topic: str = ""):
             "`!hymn Psalm 23` — hymns drawn from a passage\n"
             "`!hymn` — a random hymn\n"
             "`!midi amazing grace` — just the tune, no words (`!midi` alone: a random one)\n"
-            "`!hymnlist` — the whole hymnal by title (`!hymnlist all`, `!hymnlist chant`, `!hymnlist veni`)\n\n"
+            "`!hymnlist` — the whole hymnal by title (`!hymnlist all`, `!hymnlist chant`, `!hymnlist veni`)\n"
+            "`!hymnday` — the hymn of the day, chosen for the Church year (`!hymnday 2026-12-25` for another day)\n"
+            "**Admins:** `!hymndaysetup channel #chan` posts it every day (`time HH:MM` UTC, `test`, `off`)\n\n"
             "**▶️ Play the tune** posts the hymn tune, once through in four parts on an organ, as audio "
             "you can play in Discord. **📖 Read the passages** shows the Bible verses "
             "the hymn draws on. About 290 public-domain hymns, from the Open Hymnal Project and Hymnary.org.\n\n"
@@ -903,7 +905,8 @@ async def cmd_help(ctx, *, topic: str = ""):
         "`!changelogintro` — post my full introduction + latest updates there (`fresh` clears my old posts first)\n"
         "`!oraclesetup channel #chan` — a daily oracle post (`time`, `kind`, `test`, `off`)\n"
         "`!quizsetup channel #chan` — a daily quiz question (`time`, `kind bible|hard`, `test`, `off`)\n"
-        "`!verslesetup channel #chan` — the day's Versle puzzle (`time`, `test`, `off`)"
+        "`!verslesetup channel #chan` — the day's Versle puzzle (`time`, `test`, `off`)\n"
+        "`!hymndaysetup channel #chan` — the hymn of the day (`time`, `test`, `off`)"
     ), inline=False)
     embed.add_field(name="🏛️ Ancient Languages & Strong's", value=(
         "Append to `!verse`: `OE` `WLC` `LXX` `TR` `VULG` `peshitta` `CSL`\n"

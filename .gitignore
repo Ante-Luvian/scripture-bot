@@ -16,6 +16,7 @@ data/quiz_scores.json
 data/daily_quiz.json
 data/memorize.json
 data/versle.json
+data/hymnday.json
 
 # Daily copies of the runtime state above (bot_commands/backup.py)
 backups/

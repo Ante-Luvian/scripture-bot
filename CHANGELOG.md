@@ -14,6 +14,10 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-13 · A hymn for every day of the Church year
+- 🎵 **New: `!hymnday`, the hymn of the day.** Each day has its own hymn, the same for everyone, chosen to fit the Church year. On a great feast it's that feast's hymn: *Veni Creator Spiritus* at Pentecost, *Vexilla Regis* or *O Sacred Head, Now Wounded* on Good Friday, *Victimae paschali laudes* or the Sacred Harp's *Easter Anthem* on Easter Day. In Advent, Christmastide, Lent, Passiontide, Eastertide and Pentecost week it's one of that season's hymns, in English, in Latin chant or from the Sacred Harp. The rest of the year it takes an English hymn, a Latin chant and a Sacred Harp song in turn. Each comes with its words and the ▶️ button to hear it. Try `!hymnday`, or `!hymnday 2026-12-25` to see what Christmas Day will bring.
+- 📅 **Server admins can have it posted every day:** `!hymndaysetup channel #hymns`. It posts at 08:00 UTC; change that with `!hymndaysetup time 07:00`, try it with `!hymndaysetup test`, and stop it with `!hymndaysetup off`.
+
 ## 2026-10-13 · A Catena button, exact theme words, and tidier verses
 - 📜 **New: a 📜 Catena button under every Bible verse.** Look up a verse with `!verse John 3:16` and, next to Notes, Cross-refs, Interlinear and Card, there's now **Catena**. It shows what the early Church Fathers wrote about that verse (the same as typing `!catena John 3:16`), so you can go from the verse to Augustine or John Chrysostom on it in one click.
 - 🎯 **`!theme` now finds the word you asked for, not every word that starts the same way.** `!theme care` used to match "carry", "cart" and "caress" too. Now it finds care, cares, cared, caring, careth and careful, and nothing else. `!theme mercy` still finds "mercies" and "merciful", but not "merchant".
