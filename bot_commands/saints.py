@@ -141,7 +141,7 @@ def legend_embed(s: dict, page: int = 0, n: int = 0) -> discord.Embed:
 
 
 class SaintButton(discord.ui.DynamicItem[discord.ui.Button],
-                  template=r"saint:(?P<action>gl|page):(?P<key>[0-9a-f]{8}):(?P<n>\d+):(?P<page>\d+)"):
+                  template=r"saint:(?P<action>gl|page|back):(?P<key>[0-9a-f]{8}):(?P<n>\d+):(?P<page>\d+)"):
     """📖 Golden Legend under a Butler life, and ◀ ▶ through a Legend chapter. The custom_id
     carries the saint and page, so these keep working after a restart."""
 
@@ -200,7 +200,9 @@ def legend_message(s: dict, page: int = 0, n: int = 0) -> dict:
     view = None
     if pages > 1:
         view = discord.ui.View(timeout=None)
-        view.add_item(SaintButton("page", saint_key(s), n, (page - 1) % pages, emoji="◀"))
+        # "back" vs "page": with two pages both buttons lead to the same page, and Discord
+        # refuses a message whose buttons share a custom_id
+        view.add_item(SaintButton("back", saint_key(s), n, (page - 1) % pages, emoji="◀"))
         view.add_item(SaintButton("page", saint_key(s), n, (page + 1) % pages, emoji="▶"))
     return {"embed": legend_embed(s, page, n), "view": view}
 
