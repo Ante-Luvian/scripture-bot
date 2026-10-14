@@ -32,3 +32,6 @@ __pycache__/
 
 # Downloads cached by scripts/build_world_texts.py
 scripts/.cache/
+
+# the sung-chant experiments' scratch output (samples worth keeping go in samples/)
+experiments/sung_chant/sung/

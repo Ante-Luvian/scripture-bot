@@ -9,6 +9,13 @@ game.
 `samples/` has what it made: *Te lucis ante terminum*, *Salve Regina* and
 *Veni Creator Spiritus*.
 
+**The second attempt is in the bot.** On 2026-10-14 the owner asked for something
+plainer, like the Sacred Harp's synthesised singing. MBROLA's Italian diphone
+voice (it3), as three slightly detuned voices in a reverb, was the one they liked
+("it3 schola might be perfect"). It now sings every chant for `!chant` and the 🎤 Sung
+button: see `scripts/build_sung_chant.py`. `samples/pater-noster-mbrola-it3-schola.ogg`
+is the sample they approved.
+
 ## How it works
 
 1. The chant's score comes from the GregoBase corpus (`scripts/build_chant.py`,

@@ -5,6 +5,7 @@ built by scripts/build_hymns.py).
   !hymn christmas            by topic
   !hymn Psalm 23             hymns drawn on a passage
   !hymn                      a random hymn
+  !chant pater noster        a Latin chant, sung (scripts/build_sung_chant.py)
 Each hymn shows its words, who wrote the words and the tune, and the Bible
 passages it draws on, with buttons to hear the tune (an organ rendering of
 the four-part score, rendered ahead by scripts/render_hymn_audio.py and
@@ -162,8 +163,9 @@ def hymn_embed(hymn: dict) -> discord.Embed:
 
 
 class HymnButton(discord.ui.DynamicItem[discord.ui.Button],
-                 template=r"hymn:(?P<action>play|bible|english):(?P<key>[0-9a-f]{8})"):
-    LOOK = {"play": ("Play the tune", "▶️"), "bible": ("Read the passages", "📖"), "english": ("English", "🇬🇧")}
+                 template=r"hymn:(?P<action>play|sung|bible|english):(?P<key>[0-9a-f]{8})"):
+    LOOK = {"play": ("Play the tune", "▶️"), "sung": ("Sung", "🎤"), "bible": ("Read the passages", "📖"),
+            "english": ("English", "🇬🇧")}
 
     def __init__(self, action: str, key: str):
         label, emoji = self.LOOK[action]
@@ -180,8 +182,8 @@ class HymnButton(discord.ui.DynamicItem[discord.ui.Button],
         if hymn is None:
             await interaction.response.send_message("⚠️ I can't find that hymn any more.", ephemeral=True)
             return
-        if self.action == "play":
-            await play(interaction, hymn)
+        if self.action in ("play", "sung"):
+            await play(interaction, hymn, sung=self.action == "sung")
         elif self.action == "english":
             await interaction.response.send_message(embed=english_embed(hymn))
         else:
@@ -195,6 +197,8 @@ def hymn_view(hymn: dict) -> discord.ui.View:
     view = discord.ui.View(timeout=None)            # persistent buttons: must never time out
     if audio_path(hymn):
         view.add_item(HymnButton("play", hymn_key(hymn)))
+    if sung_path(hymn):
+        view.add_item(HymnButton("sung", hymn_key(hymn)))
     if hymn["scripture"]:
         view.add_item(HymnButton("bible", hymn_key(hymn)))
     if translation(hymn):
@@ -259,24 +263,35 @@ def audio_path(hymn: dict):
     return path if path.exists() else None
 
 
+def sung_path(hymn: dict):
+    """A chant sung with its Latin words (scripts/build_sung_chant.py); None if there isn't one."""
+    if not hymn.get("gregobase"):
+        return None
+    path = AUDIO_DIR / "sung" / f"chant-{hymn['gregobase']:05d}.ogg"
+    return path if path.exists() else None
+
+
 PLAYED = {"chant": "the chant melody, on an organ",
           "sung": "sung in four parts (a synthesised choir)",
           None: "the tune once through, in four parts on an organ"}
 
 
-def audio_message(hymn: dict) -> "tuple | None":
-    """(caption, file) for posting a hymn's tune; None if it has none."""
-    path = audio_path(hymn)
+def audio_message(hymn: dict, sung: bool = False) -> "tuple | None":
+    """(caption, file) for posting a hymn's tune, or a chant sung; None if it has none."""
+    path = sung_path(hymn) if sung else audio_path(hymn)
     if path is None:
         return None
     stem = re.sub(r"[^A-Za-z0-9]+", "_", unicodedata.normalize("NFKD", hymn["title"])).strip("_")[:60] or "hymn"
+    if sung:
+        return (f"🎤 **{hymn['title']}**: sung in Latin by a synthesised schola (a small choir of chanters).",
+                discord.File(path, filename=f"{stem}_sung.ogg"))
     tune = f" — {hymn['tune'].upper()}" if hymn.get("tune") else ""
     return (f"🎵 **{hymn['title']}**{tune}: {PLAYED.get(hymn.get('audio_kind'), PLAYED[None])}.",
             discord.File(path, filename=f"{stem}.ogg"))
 
 
-async def play(interaction: discord.Interaction, hymn: dict) -> None:
-    message = audio_message(hymn)
+async def play(interaction: discord.Interaction, hymn: dict, sung: bool = False) -> None:
+    message = audio_message(hymn, sung)
     if message is None:
         await interaction.response.send_message("⚠️ I don't have that tune to play.", ephemeral=True)
         return
@@ -292,9 +307,9 @@ def list_embed(query: str, found: list) -> discord.Embed:
 
 
 class HymnPicker(discord.ui.View):
-    def __init__(self, found: list, tune_only: bool = False):
+    def __init__(self, found: list, tune_only: bool = False, sung: bool = False):
         super().__init__(timeout=300)
-        self.tune_only = tune_only
+        self.tune_only, self.sung = tune_only or sung, sung
         options = [discord.SelectOption(label=h["title"][:100], description=h["first_line"][:100], value=hymn_key(h))
                    for h in found[:25]]
         select = discord.ui.Select(placeholder="Choose a hymn…", options=options)
@@ -305,7 +320,7 @@ class HymnPicker(discord.ui.View):
     async def _chosen(self, interaction: discord.Interaction):
         hymn = by_key(self.select.values[0])
         if self.tune_only:
-            await play(interaction, hymn)
+            await play(interaction, hymn, sung=self.sung)
             return
         await interaction.response.send_message(embed=hymn_embed(hymn), view=hymn_view(hymn))
 
@@ -362,6 +377,34 @@ async def send_hymn_tune(ctx, query: str) -> None:
         await ctx.send(caption, file=file)
         return
     await ctx.send(embed=list_embed(query, found), view=HymnPicker(found, tune_only=True))
+
+
+async def send_chant(ctx, query: str) -> None:
+    """A Latin chant sung, straight away: the audio, no words."""
+    query = query.strip()
+    if not query or query.lower() == "random":
+        found = [h for h in hymns() if sung_path(h)]
+        found = [random.choice(found)] if found else []
+    else:
+        found = [h for h in find_hymns(query) if sung_path(h)]
+    if not found:
+        await ctx.send(f"I have no sung chant for **{query}**. `!chant` sings the Latin chants: try "
+                       f"`!chant Pater noster` or `!chant Salve Regina`, or `!hymnlist chant` for them all.")
+        return
+    exact = [h for h in found if _norm(h["title"]) == _norm(query)]
+    if len(found) == 1 or exact:
+        caption, file = audio_message((exact or found)[0], sung=True)
+        await ctx.send(caption, file=file)
+        return
+    await ctx.send(embed=list_embed(query, found), view=HymnPicker(found, sung=True))
+
+
+@bot.command(name="chant", aliases=["sing", "sungchant"])
+async def cmd_chant(ctx, *, query: str = ""):
+    """Hear a Latin chant sung, with its words, straight away.
+    Usage: !chant pater noster   — by title, words or kind (sequence, antiphon)
+           !chant                — a random chant"""
+    await send_chant(ctx, query)
 
 
 @bot.command(name="midi", aliases=["tune"])
@@ -538,6 +581,21 @@ async def midi_slash(interaction: discord.Interaction, query: str = ""):
     await interaction.response.defer()
     ctx = await bot.get_context(interaction)
     await send_hymn_tune(ctx, query)
+
+
+async def _chant_autocomplete(interaction: discord.Interaction, current: str) -> list:
+    q = _norm(current)
+    names = [h["title"] for h in hymns() if h.get("gregobase") and (not q or q in _norm(h["title"]))]
+    return [app_commands.Choice(name=n[:100], value=n[:100]) for n in names[:25]]
+
+
+@bot.tree.command(name="chant", description="Hear a Latin chant sung, with its words")
+@app_commands.describe(query="A title, words or kind of chant (sequence); empty for a random chant")
+@app_commands.autocomplete(query=_chant_autocomplete)
+async def chant_slash(interaction: discord.Interaction, query: str = ""):
+    await interaction.response.defer()
+    ctx = await bot.get_context(interaction)
+    await send_chant(ctx, query)
 
 
 @bot.tree.command(name="hymnlist", description="Every hymn the bot has, by title, a page at a time")

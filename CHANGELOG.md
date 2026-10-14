@@ -14,6 +14,11 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-14 · Chant, sung
+- 🎤 **New: hear the Latin chants sung.** Until now the bot's Gregorian chants (the ancient Latin hymns, sequences, antiphons and the chants of the Mass) could only be played on an organ. Now every one of them can also be heard *sung*, with its Latin words, by a small synthesised choir of chanters. The voice is a simple computer voice, not a recording of people. It sings the Latin the way the Church does, the Italian way (*caelis* as "chelis", *regnum* as "reñum"), one steady note at a time, in the echo of a church.
+- 🎤 **A Sung button.** Open any chant with `!hymn` (for example `!hymn Pater noster`) and press **🎤 Sung** under it.
+- 🎶 **New command: `!chant`.** It sings a chant straight away, without the words to scroll past. `!chant Ave Maria`, `!chant Salve Regina`, `!chant Dies irae`, or `!chant` on its own for a random one. Also works as `/chant`. `!hymnlist chant` lists every chant there is.
+
 ## 2026-10-14 · Fixed: some saints gave an error
 - 🕯️ **Fixed: `!saint` crashed for some saints.** Asking for certain saints (for example `!saint daria`) only got "Sorry — something went wrong". These are saints whose Golden Legend story is exactly two pages long. Their page-turning arrows were set up in a way Discord rejects. Now they open as normal, and ◀ ▶ turn the pages. (If you type a name that isn't in the book, the bot still tells you it doesn't know that saint and suggests what to try.)
 

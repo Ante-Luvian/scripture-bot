@@ -16,6 +16,10 @@
   "changelogsetup": [
    "changelogconfig"
   ],
+  "chant": [
+   "sing",
+   "sungchant"
+  ],
   "cloud": [
    "wordcloud"
   ],
@@ -293,6 +297,7 @@
   "changelog",
   "changelogintro",
   "changelogsetup",
+  "chant",
   "cloud",
   "collect",
   "compare",
