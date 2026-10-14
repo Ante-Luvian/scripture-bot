@@ -1,3 +1,4 @@
 discord.py>=2.3.0
 Pillow>=10.0        # !card / !interlinear images
 python-dotenv>=1.0  # optional: load DISCORD_TOKEN from .env
+wordcloud>=1.9   # !cloud

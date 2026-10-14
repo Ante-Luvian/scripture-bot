@@ -109,3 +109,5 @@ def test_setup(S):
     asyncio.run(S.cmd_saintsetup.callback(ctx, "channel"))
     asyncio.run(S.cmd_saintsetup.callback(ctx, "time", arg="5:30"))
     assert core._load_guild_config()["1"] == {"saintday_channel_id": 100, "saintday_time": "05:30"}
+    asyncio.run(S.cmd_saintsetup.callback(ctx, "channel", arg="<#100> time 04:00"))     # both in one go
+    assert core._load_guild_config()["1"]["saintday_time"] == "04:00" and "04:00 UTC" in ctx.sent[-1]["content"]

@@ -14,6 +14,10 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-14 · Word clouds
+- ☁️ **New: `!cloud`, a book's words as a picture.** `!cloud Ecclesiastes` draws the book's most distinctive words, the bigger the word the more it sets that book apart from the rest of its collection. So Ecclesiastes comes out as *vanity*, *vexation*, *labour* and *the sun*, Revelation as *the Lamb*, *the beast*, *the throne* and *the dragon*, and the Song of Solomon as *beloved*, *myrrh* and *lilies*. Everyday words that every book uses, like "the" and "unto", are left out. Try comparing two books, like `!cloud Proverbs` and `!cloud Revelation`. It works for any book in the library, not just the Bible (`!cloud Tao Te Ching`, `!cloud Dhammapada`).
+- 🔧 **Setting up the daily saint or hymn now takes the channel and time together:** `!saintsetup channel #religion time 04:00` sets both. Before, it set the channel and quietly ignored the time.
+
 ## 2026-10-14 · The saint of the day
 - 🕯️ **New: `!saint`, the saint of the day.** Every day of the year has its saint on the traditional calendar, the one older than the 1969 reform, so St George, St Christopher and their company are all still here. Each comes with their life from *Butler's Lives of the Saints*, the classic collection first written in the 1750s, here in its 1894 edition, along with the short "Reflection" that closes each life. When the day has more than one saint, a menu under the post lets you open the others.
 - 📖 **The Golden Legend too.** The *Golden Legend* is the great medieval book of saints' stories, compiled about 1260 and read all over Europe for centuries. When it tells a saint's story, a **📖 Golden Legend** button sits under Butler's life, and you can turn its pages with ◀ ▶. Saints that only the Legend tells, like St Christopher, open straight to it.

@@ -16,6 +16,9 @@
   "changelogsetup": [
    "changelogconfig"
   ],
+  "cloud": [
+   "wordcloud"
+  ],
   "collect": [],
   "compare": [
    "cmp"
@@ -285,6 +288,7 @@
   "changelog",
   "changelogintro",
   "changelogsetup",
+  "cloud",
   "collect",
   "compare",
   "concordance",
