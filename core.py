@@ -631,8 +631,21 @@ _HADITH_DISPLAY_TO_KEY: dict[str, str] = {
 
 # ── Helpers ────────────────────────────────────────────────────────────────────
 
+_VERSE_MARK = re.compile(r"\*\*\[[\d:]+\]\*\* ?")
+
+
+def _without_lone_verse_number(result: dict) -> dict:
+    """One verse doesn't need its number beside it ("**[16]** For God so loved"):
+    the title already says John 3:16. Two or more keep theirs."""
+    text = result.get("text")
+    if isinstance(text, str) and len(_VERSE_MARK.findall(text)) == 1 and _VERSE_MARK.match(text.lstrip()):
+        return {**result, "text": _VERSE_MARK.sub("", text.lstrip(), count=1)}
+    return result
+
+
 def _build_embed(result: dict) -> discord.Embed:
     """Build a single embed — used by auto-detection in on_message."""
+    result = _without_lone_verse_number(result)
     if result["found"]:
         embed = discord.Embed(
             title=result["reference"],
@@ -813,6 +826,7 @@ async def _send_result(ctx_or_interaction, result: dict, extra_buttons: "list | 
     using (a bare view is created for them if the result wouldn't otherwise
     have one) -- used for the !books chapter picker's prev/next-chapter buttons."""
     extra_buttons = extra_buttons or []
+    result = _without_lone_verse_number(result)
     try:
         uid = (ctx_or_interaction.user.id
                if hasattr(ctx_or_interaction, "user")

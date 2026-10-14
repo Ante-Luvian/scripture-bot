@@ -47,11 +47,11 @@ def _labels(buttons):
 
 
 @pytest.mark.parametrize("reference, labels", [
-    ("John 3:16",          ["Notes", "Cross-refs", "Interlinear", "Card"]),
-    ("John 3:16–18",       ["Notes", "Cross-refs", "Interlinear", "Card"]),
-    ("John 3:1–9",         ["Cross-refs", "Interlinear", "Card"]),   # !notes takes up to 5 verses
-    ("John 3:16 (ESV)",    ["Notes", "Cross-refs", "Interlinear", "Card"]),
-    ("1 Corinthians 13:4", ["Notes", "Cross-refs", "Interlinear", "Card"]),
+    ("John 3:16",          ["Notes", "Cross-refs", "Interlinear", "Card", "Catena"]),
+    ("John 3:16–18",       ["Notes", "Cross-refs", "Interlinear", "Card", "Catena"]),
+    ("John 3:1–9",         ["Cross-refs", "Interlinear", "Card", "Catena"]),   # !notes takes up to 5 verses
+    ("John 3:16 (ESV)",    ["Notes", "Cross-refs", "Interlinear", "Card", "Catena"]),
+    ("1 Corinthians 13:4", ["Notes", "Cross-refs", "Interlinear", "Card", "Catena"]),
     ("Psalms 23",          []),   # whole chapter
     ("Quran 1:1",          []),   # not the Bible
     ("Tobit 1:1",          []),   # apocrypha: no NET notes / Strong's
@@ -129,7 +129,7 @@ def test_cross_refs_button_runs_the_real_command(verse):
     edited = interaction.response.edited_view
     assert edited.timeout is None
     assert [(c.item.label, c.item.disabled) for c in edited.children] == [
-        ("Notes", False), ("Cross-refs", True), ("Interlinear", False), ("Card", False)]
+        ("Notes", False), ("Cross-refs", True), ("Interlinear", False), ("Card", False), ("Catena", False)]
     embed = interaction.channel.sent[0]["embed"]
     assert embed.title == "🔗 Cross-references — John 3:16"
 
@@ -153,7 +153,7 @@ def test_verse_command_attaches_study_buttons(verse, monkeypatch, fake_ctx):
     monkeypatch.setattr(verse, "_get_preferred_translation", lambda user_id: None)
     asyncio.run(verse.verse_prefix.callback(fake_ctx, reference="John 3:16"))
     view = fake_ctx.sent[0]["view"]
-    assert [c.item.label for c in view.children] == ["Notes", "Cross-refs", "Interlinear", "Card"]
+    assert [c.item.label for c in view.children] == ["Notes", "Cross-refs", "Interlinear", "Card", "Catena"]
     # A view that times out unregisters its persistent buttons bot-wide
     assert view.timeout is None
 
@@ -166,3 +166,11 @@ def test_plain_verse_lookup_sends_result(verse, monkeypatch, fake_ctx):
     text = " ".join(str(m.get("content") or "") + str(m["embed"].to_dict() if m.get("embed") else "")
                     for m in fake_ctx.sent)
     assert "For God so loved the world" in text
+
+
+def test_a_single_verse_has_no_number_beside_it(bot_module):
+    import core
+    one = core._without_lone_verse_number({"found": True, "text": "**[16]** For God so loved the world"})
+    assert one["text"] == "For God so loved the world"
+    two = {"found": True, "text": "**[16]** For God so loved the world\n**[17]** For God sent not his Son"}
+    assert core._without_lone_verse_number(two) == two                        # a range keeps its numbers

@@ -26,9 +26,20 @@ TAILS = [
     r"RECENT ARTICLES",
     r"(?:THE END )?-{10,} Copyright statement",                                 # the Internet Classics Archive
     r"(?:THE END )?Browse and Comment Search Buy Books",
+    r"(?:C[a-z ]{9,16}\. )?The editor of New Advent is Kevin Knight",          # newadvent.org's footer
+    r"CONTACT US \| ADVERTISE WITH NEW ADVENT",
+    r"Go to the [\w ' ]+ page\. Go to the Early Jewish Writings",
+    r"Buy this Book at Amazon\.com",
+    r"This (?:text|material) was (?:transcribed|uploaded) by",                 # tertullian.org's credits
+    r"Material in square brackets \[\] appears to be glosses",
 ]
 TAIL = re.compile(r"\s*(?:" + "|".join(TAILS) + r").*", re.S)
 CSS = re.compile(r"\s*\.mw-parser-output[^{}]*\{[^{}]*\}")                     # Wikisource's inline styles
+# the transcribers' notes on tertullian.org ("[Note to the online text: ...]")
+EDITOR_NOTE = re.compile(r"\s*\[Notes? (?:to|on) the online (?:text|edition)[^\]]*\]"
+                         r"|\s*\(Note contributed to the online text[^)]*\)\.?"
+                         r"|\s*\[[^\[\]]{0,160} in online text\.?\]\.?"
+                         r"|^(?:\[?\d+\.\s*|\*\*\s*)Note to the online edition.*")
 
 # ── footnotes kept as verses at a chapter's end ("12. a See Euseb. ...") ────
 FOOTNOTE = re.compile(r"^\s*\d+\.\s+(?:\d+|[a-z]|\*)\s+\S")
@@ -67,7 +78,7 @@ FIXES = {
     "patristics/philoxenus_of_hierapolis.json": [(r"^[\w$)(]{1,6}(?: [\w$)(]{1,6}){3,}$", "")],   # Syriac in ASCII
     "ancient_near_east/instruction_of_amenemope.json": [                  # the Egyptian, transliterated: not a translation
         (r"^\*\*(?:Egyptian \(Egyptological Transliteration\)|Variant Witnesses)\*\*.*", ""),
-        (r"^\*\*Variant:.*?(?:\n---\n+|$)", "")],
+        (r"^\*\*Variant:.*?(?:\n---\n+|\Z)", "")],
 }
 
 # where a book's real text stops (everything after goes): file -> [(book, chapter, verse, cut-at pattern)]
@@ -102,17 +113,18 @@ def greek_from_beta(text: str) -> str:
 # tertullian.org's own Beta Code, from an old Greek font: e0n, ou]n, th_n, tw~n, dh&pouqen, w#sper, O1ntoj
 _TERT = {"0": ")", "1": ")/", "2": ")\\", "3": "(/", "4": "(\\", "#": "(/", "]": ")=", "[": "(=",
          "&": "/", "~": "=", "_": "\\"}
-_TERT_TOKEN = re.compile(r"(?<![\w*/\\=)(|+&~#\]\[])([0-4#\]\[]?[A-Za-z][A-Za-z0-4#\]\[&~_|/\\=)(+]*)")
-_TERT_MARK = re.compile(r"[a-zA-Z][)(]?[0-4#\]\[&~_]|^[0-4#\]\[][A-Za-z]|[a-z][/\\=|]")
+_TERT_TOKEN = re.compile(r"(?<![\w*/\\=)(|+&~#\]\[])([0-4]?[A-Za-z][A-Za-z0-4#\]\[&~_|/\\=)(+]*)")
+# a mark sits on a vowel; brackets, digits, # and _ only inside a word -- at its edges they're
+# brackets and italics ("[Note to the online text", "_like this_"), and English must stay English
+_TERT_MARK = re.compile(r"[aehiouwAEHIOUW][)(|]?(?:[0-4#\]\[_](?=[A-Za-z|])|[&~])|^[0-4](?=[aehiouwAEHIOUW])")
 TERT_FILES = re.compile(r"^(patristics/.*|classical/julian\.json)$")
 
 
 def greek_from_tertullian(text: str) -> str:
     def swap(m):
         tok = m.group(1)
-        core = re.sub(r"(?<=[a-z])[)(]$", "", tok)
-        if not (re.search(r"[0-4#\]\[&~_]", core) and _TERT_MARK.search(core)) and not _BETA_MARK.search(core) \
-                and not re.fullmatch(r"[aehiouw]{1,2}[)(][/\\=]?", core):
+        core = re.sub(r"(?<=[A-Za-z])[)(\]\[]+$", "", tok)          # a closing bracket, not a breathing
+        if not _TERT_MARK.search(core) and not _BETA_MARK.search(core):
             return tok
         if re.search(r"[A-Z].*[A-Z]|[a-z][A-Z]", core):          # not a Greek word: "A.D", "MS"
             return tok
@@ -129,6 +141,7 @@ def clean_text(text: str, rel: str) -> str:
     while before != text:                               # "&amp;gt;" -> "&gt;" -> ">"
         before, text = text, html.unescape(text)
     text = CSS.sub("", text)
+    text = EDITOR_NOTE.sub("", text)
     text = TAIL.sub("", text)
     for pat, rep in FIXES.get(rel, []):
         text = re.sub(pat, rep, text, flags=re.S | re.M)
