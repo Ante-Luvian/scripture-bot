@@ -223,8 +223,9 @@ def english_embed(hymn: dict) -> discord.Embed:
     if len(text) > 4000:
         text = text[:4000].rsplit("\n", 1)[0] + "\n…"
     embed = discord.Embed(title=f"🇬🇧 {hymn['title']}, in English", description=text, color=COLOR)
-    embed.set_footer(text=f"Translated by {t['translator']} · {t['source']}" if t["translator"] != "The Book of Common Prayer"
-                     else t["source"])
+    footer = (f"Translated by {t['translator']} · {t['source']}" if t["translator"] != "The Book of Common Prayer"
+              else t["source"])
+    embed.set_footer(text=footer + (f"\n{t['note']}" if t.get("note") else ""))
     return embed
 
 

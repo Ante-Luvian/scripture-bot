@@ -14,6 +14,14 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-14 · More chants in English
+- 🇬🇧 **Eighteen more Latin chants now have the English button**, each in a well-known published translation by a named translator:
+  - **Edward Caswall** (a Victorian priest whose translations are still sung): the *Stabat Mater* ("At the Cross her station keeping"), *Veni Creator Spiritus* ("Come, Holy Ghost, Creator blest"), the *Tantum ergo* ("Down in adoration falling") and *En clara vox* ("Hark! a thrilling voice is sounding").
+  - **J. M. Neale**: *Te lucis ante terminum* ("Before the ending of the day"), *Veni Sancte Spiritus* ("Come, Thou holy Paraclete"), *O filii et filiae* ("Ye sons and daughters of the King"), *Pange lingua… proelium* ("Sing, my tongue, the glorious battle"), *Vox clara* ("A thrilling voice by Jordan rings"), *Urbs Jerusalem beata* ("Blessed City, Heavenly Salem") and *Laudes Crucis* ("Be the Cross our theme and story").
+  - **Frederick Oakeley**'s "O come, all ye faithful" for *Adeste fideles*. **Jane Leeson**'s "Christ the Lord is risen today" for the Easter sequence *Victimae paschali*. **H. M. MacGill**'s "A Child is born in Bethlehem" for *Puer natus*.
+  - *Media vita* ("In the midst of life we are in death") in the Prayer Book's words, from its burial service.
+- Where a translation differs from the chant, the footer says so. For example, Leeson's is a loose verse paraphrase, and Neale translated an older form of *Te lucis*. Try `!hymn Stabat Mater` and press 🇬🇧 English.
+
 ## 2026-10-14 · English translations of the Latin chants
 - 🇬🇧 **New: an English button on the Latin chants.** Many of the Latin hymns and chants now have a **🇬🇧 English** button under them that shows a published English translation beside the Latin. Only real, published translations are used; chants without one stay in Latin.
 - ⛪ **The Mass in the Prayer Book's English.** Every setting of the Kyrie, Gloria, Credo, Sanctus and Agnus Dei shows the Book of Common Prayer's English: "Lord, have mercy upon us", "Glory be to God on high", "I believe in one God", "Holy, holy, holy, Lord God of hosts", "O Lamb of God, that takest away the sins of the world". So do the *Pater noster* (the Lord's Prayer), the *Te Deum* ("We praise thee, O God"), the *Nunc dimittis* and the *Magnificat*. Try `!hymn Credo III` and press 🇬🇧 English.

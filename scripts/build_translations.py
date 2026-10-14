@@ -75,7 +75,11 @@ def bcp_passages() -> dict:
         "te deum": between(t, "We praise thee, O God", "let me never be confounded."),
         "magnificat": between(t, "My soul doth magnify the Lord", "world without end. Amen."),
         "nunc dimittis": between(t, "Lord, now lettest thou thy servant depart", "world without end. Amen."),
+        "media vita": between(t, "In the midst of life we are in death", "bitter pains of eternal death."),
     }
+
+
+BCP_NOTES = {"media vita": "The Prayer Book's anthem at the grave; the chant's closing verse (In te speraverunt) isn't in it."}
 
 
 def bcp_key(hymn: dict) -> "str | None":
@@ -89,6 +93,8 @@ def bcp_key(hymn: dict) -> "str | None":
         return None
     if title == "pater noster":
         return "pater"
+    if title == "media vita":
+        return "media vita"
     for key in ("te deum", "magnificat", "nunc dimittis"):
         if title.startswith(key) and not title.startswith("te deum patrem"):
             return key
@@ -139,16 +145,22 @@ def neale_match(hymn: dict, translations: dict) -> "str | None":
     """The Neale translation whose Latin title begins the chant (first words agree)."""
     # the chant's own opening words, not its title: "Pange lingua" is two different hymns
     # (Aquinas's ...gloriosi corporis, Venantius's ...gloriosi proelium), told apart at word four
-    opening = norm(" ".join(hymn["stanzas"][:2]))[:200].split() if hymn.get("stanzas") else []
+    # sung syllables are hyphenated ("cru-cis"); a refrain may come first (O filii's "Alleluia")
+    opening = norm(" ".join(hymn["stanzas"][:3]).replace("-", ""))[:300].split() if hymn.get("stanzas") else []
+    while opening[:1] == ["alleluia"]:
+        opening = opening[1:]
     for latin in translations:
-        words = latin.split()[:4] + NEXT_WORD.get(latin, [])
-        if len(words) >= 3 and opening[:len(words)] == words:
-            return latin
+        for begins in [latin] + ALSO_BEGINS.get(latin, []):
+            words = begins.split()[:4] + NEXT_WORD.get(latin, [])
+            if len(words) >= 3 and opening[:len(words)] == words:
+                return latin
     return None
 
 
 # Neale's titles too short to tell two hymns apart: the word that settles it
 NEXT_WORD = {"pange lingua gloriosi": ["corporis"]}          # (his is Aquinas's, not Venantius's ...proelium)
+# the same hymn, its opening words in another order in the chant books
+ALSO_BEGINS = {"urbs beata ierusalem": ["urbs ierusalem beata dicta"]}
 
 
 def stanzas_like(lines: list, hymn: dict) -> list:
@@ -160,6 +172,65 @@ def stanzas_like(lines: list, hymn: dict) -> list:
     if len(lines) % 4 == 0 and len(lines) > 4:
         return ["\n".join(lines[i:i + 4]) for i in range(0, len(lines), 4)]
     return ["\n".join(lines)]
+
+
+# ── Wikipedia: translations its hymn articles print and credit to a named translator ──
+# (chant titles, article, the English block's first words, translator, note, which stanzas).
+# Each pairing checked against the chant's own Latin: the Urban VIII "En clara vox" is
+# Caswall's (his doxology renders its "Virtus, honor, laus, gloria"); the older "Vox clara
+# ecce intonat" is Neale's ("To the most high Parent" = "Summo Parenti"). The Tantum ergo is
+# the last two stanzas of Caswall's Pange lingua.
+WIKIPEDIA = [
+    (["Te lucis ante terminum"], "Te lucis ante terminum", "Before the ending of the day", "J. M. Neale",
+     "Translated from the older Latin text; the chant sings the 1632 revision.", None),
+    (["Veni Creator Spiritus"], "Veni Creator Spiritus", "Come, Holy Ghost, Creator blest", "Edward Caswall",
+     "As altered in The Lutheran Hymnal (1941).", None),
+    (["Stabat Mater"], "Stabat Mater", "At the Cross her station keeping", "Edward Caswall", None, None),
+    (["Victimae paschali", "Victimae Paschali laudes"], "Victimae paschali laudes", "Christ the Lord is risen today",
+     "Jane E. Leeson", "A metrical paraphrase, made for singing.", None),
+    (["Veni Sancte Spiritus et emitte"], "Veni Sancte Spiritus", "Come, Thou holy Paraclete", "J. M. Neale", None, None),
+    (["Puer natus in Bethlehem"], "Puer natus in Bethlehem", "A Child is born in Bethlehem",
+     "Hamilton Montgomerie MacGill (1876)", None, None),
+    (["Adeste fideles"], "O Come, All Ye Faithful", "O come, all ye faithful", "Frederick Oakeley (1841)", None, None),
+    (["Tantum ergo"], "Pange lingua gloriosi corporis mysterium", "Sing, my tongue, the Saviour's glory",
+     "Edward Caswall", "The last two verses of his Pange lingua.", slice(-2, None)),
+    (["Vox clara"], "Vox clara ecce intonat", "A thrilling voice by Jordan rings", "J. M. Neale", None, None),
+    (["En clara vox", "En clara vox redarguit"], "Vox clara ecce intonat", "Hark! a thrilling voice is sounding",
+     "Edward Caswall", None, None),
+    (["Pange lingua gloriosi proelium", "Pange lingua… Praelium"], "Pange lingua gloriosi proelium certaminis",
+     "Sing, my tongue, the glorious battle", "J. M. Neale", "Five of the hymn's verses.", None),
+]
+
+
+def wikipedia_text(title: str) -> str:
+    f = CACHE / "wikipedia" / (re.sub(r"[^A-Za-z0-9]+", "_", title).strip("_") + ".wiki")
+    if not f.exists():
+        url = ("https://en.wikipedia.org/w/api.php?action=query&prop=revisions&rvprop=content&rvslots=main"
+               "&format=json&formatversion=2&redirects=1&titles=" + urllib.parse.quote(title))
+        page = json.loads(urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=60).read())
+        f.parent.mkdir(parents=True, exist_ok=True)
+        f.write_text(page["query"]["pages"][0]["revisions"][0]["slots"]["main"]["content"], encoding="utf-8")
+        time.sleep(1)
+    return f.read_text(encoding="utf-8")
+
+
+def clean_wikitext(block: str) -> str:
+    block = re.sub(r"(?s)<ref[^>]*/>|<ref[^>]*>.*?</ref>", "", block)
+    block = re.sub(r"\[\[(?:[^\]|]*\|)?([^\]]*)\]\]", r"\1", block)        # [[target|shown]] -> shown
+    block = re.sub(r"(?m)^\s*'''[^']+'''\s*$", "", block)                    # a translator's name as a heading
+    block = block.replace("'''", "").replace("''", "").replace("&nbsp;", " ")
+    block = re.sub(r"(?m)^[ \t]*\d+\.?[ \t]+", "", block)                    # stanza numbers
+    lines = [l.strip() for l in block.split("\n")]
+    return re.sub(r"\n{3,}", "\n\n", "\n".join(lines)).strip()
+
+
+def wikipedia_block(article: str, start: str) -> list:
+    """The stanzas of the <poem> in `article` whose English begins with `start`."""
+    for m in re.finditer(r"(?s)<poem[^>]*>(.*?)</poem>", wikipedia_text(article)):
+        text = clean_wikitext(m.group(1))
+        if norm(text).startswith(norm(start)):
+            return text.split("\n\n")
+    raise SystemExit(f"No English block starting {start!r} in Wikipedia's {article!r}")
 
 
 def main():
@@ -174,12 +245,25 @@ def main():
         if key and bcp.get(key):
             out[h["title"]] = {"translator": "The Book of Common Prayer", "source": BCP_SOURCE,
                                "stanzas": bcp[key].split("\n\n") if "\n\n" in bcp[key] else [bcp[key]]}
+            if key in BCP_NOTES:
+                out[h["title"]]["note"] = BCP_NOTES[key]
             continue
         latin = neale_match(h, neale_texts)
         if latin:
             out[h["title"]] = {"translator": "J. M. Neale", "source": NEALE_SOURCE,
                                "stanzas": stanzas_like(neale_texts[latin], h)}
             used.add(latin)
+    titles = {h["title"] for h in chants if h.get("audio_kind") == "chant"}
+    for chant_titles, article, start, translator, note, part in WIKIPEDIA:
+        stanzas = wikipedia_block(article, start)
+        for title in chant_titles:
+            if title not in titles:
+                raise SystemExit(f"WIKIPEDIA names a chant that isn't there: {title!r}")
+            if title not in out:
+                out[title] = {"translator": translator, "source": f"as printed in Wikipedia's article “{article}”",
+                              "stanzas": stanzas[part] if part else stanzas}
+                if note:
+                    out[title]["note"] = note
     OUT.write_text(json.dumps({"about": "Published English translations of the Latin chants, by chant title "
                                         "(scripts/build_translations.py).", "translations": out},
                               ensure_ascii=False, indent=1), encoding="utf-8")
