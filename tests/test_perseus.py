@@ -14,7 +14,7 @@ PERSEUS = ROOT / "data" / "classical" / "perseus"
     ("Histories 1.1:0", "Herodotus of Halicarnassus"),                 # the translator's name, not a map's
     ("Antigone 1:450", "it was not Zeus that published me that edict"),
     ("On the Murder of Eratosthenes 1:6", "When I, Athenians, decided to marry"),
-    ("Metamorphoses 1:1", "Of shapes transformde to bodies straunge"),  # book:line, no "card" level
+    ("Metamorphoses 1:1", "My soul is wrought to sing of forms transformed"),  # book:line, no "card" level
     ("De Rerum Natura 1:1", "Mother of Rome, delight of Gods and men"),
     ("Anabasis 1.1:1", "Darius and Parysatis had two sons"),
     ("Clouds 1:1", "O King Jupiter, of what a terrible length the nights are"),
@@ -72,3 +72,20 @@ def test_clean_text(lookup):
                 for verse, text in verses.items():
                     assert verse.isdigit() and text.strip(), (path.name, chapter, verse)
                     assert not re.search(r"\[\d+\.\d+,\d+\.\d+\]|\(inhabited place\)", text), (path.name, text[:80])
+
+
+def test_line_numbers_that_restart_on_each_card_are_not_merged():
+    """Golding's Ovid numbered his lines afresh on each Perseus "card"; dropping the card put
+    every card's line 2 into one verse 2. Such a chapter is numbered straight through instead."""
+    import perseus_tei as P
+    items = [(["1", "1"], "a"), (["1", "2"], "b"), (["1", "1"], "c"), (["1", "2"], "d"), (["2", "1"], "e")]
+    cards = ["1", "1", "30", "30", "1"]
+    assert P._renumber_restarting(items, cards) == [(["1", "1"], "a"), (["1", "2"], "b"), (["1", "3"], "c"),
+                                                   (["1", "4"], "d"), (["2", "1"], "e")]
+    plain = [(["1", "1"], "a"), (["1", "2"], "b")]
+    assert P._renumber_restarting(plain, ["1", "30"]) is plain                 # numbers that don't repeat stay
+
+
+def test_ovid_is_brookes_more_in_order(lookup):
+    r = lookup.get_verse("Metamorphoses 1:1-4")
+    assert r["found"] and r["text"].replace("**", "").split("[1] ")[1].startswith("My soul is wrought to sing")

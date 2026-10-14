@@ -14,6 +14,10 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-14 · Ovid's Metamorphoses, unscrambled
+- 📜 **Fixed: Ovid's *Metamorphoses* came out scrambled.** Looking up a passage, such as `!verse Metamorphoses 1:2`, gave a jumble of lines from all over the book, because of how the source file numbered its lines. It now reads in order, and in a new translation: Brookes More's blank verse of 1922, which is plainer and easier to follow than the Elizabethan one it replaces. Try `!verse Metamorphoses 1:338-350` for Jupiter sending the Flood, and `1:410-420` for Deucalion and Pyrrha, the two survivors, landing on Mount Parnassus.
+- 🔧 **The same fix untangles** Ovid's *Epistles* (the *Heroides*, letters from the heroines of myth) and *Art of Love*, Lucretius's *On the Nature of Things*, and Horace's *Satires*, which had the same problem.
+
 ## 2026-10-14 · Word clouds
 - ☁️ **New: `!cloud`, a book's words as a picture.** `!cloud Ecclesiastes` draws the book's most distinctive words, the bigger the word the more it sets that book apart from the rest of its collection. So Ecclesiastes comes out as *vanity*, *vexation*, *labour* and *the sun*, Revelation as *the Lamb*, *the beast*, *the throne* and *the dragon*, and the Song of Solomon as *beloved*, *myrrh* and *lilies*. Everyday words that every book uses, like "the" and "unto", are left out. Try comparing two books, like `!cloud Proverbs` and `!cloud Revelation`. It works for any book in the library, not just the Bible (`!cloud Tao Te Ching`, `!cloud Dhammapada`).
 - 🔧 **Setting up the daily saint or hymn now takes the channel and time together:** `!saintsetup channel #religion time 04:00` sets both. Before, it set the channel and quietly ignored the time.

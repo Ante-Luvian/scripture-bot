@@ -41,6 +41,10 @@ XML_LANG = "{http://www.w3.org/XML/1998/namespace}lang"
 SKIP_GROUPS = {"New Testament", "Old Testament", "Homeric Hymns", "Flavius Josephus", "Clemens Romanus (Clement of Rome)",
                "Barnabae Epistula", "Hermas, 2nd cent.", "Ignatius of Antioch", "Polycarp", "Pseudo-Justinus Martyr",
                "Philo Judaeus", "Homer", "Hesiod"}
+# which translation, where Perseus has more than one and the largest isn't the one wanted
+# (by a word of its description): Brookes More's Metamorphoses, numbered by the Latin lines,
+# not Golding's 1567 one
+PREFER_TRANSLATOR = {("Ovid", "Metamorphoses"): "More, Brookes"}
 SKIP_WORKS = {("Plato", "Alcibiades 1"), ("Plato", "Alcibiades 2"), ("Plato", "Lovers"), ("Epictetus", "The Handbook")}
 SKIP_LABELS = {"The Martydom of St. Polycarp",      # the Martyrdom of Polycarp is with the Apostolic Fathers
                'The "Art" of Rhetoric'}             # Aristotle's Rhetoric is in aristotle_perseus.json
@@ -99,7 +103,12 @@ def catalogue() -> list:
                         options.append((("perseus" not in path.name), -path.stat().st_size, path,
                                         text_of(t, "label"), text_of(t, "description")))
                 if options:
-                    _, _, path, label, description = sorted(options)[0]
+                    want = PREFER_TRANSLATOR.get((author, title))
+                    if want:            # the owner's choice of translation, over the largest
+                        options.sort(key=lambda o: want not in (o[4] or ""))
+                    else:
+                        options.sort()
+                    _, _, path, label, description = options[0]
                     if label in SKIP_LABELS:
                         continue
                     # the original: Perseus's Greek or Latin edition, the fullest if several

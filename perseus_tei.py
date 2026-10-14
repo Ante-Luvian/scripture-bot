@@ -160,16 +160,43 @@ def passages(path: Path) -> list:
     while len(start) == 1 and local(start[0].tag) == "div" and start[0].get("type") in ("edition", "translation"):
         start = start[0]
     walk(start, [])
-    cleaned = []
+    cleaned, carded = [], []
     for levels, text in out:
         # an editor's introduction ("intro") is not the author's text
         if any(re.match(r"intro", str(n), re.I) for _, n in levels):
             continue
         # a "card" is Perseus's page of verse, not part of the citation: Metamorphoses 1:5, not 1.1:5
+        card = None
         if len(levels) > 1:
+            card = next((n for unit, n in levels[:-1] if unit == "card"), None)
             levels = [lv for lv in levels[:-1] if lv[0] != "card"] + [levels[-1]]
         cleaned.append(([n for _, n in levels], text))
-    return cleaned
+        carded.append(card)
+    return _renumber_restarting(cleaned, carded)
+
+
+def _renumber_restarting(items: list, cards: list) -> list:
+    """Where a translation's line numbers start again on each card (Golding's Ovid), dropping
+    the card would put every card's line 2 together in one "verse 2", lines from all over the
+    book. In such a chapter the verses are numbered straight through, in reading order."""
+    seen, clash = {}, set()
+    for (levels, _), card in zip(items, cards):
+        if card is None or len(levels) < 2:
+            continue
+        chapter, verse = tuple(levels[:-1]), levels[-1]
+        other = seen.setdefault((chapter, verse), card)
+        if other != card:
+            clash.add(chapter)
+    if not clash:
+        return items
+    count, out = {}, []
+    for levels, text in items:
+        chapter = tuple(levels[:-1])
+        if chapter in clash and len(levels) > 1:
+            count[chapter] = count.get(chapter, 0) + 1
+            levels = list(chapter) + [str(count[chapter])]
+        out.append((levels, text))
+    return out
 
 
 def to_book(items: list) -> dict:
