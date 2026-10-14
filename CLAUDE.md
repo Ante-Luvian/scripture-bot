@@ -12,7 +12,7 @@ See README.md for what the bot does, the command list, layout, and data schema.
   check `C:\ProgramData\nssm\logs\scripturebot.err.log` for "Logged in as" and
   "Synced N slash command(s)". Web/cloud sessions can't reach the service — say so.
 - Never commit the runtime state files in `data/` (stats, guild_*, user_prefs,
-  bookmarks, reading_plans, subscribers, votd_mode, versle, hymnday, saintday). `.gitignore` covers them.
+  bookmarks, reading_plans, subscribers, votd_mode, versle, hymnday, saintday, angelus). `.gitignore` covers them.
 - Commit messages: a summary line plus a body explaining *why*, and noting anything
   verified or deliberately left out.
 - **Add a `CHANGELOG.md` entry for every user-visible change worth announcing** (new

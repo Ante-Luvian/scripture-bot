@@ -14,6 +14,12 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-14 · The Angelus
+- 🔔 **New: `!angelus`.** The Angelus is a short traditional prayer said three times a day: morning, noon and evening, when church bells ring for it. It recalls the angel Gabriel's message to Mary and the Incarnation. Three short verse-and-response lines, each followed by a Hail Mary, then a closing prayer. `!angelus` gives it in English and in Latin, with the *Ave Maria* chant **sung** attached so you can listen along.
+- 🌸 **In Eastertide it changes by itself.** From Holy Saturday until the day before Trinity Sunday, the Church says the joyful *Regina Cæli* ("O Queen of heaven, rejoice! Alleluia") instead. `!angelus` gives that in those weeks, with the *Regina caeli* chant sung.
+- ⏰ **For server admins: `!angelussetup`.** Have the bot post it in a channel every day: `!angelussetup channel #prayer` posts it at noon (UTC), and `!angelussetup time 06:00 12:00 18:00` posts it at all three traditional hours. `!angelussetup test` posts it now, `!angelussetup off` stops it.
+- The words come from *A Manual of Prayers for the Use of the Catholic Laity* (1889), the official prayer book of the American Catholic bishops.
+
 ## 2026-10-14 · Chant, sung
 - 🎤 **New: hear the Latin chants sung.** Until now the bot's Gregorian chants (the ancient Latin hymns, sequences, antiphons and the chants of the Mass) could only be played on an organ. Now every one of them can also be heard *sung*, with its Latin words, by a small synthesised choir of chanters. The voice is a simple computer voice, not a recording of people. It sings the Latin the way the Church does, the Italian way (*caelis* as "chelis", *regnum* as "reñum"), one steady note at a time, in the echo of a church.
 - 🎤 **A Sung button.** Open any chant with `!hymn` (for example `!hymn Pater noster`) and press **🎤 Sung** under it.
