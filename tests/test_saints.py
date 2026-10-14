@@ -76,6 +76,18 @@ def test_the_legend_pages(S):
     assert "".join(pages).replace("\n", "").replace(" ", "") == S.legend_text(s).replace("\n", "").replace(" ", "")
 
 
+def test_no_message_repeats_a_custom_id(S):
+    # Discord refuses the whole message if two components share a custom_id; "!saint daria"
+    # (a two-page Legend chapter) once sent ◀ and ▶ both as "go to page 2"
+    for s in S.saints():
+        messages = [S.saint_message(s, S.saints()[:3], "Also")]
+        for n, _ in enumerate(s.get("golden_legend", [])):
+            messages += [S.legend_message(s, p, n) for p in range(len(S.legend_pages(s, n)))]
+        for m in messages:
+            ids = [c.custom_id for c in _components(m["view"])]
+            assert len(ids) == len(set(ids)), (s["name"], ids)
+
+
 def test_the_buttons_find_their_saint(S):
     for s in S.saints():
         assert S.by_key(S.saint_key(s)) is s

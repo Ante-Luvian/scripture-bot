@@ -14,6 +14,9 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-14 · Fixed: some saints gave an error
+- 🕯️ **Fixed: `!saint` crashed for some saints.** Asking for certain saints (for example `!saint daria`) only got "Sorry — something went wrong". These are saints whose Golden Legend story is exactly two pages long. Their page-turning arrows were set up in a way Discord rejects. Now they open as normal, and ◀ ▶ turn the pages. (If you type a name that isn't in the book, the bot still tells you it doesn't know that saint and suggests what to try.)
+
 ## 2026-10-14 · More chants in English
 - 🇬🇧 **Eighteen more Latin chants now have the English button**, each in a well-known published translation by a named translator:
   - **Edward Caswall** (a Victorian priest whose translations are still sung): the *Stabat Mater* ("At the Cross her station keeping"), *Veni Creator Spiritus* ("Come, Holy Ghost, Creator blest"), the *Tantum ergo* ("Down in adoration falling") and *En clara vox* ("Hark! a thrilling voice is sounding").
