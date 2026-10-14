@@ -2301,6 +2301,8 @@ class ScriptureLookup:
         Results are cached per query (up to 64 queries).
         """
         q = query.lower().strip()
+        if not re.search(r"[^\W_]", q):                    # nothing to look for: "$", "*", "~"
+            return {}
         corpora = frozenset(corpora) if corpora else None
         # Check cache
         cached = self._search_cache.get((q, corpora))
@@ -2396,7 +2398,11 @@ class ScriptureLookup:
         cached = self._theme_cache.get(q)
         if cached is not None:
             return cached
-        patterns = [re.compile(rf"\b{re.escape(self._stem(w))}\w*", re.IGNORECASE) for w in q.split()]
+        # a theme is words: "$", "*" or "34" would only match symbols and verse numbers
+        words = [w for w in (re.sub(r"^[^\w]+|[^\w]+$", "", w) for w in q.split()) if re.search(r"[^\W\d_]", w)]
+        if not words:
+            return []
+        patterns = [re.compile(rf"\b{re.escape(self._stem(w))}\w*", re.IGNORECASE) for w in words]
         out = []
         for key, (label, corpora) in TRADITIONS.items():
             best = None

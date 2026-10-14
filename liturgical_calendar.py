@@ -246,11 +246,9 @@ def catholic_today(d: datetime.date) -> dict:
       • https://universalis.com/today.htm                              (today)
       • https://universalis.com/YYYYMMDD/today.htm                     (any date)
     """
-    today = datetime.date.today()
-    if d == today:
-        url = "https://universalis.com/today.htm"
-    else:
-        url = f"https://universalis.com/{d.year:04d}{d.month:02d}{d.day:02d}/today.htm"
+    # Always the dated page: universalis.com/today.htm follows the server's clock, which is
+    # already on tomorrow during our evening, so the date we look for isn't on it
+    url = f"https://universalis.com/{d.year:04d}{d.month:02d}{d.day:02d}/today.htm"
 
     raw = _http_get(url)
     if raw is None:

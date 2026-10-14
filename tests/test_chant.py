@@ -1,4 +1,5 @@
-"""The ancient hymns (scripts/build_chant.py): Gregorian chant from GregoBase, and Babylon Is Fallen."""
+"""The ancient hymns (scripts/build_chant.py): Gregorian chant from GregoBase; and the Sacred Harp,
+every song sung (scripts/build_sacred_harp.py)."""
 import json
 
 import pytest
@@ -51,6 +52,20 @@ def test_babylon_is_fallen(hymns):
     hymn = _one(hymns, "Babylon is fallen")
     assert hymn["stanzas"][0].startswith("Hail the day so long expected")
     assert "Chute" in hymn["composer"] and hymns.audio_path(hymn) is not None and hymn["audio_kind"] == "sung"
+    assert hymn["scripture"] == ["Revelation 18:2", "Revelation 18:21"] and "Shaker" in hymn["author"]
+
+
+def test_the_sacred_harp(hymns):
+    _, harp = hymns.hymn_list("harp")
+    assert len(harp) >= 500
+    idumea = _one(hymns, "Idumea")
+    assert idumea["stanzas"][0].split("\n") == ["And am I born to die?", "To lay this body down!",
+                                                "And must my trembling spirit fly", "Into a world unknown?"]
+    assert "Wesley" in idumea["author"] and "Davisson" in idumea["composer"] and idumea["meter"] == "6.6.8.6"
+    assert _one(hymns, "Sacred Harp 155")["title"] == "Northfield"                # by its number in the book
+    for h in harp:
+        assert hymns.audio_path(h) is not None and h["audio_kind"] == "sung", h["title"]
+        assert all(s.strip() and "\n\n" not in s for s in h["stanzas"]), h["title"]
 
 
 def test_names_keys_and_audio(hymns, more):
@@ -88,7 +103,7 @@ def test_hymnlist_sections(hymns):
     _, sequences = hymns.hymn_list("chant sequences")
     assert "Dies irae" in [h["title"] for h in sequences]
     _, harp = hymns.hymn_list("harp")
-    assert [h["title"] for h in harp] == ["Babylon Is Fallen"]
+    assert "Babylon Is Fallen" in [h["title"] for h in harp] and "Idumea" in [h["title"] for h in harp]
     _, every = hymns.hymn_list("")
     assert len(every) == len(hymns.hymns())
     assert "Babylon Is Fallen" in hymns.hymn_list_overview().description or "Sacred Harp" in hymns.hymn_list_overview().description
@@ -109,6 +124,6 @@ def test_hymnlist_pages_keep_their_items(hymns):
         view._fill()
         assert list(view.children) == items and view.select.options[0].label != first
         assert view.select.callback == view._chosen
-        single = hymns.HymnListView(*hymns.hymn_list("harp"))           # one page: no arrows
+        single = hymns.HymnListView(*hymns.hymn_list("babylon"))        # one page: no arrows
         assert single.children == [single.select] and len(single.select.options) == 1
     asyncio.run(check())

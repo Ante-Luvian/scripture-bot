@@ -413,7 +413,8 @@ async def cmd_help(ctx, *, topic: str = ""):
             "the hymn draws on. About 290 public-domain hymns, from the Open Hymnal Project and Hymnary.org.\n\n"
             "**Ancient hymns:** 552 Latin hymns, sequences and antiphons in Gregorian chant, with the "
             "chant to play — `!hymn Salve Regina`, `!hymn Te lucis`, `!hymn Dies irae`, `!hymn Ubi caritas`. "
-            "Also `!hymn Babylon is fallen` (Sacred Harp)."
+            "**The Sacred Harp:** all 550 songs, sung in four parts — `!hymn Idumea`, `!hymn Babylon is fallen`, "
+            "`!hymnlist harp`."
         )
         await ctx.send(embed=embed)
         return

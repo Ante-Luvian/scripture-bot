@@ -314,6 +314,13 @@ Every corpus file in `data/` follows one schema:
 Chapter and verse keys are **strings**. D&C sections are chapters; Articles of
 Faith are chapter `"1"`, verses `"1"`–`"13"`.
 
+**Cleaning.** Texts scraped from the web bring the web with them: site menus and
+scripts, licences, translators' footnotes, page markers, back-of-book indexes, Greek
+in Beta Code. `corpus_clean.py` holds the rules (general ones, plus fixes by file) and
+`scripts/clean_corpora.py` applies them to every file under `data/` (idempotent; needs
+`pip install beta-code`). Run it after rebuilding a corpus; `python -m pytest -m corpus`
+checks that nothing is left (several minutes, so it's not in the default run).
+
 Three reference datasets have their own shape, each rebuilt by a script in `scripts/`:
 
 - `data/people_places/` (`build_people_places.py`): `people_places.json` holds
@@ -329,8 +336,10 @@ Three reference datasets have their own shape, each rebuilt by a script in `scri
   or, where none could be fetched, from MIDI files the owner supplied in `scripts/hymn_midi/`.
   `more_hymns.json` and `audio/more/` (`build_chant.py`) add the ancient Latin hymns,
   sequences and antiphons from the GregoBase chant corpus (each gabc score parsed to its
-  words and melody, the whole piece synthesised as chant), plus *Babylon Is Fallen*
-  from the Sacred Harp. Entries carry their own `audio` path and `audio_kind`.
+  words and melody, the whole piece synthesised as chant). `sacred_harp.json` and
+  `audio/harp/` (`build_sacred_harp.py`) are the Sacred Harp (1991 ed.): words from
+  fasola.org, the sung four-part recordings from Sacred Harp Bremen. Entries carry
+  their own `audio` path and `audio_kind`.
 - `data/psalter/` (`build_psalter.py`): `psalter.json` (`{"psalms": [{number,
   version ("primary"/"alternate"), meter, first_line, stanzas: [{verses, lines}],
   tune}], "tunes": {id: {title, meter, attribution, seconds}}}`), `midi/` and
