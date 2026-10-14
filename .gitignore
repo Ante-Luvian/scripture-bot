@@ -18,6 +18,7 @@ data/memorize.json
 data/versle.json
 data/hymnday.json
 data/saintday.json
+data/angelus.json
 
 # Daily copies of the runtime state above (bot_commands/backup.py)
 backups/

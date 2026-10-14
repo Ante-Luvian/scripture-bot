@@ -458,3 +458,15 @@ async def changelogsetup_slash(interaction: discord.Interaction, channel: discor
 @_admin_only
 async def changelogintro_slash(interaction: discord.Interaction, fresh: bool = False):
     await _command("changelogintro")(await _slash_ctx(interaction), arg="fresh" if fresh else "")
+
+
+@bot.tree.command(name="angelussetup", description="(Admins) Post the Angelus in a channel at chosen hours")
+@app_commands.describe(action="What to change", channel="For 'channel'",
+                       value="For 'time': one or more HH:MM, UTC (06:00 12:00 18:00)")
+@app_commands.choices(action=[app_commands.Choice(name=a, value=a) for a in ("show", "channel", "time", "test", "off")])
+@_admin_only
+async def angelussetup_slash(interaction: discord.Interaction, action: str = "show",
+                             channel: discord.TextChannel = None, value: str = ""):
+    ctx = await _slash_ctx(interaction)
+    ctx.message = _WithChannelMention(ctx.message, channel)
+    await _command("angelussetup")(ctx, "" if action == "show" else action, arg=value)

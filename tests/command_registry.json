@@ -1,5 +1,12 @@
 {
  "prefix": {
+  "angelus": [
+   "reginacaeli",
+   "reginacoeli"
+  ],
+  "angelussetup": [
+   "angelusconfig"
+  ],
   "bcp": [],
   "books": [],
   "canon": [],
@@ -288,6 +295,8 @@
  },
  "slash": [
   "Look up verses",
+  "angelus",
+  "angelussetup",
   "bcp",
   "books",
   "canon",

@@ -47,6 +47,9 @@ from bot_commands.games import (
 from bot_commands.hymnday import (
     daily_hymn_task,
 )
+from bot_commands.angelus import (
+    angelus_task,
+)
 from bot_commands.saints import (
     daily_saint_task,
 )
@@ -55,6 +58,7 @@ from bot_commands.report import (
 )
 # Importing a feature module registers its commands.
 from bot_commands import (  # noqa: F401
+    angelus,
     autodetect,
     books,
     card,
@@ -128,6 +132,7 @@ async def on_ready():
     daily_versle_task.start()
     daily_hymn_task.start()
     daily_saint_task.start()
+    angelus_task.start()
     plan_reminder_task.start()
     memorize_review_task.start()
     weekly_report_task.start()

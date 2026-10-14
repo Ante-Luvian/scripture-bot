@@ -123,6 +123,7 @@ Prefix commands use `!`; most also have a `/` slash-command version.
 | `!journey [name]` | `!journeys`, `!route` | A journey on a route map (`bible_map.render_route`) with its stops and verses: Abraham, Exodus, Paul 1–3, Rome, Egypt, Jonah. Every stop's verse is checked against the KJV by a test |
 | `!hymn [title \| words \| topic \| passage]` | `!hymns`, `!hymnal` | A public-domain hymn: words, author, tune, Bible passages; ▶️ plays the tune (an organ .ogg) |
 | `!midi [title \| words \| topic \| passage]` | `!tune` | Just a hymn's tune, posted straight away without the words |
+| `!angelus` | `!reginacaeli` | The Angelus (Regina caeli in Eastertide), English and Latin, its chant sung; `!angelussetup` posts it at chosen hours |
 | `!chant [title \| words]` | `!sing`, `!sungchant` | A Latin chant sung with its words, posted straight away; random if empty |
 | `!hymnlist [all \| hymns \| chant \| harp \| chant kind \| words]` | `!hymnindex`, `!listhymns` | The hymnal by title: section counts, or a paged list to open from |
 | `!metrical [n \| nb \| n:v-v \| words \| tune]` | `!metricalpsalm`, `!singpsalm`, `!psalter1650`; `!psalm 23 sing` | A psalm from the Scottish Metrical Psalter (1650) with its tune to play, a menu of other same-meter tunes, KJV button, second versions, pages |

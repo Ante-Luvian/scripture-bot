@@ -162,6 +162,8 @@ Long psalms have buttons to turn the page, or ask for some verses: `!metrical 11
 
 **`!saint`** — the saint of the day on the traditional calendar, from *Butler's Lives of the Saints*, with a **📖 Golden Legend** button when the medieval *Golden Legend* tells their story too. Look up any saint by name (`!saint George`, `!saint Christopher`; if there are several, like the two Augustines, I'll ask which) or by day (`!saint 25 July`). Admins: `!saintsetup channel #saints` posts the day's saint every morning.
 
+**`!angelus`** — the Angelus, the short prayer said morning, noon and evening in memory of the angel's message to Mary, in English and Latin, with the *Ave Maria* sung. In Eastertide the *Regina Cæli* ("O Queen of heaven, rejoice!") takes its place, as the Church directs. Admins: **`!angelussetup channel #prayer`** posts it every day at noon UTC, or at the traditional three hours with `time 06:00 12:00 18:00`.
+
 **`!creed`** — the Apostles', Nicene and Athanasian Creeds in traditional English: `!creed nicene`, with `latin` or `greek` for the original (`!creed nicene greek`) or `parallel` for all at once.
 
 **Catholic teaching**
