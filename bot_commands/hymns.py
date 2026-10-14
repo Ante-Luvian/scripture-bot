@@ -345,7 +345,8 @@ async def cmd_midi(ctx, *, query: str = ""):
 
 LIST_PAGE = 20
 SHELVES = {"hymns": "Hymns and carols", "chant": "Ancient hymns in Gregorian chant", "harp": "The Sacred Harp"}
-PLURALS = {"Invitatory": "Invitatories", "Chant": "Other chants"}   # the rest just add an s
+PLURALS = {"Invitatory": "Invitatories", "Chant": "Other chants", "Mass Ordinary": "Mass Ordinary",
+           "Offertory": "Offertories", "Responsory": "Responsories"}   # the rest just add an s
 SHELF_WORDS = {"hymns": "hymns", "hymn": "hymns", "carols": "hymns", "english": "hymns",
                "chant": "chant", "chants": "chant", "latin": "chant", "gregorian": "chant",
                "harp": "harp", "sacred harp": "harp", "shape note": "harp"}

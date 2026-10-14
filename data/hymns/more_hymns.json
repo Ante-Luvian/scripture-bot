@@ -94,6 +94,32 @@
    "gregobase": 2628
   },
   {
+   "title": "Absolve, Domine (Tract of the Requiem Mass)",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 8",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Tract",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Absólve, Dómine,\nánimas ómnium fidélium defunctórum\nab omni vínculo delictórum. ℣.\nEt grátia tua illis succurrénte,\nmereántur evádere judícium ultiónis. ℣.\nEt lucis aetérnae\nbeatitúdine pérfrui."
+   ],
+   "refrain": "",
+   "first_line": "Absólve, Dómine,",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00338.ogg",
+   "audio_kind": "chant",
+   "seconds": 112,
+   "language": "Latin",
+   "gregobase": 338
+  },
+  {
    "title": "Ad cenam",
    "also": [],
    "author": "",
@@ -160,6 +186,32 @@
    "gregobase": 7827
   },
   {
+   "title": "Ad Evangelium",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Sequéntia sancti Evangélii\nsecúndum Lucam.\n℟. Glória tibi Dómine."
+   ],
+   "refrain": "",
+   "first_line": "Sequéntia sancti Evangélii",
+   "source": "GregoBase, from Graduale O.P. (Suarez) (Dominican)",
+   "audio": "more/chant-07341.ogg",
+   "audio_kind": "chant",
+   "seconds": 11,
+   "language": "Latin",
+   "gregobase": 7341
+  },
+  {
    "title": "Ad honorem Salvatoris",
    "also": [],
    "author": "",
@@ -193,6 +245,162 @@
    "seconds": 173,
    "language": "Latin",
    "gregobase": 8212
+  },
+  {
+   "title": "Ad Orationes I",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Dóminus vobíscum. ℟.\nEt cum spíritu tuo."
+   ],
+   "refrain": "",
+   "first_line": "Dóminus vobíscum. ℟.",
+   "source": "GregoBase, from Graduale O.P. (Suarez) (Dominican)",
+   "audio": "more/chant-07339.ogg",
+   "audio_kind": "chant",
+   "seconds": 7,
+   "language": "Latin",
+   "gregobase": 7339
+  },
+  {
+   "title": "Ad Orationes II",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Dóminus vobíscum. ℟.\nEt cum spíritu tuo. ℟.\nAmen."
+   ],
+   "refrain": "",
+   "first_line": "Dóminus vobíscum. ℟.",
+   "source": "GregoBase, from Graduale O.P. (Suarez) (Dominican)",
+   "audio": "more/chant-07340.ogg",
+   "audio_kind": "chant",
+   "seconds": 8,
+   "language": "Latin",
+   "gregobase": 7340
+  },
+  {
+   "title": "Ad Pater noster",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Et ne nos indúcas in tentatiónem.\n℟. Sed líbera nos a malo."
+   ],
+   "refrain": "",
+   "first_line": "Et ne nos indúcas in tentatiónem.",
+   "source": "GregoBase, from Graduale O.P. (Suarez) (Dominican)",
+   "audio": "more/chant-07345.ogg",
+   "audio_kind": "chant",
+   "seconds": 10,
+   "language": "Latin",
+   "gregobase": 7345
+  },
+  {
+   "title": "Ad Pax Domini",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Pax Dómini\nsit semper\nvobíscum.\n℟. Et cum spíritu tuo."
+   ],
+   "refrain": "",
+   "first_line": "Pax Dómini",
+   "source": "GregoBase, from Graduale O.P. (Suarez) (Dominican)",
+   "audio": "more/chant-07346.ogg",
+   "audio_kind": "chant",
+   "seconds": 10,
+   "language": "Latin",
+   "gregobase": 7346
+  },
+  {
+   "title": "Ad Praefationem in tono feriali",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Per ómnia scula sculórum.\n℟. Amen.\nDóminus vobíscum.\n℟. Et cum spíritu tuo.\nSursum corda.\n℟. Habémus ad Dóminum.\nGrátias agámus\nDómino Deo nostro.\n℟. Dignum et justum est."
+   ],
+   "refrain": "",
+   "first_line": "Per ómnia scula sculórum.",
+   "source": "GregoBase, from Graduale O.P. (Suarez) (Dominican)",
+   "audio": "more/chant-07343.ogg",
+   "audio_kind": "chant",
+   "seconds": 36,
+   "language": "Latin",
+   "gregobase": 7343
+  },
+  {
+   "title": "Ad Praefationem in tono solemni",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Per ómnia scula sculórum.\n℟. Amen.\nDóminus vobíscum.\n℟. Et cum spíritu tuo.\nSursum corda.\n℟. Habémus ad Dóminum.\nGrátias agámus\nDómino Deo nostro.\n℟. Dignum et justum est."
+   ],
+   "refrain": "",
+   "first_line": "Per ómnia scula sculórum.",
+   "source": "GregoBase, from Graduale O.P. (Suarez) (Dominican)",
+   "audio": "more/chant-07342.ogg",
+   "audio_kind": "chant",
+   "seconds": 41,
+   "language": "Latin",
+   "gregobase": 7342
   },
   {
    "title": "Ad regias Agni dapes",
@@ -799,6 +1007,760 @@
    "seconds": 109,
    "language": "Latin",
    "gregobase": 8264
+  },
+  {
+   "title": "Agnus",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Agnus Dei, qui tollis peccáta mundi: miserére nobis.\nAgnus Dei, qui tollis peccáta mundi: miserére nobis.\nAgnus Dei, qui tollis peccáta mundi: dona nobis pacem."
+   ],
+   "refrain": "",
+   "first_line": "Agnus Dei, qui tollis peccáta mundi: miserére nobis.",
+   "source": "GregoBase, from Graduale simplex (Vatican)",
+   "audio": "more/chant-07506.ogg",
+   "audio_kind": "chant",
+   "seconds": 29,
+   "language": "Latin",
+   "gregobase": 7506
+  },
+  {
+   "title": "Agnus (ad lib.) I.",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 8",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Agnus Déi, qui tóllis peccáta múndi :\nmiserére nóbis.\nAgnus Déi, qui tóllis peccáta múndi :\nmiserére nóbis.\nAgnus Déi, qui tóllis peccáta múndi :\ndóna nóbis pácem."
+   ],
+   "refrain": "",
+   "first_line": "Agnus Déi, qui tóllis peccáta múndi :",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02850.ogg",
+   "audio_kind": "chant",
+   "seconds": 67,
+   "language": "Latin",
+   "gregobase": 2850
+  },
+  {
+   "title": "Agnus (ad lib.) II.",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 6",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Agnus Déi, qui tollis peccáta múndi :\nmiserére nóbis.\nAgnus Déi, qui tollis peccáta múndi :\nmiserére nóbis.\nAgnus Déi, qui tollis peccáta múndi :\ndóna nóbis pácem."
+   ],
+   "refrain": "",
+   "first_line": "Agnus Déi, qui tollis peccáta múndi :",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02851.ogg",
+   "audio_kind": "chant",
+   "seconds": 33,
+   "language": "Latin",
+   "gregobase": 2851
+  },
+  {
+   "title": "Agnus Dei",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Agnus Dei, qui tollis peccata mundi, parce nobis, Domine.\nAgnus Dei, qui tollis peccata mundi, exaudi nos Domine.\nAgnus Dei, qui tollis peccata mundi, miserere nobis.\nChriste, audi nos.\nChriste, exaudi nos."
+   ],
+   "refrain": "",
+   "first_line": "Agnus Dei, qui tollis peccata mundi, parce nobis, Domine.",
+   "source": "GregoBase, from Graduale Romanum",
+   "audio": "more/chant-08750.ogg",
+   "audio_kind": "chant",
+   "seconds": 40,
+   "language": "Latin",
+   "gregobase": 8750
+  },
+  {
+   "title": "Agnus Dei (in Miss. def.)",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Agnus Déi, qui tóllis peccáta múndi dóna éis réquiem.\nAgnus Déi, qui tóllis peccáta múndi dóna éis réquiem.\nAgnus Déi, qui tóllis peccáta múndi dóna éis réquiem sempitérnam."
+   ],
+   "refrain": "",
+   "first_line": "Agnus Déi, qui tóllis peccáta múndi dóna éis réquiem.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02118.ogg",
+   "audio_kind": "chant",
+   "seconds": 35,
+   "language": "Latin",
+   "gregobase": 2118
+  },
+  {
+   "title": "Agnus Dei IX (forma ordinaria)",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 5",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Agnus Dei \n qui tollis peccáta mundi:\nmiserére nobis.\nAgnus Dei \n qui tollis peccáta mundi:\nmiserére nobis.\nAgnus Dei \n qui tollis peccáta mundi:\ndona nobis pacem."
+   ],
+   "refrain": "",
+   "first_line": "Agnus Dei ",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-04633.ogg",
+   "audio_kind": "chant",
+   "seconds": 59,
+   "language": "Latin",
+   "gregobase": 4633
+  },
+  {
+   "title": "Agnus Dei Missa Regia",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 1",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Agnus Déi, qui tóllis peccáta múndi:\nmiserére nóbis.\nAgnus Déi, qui tóllis peccáta múndi:\nmiserére nóbis.\nAgnus Déi, qui tóllis peccáta múndi:\ndóna nóbis pácem."
+   ],
+   "refrain": "",
+   "first_line": "Agnus Déi, qui tóllis peccáta múndi:",
+   "source": "GregoBase, from The Liber Usualis (Solesmes)",
+   "audio": "more/chant-07937.ogg",
+   "audio_kind": "chant",
+   "seconds": 34,
+   "language": "Latin",
+   "gregobase": 7937
+  },
+  {
+   "title": "Agnus I",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 4",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Agnus Déi, qui tóllis peccáta múndi:\nmiserére nóbis.\nAgnus Déi, qui tóllis peccáta múndi:\nmiserére nóbis.\nAgnus Déi, qui tóllis peccáta múndi:\ndóna nóbis pácem."
+   ],
+   "refrain": "",
+   "first_line": "Agnus Déi, qui tóllis peccáta múndi:",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02977.ogg",
+   "audio_kind": "chant",
+   "seconds": 58,
+   "language": "Latin",
+   "gregobase": 2977
+  },
+  {
+   "title": "Agnus II",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 1",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Agnus Déi, qui tóllis peccáta múndi:\nmiserére nóbis.\nAgnus Déi, qui tóllis peccáta múndi:\nmiserére nóbis.\nAgnus Déi, qui tóllis peccáta múndi:\ndóna nóbis pácem."
+   ],
+   "refrain": "",
+   "first_line": "Agnus Déi, qui tóllis peccáta múndi:",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00555.ogg",
+   "audio_kind": "chant",
+   "seconds": 78,
+   "language": "Latin",
+   "gregobase": 555
+  },
+  {
+   "title": "Agnus III",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 4",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Agnus Déi, qui tóllis peccáta múndi:\nmiserére nóbis.\nAgnus Déi, qui tóllis peccáta múndi:\nmiserére nóbis.\nAgnus Déi, qui tóllis peccáta múndi:\ndóna nóbis pácem."
+   ],
+   "refrain": "",
+   "first_line": "Agnus Déi, qui tóllis peccáta múndi:",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00578.ogg",
+   "audio_kind": "chant",
+   "seconds": 74,
+   "language": "Latin",
+   "gregobase": 578
+  },
+  {
+   "title": "Agnus IV",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 6",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Agnus Déi, qui tóllis peccáta múndi :\nmiserére nóbis.\nAgnus Déi, qui tóllis peccáta múndi :\nmiserére nóbis.\nAgnus Déi, qui tóllis peccáta múndi :\ndóna nóbis pácem."
+   ],
+   "refrain": "",
+   "first_line": "Agnus Déi, qui tóllis peccáta múndi :",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00264.ogg",
+   "audio_kind": "chant",
+   "seconds": 46,
+   "language": "Latin",
+   "gregobase": 264
+  },
+  {
+   "title": "Agnus IV (de Missa Solemni Vespertina in Cena Domini)",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 6",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Agnus Dei, qui tollis peccáta mundi :\nmiserére nobis.\nAgnus Dei, qui tollis peccáta mundi :\nmiserére nobis.\nAgnus Dei, qui tollis peccáta mundi :\nmiserére nobis."
+   ],
+   "refrain": "",
+   "first_line": "Agnus Dei, qui tollis peccáta mundi :",
+   "source": "GregoBase (Solesmes)",
+   "audio": "more/chant-04498.ogg",
+   "audio_kind": "chant",
+   "seconds": 46,
+   "language": "Latin",
+   "gregobase": 4498
+  },
+  {
+   "title": "Agnus IX",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 5",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Agnus Déi qui tóllis peccáta múndi:\nmiserére nóbis.\nAgnus Déi qui tóllis peccáta múndi:\nmiserére nóbis.\nAgnus Déi qui tóllis peccáta múndi:\ndóna nóbis pácem."
+   ],
+   "refrain": "",
+   "first_line": "Agnus Déi qui tóllis peccáta múndi:",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00707.ogg",
+   "audio_kind": "chant",
+   "seconds": 59,
+   "language": "Latin",
+   "gregobase": 707
+  },
+  {
+   "title": "Agnus Missa Regia",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 1",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Agnus Déi qui tóllis peccáta múndi:\nmiserére nóbis.\nAgnus Déi qui tóllis peccáta múndi:\nmiserére nóbis.\nAgnus Déi qui tóllis peccáta múndi:\ndóna nóbis pácem."
+   ],
+   "refrain": "",
+   "first_line": "Agnus Déi qui tóllis peccáta múndi:",
+   "source": "GregoBase",
+   "audio": "more/chant-07999.ogg",
+   "audio_kind": "chant",
+   "seconds": 33,
+   "language": "Latin",
+   "gregobase": 7999
+  },
+  {
+   "title": "Agnus V",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 4",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Agnus Déi, qui tóllis peccáta múndi:\nmiserére nóbis.\nAgnus Déi, qui tóllis peccáta múndi:\nmiserére nóbis.\nAgnus Déi, qui tóllis peccáta múndi:\ndóna nóbis pácem."
+   ],
+   "refrain": "",
+   "first_line": "Agnus Déi, qui tóllis peccáta múndi:",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-01241.ogg",
+   "audio_kind": "chant",
+   "seconds": 86,
+   "language": "Latin",
+   "gregobase": 1241
+  },
+  {
+   "title": "Agnus VI",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 8",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Agnus Déi, qui tóllis peccáta múndi:\nmiserére nóbis.\nAgnus Déi, qui tóllis peccáta múndi:\nmiserére nóbis.\nAgnus Déi, qui tóllis peccáta múndi:\ndóna nóbis pácem."
+   ],
+   "refrain": "",
+   "first_line": "Agnus Déi, qui tóllis peccáta múndi:",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00387.ogg",
+   "audio_kind": "chant",
+   "seconds": 70,
+   "language": "Latin",
+   "gregobase": 387
+  },
+  {
+   "title": "Agnus VII",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 8",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Agnus Déi, qui tóllis peccáta múndi:\nmiserére nóbis.\nAgnus Déi, qui tóllis peccáta múndi:\nmiserére nóbis.\nAgnus Déi, qui tóllis peccáta múndi:\ndóna nóbis pácem."
+   ],
+   "refrain": "",
+   "first_line": "Agnus Déi, qui tóllis peccáta múndi:",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02985.ogg",
+   "audio_kind": "chant",
+   "seconds": 64,
+   "language": "Latin",
+   "gregobase": 2985
+  },
+  {
+   "title": "Agnus VIII",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 6",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Agnus Dei, qui tollis peccáta mundi :\nmiserére nobis.\nAgnus Dei, qui tollis peccáta mundi :\nmiserére nobis.\nAgnus Dei, qui tollis peccáta mundi :\ndona nobis pacem."
+   ],
+   "refrain": "",
+   "first_line": "Agnus Dei, qui tollis peccáta mundi :",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02760.ogg",
+   "audio_kind": "chant",
+   "seconds": 54,
+   "language": "Latin",
+   "gregobase": 2760
+  },
+  {
+   "title": "Agnus VIII (de Missa Solemni Vespertina in Cena Domini)",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 6",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Agnus Dei, qui tollis peccáta mundi :\nmiserére nobis.\nAgnus Dei, qui tollis peccáta mundi :\nmiserére nobis.\nAgnus Dei, qui tollis peccáta mundi :\nmiserére nobis."
+   ],
+   "refrain": "",
+   "first_line": "Agnus Dei, qui tollis peccáta mundi :",
+   "source": "GregoBase (Solesmes)",
+   "audio": "more/chant-04497.ogg",
+   "audio_kind": "chant",
+   "seconds": 54,
+   "language": "Latin",
+   "gregobase": 4497
+  },
+  {
+   "title": "Agnus X",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 4",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Agnus Déi, qui tóllis peccáta múndi:\nmiserére nóbis.\nAgnus Déi, qui tóllis peccáta múndi:\nmiserére nóbis.\nAgnus Déi, qui tóllis peccáta múndi:\ndóna nóbis pácem."
+   ],
+   "refrain": "",
+   "first_line": "Agnus Déi, qui tóllis peccáta múndi:",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02981.ogg",
+   "audio_kind": "chant",
+   "seconds": 41,
+   "language": "Latin",
+   "gregobase": 2981
+  },
+  {
+   "title": "Agnus XI",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 1",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Agnus Déi, qui tóllis peccáta múndi:\nmiserére nóbis.\nAgnus Déi, qui tóllis peccáta múndi:\nmiserére nóbis.\nAgnus Déi, qui tóllis peccáta múndi:\ndóna nóbis pácem."
+   ],
+   "refrain": "",
+   "first_line": "Agnus Déi, qui tóllis peccáta múndi:",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-01243.ogg",
+   "audio_kind": "chant",
+   "seconds": 52,
+   "language": "Latin",
+   "gregobase": 1243
+  },
+  {
+   "title": "Agnus XII",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 2",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Agnus Déi, qui tóllis peccáta múndi:\nmiserére nóbis.\nAgnus Déi, qui tóllis peccáta múndi:\nmiserére nóbis.\nAgnus Déi, qui tóllis peccáta múndi:\ndóna nóbis pácem."
+   ],
+   "refrain": "",
+   "first_line": "Agnus Déi, qui tóllis peccáta múndi:",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00759.ogg",
+   "audio_kind": "chant",
+   "seconds": 49,
+   "language": "Latin",
+   "gregobase": 759
+  },
+  {
+   "title": "Agnus XIII",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 1",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Agnus Déi, qui tóllis peccáta múndi:\nmiserére nóbis.\nAgnus Déi, qui tóllis peccáta múndi:\nmiserére nóbis.\nAgnus Déi, qui tóllis peccáta múndi:\ndóna nóbis pácem."
+   ],
+   "refrain": "",
+   "first_line": "Agnus Déi, qui tóllis peccáta múndi:",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02886.ogg",
+   "audio_kind": "chant",
+   "seconds": 56,
+   "language": "Latin",
+   "gregobase": 2886
+  },
+  {
+   "title": "Agnus XIV",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 8",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Agnus Déi, qui tóllis peccáta múndi:\nmiserére nóbis.\nAgnus Déi, qui tóllis peccáta múndi:\nmiserére nóbis.\nAgnus Déi, qui tóllis peccáta múndi:\ndóna nóbis pácem."
+   ],
+   "refrain": "",
+   "first_line": "Agnus Déi, qui tóllis peccáta múndi:",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02076.ogg",
+   "audio_kind": "chant",
+   "seconds": 49,
+   "language": "Latin",
+   "gregobase": 2076
+  },
+  {
+   "title": "Agnus XIX",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 8",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Agnus Déi, qui tóllis peccáta múndi:\nmiserére nóbis.\nAgnus Déi, qui tóllis peccáta múndi:\nmiserére nóbis.\nAgnus Déi, qui tóllis peccáta múndi:\ndóna nóbis pácem."
+   ],
+   "refrain": "",
+   "first_line": "Agnus Déi, qui tóllis peccáta múndi:",
+   "source": "GregoBase",
+   "audio": "more/chant-07960.ogg",
+   "audio_kind": "chant",
+   "seconds": 56,
+   "language": "Latin",
+   "gregobase": 7960
+  },
+  {
+   "title": "Agnus XV",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 1",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Agnus Déi, qui tóllis peccáta múndi:\nmiserére nóbis.\nAgnus Déi, qui tóllis peccáta múndi:\nmiserére nóbis.\nAgnus Déi, qui tóllis peccáta múndi:\ndóna nóbis pácem."
+   ],
+   "refrain": "",
+   "first_line": "Agnus Déi, qui tóllis peccáta múndi:",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00959.ogg",
+   "audio_kind": "chant",
+   "seconds": 50,
+   "language": "Latin",
+   "gregobase": 959
+  },
+  {
+   "title": "Agnus XVI",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 1",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Agnus Déi, qui tóllis peccáta múndi:\nmiserére nóbis.\nAgnus Déi, qui tóllis peccáta múndi:\nmiserére nóbis.\nAgnus Déi, qui tóllis peccáta múndi:\ndóna nóbis pácem."
+   ],
+   "refrain": "",
+   "first_line": "Agnus Déi, qui tóllis peccáta múndi:",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-01336.ogg",
+   "audio_kind": "chant",
+   "seconds": 46,
+   "language": "Latin",
+   "gregobase": 1336
+  },
+  {
+   "title": "Agnus XVII",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 5",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Agnus Déi, qui tóllis peccáta múndi:\nmiserére nóbis.\nAgnus Déi, qui tóllis peccáta múndi:\nmiserére nóbis.\nAgnus Déi, qui tóllis peccáta múndi:\ndóna nóbis pácem."
+   ],
+   "refrain": "",
+   "first_line": "Agnus Déi, qui tóllis peccáta múndi:",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-01137.ogg",
+   "audio_kind": "chant",
+   "seconds": 48,
+   "language": "Latin",
+   "gregobase": 1137
+  },
+  {
+   "title": "Agnus XVIII",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Agnus Dei, qui tollis peccáta mundi: miserére nobis.\nAgnus Dei, qui tollis peccáta mundi: miserére nobis.\nAgnus Dei, qui tollis peccáta mundi: dona nobis pacem."
+   ],
+   "refrain": "",
+   "first_line": "Agnus Dei, qui tollis peccáta mundi: miserére nobis.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02412.ogg",
+   "audio_kind": "chant",
+   "seconds": 32,
+   "language": "Latin",
+   "gregobase": 2412
   },
   {
    "title": "Ales diei nuntius",
@@ -2055,6 +3017,32 @@
    "gregobase": 5249
   },
   {
+   "title": "Benedicamus (ad lib.)",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Benedicámus Dómino. ℟.\nDeo grátias."
+   ],
+   "refrain": "",
+   "first_line": "Benedicámus Dómino. ℟.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02227.ogg",
+   "audio_kind": "chant",
+   "seconds": 11,
+   "language": "Latin",
+   "gregobase": 2227
+  },
+  {
    "title": "Benedicamus Domino",
    "also": [],
    "author": "",
@@ -2079,6 +3067,240 @@
    "seconds": 18,
    "language": "Latin",
    "gregobase": 8245
+  },
+  {
+   "title": "Benedicamus II",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 5",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Benedicámus Dómino.\n℟. Deo grátias."
+   ],
+   "refrain": "",
+   "first_line": "Benedicámus Dómino.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00612.ogg",
+   "audio_kind": "chant",
+   "seconds": 33,
+   "language": "Latin",
+   "gregobase": 612
+  },
+  {
+   "title": "Benedicamus III",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 1",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Benedicámus\nDómino.\n℟. Deo\ngrátias."
+   ],
+   "refrain": "",
+   "first_line": "Benedicámus",
+   "source": "GregoBase, from Graduale O.P. (Suarez) (Dominican)",
+   "audio": "more/chant-07954.ogg",
+   "audio_kind": "chant",
+   "seconds": 15,
+   "language": "Latin",
+   "gregobase": 7954
+  },
+  {
+   "title": "Benedicamus IV",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 1",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Benedicámus Dómino."
+   ],
+   "refrain": "",
+   "first_line": "Benedicámus Dómino.",
+   "source": "GregoBase, from The Liber Usualis (Solesmes)",
+   "audio": "more/chant-02856.ogg",
+   "audio_kind": "chant",
+   "seconds": 14,
+   "language": "Latin",
+   "gregobase": 2856
+  },
+  {
+   "title": "Benedicamus IX",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 1",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Benedicámus Dómino."
+   ],
+   "refrain": "",
+   "first_line": "Benedicámus Dómino.",
+   "source": "GregoBase, from The Liber Usualis (Solesmes)",
+   "audio": "more/chant-02902.ogg",
+   "audio_kind": "chant",
+   "seconds": 9,
+   "language": "Latin",
+   "gregobase": 2902
+  },
+  {
+   "title": "Benedicamus VIII",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 5",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Benedicámus Dómino."
+   ],
+   "refrain": "",
+   "first_line": "Benedicámus Dómino.",
+   "source": "GregoBase, from The Liber Usualis (Solesmes)",
+   "audio": "more/chant-02901.ogg",
+   "audio_kind": "chant",
+   "seconds": 12,
+   "language": "Latin",
+   "gregobase": 2901
+  },
+  {
+   "title": "Benedicamus XI",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 1",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Benedicámus Dómino."
+   ],
+   "refrain": "",
+   "first_line": "Benedicámus Dómino.",
+   "source": "GregoBase, from The Liber Usualis (Solesmes)",
+   "audio": "more/chant-02920.ogg",
+   "audio_kind": "chant",
+   "seconds": 9,
+   "language": "Latin",
+   "gregobase": 2920
+  },
+  {
+   "title": "Benedicamus XIII",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 1",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Benedicámus Dómino."
+   ],
+   "refrain": "",
+   "first_line": "Benedicámus Dómino.",
+   "source": "GregoBase, from The Liber Usualis (Solesmes)",
+   "audio": "more/chant-02952.ogg",
+   "audio_kind": "chant",
+   "seconds": 8,
+   "language": "Latin",
+   "gregobase": 2952
+  },
+  {
+   "title": "Benedicamus XVII",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 1",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Benedicámus Dómino.\n℟ Déo grátias."
+   ],
+   "refrain": "",
+   "first_line": "Benedicámus Dómino.",
+   "source": "GregoBase, from Chants of the Church (Solesmes)",
+   "audio": "more/chant-00543.ogg",
+   "audio_kind": "chant",
+   "seconds": 23,
+   "language": "Latin",
+   "gregobase": 543
+  },
+  {
+   "title": "Benedicamus XVIIa",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 6",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Benedicámus Dómino.\n℟ Déo grátias."
+   ],
+   "refrain": "",
+   "first_line": "Benedicámus Dómino.",
+   "source": "GregoBase, from Chants of the Church (Solesmes)",
+   "audio": "more/chant-03015.ogg",
+   "audio_kind": "chant",
+   "seconds": 17,
+   "language": "Latin",
+   "gregobase": 3015
   },
   {
    "title": "Benedictus es",
@@ -3289,6 +4511,214 @@
    "gregobase": 2134
   },
   {
+   "title": "Credo I",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 4",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Credo in unum Deum,\nPatrem omnipoténtem,\nfactórem cæli et terræ, visibílium ómnium, et invisibílium.\nEt in unum Dóminum Jesum Christum,\nFílium Dei unigénitum.\nEt ex Patre natum ante ómnia sǽcula.\nDeum de Deo, lumen de lúmine, Deum verum de Deo vero.\nGénitum, non factum, consubstantiálem Patri:\nper quem ómnia facta sunt.\nQui propter nos hómines et propter nostram salútem descéndit de cælis.\nEt incarnátus est de Spíritu Sancto\nex María Vírgine:\nEt homo factus est.\nCrucifíxus étiam pro nobis:\nsub Póntio Piláto\npassus, et sepúltus est.\nEt resurréxit tértia die,\nsecúndum Scriptúras.\nEt ascéndit in cælum:\nsedet ad déxteram Patris.\nEt íterum ventúrus est cum glória, judicáre vivos et mórtuos:\ncujus regni non erit finis.\nEt in Spíritum Sanctum, Dóminum, et vivificántem:\nqui ex Patre Filióque procédit.\nQui cum Patre et Fílio simul adorátur, et conglorificátur:\nqui locútus est per Prophétas.\nEt unam sanctam cathólicam et apostólicam Ecclésiam.\nConfíteor unum baptísma in remissiónem peccatórum.\nEt exspécto resurrectiónem mortuórum.\nEt vitam ventúri sǽculi.\nAmen."
+   ],
+   "refrain": "",
+   "first_line": "Credo in unum Deum,",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00344.ogg",
+   "audio_kind": "chant",
+   "seconds": 227,
+   "language": "Latin",
+   "gregobase": 344
+  },
+  {
+   "title": "Credo II",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 4",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Credo in unum Deum,\nPatrem omnipoténtem, factórem cæli et terræ, visibílium ómnium, et invisibílium.\nEt in unum Dóminum Jesum Christum, Fílium Dei unigénitum.\nEt ex Patre natum ante ómnia sǽcula.\nDeum de Deo, lumen de lúmine, Deum verum de Deo vero.\nGénitum, non factum, consubstantiálem Patri:\nper quem ómnia facta sunt.\nQui propter nos hómines, et propter nostram salútem descéndit de cælis.\nEt incarnátus est de Spíritu Sancto ex María Vírgine:\nEt homo factus est.\nCrucifíxus étiam pro nobis: sub Póntio Piláto passus, et sepúltus est.\nEt resurréxit tértia die, secúndum Scriptúras.\nEt ascéndit in cælum:\nsedet ad déxteram Patris.\nEt íterum ventúrus est cum glória, judicáre vivos et mórtuos:\ncujus regni non erit finis.\nEt in Spíritum Sanctum, Dóminum, et vivificántem:\nqui ex Patre Filióque procédit.\nQui cum Patre et Fílio simul adorátur, et conglorificátur:\nqui locútus est per Prophétas.\nEt unam sanctam cathólicam et apostólicam Ecclésiam.\nConfíteor unum baptísma in remissiónem peccatórum.\nEt exspécto resurrectiónem mortuórum.\nEt vitam ventúri sǽculi.\nAmen."
+   ],
+   "refrain": "",
+   "first_line": "Credo in unum Deum,",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02983.ogg",
+   "audio_kind": "chant",
+   "seconds": 211,
+   "language": "Latin",
+   "gregobase": 2983
+  },
+  {
+   "title": "Credo III",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 5",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Credo in unum Deum,\nPatrem omnipoténtem,\nfactórem cæli et terræ,\nvisibílium ómnium,\net invisibílium.\nEt in unum Dóminum Jesum Christum, Fílium Dei unigénitum.\nEt ex Patre natum ante ómnia sǽcula.\nDeum de Deo, lumen de lúmine, Deum verum de Deo vero.\nGénitum, non factum, consubstantiálem Patri:\nper quem ómnia facta sunt.\nQui propter nos hómines, et propter nostram salútem descéndit de cælis.\nEt incarnátus est de Spíritu Sancto ex María Vírgine:\nEt homo factus est.\nCrucifíxus étiam pro nobis: sub Póntio Piláto passus, et sepúltus est.\nEt resurréxit tértia die, secúndum Scriptúras.\nEt ascéndit in cælum:\nsedet ad déxteram Patris.\nEt íterum ventúrus est cum glória, judicáre vivos et mórtuos:\ncujus regni non erit finis.\nEt in Spíritum Sanctum, Dóminum, et vivificántem:\nqui ex Patre Filióque procédit.\nQui cum Patre et Fílio simul adorátur, et conglorificátur:\nqui locútus est per Prophétas.\nEt unam sanctam cathólicam et apostólicam Ecclésiam.\nConfíteor unum baptísma in remissiónem peccatórum.\nEt exspécto resurrectiónem mortuórum.\nEt vitam ventúri sǽculi.\nAmen."
+   ],
+   "refrain": "",
+   "first_line": "Credo in unum Deum,",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00749.ogg",
+   "audio_kind": "chant",
+   "seconds": 224,
+   "language": "Latin",
+   "gregobase": 749
+  },
+  {
+   "title": "Credo IV",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 1",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Credo in unum Deum,\nPatrem omnipoténtem,\nfactórem cæli et terræ, visibílium ómnium, et invisibílium.\nEt in unum Dóminum Jesum Christum,\nFílium Dei unigénitum.\nEt ex Patre natum ante ómnia sǽcula.\nDeum de Deo, lumen de lúmine, Deum verum de Deo vero.\nGénitum, non factum, consubstantiálem Patri:\nper quem ómnia facta sunt.\nQui propter nos hómines, et propter nostram salútem descéndit de cælis.\nEt incarnátus est de Spíritu Sancto\nex María Vírgine:\nEt homo factus est.\nCrucifíxus étiam pro nobis:\nsub Póntio Piláto passus, et sepúltus est.\nEt resurréxit tértia die, secúndum Scriptúras.\nEt ascéndit in cælum:\nsedet ad déxteram Patris.\nEt íterum ventúrus est cum glória, judicáre vivos et mórtuos:\ncujus regni non erit finis.\nEt in Spíritum Sanctum, Dóminum, et vivificántem:\nqui ex Patre Filióque procédit.\nQui cum Patre et Fílio simul adorátur, et conglorificátur:\nqui locútus est per Prophétas.\nEt unam sanctam cathólicam et apostólicam Ecclésiam.\nConfíteor unum baptísma in remissiónem peccatórum.\nEt exspécto resurrectiónem mortuórum.\nEt vitam ventúri sǽculi.\nAmen."
+   ],
+   "refrain": "",
+   "first_line": "Credo in unum Deum,",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00678.ogg",
+   "audio_kind": "chant",
+   "seconds": 226,
+   "language": "Latin",
+   "gregobase": 678
+  },
+  {
+   "title": "Credo Missa Regia",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 1",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Credo in unum Deum:"
+   ],
+   "refrain": "",
+   "first_line": "Credo in unum Deum:",
+   "source": "GregoBase, from The Liber Usualis (Solesmes)",
+   "audio": "more/chant-07917.ogg",
+   "audio_kind": "chant",
+   "seconds": 6,
+   "language": "Latin",
+   "gregobase": 7917
+  },
+  {
+   "title": "Credo V",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 4",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Credo in unum Deum,\nvel Credo in unum Deum, Patrem omnipoténtem,\nfactórem cæli et terræ, visibílium ómnium, et invisibílium.\nEt in unum Dóminum Jesum Christum, Fílium Dei unigénitum.\nEt ex Patre natum ante ómnia sǽcula.\nDeum de Deo, lumen de lúmine, Deum verum de Deo vero.\nGénitum, non factum, consubstantiálem Patri: per quem ómnia facta sunt.\nQui propter nos hómines, et propter nostram salútem descéndit de cælis.\nEt incarnátus est de Spíritu Sancto ex María Vírgine:\nEt homo factus est.\nCrucifíxus étiam pro nobis: sub Póntio Piláto passus, et sepúltus est.\nEt resurréxit tértia die, secúndum Scriptúras.\nEt ascéndit in cælum:\nsedet ad déxteram Patris.\nEt íterum ventúrus est cum glória, judicáre vivos et mórtuos:\ncujus regni non erit finis.\nEt in Spíritum Sanctum, Dóminum, et vivificántem:\nqui ex Patre Filióque procédit.\nQui cum Patre et Fílio simul adorátur, et conglorificátur:\nqui locútus est per Prophétas.\nEt unam sanctam cathólicam et apostólicam Ecclésiam.\nConfíteor unum baptísma in remissiónem peccatórum.\nEt exspécto resurrectiónem mortuórum.\nEt vitam ventúri sǽculi.\nAmen."
+   ],
+   "refrain": "",
+   "first_line": "Credo in unum Deum,",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00955.ogg",
+   "audio_kind": "chant",
+   "seconds": 241,
+   "language": "Latin",
+   "gregobase": 955
+  },
+  {
+   "title": "Credo VI",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 4",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Credo in unum Deum,\nvel Credo in unum Deum Patrem omnipoténtem,\nfactórem cæli et terræ, visibílium ómnium, et invisibílium.\nEt in unum Dóminum Jesum Christum, Fílium Dei unigénitum.\nEt ex Patre natum ante ómnia sǽcula.\nDeum de Deo, lumen de lúmine, Deum verum de Deo vero.\nGénitum, non factum, consubstantiálem Patri: per quem ómnia facta sunt.\nQui propter nos hómines, et propter nostram salútem descéndit de cælis.\nEt incarnátus est de Spíritu Sancto ex María Vírgine:\nEt homo factus est.\nCrucifíxus étiam pro nobis: sub Póntio Piláto passus, et sepúltus est.\nEt resurréxit tértia die, secúndum Scriptúras.\nEt ascéndit in cælum: sedet ad déxteram Patris.\nEt íterum ventúrus est cum glória, judicáre vivos et mórtuos:\ncujus regni non erit finis.\nEt in Spíritum Sanctum, Dóminum, et vivificántem:\nqui ex Patre Filióque procédit.\nQui cum Patre et Fílio simul adorátur, et conglorificátur:\nqui locútus est per Prophétas.\nEt unam sanctam cathólicam et apostólicam Ecclésiam.\nConfíteor unum baptísma in remissiónem peccatórum.\nEt exspécto resurrectiónem mortuórum.\nEt vitam ventúri sǽculi.\nAmen."
+   ],
+   "refrain": "",
+   "first_line": "Credo in unum Deum,",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02934.ogg",
+   "audio_kind": "chant",
+   "seconds": 310,
+   "language": "Latin",
+   "gregobase": 2934
+  },
+  {
+   "title": "Credo VII",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 8",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Credo in unum Deum,\nPatrem omnipoténtem, factórem cæli et terræ,\nvisibílium ómnium, et invisibílium.\nEt in unum Dóminum Jesum Christum,\nFílium Dei unigénitum.\nEt ex Patre natum\nante ómnia sǽcula.\nDeum de Deo, lumen de lúmine,\nDeum verum de Deo vero.\nGénitum, non factum, consubstantiálem Patri:\nper quem ómnia facta sunt.\nQui propter nos hómines et propter nostram salútem\ndescéndit de cælis.\nEt incarnátus est de Spíritu Sancto ex María Vírgine:\nEt homo factus est.\nCrucifíxus étiam pro nobis: sub Póntio Piláto\npassus, et sepúltus est.\nEt resurréxit tértia die,\nsecúndum Scriptúras.\nEt ascéndit in cælum:\nsedet ad déxteram Patris.\nEt íterum ventúrus est cum glória, judicáre vivos et mórtuos:\ncujus regni non erit finis.\nEt in Spíritum Sanctum, Dóminum, et vivificántem:\nqui ex Patre Filióque procédit.\nQui cum Patre et Fílio simul adorátur, et conglorificátur:\nqui locútus est per Prophétas.\nEt unam sanctam cathólicam\net apostólicam Ecclésiam.\nConfíteor unum baptísma\nin remissiónem peccatórum.\nEt exspécto resurrectiónem mortuórum.\nEt vitam ventúri sǽculi.\nAmen."
+   ],
+   "refrain": "",
+   "first_line": "Credo in unum Deum,",
+   "source": "GregoBase (Solesmes)",
+   "audio": "more/chant-07915.ogg",
+   "audio_kind": "chant",
+   "seconds": 234,
+   "language": "Latin",
+   "gregobase": 7915
+  },
+  {
    "title": "Crudelis Herodes Deum",
    "also": [],
    "author": "",
@@ -4195,6 +5625,32 @@
    "seconds": 69,
    "language": "Latin",
    "gregobase": 8164
+  },
+  {
+   "title": "Domine Jesu Christe (Offertory of the Requiem Mass)",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 2",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Offertory",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Domine Jesu Christe, Rex glóriae,\nlíbera ánimas ómnium fidélium defunctórum\nde poenis inférni, et de profúndo lacu:\nlíbera eas de ore leónis,\nne absórbeat eas tártarus,\nne cadant in obscúrum:\nsed sígnifer sanctus Míchael\nrepraeséntet eas in lucem sanctam:\nQuam olim Abrahae promisísti,\net sémini ejus.\n℣. Hóstias et preces tibi Dómine laudis offérimus:\ntu súscipe pro animábus illis,\nquarum hódie memóriam fácimus:\nfac eas, Dómine, de morte transíre ad vitam.\nQuam olim."
+   ],
+   "refrain": "",
+   "first_line": "Domine Jesu Christe, Rex glóriae,",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-01199.ogg",
+   "audio_kind": "chant",
+   "seconds": 160,
+   "language": "Latin",
+   "gregobase": 1199
   },
   {
    "title": "Dum crimen",
@@ -5602,6 +7058,266 @@
    "gregobase": 7616
   },
   {
+   "title": "Glória",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 1",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Glória in excélsis Deo.\nEt in terra pax homínibus bonæ voluntátis.\nLaudámus te.\nBenedícimus te.\nAdorámus te.\nGlorificámus te.\nGrátias ágimus tibi propter magnam glóriam tuam.\nDómine Deus, Rex cæléstis, Deus Pater omnípotens.\nDómine Fili unigénite, Iesu Christe.\nDómine Deus, Agnus Dei, Fílius Patris,\nQui tollis peccáta mundi, miserére nobis.\nQui tollis peccáta mundi, súscipe deprecatiónem nostram.\nQui sedes ad déxteram Patris, miserére nobis.\nQuóniam tu solus Sanctus.\nTu solus Dóminus.\nTu solus Altíssimus, Iesu Christe.\nCum Sancto Spíritu, in glória Dei Patris.\nAmen."
+   ],
+   "refrain": "",
+   "first_line": "Glória in excélsis Deo.",
+   "source": "GregoBase, from Graduale simplex (1)",
+   "audio": "more/chant-07504.ogg",
+   "audio_kind": "chant",
+   "seconds": 108,
+   "language": "Latin",
+   "gregobase": 7504
+  },
+  {
+   "title": "Gloria (ad lib.) I.",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 8",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Glória in excélsis Déo.\nEt in térra pax homínibus bónæ voluntátis.\nLaudámus te.\nBenedícimus te.\nAdorámus te.\nGlorificámus te.\nGrátias ágimus tíbi\npropter mágnam glóriam túam.\nDómine Déus, Rex cæléstis,\nDéus Páter omnípotens.\nDómine Fíli unigénite Jésu Chríste.\nDómine Déus, Agnus Déi, Fílius Pátris.\nQui tóllis peccáta múndi,\nmiserére nóbis.\nQui tóllis peccáta múndi,\nsúscipe deprecatiónem nóstram.\nQui sédes ad déxteram Pátris,\nmiserére nóbis,\nQuóniam tu sólus sánctus.\nTu sólus Dóminus.\nTu sólus Altíssimus, Jésu Chríste.\nCum Sáncto Spíritu, in glória Déi Pátris.\nAmen."
+   ],
+   "refrain": "",
+   "first_line": "Glória in excélsis Déo.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02659.ogg",
+   "audio_kind": "chant",
+   "seconds": 173,
+   "language": "Latin",
+   "gregobase": 2659
+  },
+  {
+   "title": "Gloria (ad lib.) II.",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 2",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Glória in excélsis Déo.\nEt in térra pax homínibus bónæ voluntátis.\nLaudámus te.\nBenedícimus te.\nAdorámus te.\nGlorificámus te.\nGrátias ágimus tíbi\npropter mágnam glóriam túam.\nDómine Déus, Rex cæléstis,\nDéus Páter omnípotens.\nDómine Fíli unigénite Jésu Chríste.\nDómine Déus, Agnus Déi,\nFílius Pátris.\nQui tóllis peccáta múndi,\nmiserére nóbis.\nQui tóllis peccáta múndi,\nsúscipe deprecatiónem nóstram.\nQui sédes ad déxteram Pátris,\nmiserére nóbis,\nQuóniam tu sólus sánctus.\nTu sólus Dóminus.\nTu sólus Altíssimus,\nJésu Chríste.\nCum Sáncto Spíritu,\nin glória Déi Pátris.\nAmen."
+   ],
+   "refrain": "",
+   "first_line": "Glória in excélsis Déo.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02685.ogg",
+   "audio_kind": "chant",
+   "seconds": 208,
+   "language": "Latin",
+   "gregobase": 2685
+  },
+  {
+   "title": "Gloria (ad lib.) III.",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 2",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Glória in excélsis Déo.\nEt in térra pax homínibus bónæ voluntátis.\nLaudámus te.\nBenedícimus te.\nAdorámus te.\nGlorificámus te.\nGrátias ágimus tíbi\npropter mágnam glóriam túam.\nDómine Déus, Rex cæléstis,\nDéus Páter omnípotens.\nDómine Fíli unigénite Jésu Chríste.\nDómine Déus, Agnus Déi, Fílius Pátris.\nQui tóllis peccáta múndi,\nmiserére nóbis.\nQui tóllis peccáta múndi,\nsúscipe deprecatiónem nóstram.\nQui sédes ad déxteram Pátris,\nmiserére nóbis,\nQuóniam tu sólus sánctus.\nTu sólus Dóminus.\nTu sólus Altíssimus, Jésu Chríste.\nCum Sáncto Spíritu,\nin glória Déi Pátris.\nAmen."
+   ],
+   "refrain": "",
+   "first_line": "Glória in excélsis Déo.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02707.ogg",
+   "audio_kind": "chant",
+   "seconds": 265,
+   "language": "Latin",
+   "gregobase": 2707
+  },
+  {
+   "title": "Gloria (Ambrosian)",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 4",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Glória in excélsis Déo.\nEt in térra pax homínibus bónæ voluntátis.\nLaudámus te.\nBenedícimus te.\nAdorámus te.\nGlorificámus te.\nGrátias ágimus tíbi propter mágnam glóriam túam.\nDómine Déus, Rex cæléstis, Déus Páter omnípotens.\nDómine Fíli unigénite Jésu Chríste.\nDómine Déus, Agnus Déi, Fílius Pátris.\nQui tóllis peccáta múndi, miserére nóbis.\nQui tóllis peccáta múndi, súscipe deprecatiónem nóstram.\nQui sédes ad déxteram Pátris, miserére nóbis.\nQuóniam tu sólus sánctus.\nTu sólus Dóminus.\nTu sólus Altíssimus, Jésu Chríste.\nCum Sáncto Spíritu, in glória Déi Pátris. Amen."
+   ],
+   "refrain": "",
+   "first_line": "Glória in excélsis Déo.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02749.ogg",
+   "audio_kind": "chant",
+   "seconds": 151,
+   "language": "Latin",
+   "gregobase": 2749
+  },
+  {
+   "title": "Gloria I",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 4",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Glória in excélsis Déo.\nEt in térra pax homínibus bónae voluntátis.\nLaudámus te.\nBenedícimus te.\nAdorámus te.\nGlorificámus te.\nGrátias ágimus tíbi propter mágnam glóriam túam.\nDómine Déus, Rex caeléstis, Déus Páter omnípotens.\nDómine Fíli unigénite Jésu Chríste.\nDómine Déus, Agnus Déi, Fílius Pátris.\nQui tóllis peccáta múndi, miserére nóbis.\nQui tóllis peccáta múndi, súscipe deprecatiónem nóstram.\nQui sédes ad déxteram Pátris, miserére nóbis.\nQuóniam tu sólus sánctus.\nTu sólus Dóminus.\nTu sólus Altíssimus, Jésu Chríste.\nCum Sáncto Spíritu, in glória Déi Pátris.\nAmen."
+   ],
+   "refrain": "",
+   "first_line": "Glória in excélsis Déo.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02980.ogg",
+   "audio_kind": "chant",
+   "seconds": 169,
+   "language": "Latin",
+   "gregobase": 2980
+  },
+  {
+   "title": "Gloria II",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 1",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Glória in excélsis Déo.\nEt in térra pax homínibus bónae voluntátis.\nLaudámus te.\nBenedícimus te.\nAdorámus te.\nGlorificámus te.\nGrátias ágimus tíbi propter mágnam glóriam túam.\nDómine Déus, Rex caeléstis, Déus Páter omnípotens.\nDómine Fíli unigénite Jésu Chríste.\nDómine Déus, Agnus Déi, Fílius Pátris.\nQui tóllis peccáta múndi, miserére nóbis.\nQui tóllis peccáta múndi, súscipe deprecatiónem nóstram.\nQui sédes ad déxteram Pátris, miserére nóbis.\nQuóniam tu sólus sánctus.\nTu sólus Dóminus.\nTu sólus Altíssimus, Jésu Chríste.\nCum Sáncto Spíritu, in glória Déi Pátris.\nAmen."
+   ],
+   "refrain": "",
+   "first_line": "Glória in excélsis Déo.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00862.ogg",
+   "audio_kind": "chant",
+   "seconds": 168,
+   "language": "Latin",
+   "gregobase": 862
+  },
+  {
+   "title": "Gloria III",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 8",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Glória in excélsis Déo.\nEt in térra pax homínibus bónae voluntátis.\nLaudámus te.\nBenedícimus te.\nAdorámus te.\nGlorificámus te.\nGrátias ágimus tíbi propter mágnam glóriam túam.\nDómine Déus, Rex caeléstis, Déus Páter omnípotens.\nDómine Fíli unigénite Jésu Chríste.\nDómine Déus, Agnus Déi, Fílius Pátris.\nQui tóllis peccáta múndi, miserére nóbis.\nQui tóllis peccáta múndi, súscipe deprecatiónem nóstram.\nQui sédes ad déxteram Pátris, miserére nóbis.\nQuóniam tu sólus sánctus.\nTu sólus Dóminus.\nTu sólus Altíssimus, Jésu Chríste.\nCum Sáncto Spíritu, in glória Déi Pátris.\nAmen."
+   ],
+   "refrain": "",
+   "first_line": "Glória in excélsis Déo.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00071.ogg",
+   "audio_kind": "chant",
+   "seconds": 163,
+   "language": "Latin",
+   "gregobase": 71
+  },
+  {
+   "title": "Gloria IV",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 4",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Glória in excélsis Déo.\nEt in térra pax homínibus bónæ voluntátis.\nLaudámus te.\nBenedícimus te.\nAdorámus te.\nGlorificámus te.\nGrátias ágimus tíbi propter mágnam glóriam túam.\nDómine Déus, Rex cæléstis, Déus Páter omnípotens.\nDómine Fíli unigénite Jésu Chríste.\nDómine Déus, Agnus Déi, Fílius Pátris.\nQui tóllis peccáta múndi, miserére nóbis.\nQui tóllis peccáta múndi, súscipe deprecatiónem nóstram.\nQui sédes ad déxteram Pátris, miserére nóbis.\nQuóniam tu sólus sánctus.\nTu sólus Dóminus.\nTu sólus Altíssimus, Jésu Chríste.\nCum Sáncto Spíritu, in glória Déi Pátris.\nAmen."
+   ],
+   "refrain": "",
+   "first_line": "Glória in excélsis Déo.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02978.ogg",
+   "audio_kind": "chant",
+   "seconds": 185,
+   "language": "Latin",
+   "gregobase": 2978
+  },
+  {
+   "title": "Gloria IX",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 7",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Glória in excélsis Déo.\nEt in térra pax homínibus bónæ voluntátis.\nLaudámus te.\nBenedícimus te.\nAdorámus te.\nGlorificámus te.\nGrátias ágimus tíbi propter mágnam glóriam túam.\nDómine Déus, Rex cæléstis, Déus Páter omnípotens.\nDómine Fíli unigénite Jésu Chríste.\nDómine Déus, Agnus Déi, Fílius Pátris.\nQui tóllis peccáta múndi, miserére nóbis.\nQui tóllis peccáta múndi, súscipe deprecatiónem nóstram.\nQui sédes ad déxteram Pátris, miserére nóbis.\nQuóniam tu sólus sánctus.\nTu sólus Dóminus.\nTu sólus Altíssimus, Jésu Chríste.\nCum Sáncto Spíritu, in glória Déi Pátris.\nAmen."
+   ],
+   "refrain": "",
+   "first_line": "Glória in excélsis Déo.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02771.ogg",
+   "audio_kind": "chant",
+   "seconds": 166,
+   "language": "Latin",
+   "gregobase": 2771
+  },
+  {
    "title": "Gloria laus",
    "also": [],
    "author": "",
@@ -5631,6 +7347,344 @@
    "seconds": 129,
    "language": "Latin",
    "gregobase": 259
+  },
+  {
+   "title": "Gloria Missa Regia",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 1",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Glória in excélsis Déo.\nEt in térra pax homínibus bónae voluntátis.\nLaudámus te.\nBenedícimus te.\nAdorámus te.\nGlorificámus te.\nGrátias ágimus tíbi propter mágnam glóriam túam.\nDómine Déus, Rex caeléstis, Déus Páter omnípotens.\nDómine Fíli unigénite Jésu Chríste.\nDómine Déus, Agnus Déi, Fílius Pátris.\nQui tóllis peccáta múndi, miserére nóbis.\nQui tóllis peccáta múndi, súscipe deprecatiónem nóstram.\nQui sédes ad déxteram Pátris, miserére nóbis.\nQuóniam tu sólus sánctus.\nTu sólus Dóminus.\nTu sólus Altíssimus, Jésu Chríste.\nCum Sáncto Spíritu, in glória Déi Pátris.\nAmen."
+   ],
+   "refrain": "",
+   "first_line": "Glória in excélsis Déo.",
+   "source": "GregoBase, from The Liber Usualis (Solesmes)",
+   "audio": "more/chant-07936.ogg",
+   "audio_kind": "chant",
+   "seconds": 148,
+   "language": "Latin",
+   "gregobase": 7936
+  },
+  {
+   "title": "Gloria (more hispano)",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Glória in excélsis Deo.\nEt in terra pax homínibus bonæ voluntátis.\nLaudámus te.\nBenedícimus te.\nAdorámus te.\nGlorificámus te.\nGrátias ágimus tibi propter magnam glóriam tuam.\nDómine Deus, Rex cæléstis, Deus Pater omnípotens.\nDómine Fili unigénite Iesu Christe.\nDómine Deus, Agnus Dei, Fílius Patris.\nQui tollis peccáta mundi, miserére nobis.\nQui tollis peccáta mundi, súscipe deprecatiónem nostram.\nQui sedes ad déxteram Patris, miserére nobis.\nQuóniam tu solus Sanctus.\nTu solus Dóminus.\nTu solus Altíssimus, Iesu Christe.\nCum Sancto Spíritu,\nin glória Dei Patris.\nAmen."
+   ],
+   "refrain": "",
+   "first_line": "Glória in excélsis Deo.",
+   "source": "GregoBase, from Graduale simplex (Vatican)",
+   "audio": "more/chant-08099.ogg",
+   "audio_kind": "chant",
+   "seconds": 118,
+   "language": "Latin",
+   "gregobase": 8099
+  },
+  {
+   "title": "Gloria V",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 8",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Glória in excélsis Déo.\nEt in térra pax homínibus bónae voluntátis.\nLaudámus te.\nBenedícimus te.\nAdorámus te.\nGlorificámus te.\nGrátias ágimus tíbi propter mágnam glóriam túam.\nDómine Déus, Rex caeléstis,\nDéus Páter omnípotens.\nDómine Fíli unigénite Jésu Chríste.\nDómine Déus, Agnus Déi, Fílius Pátris.\nQui tóllis peccáta múndi, miserére nóbis.\nQui tóllis peccáta múndi, súscipe deprecatiónem nóstram.\nQui sédes ad déxteram Pátris, miserére nóbis.\nQuóniam tu sólus sánctus.\nTu sólus Dóminus.\nTu sólus Altíssimus, Jésu Chríste.\nCum Sáncto Spíritu, in glória Déi Pátris.\nAmen."
+   ],
+   "refrain": "",
+   "first_line": "Glória in excélsis Déo.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00337.ogg",
+   "audio_kind": "chant",
+   "seconds": 203,
+   "language": "Latin",
+   "gregobase": 337
+  },
+  {
+   "title": "Gloria VI",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 8",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Glória in excélsis Déo.\nEt in térra pax homínibus bónae voluntátis.\nLaudámus te.\nBenedícimus te.\nAdorámus te.\nGlorificámus te.\nGrátias ágimus tíbi propter mágnam glóriam túam.\nDómine Déus, Rex caeléstis, Déus Páter omnípotens.\nDómine Fíli unigénite Jésu Chríste.\nDómine Déus, Agnus Déi, Fílius Pátris.\nQui tóllis peccáta múndi, miserére nóbis.\nQui tóllis peccáta múndi, súscipe deprecatiónem nóstram.\nQui sédes ad déxteram Pátris, miserére nóbis.\nQuóniam tu sólus sánctus.\nTu sólus Dóminus.\nTu sólus Altíssimus, Jésu Chríste.\nCum Sáncto Spíritu, in glória Déi Pátris.\nAmen."
+   ],
+   "refrain": "",
+   "first_line": "Glória in excélsis Déo.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00321.ogg",
+   "audio_kind": "chant",
+   "seconds": 181,
+   "language": "Latin",
+   "gregobase": 321
+  },
+  {
+   "title": "Gloria VII",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 6",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Glória in excélsis Déo.\nEt in térra pax homínibus bónae voluntátis.\nLaudámus te.\nBenedícimus te.\nAdorámus te.\nGlorificámus te.\nGrátias ágimus tíbi propter mágnam glóriam túam.\nDómine Déus, Rex caeléstis, Déus Páter omnípotens.\nDómine Fíli unigénite Jésu Chríste.\nDómine Déus, Agnus Déi, Fílius Pátris.\nQui tóllis peccáta múndi, miserére nóbis.\nQui tóllis peccáta múndi, súscipe deprecatiónem nóstram.\nQui sédes ad déxteram Pátris, miserére nóbis.\nQuóniam tu sólus sánctus.\nTu sólus Dóminus.\nTu sólus Altíssimus, Jésu Chríste.\nCum Sáncto Spíritu, in glória Déi Pátris.\nAmen."
+   ],
+   "refrain": "",
+   "first_line": "Glória in excélsis Déo.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00721.ogg",
+   "audio_kind": "chant",
+   "seconds": 155,
+   "language": "Latin",
+   "gregobase": 721
+  },
+  {
+   "title": "Gloria VIII",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 5",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Glória in excélsis Déo.\nEt in térra pax homínibus\nbónae voluntátis.\nLaudámus te.\nBenedícimus te.\nAdorámus te.\nGlorificámus te.\nGrátias ágimus tíbi\npropter mágnam glóriam túam.\nDómine Déus, Rex caeléstis,\nDéus Páter omnípotens.\nDómine Fíli unigénite Jésu Chríste.\nDómine Déus, Agnus Déi,\nFílius Pátris.\nQui tóllis peccáta múndi,\nmiserére nóbis.\nQui tóllis peccáta múndi,\nsúscipe deprecatiónem nóstram.\nQui sédes ad déxteram Pátris,\nmiserére nóbis.\nQuóniam tu sólus sánctus.\nTu sólus Dóminus.\nTu sólus Altíssimus, Jésu Chríste.\nCum Sáncto Spíritu,\nin glória Déi Pátris.\nAmen."
+   ],
+   "refrain": "",
+   "first_line": "Glória in excélsis Déo.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00961.ogg",
+   "audio_kind": "chant",
+   "seconds": 144,
+   "language": "Latin",
+   "gregobase": 961
+  },
+  {
+   "title": "Gloria X",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 8",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Glória in excélsis Déo.\nEt in térra pax homínibus bónae voluntátis.\nLaudámus te.\nBenedícimus te.\nAdorámus te.\nGlorificámus te.\nGrátias ágimus tíbi propter mágnam glóriam túam.\nDómine Déus, Rex caeléstis,\nDéus Páter omnípotens.\nDómine Fíli unigénite Jésu Chríste.\nDómine Déus, Agnus Déi, Fílius Pátris.\nQui tóllis peccáta múndi, miserére nóbis.\nQui tóllis peccáta múndi, súscipe deprecatiónem nóstram.\nQui sédes ad déxteram Pátris, miserére nóbis.\nQuóniam tu sólus sánctus.\nTu sólus Dóminus.\nTu sólus Altíssimus, Jésu Chríste.\nCum Sáncto Spíritu, in glória Déi Pátris.\nAmen."
+   ],
+   "refrain": "",
+   "first_line": "Glória in excélsis Déo.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-01204.ogg",
+   "audio_kind": "chant",
+   "seconds": 150,
+   "language": "Latin",
+   "gregobase": 1204
+  },
+  {
+   "title": "Gloria XI",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 2",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Glória in excélsis Deo.\nEt in terra pax homínibus bonæ voluntátis.\nLaudámus te.\nBenedícimus te.\nAdorámus te.\nGlorificámus te.\nGrátias ágimus tibi propter magnam glóriam tuam.\nDómine Deus, Rex cæléstis, Deus Pater omnípotens.\nDómine Fili unigénite Jesu Christe.\nDómine Deus, Agnus Dei, Fílius Patris.\nQui tollis peccáta mundi, miserére nobis.\nQui tollis peccáta mundi, súscipe deprecatiónem nostram.\nQui sedes ad déxteram Patris, miserére nobis.\nQuóniam tu solus sanctus.\nTu solus Dóminus.\nTu solus Altíssimus, Jesu Christe.\nCum Sancto Spíritu, in glória Dei Patris.\nAmen."
+   ],
+   "refrain": "",
+   "first_line": "Glória in excélsis Deo.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00303.ogg",
+   "audio_kind": "chant",
+   "seconds": 159,
+   "language": "Latin",
+   "gregobase": 303
+  },
+  {
+   "title": "Gloria XII",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 4",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Glória in excélsis Déo.\nEt in térra pax homínibus bónae voluntátis.\nLaudámus te.\nBenedícimus te.\nAdorámus te.\nGlorificámus te.\nGrátias ágimus tíbi propter mágnam glóriam túam.\nDómine Déus, Rex caeléstis, Déus Páter omnípotens.\nDómine Fíli unigénite Jésu Chríste.\nDómine Déus, Agnus Déi, Fílius Pátris.\nQui tóllis peccáta múndi, miserére nóbis.\nQui tóllis peccáta múndi, súscipe deprecatiónem nóstram.\nQui sédes ad déxteram Pátris, miserére nóbis.\nQuóniam tu sólus sánctus.\nTu sólus Dóminus.\nTu sólus Altíssimus, Jésu Chríste.\nCum Sáncto Spíritu, in glória Déi Pátris.\nAmen."
+   ],
+   "refrain": "",
+   "first_line": "Glória in excélsis Déo.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02114.ogg",
+   "audio_kind": "chant",
+   "seconds": 135,
+   "language": "Latin",
+   "gregobase": 2114
+  },
+  {
+   "title": "Gloria XIII",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 1",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Glória in excélsis Déo.\nEt in térra pax homínibus bónae voluntátis.\nLaudámus te.\nBenedícimus te.\nAdorámus te.\nGlorificámus te.\nGrátias ágimus tíbi propter mágnam glóriam túam.\nDómine Déus, Rex caeléstis, Déus Páter omnípotens.\nDómine Fíli unigénite Jésu Chríste.\nDómine Déus, Agnus Déi, Fílius Pátris.\nQui tóllis peccáta múndi, miserére nóbis.\nQui tóllis peccáta múndi, súscipe deprecatiónem nóstram.\nQui sédes ad déxteram Pátris, miserére nóbis.\nQuóniam tu sólus sánctus.\nTu sólus Dóminus.\nTu sólus Altíssimus, Jésu Chríste.\nCum Sáncto Spíritu, in glória Déi Pátris.\nAmen."
+   ],
+   "refrain": "",
+   "first_line": "Glória in excélsis Déo.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02107.ogg",
+   "audio_kind": "chant",
+   "seconds": 154,
+   "language": "Latin",
+   "gregobase": 2107
+  },
+  {
+   "title": "Gloria XIV",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 3",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Glória in excélsis Déo.\nEt in térra pax homínibus bónae voluntátis.\nLaudámus te.\nBenedícimus te.\nAdorámus te.\nGlorificámus te.\nGrátias ágimus tíbi propter mágnam glóriam túam.\nDómine Déus, Rex caeléstis, Déus Páter omnípotens.\nDómine Fíli unigénite Jésu Chríste.\nDómine Déus, Agnus Déi, Fílius Pátris.\nQui tóllis peccáta múndi, miserére nóbis.\nQui tóllis peccáta múndi, súscipe deprecatiónem nóstram.\nQui sédes ad déxteram Pátris, miserére nóbis.\nQuóniam tu sólus sánctus.\nTu sólus Dóminus.\nTu sólus Altíssimus, Jésu Chríste.\nCum Sáncto Spíritu, in glória Déi Pátris.\nAmen."
+   ],
+   "refrain": "",
+   "first_line": "Glória in excélsis Déo.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00908.ogg",
+   "audio_kind": "chant",
+   "seconds": 164,
+   "language": "Latin",
+   "gregobase": 908
+  },
+  {
+   "title": "Gloria XIX",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 1",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Glória in excélsis Déo.\nEt in térra pax homínibus bónæ voluntátis.\nLaudámus te.\nBenedícimus te.\nAdorámus te.\nGlorificámus te.\nGrátias ágimus tíbi propter mágnam glóriam túam.\nDómine Déus, Rex cæléstis, Déus Páter omnípotens.\nDómine Fíli unigénite Jésu Chríste.\nDómine Déus, Agnus Déi, Fílius Pátris.\nQui tóllis peccáta múndi, miserére nóbis.\nQui tóllis peccáta múndi, súscipe deprecatiónem nóstram.\nQui sédes ad déxteram Pátris, miserére nóbis.\nQuóniam tu sólus sánctus.\nTu sólus Dóminus.\nTu sólus Altíssimus, Jésu Chríste.\nCum Sáncto Spíritu, in glória Déi Pátris.\nAmen."
+   ],
+   "refrain": "",
+   "first_line": "Glória in excélsis Déo.",
+   "source": "GregoBase",
+   "audio": "more/chant-07958.ogg",
+   "audio_kind": "chant",
+   "seconds": 181,
+   "language": "Latin",
+   "gregobase": 7958
+  },
+  {
+   "title": "Gloria XV",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 4",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Glória in excélsis Déo.\nEt in térra pax homínibus bónae voluntátis.\nLaudámus te.\nBenedícimus te.\nAdorámus te.\nGlorificámus te.\nGrátias ágimus tíbi propter mágnam glóriam túam.\nDómine Déus, Rex caeléstis, Déus Páter omnípotens.\nDómine Fíli unigénite Jésu Chríste.\nDómine Déus, Agnus Déi, Fílius Pátris.\nQui tóllis peccáta múndi, miserére nóbis.\nQui tóllis peccáta múndi, súscipe deprecatiónem nóstram.\nQui sédes ad déxteram Pátris, miserére nóbis.\nQuóniam tu sólus sánctus.\nTu sólus Dóminus.\nTu sólus Altíssimus, Jésu Chríste.\nCum Sáncto Spíritu, in glória Déi Pátris.\nAmen."
+   ],
+   "refrain": "",
+   "first_line": "Glória in excélsis Déo.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02975.ogg",
+   "audio_kind": "chant",
+   "seconds": 120,
+   "language": "Latin",
+   "gregobase": 2975
   },
   {
    "title": "Grande Raymundi",
@@ -7547,6 +9601,188 @@
    "gregobase": 7849
   },
   {
+   "title": "Ite I",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Ite,\nmissa est. ℟.\nDeo\ngrátias."
+   ],
+   "refrain": "",
+   "first_line": "Ite,",
+   "source": "GregoBase, from Graduale O.P. (Suarez) (Dominican)",
+   "audio": "more/chant-07297.ogg",
+   "audio_kind": "chant",
+   "seconds": 14,
+   "language": "Latin",
+   "gregobase": 7297
+  },
+  {
+   "title": "Ite Ia",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 8",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Ite, missa est, allelúia, allelúia.\nDeo grátias allelúia, allelúia."
+   ],
+   "refrain": "",
+   "first_line": "Ite, missa est, allelúia, allelúia.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02988.ogg",
+   "audio_kind": "chant",
+   "seconds": 22,
+   "language": "Latin",
+   "gregobase": 2988
+  },
+  {
+   "title": "Ite Ib",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 7",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Ite, missa est.\nDeo grátias."
+   ],
+   "refrain": "",
+   "first_line": "Ite, missa est.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02987.ogg",
+   "audio_kind": "chant",
+   "seconds": 21,
+   "language": "Latin",
+   "gregobase": 2987
+  },
+  {
+   "title": "Ite II",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Ite,\nmissa est. ℟.\nDeo\ngrátias.\nvel Benedicámus\nDómino. ℟.\nDeo\ngrátias."
+   ],
+   "refrain": "",
+   "first_line": "Ite,",
+   "source": "GregoBase, from Graduale O.P. (Suarez) (Dominican)",
+   "audio": "more/chant-07303.ogg",
+   "audio_kind": "chant",
+   "seconds": 31,
+   "language": "Latin",
+   "gregobase": 7303
+  },
+  {
+   "title": "Ite IIa",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 3",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Ite, missa est.\nDeo grátias."
+   ],
+   "refrain": "",
+   "first_line": "Ite, missa est.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-01280.ogg",
+   "audio_kind": "chant",
+   "seconds": 30,
+   "language": "Latin",
+   "gregobase": 1280
+  },
+  {
+   "title": "Ite IIb",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 5",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Ite, missa est.\n℟. Deo grátias."
+   ],
+   "refrain": "",
+   "first_line": "Ite, missa est.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00804.ogg",
+   "audio_kind": "chant",
+   "seconds": 33,
+   "language": "Latin",
+   "gregobase": 804
+  },
+  {
+   "title": "Ite III",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 1",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Ite,\nmissa est.\n℟. Deo\ngrátias."
+   ],
+   "refrain": "",
+   "first_line": "Ite,",
+   "source": "GregoBase, from Graduale O.P. (Suarez) (Dominican)",
+   "audio": "more/chant-07308.ogg",
+   "audio_kind": "chant",
+   "seconds": 15,
+   "language": "Latin",
+   "gregobase": 7308
+  },
+  {
    "title": "Ite in pace alleluia",
    "also": [],
    "author": "",
@@ -7571,6 +9807,344 @@
    "seconds": 9,
    "language": "Latin",
    "gregobase": 7835
+  },
+  {
+   "title": "Ite IV",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 1",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Ite, missa est.\n℟. Deo grátias."
+   ],
+   "refrain": "",
+   "first_line": "Ite, missa est.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00353.ogg",
+   "audio_kind": "chant",
+   "seconds": 26,
+   "language": "Latin",
+   "gregobase": 353
+  },
+  {
+   "title": "Ite IX",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 1",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Ite, missa est.\n℟. Deo grátias."
+   ],
+   "refrain": "",
+   "first_line": "Ite, missa est.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02989.ogg",
+   "audio_kind": "chant",
+   "seconds": 19,
+   "language": "Latin",
+   "gregobase": 2989
+  },
+  {
+   "title": "Ite Missa Regia",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 1",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "I-[De-]te,[o] mis[gra-]sa[ti-] est.[as]"
+   ],
+   "refrain": "",
+   "first_line": "I-[De-]te,[o] mis[gra-]sa[ti-] est.[as]",
+   "source": "GregoBase, from The Liber Usualis (Solesmes)",
+   "audio": "more/chant-07916.ogg",
+   "audio_kind": "chant",
+   "seconds": 14,
+   "language": "Latin",
+   "gregobase": 7916
+  },
+  {
+   "title": "Ite V",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 8",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "I-[De-]te,[o] mis[grá]sa[ti-] est.[as.]"
+   ],
+   "refrain": "",
+   "first_line": "I-[De-]te,[o] mis[grá]sa[ti-] est.[as.]",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-01006.ogg",
+   "audio_kind": "chant",
+   "seconds": 15,
+   "language": "Latin",
+   "gregobase": 1006
+  },
+  {
+   "title": "Ite VI",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 8",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Ite, missa est.\nDeo, grátias."
+   ],
+   "refrain": "",
+   "first_line": "Ite, missa est.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-01160.ogg",
+   "audio_kind": "chant",
+   "seconds": 23,
+   "language": "Latin",
+   "gregobase": 1160
+  },
+  {
+   "title": "Ite VII",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 8",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Ite, missa est.\nDeo grátias."
+   ],
+   "refrain": "",
+   "first_line": "Ite, missa est.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00031.ogg",
+   "audio_kind": "chant",
+   "seconds": 38,
+   "language": "Latin",
+   "gregobase": 31
+  },
+  {
+   "title": "Ite VIII",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 5",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Ite, missa est.\n℟. Deo grátias."
+   ],
+   "refrain": "",
+   "first_line": "Ite, missa est.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00832.ogg",
+   "audio_kind": "chant",
+   "seconds": 26,
+   "language": "Latin",
+   "gregobase": 832
+  },
+  {
+   "title": "Ite X",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 5",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Ite,\nmissa est.\n℟Deo\ngratias."
+   ],
+   "refrain": "",
+   "first_line": "Ite,",
+   "source": "GregoBase, from Graduale O.P. (Suarez) (Dominican)",
+   "audio": "more/chant-08039.ogg",
+   "audio_kind": "chant",
+   "seconds": 24,
+   "language": "Latin",
+   "gregobase": 8039
+  },
+  {
+   "title": "Ite XI",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 1",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Ite, missa est.\n℟ Deo grátias."
+   ],
+   "refrain": "",
+   "first_line": "Ite, missa est.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00856.ogg",
+   "audio_kind": "chant",
+   "seconds": 18,
+   "language": "Latin",
+   "gregobase": 856
+  },
+  {
+   "title": "Ite XII",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 8",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "I-[De-]te,[o] mis[grá-]sa[ti-] est.[as.]"
+   ],
+   "refrain": "",
+   "first_line": "I-[De-]te,[o] mis[grá-]sa[ti-] est.[as.]",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00037.ogg",
+   "audio_kind": "chant",
+   "seconds": 8,
+   "language": "Latin",
+   "gregobase": 37
+  },
+  {
+   "title": "Ite XIII",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 1",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Ite, missa est.\n℟ Deo grátias."
+   ],
+   "refrain": "",
+   "first_line": "Ite, missa est.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00878.ogg",
+   "audio_kind": "chant",
+   "seconds": 15,
+   "language": "Latin",
+   "gregobase": 878
+  },
+  {
+   "title": "Ite XIV",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 8",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Ite, missa est.\nDeo, grátias."
+   ],
+   "refrain": "",
+   "first_line": "Ite, missa est.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02986.ogg",
+   "audio_kind": "chant",
+   "seconds": 23,
+   "language": "Latin",
+   "gregobase": 2986
+  },
+  {
+   "title": "Ite XIX",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 6",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Ite,\nmissa est.\nDeo\ngrátias"
+   ],
+   "refrain": "",
+   "first_line": "Ite,",
+   "source": "GregoBase",
+   "audio": "more/chant-07961.ogg",
+   "audio_kind": "chant",
+   "seconds": 30,
+   "language": "Latin",
+   "gregobase": 7961
   },
   {
    "title": "Itse quem laeti",
@@ -7603,6 +10177,370 @@
    "gregobase": 4046
   },
   {
+   "title": "Kýrie",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 3",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Kýrie, eléison. ij.\nChriste, eléison. ij.\nKýrie, eléison.\nKýrie, eléison."
+   ],
+   "refrain": "",
+   "first_line": "Kýrie, eléison. ij.",
+   "source": "GregoBase, from Graduale simplex (1)",
+   "audio": "more/chant-07478.ogg",
+   "audio_kind": "chant",
+   "seconds": 20,
+   "language": "Latin",
+   "gregobase": 7478
+  },
+  {
+   "title": "Kyrie (ad lib.) I. - Clemens Rector",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 1",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Kyrie eléison.\nKýrie eléison.\nKýrie eléison.\nChríste eléison.\nChríste eléison.\nChríste eléison.\nKýrie eléison.\nKýrie eléison.\nKýrie eléison."
+   ],
+   "refrain": "",
+   "first_line": "Kyrie eléison.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02993.ogg",
+   "audio_kind": "chant",
+   "seconds": 152,
+   "language": "Latin",
+   "gregobase": 2993
+  },
+  {
+   "title": "Kyrie (ad lib.) II. - Summe Deus",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 1",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Kyrie eléison.\nKýrie eléison.\nKýrie eléison.\nChriste eléison.\nChriste eléison.\nChriste eléison.\nKýrie eléison.\nKýrie eléison.\nKýrie eléison."
+   ],
+   "refrain": "",
+   "first_line": "Kyrie eléison.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02021.ogg",
+   "audio_kind": "chant",
+   "seconds": 101,
+   "language": "Latin",
+   "gregobase": 2021
+  },
+  {
+   "title": "Kyrie (ad lib.) III. - Rector cosmi pie",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 2",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Kyrie eléison.\nKýrie eléison.\nKýrie eléison.\nChríste eléison.\nChríste eléison.\nChríste eléison.\nKýrie eléison.\nKýrie eléison.\nKýrie\neléison."
+   ],
+   "refrain": "",
+   "first_line": "Kyrie eléison.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02237.ogg",
+   "audio_kind": "chant",
+   "seconds": 93,
+   "language": "Latin",
+   "gregobase": 2237
+  },
+  {
+   "title": "Kyrie (ad lib.) IV. - Kyrie altissime",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 5",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Kyrie eléison.\nKýrie eléison.\nKýrie eléison.\nChríste eléison.\nChríste eléison.\nChríste eléison.\nKýrie eléison.\nKýrie eléison.\nKýrie eléison."
+   ],
+   "refrain": "",
+   "first_line": "Kyrie eléison.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02254.ogg",
+   "audio_kind": "chant",
+   "seconds": 128,
+   "language": "Latin",
+   "gregobase": 2254
+  },
+  {
+   "title": "Kyrie (ad lib.) IX. - O Pater excelse",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 8",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Kyrie eléison. iij.\nChríste eléison. iij.\nKýrie eléison. iij."
+   ],
+   "refrain": "",
+   "first_line": "Kyrie eléison. iij.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02599.ogg",
+   "audio_kind": "chant",
+   "seconds": 36,
+   "language": "Latin",
+   "gregobase": 2599
+  },
+  {
+   "title": "Kyrie (ad lib.) V. - Conditor Kyrie omnium",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 7",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Kyrie eléison.\nKýrie eléison.\nKýrie eléison.\nChríste eléison.\nChríste eléison.\nChríste eléison.\nKýrie eléison.\nKýrie eléison.\nKýrie eléison."
+   ],
+   "refrain": "",
+   "first_line": "Kyrie eléison.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02261.ogg",
+   "audio_kind": "chant",
+   "seconds": 114,
+   "language": "Latin",
+   "gregobase": 2261
+  },
+  {
+   "title": "Kyrie (ad lib.) VI. - Te Christe Rex supplices",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 8",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Kyrie eléison.\nKýrie eléison.\nKýrie eléison.\nChríste eléison.\nChríste eléison.\nChríste eléison.\nKýrie eléison.\nKýrie eléison.\nKýrie eléison."
+   ],
+   "refrain": "",
+   "first_line": "Kyrie eléison.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02269.ogg",
+   "audio_kind": "chant",
+   "seconds": 122,
+   "language": "Latin",
+   "gregobase": 2269
+  },
+  {
+   "title": "Kyrie (ad lib.) VII. - Splendor aeterne",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 1",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Kyrie eléison. iij.\nChríste eléison. iij.\nKýrie eléison. ij.\nKýrie eléison."
+   ],
+   "refrain": "",
+   "first_line": "Kyrie eléison. iij.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02363.ogg",
+   "audio_kind": "chant",
+   "seconds": 63,
+   "language": "Latin",
+   "gregobase": 2363
+  },
+  {
+   "title": "Kyrie (ad lib.) VIII. - Firmator sancte",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 6",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Kyrie eléison. iij.\nChríste eléison. iij.\nKýrie eléison. ij.\nKýrie eléison."
+   ],
+   "refrain": "",
+   "first_line": "Kyrie eléison. iij.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02468.ogg",
+   "audio_kind": "chant",
+   "seconds": 43,
+   "language": "Latin",
+   "gregobase": 2468
+  },
+  {
+   "title": "Kyrie (ad lib.) X. - Orbis Factor",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 1",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Kyrie eléison. iij.\nChríste eléison. iij.\nKýrie eléison. ij.\nKýrie eléison."
+   ],
+   "refrain": "",
+   "first_line": "Kyrie eléison. iij.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02604.ogg",
+   "audio_kind": "chant",
+   "seconds": 35,
+   "language": "Latin",
+   "gregobase": 2604
+  },
+  {
+   "title": "Kyrie (ad lib.) XI. - Kyrie Salve",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 1",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Kyrie eléison. iij.\nChríste eléison. iij.\nKýrie eléison. ij.\nKýrie eléison."
+   ],
+   "refrain": "",
+   "first_line": "Kyrie eléison. iij.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02614.ogg",
+   "audio_kind": "chant",
+   "seconds": 47,
+   "language": "Latin",
+   "gregobase": 2614
+  },
+  {
+   "title": "Kyrie Eleison",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Kyrie, eleison.\nChriste, eleison.\nKyrie, eleison.\nPater noster. in silence.\n℣. Et ne nos inducas in tentationem.\n℟ Sed libera nos a malo."
+   ],
+   "refrain": "",
+   "first_line": "Kyrie, eleison.",
+   "source": "GregoBase, from The Liber Usualis",
+   "audio": "more/chant-08766.ogg",
+   "audio_kind": "chant",
+   "seconds": 28,
+   "language": "Latin",
+   "gregobase": 8766
+  },
+  {
+   "title": "Kyrie eleison (in Miss. def.)",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 6",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Kyrie eléison. iij.\nChriste eléison. iij.\nKýrie eléison. ij.\nKýrie eléison."
+   ],
+   "refrain": "",
+   "first_line": "Kyrie eléison. iij.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00541.ogg",
+   "audio_kind": "chant",
+   "seconds": 34,
+   "language": "Latin",
+   "gregobase": 541
+  },
+  {
    "title": "Kyrie, fons bonitatis",
    "also": [],
    "author": "",
@@ -7627,6 +10565,656 @@
    "seconds": 176,
    "language": "Latin",
    "gregobase": 3983
+  },
+  {
+   "title": "Kyrie I",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 8",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Kyrie eléison. iij.\nChríste eléison. iij.\nKýrie eléison. ij.\nKýrie eléison."
+   ],
+   "refrain": "",
+   "first_line": "Kyrie eléison. iij.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-01143.ogg",
+   "audio_kind": "chant",
+   "seconds": 42,
+   "language": "Latin",
+   "gregobase": 1143
+  },
+  {
+   "title": "Kyrie II",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 3",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Kyrie eléison. iij.\nChríste eléison. iij.\nKýrie eléison. ij.\nKýrie eléison."
+   ],
+   "refrain": "",
+   "first_line": "Kyrie eléison. iij.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00309.ogg",
+   "audio_kind": "chant",
+   "seconds": 73,
+   "language": "Latin",
+   "gregobase": 309
+  },
+  {
+   "title": "Kyrie III",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 4",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Kyrie, eléison.\nKýrie eléison.\nKýrie eléison.\nChríste, eléison.\nChríste, eléison.\nChríste, eléison.\nKýrie, eléison.\nKýrie, eléison.\nKýrie,\neléison."
+   ],
+   "refrain": "",
+   "first_line": "Kyrie, eléison.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00825.ogg",
+   "audio_kind": "chant",
+   "seconds": 125,
+   "language": "Latin",
+   "gregobase": 825
+  },
+  {
+   "title": "Kyrie IV",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 1",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Kyrie eléison. iij.\nChríste eléison. iij.\nKýrie eléison. ij.\nKýrie eléison."
+   ],
+   "refrain": "",
+   "first_line": "Kyrie eléison. iij.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-01061.ogg",
+   "audio_kind": "chant",
+   "seconds": 53,
+   "language": "Latin",
+   "gregobase": 1061
+  },
+  {
+   "title": "Kyrie IX",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 1",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Kyrie eléison.\nKýrie eléison.\nKýrie eléison.\nChríste eléison.\nChríste eléison.\nChríste eléison.\nKýrie eléison.\nKýrie eléison.\nKýrie eléison."
+   ],
+   "refrain": "",
+   "first_line": "Kyrie eléison.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02976.ogg",
+   "audio_kind": "chant",
+   "seconds": 93,
+   "language": "Latin",
+   "gregobase": 2976
+  },
+  {
+   "title": "Kyrie Missa Regia",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 1",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Kyrie eléison. iij.\nChríste eléison. iij.\nKýrie eléison. ij.\nKýrieeléison."
+   ],
+   "refrain": "",
+   "first_line": "Kyrie eléison. iij.",
+   "source": "GregoBase, from The Liber Usualis (Solesmes)",
+   "audio": "more/chant-07921.ogg",
+   "audio_kind": "chant",
+   "seconds": 55,
+   "language": "Latin",
+   "gregobase": 7921
+  },
+  {
+   "title": "Kyrie (Requiem)",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 8",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Kýrie,\neléison. iij.\nChriste, eléison. iij.\nKýrie, eléison. ij.\nKýrie,\neléison."
+   ],
+   "refrain": "",
+   "first_line": "Kýrie,",
+   "source": "GregoBase, from Graduale O.P. (Suarez) (Dominican)",
+   "audio": "more/chant-08711.ogg",
+   "audio_kind": "chant",
+   "seconds": 24,
+   "language": "Latin",
+   "gregobase": 8711
+  },
+  {
+   "title": "Kyrie V",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 8",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Kyrie, eléison. iij.\nChríste eléison. iij.\nKýrie eléison. iij."
+   ],
+   "refrain": "",
+   "first_line": "Kyrie, eléison. iij.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00474.ogg",
+   "audio_kind": "chant",
+   "seconds": 43,
+   "language": "Latin",
+   "gregobase": 474
+  },
+  {
+   "title": "Kyrie VI",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 7",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "KÝrie eléison.\nKýrie eléison.\nKýrie eléison.\nChríste eléison.\nChríste eléison.\nChríste eléison.\nKýrie eléison.\nKýrie eléison.\nKýrie\neléison."
+   ],
+   "refrain": "",
+   "first_line": "KÝrie eléison.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02903.ogg",
+   "audio_kind": "chant",
+   "seconds": 122,
+   "language": "Latin",
+   "gregobase": 2903
+  },
+  {
+   "title": "Kyrie VII",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 8",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Kyrie\neléison. iij.\nChríste\neléison. iij.\nKýrie\neléison. iij."
+   ],
+   "refrain": "",
+   "first_line": "Kyrie",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-01262.ogg",
+   "audio_kind": "chant",
+   "seconds": 55,
+   "language": "Latin",
+   "gregobase": 1262
+  },
+  {
+   "title": "Kyrie VIII",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 5",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Kyrie, eléison. iij.\nChríste, eléison. iij.\nKýrie, eléison. ij.\nKýrie eléison."
+   ],
+   "refrain": "",
+   "first_line": "Kyrie, eléison. iij.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-01184.ogg",
+   "audio_kind": "chant",
+   "seconds": 54,
+   "language": "Latin",
+   "gregobase": 1184
+  },
+  {
+   "title": "Kýrie VIII - Profestis diebus",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Kýrie\neléison. iij.\nChriste, eléison. iij.\nKýrie\neléison. ij.\nKýrie,\neléison."
+   ],
+   "refrain": "",
+   "first_line": "Kýrie",
+   "source": "GregoBase, from Graduale O.P. (Suarez) (Dominican)",
+   "audio": "more/chant-07979.ogg",
+   "audio_kind": "chant",
+   "seconds": 20,
+   "language": "Latin",
+   "gregobase": 7979
+  },
+  {
+   "title": "Kyrie X",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 1",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Kyrie, eléison.\nKýrie eléison.\nKýrie eléison.\nChríste eléison.\nChríste eléison.\nChríste eléison.\nKýrie eléison.\nKýrie eléison.\nKýrie eléison."
+   ],
+   "refrain": "",
+   "first_line": "Kyrie, eléison.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00795.ogg",
+   "audio_kind": "chant",
+   "seconds": 72,
+   "language": "Latin",
+   "gregobase": 795
+  },
+  {
+   "title": "Kyrie XI",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 1",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Kyrie eléison. iij.\nChríste eléison. iij.\nKýrie eléison. ij.\nKýrie eléison."
+   ],
+   "refrain": "",
+   "first_line": "Kyrie eléison. iij.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02982.ogg",
+   "audio_kind": "chant",
+   "seconds": 43,
+   "language": "Latin",
+   "gregobase": 2982
+  },
+  {
+   "title": "Kyrie XII",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 8",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Kyrie eléison. iij.\nChríste eléison. iij.\nKýrie eléison. ij.\nKýrie eléison."
+   ],
+   "refrain": "",
+   "first_line": "Kyrie eléison. iij.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02068.ogg",
+   "audio_kind": "chant",
+   "seconds": 33,
+   "language": "Latin",
+   "gregobase": 2068
+  },
+  {
+   "title": "Kyrie XIII",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 1",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Kyrie eléison. iij.\nChríste eléison. iij.\nKýrie eléison. ij.\nKýrie eléison."
+   ],
+   "refrain": "",
+   "first_line": "Kyrie eléison. iij.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00137.ogg",
+   "audio_kind": "chant",
+   "seconds": 48,
+   "language": "Latin",
+   "gregobase": 137
+  },
+  {
+   "title": "Kyrie XIV",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 8",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Kyrie eléison. iij.\nChríste eléison. iij.\nKýrie eléison. ij.\nKýrie eléison."
+   ],
+   "refrain": "",
+   "first_line": "Kyrie eléison. iij.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00441.ogg",
+   "audio_kind": "chant",
+   "seconds": 57,
+   "language": "Latin",
+   "gregobase": 441
+  },
+  {
+   "title": "Kyrie XIX",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 6",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Kyrie\neléison. iij.\nChríste\neléison. iij.\nKýrie\neléison. ij.\nKýrie\ne\nléison."
+   ],
+   "refrain": "",
+   "first_line": "Kyrie",
+   "source": "GregoBase",
+   "audio": "more/chant-07957.ogg",
+   "audio_kind": "chant",
+   "seconds": 81,
+   "language": "Latin",
+   "gregobase": 7957
+  },
+  {
+   "title": "Kyrie XV",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 4",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Kyrie eléison.\nKýrie eléison.\nKýrie eléison.\nChríste eléison.\nChríste eléison.\nChríste eléison.\nKýrie eléison.\nKýrie eléison.\nKýrie eléison."
+   ],
+   "refrain": "",
+   "first_line": "Kyrie eléison.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00393.ogg",
+   "audio_kind": "chant",
+   "seconds": 64,
+   "language": "Latin",
+   "gregobase": 393
+  },
+  {
+   "title": "Kyrie XVI",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 3",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Kyrie eléison. iij.\nChríste eléison. iij.\nKýrie eléison. ij.\nKýrie eléison."
+   ],
+   "refrain": "",
+   "first_line": "Kyrie eléison. iij.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00545.ogg",
+   "audio_kind": "chant",
+   "seconds": 22,
+   "language": "Latin",
+   "gregobase": 545
+  },
+  {
+   "title": "Kyrie XVII",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 1",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Kyrie eléison. iij.\nChríste eléison. iij.\nKýrie eléison. ij.\nKýrie\neléison."
+   ],
+   "refrain": "",
+   "first_line": "Kyrie eléison. iij.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00272.ogg",
+   "audio_kind": "chant",
+   "seconds": 55,
+   "language": "Latin",
+   "gregobase": 272
+  },
+  {
+   "title": "Kyrie XVII A",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 1",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Kyrie eléison. bis\nChriste eléison. bis\nKýrie eléison.\nKýrie eléison."
+   ],
+   "refrain": "",
+   "first_line": "Kyrie eléison. bis",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-07641.ogg",
+   "audio_kind": "chant",
+   "seconds": 48,
+   "language": "Latin",
+   "gregobase": 7641
+  },
+  {
+   "title": "Kyrie XVII B",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 1",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Kyrie eléison. bis\nChriste eléison. bis\nKýrie eléison.\nKýrie\neléison."
+   ],
+   "refrain": "",
+   "first_line": "Kyrie eléison. bis",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-08057.ogg",
+   "audio_kind": "chant",
+   "seconds": 56,
+   "language": "Latin",
+   "gregobase": 8057
+  },
+  {
+   "title": "Kyrie XVII C",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 6",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Kyrie eléison. iij.\nChríste eléison. iij.\nKýrie eléison. ij.\nKýrie eléison."
+   ],
+   "refrain": "",
+   "first_line": "Kyrie eléison. iij.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00168.ogg",
+   "audio_kind": "chant",
+   "seconds": 41,
+   "language": "Latin",
+   "gregobase": 168
+  },
+  {
+   "title": "Kyrie XVIII",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 4",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Kyrie eléison. iij.\nChríste eléison. iij.\nKýrie eléison. ij.\nKýrie eléison."
+   ],
+   "refrain": "",
+   "first_line": "Kyrie eléison. iij.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02522.ogg",
+   "audio_kind": "chant",
+   "seconds": 24,
+   "language": "Latin",
+   "gregobase": 2522
   },
   {
    "title": "Lacte quondam profluentes",
@@ -8163,6 +11751,32 @@
    "gregobase": 7603
   },
   {
+   "title": "Libera me (Responsory of the Requiem)",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 1",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Responsory",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Libera me, Dómine, de morte aetérna,\nin die illa treménda; Quando caeli movéndi sunt et terra:\n+ Dum véneris judicáre saéculum per ignem.\n℣. Tremens factus sum ego, et tímeo,\ndum discússio vénerit, atque ventúra ira. Quando caeli movéndi sunt et terra.\n℣. Dies illa, dies irae, calamitátis et misériae,\ndies magna et amára valde.\n+ Dum véneris judicáre saéculum per ignem.\n℣. Réquiem aetérnam dona eis Dómine:\net lux perpétua lúceat eis."
+   ],
+   "refrain": "",
+   "first_line": "Libera me, Dómine, de morte aetérna,",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00376.ogg",
+   "audio_kind": "chant",
+   "seconds": 154,
+   "language": "Latin",
+   "gregobase": 376
+  },
+  {
    "title": "Lignum vitæ quærimus!",
    "also": [],
    "author": "",
@@ -8388,6 +12002,32 @@
    "seconds": 222,
    "language": "Latin",
    "gregobase": 8673
+  },
+  {
+   "title": "Lux aeterna (Communion of the Requiem Mass)",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 8",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Communion",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Lux aetérna lúceat eis, Dómine:\nCum sanctis tuis in aetérnum, quia pius es. ℣.\nRéquiem aetérnam dona eis Dómine,\net lux perpétua lúceat eis.\nCum sanctis tuis in aetérnum, quia pius es."
+   ],
+   "refrain": "",
+   "first_line": "Lux aetérna lúceat eis, Dómine:",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00241.ogg",
+   "audio_kind": "chant",
+   "seconds": 38,
+   "language": "Latin",
+   "gregobase": 241
   },
   {
    "title": "Lux ætérna",
@@ -11221,7 +14861,7 @@
    "meter": "",
    "scripture": [],
    "topics": [
-    "Chant",
+    "Prayer",
     "Latin",
     "Gregorian chant"
    ],
@@ -12471,6 +16111,58 @@
    "gregobase": 3244
   },
   {
+   "title": "Requiem aeternam (Introit of the Requiem Mass)",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 6",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Introit",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Requiem aetérnam\ndona eis Dómine:\net lux perpétua\nlúceat eis. Ps.\nTe decet hymnus Deus in Sion,\net tibi reddétur votum in Jerúsalem:\nexáudi oratiónem meam,\nad te omnis caro véniet.\nRéquiem."
+   ],
+   "refrain": "",
+   "first_line": "Requiem aetérnam",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00766.ogg",
+   "audio_kind": "chant",
+   "seconds": 59,
+   "language": "Latin",
+   "gregobase": 766
+  },
+  {
+   "title": "Requiem aeternam (Gradual of the Requiem Mass)",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 2",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Gradual",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Requiem aetérnam\ndona eis Dómine:\net lux perpétua\nlúceat eis. ℣.\nIn memória aetérna\nerit justus:\nab auditióne mala\nnon timébit."
+   ],
+   "refrain": "",
+   "first_line": "Requiem aetérnam",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-01261.ogg",
+   "audio_kind": "chant",
+   "seconds": 135,
+   "language": "Latin",
+   "gregobase": 1261
+  },
+  {
    "title": "Requiescant",
    "also": [],
    "author": "",
@@ -13459,6 +17151,630 @@
    "gregobase": 5015
   },
   {
+   "title": "Sanctus",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Sanctus, Sanctus, Sanctus Dóminus Deus Sábaoth.\nPleni sunt cæli et terra glória tua.\nHosánna in excélsis.\nBenedíctus qui venit in nómine Dómini.\nHosánna in excélsis."
+   ],
+   "refrain": "",
+   "first_line": "Sanctus, Sanctus, Sanctus Dóminus Deus Sábaoth.",
+   "source": "GregoBase, from Graduale simplex (Vatican)",
+   "audio": "more/chant-07505.ogg",
+   "audio_kind": "chant",
+   "seconds": 28,
+   "language": "Latin",
+   "gregobase": 7505
+  },
+  {
+   "title": "Sanctus (ad lib.) I.",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 1",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Sanctus, Sánctus, Sánctus Dóminus Déus Sábaoth.\nPléni sunt cǽli et térra glória túa.\nHosánna in excélsis.\nBenedíctus qui vénit in nómine Dómini.\nHosánna in excélsis."
+   ],
+   "refrain": "",
+   "first_line": "Sanctus, Sánctus, Sánctus Dóminus Déus Sábaoth.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02816.ogg",
+   "audio_kind": "chant",
+   "seconds": 43,
+   "language": "Latin",
+   "gregobase": 2816
+  },
+  {
+   "title": "Sanctus (ad lib.) II.",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 4",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Sanctus, Sánctus, Sánctus Dóminus Déus Sábaoth.\nPléni sunt cǽli et térra glória túa.\nHosánna in excélsis.\nBenedíctus qui vénit in nómine Dómini.\nHosánna in excélsis."
+   ],
+   "refrain": "",
+   "first_line": "Sanctus, Sánctus, Sánctus Dóminus Déus Sábaoth.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02820.ogg",
+   "audio_kind": "chant",
+   "seconds": 50,
+   "language": "Latin",
+   "gregobase": 2820
+  },
+  {
+   "title": "Sanctus (ad lib.) III.",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 8",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Sanctus, Sánctus, Sánctus Dóminus Déus Sábaoth.\nPléni sunt cǽli et térra glória túa.\nHosánna in excélsis.\nBenedíctus qui vénit\nin nómine Dómini.\nHosánna in excélsis."
+   ],
+   "refrain": "",
+   "first_line": "Sanctus, Sánctus, Sánctus Dóminus Déus Sábaoth.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02849.ogg",
+   "audio_kind": "chant",
+   "seconds": 56,
+   "language": "Latin",
+   "gregobase": 2849
+  },
+  {
+   "title": "Sanctus I",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 4",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Sanctus, Sánctus, Sánctus Dóminus Déus Sábaoth.\nPléni sunt caéli et térra glória túa.\nHosánna in excélsis.\nBenedíctus qui vénit in nómine Dómini.\nHosánna in excélsis."
+   ],
+   "refrain": "",
+   "first_line": "Sanctus, Sánctus, Sánctus Dóminus Déus Sábaoth.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00300.ogg",
+   "audio_kind": "chant",
+   "seconds": 54,
+   "language": "Latin",
+   "gregobase": 300
+  },
+  {
+   "title": "Sanctus II",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 1",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Sanctus, Sánctus, Sánctus Dóminus Déus Sábaoth.\nPléni sunt caéli et térra glória túa.\nHosánna in excélsis.\nBenedíctus qui vénit in nómine Dómini.\nHosánna in excélsis."
+   ],
+   "refrain": "",
+   "first_line": "Sanctus, Sánctus, Sánctus Dóminus Déus Sábaoth.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-01279.ogg",
+   "audio_kind": "chant",
+   "seconds": 65,
+   "language": "Latin",
+   "gregobase": 1279
+  },
+  {
+   "title": "Sanctus III",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 4",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Sanctus, Sánctus, Sánctus Dóminus Déus Sábaoth.\nPléni sunt caéli et térra glória túa.\nHosánna in excélsis.\nBenedíctus qui vénit in nómine Dómini.\nHosánna in excélsis."
+   ],
+   "refrain": "",
+   "first_line": "Sanctus, Sánctus, Sánctus Dóminus Déus Sábaoth.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00566.ogg",
+   "audio_kind": "chant",
+   "seconds": 61,
+   "language": "Latin",
+   "gregobase": 566
+  },
+  {
+   "title": "Sanctus IV",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 8",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Sanctus, Sánctus, Sánctus Dóminus Déus Sábaoth.\nPléni sunt cǽli et térra glória túa.\nHosánna in excélsis.\nBenedíctus qui vénit in nómine Dómini.\nHosánna in excélsis."
+   ],
+   "refrain": "",
+   "first_line": "Sanctus, Sánctus, Sánctus Dóminus Déus Sábaoth.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02518.ogg",
+   "audio_kind": "chant",
+   "seconds": 64,
+   "language": "Latin",
+   "gregobase": 2518
+  },
+  {
+   "title": "Sanctus IX",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 5",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Sanctus, Sánctus, Sánctus Dóminus Déus Sábaoth.\nPléni sunt cǽli et térra glória túa.\nHosánna in excélsis.\nBenedíctus qui vénit in nómine Dómini.\nHosánna in excélsis."
+   ],
+   "refrain": "",
+   "first_line": "Sanctus, Sánctus, Sánctus Dóminus Déus Sábaoth.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00587.ogg",
+   "audio_kind": "chant",
+   "seconds": 68,
+   "language": "Latin",
+   "gregobase": 587
+  },
+  {
+   "title": "Sanctus Missa Regia",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 1",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Sanctus,\nSánctus,\nSánctus\nDóminus Déus Sábaoth.\nPléni sunt caéli et térra glória túa.\nHosánna in excélsis.\nBenedíctus qui vénit in nómine Dómini.\nHosánna in excélsis."
+   ],
+   "refrain": "",
+   "first_line": "Sanctus,",
+   "source": "GregoBase (Solesmes)",
+   "audio": "more/chant-07945.ogg",
+   "audio_kind": "chant",
+   "seconds": 44,
+   "language": "Latin",
+   "gregobase": 7945
+  },
+  {
+   "title": "Sanctus V",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 4",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Sanctus, Sánctus,\nSánctus Dóminus Déus Sábaoth.\nPléni sunt caéli et térra glória túa.\nHosánna in excélsis.\nBenedíctus qui vénit in nómine Dómini.\nHosánna in excélsis."
+   ],
+   "refrain": "",
+   "first_line": "Sanctus, Sánctus,",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02984.ogg",
+   "audio_kind": "chant",
+   "seconds": 59,
+   "language": "Latin",
+   "gregobase": 2984
+  },
+  {
+   "title": "Sanctus VI",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 3",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Sanctus, Sánctus, Sánctus Dóminus Déus Sábaoth.\nPléni sunt caéli et térra glória túa.\nHosánna in excélsis.\nBenedíctus qui vénit in nómine Dómini.\nHosánna in excélsis."
+   ],
+   "refrain": "",
+   "first_line": "Sanctus, Sánctus, Sánctus Dóminus Déus Sábaoth.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00431.ogg",
+   "audio_kind": "chant",
+   "seconds": 60,
+   "language": "Latin",
+   "gregobase": 431
+  },
+  {
+   "title": "Sanctus VII",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 8",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Sanctus, Sánctus, Sánctus\nDóminus Déus Sábaoth.\nPléni sunt caéli et térra glória túa.\nHosánna in excélsis.\nBenedíctus qui vénit in nómine Dómini.\nHosánna in excélsis."
+   ],
+   "refrain": "",
+   "first_line": "Sanctus, Sánctus, Sánctus",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-01089.ogg",
+   "audio_kind": "chant",
+   "seconds": 81,
+   "language": "Latin",
+   "gregobase": 1089
+  },
+  {
+   "title": "Sanctus VIII",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 6",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Sanctus, Sánctus, Sánctus\nDóminus Déus Sábaoth.\nPléni sunt caéli et térra glória túa.\nHosánna in excélsis.\nBenedíctus qui vénit in nómine Dómini.\nHosánna in excélsis."
+   ],
+   "refrain": "",
+   "first_line": "Sanctus, Sánctus, Sánctus",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-01384.ogg",
+   "audio_kind": "chant",
+   "seconds": 70,
+   "language": "Latin",
+   "gregobase": 1384
+  },
+  {
+   "title": "Sanctus X",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 4",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Sanctus, Sánctus, Sánctus\nDóminus Déus Sábaoth.\nPléni sunt caéli et térra glória túa.\nHosánna in excélsis.\nBenedíctus qui vénit in nómine Dómini.\nHosánna in excélsis."
+   ],
+   "refrain": "",
+   "first_line": "Sanctus, Sánctus, Sánctus",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02770.ogg",
+   "audio_kind": "chant",
+   "seconds": 39,
+   "language": "Latin",
+   "gregobase": 2770
+  },
+  {
+   "title": "Sanctus XI",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 2",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Sanctus, Sánctus, Sánctus Dóminus Déus Sábaoth.\nPléni sunt cǽli et térra glória túa.\nHosánna in excélsis.\nBenedíctus qui vénit in nómine Dómini.\nHosánna in excélsis."
+   ],
+   "refrain": "",
+   "first_line": "Sanctus, Sánctus, Sánctus Dóminus Déus Sábaoth.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-01106.ogg",
+   "audio_kind": "chant",
+   "seconds": 66,
+   "language": "Latin",
+   "gregobase": 1106
+  },
+  {
+   "title": "Sanctus XII",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 2",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Sanctus, Sánctus, Sánctus\nDóminus Déus Sábaoth.\nPléni sunt caéli et térra glória túa.\nHosánna in excélsis.\nBenedíctus qui vénit in nómine Dómini.\nHosánna in excélsis."
+   ],
+   "refrain": "",
+   "first_line": "Sanctus, Sánctus, Sánctus",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-01062.ogg",
+   "audio_kind": "chant",
+   "seconds": 53,
+   "language": "Latin",
+   "gregobase": 1062
+  },
+  {
+   "title": "Sanctus XIII",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 8",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Sanctus, Sánctus, Sánctus Dóminus Déus Sábaoth.\nPléni sunt caéli et térra glória túa.\nHosánna in excélsis.\nBenedíctus qui vénit in nómine Dómini.\nHosánna in excélsis."
+   ],
+   "refrain": "",
+   "first_line": "Sanctus, Sánctus, Sánctus Dóminus Déus Sábaoth.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-01067.ogg",
+   "audio_kind": "chant",
+   "seconds": 37,
+   "language": "Latin",
+   "gregobase": 1067
+  },
+  {
+   "title": "Sanctus XIV",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 1",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Sanctus, Sanctus, Sanctus Dóminus Deus Sábaoth.\nPleni sunt caeli et terra glória tua.\nHosánna in excélsis.\nBenedíctus qui venit in nómine Dómini.\nHosánna in excélsis."
+   ],
+   "refrain": "",
+   "first_line": "Sanctus, Sanctus, Sanctus Dóminus Deus Sábaoth.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02979.ogg",
+   "audio_kind": "chant",
+   "seconds": 69,
+   "language": "Latin",
+   "gregobase": 2979
+  },
+  {
+   "title": "Sanctus XIX",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 8",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Sanctus, Sánctus, Sánctus\nDóminus Déus Sábaoth.\nPléni sunt cǽli et térra\nglória túa.\nHosánna in excélsis.\nBenedíctus qui vénit\nin nómine Dómini.\nHosánna in excélsis."
+   ],
+   "refrain": "",
+   "first_line": "Sanctus, Sánctus, Sánctus",
+   "source": "GregoBase",
+   "audio": "more/chant-07959.ogg",
+   "audio_kind": "chant",
+   "seconds": 94,
+   "language": "Latin",
+   "gregobase": 7959
+  },
+  {
+   "title": "Sanctus XV",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 2",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Sanctus, Sánctus, Sánctus Dóminus Déus Sábaoth.\nPléni sunt caéli et térra glória túa.\nHosánna in excélsis.\nBenedíctus qui vénit in nómine Dómini.\nHosánna in excélsis."
+   ],
+   "refrain": "",
+   "first_line": "Sanctus, Sánctus, Sánctus Dóminus Déus Sábaoth.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00386.ogg",
+   "audio_kind": "chant",
+   "seconds": 50,
+   "language": "Latin",
+   "gregobase": 386
+  },
+  {
+   "title": "Sanctus XVI",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 2",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Sanctus, Sánctus, Sánctus Dóminus Déus Sábaoth.\nPléni sunt cǽli et térra glória túa.\nHosánna in excélsis.\nBenedíctus qui vénit in nómine Dómini.\nHosánna in excélsis."
+   ],
+   "refrain": "",
+   "first_line": "Sanctus, Sánctus, Sánctus Dóminus Déus Sábaoth.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-02990.ogg",
+   "audio_kind": "chant",
+   "seconds": 42,
+   "language": "Latin",
+   "gregobase": 2990
+  },
+  {
+   "title": "Sanctus XVII",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 5",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Sanctus, Sánctus, Sánctus Dóminus Déus Sábaoth.\nPléni sunt cǽli et térra glória túa.\nHosánna in excélsis.\nBenedíctus qui vénit in nómine Dómini.\nHosánna in excélsis."
+   ],
+   "refrain": "",
+   "first_line": "Sanctus, Sánctus, Sánctus Dóminus Déus Sábaoth.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00871.ogg",
+   "audio_kind": "chant",
+   "seconds": 59,
+   "language": "Latin",
+   "gregobase": 871
+  },
+  {
+   "title": "Sanctus XVIII",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Mass Ordinary",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Sanctus, Sanctus, Sanctus Dóminus Deus Sábaoth.\nPleni sunt cæli et terra glória tua.\nHosánna in excélsis.\nBenedíctus qui venit in nómine Dómini.\nHosánna in excélsis."
+   ],
+   "refrain": "",
+   "first_line": "Sanctus, Sanctus, Sanctus Dóminus Deus Sábaoth.",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-00298.ogg",
+   "audio_kind": "chant",
+   "seconds": 32,
+   "language": "Latin",
+   "gregobase": 298
+  },
+  {
    "title": "Sedibus caeli",
    "also": [],
    "author": "",
@@ -13988,6 +18304,32 @@
    "seconds": 41,
    "language": "Latin",
    "gregobase": 2064
+  },
+  {
+   "title": "Subvenite (Responsory of the Requiem)",
+   "also": [],
+   "author": "",
+   "translator": "",
+   "composer": "Gregorian chant, mode 4",
+   "tune": "",
+   "meter": "",
+   "scripture": [],
+   "topics": [
+    "Responsory",
+    "Latin",
+    "Gregorian chant"
+   ],
+   "stanzas": [
+    "Subveníte Sancti Dei,\noccúrrite Angeli Dómini:\nSuscipiéntes ánimam ejus\nOfferéntes eam in conspéctu Altíssimi. ℣.\nSuscípiat te Christus, qui vocávit te:\net in sinum Abrahae Angeli dedúcant te.\nSuscipiéntes ánimam ejus: +\nOfferéntes eam in conspéctu Altíssimi. ℣.\nRéquiem aetérnam dona ei Dómine:\net lux perpétua lúceat ei +\nOfferéntes eam in conspéctu Altíssimi."
+   ],
+   "refrain": "",
+   "first_line": "Subveníte Sancti Dei,",
+   "source": "GregoBase, from Graduale Romanum (Solesmes)",
+   "audio": "more/chant-01152.ogg",
+   "audio_kind": "chant",
+   "seconds": 145,
+   "language": "Latin",
+   "gregobase": 1152
   },
   {
    "title": "Succedit nocti lucifer",

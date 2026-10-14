@@ -137,3 +137,10 @@ def test_hymn_harp_is_a_random_sacred_harp_song(hymns, fake_ctx):
         asyncio.run(hymns.send_hymn_search(fake_ctx, query))
         assert fake_ctx.sent[-1]["embed"].title.split(" — ")[0].lstrip("🎵 ").strip() in titles or \
             any(t in fake_ctx.sent[-1]["embed"].title for t in titles)
+
+
+@pytest.mark.parametrize("title", ["Credo I", "Credo III", "Kyrie VIII", "Gloria XV", "Sanctus XVIII", "Agnus XVIII",
+                                   "Requiem aeternam (Introit of the Requiem Mass)", "Libera me (Responsory of the Requiem)"])
+def test_the_mass_and_the_requiem(hymns, title):
+    hymn = next(h for h in hymns.hymns() if h["title"] == title)
+    assert hymns.audio_path(hymn) is not None and hymn["stanzas"]

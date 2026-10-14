@@ -413,7 +413,7 @@ async def cmd_help(ctx, *, topic: str = ""):
             "**▶️ Play the tune** posts the hymn tune, once through in four parts on an organ, as audio "
             "you can play in Discord. **📖 Read the passages** shows the Bible verses "
             "the hymn draws on. About 290 public-domain hymns, from the Open Hymnal Project and Hymnary.org.\n\n"
-            "**Ancient hymns:** 552 Latin hymns, sequences and antiphons in Gregorian chant, with the "
+            "**Ancient hymns:** 720 Latin hymns, sequences, antiphons and chants of the Mass in Gregorian chant, with the "
             "chant to play — `!hymn Salve Regina`, `!hymn Te lucis`, `!hymn Dies irae`, `!hymn Ubi caritas`. "
             "**The Sacred Harp:** all 550 songs, sung in four parts — `!hymn Idumea`, `!hymn Babylon is fallen`, "
             "`!hymnlist harp`."
