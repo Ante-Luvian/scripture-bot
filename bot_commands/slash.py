@@ -430,6 +430,13 @@ async def saint_slash(interaction: discord.Interaction, query: str = ""):
     await _command("saint")(ctx, query=query)
 
 
+@bot.tree.command(name="cloud", description="A book's most distinctive words, drawn as a word cloud")
+@app_commands.describe(book="A book, e.g. Ecclesiastes, Revelation, Tao Te Ching")
+async def cloud_slash(interaction: discord.Interaction, book: str):
+    ctx = await _slash_ctx(interaction)
+    await _command("cloud")(ctx, book=book)
+
+
 @bot.tree.command(name="hymnday", description="Today's hymn, chosen for the Church year")
 @app_commands.describe(date="Another day's, as YYYY-MM-DD (empty for today)")
 async def hymnday_slash(interaction: discord.Interaction, date: str = ""):

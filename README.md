@@ -98,6 +98,7 @@ Prefix commands use `!`; most also have a `/` slash-command version.
 |---|---|---|
 | `!study <ref>` | | Verse plus patristic commentary |
 | `!catena <ref>` | | Patristic commentary (catenabible.com) |
+| `!cloud <book>` | `!wordcloud` | A book's most distinctive words as an image (`cloud.py`, the `wordcloud` package): tf-idf against the other books of its corpus, stopwords (KJV's included) removed |
 | `!saint [name \| day]` | `!saints`, `!saintoftheday` | The saint of the day, or by name/day (`saints.py`, `data/saints/saints.json` from `build_saints.py`): Butler's 1894 abridged Lives, with a 📖 Golden Legend button; Legend-only saints open to the Legend; several of a name give a picker |
 | `!saintsetup` | `!saintconfig` | (Admins) Post the saint of the day in a channel: `channel #chan`, `time HH:MM` (UTC, default 07:00), `test`, `off`; `saintday.json` stops double posts |
 | `!xref <ref>` | `!crossref` | Cross-references (Treasury of Scripture Knowledge) |
@@ -278,6 +279,7 @@ bot_commands/           One module per feature area; each registers its
   hymns.py                !hymn (tunes played by hymn_audio.py)
   hymnday.py              !hymnday, !hymndaysetup (the hymn of the day)
   saints.py               !saint, !saintsetup (Butler's Lives and the Golden Legend)
+  cloud.py                !cloud (word clouds)
   psalter.py              !metrical (the Scottish Metrical Psalter)
   games.py                !whoami, !versle
   journeys.py             !journey (route maps: bible_map.py)

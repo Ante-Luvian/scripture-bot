@@ -346,6 +346,10 @@ async def cmd_saintsetup(ctx, action: str = "", *, arg: str = ""):
             await ctx.send("Mention a channel: `!saintsetup channel #saints`")
             return
         _update_guild_config(ctx.guild.id, saintday_channel_id=channel.id)
+        m = re.search(r"\btime\s+(\d{1,2}):(\d{2})\b", arg)              # ("channel #chan time 04:00" in one go)
+        if m and 0 <= int(m.group(1)) <= 23 and 0 <= int(m.group(2)) <= 59:
+            time_hm = f"{int(m.group(1)):02d}:{m.group(2)}"
+            _update_guild_config(ctx.guild.id, saintday_time=time_hm)
         await ctx.send(f"The saint of the day will be posted in {channel.mention} at {time_hm} UTC.")
     elif action == "time":
         m = re.match(r"^(\d{1,2}):(\d{2})$", arg.strip())

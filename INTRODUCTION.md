@@ -102,6 +102,7 @@ Abbreviations are fine (`Jn`, `1 Cor`, `Ps`). Bible verses come with the four st
 **`!notes John 3:16`** — the NET Bible's translators' notes: why a word was translated the way it was, background on the passage, and where ancient manuscripts disagree. Small numbers in the verse show which word each note is about. (Also the **Notes** button.)
 **`!xref John 3:16`** — related verses elsewhere in the Bible, from the classic *Treasury of Scripture Knowledge*. (Also the **Cross-refs** button.)
 **`!quoted Isaiah 53:5`** — where the New Testament quotes the Old (or the Book of Enoch and other ancient writings), shown side by side, each labelled as a direct quotation or a looser parallel.
+**`!cloud Ecclesiastes`** — a book's most distinctive words drawn as a picture, the bigger the word the more it sets that book apart from the rest of its collection: Ecclesiastes is *vanity*, *vexation* and *labour under the sun*, the Song of Solomon *beloved*, *myrrh* and *lilies*. Works for any book in the library (`!cloud Revelation`, `!cloud Tao Te Ching`).
 **`!study John 3:16`** — the verse plus what the early Church Fathers said about it. **`!catena John 3:16`** gives just the Fathers' commentary.
 
 **The original languages** (Strong's numbers are a standard numbering of every Hebrew and Greek word in the Bible — G for Greek, H for Hebrew):
