@@ -98,6 +98,8 @@ Prefix commands use `!`; most also have a `/` slash-command version.
 |---|---|---|
 | `!study <ref>` | | Verse plus patristic commentary |
 | `!catena <ref>` | | Patristic commentary (catenabible.com) |
+| `!saint [name \| day]` | `!saints`, `!saintoftheday` | The saint of the day, or by name/day (`saints.py`, `data/saints/saints.json` from `build_saints.py`): Butler's 1894 abridged Lives, with a 📖 Golden Legend button; Legend-only saints open to the Legend; several of a name give a picker |
+| `!saintsetup` | `!saintconfig` | (Admins) Post the saint of the day in a channel: `channel #chan`, `time HH:MM` (UTC, default 07:00), `test`, `off`; `saintday.json` stops double posts |
 | `!xref <ref>` | `!crossref` | Cross-references (Treasury of Scripture Knowledge) |
 | `!notes <ref>` | `!netnotes` | The NET Bible's translator's, study, and text-critical notes for a verse (up to 5 verses) |
 | `!quoted <ref>` | `!otnt`, `!quotedin` | OT ↔ NT quotations, and NT quotations of / parallels with Enoch and other non-canonical works |
@@ -275,6 +277,7 @@ bot_commands/           One module per feature area; each registers its
   people.py               !who/!place/!tree (map cards: bible_map.py; trees: family_tree.py)
   hymns.py                !hymn (tunes played by hymn_audio.py)
   hymnday.py              !hymnday, !hymndaysetup (the hymn of the day)
+  saints.py               !saint, !saintsetup (Butler's Lives and the Golden Legend)
   psalter.py              !metrical (the Scottish Metrical Psalter)
   games.py                !whoami, !versle
   journeys.py             !journey (route maps: bible_map.py)
@@ -343,6 +346,12 @@ Three reference datasets have their own shape, each rebuilt by a script in `scri
   `audio/harp/` (`build_sacred_harp.py`) are the Sacred Harp (1991 ed.): words from
   fasola.org, the sung four-part recordings from Sacred Harp Bremen. Entries carry
   their own `audio` path and `audio_kind`.
+- `data/saints/` (`build_saints.py`): `saints.json` (`{"saints": [{month, day, name,
+  life, reflection, source, golden_legend: [book keys], also: [names], ...}]}`). Butler's
+  abridged *Lives* (Benziger, 1894) from archive.sacred-texts.com/chr/lots, a saint for
+  every day; plus the Golden Legend's saints (the existing medieval corpus), matched to
+  Butler's by hand in `GOLDEN_LEGEND`, or dated from the 1913 Catholic Encyclopedia or the
+  Legend's own text; those with no checkable day are found by name only.
 - `data/psalter/` (`build_psalter.py`): `psalter.json` (`{"psalms": [{number,
   version ("primary"/"alternate"), meter, first_line, stanzas: [{verses, lines}],
   tune}], "tunes": {id: {title, meter, attribution, seconds}}}`), `midi/` and

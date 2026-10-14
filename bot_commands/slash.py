@@ -412,6 +412,24 @@ async def hymndaysetup_slash(interaction: discord.Interaction, action: str = "sh
     await _command("hymndaysetup")(ctx, "" if action == "show" else action, arg=value)
 
 
+@bot.tree.command(name="saintsetup", description="(Admins) Post the saint of the day in a channel")
+@app_commands.describe(action="What to change", channel="For 'channel'", value="For 'time' (HH:MM, UTC)")
+@app_commands.choices(action=[app_commands.Choice(name=a, value=a) for a in ("show", "channel", "time", "test", "off")])
+@_admin_only
+async def saintsetup_slash(interaction: discord.Interaction, action: str = "show",
+                           channel: discord.TextChannel = None, value: str = ""):
+    ctx = await _slash_ctx(interaction)
+    ctx.message = _WithChannelMention(ctx.message, channel)
+    await _command("saintsetup")(ctx, "" if action == "show" else action, arg=value)
+
+
+@bot.tree.command(name="saint", description="The saint of the day, or any saint, from Butler and the Golden Legend")
+@app_commands.describe(query="A name (Christopher), a day (25 July), or empty for today's saint")
+async def saint_slash(interaction: discord.Interaction, query: str = ""):
+    ctx = await _slash_ctx(interaction)
+    await _command("saint")(ctx, query=query)
+
+
 @bot.tree.command(name="hymnday", description="Today's hymn, chosen for the Church year")
 @app_commands.describe(date="Another day's, as YYYY-MM-DD (empty for today)")
 async def hymnday_slash(interaction: discord.Interaction, date: str = ""):

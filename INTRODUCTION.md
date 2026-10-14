@@ -155,6 +155,8 @@ Long psalms have buttons to turn the page, or ask for some verses: `!metrical 11
 • `!collect` — the Collect (short prayer) of the day
 • `!prayer` — a random prayer from the 1662 Prayer Book
 
+**`!saint`** — the saint of the day on the traditional calendar, from *Butler's Lives of the Saints*, with a **📖 Golden Legend** button when the medieval *Golden Legend* tells their story too. Look up any saint by name (`!saint George`, `!saint Christopher`; if there are several, like the two Augustines, I'll ask which) or by day (`!saint 25 July`). Admins: `!saintsetup channel #saints` posts the day's saint every morning.
+
 **`!creed`** — the Apostles', Nicene and Athanasian Creeds in traditional English: `!creed nicene`, with `latin` or `greek` for the original (`!creed nicene greek`) or `parallel` for all at once.
 
 **Catholic teaching**
