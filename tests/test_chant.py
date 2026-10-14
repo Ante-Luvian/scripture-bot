@@ -155,5 +155,12 @@ def test_english_translations(hymns):
     assert "English" in view_buttons
     embed = hymns.english_embed(credo)
     assert embed.title == "🇬🇧 Credo III, in English" and "Pontius Pilate" in embed.description
+    stabat = next(h for h in hymns.hymns() if h["title"] == "Stabat Mater")
+    assert hymns.translation(stabat)["stanzas"][0].startswith("At the Cross her station keeping")
+    assert "Edward Caswall" in hymns.english_embed(stabat).footer.text
+    tantum = hymns.translation(next(h for h in hymns.hymns() if h["title"] == "Tantum ergo"))
+    assert tantum["stanzas"][0].startswith("Down in adoration falling") and len(tantum["stanzas"]) == 2
+    media = next(h for h in hymns.hymns() if h["title"] == "Media vita")
+    assert "In te speraverunt" in hymns.english_embed(media).footer.text
     salve = next(h for h in hymns.hymns() if h["title"] == "Amazing Grace")
     assert hymns.translation(salve) is None and "English" not in [getattr(i, "item", i).label for i in hymns.hymn_view(salve).children]
