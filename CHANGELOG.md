@@ -14,6 +14,9 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-14 · O Gladsome Light (the Phos Hilaron)
+- 🕯️ **Added: *O Gladsome Light*, the *Phos Hilaron*.** It's one of the oldest Christian hymns still sung, a Greek hymn for lamp-lighting at evening prayer, already old by the 300s. This is Robert Bridges's English translation of 1899, with the tune it's most often sung to: Louis Bourgeois's *Nunc dimittis* from the Genevan Psalter of 1551, in Claude Goudimel's harmony, played on the organ. Try `!hymn O Gladsome Light` or `!hymn Phos Hilaron`.
+
 ## 2026-10-14 · The Pater noster
 - 🙏 **Added: the *Pater noster* (the Lord's Prayer) in Gregorian chant.** It had been asked for and was missing. The chant collection files it with the prayers of the Mass, not with the hymns, so it was left out when the Latin hymns were added. It's the version sung at Mass, from the *Graduale Romanum*, with the priest's introduction (*Praeceptis salutaribus moniti… audemus dicere*, "Taught by our Saviour's command… we dare to say"). Try `!hymn Pater noster`, or `!midi Pater noster` for just the chant.
 

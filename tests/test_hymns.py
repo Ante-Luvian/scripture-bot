@@ -160,3 +160,9 @@ def test_play_sends_just_the_audio(hy):
 
     asyncio.run(hy.play(Interaction(), _one(hy, "I Heard the Voice of Jesus Say")))
     assert "files" not in sent and sent["file"].filename.endswith(".ogg")
+
+
+def test_the_phos_hilaron(hy):
+    found = hy.find_hymns("Phos Hilaron")
+    assert found and found[0]["first_line"] == "O gladsome light, O grace"
+    assert len(found[0]["stanzas"]) == 3 and hy.audio_path(found[0]) is not None
