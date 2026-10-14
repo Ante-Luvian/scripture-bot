@@ -164,5 +164,5 @@ def test_play_sends_just_the_audio(hy):
 
 def test_the_phos_hilaron(hy):
     found = hy.find_hymns("Phos Hilaron")
-    assert found and found[0]["first_line"] == "O gladsome light, O grace"
+    assert found and found[0]["first_line"] == "Hail, gladdening Light, of His pure glory poured"
     assert len(found[0]["stanzas"]) == 3 and hy.audio_path(found[0]) is not None
