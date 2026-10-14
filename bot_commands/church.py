@@ -1,8 +1,12 @@
 """
 !catena, !ccc / !canon, !creed, !summa.
 """
+import concurrent.futures
 import discord
+import json
 import re
+import urllib.error
+import urllib.request
 from discord import app_commands
 from summa_lookup import get_summa, get_summa_random, parse_summa_ref
 from core import (
@@ -107,7 +111,18 @@ def _catena_book_abbr(book_raw: str) -> str | None:
     return None
 
 
-def _fetch_catena_sections(reference: str) -> dict:
+CATENA_MAX = 30                       # passages fetched per verse (John 3:16 has 18)
+
+
+def _catena_text(markup: str) -> str:
+    """A passage's markup as plain text: <verseRef>John 3:16</verseRef> keeps its reference."""
+    import html as html_mod
+    text = re.sub(r"<verseRef>(.*?)</verseRef>", r"(\1)", markup)
+    text = html_mod.unescape(re.sub(r"<[^>]+>", "", text))
+    return re.sub(r"[ \t]+", " ", text).strip()
+
+
+def _fetch_catena_sections(reference: str, limit: int = CATENA_MAX) -> dict:
     """
     Pure helper: fetch and parse catenabible.com commentary for a verse.
 
@@ -138,63 +153,45 @@ def _fetch_catena_sections(reference: str) -> dict:
 
     url = f"https://catenabible.com/{abbr}/{chapter}/{verse}"
 
-    try:
-        req = urllib.request.Request(
-            url,
-            headers={
-                "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
-                "Accept": "text/html,application/xhtml+xml",
-                "Accept-Language": "en-US,en;q=0.9",
-            }
-        )
+    # The site (rebuilt in 2026 as a JavaScript app) serves its commentary from a JSON API:
+    # the Fathers on a verse (?tab=index), then each passage by its paragraph id.
+    def get_json(api_url):
+        req = urllib.request.Request(api_url, headers={
+            # (the site turns away a user agent that names a bot)
+            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
+                          "Chrome/120.0.0.0 Safari/537.36",
+            "Accept": "application/json"})
         with urllib.request.urlopen(req, timeout=15) as r:
-            raw = r.read().decode("utf-8")
+            return json.loads(r.read().decode("utf-8"))
+
+    try:
+        index = get_json(f"https://catenabible.com/api/verse/{abbr}/{chapter}/{verse}?tab=index")
     except urllib.error.HTTPError as e:
         return {"error_send": f"⚠️ catenabible.com returned HTTP {e.code} for `{reference}`.\nVisit: <{url}>"}
     except Exception as e:
         return {"error_send": f"⚠️ Could not reach catenabible.com: {e}"}
 
-    # ── Parse commentary sections ─────────────────────────────────────────────
-    text = html_mod.unescape(re.sub(r"<[^>]+>", " ", raw))
-    text = re.sub(r"[ \t]+", " ", text)
-    text = re.sub(r"\n{3,}", "\n\n", text).strip()
+    entries = [(father, entry) for father in index.get("fathers", []) for entry in father.get("entries", [])]
+    entries = entries[:limit]
 
-    # Trim the page footer (recurring nav links) BEFORE other cutoffs,
-    # since these appear at the very end of the page and would otherwise leak
-    # into the last commentary's body. Markers must be specific enough not to
-    # match words that legitimately appear inside commentary text.
-    for footer_cut in [
-        "About Privacy Policy Donate",
-        "About\nPrivacy Policy\nDonate",
-    ]:
-        idx = text.find(footer_cut)
-        if idx != -1:
-            text = text[:idx].strip()
+    def passage(item):
+        father, entry = item
+        try:
+            body = get_json(f"https://catenabible.com/api/commentary/{entry['paragraphId']}")
+        except Exception:
+            return None
+        parts = [(body.get("commentary") or {}).get("text", "")]
+        parts += [p.get("text", "") for p in body.get("continuation") or []]
+        text = "\n\n".join(_catena_text(p) for p in parts if p).strip()
+        if len(text) < 20:
+            return None
+        year = father.get("yearReposed")
+        name = f"{father.get('fatherName', 'Unattributed')}" + (f" AD {year}" if year else "")
+        work = entry.get("workTitle") or (body.get("commentary") or {}).get("workTitle")
+        return name, text + (f"\n\n— *{work.rstrip('.')}*" if work else "")
 
-    for cutoff in ["All Commentaries on", "Knowing this first", "Go To "]:
-        idx = text.find(cutoff)
-        if idx != -1:
-            text = text[:idx].strip()
-
-    # Start at first "Name AD YYYY" — skips the nav dump
-    ad_match = re.search(r"\b[A-Z][a-zA-Z ]+AD \d{3,4}", text)
-    if ad_match:
-        text = text[ad_match.start():]
-
-    text = re.sub(r"chevron-(?:left|right)", "", text)
-    text = re.sub(r"Verse \d+\s+Read Chapter \d+\s+Verse \d+", "", text)
-    text = re.sub(r"\d+ min\s+\d+ / \d+\s+Go to Commentary", "", text)
-    text = re.sub(r"Read Chapter \d+", "", text)
-
-    entries = re.split(r"\n*([A-Z][a-zA-Z ]+AD \d{3,4})\n*", text)
-    sections = []
-    i = 1
-    while i < len(entries) - 1:
-        name = entries[i].strip()
-        body = re.sub(r"\s*\d+ min\s*\d* ?/? ?\d*\s*Go to Commentary\s*", "", entries[i + 1]).strip()
-        if body and len(body) > 20:
-            sections.append((name, body))
-        i += 2
+    with concurrent.futures.ThreadPoolExecutor(max_workers=8) as pool:
+        sections = [s for s in pool.map(passage, entries) if s]
 
     return {
         "sections": sections,
@@ -216,8 +213,9 @@ async def cmd_catena(ctx, *, reference: str = ""):
             return
         reference = re.sub(r"\s*[-–]\s*\d+$", "", ref_raw.strip())
 
+    import asyncio
     async with ctx.typing():
-        result = _fetch_catena_sections(reference)
+        result = await asyncio.to_thread(_fetch_catena_sections, reference)   # many requests: off the event loop
 
     if result.get("error_send"):
         await ctx.send(result["error_send"])

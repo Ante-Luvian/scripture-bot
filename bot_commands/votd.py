@@ -276,7 +276,7 @@ async def _send_votd_full(ctx_or_channel):
         ancient_results.append((slug_out, display_out, text_out))
 
     # ── 4. First catena commentary ────────────────────────────────────────────
-    catena_data = _fetch_catena_sections(ref_single)
+    catena_data = await asyncio.to_thread(_fetch_catena_sections, ref_single, 1)   # just the first Father
     catena_section = None    # (father_name, body)
     catena_url = None
     if not catena_data.get("error_send"):
