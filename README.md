@@ -123,6 +123,7 @@ Prefix commands use `!`; most also have a `/` slash-command version.
 | `!journey [name]` | `!journeys`, `!route` | A journey on a route map (`bible_map.render_route`) with its stops and verses: Abraham, Exodus, Paul 1–3, Rome, Egypt, Jonah. Every stop's verse is checked against the KJV by a test |
 | `!hymn [title \| words \| topic \| passage]` | `!hymns`, `!hymnal` | A public-domain hymn: words, author, tune, Bible passages; ▶️ plays the tune (an organ .ogg) |
 | `!midi [title \| words \| topic \| passage]` | `!tune` | Just a hymn's tune, posted straight away without the words |
+| `!chant [title \| words]` | `!sing`, `!sungchant` | A Latin chant sung with its words, posted straight away; random if empty |
 | `!hymnlist [all \| hymns \| chant \| harp \| chant kind \| words]` | `!hymnindex`, `!listhymns` | The hymnal by title: section counts, or a paged list to open from |
 | `!metrical [n \| nb \| n:v-v \| words \| tune]` | `!metricalpsalm`, `!singpsalm`, `!psalter1650`; `!psalm 23 sing` | A psalm from the Scottish Metrical Psalter (1650) with its tune to play, a menu of other same-meter tunes, KJV button, second versions, pages |
 
@@ -352,7 +353,12 @@ Three reference datasets have their own shape, each rebuilt by a script in `scri
   their own `audio` path and `audio_kind`. `translations.json` (`build_translations.py`) holds
   published English for the Latin chants, by title: the Book of Common Prayer (1662 texts, from
   Gutenberg #29622) for the Mass Ordinary, Pater noster and canticles, and J. M. Neale's
-  *Mediaeval Hymns and Sequences* (Wikisource), matched on the chant's opening words.
+  *Mediaeval Hymns and Sequences* (Wikisource), matched on the chant's opening words, and
+  translations Wikipedia's hymn articles print under a named translator (`WIKIPEDIA` there).
+  `audio/sung/` (`build_sung_chant.py`) has every chant *sung* with its Latin words, for
+  `!chant` and the 🎤 Sung button, named by GregoBase id like the organ files: MBROLA's
+  Italian voice it3 (`scripts/mbrola/`), ecclesiastical Latin turned into Italian phonemes,
+  three slightly detuned voices in a synthetic reverb.
 - `data/saints/` (`build_saints.py`): `saints.json` (`{"saints": [{month, day, name,
   life, reflection, source, golden_legend: [book keys], also: [names], ...}]}`). Butler's
   abridged *Lives* (Benziger, 1894) from archive.sacred-texts.com/chr/lots, a saint for

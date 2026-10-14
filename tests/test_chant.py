@@ -90,6 +90,28 @@ def test_midi_posts_just_the_tune(hymns, fake_ctx):
     assert "embed" not in sent                                   # no words
 
 
+def test_every_chant_is_sung(hymns, more):
+    for h in more:
+        if h.get("audio_kind") == "chant":
+            assert hymns.sung_path(h) is not None, h["title"]
+    pater = next(h for h in more if h["title"] == "Pater noster")
+    assert "Sung" in [getattr(i, "item", i).label for i in hymns.hymn_view(pater).children]
+    harp = next(h for h in hymns.hymns() if hymns.shelf(h) == "harp")
+    assert hymns.sung_path(harp) is None                          # the Sacred Harp has its own singing
+
+
+def test_chant_sings_straight_away(hymns, fake_ctx):
+    import asyncio
+    asyncio.run(hymns.send_chant(fake_ctx, "Pater noster"))
+    sent = fake_ctx.sent[-1]
+    assert "Pater noster" in sent["content"] and "sung" in sent["content"]
+    assert sent["file"].filename.endswith("_sung.ogg") and "embed" not in sent
+    asyncio.run(hymns.send_chant(fake_ctx, "amazing grace"))       # an English hymn isn't chant
+    assert "no sung chant" in fake_ctx.sent[-1]["content"]
+    asyncio.run(hymns.send_chant(fake_ctx, ""))
+    assert fake_ctx.sent[-1]["file"].filename.endswith("_sung.ogg")
+
+
 def test_midi_with_no_tune_says_so(hymns, fake_ctx):
     import asyncio
     asyncio.run(hymns.send_hymn_tune(fake_ctx, "zzzz no such hymn"))
