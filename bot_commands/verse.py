@@ -311,7 +311,7 @@ async def search_prefix(ctx, *, query: str = ""):
         by_corpus = lookup.search_by_corpus(query, corpora)
 
     if not by_corpus:
-        await ctx.send(f"No results found for **{query}**{where}.")
+        await ctx.send(f"No results found for **{discord.utils.escape_markdown(query)}**{where}.")
         return
 
     total_hits = sum(len(hits) for hits in by_corpus.values())
@@ -323,7 +323,8 @@ THEME_SNIPPET = 300
 
 def theme_embed(query: str, passages: list) -> discord.Embed:
     """One field per tradition: the reference and the passage, theme words in bold."""
-    stems = [lookup._stem(w) for w in query.lower().split()]
+    stems = [lookup._stem(w) for w in (re.sub(r"^[^\w]+|[^\w]+$", "", w) for w in query.lower().split())
+             if re.search(r"[^\W\d_]", w)] or ["￿"]
     bold = re.compile(r"\b(" + "|".join(re.escape(s) for s in stems) + r")\w*", re.IGNORECASE)
     embed = discord.Embed(title=f"🌐 {query.strip().capitalize()} — across the traditions",
                           color=discord.Color.dark_gold())
@@ -358,7 +359,8 @@ async def cmd_theme(ctx, *, query: str = ""):
     async with ctx.typing():
         passages = await asyncio.to_thread(lookup.theme_passages, query)
     if not passages:
-        await ctx.send(f"I couldn't find **{query}** in any tradition. Try a single word, like `!theme mercy`.")
+        await ctx.send(f"I couldn't find **{discord.utils.escape_markdown(query)}** in any tradition. "
+                       f"A theme is a word or two, like `!theme mercy`.")
         return
     await ctx.send(embed=theme_embed(query, passages))
 

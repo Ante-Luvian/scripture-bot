@@ -25,6 +25,8 @@ from core import ROOT, bot, log, lookup
 HYMNS_PATH = ROOT / "data" / "hymns" / "hymns.json"
 # the ancient Latin hymns in Gregorian chant, and pieces like Babylon Is Fallen (scripts/build_chant.py)
 MORE_PATH = ROOT / "data" / "hymns" / "more_hymns.json"
+# the Sacred Harp, every song sung (scripts/build_sacred_harp.py)
+HARP_PATH = ROOT / "data" / "hymns" / "sacred_harp.json"
 MIDI_DIR = ROOT / "data" / "hymns" / "midi"
 AUDIO_DIR = ROOT / "data" / "hymns" / "audio"
 COLOR = discord.Color.from_rgb(120, 60, 110)
@@ -34,8 +36,9 @@ MAX_LIST = 20
 @functools.lru_cache(maxsize=1)
 def hymns() -> list:
     found = json.loads(HYMNS_PATH.read_text(encoding="utf-8"))["hymns"]
-    if MORE_PATH.exists():
-        found = found + json.loads(MORE_PATH.read_text(encoding="utf-8"))["hymns"]
+    for extra in (MORE_PATH, HARP_PATH):
+        if extra.exists():
+            found = found + json.loads(extra.read_text(encoding="utf-8"))["hymns"]
     return found
 
 

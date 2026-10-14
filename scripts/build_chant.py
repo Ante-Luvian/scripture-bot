@@ -1,7 +1,6 @@
 """
 Builds data/hymns/more_hymns.json and its audio (data/hymns/audio/more/): the
-ancient Latin hymns of the Church in Gregorian chant, and a few other pieces
-the Open Hymnal doesn't have.
+ancient Latin hymns of the Church in Gregorian chant.
 
     python scripts/build_chant.py          # needs numpy (hymn_audio.py) and ffmpeg
 
@@ -10,14 +9,11 @@ export of gregobase.selapa.net, cached in scripts/.cache/gregobase): every
 hymn, sequence, canticle and invitatory, and the best-loved antiphons (the
 four Marian antiphons, Ubi caritas...). Each chant's gabc score gives both
 its Latin words (the syllables between the neumes) and its melody, which is
-played on hymn_audio's organ -- one stanza of a strophic hymn (the tune
-repeats), the whole of anything else. Versions of one chant (Solesmes,
+played on hymn_audio's organ, the whole piece. Versions of one chant (Solesmes,
 Vatican, Dominican...; "simple tone") are one entry: the Liber Usualis's
 first, then the version with the most stanzas.
 
-Also Babylon Is Fallen (The Sacred Harp, 1991 ed., no. 117): words from
-fasola.org's index of that edition, audio the four-part sung rendering by
-Sacred Harp Bremen (sh1991.sacredharpbremen.org).
+(The Sacred Harp's songs, Babylon Is Fallen among them, are build_sacred_harp.py's.)
 """
 import collections
 import csv
@@ -248,38 +244,6 @@ def render(notes: list, out: Path, title: str) -> float:
     return max(b for _, b, _, _ in notes)
 
 
-# ── Babylon Is Fallen ───────────────────────────────────────────────────────
-
-BREMEN = ("https://sh1991.sacredharpbremen.org/wp-content/uploads/songs/100-199/117-Babylon-Is-Fallen/"
-          "117-Babylon-Is-Fallen-synth-text.mp3")
-
-
-def babylon() -> dict:
-    import html
-    page = urllib.request.urlopen(urllib.request.Request("https://fasola.org/indexes/1991/?p=117", headers=UA),
-                                  timeout=60).read().decode("utf-8")
-    lyrics = page[page.index('<div class="lyrics">'):]
-    lyrics = lyrics[:lyrics.index("</div>")]
-    text = html.unescape(re.sub(r"<(?!br)[^>]+>", "", lyrics))
-    stanzas = [re.sub(r"\s*<br/?>\s*", "\n", s).strip() for s in re.split(r"<br/?>\s*<br/?>", text)]
-    stanzas = [s for s in (re.sub(r"<br/?>", "", s).strip() for s in stanzas) if s]
-    mp3 = CACHE / "117-Babylon-Is-Fallen.mp3"
-    if not mp3.exists():
-        mp3.write_bytes(urllib.request.urlopen(urllib.request.Request(BREMEN, headers=UA), timeout=120).read())
-    out = AUDIO / "babylon-is-fallen.ogg"
-    subprocess.run([shutil.which("ffmpeg"), "-loglevel", "error", "-y", "-i", str(mp3), "-ac", "1", "-c:a", "libopus",
-                    "-b:a", "32k", "-metadata", "title=Babylon Is Fallen", str(out)], check=True)
-    seconds = float(subprocess.run([shutil.which("ffprobe") or "ffprobe", "-v", "error", "-show_entries", "format=duration",
-                                    "-of", "csv=p=0", str(out)], capture_output=True, text=True).stdout.strip() or 0)
-    return {"title": "Babylon Is Fallen", "also": ["Hail the Day So Long Expected", "Sacred Harp 117"],
-            "author": "From Millennial Praises (the Shaker hymnal, 1813); attributed to Richard McNemar",
-            "translator": "", "composer": "W. E. Chute (1878)", "tune": "Babylon Is Fallen", "meter": "8.7.8.7.8.7",
-            "scripture": ["Revelation 18:2", "Revelation 18:21"], "topics": ["Sacred Harp", "Second Coming"],
-            "stanzas": stanzas, "refrain": "", "first_line": stanzas[0].split("\n")[0],
-            "source": "The Sacred Harp, 1991 Edition, no. 117 (words via fasola.org); sung by Sacred Harp Bremen",
-            "audio": "more/babylon-is-fallen.ogg", "audio_kind": "sung", "seconds": round(seconds)}
-
-
 # ── putting it together ─────────────────────────────────────────────────────
 
 def main():
@@ -321,7 +285,6 @@ def main():
             "audio": f"more/{name}", "audio_kind": "chant", "seconds": round(seconds), "language": "Latin",
             "gregobase": int(r["id"]),
         })
-    hymns.append(babylon())
     OUT.write_text(json.dumps({"hymns": hymns}, ensure_ascii=False, indent=1), encoding="utf-8")
     size = sum(f.stat().st_size for f in AUDIO.glob("*.ogg"))
     print(f"wrote {len(hymns)} hymns; audio {size / 1e6:.1f} MB; skipped {len(skipped)}: {skipped[:10]}")

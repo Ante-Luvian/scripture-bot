@@ -36,6 +36,9 @@ See README.md for what the bot does, the command list, layout, and data schema.
   `python -m pytest -m live` runs the separate checks against real services (e.g.
   netbible.org for `!notes`); run them when touching that code. The bot also checks
   netbible.org weekly and DMs the owner if it breaks (`bot_commands/health.py`).
+- After adding or rebuilding a corpus, run `python scripts/clean_corpora.py` (strips web
+  leftovers, licences, footnotes, Beta Code; see README "Cleaning") and then
+  `python -m pytest -m corpus`, the slow check that every corpus file is clean.
 - Tests must never touch the live runtime files; `tests/conftest.py` redirects them
   to a temp folder for every test. Keep new runtime-file paths in its `RUNTIME_FILES`.
 
