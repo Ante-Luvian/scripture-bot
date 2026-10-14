@@ -47,6 +47,9 @@ from bot_commands.games import (
 from bot_commands.hymnday import (
     daily_hymn_task,
 )
+from bot_commands.saints import (
+    daily_saint_task,
+)
 from bot_commands.report import (
     weekly_report_task,
 )
@@ -74,6 +77,7 @@ from bot_commands import (  # noqa: F401
     psalter,
     quiz,
     reference,
+    saints,
     slash,
     stats,
     translations,
@@ -121,6 +125,7 @@ async def on_ready():
     daily_quiz_task.start()
     daily_versle_task.start()
     daily_hymn_task.start()
+    daily_saint_task.start()
     plan_reminder_task.start()
     memorize_review_task.start()
     weekly_report_task.start()

@@ -813,6 +813,20 @@ async def cmd_help(ctx, *, topic: str = ""):
         await ctx.send(embed=embed)
         return
 
+    if topic in ("saint", "saints", "saintsetup"):
+        embed = discord.Embed(title="🕯️ !saint — Saints", color=discord.Color.dark_gold())
+        embed.description = (
+            "`!saint` — the saint of the day on the traditional calendar\n"
+            "`!saint Christopher` — a saint by name (several of one name? pick from a menu)\n"
+            "`!saint 25 July` — the saints of a day\n\n"
+            "Lives from *Butler's Lives of the Saints* (abridged, 1894), with a **📖 Golden Legend** button "
+            "when the medieval *Golden Legend* tells the story too; saints only the Legend has, like "
+            "Christopher, open straight to it.\n\n"
+            "**Admins:** `!saintsetup channel #chan` posts the saint of the day (`time HH:MM` UTC, `test`, `off`)"
+        )
+        await ctx.send(embed=embed)
+        return
+
     if topic in ("catena",):
         embed = discord.Embed(title="📿 !catena — Patristic Commentary", color=discord.Color.dark_gold())
         embed.description = (
@@ -855,7 +869,8 @@ async def cmd_help(ctx, *, topic: str = ""):
         "`!ccc` — Catechism · `!help ccc`\n"
         "`!summa` — Summa Theologica · `!help summa`\n"
         "`!canon` — Code of Canon Law\n"
-        "`!catena` — Patristic commentary · `!help catena`"
+        "`!catena` — Patristic commentary · `!help catena`\n"
+        "`!saint` — the saint of the day, or `!saint George`, `!saint 25 July` · `!help saint`"
     ), inline=False)
     embed.add_field(name="📜 Creeds", value=(
         "`!creed apostle` / `nicene` / `athanasius` — traditional English · `!help creed`"
@@ -906,7 +921,8 @@ async def cmd_help(ctx, *, topic: str = ""):
         "`!oraclesetup channel #chan` — a daily oracle post (`time`, `kind`, `test`, `off`)\n"
         "`!quizsetup channel #chan` — a daily quiz question (`time`, `kind bible|hard`, `test`, `off`)\n"
         "`!verslesetup channel #chan` — the day's Versle puzzle (`time`, `test`, `off`)\n"
-        "`!hymndaysetup channel #chan` — the hymn of the day (`time`, `test`, `off`)"
+        "`!hymndaysetup channel #chan` — the hymn of the day (`time`, `test`, `off`)\n"
+        "`!saintsetup channel #chan` — the saint of the day (`time`, `test`, `off`)"
     ), inline=False)
     embed.add_field(name="🏛️ Ancient Languages & Strong's", value=(
         "Append to `!verse`: `OE` `WLC` `LXX` `TR` `VULG` `peshitta` `CSL`\n"

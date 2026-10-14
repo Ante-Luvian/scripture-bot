@@ -168,6 +168,13 @@
    "masnavi",
    "mathnawi"
   ],
+  "saint": [
+   "saintoftheday",
+   "saints"
+  ],
+  "saintsetup": [
+   "saintconfig"
+  ],
   "save": [
    "bookmark"
   ],
@@ -322,6 +329,8 @@
   "reverseinterlinear",
   "root",
   "rumi",
+  "saint",
+  "saintsetup",
   "save",
   "saved",
   "search",
