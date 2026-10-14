@@ -285,6 +285,10 @@ async def send_hymn_search(ctx, query: str) -> None:
         hymn = random.choice(hymns())
         await ctx.send(embed=hymn_embed(hymn), view=hymn_view(hymn))
         return
+    if _norm(query) in ("harp", "sacred harp", "random harp", "shape note"):   # a random Sacred Harp song
+        hymn = random.choice([h for h in hymns() if shelf(h) == "harp"])
+        await ctx.send(embed=hymn_embed(hymn), view=hymn_view(hymn))
+        return
     if query.lower() in ("list", "index", "all"):                # people try this before !hymnlist
         await send_hymn_list(ctx, "")
         return
