@@ -30,7 +30,7 @@ def test_sortes_biblicae(oracles, monkeypatch, fake_ctx):
     assert embed.description.startswith("📖 Isaiah  🕯️ 40:31  👈")
     assert "*But they that wait upon the Lord shall renew their strength*" in embed.description
     assert embed.footer.text == "Isaiah 40:31 — King James Version"
-    assert _labels(msg) == ["Notes", "Cross-refs", "Interlinear", "Card"]   # it's a Bible verse
+    assert _labels(msg) == ["Notes", "Cross-refs", "Interlinear", "Card", "Catena"]   # it's a Bible verse
 
 
 def test_sortes_biblicae_draws_only_from_the_bible(oracles, monkeypatch, fake_ctx):

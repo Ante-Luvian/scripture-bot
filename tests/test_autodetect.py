@@ -35,7 +35,7 @@ def test_bible_verse_in_chat_gets_study_buttons(autodetect, monkeypatch):
     assert len(sent) == 1
     assert "For God so loved the world" in sent[0]["embed"].description
     view = sent[0]["view"]
-    assert [c.item.label for c in view.children] == ["Notes", "Cross-refs", "Interlinear", "Card"]
+    assert [c.item.label for c in view.children] == ["Notes", "Cross-refs", "Interlinear", "Card", "Catena"]
     assert view.timeout is None   # persistent buttons: the view must never time out
 
 

@@ -19,6 +19,9 @@ JUNK = {
                                r"Browse and Comment Search",
     "a page marker": r"<page [^>]+>|\{p\. ?\d+\}",
     "an HTML entity": r"&(?:lt|gt|amp|quot|nbsp|#\d+);",
+    "a website's footer or credits": r"The editor of New Advent|ADVERTISE WITH NEW ADVENT|Buy this Book at Amazon|"
+                                     r"This (?:text|material) was (?:transcribed|uploaded) by|in online text|"
+                                     r"Go to the Early Jewish Writings|Note to the online",
 }
 
 
@@ -80,6 +83,9 @@ def test_cleaning_is_already_done():
     ("the Boundary{philo means that ouranos was derived} of everything", "jewish/philo.json",
      "the Boundary of everything"),
     ("w#sper ou]n kai\\ th_n", "classical/julian.json", "ὥσπερ οὖν καὶ τὴν"),
+    ("Persius i. 4. [Note to the online text: there is an error here.] See", "patristics/basil_the_great.json",
+     "Persius i. 4. See"),
+    ("the [un]fathomable river, _like this_", "patristics/jerome.json", "the [un]fathomable river, *like this*"),
     ("ye have been recog~ nised.", "dharmic/atharva_veda.json", "ye have been recognised."),
 ])
 def test_clean_text(text, rel, expected):
@@ -108,3 +114,13 @@ def test_symbols_are_not_a_theme_or_a_search(lookup, query):
 
 def test_a_number_is_not_a_theme(lookup):
     assert lookup.theme_passages("34") == []
+
+
+@pytest.mark.parametrize("word, finds, skips", [
+    ("care", ["cares", "cared", "caring", "careth", "careful"], ["carry", "cart", "caress", "car"]),
+    ("mercy", ["mercies", "merciful"], ["merchant"]),
+    ("forgiveness", ["forgive", "forgiven", "forgiveth"], ["forget"]),
+])
+def test_a_theme_word_finds_its_forms_not_every_word_it_starts(lookup, word, finds, skips):
+    pattern = re.compile(lookup.word_regex(word), re.IGNORECASE)
+    assert all(pattern.fullmatch(w) for w in finds) and not any(pattern.fullmatch(w) for w in skips)

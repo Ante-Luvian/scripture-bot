@@ -90,12 +90,13 @@ _STUDY_ACTIONS = {   # custom_id code -> (label, emoji, command)
     "notes": ("Notes", "📝", cmd_notes),
     "xref": ("Cross-refs", "🔗", cmd_xref),
     "inter": ("Interlinear", "🔤", cmd_interlinear),
+    "catena": ("Catena", "📜", cmd_catena),       # what the Church Fathers said about it
     "card": ("Card", "🖼️", cmd_card),
 }
 
 
 class StudyButton(discord.ui.DynamicItem[discord.ui.Button],
-                  template=r"study:(?P<action>notes|xref|inter|card):(?P<ref>.+)"):
+                  template=r"study:(?P<action>notes|xref|inter|card|catena):(?P<ref>.+)"):
     """A study button whose custom_id carries everything it needs
     ("study:notes:John 3:16"), so it keeps working after the bot restarts --
     every update restarts it, which used to kill the buttons on every earlier
@@ -138,7 +139,7 @@ def _study_view_from_message(message, pressed_custom_id: str) -> discord.ui.View
 
 
 def _study_buttons(result: dict) -> list:
-    """Notes / Cross-refs / Interlinear / Card buttons for a Bible verse or
+    """Notes / Cross-refs / Interlinear / Card / Catena buttons for a Bible verse or
     short range ("John 3:16", "John 3:16–18 (ESV)"); [] for anything else --
     whole chapters, other corpora, errors."""
     m = _STUDY_REF.match(result.get("reference", "")) if result.get("found") else None
@@ -146,7 +147,7 @@ def _study_buttons(result: dict) -> list:
         return []
     ref = f"{m['book']} {m['ch']}:{m['v1']}" + (f"-{m['v2']}" if m["v2"] else "")
     span = int(m["v2"] or m["v1"]) - int(m["v1"]) + 1
-    actions = (["notes"] if span <= 5 else []) + ["xref", "inter", "card"]
+    actions = (["notes"] if span <= 5 else []) + ["xref", "inter", "card", "catena"]
     return [StudyButton(action, ref) for action in actions]
 
 
@@ -323,9 +324,9 @@ THEME_SNIPPET = 300
 
 def theme_embed(query: str, passages: list) -> discord.Embed:
     """One field per tradition: the reference and the passage, theme words in bold."""
-    stems = [lookup._stem(w) for w in (re.sub(r"^[^\w]+|[^\w]+$", "", w) for w in query.lower().split())
-             if re.search(r"[^\W\d_]", w)] or ["￿"]
-    bold = re.compile(r"\b(" + "|".join(re.escape(s) for s in stems) + r")\w*", re.IGNORECASE)
+    words = [w for w in (re.sub(r"^[^\w]+|[^\w]+$", "", w) for w in query.lower().split())
+             if re.search(r"[^\W\d_]", w)]
+    bold = re.compile("|".join(lookup.word_regex(w) for w in words) or r"(?!x)x", re.IGNORECASE)
     embed = discord.Embed(title=f"🌐 {query.strip().capitalize()} — across the traditions",
                           color=discord.Color.dark_gold())
     for label, hit in passages:

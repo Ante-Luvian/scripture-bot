@@ -2388,6 +2388,19 @@ class ScriptureLookup:
                 break
         return word[:-1] if word.endswith(("e", "y")) and len(word) > 3 else word
 
+    # endings a theme word may take: care -> cares, cared, caring, careth, careful, carefully...
+    _ENDINGS = r"(?:s|es|d|ed|n|en|ing|ings|th|eth|st|est|r|er|ers|ness|ful|fully|fulness|less|ly|'s)"
+
+    @classmethod
+    def word_regex(cls, word: str) -> str:
+        """The word and its inflections, not every word it starts: "care" finds cared,
+        caring, careth and careful, but not carry or cart; "mercy" finds mercies, merciful."""
+        stem = cls._stem(word)
+        forms = rf"{re.escape(stem)}[eyi]?{cls._ENDINGS}?"
+        if stem != word:                                  # "car" alone isn't a form of "care"
+            forms = rf"{re.escape(stem)}(?:[eyi]{cls._ENDINGS}?|{cls._ENDINGS})"
+        return rf"\b{forms}\b"
+
     def theme_passages(self, query: str) -> list:
         """One passage per tradition (TRADITIONS order) mentioning every word
         of `query`: [(tradition label, hit)], hit = {"reference", "text", "book"}.
@@ -2402,7 +2415,7 @@ class ScriptureLookup:
         words = [w for w in (re.sub(r"^[^\w]+|[^\w]+$", "", w) for w in q.split()) if re.search(r"[^\W\d_]", w)]
         if not words:
             return []
-        patterns = [re.compile(rf"\b{re.escape(self._stem(w))}\w*", re.IGNORECASE) for w in words]
+        patterns = [re.compile(self.word_regex(w), re.IGNORECASE) for w in words]
         out = []
         for key, (label, corpora) in TRADITIONS.items():
             best = None
