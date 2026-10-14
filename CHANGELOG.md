@@ -14,6 +14,10 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-14 · The chants of the Mass, and the Requiem
+- ⛪ **Added: the sung parts of the Mass, in every setting.** These are the parts that stay the same at every Mass: the Kyrie, Gloria, Credo, Sanctus and Agnus Dei, and the *Ite, missa est* that ends it. The chant books give many melodies for each, numbered I to XVIII (Mass VIII, for example, is the well-known *Missa de Angelis*), and all of them are here. Try `!hymn Credo III`, `!hymn Kyrie VIII` or `!hymn Credo in unum Deum` to choose among all seven Credos. `!hymnlist chant mass ordinary` lists them.
+- 🕯️ **Added: the chants of the Requiem**, the Mass for the dead: the Introit *Requiem aeternam* ("Eternal rest grant unto them, O Lord"), the Gradual, the Tract *Absolve, Domine*, the Offertory *Domine Jesu Christe*, the Communion *Lux aeterna*, and the responsories *Libera me* and *Subvenite*. Try `!hymn Requiem aeternam`. (The *Dies irae* was already here.)
+
 ## 2026-10-14 · O Gladsome Light (the Phos Hilaron)
 - 🕯️ **Added: *O Gladsome Light*, the *Phos Hilaron*.** It's one of the oldest Christian hymns still sung, a Greek hymn for lamp-lighting at evening prayer, already old by the 300s. This is Robert Bridges's English translation of 1899, with the tune it's most often sung to: Louis Bourgeois's *Nunc dimittis* from the Genevan Psalter of 1551, in Claude Goudimel's harmony, played on the organ. Try `!hymn O Gladsome Light` or `!hymn Phos Hilaron`.
 

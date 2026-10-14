@@ -38,7 +38,17 @@ AUDIO = ROOT / "data" / "hymns" / "audio" / "more"
 UA = {"User-Agent": "ScriptureBotCorpusBuilder/1.0 (Discord bot; low-volume one-off import)"}
 BITRATE = "16k"                      # one voice: smaller than the four-part hymns' 24k
 
-PARTS = {"hy": "Hymn", "se": "Sequence", "ca": "Canticle", "im": "Invitatory", "an": "Antiphon", "va": "Chant"}
+PARTS = {"hy": "Hymn", "se": "Sequence", "ca": "Canticle", "im": "Invitatory", "an": "Antiphon", "va": "Chant",
+         "ky": "Mass Ordinary", "in": "Introit", "gr": "Gradual", "tr": "Tract", "of": "Offertory",
+         "co": "Communion", "re": "Responsory", "or": "Prayer"}
+# the chants of the Requiem Mass and the burial (the Liber Usualis versions), by GregoBase id
+REQUIEM = {"766": "Requiem aeternam (Introit of the Requiem Mass)",
+           "1261": "Requiem aeternam (Gradual of the Requiem Mass)",
+           "338": "Absolve, Domine (Tract of the Requiem Mass)",
+           "1199": "Domine Jesu Christe (Offertory of the Requiem Mass)",
+           "241": "Lux aeterna (Communion of the Requiem Mass)",
+           "376": "Libera me (Responsory of the Requiem)",
+           "1152": "Subvenite (Responsory of the Requiem)"}
 # the antiphons and other pieces people know by name (GregoBase files them with thousands of others)
 # a version chosen by hand: the Pater noster sung at Mass (Graduale Romanum), not the monastic one
 PREFERRED = {"pater noster": "3326"}
@@ -77,12 +87,19 @@ def chosen(z) -> list:
     books = collections.defaultdict(list)
     for r in csv.DictReader(io.TextIOWrapper(z.open("csv/chant_sources.csv"), "utf-8")):
         books[r["chant_id"]].append(sources.get(r["source"], ""))
-    picked = [r for r in rows if r["office_part"] in ("hy", "se", "ca", "im", "va")
+    # the Mass Ordinary ("ky": every Kyrie, Gloria, Credo, Sanctus, Agnus Dei, Ite missa est) is in whole
+    picked = [r for r in rows if r["office_part"] in ("hy", "se", "ca", "im", "va", "ky") or r["id"] in REQUIEM
               or (r["office_part"] in ("an", "or") and any(norm(r["incipit"]).startswith(f) for f in FAVOURITES))]   # ("or": the Pater noster is a prayer of the Mass)
     groups = collections.defaultdict(list)
     for r in picked:
         if r["gabc"].strip():
-            groups[base_incipit(r["incipit"])].append(r)
+            if r["id"] in REQUIEM:
+                key = "requiem " + r["id"]
+            elif r["office_part"] == "ky":     # each setting is its own (Credo I, Credo III...), the numeral kept
+                key = norm(re.sub(r"\(forma ordinaria\)", "", r["incipit"])).strip(" .")
+            else:
+                key = base_incipit(r["incipit"])
+            groups[key].append(r)
 
     def rank(r):
         # the plain version ("Te lucis ante terminum", not "... (Sacred Heart)"), from the Liber
@@ -269,6 +286,7 @@ def main():
             continue
         title = re.sub(r"\s*\((?:simple tone|another chant|\d|[A-Z])\)\s*", " ", r["incipit"]).strip()
         title = re.sub(r"\.\.\.\s*", "… ", title)
+        title = REQUIEM.get(r["id"], title)
         if title.lower() in existing or titles[title.lower()]:
             title = f"{title} (chant)" if title.lower() in existing else f"{title} ({r['version'] or r['id']})"
         titles[title.lower()] += 1
