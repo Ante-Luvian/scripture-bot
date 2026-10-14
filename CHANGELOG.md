@@ -14,6 +14,9 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-14 · The Pater noster
+- 🙏 **Added: the *Pater noster* (the Lord's Prayer) in Gregorian chant.** It had been asked for and was missing. The chant collection files it with the prayers of the Mass, not with the hymns, so it was left out when the Latin hymns were added. It's the version sung at Mass, from the *Graduale Romanum*, with the priest's introduction (*Praeceptis salutaribus moniti… audemus dicere*, "Taught by our Saviour's command… we dare to say"). Try `!hymn Pater noster`, or `!midi Pater noster` for just the chant.
+
 ## 2026-10-14 · A random Sacred Harp song
 - 🎲 **`!hymn harp` now gives a random song from the Sacred Harp**, with its words and the four-part singing to play. Before, it searched for hymns with the word "harp" in them. `!hymn` on its own still picks from the whole hymnal.
 

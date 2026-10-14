@@ -28,6 +28,7 @@ def _one(hymns, query):
 
 @pytest.mark.parametrize("query, opening", [
     ("Te lucis ante terminum", "Te lucis ante términum,"),
+    ("Pater noster", "Præcéptis salutáribus móniti,"),              # the Mass one, from the Graduale Romanum
     ("Salve Regina", "Salve, Regína,"),
     ("Veni Creator Spiritus", "Veni Creátor Spíritus,"),
     ("Dies irae", "Dies iræ, dies illa,"),

@@ -40,10 +40,12 @@ BITRATE = "16k"                      # one voice: smaller than the four-part hym
 
 PARTS = {"hy": "Hymn", "se": "Sequence", "ca": "Canticle", "im": "Invitatory", "an": "Antiphon", "va": "Chant"}
 # the antiphons and other pieces people know by name (GregoBase files them with thousands of others)
+# a version chosen by hand: the Pater noster sung at Mass (Graduale Romanum), not the monastic one
+PREFERRED = {"pater noster": "3326"}
 FAVOURITES = ["salve regina", "alma redemptoris", "ave regina caelorum", "regina caeli", "ubi caritas", "sub tuum",
               "ave verum", "parce domine", "attende domine", "rorate caeli", "asperges me", "vidi aquam",
               "christus vincit", "inviolata", "o sanctissima", "media vita", "in paradisum", "nunc dimittis",
-              "ecce sacerdos", "o sacrum convivium", "regina caeli laetare"]
+              "ecce sacerdos", "o sacrum convivium", "regina caeli laetare", "pater noster"]
 
 
 # ── the corpus ──────────────────────────────────────────────────────────────
@@ -76,7 +78,7 @@ def chosen(z) -> list:
     for r in csv.DictReader(io.TextIOWrapper(z.open("csv/chant_sources.csv"), "utf-8")):
         books[r["chant_id"]].append(sources.get(r["source"], ""))
     picked = [r for r in rows if r["office_part"] in ("hy", "se", "ca", "im", "va")
-              or (r["office_part"] == "an" and any(norm(r["incipit"]).startswith(f) for f in FAVOURITES))]
+              or (r["office_part"] in ("an", "or") and any(norm(r["incipit"]).startswith(f) for f in FAVOURITES))]   # ("or": the Pater noster is a prayer of the Mass)
     groups = collections.defaultdict(list)
     for r in picked:
         if r["gabc"].strip():
@@ -93,7 +95,7 @@ def chosen(z) -> list:
     for key, versions in groups.items():
         if not key:
             continue
-        best = sorted(versions, key=rank)[0]
+        best = next((r for r in versions if r["id"] == PREFERRED.get(key)), None) or sorted(versions, key=rank)[0]
         best["_books"] = books[best["id"]]
         best["_versions"] = len(versions)
         out.append(best)
@@ -221,7 +223,7 @@ def parse(score: str, strophic: bool) -> "tuple[list, list]":
             i += 1
     close_stanza()
     stanzas = [re.sub(r"\s*[*†]", "", s).replace("~", " ") for s in stanzas]   # cue marks out; "~" a fixed space       # the choir's cue marks, not words
-    stanzas = [re.sub(r"[ \t]+", " ", s).replace(" ,", ",").replace(" .", ".").strip() for s in stanzas]
+    stanzas = [re.sub(r"[ \t]+", " ", s.replace("\r", "")).replace(" ,", ",").replace(" .", ".").strip() for s in stanzas]
     if len(stanzas) > 1 and re.fullmatch(r"(?:In fine: )?Amen\.?", stanzas[-1]):
         stanzas[-2:] = [stanzas[-2] + "\n" + stanzas[-1]]       # a closing Amen belongs to the last verse
     # chant books set an opening's first two letters as capitals ("TE lucis", "SAlve"): "Te", "Salve"
@@ -265,7 +267,7 @@ def main():
         if not stanzas or len(notes) < 8:
             skipped.append((r["id"], r["incipit"], "no words or melody"))
             continue
-        title = re.sub(r"\s*\((?:simple tone|another chant|\d)\)\s*", " ", r["incipit"]).strip()
+        title = re.sub(r"\s*\((?:simple tone|another chant|\d|[A-Z])\)\s*", " ", r["incipit"]).strip()
         title = re.sub(r"\.\.\.\s*", "… ", title)
         if title.lower() in existing or titles[title.lower()]:
             title = f"{title} (chant)" if title.lower() in existing else f"{title} ({r['version'] or r['id']})"
