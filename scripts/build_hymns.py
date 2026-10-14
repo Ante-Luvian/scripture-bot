@@ -517,12 +517,12 @@ EXTRA_HYMNS = [
      "author": "Cecil Spring Rice (1918)", "meter": "13 13 13 13 13 13",
      "scripture": ["Proverbs 3:17", "Genesis 22:2"],          # the article's notes on its last line and its altar
      "composer": "Gustav Holst (1874–1934)", "local": "Thaxted.mid"},
-    # the Phos Hilaron, the Greek evening hymn, in Robert Bridges's translation; Hymnary refuses
-    # scripts, so the words are Wikipedia's (which cites Hymnary) and the owner fetched the tune
-    {"wikipedia": "Phos Hilaron", "section": "by Robert Bridges", "title": "O Gladsome Light (Phos Hilaron)",
-     "tune": "Nunc Dimittis", "author": "Ancient Greek, 3rd century or earlier; translated by Robert Bridges (1899)",
-     "meter": "6 6 7 6 6 7", "scripture": [],
-     "composer": "Louis Bourgeois (1551); harmony by Claude Goudimel", "local": "Nunc_Dimittis_Bourgeois.mid"},
+    # the Phos Hilaron, the Greek evening hymn, in John Keble's translation (the owner's choice), to
+    # the tune Stainer wrote for it; Hymnary refuses scripts, so the words are Wikipedia's (which
+    # cites Hymnary) and the owner fetched the tune (hymnary.org/media/fetch/188299)
+    {"wikipedia": "Phos Hilaron", "section": "by John Keble", "title": "Hail, Gladdening Light (Phos Hilaron)",
+     "tune": "Sebaste", "author": "Ancient Greek, 3rd century or earlier; translated by John Keble (1834)",
+     "meter": "Irregular", "scripture": [], "composer": "John Stainer (1875)", "local": "Sebaste.mid"},
 ]
 WIKIPEDIA_CACHE = ROOT / "scripts" / ".cache" / "wikipedia"
 
@@ -539,9 +539,9 @@ def wikipedia_hymn(spec: dict) -> dict:
         page = json.loads(_fetch(url, WIKIPEDIA_CACHE / f"{name}.json"))["query"]["pages"][0]
         wikitext = page["revisions"][0]["slots"]["main"]["content"]
         cached.write_text(wikitext, encoding="utf-8")
-    wikitext = re.sub(r"<ref[^>]*>.*?</ref>|<ref[^>]*/>", "", wikitext, flags=re.S)
+    wikitext = re.sub(r"<ref[^>]*/>|<ref[^>]*>.*?</ref>", "", wikitext, flags=re.S)   # (self-closing first)
     if spec.get("section"):             # one translation of several: the <poem> under its heading
-        m = re.search(rf"=+\s*{re.escape(spec['section'])}\s*=+\s*<poem[^>]*>(.*?)</poem>", wikitext, re.S)
+        m = re.search(rf"=+\s*{re.escape(spec['section'])}\s*=+\s*(?:<!--.*?-->\s*)*<poem[^>]*>(.*?)</poem>", wikitext, re.S)
     else:
         m = re.search(r"\{\{poemquote\|(.*?)\}\}", wikitext, re.S)
     if not m:

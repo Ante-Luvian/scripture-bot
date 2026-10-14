@@ -3869,6 +3869,28 @@
    "seconds": 28
   },
   {
+   "title": "Hail, Gladdening Light (Phos Hilaron)",
+   "also": [],
+   "author": "Ancient Greek, 3rd century or earlier; translated by John Keble (1834)",
+   "translator": "",
+   "composer": "John Stainer (1875)",
+   "tune": "Sebaste",
+   "meter": "Irregular",
+   "scripture": [],
+   "topics": [],
+   "stanzas": [
+    "Hail, gladdening Light, of His pure glory poured\nWho is the immortal Father, heavenly, blest,\nHoliest of Holies, Jesus Christ our Lord!",
+    "Now we are come to the sun's hour of rest;\nThe lights of evening round us shine;\nWe hymn the Father, Son, and Holy Spirit divine!",
+    "Worthiest art Thou at all times to be sung\nWith undefiled tongue,\nSon of our God, Giver of life, alone:\nTherefore in all the world Thy glories, Lord, they own."
+   ],
+   "refrain": "",
+   "first_line": "Hail, gladdening Light, of His pure glory poured",
+   "file": "en.wikipedia.org/wiki/Phos_Hilaron",
+   "source": "Wikipedia",
+   "midi": "Sebaste.mid",
+   "seconds": 76
+  },
+  {
    "title": "Hallelujah, What a Savior!",
    "also": [
     "Man of Sorrows"
@@ -8634,28 +8656,6 @@
    "source": "The Open Hymnal Project",
    "midi": "O_For_A_Thousand_Tongues-Azmon.mid",
    "seconds": 14
-  },
-  {
-   "title": "O Gladsome Light (Phos Hilaron)",
-   "also": [],
-   "author": "Ancient Greek, 3rd century or earlier; translated by Robert Bridges (1899)",
-   "translator": "",
-   "composer": "Louis Bourgeois (1551); harmony by Claude Goudimel",
-   "tune": "Nunc Dimittis",
-   "meter": "6 6 7 6 6 7",
-   "scripture": [],
-   "topics": [],
-   "stanzas": [
-    "O gladsome light, O grace\nOf God the Father's face,\nThe eternal splendour wearing;\nCelestial, holy, blest,\nOur Saviour Jesus Christ,\nJoyful in thine appearing.",
-    "Now, ere day fadeth quite,\nWe see the evening light,\nOur wonted hymn outpouring;\nFather of might unknown,\nThee, his incarnate Son,\nAnd Holy Spirit adoring.",
-    "To thee of right belongs\nAll praise of holy songs,\nO Son of God, Lifegiver;\nThee, therefore, O Most High,\nThe world doth glorify,\nAnd shall exalt forever."
-   ],
-   "refrain": "",
-   "first_line": "O gladsome light, O grace",
-   "file": "en.wikipedia.org/wiki/Phos_Hilaron",
-   "source": "Wikipedia",
-   "midi": "Nunc_Dimittis_Bourgeois.mid",
-   "seconds": 28
   },
   {
    "title": "O Holy Spirit, Enter In",
