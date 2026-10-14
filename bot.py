@@ -80,6 +80,7 @@ from bot_commands import (  # noqa: F401
     reference,
     saints,
     slash,
+    stories,
     stats,
     translations,
     verse,

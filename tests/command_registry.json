@@ -198,6 +198,11 @@
   "stats": [
    "botstats"
   ],
+  "story": [
+   "myth",
+   "myths",
+   "stories"
+  ],
   "strong": [
    "strongs"
   ],
@@ -340,6 +345,7 @@
   "search",
   "sortesbiblicae",
   "stats",
+  "story",
   "strong",
   "study",
   "subscribe",

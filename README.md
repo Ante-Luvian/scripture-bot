@@ -98,6 +98,7 @@ Prefix commands use `!`; most also have a `/` slash-command version.
 |---|---|---|
 | `!study <ref>` | | Verse plus patristic commentary |
 | `!catena <ref>` | | Patristic commentary (catenabible.com) |
+| `!story [name]` | `!stories`, `!myth` | One story across traditions (`stories.py`, curated in `data/stories.json`: a reference and a quotation per passage, both checked against the text by `tests/test_stories.py`); `christ` adds the Church Fathers who read each pagan text as foretelling Christ |
 | `!cloud <book>` | `!wordcloud` | A book's most distinctive words as an image (`cloud.py`, the `wordcloud` package): tf-idf against the other books of its corpus, stopwords (KJV's included) removed |
 | `!saint [name \| day]` | `!saints`, `!saintoftheday` | The saint of the day, or by name/day (`saints.py`, `data/saints/saints.json` from `build_saints.py`): Butler's 1894 abridged Lives, with a 📖 Golden Legend button; Legend-only saints open to the Legend; several of a name give a picker |
 | `!saintsetup` | `!saintconfig` | (Admins) Post the saint of the day in a channel: `channel #chan`, `time HH:MM` (UTC, default 07:00), `test`, `off`; `saintday.json` stops double posts |
@@ -280,6 +281,7 @@ bot_commands/           One module per feature area; each registers its
   hymnday.py              !hymnday, !hymndaysetup (the hymn of the day)
   saints.py               !saint, !saintsetup (Butler's Lives and the Golden Legend)
   cloud.py                !cloud (word clouds)
+  stories.py              !story (one story across traditions; data/stories.json)
   psalter.py              !metrical (the Scottish Metrical Psalter)
   games.py                !whoami, !versle
   journeys.py             !journey (route maps: bible_map.py)
