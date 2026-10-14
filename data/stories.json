@@ -1,0 +1,119 @@
+{
+ "about": "!story: the same story as different traditions tell it. Each passage is a reference the bot can look up and a quotation from it (tests/test_stories.py checks both against the loaded text); the excerpt shown starts at the quotation. 'read_by' gives the Christian writers who read a pagan passage as pointing to Christ, checked the same way.",
+ "stories": {
+  "flood": {
+   "title": "The Flood",
+   "aliases": ["deluge", "noah", "great flood"],
+   "intro": "A god or gods send a flood to wipe out humanity, and one good man (with his family) survives in a boat to begin the world again. Some form of this story is told almost everywhere.",
+   "passages": [
+    {"tradition": "📖 The Bible", "title": "Noah's ark", "ref": "Genesis 7:17-24", "quote": "And the flood was forty days upon the earth"},
+    {"tradition": "🏺 Babylon", "title": "Uta-Napishtim, in the Epic of Gilgamesh", "ref": "Gilgamesh Tablet 11 1:1", "quote": "Six days, a se'nnight the hurricane, deluge, and tempest continued sweeping the land"},
+    {"tradition": "🏛️ Greece", "title": "Deucalion and Pyrrha, in Apollodorus", "ref": "Library 1.7:2", "quote": "And Prometheus had a son Deucalion"},
+    {"tradition": "🏛️ Rome", "title": "Jupiter drowns the world, in Ovid", "ref": "Metamorphoses 1:338-350", "quote": "he preferred to overwhelm"},
+    {"tradition": "☪️ Islam", "title": "Noah, in the Quran", "ref": "Quran 11:40-44", "quote": "the oven gushed forth water"},
+    {"tradition": "🌽 The Maya", "title": "The men of wood, in the Popol Vuh", "ref": "Popol Vuh 1:2", "quote": "a great flood came upon the mannikins of wood"}
+   ]
+  },
+  "creation": {
+   "title": "The Creation of the World",
+   "aliases": ["creation", "beginning", "the beginning", "cosmogony"],
+   "intro": "How the world began: out of water, darkness or chaos; from a word, an egg, or the body of a slain monster.",
+   "passages": [
+    {"tradition": "📖 The Bible", "title": "In the beginning", "ref": "Genesis 1:1-5", "quote": "In the beginning God created the heaven and the earth"},
+    {"tradition": "📖 The Bible", "title": "The Word", "ref": "John 1:1-5", "quote": "In the beginning was the Word"},
+    {"tradition": "🏺 Babylon", "title": "Marduk splits the sea-monster Tiamat, in the Enuma Elish", "ref": "Enuma Elish 4:137", "quote": "He split her up like a flat fish into two halves"},
+    {"tradition": "🏛️ Greece", "title": "Chaos, in Hesiod's Theogony", "ref": "Theogony 2:1", "quote": "Verily at the first Chaos came to be"},
+    {"tradition": "🕉️ India", "title": "The Hymn of Creation, in the Rig Veda", "ref": "Rig Veda 10.129:1-7", "quote": "In the beginning, there was neither existence nor non-existence"},
+    {"tradition": "🕉️ India", "title": "The golden egg, in the Laws of Manu", "ref": "Laws of Manu 1:9-13", "quote": "That (seed) became a golden egg"},
+    {"tradition": "☯️ China", "title": "The Tao Te Ching", "ref": "Tao Te Ching 42", "quote": "The Tao produced One"},
+    {"tradition": "⛩️ Japan", "title": "The first gods, in the Kojiki", "ref": "Kojiki 1:1", "quote": "when the Heaven and Earth began"},
+    {"tradition": "🌽 The Maya", "title": "Hurakan calls out the earth, in the Popol Vuh", "ref": "Popol Vuh 1:1", "quote": "He called out \"earth,\""},
+    {"tradition": "🪓 The Norse", "title": "The yawning gap, in the Poetic Edda", "ref": "Voluspo 3", "quote": "when Ymir lived"},
+    {"tradition": "🌲 Finland", "title": "The duck's eggs, in the Kalevala", "ref": "Kalevala 1:15-18", "quote": "Six, the golden eggs she lays there"}
+   ]
+  },
+  "humans": {
+   "title": "The First People, Made from the Earth",
+   "aliases": ["man", "mankind", "first man", "first people", "clay", "adam", "creation of man"],
+   "intro": "The gods shape the first people out of earth, clay or mud, from a god's blood, or (in the Maya story) from maize.",
+   "passages": [
+    {"tradition": "📖 The Bible", "title": "Adam", "ref": "Genesis 2:7", "quote": "formed man of the dust of the ground"},
+    {"tradition": "☪️ Islam", "title": "Potter's clay, in the Quran", "ref": "Quran 15:26-29", "quote": "We created man of potter's clay"},
+    {"tradition": "🏺 Babylon", "title": "Man from a god's blood, in the Enuma Elish", "ref": "Enuma Elish 6:1", "quote": "My blood will I take and bone will I fashion"},
+    {"tradition": "🏛️ Greece", "title": "Pandora, in Hesiod's Works and Days", "ref": "Works and Days 1:60", "quote": "mix earth with water"},
+    {"tradition": "🌽 The Maya", "title": "People of maize, in the Popol Vuh", "ref": "Popol Vuh 3:1", "quote": "wholly created from yellow and White maize"}
+   ]
+  },
+  "tower": {
+   "title": "The Tower to Heaven",
+   "aliases": ["babel", "tower of babel", "giants"],
+   "intro": "People (or giants) try to build their way up to heaven, and are thrown down for it.",
+   "passages": [
+    {"tradition": "📖 The Bible", "title": "The tower of Babel", "ref": "Genesis 11:1-9", "quote": "let us build us a city and a tower, whose top may reach unto heaven"},
+    {"tradition": "✡️ Jewish tradition", "title": "Nimrod's tower, in Josephus", "ref": "Jewish Antiquities 1.115", "quote": "they built a tower"},
+    {"tradition": "📜 Apocrypha", "title": "The tower, in the Book of Jubilees", "ref": "Jubilees 10:18-26", "quote": "let us ascend thereby into heaven"},
+    {"tradition": "🏛️ Rome", "title": "The Giants pile mountain on mountain, in Ovid", "ref": "Metamorphoses 1:195-199", "quote": "was threatened by the Giants; and they piled"}
+   ]
+  },
+  "underworld": {
+   "title": "The Journey to the Underworld",
+   "aliases": ["hell", "hades", "descent", "the dead", "land of the dead", "katabasis"],
+   "intro": "A hero goes down alive into the land of the dead, to question the dead, rescue someone, or win something back.",
+   "passages": [
+    {"tradition": "🏛️ Greece", "title": "Odysseus calls up the dead, in the Odyssey", "ref": "Odyssey 11:35", "quote": "the spirits of those that are dead"},
+    {"tradition": "🏛️ Rome", "title": "Aeneas goes down to hell, in the Aeneid", "ref": "Aeneid 6:192-193", "quote": "The gates of hell are open night and day"},
+    {"tradition": "🏺 Babylon", "title": "Enkidu's dream of the house of dust, in Gilgamesh", "ref": "Gilgamesh Tablet 7 2:1", "quote": "where for their food is the dust"},
+    {"tradition": "🕉️ India", "title": "Nachiketas in the house of Yama, in the Katha Upanishad", "ref": "Katha Upanishad 1:9", "quote": "Yama said"},
+    {"tradition": "🌽 The Maya", "title": "The road to Xibalba, in the Popol Vuh", "ref": "Popol Vuh 2:3", "quote": "down the steep incline to Xibalba"},
+    {"tradition": "✝️ Christian", "title": "Christ harrows hell, in the Gospel of Nicodemus", "ref": "Christ's Descent into Hell: Latin. First Form 5:2", "quote": "Lift up your gates, ye princes"},
+    {"tradition": "✝️ Christian", "title": "Dante at the gate of hell", "ref": "Inferno 3:1", "quote": "Through me the way is to the city dolent"}
+   ]
+  },
+  "ages": {
+   "title": "The Ages of the World",
+   "aliases": ["golden age", "ages", "ages of man", "yugas"],
+   "intro": "History runs downhill from a golden age through ages of silver, bronze and iron, each worse than the last.",
+   "passages": [
+    {"tradition": "🏛️ Greece", "title": "The golden race, in Hesiod's Works and Days", "ref": "Works and Days 1:110", "quote": "made a golden race of mortal men"},
+    {"tradition": "🏛️ Rome", "title": "The Golden Age, in Ovid", "ref": "Metamorphoses 1:115", "quote": "First was the Golden Age"},
+    {"tradition": "📖 The Bible", "title": "Nebuchadnezzar's statue of gold, silver, brass and iron", "ref": "Daniel 2:31-35", "quote": "This great image, whose brightness was excellent"},
+    {"tradition": "🕉️ India", "title": "The four ages, in the Laws of Manu", "ref": "Laws of Manu 1:81-86", "quote": "In the Krita age Dharma is four-footed and entire"}
+   ]
+  },
+  "end": {
+   "title": "The End of the World",
+   "aliases": ["apocalypse", "end times", "doomsday", "ragnarok", "the end", "last judgment"],
+   "intro": "The sun goes dark, the stars fall, and the world is destroyed, often to be made new.",
+   "passages": [
+    {"tradition": "📖 The Bible", "title": "The sixth seal, in Revelation", "ref": "Revelation 6:12-14", "quote": "the sun became black as sackcloth of hair"},
+    {"tradition": "📖 The Bible", "title": "A new heaven and a new earth", "ref": "Revelation 21:1", "quote": "a new heaven and a new earth"},
+    {"tradition": "☪️ Islam", "title": "When the sun is overthrown, in the Quran", "ref": "Quran 81:1-14", "quote": "When the sun is overthrown"},
+    {"tradition": "🪓 The Norse", "title": "Ragnarok, in the Poetic Edda", "ref": "Voluspo 57", "quote": "The sun turns black"},
+    {"tradition": "🔥 Zoroastrian", "title": "The renovation, in the Bundahishn", "ref": "Bundahishn 11:6", "quote": "causes the resurrection and future existence"}
+   ]
+  },
+  "christ": {
+   "title": "Christ Foretold Among the Pagans",
+   "aliases": ["prophecies", "pagan prophecies", "foreshadowing", "foreshadowings", "jesus", "messiah", "christ foretold"],
+   "intro": "Pagan texts that early Christians read as pointing to Christ, each shown with the Christian writer who read it that way.",
+   "passages": [
+    {"tradition": "🏛️ Rome", "title": "Virgil's Fourth Eclogue: a child, and a new age", "ref": "Eclogues 4:4-17", "quote": "with a new breed of men sent down from heaven",
+     "read_by": [
+      {"who": "Constantine", "cite": "Oration to the Assembly of the Saints 20", "ref": "Oration of Constantine \"to the Assembly of the Saints\" 20:17", "quote": "Most justly said, Maro, you wisest of poets!"},
+      {"who": "Augustine", "ref": "City of God 10.27:1", "quote": "truly, if you refer it to Christ"}]},
+    {"tradition": "🏛️ Greece", "title": "Plato's just man, who will be crucified", "ref": "Republic 361e-362a", "quote": "the just man will have to endure the lash",
+     "read_by": [{"who": "Clement of Alexandria", "ref": "The Stromata, or Miscellanies 5.14:65", "quote": "Plato, all but predicting the economy of salvation"}]},
+    {"tradition": "🏛️ Greece", "title": "The world-soul laid out like a cross, in Plato's Timaeus", "ref": "Timaeus 36b", "quote": "like a great cross",
+     "read_by": [{"who": "Justin Martyr", "ref": "First Apology 60:1", "quote": "He placed him crosswise in the universe"}]},
+    {"tradition": "🏛️ The Sibyl", "title": "The acrostic: Jesus Christ, Son of God, Saviour, Cross", "ref": "Sibylline Oracles 8:287-292", "quote": "Jesus Christ, Son of God, Saviour, Cross.",
+     "note": "This book of the Sibylline Oracles was itself written by Christians, in the 2nd or 3rd century; the Fathers took it for the ancient prophetess.",
+     "read_by": [{"who": "Augustine", "ref": "City of God 18.23:7", "quote": "Jesus Christ the Son of God, the Saviour"}]},
+    {"tradition": "📜 Hermes Trismegistus", "title": "The second God, in the Asclepius", "ref": "Asclepius 8:1", "quote": "He made the second [God], the Visible and Sensible",
+     "note": "In Hermes the \"second God\" is the visible world; Lactantius read it of the Son.",
+     "read_by": [{"who": "Lactantius", "ref": "The Divine Institutes 4.6:1", "quote": "the declaration of Trismegistus and the predictions of the Sibyls"}]},
+    {"tradition": "🏛️ Athens", "title": "The altars to the Unknown God, in Pausanias", "ref": "Description of Greece 1.1:4", "quote": "altars of the gods named Unknown",
+     "read_by": [{"who": "St. Paul", "ref": "Acts 17:23", "quote": "TO THE UNKNOWN GOD"}]}
+   ]
+  }
+ }
+}
