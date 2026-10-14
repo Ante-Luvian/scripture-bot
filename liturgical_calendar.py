@@ -185,6 +185,41 @@ def _anglican_movable(d: datetime.date) -> Optional[tuple[str, str]]:
     return None
 
 
+def western_season(d: datetime.date) -> tuple[str, Optional[str]]:
+    """(season, feast) in the Western Church year, for choosing a hymn of the day.
+    season: advent, christmas, epiphany, lent, passiontide, easter, pentecost or
+    ordinary; feast: the day's great feast (christmas, good_friday, pentecost...) or None."""
+    easter = _easter_sunday(d.year)
+    offset = (d - easter).days
+    feasts_by_offset = {-46: "ash_wednesday", -7: "palm_sunday", -3: "maundy_thursday", -2: "good_friday",
+                        -1: "holy_saturday", 0: "easter", 39: "ascension", 49: "pentecost", 56: "trinity",
+                        60: "corpus_christi"}
+    fixed = {(12, 25): "christmas", (1, 6): "epiphany", (3, 25): "annunciation", (8, 15): "assumption",
+             (11, 1): "all_saints"}
+    advent1 = _advent_sunday(d.year)
+    feast = feasts_by_offset.get(offset) or fixed.get((d.month, d.day))
+    if d == advent1 - datetime.timedelta(days=7):
+        feast = "christ_the_king"
+
+    if d >= advent1 and d < datetime.date(d.year, 12, 25):
+        season = "advent"
+    elif (d.month == 12 and d.day >= 25) or (d.month == 1 and d.day <= 5):
+        season = "christmas"
+    elif d.month == 1 and d.day <= 13:
+        season = "epiphany"
+    elif -46 <= offset < -14:
+        season = "lent"
+    elif -14 <= offset < 0:                       # from the fifth Sunday of Lent to Holy Saturday
+        season = "passiontide"
+    elif 0 <= offset < 49:
+        season = "easter"
+    elif 49 <= offset < 56:
+        season = "pentecost"
+    else:
+        season = "ordinary"
+    return season, feast
+
+
 _RANK_LABELS = {
     "P": "Principal Feast",
     "F": "Festival",

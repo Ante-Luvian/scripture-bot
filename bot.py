@@ -44,6 +44,9 @@ from bot_commands.quiz import (
 from bot_commands.games import (
     daily_versle_task,
 )
+from bot_commands.hymnday import (
+    daily_hymn_task,
+)
 from bot_commands.report import (
     weekly_report_task,
 )
@@ -58,6 +61,7 @@ from bot_commands import (  # noqa: F401
     harmony,
     report,
     help,
+    hymnday,
     hymns,
     journeys,
     kings,
@@ -116,6 +120,7 @@ async def on_ready():
     daily_oracle_task.start()
     daily_quiz_task.start()
     daily_versle_task.start()
+    daily_hymn_task.start()
     plan_reminder_task.start()
     memorize_review_task.start()
     weekly_report_task.start()

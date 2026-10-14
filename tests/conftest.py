@@ -30,7 +30,7 @@ def lookup(bot_module):
 RUNTIME_FILES = ["VOTD_MODE_PATH", "STATS_PATH", "GUILD_ACTIVITY_PATH", "GUILD_CONFIG_PATH",
                  "USER_PREFS_PATH", "BOOKMARKS_PATH", "READING_PLANS_PATH", "SUBSCRIBERS_PATH",
                  "ERROR_LOG_PATH", "REPORT_STATE_PATH", "QUIZ_SCORES_PATH", "DAILY_QUIZ_PATH",
-                 "MEMORIZE_PATH", "VERSLE_PATH"]
+                 "MEMORIZE_PATH", "VERSLE_PATH", "HYMNDAY_PATH"]
 
 
 @pytest.fixture(autouse=True)

@@ -401,6 +401,24 @@ async def verslesetup_slash(interaction: discord.Interaction, action: str = "sho
     await _command("verslesetup")(ctx, "" if action == "show" else action, arg=value)
 
 
+@bot.tree.command(name="hymndaysetup", description="(Admins) Post the hymn of the day in a channel")
+@app_commands.describe(action="What to change", channel="For 'channel'", value="For 'time' (HH:MM, UTC)")
+@app_commands.choices(action=[app_commands.Choice(name=a, value=a) for a in ("show", "channel", "time", "test", "off")])
+@_admin_only
+async def hymndaysetup_slash(interaction: discord.Interaction, action: str = "show",
+                             channel: discord.TextChannel = None, value: str = ""):
+    ctx = await _slash_ctx(interaction)
+    ctx.message = _WithChannelMention(ctx.message, channel)
+    await _command("hymndaysetup")(ctx, "" if action == "show" else action, arg=value)
+
+
+@bot.tree.command(name="hymnday", description="Today's hymn, chosen for the Church year")
+@app_commands.describe(date="Another day's, as YYYY-MM-DD (empty for today)")
+async def hymnday_slash(interaction: discord.Interaction, date: str = ""):
+    ctx = await _slash_ctx(interaction)
+    await _command("hymnday")(ctx, when=date)
+
+
 @bot.tree.command(name="changelogsetup", description="(Admins) Choose where the bot announces her updates")
 @app_commands.describe(channel="The updates channel (leave empty to see the current one)", off="Stop announcing updates")
 @_admin_only
