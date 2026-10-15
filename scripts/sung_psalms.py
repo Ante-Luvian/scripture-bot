@@ -117,7 +117,7 @@ def tokens(formula: str, clef: str) -> list:
                 notes[-1][1] = NOTE * 2                                 # a dotted (held) note
             i += 1
         out.append({"accent": accent, "open": open_, "notes": [tuple(n) for n in notes],
-                    "letter": body[0].lower() if body else ""})
+                    "letter": body[0].lower() if body else "", "gabc": body})
     return out
 
 
@@ -202,6 +202,18 @@ def syllables(half: str) -> list:
 
 # ── pointing ────────────────────────────────────────────────────────────────
 
+class Notes(list):
+    """A syllable's notes [(pitch, seconds)], also carrying them as gabc for the score."""
+
+    def __init__(self, notes, gabc: str):
+        super().__init__(notes)
+        self.gabc = gabc
+
+
+def _n(tok: dict) -> Notes:
+    return Notes(tok["notes"], tok["gabc"])
+
+
 def point(sylls: list, formula: str, clef: str, intone: bool) -> list:
     """Each syllable's notes [(pitch, seconds)] under a tone's mediant, termination or flex."""
     toks = tokens(formula, clef)
@@ -213,7 +225,8 @@ def point(sylls: list, formula: str, clef: str, intone: bool) -> list:
     if n and sylls[-1]["accent"] and len(sylls[-1]["text"]) and any(t["accent"] for t in cadence) \
             and sylls[-1]["start"]:
         k = max(i for i, t in enumerate(cadence) if t["accent"])        # a final monosyllable: the rest together
-        notes[pos] = [x for t in cadence[k:] if not t["open"] for x in t["notes"]]
+        rest = [t for t in cadence[k:] if not t["open"]]
+        notes[pos] = Notes([x for t in rest for x in t["notes"]], "".join(t["gabc"].rstrip(".") for t in rest) + ".")
         pos -= 1
         cadence = cadence[:k]
     filler, i = None, len(cadence) - 1
@@ -228,26 +241,26 @@ def point(sylls: list, formula: str, clef: str, intone: bool) -> list:
                 a = next((j for j in range(pos, max(nxt - 3, 0) - 1, -1) if sylls[j]["accent"]), max(nxt - 2, 0))
                 a = min(a, pos)
                 for j in range(a + 1, pos + 1):
-                    notes[j] = list(filler["notes"])
+                    notes[j] = _n(filler)
                 filler = None
-            notes[a] = list(t["notes"])
+            notes[a] = _n(t)
             pos = a - 1
         else:
-            notes[pos] = list(t["notes"])
+            notes[pos] = _n(t)
             pos -= 1
         i -= 1
     k = 0
     if intone:
         for t in intonation:
             if k <= pos:
-                notes[k] = list(t["notes"]); k += 1
+                notes[k] = _n(t); k += 1
     for j in range(k, pos + 1):
-        notes[j] = list(tenor["notes"])
+        notes[j] = _n(tenor)
     return notes
 
 
-def chant_lines(lines: list, tone: str, ending: str, gloria: bool = True) -> list:
-    """The psalm as sung syllables [[text, notes, pause, starts a word]] for build_sung_chant.render."""
+def _pointed(lines: list, tone: str, ending: str, gloria: bool) -> list:
+    """[[syllable, Notes, pause after, starts a word, bar after]] for the whole psalm."""
     t = TONES[tone]
     clef, termination = t["clef"], t["terminations"][ending]
     tenor = next(tok["letter"] for tok in tokens(t["mediant"], clef) if tok["open"])
@@ -257,16 +270,32 @@ def chant_lines(lines: list, tone: str, ending: str, gloria: bool = True) -> lis
         parts = []
         if "†" in first:
             flex, _, first = first.partition("†")
-            parts.append((flex, flex_formula(tenor, clef), 0.3, False))
-        parts += [(first, t["mediant"], 0.6, v == 0 and not parts), (second, termination, 1.0, False)]
-        for text, formula, pause, intone in parts:
+            parts.append((flex, flex_formula(tenor, clef), 0.3, False, "†(,)"))
+        parts += [(first, t["mediant"], 0.6, v == 0 and not parts, "*(:)"), (second, termination, 1.0, False, "(::)")]
+        for text, formula, pause, intone, bar in parts:
             sy = syllables(text)
             if not sy:
                 continue
             for s, ns in zip(sy, point(sy, formula, clef, intone)):
-                out.append([s["text"], ns or [(60, RECITE)], 0.0, s["start"]])
-            out[-1][2] = pause
+                out.append([s["text"], ns or Notes([(60, RECITE)], "h"), 0.0, s["start"], ""])
+            out[-1][2], out[-1][4] = pause, bar
     return out
+
+
+def chant_lines(lines: list, tone: str, ending: str, gloria: bool = True) -> list:
+    """The psalm as sung syllables [[text, notes, pause, starts a word]] for build_sung_chant.render."""
+    return [s[:4] for s in _pointed(lines, tone, ending, gloria)]
+
+
+def score_gabc(lines: list, tone: str, ending: str, gloria: bool = True) -> str:
+    """The pointed psalm as gabc, for drawing its score (scripts/score/render.js)."""
+    out = [f"({TONES[tone]['clef']})"]
+    for text, notes, _, start, bar in _pointed(lines, tone, ending, gloria):
+        syl = f"{text.replace('(', '').replace(')', '')}({notes.gabc})"
+        out.append((" " if start else "") + syl)
+        if bar:
+            out.append(" " + bar)
+    return "".join(out).strip()
 
 
 if __name__ == "__main__":

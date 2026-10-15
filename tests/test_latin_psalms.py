@@ -67,7 +67,7 @@ def test_the_post(lp):
     if lp.audio_path(109, 0, False) is None:
         pytest.skip("the chanted psalms aren't rendered here (scripts/build_psalm_chant.py)")
     assert msg["file"].filename == "Psalm_110_sung.ogg"
-    assert [getattr(i, "item", i).label for i in msg["view"].children] == ["Organ"]
+    assert [getattr(i, "item", i).label for i in msg["view"].children][0] == "Organ"
     organ = lp.chant_message(119, 118, 1, organ=True)
     assert organ["file"].filename == "Psalm_119_Beth_organ.ogg" and "2 of 22" in organ["content"]
 
@@ -81,6 +81,25 @@ def test_every_psalm_is_rendered(lp):
                 path = lp.audio_path(int(v), i, organ)
                 assert path is not None, (v, i, organ)
                 assert path.stat().st_size < 10_000_000, (v, i, "over Discord's upload limit")
+
+
+def test_scores(lp):
+    if not (lp.AUDIO_DIR / "score").exists():
+        pytest.skip("the psalm scores aren't drawn here (scripts/build_psalm_chant.py --scores)")
+    for v, p in lp.psalms().items():
+        for i, _ in enumerate(p["parts"]):
+            assert lp.score_paths(int(v), i), (v, i)
+    labels = [getattr(b, "item", b).label for b in lp.chant_message(110, 109)["view"].children]
+    assert labels == ["Organ", "Score"]
+    msg = lp.score_message(110, 109, 0, 0)
+    assert "pointed to the 8th tone, ending G" in msg["content"] and msg["file"].filename == "score_1.png"
+    long = max(((int(v), i) for v, p in lp.psalms().items() for i, _ in enumerate(p["parts"])),
+               key=lambda vi: len(lp.score_paths(*vi)))
+    n = len(lp.score_paths(*long))
+    if n > 1:
+        for page in range(n):
+            ids = [getattr(b, "item", b).custom_id for b in lp.score_message(1, *long, page)["view"].children]
+            assert len(set(ids)) == 2
 
 
 def test_the_commands(lp, fake_ctx):

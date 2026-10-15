@@ -816,6 +816,18 @@ async def cmd_help(ctx, *, topic: str = ""):
         await ctx.send(embed=embed)
         return
 
+    if topic in ("rosary", "rosario"):
+        embed = discord.Embed(title="📿 !rosary — The Rosary", color=discord.Color.dark_gold())
+        embed.description = (
+            "`!rosary` — the Rosary with today's mysteries, a page at a time (◀ ▶): the opening prayers, "
+            "five decades each with its Bible passage, and the closing prayers, with the *Ave Maria* sung\n"
+            "`!rosary joyful` · `luminous` · `sorrowful` · `glorious` — a set by name\n\n"
+            "The days: Joyful on Monday and Saturday, Sorrowful on Tuesday and Friday, Glorious on Wednesday "
+            "and Sunday, Luminous on Thursday."
+        )
+        await ctx.send(embed=embed)
+        return
+
     if topic in ("angelus", "angelussetup", "reginacaeli"):
         embed = discord.Embed(title="🔔 !angelus — The Angelus", color=discord.Color.dark_gold())
         embed.description = (
