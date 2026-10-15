@@ -123,6 +123,7 @@ Prefix commands use `!`; most also have a `/` slash-command version.
 | `!journey [name]` | `!journeys`, `!route` | A journey on a route map (`bible_map.render_route`) with its stops and verses: Abraham, Exodus, Paul 1–3, Rome, Egypt, Jonah. Every stop's verse is checked against the KJV by a test |
 | `!hymn [title \| words \| topic \| passage]` | `!hymns`, `!hymnal` | A public-domain hymn: words, author, tune, Bible passages; ▶️ plays the tune (an organ .ogg) |
 | `!midi [title \| words \| topic \| passage]` | `!tune` | Just a hymn's tune, posted straight away without the words |
+| `!psalm <n> chant [organ]` | `!chant psalm <n>` | A psalm chanted in Latin to a psalm tone (or on the organ), with the Latin and Douay-Rheims |
 | `!angelus` | `!reginacaeli` | The Angelus (Regina caeli in Eastertide), English and Latin, its chant sung; `!angelussetup` posts it at chosen hours |
 | `!chant [title \| words]` | `!sing`, `!sungchant` | A Latin chant sung with its words, posted straight away; random if empty |
 | `!hymnlist [all \| hymns \| chant \| harp \| chant kind \| words]` | `!hymnindex`, `!listhymns` | The hymnal by title: section counts, or a paged list to open from |
@@ -372,6 +373,12 @@ Three reference datasets have their own shape, each rebuilt by a script in `scri
   `audio/` (one Ogg per tune), all from the Open 1650 project's corpus: the 1650
   Scottish Psalter text, its psalm-to-tune settings, and 27 four-part tunes as
   note events. Needs numpy, mido and ffmpeg, like the hymn audio.
+  `latin_psalms.json` (`build_psalm_chant.py`): the 150 psalms in Latin, Vulgate numbering, a
+  Breviary verse a line with stresses, `*` and `†` marked, plus the Douay-Rheims and each psalm's
+  tone, from jgabc (github.com/bbloomf/jgabc). `chant/sung/` and `chant/organ/` are the psalms
+  chanted to those tones (`sung_psalms.py` points the syllables to the Liber Usualis tones),
+  sung as the chants are and on the organ; Psalm 118 in its 22 sections. That audio is rebuilt on
+  the bot's machine and not kept in git.
 
 **Runtime state is not in git.** The bot writes per-server and per-user data
 to `data/` as it runs — `stats.json`, `guild_activity.json`, `guild_config.json`,

@@ -14,6 +14,12 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-14 · The psalms, chanted in Latin
+- 🎤 **New: every psalm chanted in Latin.** For centuries monks and nuns have sung all 150 psalms to the *psalm tones*: eight simple Gregorian melodies where most of each line is sung on one note and the melody moves only at the end of each half-line. Now the bot sings them that way, with the same synthesised choir as `!chant`. Ask for any psalm by its usual number: `!psalm 110 chant` (or `!chant psalm 110`).
+- 📜 **Latin and English together.** Each psalm comes with its Latin, as the old Breviary (the book of the daily prayers) prints it, and the **Douay-Rheims** English, the classic Catholic Bible translation, so you can follow along. Each psalm ends with the *Gloria Patri* ("Glory be to the Father…"), as it does when sung in church.
+- ▶️ **On the organ too.** Press **Organ** under a chanted psalm to hear the same melody played on the organ, or ask for it directly: `!psalm 23 chant organ`.
+- 🔢 **Numbering.** The Latin Bible numbers most psalms one lower than English Bibles, so the bot shows both: `!psalm 23 chant` gives Psalm 23, "Vulgate 22", *Dominus regit me*. Psalm 119, the longest at 176 verses, is sung in its 22 sections as monasteries sing it: `!psalm 119 chant` for the first, `!psalm 119 chant beth` for the second, and so on.
+
 ## 2026-10-14 · The Angelus
 - 🔔 **New: `!angelus`.** The Angelus is a short traditional prayer said three times a day: morning, noon and evening, when church bells ring for it. It recalls the angel Gabriel's message to Mary and the Incarnation. Three short verse-and-response lines, each followed by a Hail Mary, then a closing prayer. `!angelus` gives it in English and in Latin, with the *Ave Maria* chant **sung** attached so you can listen along.
 - 🌸 **In Eastertide it changes by itself.** From Holy Saturday until the day before Trinity Sunday, the Church says the joyful *Regina Cæli* ("O Queen of heaven, rejoice! Alleluia") instead. `!angelus` gives that in those weeks, with the *Regina caeli* chant sung.

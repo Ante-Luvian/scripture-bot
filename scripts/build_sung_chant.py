@@ -237,7 +237,11 @@ def reverb(x: np.ndarray, seconds: float = 2.2) -> np.ndarray:
 
 
 def sing(gid: int, score: str, title: str) -> str:
-    sylls = syllables(score)
+    return render(syllables(score), OUT / f"chant-{gid:05d}.ogg", title)
+
+
+def render(sylls: list, out: Path, title: str) -> str:
+    """Sing [[text, [(pitch, seconds)], pause, starts a word]] to an Ogg file, as the schola."""
     pitches = [p for _, ns, _, _ in sylls for p, _ in ns]
     shift = 52 - float(np.median(pitches))                      # a man's range, around E below middle C
     with tempfile.TemporaryDirectory() as tmp:
@@ -246,10 +250,9 @@ def sing(gid: int, score: str, title: str) -> str:
     n = max(len(v) for v in voices)
     mix = reverb(sum(np.pad(v, (0, n - len(v))) for v in voices))
     pcm = (mix / (np.max(np.abs(mix)) + 1e-9) * 0.9 * 32767).astype(np.int16)
-    buf = Path(tempfile.gettempdir()) / f"sung-{gid}.wav"
+    buf = Path(tempfile.gettempdir()) / f"sung-{out.stem}.wav"
     with wave.open(str(buf), "wb") as w:
         w.setnchannels(1); w.setsampwidth(2); w.setframerate(FS); w.writeframes(pcm.tobytes())
-    out = OUT / f"chant-{gid:05d}.ogg"
     subprocess.run(["ffmpeg", "-loglevel", "error", "-y", "-i", str(buf), "-c:a", "libopus", "-b:a", BITRATE,
                     "-metadata", f"title={title}", str(out)], check=True)
     buf.unlink()

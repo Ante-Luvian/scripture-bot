@@ -157,6 +157,7 @@ Long psalms have buttons to turn the page, or ask for some verses: `!metrical 11
 • `!bcp` — today's psalms, two readings and collect, for morning or evening depending on the time · `!bcp morning`, `!bcp evening`, `!bcp 2026-12-25`
 • `!mp` / `!ep` — just the readings for Morning or Evening Prayer
 • `!psalm` — today's appointed psalms (`!psalm ep` for the evening ones)
+• `!psalm 110 chant` — any psalm chanted in Latin to a Gregorian psalm tone, the way monks sing the Office, by the bot's synthesised choir, with the Latin and the Douay-Rheims English to follow. Add `organ` to hear the melody on the organ instead. Psalm 119 is sung in its 22 sections: `!psalm 119 chant beth`.
 • `!collect` — the Collect (short prayer) of the day
 • `!prayer` — a random prayer from the 1662 Prayer Book
 

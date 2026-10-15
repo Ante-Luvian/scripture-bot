@@ -73,6 +73,7 @@ from bot_commands import (  # noqa: F401
     hymns,
     journeys,
     kings,
+    latin_psalms,
     liturgy,
     measures,
     memorize,

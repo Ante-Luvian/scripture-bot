@@ -12,7 +12,7 @@ from core import (
     lookup,
 )
 from core import ROOT
-from bot_commands import psalter
+from bot_commands import latin_psalms, psalter
 
 # ── !today — Liturgical / religious calendar across traditions ─────────────────
 
@@ -1086,8 +1086,12 @@ async def cmd_psalm(ctx, *, args: str = ""):
       !psalm ep        — Evening Prayer psalms
       !psalm mp 12-25  — Morning Prayer psalms for Dec 25
       !psalm 23 sing   — Psalm 23 in metre, to sing (same as !metrical 23)
+      !psalm 110 chant — Psalm 110 chanted in Latin (add `organ` for the organ)
     """
     parts = args.strip().split()
+    if any(p.lower() in ("chant", "chanted", "latin", "gregorian", "plainchant") for p in parts):
+        await latin_psalms.send_psalm_chant(ctx, args)
+        return
     sung = [p for p in parts if p.lower() not in ("sing", "metrical", "metre", "meter")]
     if len(sung) < len(parts):
         await psalter.send_metrical(ctx, " ".join(sung))
