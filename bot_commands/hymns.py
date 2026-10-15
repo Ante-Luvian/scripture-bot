@@ -164,9 +164,9 @@ def hymn_embed(hymn: dict) -> discord.Embed:
 
 
 class HymnButton(discord.ui.DynamicItem[discord.ui.Button],
-                 template=r"hymn:(?P<action>play|sung|bible|english):(?P<key>[0-9a-f]{8})"):
-    LOOK = {"play": ("Play the tune", "▶️"), "sung": ("Sung", "🎤"), "bible": ("Read the passages", "📖"),
-            "english": ("English", "🇬🇧")}
+                 template=r"hymn:(?P<action>play|sung|score|bible|english):(?P<key>[0-9a-f]{8})"):
+    LOOK = {"play": ("Play the tune", "▶️"), "sung": ("Sung", "🎤"), "score": ("Score", "🎼"),
+            "bible": ("Read the passages", "📖"), "english": ("English", "🇬🇧")}
 
     def __init__(self, action: str, key: str):
         label, emoji = self.LOOK[action]
@@ -185,6 +185,8 @@ class HymnButton(discord.ui.DynamicItem[discord.ui.Button],
             return
         if self.action in ("play", "sung"):
             await play(interaction, hymn, sung=self.action == "sung")
+        elif self.action == "score":
+            await interaction.response.send_message(**score_message(hymn, 0))
         elif self.action == "english":
             await interaction.response.send_message(embed=english_embed(hymn))
         else:
@@ -200,6 +202,8 @@ def hymn_view(hymn: dict) -> discord.ui.View:
         view.add_item(HymnButton("play", hymn_key(hymn)))
     if sung_path(hymn):
         view.add_item(HymnButton("sung", hymn_key(hymn)))
+    if score_paths(hymn):
+        view.add_item(HymnButton("score", hymn_key(hymn)))
     if hymn["scripture"]:
         view.add_item(HymnButton("bible", hymn_key(hymn)))
     if translation(hymn):
@@ -270,6 +274,59 @@ def sung_path(hymn: dict):
         return None
     path = AUDIO_DIR / "sung" / f"chant-{hymn['gregobase']:05d}.ogg"
     return path if path.exists() else None
+
+
+SCORE_DIR = ROOT / "data" / "hymns" / "scores"
+
+
+def score_paths(hymn: dict) -> list:
+    """A chant's score in square notation, a page an image (scripts/build_chant_scores.py); [] if none."""
+    if not hymn.get("gregobase"):
+        return []
+    found = SCORE_DIR.glob(f"chant-{hymn['gregobase']:05d}-*.png")
+    return sorted(found, key=lambda p: int(p.stem.rsplit("-", 1)[1]))
+
+
+def score_message(hymn: dict, page: int) -> dict:
+    """send()/edit kwargs for one page of a chant's score, with ◀ ▶ when there are more."""
+    paths = score_paths(hymn)
+    page = page % len(paths)
+    content = f"🎼 **{hymn['title']}** in square notation, the way chant books print it" + \
+              (f" · page {page + 1} of {len(paths)}" if len(paths) > 1 else "")
+    message = {"content": content, "file": discord.File(paths[page], filename=f"score_{page + 1}.png")}
+    if len(paths) > 1:
+        view = discord.ui.View(timeout=None)            # persistent: must never time out
+        view.add_item(ScoreButton("back", hymn_key(hymn), (page - 1) % len(paths)))
+        view.add_item(ScoreButton("next", hymn_key(hymn), (page + 1) % len(paths)))
+        message["view"] = view
+    return message
+
+
+class ScoreButton(discord.ui.DynamicItem[discord.ui.Button],
+                  template=r"hymnscore:(?P<action>back|next):(?P<key>[0-9a-f]{8}):(?P<page>\d+)"):
+    """◀ ▶ through a score's pages. "back" and "next" keep the two custom_ids apart on a
+    two-page score, where both lead to the same page (Discord refuses duplicate ids)."""
+
+    def __init__(self, action: str, key: str, page: int):
+        super().__init__(discord.ui.Button(emoji="◀" if action == "back" else "▶", style=discord.ButtonStyle.secondary,
+                                           custom_id=f"hymnscore:{action}:{key}:{page}"))
+        self.key, self.page = key, page
+
+    @classmethod
+    async def from_custom_id(cls, interaction, item, match):
+        return cls(match["action"], match["key"], int(match["page"]))
+
+    async def callback(self, interaction: discord.Interaction):
+        hymn = by_key(self.key)
+        if hymn is None or not score_paths(hymn):
+            await interaction.response.send_message("⚠️ I can't find that score any more.", ephemeral=True)
+            return
+        message = score_message(hymn, self.page)
+        await interaction.response.edit_message(content=message["content"], attachments=[message["file"]],
+                                                view=message.get("view"))
+
+
+bot.add_dynamic_items(ScoreButton)
 
 
 PLAYED = {"chant": "the chant melody, on an organ",

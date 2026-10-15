@@ -14,6 +14,10 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-14 · Chant scores
+- 🎼 **New: see the music of the Latin chants.** Gregorian chant has its own notation: four lines instead of five, and square notes called *neumes*, sometimes joined into shapes that show several notes sung on one syllable. Every Latin chant now has a **🎼 Score** button under it that shows its music written that way, the way chant books have printed it for centuries, with the Latin words under the notes. Follow along while you listen to ▶️ the organ or 🎤 the singing.
+- 📖 **Long chants come in pages.** Long pieces like the *Exsultet*, the Creed or the *Dies irae* are split into pages, with ◀ ▶ buttons to turn them. Try `!hymn Salve Regina` and press 🎼 Score.
+
 ## 2026-10-14 · The psalms, chanted in Latin
 - 🎤 **New: every psalm chanted in Latin.** For centuries monks and nuns have sung all 150 psalms to the *psalm tones*: eight simple Gregorian melodies where most of each line is sung on one note and the melody moves only at the end of each half-line. Now the bot sings them that way, with the same synthesised choir as `!chant`. Ask for any psalm by its usual number: `!psalm 110 chant` (or `!chant psalm 110`).
 - 📜 **Latin and English together.** Each psalm comes with its Latin, as the old Breviary (the book of the daily prayers) prints it, and the **Douay-Rheims** English, the classic Catholic Bible translation, so you can follow along. Each psalm ends with the *Gloria Patri* ("Glory be to the Father…"), as it does when sung in church.

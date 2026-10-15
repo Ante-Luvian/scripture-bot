@@ -133,10 +133,11 @@ Abbreviations are fine (`Jn`, `1 Cor`, `Ps`). Bible verses come with the four st
 
 ## 🎵 Hymns and psalms to sing
 **`!hymn amazing grace`** — a hymn's words, who wrote them and the tune, and the Bible passages it draws on. Search by title, first line, a line you remember from the words, a topic (`!hymn christmas`) or a passage (`!hymn Psalm 23` finds hymns based on it). `!hymn` alone picks one at random. Two buttons sit under each hymn:
-• **▶️ Play the tune** — I play the hymn tune once through, in four-part harmony on an organ, as audio you can listen to right in Discord.
+• **▶️ Play the tune** — the tune once through, in four parts on an organ, to play right in Discord.
 • **📖 Read the passages** — the Bible verses behind the hymn.
 • **🇬🇧 English** — on many Latin chants: a published English translation (the Prayer Book's, Neale's, Caswall's…).
-• **🎤 Sung** — on the Latin chants: sung with their Latin words by a synthesised choir.
+• **🎤 Sung** — on the Latin chants: sung in Latin by a synthesised choir.
+• **🎼 Score** — the chant in square notes, as chant books print it.
 **`!chant pater noster`** — a Latin chant sung, straight away; `!chant` alone sings a random one.
 **`!midi amazing grace`** — just the tune, straight away: I skip the words and post the audio. It searches the same way as `!hymn`; `!midi` alone plays a random one.
 **`!hymnday`** — the hymn of the day, chosen for the Church year and the same for everyone: on a great feast that feast's hymn (*Veni Creator* at Pentecost, *Vexilla Regis* on Good Friday), in Advent, Lent or Eastertide one of the season's hymns, and the rest of the year an English hymn, a Latin chant and a Sacred Harp song in turn. `!hymnday 2026-12-25` shows another day's. Server admins can have it posted every morning with **`!hymndaysetup channel #hymns`** (`time 08:00` in UTC, `test`, `off`).

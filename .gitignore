@@ -39,3 +39,7 @@ experiments/sung_chant/sung/
 
 # the chanted psalms' audio: rebuilt by scripts/build_psalm_chant.py, not kept in git
 data/psalter/chant/
+
+# chant scores: drawn by scripts/build_chant_scores.py, not kept in git
+data/hymns/scores/
+scripts/score/node_modules/
