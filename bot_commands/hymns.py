@@ -22,6 +22,7 @@ import discord
 from discord import app_commands
 
 from core import ROOT, bot, log, lookup
+from bot_commands import latin_psalms
 
 HYMNS_PATH = ROOT / "data" / "hymns" / "hymns.json"
 # the ancient Latin hymns in Gregorian chant, and pieces like Babylon Is Fallen (scripts/build_chant.py)
@@ -382,6 +383,10 @@ async def send_hymn_tune(ctx, query: str) -> None:
 async def send_chant(ctx, query: str) -> None:
     """A Latin chant sung, straight away: the audio, no words."""
     query = query.strip()
+    psalm = re.match(r"^(?:psalm|ps)\.?\s*(\d.*)$", query, re.I)
+    if psalm:                                                     # !chant psalm 110: the chanted psalter
+        await latin_psalms.send_psalm_chant(ctx, psalm.group(1))
+        return
     if not query or query.lower() == "random":
         found = [h for h in hymns() if sung_path(h)]
         found = [random.choice(found)] if found else []

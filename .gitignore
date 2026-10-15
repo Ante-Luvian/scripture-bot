@@ -36,3 +36,6 @@ scripts/.cache/
 
 # the sung-chant experiments' scratch output (samples worth keeping go in samples/)
 experiments/sung_chant/sung/
+
+# the chanted psalms' audio: rebuilt by scripts/build_psalm_chant.py, not kept in git
+data/psalter/chant/

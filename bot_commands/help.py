@@ -429,6 +429,7 @@ async def cmd_help(ctx, *, topic: str = ""):
             "of 1650 — still sung in Scottish churches, and the source of *The Lord's my shepherd, "
             "I'll not want*.\n\n"
             "`!metrical 23` — Psalm 23 in metre, with the tune it's sung to (also `!psalm 23 sing`)\n"
+            "`!psalm 110 chant` — a psalm chanted in Latin to a Gregorian psalm tone, with the English (`organ` for the organ)\n"
             "`!metrical 100b` — a psalm's second version, where the Psalter has two\n"
             "`!metrical 119:105-112` — just the stanzas for those verses\n"
             "`!metrical 119 nun` — one of Psalm 119's 22 lettered parts (Aleph, Beth, Gimel…)\n"
@@ -567,6 +568,7 @@ async def cmd_help(ctx, *, topic: str = ""):
             "`!bcp 1` / `!bcp 2` — first or second lesson, time-appropriate\n"
             "`!bcp psalm` / `!psalm` — psalms for the current period\n"
             "`!psalm mp` / `!psalm ep` — psalms for that specific period\n"
+            "`!psalm 110 chant` — a psalm chanted in Latin, with the Douay-Rheims English\n"
             "`!bcp collect` / `!collect` — the Collect of the Day\n"
             "`!bcp prayer` / `!prayer` — a random devotional prayer · `!help prayer`"
         ), inline=False)
