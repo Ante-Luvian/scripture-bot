@@ -14,6 +14,11 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-15 · Traditional prayers
+- 🙏 **New: traditional prayers by name.** `!prayer` followed by a prayer's name now gives you that prayer, in English and, where it has one, in Latin. There are eighteen, including the **Prayer to Saint Michael** (`!prayer st michael`), the **Memorare**, the **Anima Christi** ("Soul of Christ, sanctify me"), the **Act of Contrition**, the **Angel of God** prayer to your guardian angel, the **Morning Offering**, the **Sub tuum praesidium** (the oldest known prayer to Mary), the **Divine Praises**, the **Prayer to Saint Joseph**, the **Prayer of Saint Francis**, **Come, Holy Spirit**, **Eternal Rest** for the dead, and **grace before and after meals**. Each comes with a line about where it comes from.
+- 🎤 **Sung where they're also chants.** The Memorare, the Anima Christi, the Sub tuum, the Salve Regina, the Our Father, the Hail Mary and Come, Holy Spirit come with their Gregorian chant sung in Latin.
+- `!prayer list` shows them all; `!prayer` on its own still gives a random prayer from the 1662 Book of Common Prayer.
+
 ## 2026-10-15 · Psalm scores
 - 🎼 **The chanted psalms now have their music too.** Under a psalm from `!psalm 110 chant` there's a **🎼 Score** button, like the one on the chants: the psalm written out in square chant notation with its Latin words, showing just how the psalm tone fits the words. Most of each line is sung on one note (the "reciting" note), and the melody moves only at the end of each half-line, on the stressed syllables. The red ✱ marks the pause in the middle of each verse. Long psalms come in pages with ◀ ▶.
 

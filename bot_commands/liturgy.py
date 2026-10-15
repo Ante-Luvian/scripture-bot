@@ -12,7 +12,7 @@ from core import (
     lookup,
 )
 from core import ROOT
-from bot_commands import latin_psalms, psalter
+from bot_commands import latin_psalms, prayers, psalter
 
 # ── !today — Liturgical / religious calendar across traditions ─────────────────
 
@@ -1037,8 +1037,14 @@ async def bcp_slash(interaction: discord.Interaction, period: str = "", date: st
 # ── Alias commands ───────────────────────────────────────────────────────────
 
 @bot.command(name="prayer")
-async def cmd_prayer(ctx):
-    """Random devotional prayer or collect from the BCP."""
+async def cmd_prayer(ctx, *, name: str = ""):
+    """A traditional prayer by name, or a random devotional prayer from the BCP.
+    Usage: !prayer st michael   — a prayer by name, in English and Latin
+           !prayer list         — the prayers I have
+           !prayer              — a random Prayer Book prayer"""
+    if name.strip():
+        await prayers.send_prayer(ctx, name)
+        return
     async with ctx.typing():
         await _send_random_prayer(ctx)
 

@@ -582,10 +582,13 @@ async def cmd_help(ctx, *, topic: str = ""):
         return
 
     if topic in ("prayer", "collect"):
-        embed = discord.Embed(title="📿 !prayer — A random BCP prayer or collect",
+        embed = discord.Embed(title="📿 !prayer — Prayers",
                               color=discord.Color.dark_purple())
         embed.description = (
-            "A random devotional prayer drawn from the Book of Common Prayer 1662."
+            "`!prayer st michael` — a traditional prayer by name, in English and Latin, with its chant sung "
+            "where it has one (the Memorare, Anima Christi, Salve Regina, Our Father, Hail Mary…)\n"
+            "`!prayer list` — the prayers I have\n"
+            "`!prayer` — a random devotional prayer from the Book of Common Prayer 1662"
         )
         embed.add_field(name="Usage", value=(
             "`!prayer` — a random prayer/collect (alias for `!bcp prayer`)\n"

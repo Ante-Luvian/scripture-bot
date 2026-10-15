@@ -125,6 +125,7 @@ Prefix commands use `!`; most also have a `/` slash-command version.
 | `!midi [title \| words \| topic \| passage]` | `!tune` | Just a hymn's tune, posted straight away without the words |
 | `!psalm <n> chant [organ]` | `!chant psalm <n>` | A psalm chanted in Latin to a psalm tone (or on the organ), with the Latin and Douay-Rheims |
 | `!rosary [joyful\|luminous\|sorrowful\|glorious]` | `!rosario` | The Rosary a page at a time: the day's mysteries with their Bible passages, the Ave Maria sung |
+| `!prayer [name \| list]` | | A traditional prayer by name (St Michael, Memorare, Anima Christi…), English and Latin, sung where it's a chant; empty for a random BCP prayer |
 | `!angelus` | `!reginacaeli` | The Angelus (Regina caeli in Eastertide), English and Latin, its chant sung; `!angelussetup` posts it at chosen hours |
 | `!chant [title \| words]` | `!sing`, `!sungchant` | A Latin chant sung with its words, posted straight away; random if empty |
 | `!hymnlist [all \| hymns \| chant \| harp \| chant kind \| words]` | `!hymnindex`, `!listhymns` | The hymnal by title: section counts, or a paged list to open from |

@@ -160,7 +160,7 @@ Long psalms have buttons to turn the page, or ask for some verses: `!metrical 11
 • `!psalm` — today's appointed psalms (`!psalm ep` for the evening ones)
 • `!psalm 110 chant` — any psalm chanted in Latin to a Gregorian psalm tone, the way monks sing the Office, by the bot's synthesised choir, with the Latin and the Douay-Rheims English to follow. Add `organ` to hear the melody on the organ instead. Psalm 119 is sung in its 22 sections: `!psalm 119 chant beth`.
 • `!collect` — the Collect (short prayer) of the day
-• `!prayer` — a random prayer from the 1662 Prayer Book
+• `!prayer` — a random prayer from the 1662 Prayer Book; `!prayer st michael`, `!prayer memorare`, `!prayer anima christi`… — a traditional prayer by name, in English and Latin, sung where it's also a chant (`!prayer list` for them all)
 
 **`!saint`** — the saint of the day on the traditional calendar, from *Butler's Lives of the Saints*, with a **📖 Golden Legend** button when the medieval *Golden Legend* tells their story too. Look up any saint by name (`!saint George`, `!saint Christopher`; if there are several, like the two Augustines, I'll ask which) or by day (`!saint 25 July`). Admins: `!saintsetup channel #saints` posts the day's saint every morning.
 
