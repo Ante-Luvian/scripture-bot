@@ -5,10 +5,11 @@ on the organ, in a psalm tone, with the Gloria Patri.
     python scripts/build_psalm_chant.py          # what's missing
     python scripts/build_psalm_chant.py --all    # everything again
     python scripts/build_psalm_chant.py 109 50   # just these (Vulgate numbers)
+    python scripts/build_psalm_chant.py --scores # just the scores
 
 Writes data/psalter/latin_psalms.json (the Latin as the Breviary divides it, the
 Douay-Rheims English, the tone; committed) and the audio to data/psalter/chant/
-(sung/ and organ/, Ogg; rebuilt here rather than kept in git, being made from the above).
+(sung/ and organ/, Ogg; score/, PNG pages, drawn as the chant scores are; rebuilt here rather than kept in git, being made from the above).
 Numbering is the Vulgate's throughout, as the Latin is; the bot maps the usual (Hebrew)
 numbers to it. Psalm 118 (Hebrew 119, 176 verses) is sung as the Breviary sings it, in
 its 22 sections of eight verses, each with its Gloria Patri.
@@ -21,6 +22,7 @@ from pathlib import Path
 
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 import build_chant as bc
+import build_chant_scores
 import build_sung_chant as sung
 import sung_psalms as sp
 
@@ -68,7 +70,7 @@ def main():
     for sub in ("sung", "organ"):
         (AUDIO / sub).mkdir(parents=True, exist_ok=True)
     only = {int(a) for a in sys.argv[1:] if a.isdigit()}
-    psalms, jobs = {}, []
+    psalms, jobs, all_pieces = {}, [], []
     for n in range(1, 151):
         lines = sp.latin_psalm(n)
         tone = tone_for(n)
@@ -77,6 +79,7 @@ def main():
                           "parts": [{"file": stem, "lines": len(ls),
                                      "name": LETTERS[i] if n == 118 else ""} for i, (stem, ls) in enumerate(parts)]}
         for i, (stem, ls) in enumerate(parts):
+            all_pieces.append((stem, ls, tone, ""))
             missing = not (AUDIO / "sung" / f"{stem}.ogg").exists() or not (AUDIO / "organ" / f"{stem}.ogg").exists()
             if (only and n in only) or (not only and ("--all" in sys.argv or missing)):
                 title = f"Psalm {n} (Vulgate)" + (f", {LETTERS[i]}" if n == 118 else "") + f", tone {tone}"
@@ -84,6 +87,15 @@ def main():
     DATA.write_text(json.dumps({"about": "The psalms in Latin (Vulgate numbering, as the Breviary divides the verses) "
                                          "and the Douay-Rheims, from jgabc; built by scripts/build_psalm_chant.py.",
                                 "psalms": psalms}, ensure_ascii=False, indent=1), encoding="utf-8")
+    scores = [(stem, sp.score_gabc(ls, tone[0], tone[1:])) for stem, ls, tone, _ in
+              ([(s, l, t, x) for s, l, t, x in all_pieces if (only and int(s.split("-")[1]) in only)
+                or (not only and ("--all" in sys.argv or not list((AUDIO / "score").glob(f"{s}-*.png"))))])]
+    if scores:
+        counts = build_chant_scores.draw(scores, AUDIO / "score")
+        print(f"scores: {len(counts)} drawn, {sum(counts.values())} pages; not drawn: "
+              f"{[s for s, _ in scores if s not in counts]}")
+    if "--scores" in sys.argv:                     # only the scores
+        return
     print(f"{len(jobs)} to render")
     with concurrent.futures.ProcessPoolExecutor() as pool:
         futures = {pool.submit(render, j): j[0] for j in jobs}

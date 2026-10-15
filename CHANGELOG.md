@@ -14,6 +14,13 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-15 · Psalm scores
+- 🎼 **The chanted psalms now have their music too.** Under a psalm from `!psalm 110 chant` there's a **🎼 Score** button, like the one on the chants: the psalm written out in square chant notation with its Latin words, showing just how the psalm tone fits the words. Most of each line is sung on one note (the "reciting" note), and the melody moves only at the end of each half-line, on the stressed syllables. The red ✱ marks the pause in the middle of each verse. Long psalms come in pages with ◀ ▶.
+
+## 2026-10-15 · The Rosary
+- 📿 **New: `!rosary`.** The Rosary is the best-known Catholic prayer devotion: five *decades*, each an Our Father, ten Hail Marys and a Glory Be, prayed while thinking on one of the *mysteries*, events in the lives of Jesus and Mary like the Annunciation, the Crucifixion or the Resurrection. `!rosary` walks you through it a page at a time: the opening prayers, each decade with its mystery and the Bible passage that tells it, then the closing *Hail, Holy Queen*. Press ▶ Next to move on. The *Ave Maria* comes sung in Latin to pray along to.
+- 📅 **The day's mysteries.** Each day of the week has its set: the Joyful (Monday and Saturday), the Sorrowful (Tuesday and Friday), the Glorious (Wednesday and Sunday) and the Luminous (Thursday). `!rosary` picks today's, or ask for one: `!rosary glorious`.
+
 ## 2026-10-14 · Chant scores
 - 🎼 **New: see the music of the Latin chants.** Gregorian chant has its own notation: four lines instead of five, and square notes called *neumes*, sometimes joined into shapes that show several notes sung on one syllable. Every Latin chant now has a **🎼 Score** button under it that shows its music written that way, the way chant books have printed it for centuries, with the Latin words under the notes. Follow along while you listen to ▶️ the organ or 🎤 the singing.
 - 📖 **Long chants come in pages.** Long pieces like the *Exsultet*, the Creed or the *Dies irae* are split into pages, with ◀ ▶ buttons to turn them. Try `!hymn Salve Regina` and press 🎼 Score.

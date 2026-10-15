@@ -55,6 +55,27 @@ def audio_path(v: int, part: int, organ: bool):
     return path if path.exists() else None
 
 
+def score_paths(v: int, part: int) -> list:
+    """The pointed psalm in square notation, a page an image; [] if not drawn."""
+    stem = psalms()[str(v)]["parts"][part]["file"]
+    return sorted((AUDIO_DIR / "score").glob(f"{stem}-*.png"), key=lambda p: int(p.stem.rsplit("-", 1)[1]))
+
+
+def score_message(hebrew: int, v: int, part: int, page: int) -> dict:
+    paths = score_paths(v, part)
+    page = page % len(paths)
+    p = psalms()[str(v)]
+    content = f"🎼 **{heading(hebrew, v, part)}**, pointed to the {ENDINGS[p['tone']]}" + \
+              (f" · page {page + 1} of {len(paths)}" if len(paths) > 1 else "")
+    message = {"content": content, "file": discord.File(paths[page], filename=f"score_{page + 1}.png")}
+    if len(paths) > 1:
+        view = discord.ui.View(timeout=None)
+        view.add_item(PsalmScoreButton("back", hebrew, v, part, (page - 1) % len(paths)))
+        view.add_item(PsalmScoreButton("next", hebrew, v, part, (page + 1) % len(paths)))
+        message["view"] = view
+    return message
+
+
 def _trim(text: str, limit: int = 4000) -> str:
     return text if len(text) <= limit else text[:limit].rsplit("\n", 1)[0] + "\n…"
 
@@ -90,10 +111,12 @@ def chant_message(hebrew: int, v: int, part: int = 0, organ: bool = False) -> di
     else:
         message["file"] = discord.File(path, filename=f"Psalm_{hebrew}{'_' + pieces[part]['name'] if pieces[part]['name'] else ''}"
                                                       f"_{'organ' if organ else 'sung'}.ogg")
-        other = audio_path(v, part, not organ)
-        if other:
-            view = discord.ui.View(timeout=None)
+        view = discord.ui.View(timeout=None)              # persistent buttons: must never time out
+        if audio_path(v, part, not organ):
             view.add_item(PsalmChantButton(not organ, hebrew, v, part))
+        if score_paths(v, part):
+            view.add_item(PsalmScoreButton("open", hebrew, v, part, 0))
+        if view.children:
             message["view"] = view
     return message
 
@@ -124,7 +147,34 @@ class PsalmChantButton(discord.ui.DynamicItem[discord.ui.Button],
             file=discord.File(path, filename=f"Psalm_{self.hebrew}_{'organ' if self.organ else 'sung'}.ogg"))
 
 
-bot.add_dynamic_items(PsalmChantButton)
+class PsalmScoreButton(discord.ui.DynamicItem[discord.ui.Button],
+                       template=r"lpscore:(?P<action>open|back|next):(?P<h>\d+):(?P<v>\d+):(?P<p>\d+):(?P<page>\d+)"):
+    """🎼 Score under a chanted psalm, and ◀ ▶ through its pages (distinct "back"/"next" ids,
+    since on two pages both lead to the same one)."""
+
+    def __init__(self, action: str, hebrew: int, v: int, part: int, page: int):
+        label, emoji = {"open": ("Score", "🎼"), "back": (None, "◀"), "next": (None, "▶")}[action]
+        super().__init__(discord.ui.Button(label=label, emoji=emoji, style=discord.ButtonStyle.secondary,
+                                           custom_id=f"lpscore:{action}:{hebrew}:{v}:{part}:{page}"))
+        self.action, self.hebrew, self.v, self.part, self.page = action, hebrew, v, part, page
+
+    @classmethod
+    async def from_custom_id(cls, interaction, item, match):
+        return cls(match["action"], int(match["h"]), int(match["v"]), int(match["p"]), int(match["page"]))
+
+    async def callback(self, interaction: discord.Interaction):
+        if str(self.v) not in psalms() or not score_paths(self.v, self.part):
+            await interaction.response.send_message("⚠️ I don't have that score right now.", ephemeral=True)
+            return
+        message = score_message(self.hebrew, self.v, self.part, self.page)
+        if self.action == "open":
+            await interaction.response.send_message(**message)
+        else:
+            await interaction.response.edit_message(content=message["content"], attachments=[message["file"]],
+                                                    view=message.get("view"))
+
+
+bot.add_dynamic_items(PsalmChantButton, PsalmScoreButton)
 
 
 def parse(query: str) -> "tuple | None":

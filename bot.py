@@ -82,6 +82,7 @@ from bot_commands import (  # noqa: F401
     personal,
     psalter,
     quiz,
+    rosary,
     reference,
     saints,
     slash,

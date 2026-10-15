@@ -178,6 +178,9 @@
   "root": [
    "cognates"
   ],
+  "rosary": [
+   "rosario"
+  ],
   "rumi": [
    "masnavi",
    "mathnawi"
@@ -351,6 +354,7 @@
   "quoted",
   "reverseinterlinear",
   "root",
+  "rosary",
   "rumi",
   "saint",
   "saintsetup",
