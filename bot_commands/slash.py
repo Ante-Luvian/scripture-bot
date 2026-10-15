@@ -28,6 +28,7 @@ from bot_commands.oracles import (
     cmd_oracle,
     cmd_rumi,
 )
+from bot_commands.prayers import PRAYERS
 from bot_commands.personal import (
     cmd_save,
     cmd_saved,
@@ -298,9 +299,17 @@ async def theme_slash(interaction: discord.Interaction, theme: str):
     await _command("theme")(await _slash_ctx(interaction), query=theme)
 
 
-@bot.tree.command(name="prayer", description="A random prayer from the 1662 Book of Common Prayer")
-async def prayer_slash(interaction: discord.Interaction):
-    await _command("prayer")(await _slash_ctx(interaction))
+async def _prayer_autocomplete(interaction: discord.Interaction, current: str) -> list:
+    q = current.lower()
+    return [app_commands.Choice(name=title[:100], value=key) for key, (title, *_rest) in PRAYERS.items()
+            if not q or q in title.lower() or q in key][:25]
+
+
+@bot.tree.command(name="prayer", description="A traditional prayer by name (St Michael, Memorare…), or a random BCP one")
+@app_commands.describe(name="A prayer's name, or 'list'; empty for a random Prayer Book prayer")
+@app_commands.autocomplete(name=_prayer_autocomplete)
+async def prayer_slash(interaction: discord.Interaction, name: str = ""):
+    await _command("prayer")(await _slash_ctx(interaction), name=name)
 
 
 @bot.tree.command(name="collect", description="The Collect (short prayer) of the day")
