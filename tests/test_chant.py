@@ -100,6 +100,24 @@ def test_every_chant_is_sung(hymns, more):
     assert hymns.sung_path(harp) is None                          # the Sacred Harp has its own singing
 
 
+def test_scores(hymns, more):
+    if not hymns.SCORE_DIR.exists():
+        pytest.skip("the scores aren't drawn here (scripts/build_chant_scores.py)")
+    chants = [h for h in more if h.get("audio_kind") == "chant"]
+    assert not [h["title"] for h in chants if not hymns.score_paths(h)]
+    salve = next(h for h in chants if h["title"] == "Salve Regina")
+    assert "Score" in [getattr(i, "item", i).label for i in hymns.hymn_view(salve).children]
+    msg = hymns.score_message(salve, 0)
+    assert "Salve Regina" in msg["content"] and msg["file"].filename == "score_1.png"
+    long = max(chants, key=lambda h: len(hymns.score_paths(h)))
+    n = len(hymns.score_paths(long))
+    assert n > 1
+    for page in range(n):                                       # ◀ ▶ never share a custom_id
+        ids = [getattr(i, "item", i).custom_id for i in hymns.score_message(long, page)["view"].children]
+        assert len(ids) == len(set(ids)) == 2
+    assert f"page {n} of {n}" in hymns.score_message(long, -1)["content"]
+
+
 def test_chant_sings_straight_away(hymns, fake_ctx):
     import asyncio
     asyncio.run(hymns.send_chant(fake_ctx, "Pater noster"))

@@ -360,7 +360,11 @@ Three reference datasets have their own shape, each rebuilt by a script in `scri
   `audio/sung/` (`build_sung_chant.py`) has every chant *sung* with its Latin words, for
   `!chant` and the 🎤 Sung button, named by GregoBase id like the organ files: MBROLA's
   Italian voice it3 (`scripts/mbrola/`), ecclesiastical Latin turned into Italian phonemes,
-  three slightly detuned voices in a synthetic reverb.
+  three slightly detuned voices in a synthetic reverb. `scores/` (`build_chant_scores.py`) has each
+  chant's score in square notation as PNG pages (`chant-NNNNN-P.png`), for the 🎼 Score button:
+  laid out by exsurge under Node (`scripts/score/`, `npm install` there; needs node) from the same
+  gabc, cut into pages at the gaps between staves. Sung audio is in git (commit 2d175e9); the
+  scores, like the chanted psalms, are rebuilt on the bot's machine instead.
 - `data/saints/` (`build_saints.py`): `saints.json` (`{"saints": [{month, day, name,
   life, reflection, source, golden_legend: [book keys], also: [names], ...}]}`). Butler's
   abridged *Lives* (Benziger, 1894) from archive.sacred-texts.com/chr/lots, a saint for

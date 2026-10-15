@@ -1,0 +1,9 @@
+{
+  "name": "scripturebot-chant-scores",
+  "private": true,
+  "description": "Draws the chants' square-note scores (exsurge, in jsdom with node-canvas) for scripts/build_chant_scores.py",
+  "dependencies": {
+    "canvas": "^3.2.3",
+    "jsdom": "^30.1.2"
+  }
+}
