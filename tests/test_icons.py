@@ -47,6 +47,28 @@ def test_find(ic, query, key):
     assert ic.find(query) == key
 
 
+def test_the_list_is_whole(ic):
+    embed = ic.list_embed()
+    text = "\n".join(f.value for f in embed.fields)
+    assert all(len(f.value) <= 1024 for f in embed.fields)
+    for key, icon in ic.icons().items():                    # every icon, and every other name it answers to
+        assert f"`!icon {key}`" in text, key
+        for name in icon["names"]:
+            assert name == "mary" or name in text, (key, name)
+    assert "smolensk" in text and "easter" in text
+
+
+def test_mary_lists_her_icons(ic, fake_ctx):
+    marian = ic.find_all("mary")
+    assert len(marian) == 10 and "vladimir" in marian and "dormition" in marian and "trinity" not in marian
+    assert ic.find("mary") is None                          # not one of them picked at random
+    asyncio.run(ic.send_icon(fake_ctx, "mary"))
+    embed = fake_ctx.sent[-1]["embed"]
+    assert embed.title == "☦️ Icons for “mary”" and embed.description.count("•") == 10
+    asyncio.run(ic.send_icon(fake_ctx, "smolensk"))
+    assert "Hodegetria" in fake_ctx.sent[-1]["embed"].title
+
+
 def test_command(ic, fake_ctx):
     asyncio.run(ic.send_icon(fake_ctx, "trinity"))
     sent = fake_ctx.sent[-1]

@@ -57,14 +57,24 @@ def _norm(s: str) -> str:
 
 
 def find(query: str) -> "str | None":
+    """The one icon a word fits; None if none, or several."""
+    found = find_all(query)
+    return found[0] if len(found) == 1 else None
+
+
+def find_all(query: str) -> list:
+    """Every icon a word fits: its key or title exactly; else any icon with it as one of its
+    other names ("mary" is all the icons of Mary); else any with it inside its name."""
     q = _norm(query)
-    for key, icon in icons().items():
-        if q in [_norm(key), _norm(icon["title"])] + [_norm(n) for n in icon["names"]]:
-            return key
-    for key, icon in icons().items():
-        if q and any(q in _norm(x) for x in [key, icon["title"]] + icon["names"]):
-            return key
-    return None
+    if not q:
+        return []
+    exact = [k for k, v in icons().items() if q in (_norm(k), _norm(v["title"]))]
+    if exact:
+        return exact
+    named = [k for k, v in icons().items() if q in [_norm(n) for n in v["names"]]]
+    if named:
+        return named
+    return [k for k, v in icons().items() if any(q in _norm(x) for x in [k, v["title"]] + v["names"])]
 
 
 def icon_message(key: str, why: str = "") -> dict:
@@ -83,14 +93,38 @@ def icon_message(key: str, why: str = "") -> dict:
 SAINTS = ("st george", "st nicholas", "trinity")         # shown on a day, but not one of the Great Feasts' icons
 
 
+def _fields(embed: discord.Embed, name: str, lines: list) -> None:
+    """Lines under a heading, over as many fields as Discord's 1024-character limit needs."""
+    chunk = []
+    for line in lines:
+        if chunk and len("\n".join(chunk + [line])) > 1024:
+            embed.add_field(name=name, value="\n".join(chunk), inline=False)
+            name, chunk = f"{name} (continued)", []
+        chunk.append(line)
+    if chunk:
+        embed.add_field(name=name, value="\n".join(chunk), inline=False)
+
+
+def _line(key: str) -> str:
+    v = icons()[key]
+    also = [n for n in v["names"] if n not in ("mary", key)]
+    return f"• {v['title']} — `!icon {key}`" + (f" · also: {', '.join(also)}" if also else "")
+
+
 def list_embed() -> discord.Embed:
     great = [k for k, v in icons().items() if v["feast"] and k not in SAINTS]
-    feasts = [f"• {icons()[k]['title']} — `!icon {k}`" for k in great]
-    others = [f"• {v['title']} — `!icon {k}`" for k, v in icons().items() if k not in great]
     embed = discord.Embed(title="☦️ Icons", color=COLOR)
-    embed.add_field(name="Famous icons", value="\n".join(others)[:1024], inline=False)
-    embed.add_field(name="The Great Feasts", value="\n".join(feasts)[:1024], inline=False)
-    embed.set_footer(text="!icon on its own: the day's feast, or one of the famous icons in turn")
+    _fields(embed, "Famous icons", [_line(k) for k in icons() if k not in great])
+    _fields(embed, "The Great Feasts", [_line(k) for k in great])
+    embed.set_footer(text="!icon on its own: the day's feast, or one of the famous icons in turn · "
+                          "!icon mary: all the icons of Mary")
+    return embed
+
+
+def matches_embed(query: str, keys: list) -> discord.Embed:
+    embed = discord.Embed(title=f"☦️ Icons for “{query}”", color=COLOR,
+                          description="\n".join(f"• {icons()[k]['title']} — `!icon {k}`" for k in keys))
+    embed.set_footer(text="Ask for one by its name")
     return embed
 
 
@@ -111,12 +145,15 @@ async def send_icon(ctx, query: str = "") -> None:
         why = "☦️ **The icon of today's feast**" if feast else "☦️ **Icon of the day**"
         await ctx.send(**icon_message(key, why))
         return
-    key = find(q)
-    if key is None:
+    found = find_all(q)
+    if not found:
         await ctx.send(f"I don't have an icon called **{discord.utils.escape_markdown(q)}**. `!icon list` shows "
                        f"the ones I have.")
         return
-    await ctx.send(**icon_message(key))
+    if len(found) > 1:                                  # "mary": all ten; pick one by name
+        await ctx.send(embed=matches_embed(q, found))
+        return
+    await ctx.send(**icon_message(found[0]))
 
 
 @bot.command(name="icon", aliases=["icons", "ikon"])

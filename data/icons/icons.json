@@ -24,7 +24,8 @@
    "feast": "",
    "names": [
     "virgin of vladimir",
-    "our lady of vladimir"
+    "our lady of vladimir",
+    "mary"
    ]
   },
   "pantocrator": {
@@ -51,7 +52,8 @@
    "feast": "",
    "names": [
     "smolensk",
-    "theotokos of smolensk"
+    "theotokos of smolensk",
+    "mary"
    ]
   },
   "kazan": {
@@ -63,7 +65,8 @@
    "about": "Our Lady of Kazan, also called Mother of God of Kazan (Russian: Казанская Богоматерь, romanized: Kazanskaya Bogomater'), is an icon of the Russian Orthodox Church, representing the Virgin Mary as the protector and patroness of the city of Kazan, and a palladium of all of Russia and Rus'.\nAccording to legend, the icon was originally acquired from Constantinople, lost in 1438, and miraculously recovered in pristine state over 140 years later in 1579. Two major cathedrals, the Kazan Cathedral, Moscow, and the Kazan Cathedral, St. Petersburg, are consecrated to Our Lady of Kazan, and they display copies of the icon, as do numerous churches throughout the land.",
    "feast": "",
    "names": [
-    "kazan icon"
+    "kazan icon",
+    "mary"
    ]
   },
   "tikhvin": {
@@ -74,7 +77,9 @@
    "article": "Theotokos of Tikhvin",
    "about": "The Theotokos of Tikhvin (Russian: Тихвинская икона Божией Матери) is one of the most celebrated Orthodox Christian icons. It is said to be one of the icons painted by St. Luke the Evangelist. Some art historians prefer a date of about 1300 and a Russian artist, which matches another tradition that the icon miraculously appeared hovering over a lake near Tikhvin, Russia in 1383.",
    "feast": "",
-   "names": []
+   "names": [
+    "mary"
+   ]
   },
   "sign": {
    "title": "Our Lady of the Sign",
@@ -86,7 +91,8 @@
    "feast": "",
    "names": [
     "znamenie",
-    "orans"
+    "orans",
+    "mary"
    ]
   },
   "ladder": {
@@ -112,7 +118,8 @@
    "feast": "",
    "names": [
     "portaitissa",
-    "iviron"
+    "iviron",
+    "mary"
    ]
   },
   "zvenigorod": {
@@ -164,7 +171,8 @@
    "feast": "09-08",
    "names": [
     "birth of mary",
-    "nativity of mary"
+    "nativity of mary",
+    "mary"
    ]
   },
   "exaltation of the cross": {
@@ -191,7 +199,8 @@
    "feast": "11-21",
    "names": [
     "presentation of mary",
-    "entrance of the theotokos"
+    "entrance of the theotokos",
+    "mary"
    ]
   },
   "nativity": {
@@ -245,7 +254,8 @@
    "feast": "03-25",
    "names": [
     "ustyug",
-    "annunciation"
+    "annunciation",
+    "mary"
    ]
   },
   "entry into jerusalem": {
@@ -310,7 +320,8 @@
    "names": [
     "assumption",
     "falling asleep",
-    "uspenie"
+    "uspenie",
+    "mary"
    ]
   }
  }

@@ -14,6 +14,10 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-17 · Icons: easier to find
+- 🔎 **`!icon list` now shows every other name each icon answers to.** Many icons are known by several names, and the bot already understood them: `!icon smolensk` finds the Hodegetria (the Smolensk icon), `!icon easter` the Resurrection, `!icon christmas` the Nativity. The list didn't say so, which made it look like icons were missing. Now every entry shows its other names too.
+- 👑 **`!icon mary` shows all the icons of Mary.** A word that fits several icons used to open whichever came first. `!icon mary` opened the Nativity of the Theotokos. Now you get a list of every icon it fits (for Mary, the Theotokos of Vladimir, Kazan, Tikhvin, the Hodegetria, the Annunciation, the Dormition and more) to choose from.
+
 ## 2026-10-17 · The Divine Liturgy
 - ☦️ **New: `!divineliturgy`.** The Divine Liturgy of St John Chrysostom is the Orthodox Church's Eucharist, the service most Orthodox churches celebrate every Sunday, little changed for well over a thousand years. Now you can read the whole of it in the bot, a page at a time, in an English translation of 1866: the prayers and litanies, the hymns, and, in italics, what the priest and deacon do as they say them. ◀ ▶ turn the pages, and a menu takes you to any part: the Great Litany, the Little Entrance, the Gospel, the Cherubic Hymn and Great Entrance, the Creed, the Anaphora (the great prayer of offering), the Lord's Prayer, Holy Communion and the Dismissal. Or ask for a part directly: `!divineliturgy creed`.
 

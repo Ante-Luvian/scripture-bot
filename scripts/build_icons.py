@@ -24,18 +24,18 @@ ICONS = {
     "trinity": ("The Holy Trinity, by Andrei Rublev", "article:Trinity (Andrei Rublev)", "Trinity (Andrei Rublev)",
                 "pascha+49", ["rublev", "hospitality of abraham", "pentecost"]),
     "vladimir": ("The Theotokos of Vladimir", "article:Theotokos of Vladimir", "Theotokos of Vladimir", "",
-                 ["virgin of vladimir", "our lady of vladimir"]),
+                 ["virgin of vladimir", "our lady of vladimir", "mary"]),
     "pantocrator": ("Christ Pantocrator of Sinai", "article:Christ Pantocrator (Sinai)", "Christ Pantocrator (Sinai)",
                     "", ["sinai", "christ", "pantokrator"]),
     "hodegetria": ("The Hodegetria (She Who Shows the Way), by Dionisius", "article:Hodegetria", "Hodegetria", "",
-                   ["smolensk", "theotokos of smolensk"]),
-    "kazan": ("Our Lady of Kazan", "article:Our Lady of Kazan", "Our Lady of Kazan", "", ["kazan icon"]),
-    "tikhvin": ("The Theotokos of Tikhvin", "article:Theotokos of Tikhvin", "Theotokos of Tikhvin", "", []),
-    "sign": ("Our Lady of the Sign", "article:Our Lady of the Sign", "Our Lady of the Sign", "", ["znamenie", "orans"]),
+                   ["smolensk", "theotokos of smolensk", "mary"]),
+    "kazan": ("Our Lady of Kazan", "article:Our Lady of Kazan", "Our Lady of Kazan", "", ["kazan icon", "mary"]),
+    "tikhvin": ("The Theotokos of Tikhvin", "article:Theotokos of Tikhvin", "Theotokos of Tikhvin", "", ["mary"]),
+    "sign": ("Our Lady of the Sign", "article:Our Lady of the Sign", "Our Lady of the Sign", "", ["znamenie", "orans", "mary"]),
     "ladder": ("The Ladder of Divine Ascent", "article:The Ladder of Divine Ascent", "The Ladder of Divine Ascent", "",
                ["climacus", "ladder of paradise"]),
     "iveron": ("The Iveron Theotokos (Portaitissa)", "File:Iveron.jpg", "Panagia Portaitissa", "",
-               ["portaitissa", "iviron"]),
+               ["portaitissa", "iviron", "mary"]),
     "zvenigorod": ("The Saviour of Zvenigorod, by Andrei Rublev", "File:Rublev's saviour.jpg", "Andrei Rublev", "",   # (no article of its own)
                    ["saviour", "savior", "rublev's saviour"]),
     "st george": ("The Miracle of St George and the Dragon (Novgorod)",
@@ -47,13 +47,13 @@ ICONS = {
     # the twelve Great Feasts and Pascha, in the Church year's order (from 1 September)
     "nativity of the theotokos": ("The Nativity of the Theotokos",
                                   "File:Nikola-Obrazopisov-Belyova-church-Nativity-of-the-Theotokos-icon-1863.jpg",
-                                  "Nativity of Mary", "09-08", ["birth of mary", "nativity of mary"]),
+                                  "Nativity of Mary", "09-08", ["birth of mary", "nativity of mary", "mary"]),
     "exaltation of the cross": ("The Exaltation of the Holy Cross", "File:Exaltation of the Cross - Palekh icon (19 c, "
                                 "priv.coll).jpg", "Elevation of the Holy Cross", "09-14",
                                 ["elevation of the cross", "holy cross", "cross"]),
     "entry of the theotokos": ("The Entry of the Theotokos into the Temple", "File:Russian - Presentation of the Virgin in the "
                                "Temple - Walters 372410.jpg",
-                               "Presentation of Mary", "11-21", ["presentation of mary", "entrance of the theotokos"]),
+                               "Presentation of Mary", "11-21", ["presentation of mary", "entrance of the theotokos", "mary"]),
     "nativity": ("The Nativity of Christ", "File:Nativity (15th c., Annunciation Cathedral in Moscow).jpg",
                  "Nativity of Jesus", "12-25", ["christmas", "birth of christ"]),
     "theophany": ("Theophany: the Baptism of Christ", "File:Baptism (15th c., Annunciation Cathedral in Moscow).jpg",
@@ -61,7 +61,7 @@ ICONS = {
     "meeting": ("The Meeting of the Lord in the Temple", "File:Candlemas (1420s, Sergiev Posad).jpg",
                 "Presentation of Jesus", "02-02", ["candlemas", "presentation of christ", "presentation"]),
     "annunciation": ("The Annunciation of Ustyug", "article:Annunciation of Ustyug", "Annunciation of Ustyug", "03-25",
-                     ["ustyug", "annunciation"]),
+                     ["ustyug", "annunciation", "mary"]),
     "entry into jerusalem": ("The Entry into Jerusalem (Palm Sunday)",
                              "File:Entry into Jerusalem (Annunciation Cathedral in Moscow).jpg",
                              "Triumphal entry into Jerusalem", "pascha-7", ["palm sunday", "palms"]),
@@ -72,7 +72,7 @@ ICONS = {
     "transfiguration": ("The Transfiguration", "File:Transfiguration (Annunciation Cathedral, Kremlin).jpg",
                         "Transfiguration of Jesus", "08-06", ["mount tabor", "tabor"]),
     "dormition": ("The Dormition of the Theotokos, by Theophanes the Greek", "File:Theofanus uspenie.jpg",
-                  "Dormition of the Mother of God", "08-15", ["assumption", "falling asleep", "uspenie"]),
+                  "Dormition of the Mother of God", "08-15", ["assumption", "falling asleep", "uspenie", "mary"]),
 }
 
 
