@@ -182,6 +182,8 @@ The prayers, hymns and holy images of the Eastern Orthodox Church. (Its calendar
 
 **`!icon`** — an Orthodox icon with what it shows: on one of the Great Feasts (Christmas, Theophany, Pascha, the Transfiguration…) that feast's icon, otherwise one of the famous icons, like Rublev's *Trinity* or the *Theotokos of Vladimir*. Ask for one: `!icon trinity`, or `!icon list` for them all.
 
+**`!divineliturgy`** — the Divine Liturgy of St John Chrysostom, the service most Orthodox churches celebrate every Sunday, a page at a time in an 1866 English translation: the spoken parts, with what the priest and deacon do in italics. ◀ ▶ turn the pages, and a menu jumps to any part (the Creed, the Cherubic Hymn, Holy Communion…), or ask for one: `!divineliturgy creed`.
+
 ## 🔮 Oracles
 For centuries people have sought guidance by opening a revered book at random or casting lots. I keep several of those traditions alive — for reflection and fun:
 • `!virgil` — the *Sortes Vergilianae*: a random line from Virgil's *Aeneid*, as people did in the Middle Ages

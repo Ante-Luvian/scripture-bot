@@ -14,6 +14,9 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-17 · The Divine Liturgy
+- ☦️ **New: `!divineliturgy`.** The Divine Liturgy of St John Chrysostom is the Orthodox Church's Eucharist, the service most Orthodox churches celebrate every Sunday, little changed for well over a thousand years. Now you can read the whole of it in the bot, a page at a time, in an English translation of 1866: the prayers and litanies, the hymns, and, in italics, what the priest and deacon do as they say them. ◀ ▶ turn the pages, and a menu takes you to any part: the Great Litany, the Little Entrance, the Gospel, the Cherubic Hymn and Great Entrance, the Creed, the Anaphora (the great prayer of offering), the Lord's Prayer, Holy Communion and the Dismissal. Or ask for a part directly: `!divineliturgy creed`.
+
 ## 2026-10-17 · Icons
 - ☦️ **New: `!icon`.** Icons are the holy images of the Orthodox Church: painted on wood in an ancient, unchanging style, and read rather than just looked at, since every colour, gesture and figure means something. `!icon` shows you one, with an explanation of what it shows and its story. There are the most famous icons, like Andrei Rublev's *Holy Trinity* (the three angels who visited Abraham), the *Theotokos of Vladimir*, the 6th-century *Christ Pantocrator* of Mount Sinai and the *Ladder of Divine Ascent*, and the icons of the twelve **Great Feasts** of the Church year and of Pascha (Easter).
 - 📅 **The feast's icon on its day.** On a Great Feast (Christmas, Theophany, the Annunciation, Palm Sunday, Pascha, the Ascension, Pentecost, the Transfiguration, the Dormition…) `!icon` shows that feast's icon. Pascha and the feasts that move with it follow the Orthodox date of Easter. Other days it shows a famous icon. Ask for any: `!icon vladimir`, `!icon transfiguration`, or `!icon list`.

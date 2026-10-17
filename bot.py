@@ -68,6 +68,7 @@ from bot_commands import (  # noqa: F401
     changelog,
     church,
     cloud,
+    divine_liturgy,
     games,
     harmony,
     report,

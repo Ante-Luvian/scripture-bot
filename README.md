@@ -124,6 +124,7 @@ Prefix commands use `!`; most also have a `/` slash-command version.
 | `!hymn [title \| words \| topic \| passage]` | `!hymns`, `!hymnal` | A public-domain hymn: words, author, tune, Bible passages; ▶️ plays the tune (an organ .ogg) |
 | `!midi [title \| words \| topic \| passage]` | `!tune` | Just a hymn's tune, posted straight away without the words |
 | `!psalm <n> chant [organ]` | `!chant psalm <n>` | A psalm chanted in Latin to a psalm tone (or on the organ), with the Latin and Douay-Rheims |
+| `!divineliturgy [part \| page]` | `!orthodoxliturgy` | The Divine Liturgy of St John Chrysostom (1866 English, Wikisource), page by page with a menu of its parts (`build_liturgy.py`) |
 | `!icon [name \| list]` | `!icons` | An Orthodox icon with its explanation; the day's Great Feast icon when there is one (`data/icons/`, `build_icons.py`) |
 | `!troparion [date]` | `!troparia`, `!kontakion` | The day's Orthodox troparia and kontakia with their tones (oca.org, live); `!troparionsetup` posts them daily |
 | `!rosary [joyful\|luminous\|sorrowful\|glorious]` | `!rosario` | The Rosary a page at a time: the day's mysteries with their Bible passages, the Ave Maria sung |

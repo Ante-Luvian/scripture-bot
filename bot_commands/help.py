@@ -819,6 +819,16 @@ async def cmd_help(ctx, *, topic: str = ""):
         await ctx.send(embed=embed)
         return
 
+    if topic in ("divineliturgy", "chrysostomliturgy", "orthodoxliturgy"):
+        embed = discord.Embed(title="☦️ !divineliturgy — The Divine Liturgy", color=discord.Color.dark_gold())
+        embed.description = (
+            "`!divineliturgy` — the Divine Liturgy of St John Chrysostom, a page at a time (◀ ▶, and a menu "
+            "of its parts)\n`!divineliturgy creed` — a part by name · `!divineliturgy 20` — a page\n\n"
+            "From an English translation of 1866; the rubrics (what the clergy do) are in italics."
+        )
+        await ctx.send(embed=embed)
+        return
+
     if topic in ("icon", "icons", "ikon"):
         embed = discord.Embed(title="☦️ !icon — Orthodox icons", color=discord.Color.dark_gold())
         embed.description = (

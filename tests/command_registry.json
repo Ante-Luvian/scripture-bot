@@ -47,6 +47,10 @@
    "dict"
   ],
   "discover": [],
+  "divineliturgy": [
+   "chrysostomliturgy",
+   "orthodoxliturgy"
+  ],
   "ep": [
    "evensong",
    "vespers"
@@ -329,6 +333,7 @@
   "delphi",
   "dictionary",
   "discover",
+  "divineliturgy",
   "ep",
   "export",
   "features",
