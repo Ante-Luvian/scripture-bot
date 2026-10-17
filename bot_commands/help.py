@@ -819,6 +819,18 @@ async def cmd_help(ctx, *, topic: str = ""):
         await ctx.send(embed=embed)
         return
 
+    if topic in ("troparion", "troparia", "kontakion", "troparionsetup"):
+        embed = discord.Embed(title="☦️ !troparion — The Orthodox hymns of the day", color=discord.Color.dark_gold())
+        embed.description = (
+            "`!troparion` — today's troparia and kontakia: the short hymns the Orthodox Church sings for each "
+            "day's saints and feasts, with the tone each is sung in\n"
+            "`!troparion 2026-12-25` (or `12-25`) — another day's\n\n"
+            "From the Orthodox Church in America (oca.org). A line break marks the end of a sung phrase.\n\n"
+            "**Admins:** `!troparionsetup channel #chan` posts them every day (`time HH:MM` UTC, `test`, `off`)"
+        )
+        await ctx.send(embed=embed)
+        return
+
     if topic in ("rosary", "rosario"):
         embed = discord.Embed(title="📿 !rosary — The Rosary", color=discord.Color.dark_gold())
         embed.description = (
@@ -955,7 +967,8 @@ async def cmd_help(ctx, *, topic: str = ""):
         "`!verslesetup channel #chan` — the day's Versle puzzle (`time`, `test`, `off`)\n"
         "`!hymndaysetup channel #chan` — the hymn of the day (`time`, `test`, `off`)\n"
         "`!saintsetup channel #chan` — the saint of the day (`time`, `test`, `off`)\n"
-        "`!angelussetup channel #chan` — the Angelus at noon, or `time 06:00 12:00 18:00` (`test`, `off`)"
+        "`!angelussetup channel #chan` — the Angelus at noon, or `time 06:00 12:00 18:00` (`test`, `off`)\n"
+        "`!troparionsetup channel #chan` — the Orthodox troparia of the day (`time`, `test`, `off`)"
     ), inline=False)
     embed.add_field(name="🏛️ Ancient Languages & Strong's", value=(
         "Append to `!verse`: `OE` `WLC` `LXX` `TR` `VULG` `peshitta` `CSL`\n"

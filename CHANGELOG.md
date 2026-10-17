@@ -14,6 +14,10 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-17 · The Orthodox hymns of the day
+- ☦️ **New: `!troparion`.** Every day the Orthodox Church remembers its saints and feasts in song. Each has a short hymn of its own, the *troparion*, and usually a second, the *kontakion*, sung at the day's services. Each is sung in one of eight *tones*, the eight melodic modes of Byzantine chant. `!troparion` gives you today's, each with its tone, as the Orthodox Church in America publishes them. The line breaks show where each sung phrase ends. Ask for another day with `!troparion 12-25`.
+- ⏰ **For server admins: `!troparionsetup`.** Have the bot post the day's troparia in a channel every morning: `!troparionsetup channel #orthodox` (with `time 06:00` in UTC, `test`, `off`).
+
 ## 2026-10-17 · Orthodox prayers
 - ☦️ **New: prayers of the Orthodox Church.** `!prayer` now has the prayers Eastern Orthodox Christians say every day, each in English and in its original **Greek**:
   - **The Jesus Prayer**, "Lord Jesus Christ, Son of God, have mercy on me, a sinner": the "prayer of the heart" that Orthodox monks repeat through the day on a prayer rope. `!prayer jesus prayer`

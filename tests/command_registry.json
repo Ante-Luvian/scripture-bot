@@ -251,6 +251,13 @@
    "genealogy",
    "lineage"
   ],
+  "troparion": [
+   "kontakion",
+   "troparia"
+  ],
+  "troparionsetup": [
+   "troparionconfig"
+  ],
   "unsave": [
    "unbookmark"
   ],
@@ -374,6 +381,8 @@
   "topic",
   "translations",
   "tree",
+  "troparion",
+  "troparionsetup",
   "unsave",
   "unsubscribe",
   "variants",
