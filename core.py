@@ -46,7 +46,38 @@ _UNKNOWN_CMD_THRESHOLD = 3
 intents = discord.Intents.default()
 intents.message_content = True
 
-bot = commands.Bot(command_prefix="!", intents=intents, help_command=None)
+# "I can't find that" replies, which get a server's own :sowwy: emoji where it has one (the
+# owner's server has her avatar making an apologetic face); elsewhere they're unchanged
+APOLOGY = re.compile(r"^(?:I don't (?:know|have|recognise)|I couldn't|I can't|I have no|I found no|"
+                     r"No (?:\S+ ){0,3}(?:found|for)\b|No results|Couldn't|Could not|Unknown (?:book|option|"
+                     r"subcommand|mode|feature)|There's no|There is no|Sorry|Something went wrong|"
+                     r"(?:Paragraph|Canon) \S+ not found|That verse has no)", re.I)
+SORRY_EMOJI = "sowwy"
+
+
+def apologetic(guild, content):
+    """`content` with the guild's :sowwy: emoji in front (in place of a ⚠️) when it's an
+    apology and the guild has that emoji; otherwise unchanged."""
+    if not isinstance(content, str) or guild is None:
+        return content
+    body = content[2:].lstrip() if content.startswith("⚠️") else content
+    if not APOLOGY.match(body):
+        return content
+    emoji = discord.utils.get(getattr(guild, "emojis", ()), name=SORRY_EMOJI)
+    return f"{emoji} {body}" if emoji else content
+
+
+class ScriptureContext(commands.Context):
+    async def send(self, content=None, **kwargs):
+        return await super().send(apologetic(self.guild, content), **kwargs)
+
+
+class ScriptureBot(commands.Bot):
+    async def get_context(self, origin, *, cls=ScriptureContext):
+        return await super().get_context(origin, cls=cls)
+
+
+bot = ScriptureBot(command_prefix="!", intents=intents, help_command=None)
 lookup = ScriptureLookup()
 
 # Ancient Near East book list for !verse ancient_near_east random
