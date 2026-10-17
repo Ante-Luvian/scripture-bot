@@ -25,7 +25,12 @@ CHECK = {"st michael": ("Prayer to Saint Michael", "thrust into Hell Satan and a
          "grace": ("Grace (prayer)", "which we are about to receive from Thy bounty"),
          "fatima": ("Fátima prayers", "lead all souls to heaven, especially those"),
          "divine praises": ("Divine Praises", "Blessed be the great Mother of God"),
-         "angel of god": ("Angel of God", "to whom God's love commits me here")}
+         "angel of god": ("Angel of God", "to whom God's love commits me here"),
+         "jesus prayer": ("Jesus Prayer", "Lord Jesus Christ, Son of God, have mercy on me, a sinner"),
+         "trisagion": ("Trisagion", "Holy God, Holy Mighty, Holy Immortal, have mercy on us"),
+         "o heavenly king": ("O Heavenly King", "Who art everywhere present and fillest all things"),
+         "st ephrem": ("Prayer of Saint Ephrem", "grant me to see mine own failings, and not to condemn others"),
+         "rejoice o virgin": ("Hail Mary", "because it was the Saviour of our souls that thou borest")}
 
 
 def test_the_wording(pr):
@@ -46,7 +51,10 @@ def test_the_wording(pr):
                                         ("michael", "st michael"), ("Memorare", "memorare"),
                                         ("soul of christ", "anima christi"), ("guardian angel", "angel of god"),
                                         ("salve regina", "hail holy queen"), ("Lord's Prayer", "our father"),
-                                        ("contrition", "act of contrition"), ("requiem", "eternal rest")])
+                                        ("contrition", "act of contrition"), ("requiem", "eternal rest"),
+                                        ("Jesus Prayer", "jesus prayer"), ("holy god", "trisagion"),
+                                        ("axion estin", "axion estin"), ("ephrem", "st ephrem"),
+                                        ("symbol of faith", "orthodox creed")])
 def test_find(pr, query, key):
     assert pr.find(query) == key
 
@@ -67,6 +75,8 @@ def test_the_command(pr, fake_ctx):
     assert fake_ctx.sent[-1]["file"].filename == "Memorare_sung.ogg"
     asyncio.run(liturgy.cmd_prayer.callback(fake_ctx, name="list"))
     assert "`!prayer st michael`" in fake_ctx.sent[-1]["embed"].description
+    asyncio.run(liturgy.cmd_prayer.callback(fake_ctx, name="trisagion"))
+    assert fake_ctx.sent[-1]["embed"].fields[0].name == "In Greek"
     asyncio.run(liturgy.cmd_prayer.callback(fake_ctx, name="angelus"))
     assert "`!angelus`" in fake_ctx.sent[-1]["content"]
     asyncio.run(liturgy.cmd_prayer.callback(fake_ctx, name="zzzz"))

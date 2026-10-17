@@ -14,6 +14,17 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-17 · Orthodox prayers
+- ☦️ **New: prayers of the Orthodox Church.** `!prayer` now has the prayers Eastern Orthodox Christians say every day, each in English and in its original **Greek**:
+  - **The Jesus Prayer**, "Lord Jesus Christ, Son of God, have mercy on me, a sinner": the "prayer of the heart" that Orthodox monks repeat through the day on a prayer rope. `!prayer jesus prayer`
+  - **The Trisagion**, "Holy God, Holy Mighty, Holy Immortal, have mercy on us" ("thrice holy"), which begins nearly every Orthodox service. `!prayer trisagion`
+  - **O Heavenly King**, the prayer to the Holy Spirit that opens Orthodox prayers.
+  - **It Is Truly Meet** (*Axion Estin*), the hymn to the Theotokos (Mary, "the God-bearer") sung at every Divine Liturgy.
+  - **Rejoice, O Virgin Theotokos**, the Orthodox form of the Hail Mary.
+  - **The Prayer of Saint Ephrem**, "O Lord and Master of my life", the great prayer of Lent.
+  - **The Nicene Creed as the Orthodox say it**, without the phrase "and the Son" that the Western Church later added. `!prayer orthodox creed`
+- `!prayer list` now shows the Orthodox prayers in their own section.
+
 ## 2026-10-15 · Traditional prayers
 - 🙏 **New: traditional prayers by name.** `!prayer` followed by a prayer's name now gives you that prayer, in English and, where it has one, in Latin. There are eighteen, including the **Prayer to Saint Michael** (`!prayer st michael`), the **Memorare**, the **Anima Christi** ("Soul of Christ, sanctify me"), the **Act of Contrition**, the **Angel of God** prayer to your guardian angel, the **Morning Offering**, the **Sub tuum praesidium** (the oldest known prayer to Mary), the **Divine Praises**, the **Prayer to Saint Joseph**, the **Prayer of Saint Francis**, **Come, Holy Spirit**, **Eternal Rest** for the dead, and **grace before and after meals**. Each comes with a line about where it comes from.
 - 🎤 **Sung where they're also chants.** The Memorare, the Anima Christi, the Sub tuum, the Salve Regina, the Our Father, the Hail Mary and Come, Holy Spirit come with their Gregorian chant sung in Latin.

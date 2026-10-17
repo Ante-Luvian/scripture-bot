@@ -1,7 +1,7 @@
 """
 Traditional prayers by name, for `!prayer st michael` (`!prayer` alone is still a random
 Prayer Book prayer, in liturgy.py): the English, the Latin where the prayer has one, and
-the chant sung where the bot has the prayer as a chant. Wording as the prayers' Wikipedia
+the chant sung where the bot has the prayer as a chant; the Orthodox prayers with their Greek. Wording as the prayers' Wikipedia
 articles give it (tests/test_prayers.py checks a line of each against them).
 """
 import re
@@ -169,6 +169,80 @@ PRAYERS = {
         "The Fátima Prayer (O my Jesus)", ["o my jesus", "fatima prayer", "decade prayer"], FATIMA, "",
         "Many add it after each decade of the Rosary; from the apparitions at Fátima, 1917.", ""),
 }
+# the Orthodox Church's prayers, with their Greek
+PRAYERS.update({
+    "jesus prayer": (
+        "The Jesus Prayer", ["prayer of the heart", "lord jesus christ son of god"],
+        "Lord Jesus Christ, Son of God, have mercy on me, a sinner.",
+        "Κύριε Ἰησοῦ Χριστέ, Υἱὲ τοῦ Θεοῦ, ἐλέησόν με τὸν ἁμαρτωλόν.",
+        "The prayer of the heart of Orthodox monks, said over and over, often on a prayer rope, after the "
+        "blind man's cry (Luke 18:38) and the tax collector's (Luke 18:13).", ""),
+    "trisagion": (
+        "The Trisagion (Holy God)", ["holy god", "thrice holy", "agios o theos"],
+        "Holy God, Holy Mighty, Holy Immortal, have mercy on us. *(three times)*\nGlory to the Father, and to the "
+        "Son, and to the Holy Spirit, both now and ever, and unto the ages of ages. Amen.\nO All-Holy Trinity, "
+        "have mercy on us; O Lord, blot out our sins; O Master, pardon our iniquities; O Holy One, visit and heal "
+        "our infirmities for Thy Name's sake.\nLord, have mercy. *(three times)*",
+        "Ἅγιος ὁ Θεός, Ἅγιος ἰσχυρός, Ἅγιος ἀθάνατος, ἐλέησον ἡμᾶς.",
+        "\"Thrice holy\": sung at every Divine Liturgy and said at the start of nearly every Orthodox service.", ""),
+    "o heavenly king": (
+        "O Heavenly King", ["heavenly king", "basileu ouranie"],
+        "O Heavenly King, Comforter, Spirit of Truth, Who art everywhere present and fillest all things, Treasury "
+        "of good things, and Giver of life: come and abide in us, and cleanse us from every sin, and save our "
+        "souls, O Good One!",
+        "Βασιλεῦ οὐράνιε, Παράκλητε, τὸ Πνεῦμα τῆς ἀληθείας, ὁ πανταχοῦ παρὼν καὶ τὰ πάντα πληρῶν, ὁ θησαυρὸς τῶν "
+        "ἀγαθῶν καὶ ζωῆς χορηγός, ἐλθὲ καὶ σκήνωσον ἐν ἡμῖν, καὶ καθάρισον ἡμᾶς ἀπὸ πάσης κηλῖδος, καὶ σῶσον, "
+        "Ἀγαθέ, τὰς ψυχὰς ἡμῶν.",
+        "The prayer to the Holy Spirit that begins Orthodox prayers; left out from Pascha to Pentecost.", ""),
+    "axion estin": (
+        "It Is Truly Meet (Axion Estin)", ["it is truly meet", "it is truly right", "more honourable than the cherubim"],
+        "It is truly meet to bless thee, O Theotokos, ever-blessed and most pure, and the Mother of our God. More "
+        "honourable than the Cherubim, and more glorious beyond compare than the Seraphim, without defilement thou "
+        "gavest birth to God the Word. True Theotokos, we magnify thee.",
+        "Ἄξιόν ἐστιν ὡς ἀληθῶς μακαρίζειν σε τὴν Θεοτόκον, τὴν ἀειμακάριστον καὶ παναμώμητον καὶ μητέρα τοῦ Θεοῦ "
+        "ἡμῶν. Τὴν τιμιωτέραν τῶν Χερουβεὶμ καὶ ἐνδοξοτέραν ἀσυγκρίτως τῶν Σεραφείμ, τὴν ἀδιαφθόρως Θεὸν Λόγον "
+        "τεκοῦσαν, τὴν ὄντως Θεοτόκον, σὲ μεγαλύνομεν.",
+        "The hymn to the Theotokos (the Mother of God) at the Divine Liturgy; by tradition an angel taught it to "
+        "a monk of Mount Athos in the 10th century.", ""),
+    "rejoice o virgin": (
+        "Rejoice, O Virgin Theotokos", ["theotokos virgin rejoice", "rejoice o theotokos", "orthodox hail mary"],
+        "God-bearing Virgin, rejoice, grace-filled Mary, the Lord with thee. Praised thou among women, and praised "
+        "the fruit of thy womb, because it was the Saviour of our souls that thou borest.",
+        "Θεοτόκε Παρθένε, χαῖρε, κεχαριτωμένη Μαρία, ὁ Κύριος μετὰ σοῦ. εὐλογημένη σὺ ἐν γυναιξί, καὶ "
+        "εὐλογημένος ὁ καρπὸς τῆς κοιλίας σου, ὅτι Σωτῆρα ἔτεκες τῶν ψυχῶν ἡμῶν.",
+        "The Orthodox form of the Hail Mary: the angel's greeting and Elizabeth's, sung at Vespers.", ""),
+    "st ephrem": (
+        "The Prayer of Saint Ephrem", ["ephrem", "ephraim", "lord and master of my life", "lenten prayer"],
+        "O Lord and Master of my life, a spirit of idleness, curiosity, ambition, and idle talking; give me not.\n"
+        "But a spirit of chastity, humility, patience, and love, bestow upon me, Thy servant.\nYea, O Lord King: "
+        "grant me to see mine own failings, and not to condemn others; for blessed art Thou unto the ages of ages. "
+        "Amen.",
+        "Κύριε καὶ Δέσποτα τῆς ζωῆς μου, πνεῦμα ἀργίας, περιεργίας, φιλαρχίας, καὶ ἀργολογίας μή μοι δῷς.\n"
+        "Πνεῦμα δὲ σωφροσύνης, ταπεινοφροσύνης, ὑπομονῆς, καὶ ἀγάπης χάρισαί μοι τῷ σῷ δούλῳ.\nΝαί, Κύριε "
+        "Βασιλεῦ, δώρησαι μοι τοῦ ὁρᾶν τὰ ἐμὰ πταίσματα, καὶ μὴ κατακρίνειν τὸν ἀδελφόν μου, ὅτι εὐλογητὸς εἶ, εἰς "
+        "τοὺς αἰῶνας τῶν αἰώνων. Ἀμήν.",
+        "The prayer of Great Lent, said with prostrations; by St Ephrem the Syrian (4th century).", ""),
+    "orthodox creed": (
+        "The Nicene Creed (as the Orthodox say it)", ["symbol of faith", "orthodox nicene creed", "creed without filioque"],
+        "I believe in one God, the Father Almighty, Maker of heaven and earth, and of all things visible and "
+        "invisible;\nAnd in one Lord Jesus Christ, the Son of God, the Only-begotten, begotten of the Father before "
+        "all ages; Light of Light, true God of true God, begotten, not made, of one essence with the Father, by whom "
+        "all things were made; who for us men and for our salvation came down from heaven, and was incarnate of "
+        "the Holy Spirit and the Virgin Mary, and became man; and was crucified also for us under Pontius Pilate, "
+        "and suffered and was buried; and the third day He rose again, according to the Scriptures; and ascended "
+        "into heaven, and sits at the right hand of the Father; and He shall come again with glory to judge the "
+        "living and the dead, whose kingdom shall have no end.\nAnd in the Holy Spirit, the Lord, the Giver of "
+        "Life, who proceeds from the Father; who with the Father and the Son together is worshipped and glorified; "
+        "who spoke by the prophets;\nIn one Holy, Catholic, and Apostolic Church.\nI acknowledge one baptism for "
+        "the remission of sins.\nI look for the resurrection of the dead, and the life of the age to come. Amen.",
+        "Πιστεύω εἰς ἕνα Θεόν, Πατέρα, Παντοκράτορα, ποιητὴν οὐρανοῦ καὶ γῆς, ὁρατῶν τε πάντων καὶ ἀοράτων… "
+        "Καὶ εἰς τὸ Πνεῦμα τὸ Ἅγιον, τὸ κύριον, τὸ ζῳοποιόν, τὸ ἐκ τοῦ Πατρὸς ἐκπορευόμενον… Ἀμήν.",
+        "The Creed of Nicaea and Constantinople (381) as first written: the Spirit \"proceeds from the Father\", "
+        "without the Western addition \"and the Son\" (the filioque). The full Greek: `!creed nicene greek`.", ""),
+})
+ORTHODOX = ["jesus prayer", "trisagion", "o heavenly king", "axion estin", "rejoice o virgin", "st ephrem",
+            "orthodox creed"]
+
 # prayers that have commands of their own
 ELSEWHERE = {"angelus": "`!angelus`", "regina caeli": "`!angelus` (in Eastertide)", "rosary": "`!rosary`",
              "apostles creed": "`!creed apostles`", "creed": "`!creed`", "nicene creed": "`!creed nicene`"}
@@ -195,7 +269,7 @@ def prayer_message(key: str) -> dict:
     title, _, english, latin, note, chant = PRAYERS[key]
     embed = discord.Embed(title=f"🙏 {title}", description=english[:4096], color=COLOR)
     if latin:
-        embed.add_field(name="In Latin", value=latin[:1024], inline=False)
+        embed.add_field(name="In Greek" if key in ORTHODOX else "In Latin", value=latin[:1024], inline=False)
     embed.set_footer(text=note)
     message = {"embed": embed}
     hymn = next((h for h in hymns() if h["title"] == chant), None) if chant else None
@@ -207,8 +281,10 @@ def prayer_message(key: str) -> dict:
 
 
 def list_embed() -> discord.Embed:
-    lines = [f"• **{title}** — `!prayer {key}`" for key, (title, *_rest) in PRAYERS.items()]
+    lines = [f"• **{title}** — `!prayer {key}`" for key, (title, *_rest) in PRAYERS.items() if key not in ORTHODOX]
     embed = discord.Embed(title="🙏 Traditional prayers", color=COLOR, description="\n".join(lines))
+    embed.add_field(name="☦️ Orthodox", value="\n".join(f"• **{PRAYERS[k][0]}** — `!prayer {k}`" for k in ORTHODOX),
+                    inline=False)
     embed.add_field(name="Elsewhere", value="The Angelus and Regina Caeli: `!angelus` · the Rosary: `!rosary` · "
                                             "the Creeds: `!creed` · a random Prayer Book prayer: `!prayer`",
                     inline=False)
