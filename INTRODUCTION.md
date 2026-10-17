@@ -164,8 +164,6 @@ Long psalms have buttons to turn the page, or ask for some verses: `!metrical 11
 
 **`!saint`** — the saint of the day on the traditional calendar, from *Butler's Lives of the Saints*, with a **📖 Golden Legend** button when the medieval *Golden Legend* tells their story too. Look up any saint by name (`!saint George`, `!saint Christopher`; if there are several, like the two Augustines, I'll ask which) or by day (`!saint 25 July`). Admins: `!saintsetup channel #saints` posts the day's saint every morning.
 
-**`!troparion`** — the Orthodox hymns of the day: every day the Orthodox Church remembers its saints and feasts with a short hymn, the *troparion*, and a second, the *kontakion*. I give each, with the *tone* (one of eight melodies) it's sung to, from the Orthodox Church in America. Another day: `!troparion 12-25`. Admins: **`!troparionsetup channel #chan`** posts them every morning.
-
 **`!rosary`** — pray the Rosary, a page at a time: the opening prayers, then five decades (an Our Father, ten Hail Marys and a Glory Be), each on one of the day's *mysteries*, events from the lives of Jesus and Mary, with its Bible passage to think on, then the closing prayers. ◀ ▶ move through it, and the *Ave Maria* comes sung. It picks the day's set (the Joyful on Mondays, the Luminous on Thursdays…), or ask for one: `!rosary sorrowful`.
 
 **`!angelus`** — the Angelus, the short prayer said morning, noon and evening in memory of the angel's message to Mary, in English and Latin, with the *Ave Maria* sung. In Eastertide the *Regina Cæli* ("O Queen of heaven, rejoice!") takes its place, as the Church directs. Admins: **`!angelussetup channel #prayer`** posts it every day at noon UTC, or at the traditional three hours with `time 06:00 12:00 18:00`.
@@ -176,6 +174,13 @@ Long psalms have buttons to turn the page, or ask for some verses: `!metrical 11
 • `!ccc 1` — a paragraph of the *Catechism of the Catholic Church* (`!ccc 1700-1715` for a range, `!ccc random`)
 • `!canon 1` — a canon of the Code of Canon Law
 • `!summa I.2.3` — an article of St Thomas Aquinas's *Summa Theologica* (Part I, Question 2, Article 3), or `!summa random`
+
+## ☦️ The Orthodox Church
+The prayers, hymns and holy images of the Eastern Orthodox Church. (Its calendar and fasting days are in `!today orthodox`, and its daily prayers in `!prayer`, with their Greek: `!prayer jesus prayer`, `!prayer trisagion`, `!prayer list`.)
+
+**`!troparion`** — the Orthodox hymns of the day: every day the Orthodox Church remembers its saints and feasts with a short hymn, the *troparion*, and a second, the *kontakion*. I give each, with the *tone* (one of eight melodies) it's sung to, from the Orthodox Church in America. Another day: `!troparion 12-25`. Admins: **`!troparionsetup channel #chan`** posts them every morning.
+
+**`!icon`** — an Orthodox icon with what it shows: on one of the Great Feasts (Christmas, Theophany, Pascha, the Transfiguration…) that feast's icon, otherwise one of the famous icons, like Rublev's *Trinity* or the *Theotokos of Vladimir*. Ask for one: `!icon trinity`, or `!icon list` for them all.
 
 ## 🔮 Oracles
 For centuries people have sought guidance by opening a revered book at random or casting lots. I keep several of those traditions alive — for reflection and fun:

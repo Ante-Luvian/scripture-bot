@@ -14,6 +14,10 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-17 · Icons
+- ☦️ **New: `!icon`.** Icons are the holy images of the Orthodox Church: painted on wood in an ancient, unchanging style, and read rather than just looked at, since every colour, gesture and figure means something. `!icon` shows you one, with an explanation of what it shows and its story. There are the most famous icons, like Andrei Rublev's *Holy Trinity* (the three angels who visited Abraham), the *Theotokos of Vladimir*, the 6th-century *Christ Pantocrator* of Mount Sinai and the *Ladder of Divine Ascent*, and the icons of the twelve **Great Feasts** of the Church year and of Pascha (Easter).
+- 📅 **The feast's icon on its day.** On a Great Feast (Christmas, Theophany, the Annunciation, Palm Sunday, Pascha, the Ascension, Pentecost, the Transfiguration, the Dormition…) `!icon` shows that feast's icon. Pascha and the feasts that move with it follow the Orthodox date of Easter. Other days it shows a famous icon. Ask for any: `!icon vladimir`, `!icon transfiguration`, or `!icon list`.
+
 ## 2026-10-17 · The Orthodox hymns of the day
 - ☦️ **New: `!troparion`.** Every day the Orthodox Church remembers its saints and feasts in song. Each has a short hymn of its own, the *troparion*, and usually a second, the *kontakion*, sung at the day's services. Each is sung in one of eight *tones*, the eight melodic modes of Byzantine chant. `!troparion` gives you today's, each with its tone, as the Orthodox Church in America publishes them. The line breaks show where each sung phrase ends. Ask for another day with `!troparion 12-25`.
 - ⏰ **For server admins: `!troparionsetup`.** Have the bot post the day's troparia in a channel every morning: `!troparionsetup channel #orthodox` (with `time 06:00` in UTC, `test`, `off`).

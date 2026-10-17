@@ -819,6 +819,17 @@ async def cmd_help(ctx, *, topic: str = ""):
         await ctx.send(embed=embed)
         return
 
+    if topic in ("icon", "icons", "ikon"):
+        embed = discord.Embed(title="☦️ !icon — Orthodox icons", color=discord.Color.dark_gold())
+        embed.description = (
+            "`!icon` — on a Great Feast, the feast's icon; otherwise one of the famous icons in turn\n"
+            "`!icon trinity` — an icon by name · `!icon list` — them all\n\n"
+            "Each with what it shows, from its Wikipedia article; the images are public domain, from Wikimedia "
+            "Commons."
+        )
+        await ctx.send(embed=embed)
+        return
+
     if topic in ("troparion", "troparia", "kontakion", "troparionsetup"):
         embed = discord.Embed(title="☦️ !troparion — The Orthodox hymns of the day", color=discord.Color.dark_gold())
         embed.description = (

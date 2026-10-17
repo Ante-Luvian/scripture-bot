@@ -74,6 +74,7 @@ from bot_commands import (  # noqa: F401
     help,
     hymnday,
     hymns,
+    icons,
     journeys,
     kings,
     latin_psalms,

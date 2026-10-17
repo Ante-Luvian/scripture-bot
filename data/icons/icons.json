@@ -1,0 +1,317 @@
+{
+ "icons": {
+  "trinity": {
+   "title": "The Holy Trinity, by Andrei Rublev",
+   "file": "trinity.jpg",
+   "commons": "File:Angelsatmamre-trinity-rublev-1410.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Angelsatmamre-trinity-rublev-1410.jpg",
+   "article": "Trinity (Andrei Rublev)",
+   "about": "The Trinity (Russian: Троица, romanized: Troitsa, also called The Hospitality of Abraham) is an icon created by Russian painter Andrei Rublev in the early 15th century. It is his most famous work and the most famous of all Russian icons, and it is regarded as one of the highest achievements of Russian art. Scholars believe that it is one of only two works of art (the other being the Dormition Cathedral frescoes in Vladimir) that can be attributed to Rublev with any sort of certainty.\nThe Trinity depicts the three angels who visited Abraham at the Oak of Mamre (Genesis 18:1–8), but the painting is full of symbolism and is interpreted as an icon of the Holy Trinity.",
+   "feast": "pascha+49",
+   "names": [
+    "rublev",
+    "hospitality of abraham",
+    "pentecost"
+   ]
+  },
+  "vladimir": {
+   "title": "The Theotokos of Vladimir",
+   "file": "vladimir.jpg",
+   "commons": "File:Virgin_of_Vladimir.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Virgin_of_Vladimir.jpg",
+   "article": "Theotokos of Vladimir",
+   "about": "The Virgin of Vladimir, also known as Vladimir Mother of God, Our Lady of Vladimir (Russian: Владимирская икона Божией Матери), is a 12th-century Byzantine icon depicting the Virgin and Child and an early example of the Eleusa iconographic type. It is one of the most culturally significant and celebrated pieces of art in Russian history. Many consider it a national palladium with several miracles of historical importance to Russia being attributed to the icon. Following its near destruction in the thirteenth century, the work has been restored at least five times.",
+   "feast": "",
+   "names": [
+    "virgin of vladimir",
+    "our lady of vladimir"
+   ]
+  },
+  "pantocrator": {
+   "title": "Christ Pantocrator of Sinai",
+   "file": "pantocrator.jpg",
+   "commons": "File:Spas_vsederzhitel_sinay.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Spas_vsederzhitel_sinay.jpg",
+   "article": "Christ Pantocrator (Sinai)",
+   "about": "The Christ Pantocrator of Saint Catherine's Monastery is one of the oldest Byzantine religious icons, dating from the 6th century AD. The earliest known surviving depiction of Jesus Christ as Pantocrator (literally ruler of all), it is regarded by historians and scholars among the most important and recognizable works in the study of Byzantine art as well as Eastern Orthodox and Eastern Catholic Christianity.",
+   "feast": "",
+   "names": [
+    "sinai",
+    "christ",
+    "pantokrator"
+   ]
+  },
+  "hodegetria": {
+   "title": "The Hodegetria (She Who Shows the Way), by Dionisius",
+   "file": "hodegetria.jpg",
+   "commons": "File:Odigitriya_Smolenskaya_Dionisiy.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Odigitriya_Smolenskaya_Dionisiy.jpg",
+   "article": "Hodegetria",
+   "about": "A Hodegetria, or Virgin Hodegetria, is an iconographic depiction of the Theotokos (Virgin Mary) holding the Child Jesus at her side while pointing to him as the source of salvation for humankind. The Virgin's head usually inclines towards the child, who raises his hand in a blessing gesture. Metals are often used to draw attention to young Christ, reflecting light and shining in a way to embody divinity. In the Western Church this type of icon is sometimes called Our Lady of the Way.",
+   "feast": "",
+   "names": [
+    "smolensk",
+    "theotokos of smolensk"
+   ]
+  },
+  "kazan": {
+   "title": "Our Lady of Kazan",
+   "file": "kazan.jpg",
+   "commons": "File:Московская_Казанская_икона.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:%D0%9C%D0%BE%D1%81%D0%BA%D0%BE%D0%B2%D1%81%D0%BA%D0%B0%D1%8F_%D0%9A%D0%B0%D0%B7%D0%B0%D0%BD%D1%81%D0%BA%D0%B0%D1%8F_%D0%B8%D0%BA%D0%BE%D0%BD%D0%B0.jpg",
+   "article": "Our Lady of Kazan",
+   "about": "Our Lady of Kazan, also called Mother of God of Kazan (Russian: Казанская Богоматерь, romanized: Kazanskaya Bogomater'), is an icon of the Russian Orthodox Church, representing the Virgin Mary as the protector and patroness of the city of Kazan, and a palladium of all of Russia and Rus'.\nAccording to legend, the icon was originally acquired from Constantinople, lost in 1438, and miraculously recovered in pristine state over 140 years later in 1579. Two major cathedrals, the Kazan Cathedral, Moscow, and the Kazan Cathedral, St. Petersburg, are consecrated to Our Lady of Kazan, and they display copies of the icon, as do numerous churches throughout the land.",
+   "feast": "",
+   "names": [
+    "kazan icon"
+   ]
+  },
+  "tikhvin": {
+   "title": "The Theotokos of Tikhvin",
+   "file": "tikhvin.jpg",
+   "commons": "File:Тихвинская_икона_Божией_Матери_в_окладе.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:%D0%A2%D0%B8%D1%85%D0%B2%D0%B8%D0%BD%D1%81%D0%BA%D0%B0%D1%8F_%D0%B8%D0%BA%D0%BE%D0%BD%D0%B0_%D0%91%D0%BE%D0%B6%D0%B8%D0%B5%D0%B9_%D0%9C%D0%B0%D1%82%D0%B5%D1%80%D0%B8_%D0%B2_%D0%BE%D0%BA%D0%BB%D0%B0%D0%B4%D0%B5.jpg",
+   "article": "Theotokos of Tikhvin",
+   "about": "The Theotokos of Tikhvin (Russian: Тихвинская икона Божией Матери) is one of the most celebrated Orthodox Christian icons. It is said to be one of the icons painted by St. Luke the Evangelist. Some art historians prefer a date of about 1300 and a Russian artist, which matches another tradition that the icon miraculously appeared hovering over a lake near Tikhvin, Russia in 1383.",
+   "feast": "",
+   "names": []
+  },
+  "sign": {
+   "title": "Our Lady of the Sign",
+   "file": "sign.jpg",
+   "commons": "File:Oranta.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Oranta.jpg",
+   "article": "Our Lady of the Sign",
+   "about": "The icon of Our Lady of the Sign (Greek: Παναγία Ορωμένη; Church Slavonic: Икона Божией Матери, \"Знамение\", romanized: Ikona Bozhey Materi, \"Znamenie\"; Polish: Ikona Bogurodzicy \"Znamienie\") or Platytera (Greek: Παναγία Πλατυτέρα, romanized: Panagia Platytera) is the term for a particular type of icon of the Theotokos (Virgin Mary), facing the viewer directly, depicted either full length or half, with her hands raised in the orans position, and with the image of the Child Jesus depicted within a round aureole upon her breast.",
+   "feast": "",
+   "names": [
+    "znamenie",
+    "orans"
+   ]
+  },
+  "ladder": {
+   "title": "The Ladder of Divine Ascent",
+   "file": "ladder.jpg",
+   "commons": "File:The_Ladder_of_Divine_Ascent_Monastery_of_St_Catherine_Sinai_12th_century.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:The_Ladder_of_Divine_Ascent_Monastery_of_St_Catherine_Sinai_12th_century.jpg",
+   "article": "The Ladder of Divine Ascent",
+   "about": "The Ladder of Divine Ascent or Ladder of Paradise (Κλῖμαξ [Klimax]; Scala or Climax Paradisi) is an important ascetical treatise for monasticism in Eastern Orthodoxy and Roman Catholicism, written by John Climacus in c. 600 AD at Saint Catherine's Monastery; it was requested by John, Abbot of the Raithu monastery.\nThe Scala, which obtained immense popularity and made its author famous in the Church, is addressed to anchorites and cenobites and treats of the means by which the highest degree of religious perfection may be attained. Divided into thirty parts, or \"steps\", in memory of the thirty years of the life of Christ—the \"Divine Model\" for the faithful Christian—it presents a picture of all the virtues, and contains a great many parables and historical touches, drawn principally from the monastic life and exhibiting the practical application of the precepts.\nAt the same time, as the work is mostly written in a concise, aphoristic form, and as the reasonings do not always seem clearly connected from one to the next, it is at times somewhat obscure.",
+   "feast": "",
+   "names": [
+    "climacus",
+    "ladder of paradise"
+   ]
+  },
+  "iveron": {
+   "title": "The Iveron Theotokos (Portaitissa)",
+   "file": "iveron.jpg",
+   "commons": "File:Iveron.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Iveron.jpg",
+   "article": "Panagia Portaitissa",
+   "about": "The Panagia Portaitissa (Greek: Παναγία Πορταΐτισσα; Georgian: ივერიის ღვთისმშობლის ხატი) also known as the Iviron Theotokos or Iverskaya in Russian, is an Eastern Orthodox icon of the Virgin Mary in the Georgian Iviron monastery on Mount Athos in Greece, where it is believed to have been since the year 999.  According to the sacred tradition of the Eastern Orthodox Church it was painted by Luke the Evangelist. The icon is referred to as \"Wonderworking\" meaning that numerous miracles have been attributed to the intercession of the Theotokos (Mother of God) by persons praying before it.  The synaxis (feast day) for this icon is on February 12, as well as on Bright Tuesday, and also on October 13 for the translation to Moscow of the Iveron icon.",
+   "feast": "",
+   "names": [
+    "portaitissa",
+    "iviron"
+   ]
+  },
+  "zvenigorod": {
+   "title": "The Saviour of Zvenigorod, by Andrei Rublev",
+   "file": "zvenigorod.jpg",
+   "commons": "File:Rublev's saviour.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Rublev%27s_saviour.jpg",
+   "article": "Andrei Rublev",
+   "about": "Andrei Rublev (Russian: Андрей Рублёв, romanized: Andrey Rublyov, IPA: [ɐnˈdrʲej rʊˈblʲɵf] ; c. 1360 – c. 1430) was a Russian artist considered to be one of the greatest medieval Russian painters of Orthodox Christian icons and frescoes. He is revered as a saint in the Eastern Orthodox Church, and his feast day is 29 January.",
+   "feast": "",
+   "names": [
+    "saviour",
+    "savior",
+    "rublev's saviour"
+   ]
+  },
+  "st george": {
+   "title": "The Miracle of St George and the Dragon (Novgorod)",
+   "file": "st_george.jpg",
+   "commons": "File:Unknow - Miracle of St George and the Dragon. Novgorod - Google Art Project.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Unknow_-_Miracle_of_St_George_and_the_Dragon._Novgorod_-_Google_Art_Project.jpg",
+   "article": "Saint George and the Dragon",
+   "about": "Saint George and the Dragon is a legend in which Saint George—a soldier venerated in Christianity and among the Druze—defeats a dragon. The story goes that the dragon originally extorted tribute from villagers. When they ran out of livestock and trinkets for the dragon, they started giving up a human tribute of two children per day, selected by lot. One day, the princess herself was selected as the next offering.",
+   "feast": "04-23",
+   "names": [
+    "george",
+    "dragon"
+   ]
+  },
+  "st nicholas": {
+   "title": "Saint Nicholas (Novgorod school)",
+   "file": "st_nicholas.jpg",
+   "commons": "File:Novgorod School - Saint Nicholas - NG.M.02422 - National Museum of Art, Architecture and Design.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Novgorod_School_-_Saint_Nicholas_-_NG.M.02422_-_National_Museum_of_Art,_Architecture_and_Design.jpg",
+   "article": "Saint Nicholas",
+   "about": "Saint Nicholas of Myra (traditionally 15 March 270 – 6 December 343), also known as Nicholas of Bari, was an early Christian bishop of Greek descent from the maritime city of Patara in Anatolia (in modern-day Antalya Province, Turkey) during the time of the Roman Empire. Because of the many miracles attributed to his intercession, he is also known as Nicholas the Wonderworker.  Saint Nicholas is the patron saint of sailors, merchants, archers, repentant thieves, children, brewers, pawnbrokers, toymakers, unmarried people, and students in various cities and countries around Europe. His reputation evolved among the pious, as was common for early Christian saints, and his legendary habit of secret gift-giving gave rise to the folklore of Santa Claus (\"Saint Nick\") through Sinterklaas.",
+   "feast": "12-06",
+   "names": [
+    "nicholas"
+   ]
+  },
+  "nativity of the theotokos": {
+   "title": "The Nativity of the Theotokos",
+   "file": "nativity_of_the_theotokos.jpg",
+   "commons": "File:Nikola-Obrazopisov-Belyova-church-Nativity-of-the-Theotokos-icon-1863.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Nikola-Obrazopisov-Belyova-church-Nativity-of-the-Theotokos-icon-1863.jpg",
+   "article": "Nativity of Mary",
+   "about": "The Nativity of the Blessed Virgin Mary, the Nativity of Mary, the Birth of the Virgin Mary, or (Latter) Marymas refers to a Christian feast day celebrating the birth of Mary, mother of Jesus.\nThe modern Biblical canon does not record Mary's birth. The earliest known account of Mary's birth is found in the Gospel of James (5:2),  an apocryphal text from the late second century, with her parents known as Saint Anne and Saint Joachim.\nIn the case of saints, the Church commemorates their date of death, with Saint John the Baptist and the Virgin Mary as the few whose birth dates are commemorated.",
+   "feast": "09-08",
+   "names": [
+    "birth of mary",
+    "nativity of mary"
+   ]
+  },
+  "exaltation of the cross": {
+   "title": "The Exaltation of the Holy Cross",
+   "file": "exaltation_of_the_cross.jpg",
+   "commons": "File:Exaltation of the Cross - Palekh icon (19 c, priv.coll).jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Exaltation_of_the_Cross_-_Palekh_icon_(19_c,_priv.coll).jpg",
+   "article": "Elevation of the Holy Cross",
+   "about": "The Elevation of the Holy Cross (Greek: Ύψωση του Τιμίου Σταυρού, romanized: Ypsosi tou Timiou Staurou), also known as the Exaltation of the Holy Cross, is one of the Great Feasts of the Orthodox Church, celebrated on September 14.\nThe feast is celebrated on the anniversary of the day on which St. Helena found the True Cross on which Jesus of Nazareth was crucified. The feast also commemorates the day in 335 AD on which the Church of the Holy Sepulchre in Jerusalem was dedicated, and the day in 629 AD on which Patriarch Sergius I elevated the True Cross at Hagia Sophia after it was recaptured from the Persians by Byzantine Emperor Heraclius.",
+   "feast": "09-14",
+   "names": [
+    "elevation of the cross",
+    "holy cross",
+    "cross"
+   ]
+  },
+  "entry of the theotokos": {
+   "title": "The Entry of the Theotokos into the Temple",
+   "file": "entry_of_the_theotokos.jpg",
+   "commons": "File:Russian - Presentation of the Virgin in the Temple - Walters 372410.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Russian_-_Presentation_of_the_Virgin_in_the_Temple_-_Walters_372410.jpg",
+   "article": "Presentation of Mary",
+   "about": "The Presentation of the Blessed Virgin Mary, known in the East as The Entry of the Most Holy Theotokos into the Temple, is a liturgical feast celebrated on November 21 by the Catholic, Eastern Orthodox, and some Anglo-Catholic Churches.\nThe feast is associated with an event recounted not in the New Testament, but in the apocryphal Protoevangelium of James. According to that text, Mary's parents, Joachim and Anne, who had been childless, received a heavenly message that they would have a child. In thanksgiving for the gift of their daughter, they brought her, when still a child, to the Temple in Jerusalem to consecrate her to God.",
+   "feast": "11-21",
+   "names": [
+    "presentation of mary",
+    "entrance of the theotokos"
+   ]
+  },
+  "nativity": {
+   "title": "The Nativity of Christ",
+   "file": "nativity.jpg",
+   "commons": "File:Nativity (15th c., Annunciation Cathedral in Moscow).jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Nativity_(15th_c.,_Annunciation_Cathedral_in_Moscow).jpg",
+   "article": "Nativity of Jesus",
+   "about": "The Nativity or birth of Jesus is found in the biblical gospels of Matthew and Luke. The two accounts agree that Jesus was born in Bethlehem in Judea, that his mother, Mary, was engaged to a man named Joseph, who was descended from King David and was not his biological father, and that his birth was caused by divine intervention.\nMany contemporary scholars do not see the  Nativity stories as historically factual, regarding them as laced with theology and presenting two different accounts and genealogies, though they are considered to contain some useful biographical information concerning Jesus's birth during the reign of Augustus and his father's name. Some traditional scholars have maintained the historicity of the narratives.",
+   "feast": "12-25",
+   "names": [
+    "christmas",
+    "birth of christ"
+   ]
+  },
+  "theophany": {
+   "title": "Theophany: the Baptism of Christ",
+   "file": "theophany.jpg",
+   "commons": "File:Baptism (15th c., Annunciation Cathedral in Moscow).jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Baptism_(15th_c.,_Annunciation_Cathedral_in_Moscow).jpg",
+   "article": "Baptism of Jesus",
+   "about": "The baptism of Jesus with water by John the Baptist is described in the three synoptic Gospels of the New Testament (Matthew, Mark, and Luke). It is considered to have taken place at Al-Maghtas (also called Bethany Beyond the Jordan), today located in Jordan.\nModern biblical scholars view the baptism of Jesus as a historical event to which a high degree of certainty can be assigned. Along with the crucifixion of Jesus, biblical scholars view it as one of the two historically certain facts about him, and often use it as the starting point for the study of the historical Jesus.",
+   "feast": "01-06",
+   "names": [
+    "baptism",
+    "epiphany",
+    "baptism of christ"
+   ]
+  },
+  "meeting": {
+   "title": "The Meeting of the Lord in the Temple",
+   "file": "meeting.jpg",
+   "commons": "File:Candlemas (1420s, Sergiev Posad).jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Candlemas_(1420s,_Sergiev_Posad).jpg",
+   "article": "Presentation of Jesus",
+   "about": "The Presentation of Jesus is an early episode in the life of Jesus Christ, describing his presentation at the Temple in Jerusalem. It is celebrated by many churches on February 2nd, 40 days after Christmas, on Candlemas or the Feast of the Presentation of Christ in the temple. The episode is described in chapter 2 of the Gospel of Luke. Within the account, \"Luke's narration of the Presentation in the Temple combines the purification rite with the Jewish ceremony of the redemption of the firstborn (Luke 2, Luke 2:23–24).\"\nIn the Eastern Orthodox Church, the Presentation of Jesus at the temple is celebrated as one of the twelve Great Feasts, and is sometimes called Hypapante (Ὑπαπαντή, \"meeting\" in Greek).",
+   "feast": "02-02",
+   "names": [
+    "candlemas",
+    "presentation of christ",
+    "presentation"
+   ]
+  },
+  "annunciation": {
+   "title": "The Annunciation of Ustyug",
+   "file": "annunciation.jpg",
+   "commons": "File:Annunciation_ystuj.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Annunciation_ystuj.jpg",
+   "article": "Annunciation of Ustyug",
+   "about": "Annunciation of Ustyug (Russian: Устюжское Благовещение) is a Russian Annunciation icon, created in Novgorod in the 12th century, and one of the few icons which survived the Mongol invasion of Rus'. The Annunciation of Ustyug is currently held in the Tretyakov Gallery. The origins of the icon and the exact date of its creation are disputed.",
+   "feast": "03-25",
+   "names": [
+    "ustyug",
+    "annunciation"
+   ]
+  },
+  "entry into jerusalem": {
+   "title": "The Entry into Jerusalem (Palm Sunday)",
+   "file": "entry_into_jerusalem.jpg",
+   "commons": "File:Entry into Jerusalem (Annunciation Cathedral in Moscow).jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Entry_into_Jerusalem_(Annunciation_Cathedral_in_Moscow).jpg",
+   "article": "Triumphal entry into Jerusalem",
+   "about": "The triumphal entry into Jerusalem is a narrative in the four canonical Gospels describing the arrival of Jesus in Jerusalem a few days before his crucifixion. This event is celebrated each year by Christians on Palm Sunday.\nAccording to the gospels, Jesus arrived in Jerusalem to celebrate Passover, entering the city riding a donkey. He was greeted by a crowd acclaiming him by waving palm branches and laying cloaks on the ground to honor him.",
+   "feast": "pascha-7",
+   "names": [
+    "palm sunday",
+    "palms"
+   ]
+  },
+  "resurrection": {
+   "title": "The Resurrection: Christ's Descent into Hades (Chora)",
+   "file": "resurrection.jpg",
+   "commons": "File:Anastasis fresco (Chora Church).jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Anastasis_fresco_(Chora_Church).jpg",
+   "article": "Harrowing of Hell",
+   "about": "In Christian theology, the Harrowing of Hell (Latin: Descensus Christi ad Inferos; Ancient Greek: Ἡ εἰς ᾍδου κάθοδος τοῦ Χριστοῦ – \"the descent of Christ into Hell\" or \"Hades\") is the period of time between the Crucifixion of Jesus and his resurrection. In triumphant descent, Christ brought salvation to the souls held captive there since the beginning of the world.\nChrist's descent into the world of the dead is referred to in the Apostles' Creed and the Athanasian Creed (Quicumque vult), which state that he \"descended into the underworld\" (descendit ad inferos), although neither mention that he liberated the dead. His descent to the underworld is alluded to in the New Testament in 1 Peter 4:6, which states that the \"good tidings were proclaimed to the dead\".",
+   "feast": "pascha+0",
+   "names": [
+    "pascha",
+    "easter",
+    "anastasis",
+    "descent into hades"
+   ]
+  },
+  "ascension": {
+   "title": "The Ascension",
+   "file": "ascension.jpg",
+   "commons": "File:Ascension from Vasilyevskiy chin (15th c., GTG).jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Ascension_from_Vasilyevskiy_chin_(15th_c.,_GTG).jpg",
+   "article": "Ascension of Jesus",
+   "about": "The Ascension of Jesus (anglicized from the Vulgate Latin: ascensio Iesu, lit. 'ascent of Jesus') is the Christian and Islamic belief that Jesus ascended to Heaven. Christian doctrine, as reflected in the major Christian creeds and confessional statements, holds that Jesus ascended after his resurrection, where he was exalted as Lord and Christ, sitting at the right hand of God. Islamic doctrine holds that Jesus directly ascended to heaven without dying or being resurrected.\nThe Gospels and other New Testament writings imply resurrection and exaltation as a single event.",
+   "feast": "pascha+39",
+   "names": []
+  },
+  "transfiguration": {
+   "title": "The Transfiguration",
+   "file": "transfiguration.jpg",
+   "commons": "File:Transfiguration (Annunciation Cathedral, Kremlin).jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Transfiguration_(Annunciation_Cathedral,_Kremlin).jpg",
+   "article": "Transfiguration of Jesus",
+   "about": "The Transfiguration of Jesus is an event described in the New Testament where Jesus is transfigured and becomes radiant in glory upon a mountain. The Synoptic Gospels (Matthew 17:1–8, Mark 9:2–13, Luke 9:28–36) recount the occasion, and the Second Epistle of Peter also refers to it. Ancient Christian texts considered non-canonical by Catholic and Eastern Orthodox doctrine, such as the Treatise on the Resurrection from the Nag Hammadi corpus, refer to the scene as well.\nIn the gospel accounts, Jesus and three of his apostles, Peter, James, and John, go to a mountain (the Mount of Transfiguration) to pray.",
+   "feast": "08-06",
+   "names": [
+    "mount tabor",
+    "tabor"
+   ]
+  },
+  "dormition": {
+   "title": "The Dormition of the Theotokos, by Theophanes the Greek",
+   "file": "dormition.jpg",
+   "commons": "File:Theofanus uspenie.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Theofanus_uspenie.jpg",
+   "article": "Dormition of the Mother of God",
+   "about": "The Dormition of the Mother of God is a Great Feast of the Eastern Orthodox, Oriental Orthodox, and Eastern Catholic Churches (except the East Syriac churches). It celebrates the \"falling asleep\" (death) of Mary the Theotokos (\"Mother of God\", literally translated as God-bearer), and her being taken up into heaven. The Feast of the Dormition is observed on August 15, which for the churches using the Julian calendar corresponds to August 28 on the Gregorian calendar. The Armenian Apostolic Church celebrates the Dormition not on a fixed date, but on the Sunday nearest 15 August.",
+   "feast": "08-15",
+   "names": [
+    "assumption",
+    "falling asleep",
+    "uspenie"
+   ]
+  }
+ }
+}

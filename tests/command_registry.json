@@ -97,6 +97,10 @@
    "hexagram",
    "yijing"
   ],
+  "icon": [
+   "icons",
+   "ikon"
+  ],
   "interlinear": [
    "il",
    "inter"
@@ -338,6 +342,7 @@
   "hymndaysetup",
   "hymnlist",
   "iching",
+  "icon",
   "interlinear",
   "journey",
   "kings",
