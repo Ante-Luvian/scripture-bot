@@ -115,3 +115,12 @@ def test_search_results_count_too(dl):
     m = dl._searched(raw, types.SimpleNamespace(id=7))
     data = {}
     assert dl.record(data, m, mod=True) == {"3": 20} and data["7"]["log"][0]["author"] == "xpnc"
+
+
+def test_leaderboard(dl, bot_module):
+    points = {str(i): i * 10 - 30 for i in range(1, 9)}           # 1: -20 ... 8: +50
+    lines = dl.board_embed(points).description.splitlines()
+    assert lines[0] == "🥇 <@8> — **+50**" and lines[2].startswith("🥉 <@6>") and len(lines) == 5
+    assert lines[-1] == "🌊 <@1> — **-20** (last place)"
+    assert len(dl.board_embed({"1": 5, "2": 3}).description.splitlines()) == 2   # few people: no separate last place
+    assert bot_module.bot.get_command("delugeboard").hidden

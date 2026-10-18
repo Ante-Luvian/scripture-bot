@@ -42,6 +42,10 @@
    "creeds"
   ],
   "delphi": [],
+  "delugeboard": [
+   "delugeleaderboard",
+   "delugetop"
+  ],
   "delugepoints": [
    "delugepoint"
   ],

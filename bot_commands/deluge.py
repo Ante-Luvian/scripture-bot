@@ -345,3 +345,23 @@ async def cmd_delugepoints(ctx, *, who: str = ""):
         return
     owner = ctx.author.id in (bot.owner_id, ctx.guild.owner_id)       # the Treasurer: the whole ledger is theirs alone
     await ctx.send(embed=ledger_embed(points, whole=owner and who.strip().lower() in ("all", "full", "whole", "everyone")))
+
+
+def board_embed(points: dict) -> discord.Embed:
+    """The top three, and whoever is in last place."""
+    ranked = sorted(points.items(), key=lambda p: -p[1])
+    medals = ["🥇", "🥈", "🥉"]
+    lines = [f"{medals[i]} <@{uid}> — **{_fmt(n)}**" for i, (uid, n) in enumerate(ranked[:3])]
+    if len(ranked) > 3:
+        uid, n = ranked[-1]
+        lines += ["⋮", f"🌊 <@{uid}> — **{_fmt(n)}** (last place)"]
+    return discord.Embed(title="🏆 Deluge Points: the Leaderboard", color=COLOR, description="\n".join(lines))
+
+
+@bot.command(name="delugeboard", aliases=["delugeleaderboard", "delugetop"], hidden=True)
+async def cmd_delugeboard(ctx):
+    if not ctx.guild or not is_mod(ctx.author):
+        return
+    points = _load().get(str(ctx.guild.id), {}).get("points", {})
+    await ctx.send(embed=board_embed(points) if points else
+                   discord.Embed(color=COLOR, description="The ledger is empty. For now."))
