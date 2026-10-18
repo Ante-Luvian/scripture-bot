@@ -67,17 +67,65 @@ def apologetic(guild, content):
     return f"{emoji} {body}" if emoji else content
 
 
+# Characters no query needs, which only break the replies that quote it back: a backtick or a
+# backslash in "**{query}**" or "`{query}`" unbalances the formatting around it (found by
+# stress.py), and invisible or right-to-left controls make a reference look like another one.
+_UNWANTED_INPUT = re.compile("[`\\\\​-‏‪-‮⁠-⁩﻿]")
+MAX_INPUT = 500                      # longer than any reference list, search or question needs
+
+
+def clean_input(text: str) -> str:
+    """What someone typed, without the characters above, and cut at MAX_INPUT after the command."""
+    text = _UNWANTED_INPUT.sub("", text)
+    return text[:MAX_INPUT + 40]
+
+
+def fit_for_discord(content, kwargs: dict):
+    """A last safety net: trim anything over Discord's limits (2,000 to a message; an embed's
+    256-character title, 4,096 description, 1,024 field) rather than have Discord refuse the
+    whole reply. Commands should keep within them themselves; this only catches what slips by."""
+    def clip(s, n):
+        return s if s is None or len(s) <= n else s[:n - 1] + "…"
+    if isinstance(content, str):
+        content = clip(content, 2000)
+    for embed in list(kwargs.get("embeds") or []) + ([kwargs["embed"]] if kwargs.get("embed") else []):
+        embed.title = clip(embed.title, 256)
+        embed.description = clip(embed.description, 4096)
+        for i, field in enumerate(embed.fields):
+            if len(field.value or "") > 1024 or len(field.name or "") > 256:
+                embed.set_field_at(i, name=clip(field.name, 256), value=clip(field.value, 1024), inline=field.inline)
+    return content
+
+
 class ScriptureContext(commands.Context):
     async def send(self, content=None, **kwargs):
+        content = fit_for_discord(content, kwargs)
         return await super().send(apologetic(self.guild, content), **kwargs)
+
+
+class ScriptureTree(discord.app_commands.CommandTree):
+    async def interaction_check(self, interaction: discord.Interaction) -> bool:
+        """Slash commands' text options get the same cleaning as typed commands (this runs before
+        discord.py reads the options out of the interaction)."""
+        def clean(options):
+            for opt in options or []:
+                if isinstance(opt.get("value"), str):
+                    opt["value"] = clean_input(opt["value"])[:MAX_INPUT]
+                clean(opt.get("options"))
+        clean((interaction.data or {}).get("options"))
+        return True
 
 
 class ScriptureBot(commands.Bot):
     async def get_context(self, origin, *, cls=ScriptureContext):
+        if isinstance(origin, discord.Message) and origin.content.startswith("!"):
+            origin.content = clean_input(origin.content)
         return await super().get_context(origin, cls=cls)
 
 
-bot = ScriptureBot(command_prefix="!", intents=intents, help_command=None)
+# Never ping @everyone, @here or a role, whatever a reply happens to quote back.
+bot = ScriptureBot(command_prefix="!", intents=intents, help_command=None, tree_cls=ScriptureTree,
+                   allowed_mentions=discord.AllowedMentions(everyone=False, roles=False, users=True, replied_user=True))
 lookup = ScriptureLookup()
 
 # Ancient Near East book list for !verse ancient_near_east random

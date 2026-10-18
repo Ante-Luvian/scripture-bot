@@ -14,6 +14,12 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-18 · Fixes: odd characters, very long requests, hymn tunes
+- 🧹 **Typing a backtick (`` ` ``) or a backslash (`\`) no longer scrambles the reply.** Many replies repeat back what you asked for, in bold or in a code box; one of those characters in your request broke the formatting, so the rest of the message came out as stray asterisks and code. They're now ignored (no book, word or question needs them), along with invisible characters pasted in from elsewhere.
+- 📏 **Very long requests get an answer instead of silence.** Pasting a whole paragraph after a command could make the reply too long for Discord, which then refused to post it at all. Requests are now cut at 500 characters, and any reply that would run over Discord's limits is trimmed to fit.
+- 🔕 **The bot never pings @everyone, @here or a role**, even if a reply happens to quote someone's message containing one.
+- 🎵 **Hymn tune names show their apostrophes properly** ("Tallis’ Canon", "Darwall’s 148th"); they were typed with a backtick in the source, which broke the formatting of `!hymn`'s "About" box.
+
 ## 2026-10-18 · Gustave Doré's engravings
 - 🖼️ **New: `!dore`, Gustave Doré's engravings.** Doré (1832–1883) was the most famous book illustrator of the 19th century, and his engravings for the Bible, Dante and Milton are still the pictures many people see in their minds when they read them. Now the bot has them, each tied to the passage it shows: all 241 plates of his Bible, the Apocrypha included (Tobit, Judith, Baruch, Susanna, Bel and the Dragon, the Maccabees); all 136 of his plates for the *Divine Comedy*; and all 50 for *Paradise Lost*. Every picture is captioned with the verses or lines it illustrates, so you can read the passage right under the picture. `!dore Genesis 11:4` is the Tower of Babel, `!dore Inferno 3:82` Charon's boat, `!dore Paradise Lost 1` Satan's fall; `!dore` on its own shows one at random, and `!dore list` tells you what there is.
 - 📋 **Ask for a chapter and pick the picture you want.** When a chapter has several engravings, `!dore` lists them all with the verse or line each one shows and the command to call it up on its own: `!dore Inferno 1` lists Canto 1's five, and `!dore Inferno 1:31` shows just the panther.

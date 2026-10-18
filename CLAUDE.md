@@ -36,6 +36,20 @@ See README.md for what the bot does, the command list, layout, and data schema.
   `python -m pytest -m live` runs the separate checks against real services (e.g.
   netbible.org for `!notes`); run them when touching that code. The bot also checks
   netbible.org weekly and DMs the owner if it breaks (`bot_commands/health.py`).
+- **Stress-test every change to a command, without being asked** (the owner wants it automatic):
+  1. `python -m pytest -m stress -k "<commands touched>"` (offline; the whole thing takes ~6
+     minutes, run it all when core.py or a shared helper changed). It feeds each command
+     `stress.HOSTILE` -- gibberish, typos, books that don't exist, emoji, bare symbols, markdown,
+     mentions, absurd numbers, other scripts, huge input -- and fails on a crash, the error
+     apology, leaked markup ([[ ]], {{ }}, HTML, entities), unbalanced ** or `, "None"/"nan",
+     unfilled {placeholders}, or anything over Discord's limits. Fix what it finds; don't loosen
+     the checks to pass.
+  2. After deploying: `python stress.py <commands touched>` posts a representative sample
+     (`stress.LIVE_SAMPLE`) and the replies to **#bot-testing in the owner's server only**, then
+     a summary. This also covers the commands that need the internet (`stress.NETWORK`), which the
+     offline run skips. A new command gets inputs shaped for it too (bad page numbers, dates...).
+  This grew out of the owner's girlfriend's stress-testing of /theme with bare symbols ($ % * _ ~
+  { >), which turned up web debris and broken markup (tests/test_corpus_clean.py).
 - After adding or rebuilding a corpus, run `python scripts/clean_corpora.py` (strips web
   leftovers, licences, footnotes, Beta Code; see README "Cleaning") and then
   `python -m pytest -m corpus`, the slow check that every corpus file is clean.
