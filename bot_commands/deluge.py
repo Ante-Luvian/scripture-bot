@@ -101,6 +101,44 @@ async def previous_author(message, channel) -> list:
     return []
 
 
+def _names(member) -> set:
+    return {n.lower() for n in (member.name, getattr(member, "nick", None), getattr(member, "global_name", None),
+                                getattr(member, "display_name", None)) if n}
+
+
+async def find_member(guild, name: str):
+    """A member by their username or server nickname (no @, so nobody is pinged); None unless exactly one fits."""
+    name = name.strip().lstrip("@").strip()
+    if not name or guild is None:
+        return None
+    try:
+        found = await guild.query_members(query=name, limit=10)
+    except (discord.HTTPException, asyncio.TimeoutError, ValueError):
+        return None
+    found = [m for m in found if not m.bot]
+    exact = [m for m in found if name.lower() in _names(m)]
+    return exact[0] if len(exact) == 1 else None
+
+
+async def named_person(message) -> list:
+    """For "50 deluge points to cold brah" / "from cold brah": the member of that name (one to three words)."""
+    m = re.search(r"\bdeluge[\s_-]*(?:points?|pts?)\s+(?:to|from)\s+(.+)", message.content or "", re.I)
+    if not m:
+        return []
+    words = re.sub(r"[^\w\s.'-]", " ", m.group(1)).split()[:3]
+    for n in range(len(words), 0, -1):                  # the longest name that fits
+        member = await find_member(message.guild, " ".join(words[:n]).rstrip(".,!"))
+        if member:
+            return [member]
+    return []
+
+
+async def who_else(message, channel) -> list:
+    """Who a message's points go to when it neither mentions nor replies to anyone: a person named
+    in it, or else whoever posted just before."""
+    return await named_person(message) or await previous_author(message, channel)
+
+
 def is_mod(member) -> bool:
     if getattr(member, "id", None) is not None and member.id == bot.owner_id:
         return True
@@ -149,7 +187,7 @@ async def deluge_listener(message: discord.Message):
     mod = is_mod(message.author)
     earlier = []
     if mod and amount(message.content or "") and not recipients(message):
-        earlier = await previous_author(message, message.channel)
+        earlier = await who_else(message, message.channel)
     data = _load()
     given = record(data, message, mod, earlier)
     _atomic_write_json(DELUGE_PATH, data)
@@ -240,7 +278,7 @@ async def backfill(guild: discord.Guild, before) -> int:
         is_a_mod = await mod(message.author)
         earlier = []
         if is_a_mod and amount(message.content) and not recipients(message):
-            earlier = await previous_author(message, channel)
+            earlier = await who_else(message, channel)
         return bool(record(data, message, is_a_mod, earlier))
 
     async def channel_of(cid: int):
@@ -341,6 +379,12 @@ async def cmd_delugepoints(ctx, *, who: str = ""):
         return
     points = _load().get(str(ctx.guild.id), {}).get("points", {})
     member = next((u for u in ctx.message.mentions if not u.bot), None)
+    if member is None and who.strip() and who.strip().lower() not in ("all", "full", "whole", "everyone"):
+        member = await find_member(ctx.guild, who)     # by name, so nobody is pinged
+        if member is None:
+            await ctx.send(embed=discord.Embed(color=COLOR, description=f"I can't tell who **{discord.utils.escape_markdown(who.strip())}** "
+                                                                         f"is. Try their username or server nickname."))
+            return
     if member is not None:
         await ctx.send(embed=discord.Embed(color=COLOR, description=f"{member.mention}: **{_fmt(points.get(str(member.id), 0))}** "
                                                                      f"deluge points"))

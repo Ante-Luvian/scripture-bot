@@ -129,3 +129,27 @@ def test_leaderboard(dl, bot_module):
     assert lines[-1] == "🌊 <@1> — **-20** (last place)"
     assert len(dl.board_embed({"1": 5, "2": 3}).description.splitlines()) == 2   # few people: no separate last place
     assert bot_module.bot.get_command("delugeboard").hidden
+
+
+class _Guild:
+    def __init__(self, *members):
+        self.members, self.id = members, 7
+
+    async def query_members(self, query, limit=10):
+        return [m for m in self.members if any(n.lower().startswith(query.lower()) for n in (m.name, m.nick or ""))]
+
+
+def _member(uid, name, nick=None):
+    return types.SimpleNamespace(id=uid, name=name, nick=nick, global_name=None, display_name=nick or name, bot=False)
+
+
+def test_names_instead_of_pings(dl):
+    cold, cole = _member(3, "coldenwater", "cold brah"), _member(4, "cole")
+    guild = _Guild(cold, cole)
+    assert asyncio.run(dl.find_member(guild, "Cold Brah")) is cold
+    assert asyncio.run(dl.find_member(guild, "@coldenwater")) is cold
+    assert asyncio.run(dl.find_member(guild, "col")) is None          # only a whole name, never a guess
+    said = lambda text: types.SimpleNamespace(content=text, guild=guild)
+    assert asyncio.run(dl.named_person(said("100 deluge points to cold brah"))) == [cold]
+    assert asyncio.run(dl.named_person(said("50 deluge points from cole for spamming"))) == [cole]
+    assert asyncio.run(dl.named_person(said("15 deluge points from your account"))) == []
