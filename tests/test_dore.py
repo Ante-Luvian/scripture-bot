@@ -137,6 +137,22 @@ def test_blakes_dante_pictures_are_tied_to_their_lines(do, lookup):
     assert [do.by_key()[k]["title"] for k in button.keys] == ["Charon and the Condemned Souls"]
 
 
+def test_illuminated_plates_show_their_words(bot_module):
+    """Each plate of Blake's own books carries the words engraved on it."""
+    from bot_commands import blake
+    for key, book in blake.books().items():
+        assert len(blake.texts()[key]) == len(book["plates"]), key
+        for page in range(len(book["plates"])):
+            d = blake.plate_message(key, page)["embed"].description or ""
+            assert len(d) <= 4096, (key, page)
+    tyger = next(i for i, t in enumerate(blake.texts()["songs"]) if t.startswith("The Tyger"))
+    d = blake.plate_message("songs", tyger)["embed"].description
+    assert "Tyger Tyger, burning bright,\nIn the forests of the night" in d
+    assert blake.plate_message("thel", 2)["embed"].description.startswith("The daughters of Mne Seraphim")
+    assert blake.plate_message("america", 3)["embed"].description.endswith("in sick & drear lamentings.")
+    assert blake.plate_text("urizen", 2) == ""                     # (a picture with no words)
+
+
 def test_blake_command_takes_a_passage(bot_module, fake_ctx):
     from bot_commands import blake
     asyncio.run(blake.send_blake(fake_ctx, "Inferno 5"))            # (by canto: no lines to quote)

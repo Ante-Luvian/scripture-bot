@@ -47,13 +47,32 @@ def find(query: str) -> "str | None":
     return hits[0] if len(hits) == 1 else None
 
 
+TEXTS_PATH = ROOT / "data" / "blake" / "plate_texts.json"
+
+
+@functools.lru_cache(maxsize=1)
+def texts() -> dict:
+    """{book: [the words on each plate]} (scripts/build_blake_texts.py)."""
+    return json.loads(TEXTS_PATH.read_text(encoding="utf-8"))["texts"] if TEXTS_PATH.exists() else {}
+
+
+def plate_text(key: str, page: int) -> str:
+    words = texts().get(key, [])
+    return words[page] if page < len(words) else ""
+
+
 def plate_message(key: str, page: int) -> dict:
     book = books()[key]
     plates = book["plates"]
     page %= len(plates)
     plate = plates[page]
+    words = discord.utils.escape_markdown(plate_text(key, page))
+    about = f"*{book['about']}*" if page == 0 else ""
+    description = "\n\n".join(p for p in (about, words) if p)
+    if len(description) > 4000:                         # (Discord: 4,096 to an embed's description)
+        description = description[:description.rfind("\n", 0, 3990)] + "\n…"
     embed = discord.Embed(title=f"{book['title']} — plate {page + 1} of {len(plates)}", url=plate["page"],
-                          color=COLOR, description=book["about"] if page == 0 else None)
+                          color=COLOR, description=description or None)
     embed.set_image(url=plate["image"])
     embed.set_footer(text=f"William Blake, {book['year']} · copy {book['copy']} · image: Wikimedia Commons")
     view = discord.ui.View(timeout=None)                # persistent: must never time out

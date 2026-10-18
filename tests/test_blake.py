@@ -37,7 +37,8 @@ def test_plates_turn(bl, fake_ctx):
     ids = [b.item.custom_id for b in sent["view"].children]
     assert ids == ["blake:back:songs:40", "blake:next:songs:42"]
     first = bl.plate_message("thel", 0)["embed"]
-    assert first.description == "Thel asks why she must fade." and "copy F" in first.footer.text
+    assert first.description.startswith("*Thel asks why she must fade.*\n\nDoes the Eagle know")   # then its words
+    assert "copy F" in first.footer.text
     two = bl.plate_message("thel", 7)["view"].children                   # the last plate's ▶ goes round to the first
     assert two[1].item.custom_id == "blake:next:thel:0"
 
