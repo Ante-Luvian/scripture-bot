@@ -359,6 +359,16 @@ def _fmt(n: int) -> str:
     return f"{n:+,}" if n else "0"
 
 
+def _standings(guild_id) -> dict:
+    """The ledger, less the Treasurer (the bot's owner), who stands above it."""
+    points = _load().get(str(guild_id), {}).get("points", {})
+    return {uid: n for uid, n in points.items() if uid != str(bot.owner_id)}
+
+
+def balance(user_id: int, points: dict) -> str:
+    return "∞" if user_id == bot.owner_id else _fmt(points.get(str(user_id), 0))
+
+
 def ledger_embed(points: dict, rng: random.Random = random, whole: bool = False) -> discord.Embed:
     people = list(points.items())
     share = people if whole else rng.sample(
@@ -377,7 +387,7 @@ def ledger_embed(points: dict, rng: random.Random = random, whole: bool = False)
 async def cmd_delugepoints(ctx, *, who: str = ""):
     if not ctx.guild or not is_mod(ctx.author):
         return
-    points = _load().get(str(ctx.guild.id), {}).get("points", {})
+    points = _standings(ctx.guild.id)
     member = next((u for u in ctx.message.mentions if not u.bot), None)
     if member is None and who.strip() and who.strip().lower() not in ("all", "full", "whole", "everyone"):
         member = await find_member(ctx.guild, who)     # by name, so nobody is pinged
@@ -386,7 +396,7 @@ async def cmd_delugepoints(ctx, *, who: str = ""):
                                                                          f"is. Try their username or server nickname."))
             return
     if member is not None:
-        await ctx.send(embed=discord.Embed(color=COLOR, description=f"{member.mention}: **{_fmt(points.get(str(member.id), 0))}** "
+        await ctx.send(embed=discord.Embed(color=COLOR, description=f"{member.mention}: **{balance(member.id, points)}** "
                                                                      f"deluge points"))
         return
     if not points:
@@ -411,6 +421,6 @@ def board_embed(points: dict) -> discord.Embed:
 async def cmd_delugeboard(ctx):
     if not ctx.guild or not is_mod(ctx.author):
         return
-    points = _load().get(str(ctx.guild.id), {}).get("points", {})
+    points = _standings(ctx.guild.id)
     await ctx.send(embed=board_embed(points) if points else
                    discord.Embed(color=COLOR, description="The ledger is empty. For now."))

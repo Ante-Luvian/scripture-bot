@@ -160,3 +160,17 @@ def test_an_unknown_name_gives_nobody(dl):
                                  guild=_Guild())
     channel = types.SimpleNamespace(history=lambda **kw: (_ for _ in ()).throw(AssertionError("looked back")))
     assert asyncio.run(dl.who_else(said, channel)) == []
+
+
+def test_the_treasurer_is_infinite(dl, bot_module, fake_ctx, monkeypatch):
+    monkeypatch.setattr(bot_module.bot, "owner_id", 42)
+    dl._atomic_write_json(dl.DELUGE_PATH, {"7": {"points": {"42": -1000, "1": 50, "2": 5, "3": 1, "4": -9}}})
+    assert "42" not in dl._standings(7) and dl.balance(42, {}) == "∞" and dl.balance(1, {"1": 50}) == "+50"
+    fake_ctx.guild = types.SimpleNamespace(id=7, owner_id=0)
+    fake_ctx.author = types.SimpleNamespace(id=5, guild_permissions=types.SimpleNamespace(
+        administrator=True, manage_guild=False, manage_messages=False))
+    fake_ctx.message = types.SimpleNamespace(mentions=[types.SimpleNamespace(id=42, bot=False, mention="<@42>")])
+    asyncio.run(bot_module.bot.get_command("delugepoints").callback(fake_ctx))
+    assert "**∞**" in fake_ctx.sent[-1]["embed"].description
+    asyncio.run(bot_module.bot.get_command("delugeboard").callback(fake_ctx))
+    assert "<@42>" not in fake_ctx.sent[-1]["embed"].description
