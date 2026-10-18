@@ -1773,6 +1773,227 @@ def brother_lawrence():
           {"Practice of the Presence of God": book})
 
 
+# ── Swedenborg ──────────────────────────────────────────────────────────────
+
+# sacred-texts folder: the book's name here (its usual English title)
+SWEDENBORG = {
+    "ac": "Arcana Coelestia", "hh": "Heaven and Hell", "dlw": "Divine Love and Wisdom",
+    "dpr": "Divine Providence", "tcr": "True Christian Religion", "cjl": "Conjugial Love",
+    "ar": "Apocalypse Revealed", "ae": "Apocalypse Explained", "eiu": "Earths in the Universe",
+    "tnj": "The New Jerusalem and its Heavenly Doctrine", "lj": "The Last Judgment",
+    "ljc": "The Last Judgment Continued", "ljp": "The Last Judgment (Posthumous)", "wh": "The White Horse",
+    "dld": "Doctrine of the Lord", "dss": "Doctrine of the Sacred Scripture", "dol": "Doctrine of Life",
+    "dof": "Doctrine of Faith", "be": "Brief Exposition of the Doctrine of the New Church",
+    "isb": "Interaction of the Soul and Body", "cor": "Coronis", "inc": "Invitation to the New Church",
+    "sd": "Spiritual Diary", "ath": "On the Athanasian Creed", "ddm": "De Domino", "pps": "Prophets and Psalms",
+    "dvr": "De Verbo", "dl": "Divine Love", "dw": "Divine Wisdom", "cha": "Doctrine of Charity",
+    "dcj": "De Conjugio", "gts": "God the Saviour", "can": "Canons of the New Church",
+}
+
+
+def _swedenborg_page(html_page: str) -> dict:
+    """{section: [paragraphs]} from one sacred-texts page, where each numbered section
+    starts at a margin note: <span class="margnote">...<a name="51.">51.</a>...</span>."""
+    import html as html_lib
+    start = re.search(r'(?i)<span class="margnote">', html_page)
+    body = html_page[start.start():] if start else ""
+    footnotes = re.search(r"(?i)<h\d[^>]*>\s*Footnotes\s*</h\d>", body)      # (the translator's notes, at the end)
+    body = body[:footnotes.start()] if footnotes else body
+    for footer in ("<nav", "<script"):                       # the page's navigation bar and scripts
+        end = body.lower().find(footer)
+        body = body[:end] if end > 0 else body
+    parts = re.split(r'(?is)<span class="margnote">(.*?)</span>', body)
+    out = {}
+    for marker, chunk in zip(parts[1::2], parts[2::2]):
+        num = html_lib.unescape(re.sub(r"<[^>]+>", "", marker)).strip().rstrip(".").strip()
+        if not num:
+            continue
+        chunk = re.sub(r"(?is)<h\d[^>]*>.*?</h\d>", "", chunk)          # chapter headings between sections
+        chunk = re.sub(r"(?is)<a[^>]*>\s*(?:Next|Previous):.*?</a>", "", chunk)
+        paras = []
+        for p in re.split(r"(?i)<p[^>]*>|<br\s*/?>\s*<br\s*/?>", chunk):
+            text = tidy(html_lib.unescape(re.sub(r"<[^>]+>", " ", p)))
+            if text and not re.fullmatch(r"\[p\. [\divxlc]+\]", text):
+                paras.append(text)
+        if paras:
+            out.setdefault(num, []).extend(paras)
+    return out
+
+
+def swedenborg():
+    """The theological works of Emanuel Swedenborg (sacred-texts.com archive, the Standard
+    Edition translations), each cited as Swedenborg is: by his own section numbers."""
+    import html as html_lib
+    books, sources = {}, {}
+    for folder, title in SWEDENBORG.items():
+        index = sacred_text(f"swd/{folder}/index.htm")
+        pages = []
+        for href, _ in re.findall(r'(?is)<a[^>]+href="([^"]+)"[^>]*>(.*?)</a>', index):
+            if "/" not in href and href.endswith(".htm") and href != "index.htm" and href not in pages:
+                pages.append(href)
+        book = {}
+        translator = ""
+        for page in pages:
+            html_page = sacred_text(f"swd/{folder}/{page}")
+            if not translator:
+                m = re.search(r"tr\. by ([^<\[]+?)\s*\[(\d{4}(?:-\d+)?)\]", html_page)
+                translator = f"{m.group(1).strip()} ({m.group(2)})" if m else ""
+            for num, paras in _swedenborg_page(html_page).items():
+                book.setdefault(num, {})
+                for p in paras:
+                    book[num][str(len(book[num]) + 1)] = p
+        expect(len(book) >= 5, f"{title}: {len(book)} sections")
+        books[title] = book
+        sources[title] = f"Emanuel Swedenborg, {title}" + (f", trans. {translator}" if translator else "") + " (sacred-texts.com)"
+        print(f"  {title}: {len(book)} sections, {sum(len(v) for v in book.values())} paragraphs ({translator})")
+    path = DATA / "medieval" / "swedenborg.json"
+    path.write_text(json.dumps({"source": "Emanuel Swedenborg, the theological works (sacred-texts.com)",
+                                "book_sources": sources, "books": books}, ensure_ascii=False, indent=1), encoding="utf-8")
+    print(f"wrote {path.relative_to(ROOT)}: {len(books)} works, {path.stat().st_size // 1_000_000} MB")
+
+
+# ── John Milton ─────────────────────────────────────────────────────────────
+
+def _milton_book(chunk: str, label: str) -> dict:
+    """{line number: line} for one book of a poem in Beeching's edition: the verse is indented,
+    and every tenth line is numbered in the margin (checked against our own count). The book's
+    prose Argument becomes line 0; the editor's notes on variant readings, after the verse, are
+    left out. A line of verse shared by two speakers, printed on two lines, is one line."""
+    argument, lines = [], {}
+    for raw in chunk.split("\n"):
+        line = raw.rstrip()
+        text = line.strip()
+        if re.match(r"(?i)^(notes?:|the end(?: of the \w+ book)?\.?$)", text):   # (not "The end of all thy Ofspring")
+            if lines:                                    # the notes after the verse: the book is over
+                break
+            continue                                     # (a note on the Argument)
+        if not text or text.upper() in ("THE ARGUMENT.", "THE ARGUMENT"):
+            continue
+        if not line.startswith("  "):                    # unindented: the Argument's prose
+            if not lines:
+                argument.append(text)
+            continue
+        if not lines and argument and not re.search(r"[a-z]", text):
+            continue
+        m = re.match(r"^(.*?\S)\s{3,}(\d+)$", text)
+        verse = (m.group(1) if m else text).replace("_", "")
+        if lines and (line.startswith(" " * 10) or verse.startswith("Man:  That still lessens")):
+            lines[str(len(lines))] += "  " + verse        # (Samson 1564: one line, three speakers)
+            continue
+        n = len(lines) + 1
+        if m and int(m.group(2)) != n:                  # a misprinted margin number (the totals are checked)
+            print(f"    {label}: the margin says {m.group(2)}, the count {n} ({verse[:40]})")
+        lines[str(n)] = verse
+    out = {"0": "*The Argument*\n" + " ".join(argument)} if argument else {}
+    out.update(lines)
+    return out
+
+
+def milton():
+    """John Milton's Paradise Lost (1674), Paradise Regain'd and Samson Agonistes (1671), in
+    H. C. Beeching's edition of Milton's own spelling (Project Gutenberg #1745), a line to a
+    verse: "Paradise Lost 1:1-26" is the invocation; Samson Agonistes is all one chapter."""
+    t = gutenberg(1745)
+    pl, pr = t.index("\nPARADISE LOST.\n", 100_000), t.index("\nPARADISE REGAIN'D.\n", 700_000)
+    sa = t.index("\nSAMSON AGONISTES\n", pr)
+    end = t.index("\nAPPENDIX.\n", sa)
+    books = {}
+    for name, a, b, pattern, count in (("Paradise Lost", pl, pr, r"\n(BOOK [IVX]+)\.\n", 12),
+                                       ("Paradise Regained", pr, sa, r"\n(The (?:First|Second|Third|Fourth) Book)\.\n", 4)):
+        parts = re.split(pattern, t[a:b])[1:]
+        expect(len(parts) // 2 == count, f"{name}: {len(parts) // 2} books")
+        books[name] = {str(i): _milton_book(chunk, f"{name} {i}") for i, chunk in enumerate(parts[1::2], 1)}
+    books["Samson Agonistes"] = {"1": _milton_book(t[t.index("  Sam:  A little onward", sa):end], "Samson")}
+    # the line counts of this edition. Books V, XI and XII are 904, 897 and 648 here, not 907, 901 and 649,
+    # as Beeching prints the 1667 text where 1674 added lines (giving those in his notes); his own margin
+    # numbers, checked line by line, agree with every count in Paradise Lost
+    lengths = {"Paradise Lost": [798, 1055, 742, 1015, 904, 912, 640, 653, 1189, 1104, 897, 648],
+               "Paradise Regained": [502, 486, 443, 639], "Samson Agonistes": [1758]}
+    for name, book in books.items():
+        got = [max(int(k) for k in book[str(i)]) for i in range(1, len(lengths[name]) + 1)]
+        expect(got == lengths[name], f"{name}: {got}")
+    sources = {"Paradise Lost": "John Milton, Paradise Lost (1674), ed. H. C. Beeching (Project Gutenberg)",
+               "Paradise Regained": "John Milton, Paradise Regain'd (1671), ed. H. C. Beeching (Project Gutenberg)",
+               "Samson Agonistes": "John Milton, Samson Agonistes (1671), ed. H. C. Beeching (Project Gutenberg)"}
+    path = DATA / "medieval" / "milton.json"
+    path.write_text(json.dumps({"source": "John Milton, ed. H. C. Beeching (Project Gutenberg)", "book_sources": sources,
+                                "books": books}, ensure_ascii=False, indent=1), encoding="utf-8")
+    print(f"wrote {path.relative_to(ROOT)}: " + ", ".join(f"{n} ({sum(len(c) for c in b.values())} lines)"
+                                                         for n, b in books.items()))
+
+
+# ── William Blake ───────────────────────────────────────────────────────────
+
+def _stanzas(block: str) -> list:
+    """Blank-line separated stanzas, keeping each line of verse (prose paragraphs are joined)."""
+    out = []
+    for p in re.split(r"\n\s*\n", block.strip("\n")):
+        lines = [l.strip().replace("_", "") for l in p.splitlines() if l.strip()]
+        if not lines:
+            continue
+        verse = len(lines) > 1 and max(map(len, lines)) < 62
+        out.append(("\n" if verse else " ").join(lines))
+    return out
+
+
+def _titled(block: str, title_re: str) -> list:
+    """[(title, stanzas)] for a run of poems or sections, each headed by a capitalised title."""
+    parts = re.split(title_re, block)
+    return [(t.strip(), _stanzas(body)) for t, body in zip(parts[1::2], parts[2::2]) if _stanzas(body)]
+
+
+def _numbered(poems: list) -> dict:
+    book = {}
+    for n, (title, stanzas) in enumerate(poems, 1):
+        verses = {str(i): s for i, s in enumerate(stanzas, 1)}
+        words = title.lower().split()                                          # (not .title(): "Earth'S")
+        name = " ".join(w if i and w in ("of", "and", "the", "a", "in", "to") else w.capitalize() for i, w in enumerate(words))
+        verses["1"] = f"*{name}*\n{verses['1']}"
+        book[str(n)] = verses
+    return book
+
+
+def blake():
+    """William Blake from Project Gutenberg: the Songs of Innocence and of Experience (#1934,
+    by poem and stanza), The Marriage of Heaven and Hell (#45315, by section and paragraph:
+    the Proverbs of Hell one to a verse) and The Book of Thel (#574, by part)."""
+    title = r"\n{3,}([A-Z][A-Z’'‘ ,.!:-]{2,})\n{2,}"
+    songs = gutenberg(1934)
+    start = songs.index("SONGS OF INNOCENCE\n", songs.index("CONTENTS") + 200)
+    middle = songs.index("SONGS OF EXPERIENCE\n", start)
+    innocence = _titled("\n\n\n" + songs[start + len("SONGS OF INNOCENCE\n"):middle], title)
+    experience = _titled("\n\n\n" + songs[middle + len("SONGS OF EXPERIENCE\n"):], title)
+    expect(len(innocence) == 19 and len(experience) >= 26, f"{len(innocence)} + {len(experience)} songs")
+    mhh = gutenberg(45315)
+    body = mhh[mhh.index("THE ARGUMENT") - 4:].split("End of Project Gutenberg")[0]
+    sections = _titled("\n\n\n" + body, title)
+    expect(sections[0][0] == "THE ARGUMENT" and any(t == "PROVERBS OF HELL" for t, _ in sections),
+           f"Marriage sections: {[t for t, _ in sections]}")
+    pg574 = gutenberg(574)
+    thel = pg574[pg574.index("  THEL'S Motto"):]
+    motto = _stanzas(thel[len("  THEL'S Motto"):thel.index("THE BOOK of THEL")])
+    parts = re.split(r"(?m)^[ \t]*(IV|III|II|I)\.?[ \t]*$", thel[thel.index("\n  THEL\n"):])
+    book_of_thel = {"0": {str(i): s for i, s in enumerate(motto, 1)}}
+    for numeral, chunk in zip(parts[1::2], parts[2::2]):
+        book_of_thel[str(roman(numeral))] = {str(i): s for i, s in enumerate(_stanzas(chunk), 1)}
+    expect(list(book_of_thel) == ["0", "1", "2", "3", "4"], f"Thel: {list(book_of_thel)}")
+    book_of_thel["0"]["1"] = "*Thel's Motto*\n" + book_of_thel["0"]["1"]
+    path = DATA / "medieval" / "blake.json"
+    path.write_text(json.dumps({
+        "source": "William Blake (Project Gutenberg)",
+        "book_sources": {"Songs of Innocence": "William Blake, Songs of Innocence (1789), Project Gutenberg",
+                         "Songs of Experience": "William Blake, Songs of Experience (1794), Project Gutenberg",
+                         "The Marriage of Heaven and Hell": "William Blake, The Marriage of Heaven and Hell (c. 1790), Project Gutenberg",
+                         "The Book of Thel": "William Blake, The Book of Thel (1789), Project Gutenberg"},
+        "books": {"Songs of Innocence": _numbered(innocence), "Songs of Experience": _numbered(experience),
+                  "The Marriage of Heaven and Hell": _numbered(sections), "The Book of Thel": book_of_thel}},
+        ensure_ascii=False, indent=1), encoding="utf-8")
+    print(f"wrote {path.relative_to(ROOT)}: {len(innocence)} + {len(experience)} songs, {len(sections)} sections of "
+          f"the Marriage, Thel in {len(book_of_thel) - 1} parts")
+    print("  ", [t for t, _ in experience])
+    print("  ", [t for t, _ in sections])
+
+
 BUILDERS = {f.__name__: f for f in (dhammapada, diamond_sutra, tao_te_ching, analects, i_ching, hafiz,
                                     bhagavad_gita, upanishads, meditations, enchiridion, imitation_of_christ,
                                     rule_of_benedict, divine_comedy, hesiod, nt_apocrypha, secrets_of_enoch,
@@ -1781,7 +2002,7 @@ BUILDERS = {f.__name__: f for f in (dhammapada, diamond_sutra, tao_te_ching, ana
                                     jaina_sutras, kojiki, nihongi, popol_vuh, avesta,
                                     zhuangzi, mencius, great_learning_and_mean, masnavi, rubaiyat,
                                     lotus_sutra, milinda, jataka, upanishads_muller, laws_of_manu, yoga_sutras,
-                                    kalevala, mabinogion, cloud_of_unknowing, julian_of_norwich, brother_lawrence)}
+                                    kalevala, mabinogion, cloud_of_unknowing, julian_of_norwich, brother_lawrence, swedenborg, blake, milton)}
 
 if __name__ == "__main__":
     for name in sys.argv[1:] or BUILDERS:

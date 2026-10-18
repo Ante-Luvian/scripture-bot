@@ -416,6 +416,26 @@ ALIASES: dict[str, str] = {
     "cloud": "Cloud of Unknowing", "the cloud of unknowing": "Cloud of Unknowing",
     "julian of norwich": "Revelations of Divine Love", "showings": "Revelations of Divine Love",
     "brother lawrence": "Practice of the Presence of God", "practice of the presence": "Practice of the Presence of God",
+    # Swedenborg, by the New Church's standard abbreviations
+    "arcana": "Arcana Coelestia",                       # (not "ac": that's Acts) "arcana caelestia": "Arcana Coelestia", "secrets of heaven": "Arcana Coelestia",
+    "hh": "Heaven and Hell", "dlw": "Divine Love and Wisdom", "dp": "Divine Providence",
+    "tcr": "True Christian Religion", "true christianity": "True Christian Religion", "cl": "Conjugial Love",
+    "marriage love": "Conjugial Love", "ar": "Apocalypse Revealed", "ae": "Apocalypse Explained",
+    "eu": "Earths in the Universe", "other planets": "Earths in the Universe",
+    "nj": "The New Jerusalem and its Heavenly Doctrine", "new jerusalem": "The New Jerusalem and its Heavenly Doctrine",
+    "lj": "The Last Judgment", "last judgment": "The Last Judgment", "sd": "Spiritual Diary",
+    "spiritual experiences": "Spiritual Diary", "wh": "The White Horse", "white horse": "The White Horse",
+    "doctrine of the lord": "Doctrine of the Lord", "doctrine of sacred scripture": "Doctrine of the Sacred Scripture",
+    "sacred scripture": "Doctrine of the Sacred Scripture", "doctrine of life": "Doctrine of Life",
+    "doctrine of faith": "Doctrine of Faith", "brief exposition": "Brief Exposition of the Doctrine of the New Church",
+    "soul and body": "Interaction of the Soul and Body", "charity": "Doctrine of Charity",
+    # William Blake
+    "thel": "The Book of Thel", "book of thel": "The Book of Thel", "mhh": "The Marriage of Heaven and Hell",
+    "marriage of heaven and hell": "The Marriage of Heaven and Hell", "songs of innocence": "Songs of Innocence",
+    "songs of experience": "Songs of Experience",
+    # John Milton
+    "pl": "Paradise Lost", "paradise regain'd": "Paradise Regained", "pr": "Paradise Regained",
+    "samson": "Samson Agonistes", "sa": "Samson Agonistes",
     # Kitáb-i-Aqdas
     "kitab-i-aqdas": "Kitab-i-Aqdas",
     "kitab i aqdas": "Kitab-i-Aqdas",
@@ -1729,6 +1749,9 @@ class ScriptureLookup:
                 "cloud_of_unknowing.json",
                 "julian_revelations.json",
                 "practice_of_presence.json",
+                "swedenborg.json",
+                "blake.json",
+                "milton.json",
             ],
         }
         for corpus, filenames in corpus_dirs.items():
@@ -2176,7 +2199,7 @@ class ScriptureLookup:
                 and f"{chap_key}.{verse_start}" in book_chapters):
             chap_key, chapter, verse_start = f"{chap_key}.{verse_start}", f"{chap_key}.{verse_start}", None
         # A one-part poem cited by line alone ("Works and Days 289")
-        if (canon_book in self._LINE_CHUNKED and list(book_chapters) == ["1"] and verse_start is None
+        if (list(book_chapters) == ["1"] and verse_start is None          # ("Samson Agonistes 41" too)
                 and chap_key.isdigit() and chap_key != "1"):
             verse_start = verse_end = int(chap_key)
             chap_key = chapter = "1"

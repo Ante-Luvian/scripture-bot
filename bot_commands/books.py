@@ -1066,6 +1066,34 @@ BOOKS_TREE = [
             ("Julian of Norwich", ["Revelations of Divine Love"]),
             ("Brother Lawrence", ["Practice of the Presence of God"]),
         ]),
+        ("Swedenborg", [
+            ("The main works", [
+                "Heaven and Hell", "Arcana Coelestia", "Divine Love and Wisdom", "Divine Providence",
+                "True Christian Religion", "Conjugial Love", "Apocalypse Revealed", "Apocalypse Explained",
+                "Earths in the Universe", "The New Jerusalem and its Heavenly Doctrine",
+            ]),
+            ("The shorter works", [
+                "The Last Judgment", "The Last Judgment Continued", "The White Horse", "Doctrine of the Lord",
+                "Doctrine of the Sacred Scripture", "Doctrine of Life", "Doctrine of Faith",
+                "Brief Exposition of the Doctrine of the New Church", "Interaction of the Soul and Body",
+                "Coronis", "Invitation to the New Church",
+            ]),
+            ("Published after his death", [
+                "Spiritual Diary", "The Last Judgment (Posthumous)", "On the Athanasian Creed", "De Domino",
+                "Prophets and Psalms", "De Verbo", "Divine Love", "Divine Wisdom", "Doctrine of Charity",
+                "De Conjugio", "God the Saviour", "Canons of the New Church",
+            ]),
+        ]),
+        ("John Milton", [
+            ("John Milton", ["Paradise Lost", "Paradise Regained", "Samson Agonistes"]),
+        ]),
+        ("William Blake", [
+            ("John Milton", [
+            ("John Milton", ["Paradise Lost", "Paradise Regained", "Samson Agonistes"]),
+        ]),
+        ("William Blake", ["Songs of Innocence", "Songs of Experience", "The Marriage of Heaven and Hell",
+                               "The Book of Thel"]),
+        ]),
         ("Pearse Collection", [
             ("Hermias", ["Derision of Gentile Philosophers"]),
             ("Eunomius of Cyzicus", ["The First Apology"]),

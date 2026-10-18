@@ -1,0 +1,554 @@
+{
+ "source": "William Blake (Project Gutenberg)",
+ "book_sources": {
+  "Songs of Innocence": "William Blake, Songs of Innocence (1789), Project Gutenberg",
+  "Songs of Experience": "William Blake, Songs of Experience (1794), Project Gutenberg",
+  "The Marriage of Heaven and Hell": "William Blake, The Marriage of Heaven and Hell (c. 1790), Project Gutenberg",
+  "The Book of Thel": "William Blake, The Book of Thel (1789), Project Gutenberg"
+ },
+ "books": {
+  "Songs of Innocence": {
+   "1": {
+    "1": "*Introduction*\nPiping down the valleys wild,\nPiping songs of pleasant glee,\nOn a cloud I saw a child,\nAnd he laughing said to me:",
+    "2": "‘Pipe a song about a Lamb!’\nSo I piped with merry cheer.\n‘Piper, pipe that song again.’\nSo I piped: he wept to hear.",
+    "3": "‘Drop thy pipe, thy happy pipe;\nSing thy songs of happy cheer!’\nSo I sung the same again,\nWhile he wept with joy to hear.",
+    "4": "‘Piper, sit thee down and write\nIn a book, that all may read.’\nSo he vanished from my sight;\nAnd I plucked a hollow reed,",
+    "5": "And I made a rural pen,\nAnd I stained the water clear,\nAnd I wrote my happy songs\nEvery child may joy to hear."
+   },
+   "2": {
+    "1": "*The Shepherd*\nHow sweet is the shepherd’s sweet lot!\nFrom the morn to the evening he strays;\nHe shall follow his sheep all the day,\nAnd his tongue shall be fillèd with praise.",
+    "2": "For he hears the lambs’ innocent call,\nAnd he hears the ewes’ tender reply;\nHe is watchful while they are in peace,\nFor they know when their shepherd is nigh."
+   },
+   "3": {
+    "1": "*The Echoing Green*\nThe sun does arise,\nAnd make happy the skies;\nThe merry bells ring\nTo welcome the Spring;\nThe skylark and thrush,\nThe birds of the bush,\nSing louder around\nTo the bells’ cheerful sound;\nWhile our sports shall be seen\nOn the echoing green.",
+    "2": "Old John, with white hair,\nDoes laugh away care,\nSitting under the oak,\nAmong the old folk.\nThey laugh at our play,\nAnd soon they all say,\n‘Such, such were the joys\nWhen we all—girls and boys—\nIn our youth-time were seen\nOn the echoing green.’",
+    "3": "Till the little ones, weary,\nNo more can be merry:\nThe sun does descend,\nAnd our sports have an end.\nRound the laps of their mothers\nMany sisters and brothers,\nLike birds in their nest,\nAre ready for rest,\nAnd sport no more seen\nOn the darkening green."
+   },
+   "4": {
+    "1": "*The Lamb*\nLittle lamb, who made thee?\nDoes thou know who made thee,\nGave thee life, and bid thee feed\nBy the stream and o’er the mead;\nGave thee clothing of delight,\nSoftest clothing, woolly, bright;\nGave thee such a tender voice,\nMaking all the vales rejoice?\nLittle lamb, who made thee?\nDoes thou know who made thee?",
+    "2": "Little lamb, I’ll tell thee;\nLittle lamb, I’ll tell thee:\nHe is callèd by thy name,\nFor He calls Himself a Lamb.\nHe is meek, and He is mild,\nHe became a little child.\nI a child, and thou a lamb,\nWe are callèd by His name.\nLittle lamb, God bless thee!\nLittle lamb, God bless thee!"
+   },
+   "5": {
+    "1": "*The Little Black Boy*\nMy mother bore me in the southern wild,\nAnd I am black, but O my soul is white!\nWhite as an angel is the English child,\nBut I am black, as if bereaved of light.",
+    "2": "My mother taught me underneath a tree,\nAnd, sitting down before the heat of day,\nShe took me on her lap and kissèd me,\nAnd, pointing to the East, began to say:",
+    "3": "‘Look on the rising sun: there God does live,\nAnd gives His light, and gives His heat away,\nAnd flowers and trees and beasts and men receive\nComfort in morning, joy in the noonday.",
+    "4": "‘And we are put on earth a little space,\nThat we may learn to bear the beams of love;\nAnd these black bodies and this sunburnt face\nAre but a cloud, and like a shady grove.",
+    "5": "‘For, when our souls have learned the heat to bear,\nThe cloud will vanish, we shall hear His voice,\nSaying, “Come out from the grove, my love and care,\nAnd round my golden tent like lambs rejoice.”’",
+    "6": "Thus did my mother say, and kissed me,\nAnd thus I say to little English boy.\nWhen I from black, and he from white cloud free,\nAnd round the tent of God like lambs we joy,",
+    "7": "I’ll shade him from the heat till he can bear\nTo lean in joy upon our Father’s knee;\nAnd then I’ll stand and stroke his silver hair,\nAnd be like him, and he will then love me."
+   },
+   "6": {
+    "1": "*The Blossom*\nMerry, merry sparrow!\nUnder leaves so green\nA happy blossom\nSees you, swift as arrow,\nSeek your cradle narrow,\nNear my bosom.",
+    "2": "Pretty, pretty robin!\nUnder leaves so green\nA happy blossom\nHears you sobbing, sobbing,\nPretty, pretty robin,\nNear my bosom."
+   },
+   "7": {
+    "1": "*The Chimney-sweeper*\nWhen my mother died I was very young,\nAnd my father sold me while yet my tongue\nCould scarcely cry ‘Weep! weep! weep! weep!’\nSo your chimneys I sweep, and in soot I sleep.",
+    "2": "There’s little Tom Dacre, who cried when his head,\nThat curled like a lamb’s back, was shaved; so I said,\n‘Hush, Tom! never mind it, for, when your head’s bare,\nYou know that the soot cannot spoil your white hair.’",
+    "3": "And so he was quiet, and that very night,\nAs Tom was a-sleeping, he had such a sight!—\nThat thousands of sweepers, Dick, Joe, Ned, and Jack,\nWere all of them locked up in coffins of black.",
+    "4": "And by came an angel, who had a bright key,\nAnd he opened the coffins, and set them all free;\nThen down a green plain, leaping, laughing, they run\nAnd wash in a river, and shine in the sun.",
+    "5": "Then naked and white, all their bags left behind,\nThey rise upon clouds, and sport in the wind:\nAnd the angel told Tom, if he’d be a good boy,\nHe’d have God for his father, and never want joy.",
+    "6": "And so Tom awoke, and we rose in the dark,\nAnd got with our bags and our brushes to work.\nThough the morning was cold, Tom was happy and warm:\nSo, if all do their duty, they need not fear harm."
+   },
+   "8": {
+    "1": "*The Little Boy Lost*\n‘Father, father, where are you going?\nO do not walk so fast!\nSpeak, father, speak to your little boy,\nOr else I shall be lost.’",
+    "2": "The night was dark, no father was there,\nThe child was wet with dew;\nThe mire was deep, and the child did weep,\nAnd away the vapour flew."
+   },
+   "9": {
+    "1": "*The Little Boy Found*\nThe little boy lost in the lonely fen,\nLed by the wandering light,\nBegan to cry, but God, ever nigh,\nAppeared like his father, in white.",
+    "2": "He kissed the child, and by the hand led,\nAnd to his mother brought,\nWho in sorrow pale, through the lonely dale,\nHer little boy weeping sought."
+   },
+   "10": {
+    "1": "*Laughing Song*\nWhen the green woods laugh with the voice of joy,\nAnd the dimpling stream runs laughing by;\nWhen the air does laugh with our merry wit,\nAnd the green hill laughs with the noise of it;",
+    "2": "When the meadows laugh with lively green,\nAnd the grasshopper laughs in the merry scene;\nWhen Mary and Susan and Emily\nWith their sweet round mouths sing ‘Ha ha he!’",
+    "3": "When the painted birds laugh in the shade,\nWhere our table with cherries and nuts is spread:\nCome live, and be merry, and join with me,\nTo sing the sweet chorus of ‘Ha ha he!’"
+   },
+   "11": {
+    "1": "*A Cradle Song*\nSweet dreams, form a shade\nO’er my lovely infant’s head!\nSweet dreams of pleasant streams\nBy happy, silent, moony beams!",
+    "2": "Sweet Sleep, with soft down\nWeave thy brows an infant crown!\nSweet Sleep, angel mild,\nHover o’er my happy child!",
+    "3": "Sweet smiles, in the night\nHover over my delight!\nSweet smiles, mother’s smiles,\nAll the livelong night beguiles.",
+    "4": "Sweet moans, dovelike sighs,\nChase not slumber from thy eyes!\nSweet moans, sweeter smiles,\nAll the dovelike moans beguiles.",
+    "5": "Sleep, sleep, happy child!\nAll creation slept and smiled.\nSleep, sleep, happy sleep,\nWhile o’er thee thy mother weep.",
+    "6": "Sweet babe, in thy face\nHoly image I can trace;\nSweet babe, once like thee\nThy Maker lay, and wept for me:",
+    "7": "Wept for me, for thee, for all,\nWhen He was an infant small.\nThou His image ever see,\nHeavenly face that smiles on thee!",
+    "8": "Smiles on thee, on me, on all,\nWho became an infant small;\nInfant smiles are His own smiles;\nHeaven and earth to peace beguiles."
+   },
+   "12": {
+    "1": "*The Divine Image*\nTo Mercy, Pity, Peace, and Love,\nAll pray in their distress,\nAnd to these virtues of delight\nReturn their thankfulness.",
+    "2": "For Mercy, Pity, Peace, and Love,\nIs God our Father dear;\nAnd Mercy, Pity, Peace, and Love,\nIs man, His child and care.",
+    "3": "For Mercy has a human heart;\nPity, a human face;\nAnd Love, the human form divine:\nAnd Peace the human dress.",
+    "4": "Then every man, of every clime,\nThat prays in his distress,\nPrays to the human form divine:\nLove, Mercy, Pity, Peace.",
+    "5": "And all must love the human form,\nIn heathen, Turk, or Jew.\nWhere Mercy, Love, and Pity dwell,\nThere God is dwelling too."
+   },
+   "13": {
+    "1": "*Holy Thursday*\n’Twas on a holy Thursday, their innocent faces clean, The children walking two and two, in red, and blue, and green: Grey-headed beadles walked before, with wands as white as snow, Till into the high dome of Paul’s they like Thames waters flow.",
+    "2": "O what a multitude they seemed, these flowers of London town! Seated in companies they sit, with radiance all their own. The hum of multitudes was there, but multitudes of lambs, Thousands of little boys and girls raising their innocent hands.",
+    "3": "Now like a mighty wind they raise to heaven the voice of song, Or like harmonious thunderings the seats of heaven among: Beneath them sit the aged men, wise guardians of the poor. Then cherish pity, lest you drive an angel from your door."
+   },
+   "14": {
+    "1": "*Night*\nThe sun descending in the West,\nThe evening star does shine;\nThe birds are silent in their nest,\nAnd I must seek for mine.\nThe moon, like a flower\nIn heaven’s high bower,\nWith silent delight,\nSits and smiles on the night.",
+    "2": "Farewell, green fields and happy groves,\nWhere flocks have took delight,\nWhere lambs have nibbled, silent moves\nThe feet of angels bright;\nUnseen, they pour blessing,\nAnd joy without ceasing,\nOn each bud and blossom,\nAnd each sleeping bosom.",
+    "3": "They look in every thoughtless nest\nWhere birds are covered warm;\nThey visit caves of every beast,\nTo keep them all from harm:\nIf they see any weeping\nThat should have been sleeping,\nThey pour sleep on their head,\nAnd sit down by their bed.",
+    "4": "When wolves and tigers howl for prey,\nThey pitying stand and weep;\nSeeking to drive their thirst away,\nAnd keep them from the sheep.\nBut, if they rush dreadful,\nThe angels, most heedful,\nReceive each mild spirit,\nNew worlds to inherit.",
+    "5": "And there the lion’s ruddy eyes\nShall flow with tears of gold:\nAnd pitying the tender cries,\nAnd walking round the fold:\nSaying: ‘Wrath by His meekness,\nAnd, by His health, sickness,\nIs driven away\nFrom our immortal day.",
+    "6": "‘And now beside thee, bleating lamb,\nI can lie down and sleep,\nOr think on Him who bore thy name,\nGraze after thee, and weep.\nFor, washed in life’s river,\nMy bright mane for ever\nShall shine like the gold,\nAs I guard o’er the fold."
+   },
+   "15": {
+    "1": "*Spring*\nSound the flute!\nNow it’s mute!\nBirds delight,\nDay and night,\nNightingale,\nIn the dale,\nLark in sky,—\nMerrily,\nMerrily, merrily to welcome in the year.",
+    "2": "Little boy,\nFull of joy;\nLittle girl,\nSweet and small;\nCock does crow,\nSo do you;\nMerry voice,\nInfant noise;\nMerrily, merrily to welcome in the year.",
+    "3": "Little lamb,\nHere I am;\nCome and lick\nMy white neck;\nLet me pull\nYour soft wool;\nLet me kiss\nYour soft face;\nMerrily, merrily we welcome in the year."
+   },
+   "16": {
+    "1": "*Nurse’s Song*\nWhen voices of children are heard on the green,\nAnd laughing is heard on the hill,\nMy heart is at rest within my breast,\nAnd everything else is still.",
+    "2": "‘Then come home, my children, the sun is gone down,\nAnd the dews of night arise;\nCome, come, leave off play, and let us away,\nTill the morning appears in the skies.’",
+    "3": "‘No, no, let us play, for it is yet day,\nAnd we cannot go to sleep;\nBesides, in the sky the little birds fly,\nAnd the hills are all covered with sheep.’",
+    "4": "‘Well, well, go and play till the light fades away,\nAnd then go home to bed.’\nThe little ones leaped, and shouted, and laughed,\nAnd all the hills echoèd."
+   },
+   "17": {
+    "1": "*Infant Joy*\n‘I have no name;\nI am but two days old.’\nWhat shall I call thee?\n‘I happy am,\nJoy is my name.’\nSweet joy befall thee!",
+    "2": "Pretty joy!\nSweet joy, but two days old.\nSweet joy I call thee:\nThou dost smile,\nI sing the while;\nSweet joy befall thee!"
+   },
+   "18": {
+    "1": "*A Dream*\nOnce a dream did weave a shade\nO’er my angel-guarded bed,\nThat an emmet lost its way\nWhere on grass methought I lay.",
+    "2": "Troubled, wildered, and forlorn,\nDark, benighted, travel-worn,\nOver many a tangled spray,\nAll heart-broke, I heard her say:",
+    "3": "‘O my children! do they cry,\nDo they hear their father sigh?\nNow they look abroad to see,\nNow return and weep for me.’",
+    "4": "Pitying, I dropped a tear:\nBut I saw a glow-worm near,\nWho replied, ‘What wailing wight\nCalls the watchman of the night?’",
+    "5": "‘I am set to light the ground,\nWhile the beetle goes his round:\nFollow now the beetle’s hum;\nLittle wanderer, hie thee home!’"
+   },
+   "19": {
+    "1": "*On Another’s Sorrow*\nCan I see another’s woe,\nAnd not be in sorrow too?\nCan I see another’s grief,\nAnd not seek for kind relief?",
+    "2": "Can I see a falling tear,\nAnd not feel my sorrow’s share?\nCan a father see his child\nWeep, nor be with sorrow filled?",
+    "3": "Can a mother sit and hear\nAn infant groan, an infant fear?\nNo, no! never can it be!\nNever, never can it be!",
+    "4": "And can He who smiles on all\nHear the wren with sorrows small,\nHear the small bird’s grief and care,\nHear the woes that infants bear—",
+    "5": "And not sit beside the nest,\nPouring pity in their breast,\nAnd not sit the cradle near,\nWeeping tear on infant’s tear?",
+    "6": "And not sit both night and day,\nWiping all our tears away?\nO no! never can it be!\nNever, never can it be!",
+    "7": "He doth give His joy to all:\nHe becomes an infant small,\nHe becomes a man of woe,\nHe doth feel the sorrow too.",
+    "8": "Think not thou canst sigh a sigh,\nAnd thy Maker is not by:\nThink not thou canst weep a tear,\nAnd thy Maker is not near.",
+    "9": "O He gives to us His joy,\nThat our grief He may destroy:\nTill our grief is fled and gone\nHe doth sit by us and moan."
+   }
+  },
+  "Songs of Experience": {
+   "1": {
+    "1": "*Introduction*\nHear the voice of the Bard,\nWho present, past, and future, sees;\nWhose ears have heard\nThe Holy Word\nThat walked among the ancient trees;",
+    "2": "Calling the lapséd soul,\nAnd weeping in the evening dew;\nThat might control\nThe starry pole,\nAnd fallen, fallen light renew!",
+    "3": "‘O Earth, O Earth, return!\nArise from out the dewy grass!\nNight is worn,\nAnd the morn\nRises from the slumbrous mass.",
+    "4": "‘Turn away no more;\nWhy wilt thou turn away?\nThe starry floor,\nThe watery shore,\nIs given thee till the break of day.’"
+   },
+   "2": {
+    "1": "*Earth’s Answer*\nEarth raised up her head\nFrom the darkness dread and drear,\nHer light fled,\nStony, dread,\nAnd her locks covered with grey despair.",
+    "2": "‘Prisoned on watery shore,\nStarry jealousy does keep my den\nCold and hoar;\nWeeping o’er,\nI hear the father of the ancient men.",
+    "3": "‘Selfish father of men!\nCruel, jealous, selfish fear!\nCan delight,\nChained in night,\nThe virgins of youth and morning bear.",
+    "4": "‘Does spring hide its joy,\nWhen buds and blossoms grow?\nDoes the sower\nSow by night,\nOr the ploughman in darkness plough?",
+    "5": "‘Break this heavy chain,\nThat does freeze my bones around!\nSelfish, vain,\nEternal bane,\nThat free love with bondage bound.’"
+   },
+   "3": {
+    "1": "*The Clod and the Pebble*\n‘Love seeketh not itself to please,\nNor for itself hath any care,\nBut for another gives its ease,\nAnd builds a heaven in hell’s despair.’",
+    "2": "So sung a little clod of clay,\nTrodden with the cattle’s feet,\nBut a pebble of the brook\nWarbled out these metres meet:",
+    "3": "‘Love seeketh only Self to please,\nTo bind another to its delight,\nJoys in another’s loss of ease,\nAnd builds a hell in heaven’s despite.’"
+   },
+   "4": {
+    "1": "*Holy Thursday*\nIs this a holy thing to see\nIn a rich and fruitful land,—\nBabes reduced to misery,\nFed with cold and usurous hand?",
+    "2": "Is that trembling cry a song?\nCan it be a song of joy?\nAnd so many children poor?\nIt is a land of poverty!",
+    "3": "And their sun does never shine,\nAnd their fields are bleak and bare,\nAnd their ways are filled with thorns,\nIt is eternal winter there.",
+    "4": "For where’er the sun does shine,\nAnd where’er the rain does fall,\nBabe can never hunger there,\nNor poverty the mind appal."
+   },
+   "5": {
+    "1": "*The Little Girl Lost*\nIn futurity\nI prophesy\nThat the earth from sleep\n(Grave the sentence deep)",
+    "2": "Shall arise, and seek\nFor her Maker meek;\nAnd the desert wild\nBecome a garden mild.",
+    "3": "In the southern clime,\nWhere the summer’s prime\nNever fades away,\nLovely Lyca lay.",
+    "4": "Seven summers old\nLovely Lyca told.\nShe had wandered long,\nHearing wild birds’ song.",
+    "5": "‘Sweet sleep, come to me,\nUnderneath this tree;\nDo father, mother, weep?\nWhere can Lyca sleep?",
+    "6": "‘Lost in desert wild\nIs your little child.\nHow can Lyca sleep\nIf her mother weep?",
+    "7": "‘If her heart does ache,\nThen let Lyca wake;\nIf my mother sleep,\nLyca shall not weep.",
+    "8": "‘Frowning, frowning night,\nO’er this desert bright\nLet thy moon arise,\nWhile I close my eyes.’",
+    "9": "Sleeping Lyca lay,\nWhile the beasts of prey,\nCome from caverns deep,\nViewed the maid asleep.",
+    "10": "The kingly lion stood,\nAnd the virgin viewed:\nThen he gambolled round\nO’er the hallowed ground.",
+    "11": "Leopards, tigers, play\nRound her as she lay;\nWhile the lion old\nBowed his mane of gold,",
+    "12": "And her bosom lick,\nAnd upon her neck,\nFrom his eyes of flame,\nRuby tears there came;",
+    "13": "While the lioness\nLoosed her slender dress,\nAnd naked they conveyed\nTo caves the sleeping maid."
+   },
+   "6": {
+    "1": "*The Little Girl Found*\nAll the night in woe\nLyca’s parents go\nOver valleys deep,\nWhile the deserts weep.",
+    "2": "Tired and woe-begone,\nHoarse with making moan,\nArm in arm, seven days\nThey traced the desert ways.",
+    "3": "Seven nights they sleep\nAmong shadows deep,\nAnd dream they see their child\nStarved in desert wild.",
+    "4": "Pale through pathless ways\nThe fancied image strays,\nFamished, weeping, weak,\nWith hollow piteous shriek.",
+    "5": "Rising from unrest,\nThe trembling woman pressed\nWith feet of weary woe;\nShe could no further go.",
+    "6": "In his arms he bore\nHer, armed with sorrow sore;\nTill before their way\nA couching lion lay.",
+    "7": "Turning back was vain:\nSoon his heavy mane\nBore them to the ground,\nThen he stalked around,",
+    "8": "Smelling to his prey;\nBut their fears allay\nWhen he licks their hands,\nAnd silent by them stands.",
+    "9": "They look upon his eyes,\nFilled with deep surprise;\nAnd wondering behold\nA spirit armed in gold.",
+    "10": "On his head a crown,\nOn his shoulders down\nFlowed his golden hair.\nGone was all their care.",
+    "11": "‘Follow me,’ he said;\n‘Weep not for the maid;\nIn my palace deep,\nLyca lies asleep.’",
+    "12": "Then they followèd\nWhere the vision led,\nAnd saw their sleeping child\nAmong tigers wild.",
+    "13": "To this day they dwell\nIn a lonely dell,\nNor fear the wolvish howl\nNor the lion’s growl."
+   },
+   "7": {
+    "1": "*The Chimney-sweeper*\nA little black thing among the snow,\nCrying! ‘weep! weep!’ in notes of woe!\n‘Where are thy father and mother? Say!’—\n‘They are both gone up to the church to pray.",
+    "2": "‘Because I was happy upon the heath,\nAnd smiled among the winter’s snow,\nThey clothed me in the clothes of death,\nAnd taught me to sing the notes of woe.",
+    "3": "‘And because I am happy and dance and sing,\nThey think they have done me no injury,\nAnd are gone to praise God and His priest and king,\nWho made up a heaven of our misery.’"
+   },
+   "8": {
+    "1": "*Nurse’s Song*\nWhen the voices of children are heard on the green,\nAnd whisperings are in the dale,\nThe days of my youth rise fresh in my mind,\nMy face turns green and pale.",
+    "2": "Then come home, my children, the sun is gone down,\nAnd the dews of night arise;\nYour spring and your day are wasted in play,\nAnd your winter and night in disguise."
+   },
+   "9": {
+    "1": "*The Sick Rose*\nO rose, thou art sick!\nThe invisible worm,\nThat flies in the night,\nIn the howling storm,",
+    "2": "Has found out thy bed\nOf crimson joy,\nAnd his dark secret love\nDoes thy life destroy."
+   },
+   "10": {
+    "1": "*The Fly*\nLittle Fly,\nThy summer’s play\nMy thoughtless hand\nHas brushed away.",
+    "2": "Am not I\nA fly like thee?\nOr art not thou\nA man like me?",
+    "3": "For I dance,\nAnd drink, and sing,\nTill some blind hand\nShall brush my wing.",
+    "4": "If thought is life\nAnd strength and breath,\nAnd the want\nOf thought is death;",
+    "5": "Then am I\nA happy fly.\nIf I live,\nOr if I die."
+   },
+   "11": {
+    "1": "*The Angel*\nI dreamt a dream!  What can it mean?\nAnd that I was a maiden Queen\nGuarded by an Angel mild:\nWitless woe was ne’er beguiled!",
+    "2": "And I wept both night and day,\nAnd he wiped my tears away;\nAnd I wept both day and night,\nAnd hid from him my heart’s delight.",
+    "3": "So he took his wings, and fled;\nThen the morn blushed rosy red.\nI dried my tears, and armed my fears\nWith ten thousand shields and spears.",
+    "4": "Soon my Angel came again;\nI was armed, he came in vain;\nFor the time of youth was fled,\nAnd grey hairs were on my head."
+   },
+   "12": {
+    "1": "*The Tiger*\nTiger, tiger, burning bright\nIn the forests of the night,\nWhat immortal hand or eye\nCould frame thy fearful symmetry?",
+    "2": "In what distant deeps or skies\nBurnt the fire of thine eyes?\nOn what wings dare he aspire?\nWhat the hand dare seize the fire?",
+    "3": "And what shoulder and what art\nCould twist the sinews of thy heart?\nAnd, when thy heart began to beat,\nWhat dread hand and what dread feet?",
+    "4": "What the hammer? what the chain?\nIn what furnace was thy brain?\nWhat the anvil? what dread grasp\nDare its deadly terrors clasp?",
+    "5": "When the stars threw down their spears,\nAnd watered heaven with their tears,\nDid He smile His work to see?\nDid He who made the lamb make thee?",
+    "6": "Tiger, tiger, burning bright\nIn the forests of the night,\nWhat immortal hand or eye\nDare frame thy fearful symmetry?"
+   },
+   "13": {
+    "1": "*My Pretty Rose Tree*\nA flower was offered to me,\nSuch a flower as May never bore;\nBut I said, ‘I’ve a pretty rose tree,’\nAnd I passed the sweet flower o’er.",
+    "2": "Then I went to my pretty rose tree,\nTo tend her by day and by night;\nBut my rose turned away with jealousy,\nAnd her thorns were my only delight."
+   },
+   "14": {
+    "1": "*Ah, Sunflower*\nAh, sunflower, weary of time,\nWho countest the steps of the sun;\nSeeking after that sweet golden clime\nWhere the traveller’s journey is done;",
+    "2": "Where the Youth pined away with desire,\nAnd the pale virgin shrouded in snow,\nArise from their graves, and aspire\nWhere my Sunflower wishes to go!"
+   },
+   "15": {
+    "1": "*The Lily*\nThe modest Rose puts forth a thorn,\nThe humble sheep a threat’ning horn:\nWhile the Lily white shall in love delight,\nNor a thorn nor a threat stain her beauty bright."
+   },
+   "16": {
+    "1": "*The Garden of Love*\nI went to the Garden of Love,\nAnd saw what I never had seen;\nA Chapel was built in the midst,\nWhere I used to play on the green.",
+    "2": "And the gates of this Chapel were shut,\nAnd ‘Thou shalt not’ writ over the door;\nSo I turned to the Garden of Love\nThat so many sweet flowers bore.",
+    "3": "And I saw it was filled with graves,\nAnd tombstones where flowers should be;\nAnd priests in black gowns were walking their rounds,\nAnd binding with briars my joys and desires."
+   },
+   "17": {
+    "1": "*The Little Vagabond*\nDear mother, dear mother, the Church is cold;\nBut the Alehouse is healthy, and pleasant, and warm.\nBesides, I can tell where I am used well;\nSuch usage in heaven will never do well.",
+    "2": "But, if at the Church they would give us some ale,\nAnd a pleasant fire our souls to regale,\nWe’d sing and we’d pray all the livelong day,\nNor ever once wish from the Church to stray.",
+    "3": "Then the Parson might preach, and drink, and sing,\nAnd we’d be as happy as birds in the spring;\nAnd modest Dame Lurch, who is always at church,\nWould not have bandy children, nor fasting, nor birch.",
+    "4": "And God, like a father, rejoicing to see\nHis children as pleasant and happy as He,\nWould have no more quarrel with the Devil or the barrel,\nBut kiss him, and give him both drink and apparel."
+   },
+   "18": {
+    "1": "*London*\nI wander through each chartered street,\nNear where the chartered Thames does flow,\nA mark in every face I meet,\nMarks of weakness, marks of woe.",
+    "2": "In every cry of every man,\nIn every infant’s cry of fear,\nIn every voice, in every ban,\nThe mind-forged manacles I hear:",
+    "3": "How the chimney-sweeper’s cry\nEvery blackening church appals,\nAnd the hapless soldier’s sigh\nRuns in blood down palace-walls.",
+    "4": "But most, through midnight streets I hear\nHow the youthful harlot’s curse\nBlasts the new-born infant’s tear,\nAnd blights with plagues the marriage hearse."
+   },
+   "19": {
+    "1": "*The Human Abstract*\nPity would be no more\nIf we did not make somebody poor,\nAnd Mercy no more could be\nIf all were as happy as we.",
+    "2": "And mutual fear brings Peace,\nTill the selfish loves increase;\nThen Cruelty knits a snare,\nAnd spreads his baits with care.",
+    "3": "He sits down with holy fears,\nAnd waters the ground with tears;\nThen Humility takes its root\nUnderneath his foot.",
+    "4": "Soon spreads the dismal shade\nOf Mystery over his head,\nAnd the caterpillar and fly\nFeed on the Mystery.",
+    "5": "And it bears the fruit of Deceit,\nRuddy and sweet to eat,\nAnd the raven his nest has made\nIn its thickest shade.",
+    "6": "The gods of the earth and sea\nSought through nature to find this tree,\nBut their search was all in vain:\nThere grows one in the human Brain."
+   },
+   "20": {
+    "1": "*Infant Sorrow*\nMy mother groaned, my father wept:\nInto the dangerous world I leapt,\nHelpless, naked, piping loud,\nLike a fiend hid in a cloud.",
+    "2": "Struggling in my father’s hands,\nStriving against my swaddling bands,\nBound and weary, I thought best\nTo sulk upon my mother’s breast."
+   },
+   "21": {
+    "1": "*A Poison Tree*\nI was angry with my friend:\nI told my wrath, my wrath did end.\nI was angry with my foe:\nI told it not, my wrath did grow.",
+    "2": "And I watered it in fears\nNight and morning with my tears,\nAnd I sunnèd it with smiles\nAnd with soft deceitful wiles.",
+    "3": "And it grew both day and night,\nTill it bore an apple bright,\nAnd my foe beheld it shine,\nAnd he knew that it was mine,—",
+    "4": "And into my garden stole\nWhen the night had veiled the pole;\nIn the morning, glad, I see\nMy foe outstretched beneath the tree."
+   },
+   "22": {
+    "1": "*A Little Boy Lost*\n‘Nought loves another as itself,\nNor venerates another so,\nNor is it possible to thought\nA greater than itself to know.",
+    "2": "‘And, father, how can I love you\nOr any of my brothers more?\nI love you like the little bird\nThat picks up crumbs around the door.’",
+    "3": "The Priest sat by and heard the child;\nIn trembling zeal he seized his hair,\nHe led him by his little coat,\nAnd all admired his priestly care.",
+    "4": "And standing on the altar high,\n‘Lo, what a fiend is here!’ said he:\n‘One who sets reason up for judge\nOf our most holy mystery.’",
+    "5": "The weeping child could not be heard,\nThe weeping parents wept in vain:\nThey stripped him to his little shirt,\nAnd bound him in an iron chain,",
+    "6": "And burned him in a holy place\nWhere many had been burned before;\nThe weeping parents wept in vain.\nAre such things done on Albion’s shore?"
+   },
+   "23": {
+    "1": "*A Little Girl Lost*\nChildren of the future age,\nReading this indignant page,\nKnow that in a former time\nLove, sweet love, was thought a crime.",
+    "2": "In the age of gold,\nFree from winter’s cold,\nYouth and maiden bright,\nTo the holy light,\nNaked in the sunny beams delight.",
+    "3": "Once a youthful pair,\nFilled with softest care,\nMet in garden bright\nWhere the holy light\nHad just removed the curtains of the night.",
+    "4": "There, in rising day,\nOn the grass they play;\nParents were afar,\nStrangers came not near,\nAnd the maiden soon forgot her fear.",
+    "5": "Tired with kisses sweet,\nThey agree to meet\nWhen the silent sleep\nWaves o’er heaven’s deep,\nAnd the weary tired wanderers weep.",
+    "6": "To her father white\nCame the maiden bright;\nBut his loving look,\nLike the holy book,\nAll her tender limbs with terror shook.",
+    "7": "Ona, pale and weak,\nTo thy father speak!\nO the trembling fear!\nO the dismal care\nThat shakes the blossoms of my hoary hair!’"
+   },
+   "24": {
+    "1": "*A Divine Image*\nCruelty has a human heart,\nAnd Jealousy a human face;\nTerror the human form divine,\nAnd Secrecy the human dress.",
+    "2": "The human dress is forgèd iron,\nThe human form a fiery forge,\nThe human face a furnace sealed,\nThe human heart its hungry gorge."
+   },
+   "25": {
+    "1": "*A Cradle Song*\nSleep, sleep, beauty bright,\nDreaming in the joys of night;\nSleep, sleep; in thy sleep\nLittle sorrows sit and weep.",
+    "2": "Sweet babe, in thy face\nSoft desires I can trace,\nSecret joys and secret smiles,\nLittle pretty infant wiles.",
+    "3": "As thy softest limbs I feel,\nSmiles as of the morning steal\nO’er thy cheek, and o’er thy breast\nWhere thy little heart doth rest.",
+    "4": "O the cunning wiles that creep\nIn thy little heart asleep!\nWhen thy little heart doth wake,\nThen the dreadful light shall break."
+   },
+   "26": {
+    "1": "*To Tirzah*\nWhate’er is born of mortal birth\nMust be consumèd with the earth,\nTo rise from generation free:\nThen what have I to do with thee?",
+    "2": "The sexes sprung from shame and pride,\nBlowed in the morn, in evening died;\nBut mercy changed death into sleep;\nThe sexes rose to work and weep.",
+    "3": "Thou, mother of my mortal part,\nWith cruelty didst mould my heart,\nAnd with false self-deceiving tears\nDidst blind my nostrils, eyes, and ears,",
+    "4": "Didst close my tongue in senseless clay,\nAnd me to mortal life betray.\nThe death of Jesus set me free:\nThen what have I to do with thee?"
+   },
+   "27": {
+    "1": "*The Schoolboy*\nI love to rise in a summer morn,\nWhen the birds sing on every tree;\nThe distant huntsman winds his horn,\nAnd the skylark sings with me:\nO what sweet company!",
+    "2": "But to go to school in a summer morn,—\nO it drives all joy away!\nUnder a cruel eye outworn,\nThe little ones spend the day\nIn sighing and dismay.",
+    "3": "Ah then at times I drooping sit,\nAnd spend many an anxious hour;\nNor in my book can I take delight,\nNor sit in learning’s bower,\nWorn through with the dreary shower.",
+    "4": "How can the bird that is born for joy\nSit in a cage and sing?\nHow can a child, when fears annoy,\nBut droop his tender wing,\nAnd forget his youthful spring!",
+    "5": "O father and mother if buds are nipped,\nAnd blossoms blown away;\nAnd if the tender plants are stripped\nOf their joy in the springing day,\nBy sorrow and care’s dismay,—",
+    "6": "How shall the summer arise in joy,\nOr the summer fruits appear?\nOr how shall we gather what griefs destroy,\nOr bless the mellowing year,\nWhen the blasts of winter appear?"
+   },
+   "28": {
+    "1": "*The Voice of the Ancient Bard*\nYouth of delight! come hither\nAnd see the opening morn,\nImage of Truth new-born.\nDoubt is fled, and clouds of reason,\nDark disputes and artful teazing.\nFolly is an endless maze;\nTangled roots perplex her ways;\nHow many have fallen there!\nThey stumble all night over bones of the dead;\nAnd feel—they know not what but care;\nAnd wish to lead others, when they should be led."
+   }
+  },
+  "The Marriage of Heaven and Hell": {
+   "1": {
+    "1": "*The Argument*\nRintrah roars and shakes his fires in the burden'd air,\nHungry clouds swag on the deep.",
+    "2": "Once meek, and in a perilous path\nThe just man kept his course along\nThe Vale of Death.\nRoses are planted where thorns grow,\nAnd on the barren heath\nSing the honey bees.",
+    "3": "Then the perilous path was planted,\nAnd a river and a spring\nOn every cliff and tomb;\nAnd on the bleached bones\nRed clay brought forth:\nTill the villain left the paths of ease\nTo walk in perilous paths, and drive\nThe just man into barren climes.",
+    "4": "Now the sneaking serpent walks\nIn mild humility;\nAnd the just man rages in the wilds\nWhere lions roam.",
+    "5": "Rintrah roars and shakes his fires in the burden'd air,\nHungry clouds swag on the deep.",
+    "6": "As a new heaven is begun, and it is now thirty-three years since its advent, the Eternal Hell revives. And lo! Swedenborg is the angel sitting at the tomb: his writings are the linen clothes folded up. Now is the dominion of Edom, and the return of Adam into Paradise.--See Isaiah xxxiv. and xxxv. chap.",
+    "7": "Without contraries is no progression. Attraction and repulsion, reason and energy, love and hate, are necessary to human existence.",
+    "8": "From these contraries spring what the religious call Good and Evil. Good is the passive that obeys reason; Evil is the active springing from Energy.",
+    "9": "Good is heaven. Evil is hell."
+   },
+   "2": {
+    "1": "*The Voice of the Devil*\nAll Bibles or sacred codes have been the cause of the following errors:--",
+    "2": "1. That man has two real existing principles, viz., a Body and a Soul.",
+    "3": "2. That Energy, called Evil, is alone from the Body; and that Reason, called Good, is alone from the Soul.",
+    "4": "3. That God will torment man in Eternity for following his Energies.",
+    "5": "But the following contraries to these are true:--",
+    "6": "1. Man has no Body distinct from his Soul. For that called Body is a portion of Soul discerned by the five senses, the chief inlets of Soul in this age.",
+    "7": "2. Energy is the only life, and is from the Body; and Reason is the bound or outward circumference of Energy.",
+    "8": "3. Energy is Eternal Delight.",
+    "9": "Those who restrain desire, do so because theirs is weak enough to be restrained; and the restrainer or reason usurps its place and governs the unwilling.",
+    "10": "And being restrained, it by degrees becomes passive, till it is only the shadow of desire.",
+    "11": "The history of this is written in Paradise Lost, and the Governor or Reason is called Messiah.",
+    "12": "And the original Archangel or possessor of the command of the heavenly host is called the Devil, or Satan, and his children are called Sin and Death.",
+    "13": "But in the book of Job, Milton's Messiah is called Satan.",
+    "14": "For this history has been adopted by both parties.",
+    "15": "It indeed appeared to Reason as if desire was cast out, but the Devil's account is, that the Messiah fell, and formed a heaven of what he stole from the abyss.",
+    "16": "This is shown in the Gospel, where he prays to the Father to send the Comforter or desire that Reason may have ideas to build on, the Jehovah of the Bible being no other than he who dwells in flaming fire. Know that after Christ's death he became Jehovah.",
+    "17": "But in Milton, the Father is Destiny, the Son a ratio of the five senses, and the Holy Ghost vacuum!",
+    "18": "Note.--The reason Milton wrote in fetters when he wrote of Angels and God, and at liberty when of Devils and Hell, is because he was a true poet, and of the Devil's party without knowing it."
+   },
+   "3": {
+    "1": "*A Memorable Fancy*\nAs I was walking among the fires of Hell, delighted with the enjoyments of Genius, which to Angels look like torment and insanity, I collected some of their proverbs, thinking that as the sayings used in a nation mark its character, so the proverbs of Hell show the nature of infernal wisdom better than any description of buildings or garments.",
+    "2": "When I came home, on the abyss of the five senses, where a flat-sided steep frowns over the present world, I saw a mighty Devil folded in black clouds hovering on the sides of the rock; with corroding fires he wrote the following sentence now perceived by the minds of men, and read by them on earth:--",
+    "3": "\"How do you know but every bird\nthat cuts the airy way\nIs an immense world of delight,\nclosed by your senses five?\""
+   },
+   "4": {
+    "1": "*Proverbs of Hell*\nIn seed-time learn, in harvest teach, in winter enjoy.",
+    "2": "Drive your cart and your plough over the bones of the dead.",
+    "3": "The road of excess leads to the palace of wisdom.",
+    "4": "Prudence is a rich ugly old maid courted by Incapacity.",
+    "5": "He who desires, but acts not, breeds pestilence.",
+    "6": "The cut worm forgives the plough.",
+    "7": "Dip him in the river who loves water.",
+    "8": "A fool sees not the same tree that a wise man sees.",
+    "9": "He whose face gives no light shall never become a star.",
+    "10": "Eternity is in love with the productions of time.",
+    "11": "The busy bee has no time for sorrow.",
+    "12": "The hours of folly are measured by the clock, but of wisdom no clock can measure.",
+    "13": "All wholesome food is caught without a net or a trap.",
+    "14": "Bring out number, weight, and measure in a year of dearth.",
+    "15": "No bird soars too high if he soars with his own wings.",
+    "16": "A dead body revenges not injuries.",
+    "17": "The most sublime act is to set another before you.",
+    "18": "If the fool would persist in his folly he would become wise.",
+    "19": "Folly is the cloak of knavery.",
+    "20": "Shame is Pride's cloak.",
+    "21": "Prisons are built with stones of law, brothels with bricks of religion.",
+    "22": "The pride of the peacock is the glory of God.",
+    "23": "The lust of the goat is the bounty of God.",
+    "24": "The wrath of the lion is the wisdom of God.",
+    "25": "The nakedness of woman is the work of God.",
+    "26": "Excess of sorrow laughs, excess of joy weeps.",
+    "27": "The roaring of lions, the howling of wolves, the raging of the stormy sea, and the destructive sword, are portions of Eternity too great for the eye of man.",
+    "28": "The fox condemns the trap, not himself.",
+    "29": "Joys impregnate, sorrows bring forth.",
+    "30": "Let man wear the fell of the lion, woman the fleece of the sheep.",
+    "31": "The bird a nest, the spider a web, man friendship.",
+    "32": "The selfish smiling fool and the sullen frowning fool shall be both thought wise that they may be a rod.",
+    "33": "What is now proved was once only imagined.",
+    "34": "The rat, the mouse, the fox, the rabbit watch the roots; the lion, the tiger, the horse, the elephant watch the fruits.",
+    "35": "The cistern contains, the fountain overflows.",
+    "36": "One thought fills immensity.",
+    "37": "Always be ready to speak your mind, and a base man will avoid you.",
+    "38": "Everything possible to be believed is an image of truth.",
+    "39": "The eagle never lost so much time as when he submitted to learn of the crow.",
+    "40": "The fox provides for himself, but God provides for the lion.",
+    "41": "Think in the morning, act in the noon, eat in the evening, sleep in the night.",
+    "42": "He who has suffered you to impose on him knows you.",
+    "43": "As the plough follows words, so God rewards prayers.",
+    "44": "The tigers of wrath are wiser than the horses of instruction.",
+    "45": "Expect poison from the standing water.",
+    "46": "You never know what is enough unless you know what is more than enough.",
+    "47": "Listen to the fool's reproach; it is a kingly title.",
+    "48": "The eyes of fire, the nostrils of air, the mouth of water, the beard of earth.",
+    "49": "The weak in courage is strong in cunning.",
+    "50": "The apple tree never asks the beech how he shall grow, nor the lion the horse how he shall take his prey.",
+    "51": "The thankful receiver bears a plentiful harvest.",
+    "52": "If others had not been foolish we should have been so.",
+    "53": "The soul of sweet delight can never be defiled.",
+    "54": "When thou seest an eagle, thou seest a portion of Genius. Lift up thy head!",
+    "55": "As the caterpillar chooses the fairest leaves to lay her eggs on, so the priest lays his curse on the fairest joys.",
+    "56": "To create a little flower is the labour of ages.",
+    "57": "Damn braces; bless relaxes.",
+    "58": "The best wine is the oldest, the best water the newest.",
+    "59": "Prayers plough not; praises reap not; joys laugh not; sorrows weep not.",
+    "60": "The head Sublime, the heart Pathos, the genitals Beauty, the hands and feet Proportion.",
+    "61": "As the air to a bird, or the sea to a fish, so is contempt to the contemptible.",
+    "62": "The crow wished everything was black; the owl that everything was white.",
+    "63": "Exuberance is Beauty.",
+    "64": "If the lion was advised by the fox, he would be cunning.",
+    "65": "Improvement makes straight roads, but the crooked roads without Improvement are roads of Genius.",
+    "66": "Sooner murder an infant in its cradle than nurse unacted desires.",
+    "67": "Where man is not, nature is barren.",
+    "68": "Truth can never be told so as to be understood and not to be believed.",
+    "69": "Enough! or Too much.",
+    "70": "*       *       *       *       *",
+    "71": "The ancient poets animated all sensible objects with Gods or Geniuses, calling them by the names and adorning them with properties of woods, rivers, mountains, lakes, cities, nations, and whatever their enlarged and numerous senses could perceive. And particularly they studied the Genius of each city and country, placing it under its mental deity. Till a system was formed, which some took advantage of and enslaved the vulgar by attempting to realize or abstract the mental deities from their objects. Thus began Priesthood. Choosing forms of worship from poetic tales. And at length they pronounced that the Gods had ordered such things. Thus men forgot that all deities reside in the human breast."
+   },
+   "5": {
+    "1": "*A Memorable Fancy*\nThe Prophets Isaiah and Ezekiel dined with me, and I asked them how they dared so roundly to assert that God spoke to them, and whether they did not think at the time that they would be misunderstood, and so be the cause of imposition.",
+    "2": "Isaiah answered: \"I saw no God, nor heard any, in a finite organical perception: but my senses discovered the infinite in everything; and as I was then persuaded, and remained confirmed, that the voice of honest indignation is the voice of God, I cared not for consequences, but wrote.\"",
+    "3": "Then I asked: \"Does a firm persuasion that a thing is so, make it so?\"",
+    "4": "He replied: \"All poets believe that it does, and in ages of imagination this firm persuasion removed mountains; but many are not capable of a firm persuasion of anything.\"",
+    "5": "Then Ezekiel said: \"The philosophy of the East taught the first principles of human perception; some nations held one principle for the origin, and some another. We of Israel taught that the Poetic Genius (as you now call it) was the first principle, and all the others merely derivative, which was the cause of our despising the Priests and Philosophers of other countries, and prophesying that all Gods would at last be proved to originate in ours, and to be the tributaries of the Poetic Genius. It was this that our great poet King David desired so fervently, and invokes so pathetically, saying by this he conquers enemies and governs kingdoms; and we so loved our God that we cursed in His name all the deities of surrounding nations, and asserted that they had rebelled. From these opinions the vulgar came to think that all nations would at last be subject to the Jews.",
+    "6": "\"This,\" said he, \"like all firm persuasions, is come to pass, for all nations believe the Jews' code, and worship the Jews' God; and what greater subjection can be?\"",
+    "7": "I heard this with some wonder, and must confess my own conviction. After dinner I asked Isaiah to favour the world with his lost works; he said none of equal value was lost. Ezekiel said the same of his.",
+    "8": "I also asked Isaiah what made him go naked and barefoot three years. He answered: \"The same that made our friend Diogenes the Grecian.\"",
+    "9": "I then asked Ezekiel why he ate dung, and lay so long on his right and left side. He answered: \"The desire of raising other men into a perception of the infinite. This the North American tribes practise. And is he honest who resists his genius or conscience, only for the sake of present ease or gratification?\"",
+    "10": "*       *       *       *       *",
+    "11": "The ancient tradition that the world will be consumed in fire at the end of six thousand years is true, as I have heard from Hell.",
+    "12": "For the cherub with his flaming sword is hereby commanded to leave his guard at [the] tree of life, and when he does, the whole creation will be consumed and appear infinite and holy, whereas it now appears finite and corrupt.",
+    "13": "This will come to pass by an improvement of sensual enjoyment.",
+    "14": "But first the notion that man has a body distinct from his soul is to be expunged; this I shall do by printing in the infernal method by corrosives, which in Hell are salutary and medicinal, melting apparent surfaces away, and displaying the infinite which was hid.",
+    "15": "If the doors of perception were cleansed everything would appear to man as it is, infinite.",
+    "16": "For man has closed himself up, till he sees all things through narrow chinks of his cavern."
+   },
+   "6": {
+    "1": "*A Memorable Fancy*\nI was in a printing-house in Hell, and saw the method in which knowledge is transmitted from generation to generation.",
+    "2": "In the first chamber was a dragon-man, clearing away the rubbish from a cave's mouth; within, a number of dragons were hollowing the cave.",
+    "3": "In the second chamber was a viper folding round the rock and the cave, and others adorning it with gold, silver, and precious stones.",
+    "4": "In the third chamber was an eagle with wings and feathers of air; he caused the inside of the cave to be infinite; around were numbers of eagle-like men, who built palaces in the immense cliffs.",
+    "5": "In the fourth chamber were lions of flaming fire raging around and melting the metals into living fluids.",
+    "6": "In the fifth chamber were unnamed forms, which cast the metals into the expanse.",
+    "7": "There they were received by men who occupied the sixth chamber, and took the forms of books, and were arranged in libraries.",
+    "8": "*       *       *       *       *",
+    "9": "The Giants who formed this world into its sensual existence and now seem to live in it in chains are in truth the causes of its life and the sources of all activity, but the chains are the cunning of weak and tame minds, which have power to resist energy, according to the proverb, \"The weak in courage is strong in cunning.\"",
+    "10": "Thus one portion of being is the Prolific, the other the Devouring. To the devourer it seems as if the producer was in his chains; but it is not so, he only takes portions of existence, and fancies that the whole.",
+    "11": "But the Prolific would cease to be prolific unless the Devourer as a sea received the excess of his delights.",
+    "12": "Some will say, \"Is not God alone the Prolific?\" I answer: \"God only acts and is in existing beings or men.\"",
+    "13": "These two classes of men are always upon earth, and they should be enemies: whoever tries to reconcile them seeks to destroy existence.",
+    "14": "Religion is an endeavour to reconcile the two.",
+    "15": "Note.--Jesus Christ did not wish to unite but to separate them, as in the parable of sheep and goats; and He says: \"I came not to send peace, but a sword.\"",
+    "16": "Messiah, or Satan, or Tempter, was formerly thought to be one of the antediluvians who are our Energies."
+   },
+   "7": {
+    "1": "*A Memorable Fancy*\nAn Angel came to me and said: \"O pitiable foolish young man! O horrible, O dreadful state! Consider the hot burning dungeon thou art preparing for thyself to all Eternity, to which thou art going in such career.\"",
+    "2": "I said: \"Perhaps you will be willing to show me my eternal lot, and we will contemplate together upon it, and see whether your lot or mine is most desirable.\"",
+    "3": "So he took me through a stable, and through a church, and down into the church vault, at the end of which was a mill; through the mill we went, and came to a cave; down the winding cavern we groped our tedious way, till a void boundless as a nether sky appeared beneath us, and we held by the roots of trees, and hung over this immensity; but I said: \"If you please, we will commit ourselves to this void, and see whether Providence is here also; if you will not, I will.\" But he answered: \"Do not presume, O young man; but as we here remain, behold thy lot, which will soon appear when the darkness passes away.\"",
+    "4": "So I remained with him sitting in the twisted root of an oak; he was suspended in a fungus, which hung with the head downward into the deep.",
+    "5": "By degrees we beheld the infinite abyss, fiery as the smoke of a burning city; beneath us at an immense distance was the sun, black but shining; round it were fiery tracks on which revolved vast spiders, crawling after their prey, which flew, or rather swum, in the infinite deep, in the most terrific shapes of animals sprung from corruption; and the air was full of them, and seemed composed of them. These are Devils, and are called powers of the air. I now asked my companion which was my eternal lot. He said: \"Between the black and white spiders.\"",
+    "6": "But now, from between the black and white spiders, a cloud and fire burst and rolled through the deep, blackening all beneath so that the nether deep grew black as a sea, and rolled with a terrible noise. Beneath us was nothing now to be seen but a black tempest, till looking East between the clouds and the waves, we saw a cataract of blood mixed with fire, and not many stones' throw from us appeared and sunk again the scaly fold of a monstrous serpent. At last to the East, distant about three degrees, appeared a fiery crest above the waves; slowly it reared like a ridge of golden rocks, till we discovered two globes of crimson fire, from which the sea fled away in clouds of smoke; and now we saw it was the head of Leviathan. His forehead was divided into streaks of green and purple, like those on a tiger's forehead; soon we saw his mouth and red gills hang just above the raging foam, tinging the black deeps with beams of blood, advancing toward us with all the fury of a spiritual existence.",
+    "7": "My friend the Angel climbed up from his station into the mill. I remained alone, and then this appearance was no more; but I found myself sitting on a pleasant bank beside a river by moonlight, hearing a harper who sung to the harp; and his theme was: \"The man who never alters his opinion is like standing water, and breeds reptiles of the mind.\"",
+    "8": "But I arose, and sought for the mill, and there I found my Angel, who, surprised, asked me how I escaped.",
+    "9": "I answered: \"All that we saw was owing to your metaphysics; for when you ran away, I found myself on a bank by moonlight, hearing a harper. But now we have seen my eternal lot, shall I show you yours?\" He laughed at my proposal; but I by force suddenly caught him in my arms, and flew Westerly through the night, till we were elevated above the earth's shadow; then I flung myself with him directly into the body of the sun; here I clothed myself in white, and taking in my hand Swedenborg's volumes, sunk from the glorious clime, and passed all the planets till we came to Saturn. Here I stayed to rest, and then leaped into the void between Saturn and the fixed stars.",
+    "10": "\"Here,\" said I, \"is your lot; in this space, if space it may be called.\" Soon we saw the stable and the church, and I took him to the altar and opened the Bible, and lo! it was a deep pit, into which I descended, driving the Angel before me. Soon we saw seven houses of brick. One we entered. In it were a number of monkeys, baboons, and all of that species, chained by the middle, grinning and snatching at one another, but withheld by the shortness of their chains. However, I saw that they sometimes grew numerous, and then the weak were caught by the strong, and with a grinning aspect, first coupled with and then devoured by plucking off first one limb and then another till the body was left a helpless trunk; this, after grinning and kissing it with seeming fondness, they devoured too. And here and there I saw one savourily picking the flesh off his own tail. As the stench terribly annoyed us both, we went into the mill; and I in my hand brought the skeleton of a body, which in the mill was Aristotle's Analytics.",
+    "11": "So the Angel said: \"Thy phantasy has imposed upon me, and thou oughtest to be ashamed.\"",
+    "12": "I answered: \"We impose on one another, and it is but lost time to converse with you whose works are only Analytics.\"",
+    "13": "*       *       *       *       *",
+    "14": "\"I have always found that Angels have the vanity to speak of themselves as the only wise; this they do with a confident insolence sprouting from systematic reasoning.",
+    "15": "\"Thus Swedenborg boasts that what he writes is new; though it is only the contents or index of already published books.",
+    "16": "\"A man carried a monkey about for a show, and because he was a little wiser than the monkey, grew vain, and conceived himself as much wiser than seven men. It is so with Swedenborg; he shows the folly of churches, and exposes hypocrites, till he imagines that all are religious, and himself the single one on earth that ever broke a net.",
+    "17": "\"Now hear a plain fact: Swedenborg has not written one new truth. Now hear another: he has written all the old falsehoods.",
+    "18": "\"And now hear the reason: he conversed with Angels who are all religious, and conversed not with Devils who all hate religion, for he was incapable through his conceited notions.",
+    "19": "\"Thus Swedenborg's writings are a recapitulation of all superficial opinions, and an analysis of the more sublime, but no further.",
+    "20": "\"Have now another plain fact: any man of mechanical talents may from the writings of Paracelsus or Jacob Behmen produce ten thousand volumes of equal value with Swedenborg's, and from those of Dante or Shakespeare an infinite number.",
+    "21": "\"But when he has done this, let him not say that he knows better than his master, for he only holds a candle in sunshine.\""
+   },
+   "8": {
+    "1": "*A Memorable Fancy*\nOnce I saw a Devil in a flame of fire, who arose before an Angel that sat on a cloud, and the Devil uttered these words: \"The worship of God is, honouring His gifts in other men each according to his genius, and loving the greatest men best. Those who envy or calumniate great men hate God, for there is no other God.\"",
+    "2": "The Angel hearing this became almost blue, but mastering himself he grew yellow, and at last white-pink and smiling, and then replied: \"Thou idolater, is not God One? and is not He visible in Jesus Christ? and has not Jesus Christ given His sanction to the law of ten commandments? and are not all other men fools, sinners, and nothings?\"",
+    "3": "The Devil answered: \"Bray a fool in a mortar with wheat, yet shall not his folly be beaten out of him. If Jesus Christ is the greatest man, you ought to love Him in the greatest degree. Now hear how He has given His sanction to the law of ten commandments. Did He not mock at the Sabbath, and so mock the Sabbath's God? murder those who were murdered because of Him? turn away the law from the woman taken in adultery, steal the labour of others to support Him? bear false witness when He omitted making a defence before Pilate? covet when He prayed for His disciples, and when He bid them shake off the dust of their feet against such as refused to lodge them? I tell you, no virtue can exist without breaking these ten commandments. Jesus was all virtue, and acted from impulse, not from rules.\"",
+    "4": "When he had so spoken, I beheld the Angel, who stretched out his arms embracing the flame of fire, and he was consumed, and arose as Elijah.",
+    "5": "Note.--This Angel, who is now become a Devil, is my particular friend; we often read the Bible together in its infernal or diabolical sense, which the world shall have if they behave well.",
+    "6": "I have also the Bible of Hell, which the world shall have whether they will or no.",
+    "7": "One law for the lion and ox is Oppression."
+   },
+   "9": {
+    "1": "*A Song of Liberty*\n1. The Eternal Female groan'd; it was heard over all the earth:",
+    "2": "2. Albion's coast is sick silent; the American meadows faint.",
+    "3": "3. Shadows of prophecy shiver along by the lakes and the rivers, and mutter across the ocean. France, rend down thy dungeon!",
+    "4": "4. Golden Spain, burst the barriers of old Rome!",
+    "5": "5. Cast thy keys, O Rome, into the deep--down falling, even to eternity down falling;",
+    "6": "6. And weep!",
+    "7": "7. In her trembling hands she took the new-born terror, howling.",
+    "8": "8. On those infinite mountains of light now barr'd out by the Atlantic sea, the new-born fire stood before the starry king.",
+    "9": "9. Flagg'd with grey-brow'd snows and thunderous visages, the jealous wings wav'd over the deep.",
+    "10": "10. The speary hand burn'd aloft; unbuckled was the shield; forth went the hand of jealousy among the flaming hair, and hurl'd the new-born wonder through the starry night.",
+    "11": "11. The fire, the fire is falling!",
+    "12": "12. Look up! look up! O citizen of London, enlarge thy countenance! O Jew, leave counting gold; return to thy oil and wine! O African, black African! (Go, winged thought, widen his forehead.)",
+    "13": "13. The fiery limbs, the flaming hair shot like the sinking sun into the Western sea.",
+    "14": "14. Wak'd from his eternal sleep, the hoary element roaring fled away.",
+    "15": "15. Down rush'd, beating his wings in vain, the jealous king, his grey-brow'd councillors, thunderous warriors, curl'd veterans, among helms and shields, and chariots, horses, elephants, banners, castles, slings, and rocks.",
+    "16": "16. Falling, rushing, ruining; buried in the ruins, on Urthona's dens.",
+    "17": "17. All night beneath the ruins; then their sullen flames, faded, emerge round the gloomy king.",
+    "18": "18. With thunder and fire, leading his starry hosts through the waste wilderness, he promulgates his ten commandments, glancing his beamy eyelids over the deep in dark dismay.",
+    "19": "19. Where the Son of Fire in his Eastern cloud, while the Morning plumes her golden breast,",
+    "20": "20. Spurning the clouds written with curses, stamps the stony law to dust, loosing the eternal horses from the dens of night, crying: \"Empire is no more! and now the lion and wolf shall cease.\""
+   },
+   "10": {
+    "1": "*Chorus*\nLet the Priests of the Raven of Dawn, no longer in deadly black, with hoarse note curse the Sons of Joy. Nor his accepted brethren whom, tyrant, he calls free, lay the bound or build the roof. Nor pale religious lechery call that virginity that wishes, but acts not!",
+    "2": "For everything that lives is holy."
+   }
+  },
+  "The Book of Thel": {
+   "0": {
+    "1": "*Thel's Motto*\nDoes the Eagle know what is in the pit?\nOr wilt thou go ask the Mole:\nCan Wisdom be put in a silver rod?\nOr Love in a golden bowl?"
+   },
+   "1": {
+    "1": "The daughters of Mne Seraphim led round their sunny flocks,\nAll but the youngest: she in paleness sought the secret air.\nTo fade away like morning beauty from her mortal day:\nDown by the river of Adona her soft voice is heard;\nAnd thus her gentle lamentation falls like morning dew.",
+    "2": "O life of this our spring!  why fades the lotus of the water? Why fade these children of the spring? born but to smile & fall. Ah! Thel is like a watry bow, and like a parting cloud, Like a reflection in a glass: like shadows in the water Like dreams of infants, like a smile upon an infants face. Like the doves voice, like transient day, like music in the air: Ah! gentle may I lay me down and gentle rest my head. And gentle sleep the sleep of death, and gently hear the voice Of him that walketh in the garden in the evening time.",
+    "3": "The Lilly of the valley breathing in the humble grass Answerd the lovely maid and said: I am a watry weed, And I am very small and love to dwell in lowly vales: So weak the gilded butterfly scarce perches on my head Yet I am visited from heaven and he that smiles on all Walks in the valley, and each morn over me spreads his hand Saying, rejoice thou humble grass, thou new-born lily flower. Thou gentle maid of silent valleys and of modest brooks: For thou shall be clothed in light, and fed with morning manna: Till summers heat melts thee beside the fountains and the springs To flourish in eternal vales: they why should Thel complain. Why should the mistress of the vales of Har, utter a sigh.",
+    "4": "She ceasd & smild in tears, then sat down in her silver shrine.",
+    "5": "Thel answerd, O thou little virgin of the peaceful valley. Giving to those that cannot crave, the voiceless, the o'er tired The breath doth nourish the innocent lamb, he smells the milky garments He crops thy flowers while thou sittest smiling in his face, Wiping his mild and meekin mouth from all contagious taints. Thy wine doth purify the golden honey; thy perfume. Which thou dost scatter on every little blade of grass that springs Revives the milked cow, & tames the fire-breathing steed. But Thel is like a faint cloud kindled at the rising sun: I vanish from my pearly throne, and who shall find my place.",
+    "6": "Queen of the vales the Lily answered, ask the tender cloud,\nAnd it shall tell thee why it glitters in the morning sky.\nAnd why it scatters its bright beauty thro the humid air.\nDescend O little cloud & hover before the eyes of Thel.",
+    "7": "The Cloud descended and the Lily bowd her modest head:\nAnd went to mind her numerous charge among the verdant grass."
+   },
+   "2": {
+    "1": "O little Cloud the virgin said, I charge thee to tell me Why thou complainest now when in one hour thou fade away: Then we shall seek thee but not find: ah Thel is like to thee. I pass away, yet I complain, and no one hears my voice.",
+    "2": "The Cloud then shewd his golden head & his bright form emerg'd. Hovering and glittering on the air before the face of Thel.",
+    "3": "O virgin know'st thou not our steeds drink of the golden springs Where Luvah doth renew his horses: lookst thou on my youth. And fearest thou because I vanish and am seen no more. Nothing remains; O maid I tell thee, when I pass away. It is to tenfold life, to love, to peace, and raptures holy: Unseen descending, weigh my light wings upon balmy flowers: And court the fair eyed dew, to take me to her shining tent The weeping virgin, trembling kneels before the risen sun. Till we arise link'd in a golden band and never part: But walk united bearing food to all our tender flowers.",
+    "4": "Dost thou O little cloud?  I fear that I am not like thee: For I walk through the vales of Har, and smell the sweetest flowers: But I feed not the little flowers: I hear the warbling birds, But I feed not the warbling birds, they fly and seek their food: But Thel delights in these no more because I fade away And all shall say, without a use this shining women liv'd, Or did she only live to be at death the food of worms.",
+    "5": "The Cloud reclind upon his airy throne and answerd thus.",
+    "6": "Then if thou art the food of worms, O virgin of the skies, How great thy use, how great thy blessing, every thing that lives. Lives not alone nor or itself: fear not and I will call, The weak worm from its lowly bed, and thou shalt hear its voice. Come forth worm and the silent valley, to thy pensive queen.",
+    "7": "The helpless worm arose and sat upon the Lillys leaf, And the bright Cloud saild on, to find his partner in the vale."
+   },
+   "3": {
+    "1": "Then Thel astonish'd view'd the Worm upon its dewy bed.",
+    "2": "Art thou a Worm?  image of weakness,  art thou but a Worm? I see thee like an infant wrapped in the Lillys leaf; Ah weep not little voice, thou can'st not speak, but thou can'st weep: Is this a Worm?  I see they lay helpless & naked: weeping And none to answer, none to cherish thee with mothers smiles.",
+    "3": "The Clod of Clay heard the Worms voice & rais'd her pitying head: She bowd over the weeping infant, and her life exhald In milky fondness, then on Thel she fix'd her humble eyes;",
+    "4": "O beauty of the vales of Har, we live not for ourselves,\nThou seest me the meanest thing, and so I am indeed:\nMy bosom of itself is cold, and of itself is dark,",
+    "5": "But he that loves the lowly, pours his oil upon my head\nAnd kisses me, and binds his nuptial bands around my breast.\nAnd says; Thou mother of my children, I have loved thee\nAnd I have given thee a crown that none can take away.\nBut how this is sweet maid, I know not, and I cannot know\nI ponder, and I cannot ponder; yet I live and love.",
+    "6": "The daughter of beauty wip'd her pitying tears with her white veil, And said, Alas!  I knew not this, and therefore did I weep: That God would love a Worm I knew, and punish the evil foot That wilful bruis'd its helpless form: but that he cherish'd it With milk and oil I never knew, and therefore did I weep, And I complaind in the mild air, because I fade away. And lay me down in thy cold bed, and leave my shining lot.",
+    "7": "Queen of the vales, the matron Clay answered: I heard thy sighs. And all thy moans flew o'er my roof, but I have call'd them down: Wilt thou O Queen enter my house, tis given thee to enter, And to return: fear nothing, enter with thy virgin feet."
+   },
+   "4": {
+    "1": "The eternal gates terrific porter lifted the northern bar:\nThel enter'd in & saw the secrets of the land unknown;\nShe saw the couches of the dead, & where the fibrous roots\nOf every heart on earth infixes deep its restless twists:\nA land of sorrows & of tears where never smile was seen.",
+    "2": "She wandered in the land of clouds thro' valleys dark, listning Dolors & lamentations: waiting oft beside the dewy grave She stood in silence, listning to the voices of the ground, Till to her own grave plot she came, & there she sat down. And heard this voice of sorrow breathed from the hollow pit.",
+    "3": "Why cannot the Ear be closed to its own destruction?\nOr the glistening Eye to the poison of a smile!\nWhy are Eyelids stord with arrows ready drawn,\nWhere a thousand fighting men in ambush lie!\nOr an Eye of gifts & graces showring fruits & coined gold!",
+    "4": "Why a Tongue impress'd with honey from every wind?\nWhy an Ear, a whirlpool fierce to draw creations in?\nWhy a Nostril wide inhaling terror trembling & affright\nWhy a tender curb upon the youthful burning boy?\nWhy a little curtain of flesh on the bed of our desire?",
+    "5": "The Virgin started from her seat, & with a shriek,\nFled back unhinderd till she came into the vales of Har."
+   }
+  }
+ }
+}
