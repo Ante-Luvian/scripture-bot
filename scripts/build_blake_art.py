@@ -76,6 +76,30 @@ def plain(s: str) -> str:
 
 # ── Job ─────────────────────────────────────────────────────────────────────
 
+# The texts Blake engraved around each Job plate, read off the plates and checked against the KJV:
+# {plate: [(chapter, first, last), ...]}, the main text (under the picture, or the scene) first.
+# Wikipedia's table gives one verse per plate, not always one that's on it (plate 1: 1:5 for 1:1-5).
+JOB_TEXTS = {
+    1: [(1, 1, 5)], 2: [(1, 6, 8), (29, 5, 5), (19, 26, 26)], 3: [(1, 18, 19), (1, 12, 12), (1, 16, 16)],
+    4: [(1, 14, 16), (1, 7, 7)], 5: [(2, 6, 7), (30, 25, 25)], 6: [(2, 7, 7), (1, 21, 21)],
+    7: [(2, 12, 12), (2, 10, 10)], 8: [(3, 3, 3), (3, 7, 7), (2, 13, 13)], 9: [(4, 15, 15), (4, 17, 18)],
+    10: [(12, 4, 4), (14, 1, 3), (23, 10, 10), (19, 21, 21), (13, 15, 15)],
+    11: [(7, 14, 14), (19, 22, 27), (20, 5, 5), (30, 17, 17), (30, 30, 30)],
+    12: [(32, 6, 6), (33, 14, 17), (33, 23, 24), (33, 29, 30), (34, 21, 21), (35, 5, 7)],
+    13: [(38, 1, 2), (38, 28, 28)], 14: [(38, 7, 7), (38, 31, 31)],
+    15: [(40, 15, 15), (41, 34, 34), (36, 29, 29), (37, 11, 12)], 16: [(36, 17, 17), (26, 6, 6), (11, 7, 8)],
+    17: [(42, 5, 5)], 18: [(42, 8, 10)], 19: [(42, 11, 11), (38, 41, 41)], 20: [(42, 15, 15)],
+    21: [(42, 12, 12), (42, 16, 17)],
+}
+# and the other books he quoted on them
+JOB_ALSO = {2: ["Daniel 7:9", "Psalms 17:15", "Isaiah 63:16"], 5: ["Genesis 6:6", "Psalms 104:4"], 7: ["James 5:11"],
+            11: ["2 Corinthians 11:14", "2 Thessalonians 2:4"], 13: ["Psalms 104:3"], 14: ["Genesis 1:3-25"],
+            16: ["Revelation 12:10", "John 12:31", "Luke 10:17-18", "1 Corinthians 1:27"],
+            17: ["1 John 3:2", "Psalms 8:3-4", "1 Samuel 2:6", "John 14:7-23", "John 10:30"], 18: ["Matthew 5:44-48"],
+            19: ["1 Samuel 2:7", "Psalms 136:23"], 20: ["Psalms 139:8", "Psalms 139:17"],
+            21: ["Revelation 15:3", "Hebrews 10:6"]}
+
+
 def job() -> list:
     w = wikitext("William Blake's Illustrations of the Book of Job")
     rows = []
@@ -90,8 +114,16 @@ def job() -> list:
                          int(verse.group(3) or verse.group(2))))
     expect(len(rows) >= 21, f"{len(rows)} Job plates")
     info = file_info([f"File:{r[0]}" for r in rows])
-    return [art("job", i, title, "Job", ch, v1, v2, info[f"File:{f}"], f"Job {ch}:{v1}" + (f"-{v2}" if v2 != v1 else ""))
-            for i, (f, title, ch, v1, v2) in enumerate(rows, 1) if f"File:{f}" in info]
+    out = []
+    for i, (f, title, *_) in enumerate(rows, 1):
+        if f"File:{f}" not in info:
+            continue
+        (ch, v1, v2), *more = JOB_TEXTS[i]
+        a = art("job", i, title, "Job", ch, v1, v2, info[f"File:{f}"], f"Job {ch}:{v1}" + (f"-{v2}" if v2 != v1 else ""))
+        a["passages"] = [list(t) for t in JOB_TEXTS[i]]
+        a["also"] = JOB_ALSO.get(i, [])
+        out.append(a)
+    return out
 
 
 # ── found in the bot's own texts ────────────────────────────────────────────
@@ -301,7 +333,10 @@ def expect(condition: bool, message: str) -> None:
 
 def main():
     OUT.parent.mkdir(parents=True, exist_ok=True)
-    sets = {"job": job(), "bible": bible(), "pl": paradise_lost(), "pp": pilgrims_progress(), "dante": dante()}
+    builders = {"job": job, "bible": bible, "pl": paradise_lost, "pp": pilgrims_progress, "dante": dante}
+    only = sys.argv[1:]                     # (e.g. "job": rebuild that set, keep the rest of art.json)
+    old = json.loads(OUT.read_text(encoding="utf-8"))["art"] if only and OUT.exists() else []
+    sets = {k: (b() if not only or k in only else [a for a in old if a["set"] == k]) for k, b in builders.items()}
     for k, v in sets.items():
         print(f"  {k}: {len(v)}")
     OUT.write_text(json.dumps({"source": "William Blake's illustrations, from Wikimedia Commons",

@@ -7,23 +7,53 @@
    "title": "Job and His Family",
    "book": "Job",
    "chapter": 1,
-   "start": 5,
+   "start": 1,
    "end": 5,
-   "cited": "Job 1:5",
+   "cited": "Job 1:1-5",
    "image": "https://upload.wikimedia.org/wikipedia/commons/a/a9/Blake_Job_1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:Blake_Job_1.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Blake_Job_1.jpg",
+   "passages": [
+    [
+     1,
+     1,
+     5
+    ]
+   ],
+   "also": []
   },
   {
    "set": "job",
    "n": "2",
    "title": "Satan Before the Throne of God",
    "book": "Job",
-   "chapter": 29,
-   "start": 5,
-   "end": 5,
-   "cited": "Job 29:5",
+   "chapter": 1,
+   "start": 6,
+   "end": 8,
+   "cited": "Job 1:6-8",
    "image": "https://upload.wikimedia.org/wikipedia/commons/1/1a/Blake_Job_2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:Blake_Job_2.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Blake_Job_2.jpg",
+   "passages": [
+    [
+     1,
+     6,
+     8
+    ],
+    [
+     29,
+     5,
+     5
+    ],
+    [
+     19,
+     26,
+     26
+    ]
+   ],
+   "also": [
+    "Daniel 7:9",
+    "Psalms 17:15",
+    "Isaiah 63:16"
+   ]
   },
   {
    "set": "job",
@@ -35,7 +65,25 @@
    "end": 19,
    "cited": "Job 1:18-19",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/13/Blake_Job_3.jpg/1280px-Blake_Job_3.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:Blake_Job_3.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Blake_Job_3.jpg",
+   "passages": [
+    [
+     1,
+     18,
+     19
+    ],
+    [
+     1,
+     12,
+     12
+    ],
+    [
+     1,
+     16,
+     16
+    ]
+   ],
+   "also": []
   },
   {
    "set": "job",
@@ -43,11 +91,24 @@
    "title": "The Messengers Tell Job of His Misfortunes",
    "book": "Job",
    "chapter": 1,
-   "start": 15,
-   "end": 15,
-   "cited": "Job 1:15",
+   "start": 14,
+   "end": 16,
+   "cited": "Job 1:14-16",
    "image": "https://upload.wikimedia.org/wikipedia/commons/a/a5/Blake_Job_4.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:Blake_Job_4.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Blake_Job_4.jpg",
+   "passages": [
+    [
+     1,
+     14,
+     16
+    ],
+    [
+     1,
+     7,
+     7
+    ]
+   ],
+   "also": []
   },
   {
    "set": "job",
@@ -55,11 +116,27 @@
    "title": "Satan Going Forth from the Presence of the Lord and Job's Charity",
    "book": "Job",
    "chapter": 2,
-   "start": 7,
+   "start": 6,
    "end": 7,
-   "cited": "Job 2:7",
+   "cited": "Job 2:6-7",
    "image": "https://upload.wikimedia.org/wikipedia/commons/1/17/Blake_Job_5.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:Blake_Job_5.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Blake_Job_5.jpg",
+   "passages": [
+    [
+     2,
+     6,
+     7
+    ],
+    [
+     30,
+     25,
+     25
+    ]
+   ],
+   "also": [
+    "Genesis 6:6",
+    "Psalms 104:4"
+   ]
   },
   {
    "set": "job",
@@ -71,7 +148,20 @@
    "end": 7,
    "cited": "Job 2:7",
    "image": "https://upload.wikimedia.org/wikipedia/commons/3/3a/Blake_Job_6.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:Blake_Job_6.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Blake_Job_6.jpg",
+   "passages": [
+    [
+     2,
+     7,
+     7
+    ],
+    [
+     1,
+     21,
+     21
+    ]
+   ],
+   "also": []
   },
   {
    "set": "job",
@@ -83,7 +173,22 @@
    "end": 12,
    "cited": "Job 2:12",
    "image": "https://upload.wikimedia.org/wikipedia/commons/1/18/Blake_Job_7.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:Blake_Job_7.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Blake_Job_7.jpg",
+   "passages": [
+    [
+     2,
+     12,
+     12
+    ],
+    [
+     2,
+     10,
+     10
+    ]
+   ],
+   "also": [
+    "James 5:11"
+   ]
   },
   {
    "set": "job",
@@ -95,7 +200,25 @@
    "end": 3,
    "cited": "Job 3:3",
    "image": "https://upload.wikimedia.org/wikipedia/commons/1/18/Blake_Job_8.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:Blake_Job_8.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Blake_Job_8.jpg",
+   "passages": [
+    [
+     3,
+     3,
+     3
+    ],
+    [
+     3,
+     7,
+     7
+    ],
+    [
+     2,
+     13,
+     13
+    ]
+   ],
+   "also": []
   },
   {
    "set": "job",
@@ -103,11 +226,24 @@
    "title": "The Vision of Eliphaz",
    "book": "Job",
    "chapter": 4,
-   "start": 14,
-   "end": 14,
-   "cited": "Job 4:14",
+   "start": 15,
+   "end": 15,
+   "cited": "Job 4:15",
    "image": "https://upload.wikimedia.org/wikipedia/commons/0/0d/Blake_Job_9.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:Blake_Job_9.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Blake_Job_9.jpg",
+   "passages": [
+    [
+     4,
+     15,
+     15
+    ],
+    [
+     4,
+     17,
+     18
+    ]
+   ],
+   "also": []
   },
   {
    "set": "job",
@@ -119,7 +255,35 @@
    "end": 4,
    "cited": "Job 12:4",
    "image": "https://upload.wikimedia.org/wikipedia/commons/f/f2/Blake_Job_A10.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:Blake_Job_A10.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Blake_Job_A10.jpg",
+   "passages": [
+    [
+     12,
+     4,
+     4
+    ],
+    [
+     14,
+     1,
+     3
+    ],
+    [
+     23,
+     10,
+     10
+    ],
+    [
+     19,
+     21,
+     21
+    ],
+    [
+     13,
+     15,
+     15
+    ]
+   ],
+   "also": []
   },
   {
    "set": "job",
@@ -131,7 +295,38 @@
    "end": 14,
    "cited": "Job 7:14",
    "image": "https://upload.wikimedia.org/wikipedia/commons/1/14/Blake_Job_A11.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:Blake_Job_A11.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Blake_Job_A11.jpg",
+   "passages": [
+    [
+     7,
+     14,
+     14
+    ],
+    [
+     19,
+     22,
+     27
+    ],
+    [
+     20,
+     5,
+     5
+    ],
+    [
+     30,
+     17,
+     17
+    ],
+    [
+     30,
+     30,
+     30
+    ]
+   ],
+   "also": [
+    "2 Corinthians 11:14",
+    "2 Thessalonians 2:4"
+   ]
   },
   {
    "set": "job",
@@ -143,7 +338,40 @@
    "end": 6,
    "cited": "Job 32:6",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/52/Blake_Job_12.jpg/1280px-Blake_Job_12.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:Blake_Job_12.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Blake_Job_12.jpg",
+   "passages": [
+    [
+     32,
+     6,
+     6
+    ],
+    [
+     33,
+     14,
+     17
+    ],
+    [
+     33,
+     23,
+     24
+    ],
+    [
+     33,
+     29,
+     30
+    ],
+    [
+     34,
+     21,
+     21
+    ],
+    [
+     35,
+     5,
+     7
+    ]
+   ],
+   "also": []
   },
   {
    "set": "job",
@@ -152,10 +380,25 @@
    "book": "Job",
    "chapter": 38,
    "start": 1,
-   "end": 1,
-   "cited": "Job 38:1",
+   "end": 2,
+   "cited": "Job 38:1-2",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7a/Blake_Job_13.jpg/1280px-Blake_Job_13.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:Blake_Job_13.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Blake_Job_13.jpg",
+   "passages": [
+    [
+     38,
+     1,
+     2
+    ],
+    [
+     38,
+     28,
+     28
+    ]
+   ],
+   "also": [
+    "Psalms 104:3"
+   ]
   },
   {
    "set": "job",
@@ -167,7 +410,22 @@
    "end": 7,
    "cited": "Job 38:7",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e4/Blake_Job_14.jpg/1280px-Blake_Job_14.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:Blake_Job_14.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Blake_Job_14.jpg",
+   "passages": [
+    [
+     38,
+     7,
+     7
+    ],
+    [
+     38,
+     31,
+     31
+    ]
+   ],
+   "also": [
+    "Genesis 1:3-25"
+   ]
   },
   {
    "set": "job",
@@ -179,7 +437,30 @@
    "end": 15,
    "cited": "Job 40:15",
    "image": "https://upload.wikimedia.org/wikipedia/commons/0/00/Blake_Job_15.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:Blake_Job_15.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Blake_Job_15.jpg",
+   "passages": [
+    [
+     40,
+     15,
+     15
+    ],
+    [
+     41,
+     34,
+     34
+    ],
+    [
+     36,
+     29,
+     29
+    ],
+    [
+     37,
+     11,
+     12
+    ]
+   ],
+   "also": []
   },
   {
    "set": "job",
@@ -191,7 +472,30 @@
    "end": 17,
    "cited": "Job 36:17",
    "image": "https://upload.wikimedia.org/wikipedia/commons/a/af/Blake_Job_16.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:Blake_Job_16.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Blake_Job_16.jpg",
+   "passages": [
+    [
+     36,
+     17,
+     17
+    ],
+    [
+     26,
+     6,
+     6
+    ],
+    [
+     11,
+     7,
+     8
+    ]
+   ],
+   "also": [
+    "Revelation 12:10",
+    "John 12:31",
+    "Luke 10:17-18",
+    "1 Corinthians 1:27"
+   ]
   },
   {
    "set": "job",
@@ -203,7 +507,21 @@
    "end": 5,
    "cited": "Job 42:5",
    "image": "https://upload.wikimedia.org/wikipedia/commons/b/b9/Blake_Job_17.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:Blake_Job_17.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Blake_Job_17.jpg",
+   "passages": [
+    [
+     42,
+     5,
+     5
+    ]
+   ],
+   "also": [
+    "1 John 3:2",
+    "Psalms 8:3-4",
+    "1 Samuel 2:6",
+    "John 14:7-23",
+    "John 10:30"
+   ]
   },
   {
    "set": "job",
@@ -212,10 +530,20 @@
    "book": "Job",
    "chapter": 42,
    "start": 8,
-   "end": 8,
-   "cited": "Job 42:8",
+   "end": 10,
+   "cited": "Job 42:8-10",
    "image": "https://upload.wikimedia.org/wikipedia/commons/6/66/Blake_Job_18.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:Blake_Job_18.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Blake_Job_18.jpg",
+   "passages": [
+    [
+     42,
+     8,
+     10
+    ]
+   ],
+   "also": [
+    "Matthew 5:44-48"
+   ]
   },
   {
    "set": "job",
@@ -227,7 +555,23 @@
    "end": 11,
    "cited": "Job 42:11",
    "image": "https://upload.wikimedia.org/wikipedia/commons/a/ac/Blake_Job_19.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:Blake_Job_19.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Blake_Job_19.jpg",
+   "passages": [
+    [
+     42,
+     11,
+     11
+    ],
+    [
+     38,
+     41,
+     41
+    ]
+   ],
+   "also": [
+    "1 Samuel 2:7",
+    "Psalms 136:23"
+   ]
   },
   {
    "set": "job",
@@ -239,7 +583,18 @@
    "end": 15,
    "cited": "Job 42:15",
    "image": "https://upload.wikimedia.org/wikipedia/commons/8/85/Blake_Job_20.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:Blake_Job_20.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Blake_Job_20.jpg",
+   "passages": [
+    [
+     42,
+     15,
+     15
+    ]
+   ],
+   "also": [
+    "Psalms 139:8",
+    "Psalms 139:17"
+   ]
   },
   {
    "set": "job",
@@ -251,7 +606,23 @@
    "end": 12,
    "cited": "Job 42:12",
    "image": "https://upload.wikimedia.org/wikipedia/commons/a/ae/Blake_Job_21.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:Blake_Job_21.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Blake_Job_21.jpg",
+   "passages": [
+    [
+     42,
+     12,
+     12
+    ],
+    [
+     42,
+     16,
+     17
+    ]
+   ],
+   "also": [
+    "Revelation 15:3",
+    "Hebrews 10:6"
+   ]
   },
   {
    "set": "bible",

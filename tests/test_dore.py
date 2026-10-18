@@ -108,6 +108,21 @@ def test_blakes_art(do, lookup):
         assert lookup.get_verse(f"{p['book']} {p['chapter']}" + (f":{p['start']}" if p["start"] else ""))["found"], p["key"]
 
 
+def test_blakes_job_plates_carry_every_verse_engraved_on_them(do, lookup):
+    """Plate 1's main text is Job 1:1-5 (not 1:5 alone); plate 2 also carries 29:5, so it shows there."""
+    first = next(p for p in do.plates("blake") if p["set"] == "job" and p["n"] == "1")
+    assert (first["chapter"], first["start"], first["end"]) == (1, 1, 5)
+    d = do.plate_embed(first).description
+    assert d.startswith("**Job 1:1–5**\n1 *There was a man in the land of Uz")
+    shown = [do.by_key()[k]["n"] for k in do.art_buttons(lookup.get_verse("Job 29:5"))[0].keys]
+    assert shown == ["2"]
+    second = do.by_key()["kj2"]
+    assert "Also engraved on the plate: Job 29:5 · Job 19:26 · Daniel 7:9" in do.plate_embed(second).description
+    for p in (p for p in do.plates("blake") if p["set"] == "job"):
+        for c, a, b in p["passages"]:
+            assert lookup.get_verse(f"Job {c}:{a}-{b}")["found"], p["key"]
+
+
 def test_blake_command_takes_a_passage(bot_module, fake_ctx):
     from bot_commands import blake
     asyncio.run(blake.send_blake(fake_ctx, "Inferno 5"))            # (by canto: no lines to quote)

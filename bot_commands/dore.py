@@ -63,12 +63,13 @@ def for_passage(book: str, chapter: int, start: "int | None" = None, end: "int |
     """The pictures of a passage (a whole chapter if no verses are given)."""
     hits = []
     for p in plates(artist):
-        if p["book"] != book or p["chapter"] != chapter:
+        if p["book"] != book:
             continue
-        if start is None or p["start"] is None:
-            hits.append(p)
-        elif p["start"] <= (end or start) and start <= p["end"]:
-            hits.append(p)
+        # (Blake's Job plates carry several passages of Job; the first is the main one)
+        for ch, a, b in p.get("passages") or [(p["chapter"], p["start"], p["end"])]:
+            if ch == chapter and (start is None or a is None or (a <= (end or start) and start <= b)):
+                hits.append(p)
+                break
     return hits
 
 
@@ -146,6 +147,10 @@ def plate_embed(p: dict) -> discord.Embed:
         text = passage_caption(span) if p["start"] else ""
         title, read = p["title"], f"!verse {span}"
         description = f"**{reference(p)}**" + (f"\n{text}" if text else "")
+        more = [f"{p['book']} {c}:{a}" + (f"–{b}" if b != a else "") for c, a, b in (p.get("passages") or [])[1:]]
+        more += [r.replace("-", "–") for r in p.get("also", [])]
+        if more:
+            description += "\n\nAlso engraved on the plate: " + " · ".join(more)
     embed = discord.Embed(title=f"{emoji} {title}", url=p["page"], description=description,
                           color=COLOR if p["artist"] == "dore" else BLAKE_COLOR)
     if read:
