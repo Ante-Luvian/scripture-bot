@@ -14,6 +14,9 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-18 · Fixes: "I Kings", "I John" and long Jewish references
+- 🔧 **Books written with Roman numerals now open the right book.** `!verse I Kings 9` showed *2 Kings* 9, and `!verse I John 1:1` showed *3 John*: the bot didn't understand Roman numerals and guessed the nearest name. Now `I`, `II`, `III` and `IV` work like `1`, `2`, `3` and `4`, and the old Catholic names `III Kings` and `IV Kings` (`3 Kings`, `4 Kings`) open 1 and 2 Kings. A misspelt numbered book, like `1 Jhon`, also keeps its number.
+- 🔧 **Passages of Jewish texts that cross a chapter now open.** References like `!verse Mishnah Oholot 10:7-11:1` or `!verse Shulchan Arukh, Orach Chayim 277:4-278:1` said "Unknown book"; now they're looked up in Sefaria's library like any other.
 ## 2026-10-18 · Sikh scripture: the Dasam Granth and Bhai Gurdas
 - ☬ **New: the Dasam Granth.** After the Guru Granth Sahib, the Dasam Granth is the second great book of Sikh scripture: the writings of Guru Gobind Singh, the tenth Guru, beginning with the *Jaap Sahib*, a hymn of praise Sikhs recite every morning. Read it by page and line, in English: `!verse Dasam Granth 1`, `!verse Dasam Granth 1:5-8`.
 - 📜 **New: the Vaaran of Bhai Gurdas.** Forty ballads by Bhai Gurdas, the scribe who wrote out the first copy of the Guru Granth Sahib; Guru Arjan called them the key to understanding it. Cite them by ballad (*vaar*) and stanza (*pauri*): `!verse Bhai Gurdas 1:1`, or a whole vaar with `!verse Vaaran 1`.

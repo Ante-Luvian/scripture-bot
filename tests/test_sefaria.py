@@ -50,3 +50,14 @@ def test_sefaria_library_live():
     r = sefaria_lookup.fetch_sefaria_any("Kuzari 1:1")
     assert r["found"] and r["text"]
     assert sefaria_lookup.fetch_sefaria_any("Hezzzz 1:1") is None
+
+
+def test_sefaria_ranges_and_odd_references(lookup, monkeypatch):
+    import sefaria_lookup
+    trefs = {"Mishnah Oholot 10:7-11:1": "Mishnah_Oholot.10.7-11.1",
+             "Jerusalem Talmud Makkot 2:7:2-3:7:1": "Jerusalem_Talmud_Makkot.2.7.2-3.7.1"}
+    monkeypatch.setattr(sefaria_lookup, "sefaria_name", lambda q: trefs.get(q))
+    monkeypatch.setattr(sefaria_lookup, "fetch_sefaria_generic", lambda tref: {
+        "found": True, "reference": tref, "text": "…", "source": "(via Sefaria)"})
+    for ref, tref in trefs.items():
+        assert lookup.get_verse(ref)["reference"] == tref

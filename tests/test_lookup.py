@@ -183,3 +183,11 @@ def test_hermas_part_table_is_contiguous(part, total):
     assert sum(last - first + 1 for first, last in ranges) == total
     assert (_HERMAS_PARTS["v"][1][0][0], _HERMAS_PARTS["s"][1][-1][1]) == (1, 114)
 
+
+
+@pytest.mark.parametrize("raw, book", [("I Kings", "1 Kings"), ("II Samuel", "2 Samuel"), ("I John", "1 John"),
+                                       ("III Kings", "1 Kings"), ("IV Kings", "2 Kings"), ("1 Jhon", "1 John"),
+                                       ("Isaiah", "Isaiah"), ("I Clement", "1 Clement")])
+def test_roman_numbered_books(lookup, raw, book):
+    """"I Kings 9" (how Sefaria writes it) gave 2 Kings 9, and "I John" 3 John: a fuzzy match."""
+    assert lookup._resolve_book(raw)[1] == book

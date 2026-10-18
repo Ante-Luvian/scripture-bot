@@ -2080,11 +2080,22 @@ class ScriptureLookup:
 
         parsed = self._parse_reference(ref)
         if parsed is None:
+            import sefaria_lookup                       # e.g. "Jerusalem Talmud Makkot 2:7:2-3:7:1"
+            any_result = sefaria_lookup.fetch_sefaria_any(ref)
+            if any_result is not None:
+                return any_result
             return {
                 "found": False,
                 "error": f'Could not parse reference: **{ref}**\nTry: `Book Chapter:Verse`',
                 "suggestions": self._suggest_books(ref),
             }
+
+        # Ranges in a book we don't have may still be in Sefaria's library ("Mishnah Oholot 10:7-11:1")
+        if len(parsed) == 6 and self._resolve_book(parsed[0])[1] is None:
+            import sefaria_lookup
+            any_result = sefaria_lookup.fetch_sefaria_any(ref)
+            if any_result is not None:
+                return any_result
 
         # Cross-chapter range sentinel
         if len(parsed) == 6 and parsed[5] == "cross_chapter":
@@ -3225,6 +3236,15 @@ class ScriptureLookup:
     def _resolve_book(self, raw: str) -> tuple[Optional[str], Optional[str]]:
         """Return (corpus, canonical_book_name) or (None, None)."""
         key = raw.lower().strip()
+        # Roman-numbered books ("I Kings", "II Corinthians", Sefaria's style); the Douay
+        # "3 Kings" and "4 Kings" are the King James 1 and 2 Kings
+        roman = re.match(r"^(iv|iii|ii|i)\s+(\S.*)$", key)
+        if roman:                                       # (only for a book we know: not "I Ching")
+            numbered = f"{['i', 'ii', 'iii', 'iv'].index(roman.group(1)) + 1} {roman.group(2)}"
+            numbered = {"3 kings": "1 kings", "4 kings": "2 kings"}.get(numbered, numbered)
+            if numbered in ALIASES or numbered in self._book_index:
+                key = raw = numbered
+        key = {"3 kings": "1 kings", "4 kings": "2 kings"}.get(key, key)
         # 1. Direct alias lookup
         if key in ALIASES:
             canon = ALIASES[key]
@@ -3237,6 +3257,9 @@ class ScriptureLookup:
             return entry
         # 3. Fuzzy match on alias values + book index keys
         candidates = list(ALIASES.values()) + [v[1] for v in self._book_index.values()]
+        number = re.match(r"^(\d)\s", key)
+        if number:                                      # a misspelt "1 Jhon" may become 1 John, never 3 John
+            candidates = [c for c in candidates if c.startswith(number.group(1))]
         matches = get_close_matches(raw, candidates, n=1, cutoff=0.7)
         if matches:
             canon = matches[0]
