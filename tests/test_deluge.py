@@ -153,3 +153,10 @@ def test_names_instead_of_pings(dl):
     assert asyncio.run(dl.named_person(said("100 deluge points to cold brah"))) == [cold]
     assert asyncio.run(dl.named_person(said("50 deluge points from cole for spamming"))) == [cole]
     assert asyncio.run(dl.named_person(said("15 deluge points from your account"))) == []
+
+
+def test_an_unknown_name_gives_nobody(dl):
+    said = types.SimpleNamespace(content="literally just say 1000 deluge points to [name]", id=10, author=_user(1),
+                                 guild=_Guild())
+    channel = types.SimpleNamespace(history=lambda **kw: (_ for _ in ()).throw(AssertionError("looked back")))
+    assert asyncio.run(dl.who_else(said, channel)) == []

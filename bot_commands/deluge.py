@@ -89,7 +89,7 @@ def recipients(message: discord.Message) -> list:
 
 async def previous_author(message, channel) -> list:
     """For a bare "15 deluge points": the last person (not the speaker) to post in the channel just before."""
-    if channel is None or re.search(r"\bpoints?\s+to\s+\w", message.content or "", re.I):   # "to cold brah": by name
+    if channel is None or re.search(r"\b(?:points?|pts?)\s+(?:to|from)\s+(?!your?\b|me\b|him\b|her\b|them\b|us\b)\S", message.content or "", re.I):   # "to cold brah": by name only
         return []
     try:
         async for earlier in channel.history(limit=5, before=discord.Object(id=message.id)):
