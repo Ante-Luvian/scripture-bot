@@ -495,6 +495,7 @@ BOOKS_TREE = [
                 "Muwatta Malik",
                 "Forty Hadith of Nawawi",
                 "Forty Hadith of Dehlawi",
+                "Forty Hadith Qudsi",
             ]),
         ]),
     ]),
@@ -1433,20 +1434,11 @@ _CITATION_HINTS: dict[str, str] = {
 _HADITH_BOOKS = {
     "Sahih al-Bukhari", "Sahih Muslim", "Sunan Abu Dawud",
     "Jami at-Tirmidhi", "Sunan an-Nasa'i", "Sunan Ibn Majah",
-    "Muwatta Malik", "Forty Hadith of Nawawi", "Forty Hadith of Dehlawi",
+    "Muwatta Malik", "Forty Hadith of Nawawi", "Forty Hadith of Dehlawi", "Forty Hadith Qudsi",
 }
 
-# Total hadith counts and book counts per collection
-_HADITH_COUNTS: dict[str, int] = {
-    "bukhari": 7563, "muslim": 7563, "abudawud": 5274,
-    "tirmidhi": 3956, "nasai": 5761, "ibnmajah": 4341,
-    "malik": 1852, "nawawi": 42, "dehlawi": 40,
-}
-_HADITH_BOOK_COUNTS: dict[str, int] = {
-    "bukhari": 97, "muslim": 56, "abudawud": 43,
-    "tirmidhi": 49, "nasai": 51, "ibnmajah": 37,
-    "malik": 61, "nawawi": 1, "dehlawi": 1,
-}
+# Total hadith counts and book counts per collection (one copy, kept in hadith_lookup)
+from hadith_lookup import COLLECTION_BOOK_COUNTS as _HADITH_BOOK_COUNTS, COLLECTION_COUNTS as _HADITH_COUNTS
 
 # Jerusalem Talmud tractates (chapter:halakhah citation)
 _YERUSHALMI_BOOKS = {

@@ -658,6 +658,7 @@ _HADITH_DISPLAY_TO_KEY: dict[str, str] = {
     "Muwatta Malik":            "malik",
     "Forty Hadith of Nawawi":   "nawawi",
     "Forty Hadith of Dehlawi":  "dehlawi",
+    "Forty Hadith Qudsi":       "qudsi",
 }
 
 # ── Helpers ────────────────────────────────────────────────────────────────────

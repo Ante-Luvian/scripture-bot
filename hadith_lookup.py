@@ -10,11 +10,12 @@ Available English collections:
   Sahih Muslim        → eng-muslim    (hadiths 1–7563, 56 books)
   Sunan Abu Dawud     → eng-abudawud  (hadiths 1–5274, 43 books)
   Jami at-Tirmidhi    → eng-tirmidhi  (hadiths 1–3956, 49 books)
-  Sunan an-Nasa'i    → eng-nasai     (hadiths 1–5761, 51 books)
+  Sunan an-Nasa'i    → eng-nasai     (hadiths 1–5758, 51 books)
   Sunan Ibn Majah     → eng-ibnmajah  (hadiths 1–4341, 37 books)
-  Muwatta Malik       → eng-malik     (hadiths 1–1852, 61 books)
+  Muwatta Malik       → eng-malik     (hadiths 1–1858, 61 books)
   Forty Hadith Nawawi → eng-nawawi    (hadiths 1–42)
   Forty Hadith Dehlawi→ eng-dehlawi   (hadiths 1–40)
+  Forty Hadith Qudsi  → eng-qudsi     (hadiths 1–40)
 
 Citation format: !verse <Collection> <number>
   e.g. !verse Bukhari 1  |  !verse Sunan Abu Dawud 1035  |  !verse Nawawi 1
@@ -100,6 +101,12 @@ HADITH_COLLECTIONS: dict[str, str] = {
     "forty hadith dehlawi": "dehlawi",
     "forty hadith of dehlawi": "dehlawi",
     "arba'in dehlawi": "dehlawi",
+
+    # Forty Hadith Qudsi (sayings of God in the Prophet's words)
+    "qudsi": "qudsi",
+    "hadith qudsi": "qudsi",
+    "forty hadith qudsi": "qudsi",
+    "40 hadith qudsi": "qudsi",
 }
 
 # Display names for each collection key
@@ -113,6 +120,7 @@ COLLECTION_DISPLAY: dict[str, str] = {
     "malik":             "Muwatta Malik",
     "nawawi":            "Forty Hadith of Nawawi",
     "dehlawi":           "Forty Hadith of Dehlawi",
+    "qudsi":             "Forty Hadith Qudsi",
 }
 
 # Total hadith counts per collection (for display in !books)
@@ -121,11 +129,12 @@ COLLECTION_COUNTS: dict[str, int] = {
     "muslim":   7563,
     "abudawud": 5274,
     "tirmidhi": 3956,
-    "nasai":    5761,
+    "nasai":    5758,
     "ibnmajah": 4341,
-    "malik":    1852,
+    "malik":    1858,
     "nawawi":   42,
     "dehlawi":  40,
+    "qudsi":    40,
 }
 
 # Section (book) counts per collection
@@ -139,6 +148,7 @@ COLLECTION_BOOK_COUNTS: dict[str, int] = {
     "malik":    61,
     "nawawi":   1,
     "dehlawi":  1,
+    "qudsi":    1,
 }
 
 
@@ -218,7 +228,7 @@ def fetch_hadith(collection_key: str, number: int) -> dict:
 
     # ── Strategy 2: section files ─────────────────────────────────────────────
     # Some collections don't have per-hadith files; scan sections instead.
-    for section in range(0, 61):
+    for section in range(0, COLLECTION_BOOK_COUNTS.get(collection_key, 99) + 1):   # (section 0, then each book)
         cache_key = f"{collection_key}:sec:{section}"
 
         if cache_key not in _COLLECTION_CACHE:

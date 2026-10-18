@@ -1291,6 +1291,7 @@ ALIASES: dict[str, str] = {
     "nasai": "_hadith", "ibn majah": "_hadith",
     "muwatta": "_hadith", "nawawi": "_hadith", "nawawi 40": "_hadith",
     "dehlawi": "_hadith", "shah waliullah": "_hadith", "forty hadith of dehlawi": "_hadith",
+    "qudsi": "_hadith", "hadith qudsi": "_hadith", "forty hadith qudsi": "_hadith",
     "1ne": "1 Nephi", "1 ne": "1 Nephi", "1nep": "1 Nephi",
     "2ne": "2 Nephi", "2 ne": "2 Nephi", "2nep": "2 Nephi",
     "jacob": "Jacob",

@@ -14,6 +14,10 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-17 · Hadith: the Forty Hadith Qudsi
+- ☪️ **New: the Forty Hadith Qudsi.** A *hadith qudsi* is a saying of God reported in the words of the Prophet Muhammad, a special class of hadith, between the Quran and the ordinary sayings. This classic collection of forty of them joins the Bukhari, Muslim, Nawawi and other collections the bot already has. Try `!verse Qudsi 1`.
+- 🔧 **The last hadith of two collections now work.** Sunan an-Nasa'i was listed as running to 5,761 and Muwatta Malik to 1,852; the real last numbers are 5,758 and 1,858, and `!help` and `!books` now say so. The last book of Muwatta Malik also couldn't be reached by some lookups; now it can.
+
 ## 2026-10-17 · The rest of Sefaria's library
 - ✡️ **`!verse` now reaches every book in Sefaria's library that has an English translation.** Sefaria is the free online library of Jewish texts. The bot already looked up the Talmud, the Mishnah, the Zohar, the Midrash and a few others there; now it can fetch anything else Sefaria has, using Sefaria's own name for the book. That includes the classic Bible commentaries (`!verse Rashi on Genesis 1:1`), Judah Halevi's *Kuzari*, a medieval dialogue defending Judaism (`!verse Kuzari 1:1`), *The Path of the Just*, a beloved guide to living a holy life (`!verse Mesillat Yesharim 1`), the *Shulchan Arukh*, the standard code of Jewish law (`!verse Shulchan Arukh, Orach Chayim 1:1`), the stories collected from the Talmud in *Ein Yaakov*, and Hasidic teachings like Rebbe Nachman's *Likutei Moharan*. If a book is on Sefaria only in Hebrew or Aramaic, the bot says there's no English translation rather than showing it untranslated. `!help jewish` lists examples.
 ## 2026-10-17 · Icons: easier to find

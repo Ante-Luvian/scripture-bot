@@ -730,24 +730,24 @@ async def cmd_help(ctx, *, topic: str = ""):
             "`!verse Sahih Muslim 1`  *(1–7,563, 56 books)*\n"
             "`!verse Sunan Abu Dawud 1`  *(1–5,274, 43 books)*\n"
             "`!verse Jami at-Tirmidhi 1`  *(1–3,956, 49 books)*\n"
-            "`!verse Sunan an-Nasa'i 1`  *(1–5,761, 51 books)*\n"
+            "`!verse Sunan an-Nasa'i 1`  *(1–5,758, 51 books)*\n"
             "`!verse Sunan Ibn Majah 1`  *(1–4,341, 37 books)*\n"
             "Cite by sequential hadith number — no chapter needed"
         ), inline=False)
         embed.add_field(name="Other Hadith Collections", value=(
-            "`!verse Muwatta Malik 1`  *(1–1,852, 61 books)*\n"
+            "`!verse Muwatta Malik 1`  *(1–1,858, 61 books)*\n"
             "`!verse Forty Hadith of Nawawi 1`  *(1–42)*\n"
             "`!verse Forty Hadith of Dehlawi 1`  *(1–40)*\n"
+            "`!verse Forty Hadith Qudsi 1`  *(1–40: God's words, in the Prophet's)*\n"
         ), inline=True)
         embed.add_field(name="Aliases", value=(
             "`Bukhari`, `Muslim`, `Abu Dawud`, `Tirmidhi`\n"
             "`Nasai`, `Ibn Majah`, `Muwatta`, `Nawawi`\n"
-            "`Dehlawi`, `Shah Waliullah`"
+            "`Dehlawi`, `Shah Waliullah`, `Qudsi`"
         ), inline=True)
         embed.add_field(name="Sira & Islamic Biography", value=(
             "The Sira (Ibn Ishaq/Ibn Hisham) and Stories of the Prophets (Ibn Kathir) "
-            "are not available in a structured API. They exist as PDFs at archive.org. "
-            "The Quran and Hadith remain the primary accessible sources."
+            "aren't available yet."
         ), inline=False)
         await ctx.send(embed=embed)
         return
