@@ -72,7 +72,7 @@ Browse all of it with `!books`, or let me pick something at random with `!discov
 • Other traditions work the same way: `!verse Quran 2:255`, `!verse Enoch 1:9`, `!verse Berakhot 2a`, `!verse Gilgamesh 11`, `!verse Rig Veda 10.121:9`, `!verse Republic 514a` (Plato by the page-and-section numbers printed in every edition, or a stretch: `!verse Republic 514a-515c`), `!verse Iliad 6.440` (Homer by book and line)
 Abbreviations are fine (`Jn`, `1 Cor`, `Ps`). Bible verses come with the four study buttons, and any passage Gustave Doré engraved or William Blake painted gets a **🖼️ Doré** or **🎨 Blake** button too.
 
-**`!dore`** — Gustave Doré's famous engravings for the Bible (the Apocrypha included), the *Divine Comedy* and *Paradise Lost*, each tied to the passage it shows: `!dore Genesis 11` is the Tower of Babel, `!dore Inferno 3` Charon's boat, `!dore Paradise Lost 1` Satan's fall; `!dore` alone shows one at random, and `!dore list` what there is.
+**`!dore`** — Gustave Doré's famous engravings for the Bible (the Apocrypha included), the *Divine Comedy* and *Paradise Lost*, each tied to the verse or line it shows: `!dore Genesis 11` lists that chapter's engravings with the verse of each, `!dore Inferno 3:82` shows Charon's boat, `!dore Paradise Lost 1` Satan's fall; `!dore` alone shows one at random, and `!dore list` what there is.
 
 **`!prefer ESV`** makes a translation your personal default, so plain `!verse` uses it. `!prefer off` goes back to the KJV.
 **`!translations`** lists every translation and the short name to use.

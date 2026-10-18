@@ -304,6 +304,151 @@ CLEAN_COPIES = {
     "148619564": "DVinfernoUgolinoGnawingHeadOfRuggieari m.jpg",
     "148619628": "Inferno Canto 34 (148619628).jpg",
 }
+# The lines each plate shows, in the numbering of the bot's Dante (Longfellow's, line for line with
+# the Italian): {scan: (canto, first line, last line)}. Found where Gutenberg's illustrated Cary
+# (#8789, #8795, #8799) prints or places each plate, carried over to Longfellow, and every one checked
+# against a printed caption -- Hell's in the Cassell edition (Cary's numbers), Purgatory's and
+# Paradise's in the Italian edition of the Biblioteca Classica Illustrata (the Italian numbers) -- or,
+# where those disagree (Purgatorio 1), against the picture. (Purgatorio 9:1, Aurora, was in Commons'
+# canto 8 category.)
+DANTE_LINES = {
+    "148199779": (3, 16, 18),
+    "148199795": (5, 103, 105),
+    "148199820": (8, 58, 60),
+    "148199891": (12, 19, 21),
+    "148199950": (14, 82, 84),
+    "148199966": (14, 103, 105),
+    "148200021": (16, 145, 147),
+    "148200062": (18, 82, 87),
+    "148200085": (18, 124, 126),
+    "148200104": (19, 1, 3),
+    "148200138": (20, 10, 12),
+    "148200170": (21, 1, 3),
+    "148200204": (21, 40, 42),
+    "148200292": (26, 7, 9),
+    "148200320": (27, 1, 3),
+    "148200346": (28, 88, 90),
+    "148200393": (31, 1, 3),
+    "148200440": (31, 133, 135),
+    "148618027": (1, 1, 3),
+    "148618051": (1, 31, 33),
+    "148618067": (1, 46, 48),
+    "148618079": (1, 91, 93),
+    "148618085": (1, 136, 136),
+    "148618089": (2, 1, 3),
+    "148618104": (2, 70, 72),
+    "148618126": (3, 7, 9),
+    "148618170": (3, 115, 117),
+    "148618192": (4, 40, 42),
+    "148618206": (4, 94, 96),
+    "148618228": (5, 4, 6),
+    "148618250": (5, 31, 33),
+    "148618265": (5, 73, 75),
+    "148618279": (5, 106, 108),
+    "148618301": (5, 136, 138),
+    "148618330": (6, 25, 27),
+    "148618352": (6, 49, 51),
+    "148618374": (7, 7, 9),
+    "148618401": (7, 64, 66),
+    "148618415": (7, 115, 117),
+    "148618431": (8, 28, 30),
+    "148618452": (8, 40, 42),
+    "148618466": (8, 112, 114),
+    "148618496": (9, 46, 48),
+    "148618511": (9, 88, 90),
+    "148618533": (9, 127, 129),
+    "148618558": (10, 40, 42),
+    "148618573": (11, 4, 9),
+    "148618608": (12, 10, 12),
+    "148618629": (12, 61, 63),
+    "148618643": (12, 76, 78),
+    "148618661": (13, 10, 12),
+    "148618667": (13, 31, 33),
+    "148618673": (13, 118, 120),
+    "148618679": (14, 40, 42),
+    "148618685": (15, 28, 30),
+    "148618698": (17, 7, 9),
+    "148618706": (17, 121, 123),
+    "148618710": (18, 133, 135),
+    "148618716": (19, 49, 51),
+    "148618726": (18, 37, 39),
+    "148618732": (18, 118, 120),
+    "148618760": (21, 52, 54),
+    "148618780": (21, 70, 72),
+    "148618830": (22, 124, 126),
+    "148618853": (22, 139, 141),
+    "148618897": (23, 52, 54),
+    "148618926": (23, 91, 93),
+    "148618970": (23, 115, 117),
+    "148619014": (24, 91, 93),
+    "148619071": (25, 67, 69),
+    "148619124": (26, 46, 48),
+    "148619179": (28, 28, 33),
+    "148619207": (28, 73, 75),
+    "148619246": (28, 121, 123),
+    "148619272": (29, 4, 6),
+    "148619313": (29, 55, 57),
+    "148619342": (29, 82, 84),
+    "148619397": (30, 31, 33),
+    "148619425": (30, 37, 39),
+    "148619471": (31, 70, 72),
+    "148619488": (31, 91, 93),
+    "148619513": (31, 142, 144),
+    "148619530": (32, 19, 21),
+    "148619555": (32, 97, 99),
+    "148619564": (32, 130, 132),
+    "148619571": (33, 64, 66),
+    "148619575": (33, 67, 69),
+    "148619585": (33, 73, 75),
+    "148619628": (34, 19, 21),
+    "148619672": (34, 133, 135),
+    "148619695": (34, 139, 139),
+    "148974097": (1, 19, 21),
+    "148974123": (1, 49, 51),
+    "148974150": (2, 28, 30),
+    "148974163": (2, 43, 45),
+    "148974172": (3, 58, 60),
+    "148974180": (4, 31, 33),
+    "148974184": (4, 103, 105),
+    "148974193": (5, 43, 45),
+    "148974251": (5, 124, 126),
+    "148974278": (5, 133, 135),
+    "148974286": (7, 22, 24),
+    "148974292": (7, 82, 84),
+    "148974300": (8, 106, 108),
+    "148974325": (9, 1, 3),
+    "148974358": (9, 31, 33),
+    "148974378": (9, 79, 81),
+    "148974417": (10, 82, 84),
+    "148974464": (12, 1, 3),
+    "148974491": (12, 43, 45),
+    "148974537": (13, 61, 63),
+    "148974581": (13, 130, 132),
+    "148974648": (15, 106, 108),
+    "148974683": (16, 25, 27),
+    "148974730": (16, 34, 36),
+    "148974835": (18, 88, 90),
+    "148974906": (19, 52, 54),
+    "148974959": (19, 133, 135),
+    "148974996": (20, 16, 18),
+    "148975153": (23, 52, 54),
+    "148975200": (24, 4, 6),
+    "148975239": (24, 112, 114),
+    "148975289": (25, 112, 114),
+    "148975326": (25, 121, 123),
+    "148975345": (25, 124, 126),
+    "148975403": (27, 97, 99),
+    "148975446": (28, 22, 24),
+    "148975531": (29, 82, 84),
+    "148975583": (29, 121, 126),
+    "148975620": (30, 28, 33),
+    "148975643": (31, 100, 102),
+    "148975659": (32, 151, 153),
+    "148975676": (33, 136, 138),
+}
+# two Hell plates the German scans lack: clean copies elsewhere on Commons
+NOT_SCANNED = [("Inferno", 3, 82, 84, "Gustave Doré - Dante Alighieri - Inferno - Plate 9 (Canto III - Charon).jpg"),
+               ("Inferno", 5, 139, 142, "Gustave Doré - Dante Alighieri - Inferno - Plate 18 (Canto V - Dante has a touch of the vapours).jpg")]
 CROPS = ROOT / "data" / "dore" / "dante"
 
 
@@ -359,23 +504,54 @@ def crop_scan(image_url: str, out: Path) -> None:
     time.sleep(1)
 
 
-def clean_dante(plates: list) -> None:
-    """Each plate's picture: a clean copy on Commons, or the engraving cut out of its scan."""
+def dante_lines(part: str, canto: int, start: int, end: int) -> str:
+    """Those lines of the bot's Dante (stored by tercet, under "canto.first line")."""
+    books = json.loads((ROOT / "data" / "medieval" / "divine_comedy_longfellow.json").read_text(encoding="utf-8"))["books"]
+    out = []
+    for key, v in books[part].items():
+        c, first = map(int, key.split("."))
+        if c == canto:
+            out += [(first + i, line) for i, line in enumerate(v["1"].splitlines())]
+    lines = [line for n, line in sorted(out) if start <= n <= end]
+    expect(len(lines) == end - start + 1, f"{part} {canto}:{start}-{end}")
+    return "\n".join(lines)
+
+
+def clean_dante(plates: list) -> list:
+    """Each plate's lines, and its picture: a clean copy on Commons, or the engraving cut out of its scan."""
     CROPS.mkdir(parents=True, exist_ok=True)
-    sids = {id(p): re.search(r"\((\d{9})\)", urllib.parse.unquote(p["page"])) for p in plates}
-    copies = file_info([f"File:{f}" for f in CLEAN_COPIES.values()])
+    copies = file_info([f"File:{f}" for f in list(CLEAN_COPIES.values()) + [x[4] for x in NOT_SCANNED]])
+    out = []
     for p in plates:
-        sid = sids[id(p)] and sids[id(p)].group(1)
+        sid = re.search(r"\((\d{9})\)", urllib.parse.unquote(p["page"])).group(1)
         p.pop("file", None)
         if sid in CLEAN_COPIES:
             info = copies[f"File:{CLEAN_COPIES[sid]}"]
             p["image"], p["page"] = info["image"], info["page"]
-            continue
-        out = CROPS / f"{sid}.jpg"
-        if not out.exists():
-            crop_scan(p["image"], out)
-        p["file"] = out.relative_to(ROOT).as_posix()
-    print(f"  the Divine Comedy: {sum('file' in p for p in plates)} plates cut out of their scans")
+        else:
+            crop = CROPS / f"{sid}.jpg"
+            if not crop.exists():
+                crop_scan(p["image"], crop)
+            p["file"] = crop.relative_to(ROOT).as_posix()
+        if p["book"]:                                   # (not the portrait)
+            expect(sid in DANTE_LINES, f"no lines for {p['book']} plate {sid}")
+            p["chapter"], p["start"], p["end"] = DANTE_LINES[sid]
+        out.append(p)
+    for part, canto, start, end, f in NOT_SCANNED:
+        info = copies[f"File:{f}"]
+        out.append({"set": "dante", "n": "", "title": "", "book": part, "chapter": canto, "start": start, "end": end,
+                    "cited": "", "image": info["image"], "page": info["page"]})
+    order = {"Inferno": 0, "Purgatorio": 1, "Paradiso": 2, None: -1}
+    out.sort(key=lambda p: (order[p["book"]], p["chapter"] or 0, p["start"] or 0))
+    for p in out:
+        if p["book"]:
+            # a stable short name for the button ids ("inf1l31": Inferno 1:31)
+            p["n"] = f"{p['book'][:3].lower()}{p['chapter']}l{p['start']}"
+            p["cited"] = f"{p['book']} {p['chapter']}:{p['start']}-{p['end']}"
+            p["quote"] = dante_lines(p["book"], p["chapter"], p["start"], p["end"])
+            p["title"] = p["quote"].splitlines()[0].rstrip(",;:")
+    print(f"  the Divine Comedy: {len(out)} plates, {sum('file' in p for p in out)} cut out of their scans")
+    return out
 
 
 def cantos_from_twins() -> dict:
@@ -477,7 +653,7 @@ def main():
         expect(ref is not None, f"{p['n']} {p['title']}: {p['cited']}")
         p["book"], p["chapter"], p["start"], p["end"] = ref
     print(f"  the Bible: {len(plates)} plates; the Divine Comedy: {len(d)}")
-    clean_dante(d)
+    d = clean_dante(d)
     m = milton()
     print(f"  Paradise Lost: {len(m)} plates")
     OUT.write_text(json.dumps({"source": "Gustave Doré's engravings, from Wikimedia Commons",

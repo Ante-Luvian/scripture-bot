@@ -752,9 +752,9 @@ async def cmd_help(ctx, *, topic: str = ""):
         embed = discord.Embed(title="🖼️ !dore — Gustave Doré's engravings", color=discord.Color.dark_grey(), description=(
             "Doré's engravings for the Bible (1866, the Apocrypha included), the *Divine Comedy* and *Paradise Lost* "
             "(1866), each tied to the passage it shows.\n\n"
-            "`!dore Genesis 11` — a chapter's engravings (`!dore Judith 13`, `!dore Mark 14`)\n"
-            "`!dore Inferno 3` — Dante's, by canto\n"
-            "`!dore Paradise Lost 1` — Milton's, by book and line\n"
+            "`!dore Genesis 11` — a chapter's engravings, listed with the verse each shows "
+            "(also `!dore Inferno 3`, `!dore Paradise Lost 1`)\n"
+            "`!dore Genesis 11:4` · `!dore Inferno 3:82` — just the one at that verse or line\n"
             "`!dore babel` — by name · `!dore` — one at random · `!dore list`\n\n"
             "Under `!verse`, a **🖼️ Doré** button appears whenever the passage has an engraving: "
             "`!verse Genesis 11:4`, `!verse Paradise Lost 12:644`."))

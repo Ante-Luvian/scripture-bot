@@ -65,7 +65,7 @@ def for_passage(book: str, chapter: int, start: "int | None" = None, end: "int |
     for p in plates(artist):
         if p["book"] != book or p["chapter"] != chapter:
             continue
-        if start is None or p["start"] is None or p["set"] == "dante":     # (Dante's are by canto)
+        if start is None or p["start"] is None:
             hits.append(p)
         elif p["start"] <= (end or start) and start <= p["end"]:
             hits.append(p)
@@ -84,15 +84,34 @@ def for_result(result: dict, artist: str = "dore") -> list:
     return for_passage(book, int(m["ch"]), start, int(m["v2"]) if m["v2"] else start, artist)
 
 
+def reference(p: dict, dash: str = "–") -> str:
+    """"Genesis 11:1–4", "Inferno 1:31–33", "Paradise Lost 1:44"."""
+    if not p["book"]:
+        return ""
+    if p["start"] is None:
+        return f"{p['book']} {p['chapter']}"
+    return f"{p['book']} {p['chapter']}:{p['start']}" + (f"{dash}{p['end']}" if p["end"] != p["start"] else "")
+
+
+def caption(p: dict) -> str:
+    """A line saying what the picture shows: the title, or the opening of the lines it illustrates."""
+    if p.get("quote"):
+        return p["quote"].splitlines()[0].rstrip(",;:")
+    return p["title"].split(" / ")[0].rstrip(",;:") if p["set"] == "milton" else p["title"]
+
+
 def plate_embed(p: dict) -> discord.Embed:
     name, emoji, _ = ARTIST[p["artist"]]
     if p["set"] == "milton":
-        title = f"Paradise Lost {p['chapter']}:{p['start']}" + (f"–{p['end']}" if p["end"] != p["start"] else "")
+        title = reference(p)
         description = f"*{p['title']}*"
-        read = f"!verse Paradise Lost {p['chapter']}:{p['start']}" + (f"-{p['end']}" if p["end"] != p["start"] else "")
+        read = f"!verse {reference(p, '-')}"
     elif p["set"] == "dante":
-        title, description = p["title"], None
-        read = f"!verse {p['book']} {p['chapter']}" if p["book"] else ""
+        if p["book"]:                                  # the lines it shows, from the bot's Longfellow
+            title, read = reference(p), f"!verse {reference(p, '-')}"
+            description = "\n".join(f"*{line}*" for line in p["quote"].splitlines())
+        else:                                          # (the portrait)
+            title, description, read = p["title"], None, ""
     else:
         span = f"{p['book']} {p['chapter']}:{p['start']}" + (f"-{p['end']}" if p["end"] != p["start"] else "")
         title, description, read = p["title"], span, f"!verse {span}"
@@ -135,11 +154,12 @@ class ArtButton(discord.ui.DynamicItem[discord.ui.Button], template=r"(?P<artist
         return cls(match["artist"], match["keys"].split(","))
 
     async def callback(self, interaction: discord.Interaction):
-        shown = [by_key()[k] for k in self.keys if k in by_key()][:MAX_SHOWN]
-        if not shown:
+        found = [by_key()[k] for k in self.keys if k in by_key()]
+        if not found:
             await interaction.response.send_message("⚠️ I can't find that picture any more.", ephemeral=True)
             return
-        await interaction.response.send_message(**plate_message(shown))
+        artist = "dore" if self.artist == "dore" else "blake"
+        await interaction.response.send_message(index(found, artist), **plate_message(found[:MAX_SHOWN]))
 
 
 bot.add_dynamic_items(ArtButton)
@@ -158,20 +178,24 @@ def art_buttons(result: dict) -> list:
 
 def search(query: str, artist: str = "dore") -> list:
     words = [w for w in re.findall(r"[a-z]+", query.lower()) if len(w) > 2]
-    return [p for p in plates(artist) if words and all(w in (p["title"] + " " + p.get("cited", "")).lower() for w in words)]
+    return [p for p in plates(artist) if words and all(
+        w in " ".join((p["title"], p.get("cited", ""), p.get("quote", ""))).lower() for w in words)]
 
 
 async def send_art(ctx, query: str, artist: str = "dore") -> bool:
     """A passage's pictures, a book's, or ones found by name; False (nothing sent) if there are none."""
-    name = ARTIST[artist][0]
     q = query.strip()
-    found = []
+    found, note = [], None
     m = REF.match(q)
     if m:
         book = lookup._resolve_book(m["book"])[1]
         if book:
             start = int(m["v1"]) if m["v1"] else None
             found = for_passage(book, int(m["ch"]), start, int(m["v2"]) if m["v2"] else start, artist)
+            if not found and start is not None:         # nothing at that verse: the chapter's, then
+                found = for_passage(book, int(m["ch"]), artist=artist)
+                if found:
+                    note = f"There's no picture at **{book} {m['ch']}:{m['v1']}** itself; here are chapter {m['ch']}'s."
     if not found:
         book = lookup._resolve_book(q)[1]
         if book:
@@ -179,10 +203,29 @@ async def send_art(ctx, query: str, artist: str = "dore") -> bool:
     found = found or search(q, artist)
     if not found:
         return False
-    extra = f"*{len(found)} pictures; here are the first {MAX_SHOWN}. Ask for a chapter to narrow it.*" \
-        if len(found) > MAX_SHOWN else None
-    await ctx.send(extra, **plate_message(found[:MAX_SHOWN]))
+    text = "\n".join(t for t in (note, index(found, artist)) if t) or None
+    await ctx.send(text, **plate_message(found[:MAX_SHOWN]))
     return True
+
+
+MAX_LISTED = 20
+
+
+def index(found: list, artist: str = "dore") -> "str | None":
+    """For several pictures: each one's reference and what it shows, with the command for it alone."""
+    if len(found) < 2:
+        return None
+    command = "!dore" if artist == "dore" else "!blake"
+    lines = [f"**{len(found)} pictures** — ask for one by its reference:"]
+    for p in found[:MAX_LISTED]:
+        ref = reference(p, "-")
+        pick = ref.split("-")[0] if ref else ""
+        lines.append(f"`{command} {pick}` — {caption(p)}" if pick else f"· {caption(p)}")
+    if len(found) > MAX_LISTED:
+        lines.append(f"…and {len(found) - MAX_LISTED} more: ask for a chapter to narrow it.")
+    if len(found) > MAX_SHOWN:
+        lines.append(f"*Showing the first {MAX_SHOWN}.*")
+    return "\n".join(lines)[:1990]
 
 
 async def send_dore(ctx, query: str = "") -> None:
@@ -197,7 +240,9 @@ async def send_dore(ctx, query: str = "") -> None:
             f"**The Divine Comedy**: {counts['dante']} plates\n"
             f"**Paradise Lost**: {counts['milton']} plates\n\n"
             "`!dore` — one at random\n"
-            "`!dore Genesis 11` · `!dore Inferno 3` · `!dore Paradise Lost 1` — a passage's engravings\n"
+            "`!dore Genesis 11` · `!dore Inferno 3` · `!dore Paradise Lost 1` — a chapter's engravings, "
+            "listed with the verse or line each one shows\n"
+            "`!dore Genesis 11:4` · `!dore Inferno 3:82` — just the one at that verse or line\n"
             "`!dore babel` — by name\n\n"
             "Under `!verse`, a 🖼️ Doré button appears whenever the passage has one.")))
         return
@@ -220,7 +265,8 @@ async def send_dore(ctx, query: str = "") -> None:
 async def cmd_dore(ctx, *, query: str = ""):
     """Gustave Doré's engravings for the Bible, Dante and Milton.
     Usage: !dore               — one at random
-           !dore Genesis 11    — a passage's engravings (also Inferno 3, Paradise Lost 1)
+           !dore Genesis 11    — a chapter's engravings, listed (also Inferno 3, Paradise Lost 1)
+           !dore Genesis 11:4  — the one at that verse (also Inferno 3:82)
            !dore babel         — by name · !dore list"""
     await send_dore(ctx, query)
 

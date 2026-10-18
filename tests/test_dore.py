@@ -42,9 +42,29 @@ def test_no_button_without_a_picture(do, lookup):
     assert do.art_buttons(lookup.get_verse("Leviticus 3:1")) == []
 
 
-def test_dante_by_canto(do, lookup):
-    button = do.art_buttons(lookup.get_verse("Inferno 3:1"))[0]
-    assert all(do.by_key()[k]["chapter"] == 3 for k in button.keys)
+def test_dante_by_line(do, lookup):
+    """Each Dante plate is tied to the lines it shows (Charon's boat: Inferno 3:82-84)."""
+    button = do.art_buttons(lookup.get_verse("Inferno 3:82"))[0]
+    assert [(do.by_key()[k]["chapter"], do.by_key()[k]["start"]) for k in button.keys] == [(3, 82)]
+    assert do.art_buttons(lookup.get_verse("Inferno 3:1")) == []
+    dante = [p for p in do.plates() if p["set"] == "dante" and p["book"]]
+    assert sum(p["book"] == "Inferno" for p in dante) == 75                  # (all of them)
+    for p in dante:                                                         # the lines open in the bot
+        assert lookup.get_verse(f"{p['book']} {p['chapter']}:{p['start']}")["found"], p["key"]
+        assert p["quote"].count("\n") == p["end"] - p["start"]
+
+
+def test_several_are_listed_with_their_references(do, fake_ctx):
+    asyncio.run(do.send_dore(fake_ctx, "Inferno 1"))
+    sent = fake_ctx.sent[-1]
+    assert "`!dore Inferno 1:31` — And lo! almost where the ascent began" in sent["content"]
+    assert [e.title for e in sent["embeds"]][:2] == ["🖼️ Inferno 1:1–3", "🖼️ Inferno 1:31–33"]
+    assert sent["embeds"][1].description.startswith("*And lo! almost where the ascent began,*")
+    asyncio.run(do.send_dore(fake_ctx, "Inferno 1:31"))                     # just that one
+    sent = fake_ctx.sent[-1]
+    assert sent["content"] is None and [e.title for e in sent["embeds"]] == ["🖼️ Inferno 1:31–33"]
+    asyncio.run(do.send_dore(fake_ctx, "Genesis 11:30"))                    # none there: the chapter's
+    assert "no picture at **Genesis 11:30**" in fake_ctx.sent[-1]["content"]
 
 
 def test_dante_is_not_a_page_scan(do):
@@ -53,6 +73,7 @@ def test_dante_is_not_a_page_scan(do):
     for p in (p for p in do.plates() if p["set"] == "dante"):
         assert p.get("file") or "Gottliche" not in p["image"], p["key"]
     par3 = next(p for p in do.plates() if p["set"] == "dante" and p["book"] == "Paradiso" and p["chapter"] == 3)
+    assert (par3["start"], par3["end"]) == (16, 18)                  # "Such saw I many faces prompt to speak"
     message = do.plate_message([par3])
     if (do.ROOT / par3["file"]).exists():
         assert message["files"][0].filename == par3["file"].rsplit("/", 1)[1]
@@ -80,7 +101,7 @@ def test_blake_command_takes_a_passage(bot_module, fake_ctx):
 
 
 @pytest.mark.parametrize("query, first", [("Genesis 11", "🖼️ The Tower of Babel"), ("flood", None),
-                                          ("Inferno 3", "🖼️ Inferno, Canto 3"), ("Paradise Lost 1", "🖼️ Paradise Lost 1:44–45")])
+                                          ("Inferno 3", "🖼️ Inferno 3:7–9"),("Paradise Lost 1", "🖼️ Paradise Lost 1:44–45")])
 def test_the_command(do, fake_ctx, query, first):
     asyncio.run(do.send_dore(fake_ctx, query))
     sent = fake_ctx.sent[-1]
