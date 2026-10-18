@@ -38,7 +38,7 @@ LEFTOVERS = [r"\{\d+\}",                                           # page number
              r"(?m)^.*End of (?:the )?Project Gutenberg.*$",
              r"(?m)^.*\| Internet Sacred Text Archive.*$",
              r"THE SERMONS OF MARTIN LUTHER, VOL\. [IVX]+, PAGE \d+ ?",   # a running header
-             r"(?m)\s+>$", r"(?m)^END OF THE INSTITUTES\.$", r"(?m)^THE END\.?$", r"\[\d+\]",
+             r"(?m)\s+>$", r"(?m)^END OF THE INSTITUTES\.$", r"(?m)^THE END\.?$", r"(?m)^FINIS\.?$", r"\[\d+\]",
              r"(?s)^.*(?:cover art for this book|Edited by George Lyons|No part of this publication|"
              r"personal convenience of our readers).*$",                    # (modern editors' notices)
              r"(?m)^: .*$",                                                  # (the First Blast's margin notes)
@@ -821,6 +821,9 @@ def anglican_divines():
         "Holy Living": ccel_chapters("taylor/holy_living", 1),
         "Holy Dying": ccel_chapters("taylor/holy_dying", 1, skip=FRONT + r"|^dedication"),
         "A Serious Call to a Devout and Holy Life": ccel_chapters("law/serious_call", 1),
+        "Laws of Ecclesiastical Polity": hooker(),
+        **homilies(),
+        **donne(),
     }
     report(books)
     save("anglican_divines.json", "The Anglican divines", books, {
@@ -828,7 +831,15 @@ def anglican_divines():
         "Private Devotions of Lancelot Andrewes": "Lancelot Andrewes, Preces Privatae, trans. J. H. Newman and J. M. Neale, CCEL",
         "Holy Living": "Jeremy Taylor, The Rule and Exercises of Holy Living (1650), CCEL",
         "Holy Dying": "Jeremy Taylor, The Rule and Exercises of Holy Dying (1651), CCEL",
-        "A Serious Call to a Devout and Holy Life": "William Law, A Serious Call to a Devout and Holy Life (1729), CCEL"})
+        "A Serious Call to a Devout and Holy Life": "William Law, A Serious Call to a Devout and Holy Life (1729), CCEL",
+        "Laws of Ecclesiastical Polity": "Richard Hooker, Of the Laws of Ecclesiastical Polity, Preface and Books I-IV (1594-97), ed. John Keble",
+        "The Book of Homilies, First Book": "Certain Sermons or Homilies, the First Book (1547), largely by Thomas Cranmer",
+        "Bonner's Homilies": "Homilies Set Forth by the Right Reverend Father in God Edmund, Bishop of London (1555)",
+        "The Book of Homilies, Second Book": "The Second Book of Homilies (1563), largely by John Jewel",
+        "Donne's LXXX Sermons": "John Donne, LXXX Sermons (1640), modernized spelling",
+        "Donne's Fifty Sermons": "John Donne, Fifty Sermons (1649), modernized spelling",
+        "Donne's XXVI Sermons": "John Donne, XXVI Sermons (1661), modernized spelling",
+        "Holy Sonnets": "John Donne, Holy Sonnets, modernized spelling"})
 
 
 def wesley():
@@ -852,6 +863,116 @@ def wesley():
         "Sermons of John Wesley": "John Wesley, Sermons on Several Occasions, CCEL",
         "A Plain Account of Christian Perfection": "John Wesley, A Plain Account of Christian Perfection (1766), CCEL",
         "The Journal of John Wesley": "John Wesley, The Journal (abridged), CCEL"})
+
+
+# ── texts the owner supplied (scripts/sources/, not in git) ──────────────────
+
+SOURCES = Path(__file__).resolve().parent / "sources"
+
+
+def homilies() -> dict:
+    """scripts/sources/homilies.json: [{num, title, paragraphs}] in three runs -- the First Book of
+    Homilies (1547, largely Cranmer's), Bishop Bonner's Catholic homilies under Mary (1555), and
+    the Second Book (1563, largely Jewel's); each homily a chapter, each paragraph a verse."""
+    items = json.loads((SOURCES / "homilies.json").read_text(encoding="utf-8"))
+    runs, current, last = [], None, 10 ** 6
+    for h in items:
+        if h["num"] <= last:
+            current = {}
+            runs.append(current)
+        last = h["num"]
+        paras = [tidy(p) for p in h["paragraphs"] if tidy(p)]
+        blurb = next((i for i, p in enumerate(paras) if re.match(r"The Reformation period has long been seen|ISBN|Gerald Bray \(ed\.\)$", p)), None)
+        paras = paras[:blurb] if blurb is not None else paras      # (a modern book's jacket copy, at the end)
+        current[str(h["num"])] = numbered(paras, h["title"])
+    expect([len(r) for r in runs] == [12, 13, 21], f"homilies: runs {[len(r) for r in runs]}")
+    return dict(zip(["The Book of Homilies, First Book", "Bonner's Homilies", "The Book of Homilies, Second Book"], runs))
+
+
+def donne() -> dict:
+    """scripts/sources/donne_modernized.txt: the LXXX, Fifty and XXVI Sermons and the Holy Sonnets,
+    in modernized spelling. Each sermon is found by the number its heading gives ("SERMON XIV.",
+    "SERM. I.", "Serm. 26."); the 1661 XXVI Sermons misnumbers (no 9, 20 or 24, an unnumbered
+    "Second Sermon"), so its sermons are numbered in the order they come."""
+    text = (SOURCES / "donne_modernized.txt").read_text(encoding="utf-8")
+    parts = re.split(r"(?m)^={10,}\n(.+)\n={10,}$", text)
+    names = {"LXXX SERMONS (1640)": "Donne's LXXX Sermons", "FIFTY SERMONS (1649)": "Donne's Fifty Sermons",
+             "XXVI SERMONS (1661)": "Donne's XXVI Sermons", "HOLY SONNETS": "Holy Sonnets"}
+    books = {}
+    for name, body in zip(parts[1::2], parts[2::2]):
+        title = names[name.strip()]
+        if title == "Holy Sonnets":
+            out = {}
+            for m in re.finditer(r"(?ms)^SONNET ([IVXL]+)\s*$(.*?)(?=^SONNET [IVXL]+\s*$|\Z)", body):
+                lines = [l.strip() for l in m.group(2).split("\n") if l.strip() and l.strip() != "* * *"]
+                out[str(roman(m.group(1)))] = {"1": "\n".join(lines)}
+            books[title] = out
+            continue
+        lines = body.split("\n")
+        heads, last = [], 0
+        for i, l in enumerate(lines):
+            if len(l) > 220 or not l.strip():
+                continue
+            nums = [roman(x) for x in re.findall(r"\bSERM(?:ON|\.)\s*([IVXLC]+)\b", l)]
+            nums += [int(x) for x in re.findall(r"\bSerm\.\s*(\d+)", l)] + [int(x) for x in re.findall(r"^The (\d+) Sermon", l)]
+            second = re.match(r"THE SECOND SERMON\b", l)
+            if (nums and any(last < n <= last + 3 for n in nums)) or second:
+                last = min(n for n in nums if n > last) if nums and not second else last
+                heads.append((i, l.strip()))
+        out = {}
+        for k, (i, head) in enumerate(heads):
+            end = heads[k + 1][0] if k + 1 < len(heads) else len(lines)
+            paras = [tidy(p) for p in paragraphs("\n".join(lines[i + 1:end])) if tidy(p)]
+            if paras:
+                n = str(len(out) + 1)
+                head = re.sub(r"\s*Serm\.\s*\d+\.?\s*", " ", head).strip()
+                out[n] = numbered(paras, smart_title(head) if head.isupper() else head)
+        books[title] = out
+    counts = {b: len(v) for b, v in books.items()}
+    expect(counts.get("Donne's LXXX Sermons") == 80 and counts.get("Donne's Fifty Sermons") == 50
+           and counts.get("Donne's XXVI Sermons", 0) >= 23 and counts.get("Holy Sonnets", 0) >= 19, f"Donne: {counts}")
+    return books
+
+
+def hooker() -> dict:
+    """scripts/sources/hooker_works_vol1.epub (Keble's edition, Online Library of Liberty): the
+    Preface and Books I-IV of the Laws of Ecclesiastical Polity, a chapter per chapter of Hooker's
+    ("Laws of Ecclesiastical Polity 1.3", the Preface as book 0), a verse per paragraph; the
+    editors' footnotes, margin summaries and page numbers left out."""
+    import zipfile
+    page = zipfile.ZipFile(SOURCES / "hooker_works_vol1.epub").read("Hooker_0172-01.html").decode("utf-8", "replace")
+    page = page[page.index("TO THEM THAT SEEK (AS THEY TERM IT)"):]
+    page = page[page.index("</h2>") + 5:]
+    notes = page.find('class="type-footnote')                         # (the notes, all gathered after Book IV)
+    page = page[:notes] if notes > 0 else page
+    page = re.sub(r'(?is)<div[^>]*class="type-footnote[^"]*"[^>]*>.*?</div>', "", page)
+    page = re.sub(r'(?is)<span class="pb">.*?</span></span>|<span[^>]*class="type-margin"[^>]*><span>.*?</span></span>|'
+                  r'<a[^>]*class="footnote-link[^"]*"[^>]*>.*?</a>|<ul\b.*?</ul>', "", page)
+    out, book, chapter = {}, 0, 0
+    for m in re.finditer(r"(?is)<h2[^>]*>(.*?)</h2>|<p\b[^>]*>(.*?)</p>", page):
+        if m.group(1) is not None:
+            h = text_of(m.group(1))
+            b = re.match(r"THE (FIRST|SECOND|THIRD|FOURTH) BOOK", h)
+            if b:
+                book, chapter = ORDINALS[b.group(1)], 0
+            continue
+        inner = m.group(2)
+        label = re.match(r'(?is)\s*<span id="[^"]*_label_\d+">([IVXL]+)\.</span>', inner)
+        if label:
+            chapter = roman(label.group(1))
+            inner = inner[label.end():]
+        text = tidy(text_of(inner))
+        if not text or re.fullmatch(r"\[.*\]", text):                      # (an editor's bracketed note)
+            continue
+        chapter = chapter or 1                                             # (a book's first chapter has no numeral)
+        key = f"{book}.{chapter}"
+        verses = out.setdefault(key, {})
+        if not verses:
+            text = f"*{'Preface' if book == 0 else f'Book {book}'}, Chapter {chapter}*\n{text}"
+        verses[str(len(verses) + 1)] = text
+    books_found = sorted({k.split(".")[0] for k in out})
+    expect(books_found == ["0", "1", "2", "3", "4"], f"Hooker: books {books_found}")
+    return out
 
 
 def report(books: dict) -> None:

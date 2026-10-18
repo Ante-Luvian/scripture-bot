@@ -10,6 +10,9 @@ WORKS = {
     "Westminster Confession of Faith": 33, "Thirty-Nine Articles": 39, "Belgic Confession": 37,
     "Second London Baptist Confession": 32, "Sermons of John Wesley": 141, "The Temple": 160,
     "Smalcald Articles": 20, "Formula of Concord, Solid Declaration": 12,
+    "Laws of Ecclesiastical Polity": 58, "The Book of Homilies, First Book": 12, "Bonner's Homilies": 13,
+    "The Book of Homilies, Second Book": 21, "Donne's LXXX Sermons": 80, "Donne's Fifty Sermons": 50,
+    "Donne's XXVI Sermons": 23, "Holy Sonnets": 19,
 }
 
 
@@ -27,6 +30,9 @@ def test_each_work_is_whole(lookup, book, least):
     ("Luther on Galatians 2:20", "Luther on Galatians", "crucified with Christ"),
     ("39 Articles 11", "Thirty-Nine Articles", "accounted righteous before God"),
     ("Herbert 15", "The Temple", "Easter-wings"),
+    ("Hooker 1.3:1", "Laws of Ecclesiastical Polity", "law"),
+    ("Homilies 1:1", "The Book of Homilies, First Book", "knowledge of Holy Scripture"),
+    ("Holy Sonnets 1", "Holy Sonnets", "THOU hast made me"),
 ])
 def test_citations(lookup, ref, book, words):
     r = lookup.get_verse(ref)

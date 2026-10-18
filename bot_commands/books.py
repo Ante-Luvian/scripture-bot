@@ -1122,6 +1122,10 @@ BOOKS_TREE = [
             ]),
         ]),
         ("Anglican Divines & the Wesleys", [
+            ("The Books of Homilies", ["The Book of Homilies, First Book", "The Book of Homilies, Second Book"]),
+            ("Edmund Bonner (Marian, Catholic)", ["Bonner's Homilies"]),
+            ("Richard Hooker", ["Laws of Ecclesiastical Polity"]),
+            ("John Donne", ["Donne's LXXX Sermons", "Donne's Fifty Sermons", "Donne's XXVI Sermons", "Holy Sonnets"]),
             ("George Herbert", ["The Temple"]),
             ("Lancelot Andrewes", ["Private Devotions of Lancelot Andrewes"]),
             ("Jeremy Taylor", ["Holy Living", "Holy Dying"]),

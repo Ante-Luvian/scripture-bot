@@ -49,3 +49,6 @@ scripts/score/node_modules/
 
 # Doré's Dante plates cut out of their page scans (~40 MB; rebuilt by scripts/build_dore.py)
 data/dore/dante/
+
+# texts the owner supplied for scripts/build_reformation.py (the built data/reformation files are committed)
+scripts/sources/
