@@ -731,6 +731,23 @@ async def cmd_help(ctx, *, topic: str = ""):
         await ctx.send(embed=embed)
         return
 
+    if topic in ("sikh", "sikhism", "gurbani", "guru granth sahib", "dasam granth", "bhai gurdas"):
+        embed = discord.Embed(title="☬ Sikh Scripture — Citation Guide", color=discord.Color.blue())
+        embed.add_field(name="Guru Granth Sahib  (ang:line)", value=(
+            "`!verse Guru Granth Sahib 1:1`  *(Sant Singh Khalsa)*\n"
+            "`!verse Guru Granth Sahib 1:1 manmohan`  *(Manmohan Singh)*\n"
+            "`!verse Guru Granth Sahib 1:1-4 khalsa manmohan`  *(side by side; also `banidb`)*\n"
+            "`!verse Japji 1`  *(Guru Nanak's Japji, by stanza)*"), inline=False)
+        embed.add_field(name="Dasam Granth  (page:line)", value=(
+            "The writings of Guru Gobind Singh, the tenth Guru, opening with the Jaap Sahib.\n"
+            "`!verse Dasam Granth 1` · `!verse Dasam Granth 1:5-8`"), inline=False)
+        embed.add_field(name="Vaaran of Bhai Gurdas  (vaar:pauri)", value=(
+            "Forty ballads by the scribe of the Guru Granth Sahib, called the key to it.\n"
+            "`!verse Bhai Gurdas 1:1` · `!verse Vaaran 1`  *(a whole vaar)*"), inline=False)
+        embed.set_footer(text="Translations from BaniDB")
+        await ctx.send(embed=embed)
+        return
+
     if topic in ("buddhist", "buddhism", "pali", "pali canon", "suttas", "sutta", "tipitaka"):
         embed = discord.Embed(title="☸️ Buddhist Texts — Citation Guide", color=discord.Color.orange(), description=(
             "The **Pali Canon**, the earliest Buddhist scriptures, comes from SuttaCentral in Bhikkhu Sujato's "
@@ -968,8 +985,8 @@ async def cmd_help(ctx, *, topic: str = ""):
     embed.add_field(name="☪️ Islamic Texts", value=(
         "`!help islamic` — Quran (114 surahs, 52 translations) · Hadith (10 collections) · citation formats"
     ), inline=False)
-    embed.add_field(name="☸️ 🕉️ Buddhist & Hindu Texts", value=(
-        "`!help buddhist` — the Pali Canon · `!help gita` — Gita translations & commentaries"
+    embed.add_field(name="☸️ 🕉️ ☬ Buddhist, Hindu & Sikh Texts", value=(
+        "`!help buddhist` — the Pali Canon · `!help gita` — the Gita · `!help sikh` — Sikh scripture"
     ), inline=False)
     embed.add_field(name="🏺 Ancient Near Eastern Texts", value=(
         "`!help ane` — Gilgamesh · Baal Cycle · Egyptian texts · Ahikar · citation formats"

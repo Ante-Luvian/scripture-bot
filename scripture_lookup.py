@@ -2018,6 +2018,11 @@ class ScriptureLookup:
             gita = gita_lookup.get_gita(ref, lambda r: self.get_verse(r, _quran_api=False))
             if gita is not None:
                 return gita
+            # Sikh scripture from BaniDB: the Dasam Granth, Bhai Gurdas, more Guru Granth Sahib translations
+            import banidb_lookup
+            bani = banidb_lookup.get_bani(ref, lambda r: self.get_verse(r, _quran_api=False))
+            if bani is not None:
+                return bani
 
         # Homer is cited book.line ("Iliad 6.440-465"); the general parser
         # only takes a dot without a range, so read the dot as a colon.

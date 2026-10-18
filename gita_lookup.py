@@ -128,4 +128,4 @@ def get_gita(reference: str, local) -> "dict | None":
 
 def _pages(text: str, limit: int = 3800) -> list:
     import sutta_lookup
-    return sutta_lookup.pack(text.split("\n"), limit) if len(text) > limit else [text]
+    return sutta_lookup.pack(text.split("\n"), limit, sep="\n") if len(text) > limit else [text]

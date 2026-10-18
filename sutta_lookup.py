@@ -138,7 +138,7 @@ def render(data: dict, only: str = "", sec=None, sec2=None) -> "tuple[str, list]
     return (title_bits[-1] if title_bits else ""), lines
 
 
-def pack(lines: list, limit: int = 3800) -> list:
+def pack(lines: list, limit: int = 3800, sep: str = "\n\n") -> list:
     """Paragraphs into embed-sized pages; a paragraph longer than a page is cut at a sentence."""
     pieces = []
     for line in lines:
@@ -150,10 +150,10 @@ def pack(lines: list, limit: int = 3800) -> list:
         pieces.append(line)
     pages, page = [], ""
     for piece in pieces:
-        if page and len(page) + 2 + len(piece) > limit:
+        if page and len(page) + len(sep) + len(piece) > limit:
             pages.append(page)
             page = ""
-        page = f"{page}\n\n{piece}" if page else piece
+        page = f"{page}{sep}{piece}" if page else piece
     if page:
         pages.append(page)
     return pages
