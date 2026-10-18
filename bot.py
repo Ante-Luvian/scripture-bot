@@ -93,6 +93,7 @@ from bot_commands import (  # noqa: F401
     psalter,
     quiz,
     rosary,
+    salah,
     troparion,
     reference,
     saints,

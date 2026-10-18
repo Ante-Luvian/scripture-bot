@@ -225,6 +225,11 @@
   "saintsetup": [
    "saintconfig"
   ],
+  "salah": [
+   "namaz",
+   "prayertimes",
+   "salat"
+  ],
   "save": [
    "bookmark"
   ],
@@ -404,6 +409,7 @@
   "rumi",
   "saint",
   "saintsetup",
+  "salah",
   "save",
   "saved",
   "search",

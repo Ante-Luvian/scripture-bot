@@ -748,6 +748,16 @@ async def cmd_help(ctx, *, topic: str = ""):
         await ctx.send(embed=embed)
         return
 
+    if topic in ("salah", "salat", "prayertimes", "namaz"):
+        embed = discord.Embed(title="🕌 !salah — Muslim prayer times", color=discord.Color.green(), description=(
+            "Muslims pray five times a day, at times set by the sun: **Fajr** at dawn, **Dhuhr** after midday, "
+            "**Asr** in the afternoon, **Maghrib** at sunset and **Isha** at night.\n\n"
+            "`!salah London` — today's times there, in local time\n"
+            "`!salah Cairo, Egypt` — add the country if a city's name is ambiguous\n\n"
+            "Times are worked out by the method the country's Muslim authorities use, from Aladhan."))
+        await ctx.send(embed=embed)
+        return
+
     if topic in ("parsha", "parasha", "dafyomi", "daf", "learning", "jewishlearning", "learningsetup"):
         embed = discord.Embed(title="✡️ Jewish learning of the day", color=discord.Color.dark_blue(), description=(
             "Jews around the world study the same texts each day, in cycles through whole books. "
@@ -996,7 +1006,7 @@ async def cmd_help(ctx, *, topic: str = ""):
         "`!help jewish` — Mishnah, Talmud, Midrash, Zohar… · `!parsha` · `!dafyomi` · `!learning`"
     ), inline=False)
     embed.add_field(name="☪️ Islamic Texts", value=(
-        "`!help islamic` — Quran (114 surahs, 52 translations) · Hadith (10 collections) · citation formats"
+        "`!help islamic` — Quran (52 translations) · Hadith (10 collections) · `!salah London` prayer times"
     ), inline=False)
     embed.add_field(name="☸️ 🕉️ ☬ Buddhist, Hindu & Sikh Texts", value=(
         "`!help buddhist` — the Pali Canon · `!help gita` — the Gita · `!help sikh` — Sikh scripture"

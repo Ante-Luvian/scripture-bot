@@ -154,6 +154,8 @@ Long psalms have buttons to turn the page, or ask for some verses: `!metrical 11
 ## ⛪ Prayer, liturgy & the Church
 **`!today`** — what's happening today across traditions: the Catholic, Anglican and Orthodox calendars (feasts, saints, seasons, Orthodox fasting), the Hebrew date and Jewish holidays, and the Islamic date and holidays. Narrow it down with `!today catholic`, `!today orthodox`, `!today jewish`, `!today islam`; add a date with `!today 12-25`.
 
+**`!salah London`** — today's five Muslim prayer times for any city (Fajr at dawn, Dhuhr, Asr, Maghrib at sunset and Isha at night), worked out the way that country's Muslim authorities do. Add the country if a city name is ambiguous: `!salah Cairo, Egypt`.
+
 **The Daily Office** — Morning and Evening Prayer from the Book of Common Prayer (the Canadian 1962 Prayer Book, with Coverdale's Psalter):
 • `!bcp` — today's psalms, two readings and collect, for morning or evening depending on the time · `!bcp morning`, `!bcp evening`, `!bcp 2026-12-25`
 • `!mp` / `!ep` — just the readings for Morning or Evening Prayer

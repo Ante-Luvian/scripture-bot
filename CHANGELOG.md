@@ -14,6 +14,8 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-18 · Muslim prayer times
+- 🕌 **New: `!salah`, today's Muslim prayer times for any city.** Muslims pray five times a day at times set by the sun: *Fajr* at dawn, *Dhuhr* after midday, *Asr* in the afternoon, *Maghrib* at sunset and *Isha* at night. `!salah London` gives today's times there, in local time, with the Islamic date, worked out the way that country's Muslim authorities calculate them. If a city's name is shared by several places, add the country: `!salah Dearborn, USA`.
 ## 2026-10-18 · Jewish learning of the day
 - ✡️ **New: `!parsha`, this week's Torah portion.** The Five Books of Moses are read through in synagogue every year, a portion (*parashah*) each Shabbat. `!parsha` tells you this week's: what it's about, its seven readings (each with the command to read it), and the passage from the Prophets read with it, the *Haftarah*. `!parsha 12-25` gives another week's.
 - 📖 **New: `!dafyomi`, today's page of the Talmud.** In the *Daf Yomi* ("page of the day") cycle, Jews around the world study the same double-sided page of the Talmud each day, finishing all 2,711 pages in about seven and a half years. `!dafyomi` shows you today's page.
