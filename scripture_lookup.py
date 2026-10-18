@@ -433,6 +433,38 @@ ALIASES: dict[str, str] = {
     "thel": "The Book of Thel", "book of thel": "The Book of Thel", "mhh": "The Marriage of Heaven and Hell",
     "marriage of heaven and hell": "The Marriage of Heaven and Hell", "songs of innocence": "Songs of Innocence",
     "songs of experience": "Songs of Experience",
+    # the Reformation ("Institutes" alone stays Cassian's, as it was before)
+    "calvin's institutes": "Institutes of the Christian Religion", "calvins institutes": "Institutes of the Christian Religion",
+    "calvin institutes": "Institutes of the Christian Religion", "inst": "Institutes of the Christian Religion",
+    "95 theses": "Ninety-Five Theses", "ninety five theses": "Ninety-Five Theses", "theses": "Ninety-Five Theses",
+    "heidelberg": "Heidelberg Catechism", "augsburg": "Augsburg Confession", "ac": "Augsburg Confession",
+    "ap": "Apology of the Augsburg Confession", "apology of the augsburg confession": "Apology of the Augsburg Confession",
+    "smalcald": "Smalcald Articles", "schmalkald articles": "Smalcald Articles",
+    "luther's small catechism": "Small Catechism", "luther's large catechism": "Large Catechism",
+    "epitome": "Formula of Concord, Epitome", "formula of concord": "Formula of Concord, Epitome",
+    "solid declaration": "Formula of Concord, Solid Declaration",
+    "power and primacy": "Treatise on the Power and Primacy of the Pope",
+    "westminster confession": "Westminster Confession of Faith", "wcf": "Westminster Confession of Faith",
+    "shorter catechism": "Westminster Shorter Catechism", "wsc": "Westminster Shorter Catechism",
+    "larger catechism": "Westminster Larger Catechism", "wlc": "Westminster Larger Catechism",
+    "39 articles": "Thirty-Nine Articles", "thirty nine articles": "Thirty-Nine Articles",
+    "articles of religion": "Thirty-Nine Articles", "belgic": "Belgic Confession", "dort": "Canons of Dort",
+    "canons of dordt": "Canons of Dort", "scots": "Scots Confession", "second helvetic": "Second Helvetic Confession",
+    "1689": "Second London Baptist Confession", "london baptist confession": "Second London Baptist Confession",
+    "1689 baptist confession": "Second London Baptist Confession",
+    "bondage of the will": "The Bondage of the Will", "christian liberty": "A Treatise on Christian Liberty",
+    "freedom of a christian": "A Treatise on Christian Liberty", "babylonian captivity": "The Babylonian Captivity of the Church",
+    "to the christian nobility": "An Open Letter to the Christian Nobility", "christian nobility": "An Open Letter to the Christian Nobility",
+    "good works": "Treatise on Good Works", "wittenberg sermons": "The Eight Wittenberg Sermons",
+    "luther galatians": "Luther on Galatians", "luther's sermons": "Sermons of Martin Luther",
+    "table talk": "Table Talk", "relics": "A Treatise on Relics",
+    "first blast": "The First Blast of the Trumpet", "knox history": "The History of the Reformation in Scotland",
+    "history of the reformation": "The History of the Reformation in Scotland",
+    "latimer": "Sermons of Hugh Latimer", "herbert": "The Temple", "the temple herbert": "The Temple",
+    "andrewes": "Private Devotions of Lancelot Andrewes", "serious call": "A Serious Call to a Devout and Holy Life",
+    "wesley": "Sermons of John Wesley", "wesley's sermons": "Sermons of John Wesley", "wesley sermons": "Sermons of John Wesley",
+    "wesley's journal": "The Journal of John Wesley", "wesley journal": "The Journal of John Wesley",
+    "christian perfection": "A Plain Account of Christian Perfection",
     # John Bunyan
     "pilgrims progress": "Pilgrim's Progress", "pilgrim's progress part one": "Pilgrim's Progress",
     "pilgrim's progress part two": "Pilgrim's Progress, Part Two", "pilgrim's progress part 2": "Pilgrim's Progress, Part Two",
@@ -1410,7 +1442,7 @@ ALIASES: dict[str, str] = {
 TRADITIONS = {
     "bible":     ("📖 Bible", ("kjv",)),
     "jewish":    ("✡️ Jewish", ("jewish", "qumran")),
-    "christian": ("⛪ Christian writers", ("apostolic_fathers", "patristics", "medieval")),
+    "christian": ("⛪ Christian writers", ("apostolic_fathers", "patristics", "medieval", "reformation")),
     "apocrypha": ("👼 Apocrypha", ("charles", "brenton", "nt_apocrypha")),
     "islamic":   ("☪️ Islamic", ("quran",)),
     "sufi":      ("🌹 Sufi", ("sufi",)),
@@ -1452,7 +1484,7 @@ def tradition(name: str):
     return key if key in TRADITIONS else None
 
 
-CORPUS_PRIORITY = ["kjv", "lds", "brenton", "charles", "nt_apocrypha", "apostolic_fathers", "quran", "classical", "jewish", "bahai", "qumran", "gnostic", "dharmic", "buddhist", "chinese", "sufi", "sikh", "jain", "shinto", "zoroastrian", "mesoamerican", "finnish", "celtic", "norse", "ancient_near_east", "patristics", "medieval"]
+CORPUS_PRIORITY = ["kjv", "lds", "brenton", "charles", "nt_apocrypha", "apostolic_fathers", "quran", "classical", "jewish", "bahai", "qumran", "gnostic", "dharmic", "buddhist", "chinese", "sufi", "sikh", "jain", "shinto", "zoroastrian", "mesoamerican", "finnish", "celtic", "norse", "ancient_near_east", "patristics", "medieval", "reformation"]
 
 
 # Shepherd of Hermas: (first, last) Lightfoot continuous chapter of each
@@ -1758,6 +1790,17 @@ class ScriptureLookup:
                 "blake.json",
                 "milton.json",
                 "pilgrims_progress.json",
+            ],
+            # the Reformation and its heirs (scripts/build_reformation.py)
+            "reformation": [
+                "book_of_concord.json",
+                "luther.json",
+                "calvin.json",
+                "confessions.json",
+                "knox.json",
+                "latimer.json",
+                "anglican_divines.json",
+                "wesley.json",
             ],
         }
         for corpus, filenames in corpus_dirs.items():
@@ -2255,6 +2298,7 @@ class ScriptureLookup:
             "norse":            "Trans. Henry Adams Bellows (1923)",
             "patristics":       "Church Fathers (ANF/NPNF/Pearse)",
             "medieval":         "Medieval (Bede, Golden Legend)",
+            "reformation":      "Reformation (Luther, Calvin, the confessions)",
             "ancient_near_east":          "Ancient Near Eastern Texts",
         }
 
@@ -2408,6 +2452,7 @@ class ScriptureLookup:
             "ancient_near_east":          "🌙 Ancient Near East",
             "patristics":       "⛪ Church Fathers",
             "medieval":         "📜 Medieval",
+            "reformation":      "✝️ Reformation",
         }
 
         by_corpus: dict[str, list[dict]] = {}

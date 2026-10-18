@@ -1091,11 +1091,42 @@ BOOKS_TREE = [
             ("John Milton", ["Paradise Lost", "Paradise Regained", "Samson Agonistes"]),
         ]),
         ("William Blake", [
-            ("John Milton", [
-            ("John Milton", ["Paradise Lost", "Paradise Regained", "Samson Agonistes"]),
-        ]),
-        ("William Blake", ["Songs of Innocence", "Songs of Experience", "The Marriage of Heaven and Hell",
+            ("William Blake", ["Songs of Innocence", "Songs of Experience", "The Marriage of Heaven and Hell",
                                "The Book of Thel"]),
+        ]),
+        ("The Reformation", [
+            ("Martin Luther", [
+                "Ninety-Five Theses", "An Open Letter to the Christian Nobility", "The Babylonian Captivity of the Church",
+                "A Treatise on Christian Liberty", "Treatise on Good Works", "The Bondage of the Will",
+                "The Eight Wittenberg Sermons", "Luther on Galatians", "Table Talk", "Sermons of Martin Luther",
+            ]),
+            ("John Calvin", ["Institutes of the Christian Religion", "Prefatory Address to Francis I", "A Treatise on Relics"]),
+            ("John Knox", ["The History of the Reformation in Scotland", "The First Blast of the Trumpet", "A Treatise on Prayer"]),
+            ("Hugh Latimer", ["Sermons of Hugh Latimer"]),
+        ]),
+        ("The Book of Concord", [
+            ("The Lutheran confessions", [
+                "Preface to the Book of Concord", "Augsburg Confession", "Apology of the Augsburg Confession",
+                "Smalcald Articles", "Treatise on the Power and Primacy of the Pope", "Small Catechism",
+                "Large Catechism", "Formula of Concord, Epitome", "Formula of Concord, Solid Declaration",
+            ]),
+        ]),
+        ("Protestant Confessions", [
+            ("Reformed", [
+                "Heidelberg Catechism", "Second Helvetic Confession", "Belgic Confession", "Canons of Dort",
+                "Scots Confession", "Westminster Confession of Faith", "Westminster Shorter Catechism",
+                "Westminster Larger Catechism",
+            ]),
+            ("Anglican, Methodist, Baptist", [
+                "Thirty-Nine Articles", "Methodist Articles of Religion", "Second London Baptist Confession",
+            ]),
+        ]),
+        ("Anglican Divines & the Wesleys", [
+            ("George Herbert", ["The Temple"]),
+            ("Lancelot Andrewes", ["Private Devotions of Lancelot Andrewes"]),
+            ("Jeremy Taylor", ["Holy Living", "Holy Dying"]),
+            ("William Law", ["A Serious Call to a Devout and Holy Life"]),
+            ("John Wesley", ["Sermons of John Wesley", "A Plain Account of Christian Perfection", "The Journal of John Wesley"]),
         ]),
         ("Pearse Collection", [
             ("Hermias", ["Derision of Gentile Philosophers"]),
