@@ -818,3 +818,38 @@ def fetch_sefaria_generic(tref: str) -> dict | None:
         "text": text,
         "source": version_title + " (via Sefaria)",
     }
+
+
+# ══════════════════════════════════════════════════════════════════════════════
+# ANYTHING ELSE IN SEFARIA'S LIBRARY
+# ══════════════════════════════════════════════════════════════════════════════
+#
+# The fallback for a reference no table above knows: Sefaria's name API says
+# whether it is a real reference ("Pirkei DeRabbi Eliezer 1:2", "Rashi on
+# Genesis 1:1", "Kuzari 1:1", "Shulchan Arukh, Orach Chayim 1:1") and gives
+# its tref; the text comes back only if Sefaria has an English translation.
+
+SEFARIA_NAME = "https://www.sefaria.org/api/name/"
+
+
+def sefaria_name(query: str) -> "str | None":
+    """Sefaria's tref for a reference, or None if it isn't one (or Sefaria can't be reached)."""
+    url = SEFARIA_NAME + urllib.parse.quote(query.strip()) + "?limit=0"
+    try:
+        req = urllib.request.Request(url, headers={"User-Agent": "ScriptureBot/1.0"})
+        with urllib.request.urlopen(req, timeout=10) as r:
+            data = json.loads(r.read().decode("utf-8"))
+    except Exception:
+        return None
+    return data.get("url") if data.get("is_ref") and data.get("url") else None
+
+
+def fetch_sefaria_any(query: str) -> "dict | None":
+    """Any reference in Sefaria's library, in English; None if Sefaria doesn't know it."""
+    tref = sefaria_name(query)
+    if tref is None:
+        return None
+    result = fetch_sefaria_generic(tref)
+    if result and not result.get("found") and "English" not in result.get("error", ""):
+        return None                                     # (a fetch failure: let the usual "unknown book" stand)
+    return result

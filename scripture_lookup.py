@@ -2122,6 +2122,11 @@ class ScriptureLookup:
             hadith_result = self._try_hadith(ref)
             if hadith_result is not None:
                 return hadith_result
+            # Anything else in Sefaria's library (Pirkei DeRabbi Eliezer, Rashi on Genesis, Kuzari...)
+            import sefaria_lookup
+            any_result = sefaria_lookup.fetch_sefaria_any(ref)
+            if any_result is not None:
+                return any_result
             return {
                 "found": False,
                 "error": f'Unknown book: **{book_raw}**',

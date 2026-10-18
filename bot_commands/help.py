@@ -663,6 +663,12 @@ async def cmd_help(ctx, *, topic: str = ""):
             "`!verse Zohar`  *(random)*\n"
             "54 parashot — use `!books` → Kabbalah → Zohar for full list"
         ), inline=True)
+        embed.add_field(name="Everything else in Sefaria's library", value=(
+            "Any other book Sefaria has in English, by Sefaria's own name for it:\n"
+            "`!verse Rashi on Genesis 1:1` · `!verse Kuzari 1:1`\n"
+            "`!verse Mesillat Yesharim 1` · `!verse Shulchan Arukh, Orach Chayim 1:1`\n"
+            "`!verse Ein Yaakov, Berakhot 1` · `!verse Sefer HaChinukh 1`"
+        ), inline=False)
         embed.add_field(name="Other Kabbalah  (chapter:verse)", value=(
             "`!verse Sefer Yetzirah 1:1`\n"
             "`!verse Sefer HaBahir 1:1`\n"

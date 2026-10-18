@@ -48,6 +48,14 @@ def isolate_runtime_files(tmp_path, monkeypatch):
             monkeypatch.setattr(module, "BACKUP_DIR", tmp_path / "backups")
 
 
+@pytest.fixture(autouse=True)
+def offline_sefaria_names(request, monkeypatch):
+    """An unknown book asks Sefaria whether it's in their library; offline tests get "no"."""
+    if request.node.get_closest_marker("live") is None:
+        import sefaria_lookup
+        monkeypatch.setattr(sefaria_lookup, "sefaria_name", lambda query: None)
+
+
 class FakeCtx:
     """Just enough of commands.Context to drive a prefix command directly:
     records everything sent; typing() is a no-op."""
