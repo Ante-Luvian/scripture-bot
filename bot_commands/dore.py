@@ -111,19 +111,26 @@ def passage_caption(span: str) -> str:
     result = lookup.get_verse(span)
     if not result.get("found"):
         return ""
-    verses = re.findall(r"\*\*\[(\d+)\]\*\*\s*(.+)", result["text"]) or [("", result["text"])]
-    lines, size = [], 0
+    parts = re.split(r"\*\*\[(\d+)\]\*\*\s*", result["text"])          # ["", "1", text, "2", text, ...]
+    verses = list(zip(parts[1::2], parts[2::2])) or [("", result["text"])]
+    poetry = "\n" in verses[0][1].strip()               # (a verse of several lines: Dante's tercets, Milton)
+    out, size = [], 0
     for n, text in verses:
         if size > CAPTION_CHARS:
-            lines.append("*…*")
+            out.append("*…*")
             break
-        text = " ".join(text.replace("*", "").split())
-        if len(text) > CAPTION_CHARS + 200:             # (one long paragraph: Bunyan's)
-            cut = max(text.rfind(". ", 0, CAPTION_CHARS), text.rfind("; ", 0, CAPTION_CHARS))
-            text = text[:cut + 1 if cut > 0 else CAPTION_CHARS] + " …"
-        lines.append((f"{n} " if len(verses) > 1 else "") + f"*{text}*")
+        text = text.replace("*", "").strip()
+        if poetry:                                      # (Dante, Milton: keep the lines, a number on each group)
+            rows = [line.strip() for line in text.splitlines() if line.strip()]
+            out.append("\n".join((f"{n} " if i == 0 and len(verses) > 1 else "") + f"*{r}*" for i, r in enumerate(rows)))
+        else:
+            text = " ".join(text.split())
+            if len(text) > CAPTION_CHARS + 200:         # (one long paragraph: Bunyan's)
+                cut = max(text.rfind(". ", 0, CAPTION_CHARS), text.rfind("; ", 0, CAPTION_CHARS))
+                text = text[:cut + 1 if cut > 0 else CAPTION_CHARS] + " …"
+            out.append((f"{n} " if len(verses) > 1 else "") + f"*{text}*")
         size += len(text)
-    return "\n".join(lines)
+    return "\n".join(out)
 
 
 def plate_embed(p: dict) -> discord.Embed:
@@ -136,9 +143,10 @@ def plate_embed(p: dict) -> discord.Embed:
         if p.get("quote"):                             # Doré's: the lines it shows, from the bot's Longfellow
             title, read = reference(p), f"!verse {reference(p, '-')}"
             description = "\n".join(f"*{line}*" for line in p["quote"].splitlines())
-        elif p["book"]:                                # Blake's, known by canto
-            title, description = p["title"], f"**{reference(p)}**"
-            read = f"!verse {reference(p, '-')}"
+        elif p["book"]:                                # Blake's: its title, then the lines it shows
+            title, read = p["title"], f"!verse {reference(p, '-')}"
+            text = passage_caption(reference(p, "-"))
+            description = f"**{reference(p)}**" + (f"\n{text}" if text else "")
         else:                                          # (Doré's portrait of Dante)
             title, description, read = p["title"], None, ""
     else:

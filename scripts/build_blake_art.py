@@ -296,33 +296,198 @@ PART = {"hell": "Inferno", "inferno": "Inferno", "inverno": "Inferno", "purgator
         "purgatorio": "Purgatorio", "paradise": "Paradiso", "paradiso": "Paradiso"}
 
 
+# Blake's Dante pictures: every file in Commons' category was looked at, and each distinct work is
+# shown from its best copy (the biggest whole one), tied to the lines it shows in the bot's Longfellow
+# (numbered as the Italian) and checked against them: {file: (part, canto, first, last, title)}.
+# The rest of the category is other copies of these works (museum photos, other impressions of the
+# engravings, details), a page of Gilchrist's Life, and one faint sketch of a spiral ("Dantes
+# Himmelsspirale") whose scene couldn't be told. A file added to the category later is reported.
+DANTE_SCENES = {
+    'William Blake - Dante running from the three beasts - Google Art Project.jpg':
+        ('Inferno', 1, 61, 63, 'Dante Running from the Three Beasts'),
+    "Illustrations to Dante's Divine Comedy object 2 Butlin 812-3 The Mission of Virgil.jpg":
+        ('Inferno', 2, 52, 57, 'The Mission of Virgil'),
+    "Illustrations to Dante's Divine Comedy object 3 Butlin 812-2 Dante and Virgil Penetrating the Forest.jpg":
+        ('Inferno', 2, 139, 142, 'Dante and Virgil Penetrating the Forest'),
+    "Illustrations to Dante's Divine Comedy object 4 Butlin 812-4 The Inscription over Hell-Gate.jpg":
+        ('Inferno', 3, 1, 9, 'The Inscription over Hell-Gate'),
+    'The Vestibule of Hell and Souls Mustering to Cross the Acheron Blake.jpg':
+        ('Inferno', 3, 52, 57, 'The Vestibule of Hell and the Souls Mustering to Cross the Acheron'),
+    'Charon and the Condemned Souls Blake.jpg':
+        ('Inferno', 3, 109, 111, 'Charon and the Condemned Souls'),
+    'Homer Bearing the Sword and His Companions Blake.jpg':
+        ('Inferno', 4, 85, 90, 'Homer Bearing the Sword, and His Companions'),
+    'Blake Dante Hell IV Canto.jpg':
+        ('Inferno', 4, 100, 105, 'Homer and the Ancient Poets'),
+    "Illustrations to Dante's Divine Comedy object 9 Butlin 812-9Minos.jpg":
+        ('Inferno', 5, 4, 6, 'Minos'),
+    "Illustrations to Dante's Divine Comedy object 10 Butlin 812-10 The Circle of the Lustful Francesca Da Rimini.jpg":
+        ('Inferno', 5, 139, 142, 'The Circle of the Lustful: Paolo and Francesca'),
+    "Blake's Illustrations of Dante, object 2 Bentley 448-1 The Circle of the Lustful Francesca Da Rimini.jpg":
+        ('Inferno', 5, 139, 142, 'The Circle of the Lustful: Paolo and Francesca (engraving)'),
+    "Illustrations to Dante's Divine Comedy object 11 Butlin 812-11 recto) The Circle of the Gluttons with Cerberus.jpg":
+        ('Inferno', 6, 7, 12, 'The Circle of the Gluttons, with Cerberus'),
+    'Cerberus-Blake.jpeg':
+        ('Inferno', 6, 13, 18, 'Cerberus'),
+    "Illustrations to Dante's Divine Comedy object 13 Butlin 812-13 Second Version of Cerberus.jpg":
+        ('Inferno', 6, 25, 27, 'Cerberus (second version)'),
+    "Illustrations to Dante's Divine Comedy object 14 Butlin 812-14 Plutus.jpg":
+        ('Inferno', 7, 1, 9, 'Plutus'),
+    "Illustrations to Dante's Divine Comedy object 15 Butlin 812-16 The Goddess of Fortune.jpg":
+        ('Inferno', 7, 94, 96, 'The Goddess of Fortune'),
+    'Blake Dante Hell VII Canto.jpg':
+        ('Inferno', 7, 109, 114, 'The Stygian Lake, with the Ireful Sinners Fighting'),
+    "Illustrations to Dante's Divine Comedy object 17 Butlin 812-17 Dante and Virgil about to Pass the Stygian Lake.jpg":
+        ('Inferno', 8, 1, 6, 'Dante and Virgil about to Pass the Stygian Lake'),
+    'Blake Dante Hell VIII Canto.jpg':
+        ('Inferno', 8, 40, 42, 'Virgil Repelling Filippo Argenti from the Boat'),
+    'Blake Dante Hell IX.jpg':
+        ('Inferno', 9, 85, 90, 'The Messenger from Heaven Opening the Gate of Dis'),
+    'Blake Dante Hell X Farinata.jpg':
+        ('Inferno', 10, 31, 36, 'Farinata degli Uberti'),
+    'Blake Dante Hell XI.jpg':
+        ('Inferno', 11, 16, 21, "Blake's Diagram of the Circles of Hell"),
+    'Blake Dante Hell XII.jpg':
+        ('Inferno', 12, 10, 15, 'The Minotaur'),
+    'Blake Dante Hell XIII.jpg':
+        ('Inferno', 13, 31, 36, 'The Wood of the Self-Murderers: the Harpies and the Suicides'),
+    'Capaneum.jpg':
+        ('Inferno', 14, 46, 51, 'Capaneus the Blasphemer'),
+    "Illustrations to Dante's Divine Comedy object 30 Butlin 812-28 rectoThe Symbolic Figure of the Course of Human History Described by Virgil.jpg":
+        ('Inferno', 14, 103, 111, 'The Symbolic Figure of the Course of Human History'),
+    'Geryon Conveying Dante and Virgil Down Towards Malebolge, Object 33 (Butlin 812.31 recto).jpg':
+        ('Inferno', 17, 97, 102, 'Geryon Conveying Dante and Virgil Down towards Malebolge'),
+    'William Blake 004.jpg':
+        ('Inferno', 19, 43, 48, 'The Simoniac Pope'),
+    "Illustrations to Dante's Divine Comedy, object 43 (Butlin 812-41) Ciampolo the Barrator Tormented by the Devils.jpg":
+        ('Inferno', 22, 70, 72, 'Ciampolo the Barrator Tormented by the Devils'),
+    "Blake's Illustrations of Dante, object 3 (Bentley 448-2) Ciampolo the Barrator Tormented by the Devils.jpg":
+        ('Inferno', 22, 70, 72, 'Ciampolo the Barrator Tormented by the Devils (engraving)'),
+    "Illustrations to Dante's Divine Comedy, object 44 (Butlin 812-42) The Baffled Devils Fighting.jpg":
+        ('Inferno', 22, 133, 141, 'The Baffled Devils Fighting'),
+    "Blake's Illustrations of Dante, object 4 (Bentley 448-3) The Baffled Devils Fighting.jpg":
+        ('Inferno', 22, 133, 141, 'The Baffled Devils Fighting (engraving)'),
+    'Blake Dante Hell XXIV Thieves.jpg':
+        ('Inferno', 24, 91, 96, 'The Thieves and the Serpents'),
+    'Blake Hell 25 Centaur Cacus.jpg':
+        ('Inferno', 25, 16, 24, 'Cacus the Centaur'),
+    "Illustrations to Dante's Divine Comedy, object 54 (Butlin 812-51 recto) The Six-Footed Serpent Attacking Agnolo Brunelleschi.jpg":
+        ('Inferno', 25, 49, 54, 'The Six-Footed Serpent Attacking Agnolo Brunelleschi'),
+    "Blake's Illustrations of Dante, object 5 (Bentley 448-4) The Six-Footed Serpent Attacking Agnolo Brunelleschi.jpg":
+        ('Inferno', 25, 49, 54, 'The Six-Footed Serpent Attacking Agnolo Brunelleschi (engraving)'),
+    "Illustrations to Dante's Divine Comedy, object 56 (Butlin 812-53 recto) The Serpent Attacking Buoso Donati.jpg":
+        ('Inferno', 25, 85, 93, 'The Serpent Attacking Buoso Donati'),
+    "The Circle of the Thieves; Buoso Donati Attacked by the Serpent , from Dante's Inferno, Canto XXV MET DP816840.jpg":
+        ('Inferno', 25, 85, 93, 'The Serpent Attacking Buoso Donati (engraving)'),
+    'Blake Dante Hell XXVI Ulisses.jpg':
+        ('Inferno', 26, 52, 57, 'Ulysses and Diomedes Swathed in the Same Flame'),
+    'William Blake - The schismatics and sowers of discord- Mahomet - Google Art Project.jpg':
+        ('Inferno', 28, 28, 33, 'The Schismatics and Sowers of Discord: Mahomet'),
+    'The Pit of Disease- The Falsifiers.jpg':
+        ('Inferno', 29, 46, 51, 'The Pit of Disease: the Falsifiers'),
+    "Blake's Illustrations of Dante, object 7 (Bentley 448-6) The Pit of Disease The Falsifiers.jpg":
+        ('Inferno', 29, 46, 51, 'The Pit of Disease: the Falsifiers (engraving)'),
+    'William Blake - Antaeus setting down Dante and Virgil in the Last Circle of Hell - Google Art Project.jpg':
+        ('Inferno', 31, 139, 144, 'Antaeus Setting Down Dante and Virgil in the Last Circle of Hell'),
+    "Illustrations to Dante's Divine Comedy, object 68 Butlin 812-65 Dante Striking Against Bocca Degli Abati.jpg":
+        ('Inferno', 32, 76, 78, 'Dante Striking against Bocca degli Abati'),
+    "Blake's Illustrations of Dante, object 8 (Bentley 448-7) Dante Striking Against Bocca Degli Abati.jpg":
+        ('Inferno', 32, 76, 78, 'Dante Striking against Bocca degli Abati (engraving)'),
+    "Illustrations to Dante's Divine Comedy, object 69 Butlin 812-66 recto Dante Tugging at Bocca's Hair.jpg":
+        ('Inferno', 32, 97, 99, "Dante Tugging at Bocca's Hair"),
+    "Illustrations to Dante's Divine Comedy, object 70 Butlin 812-67 Ugolino Relating His Death.jpg":
+        ('Inferno', 33, 1, 3, 'Ugolino Relating His Death'),
+    'Blake Hell 33 Ugolino.jpg':
+        ('Inferno', 33, 46, 51, 'Ugolino and His Sons in Prison'),
+    "Illustrations to Dante's Divine Comedy, object 72 Butlin 812-69 recto Lucifer.jpg":
+        ('Inferno', 34, 28, 33, 'Lucifer'),
+    'Blake Dante Purgatory I Dante-Virgil-Cato.jpg':
+        ('Purgatorio', 1, 31, 36, 'Dante and Virgil Meet Cato'),
+    'Blake Dante Purgatory 9.jpg':
+        ('Purgatorio', 9, 76, 84, 'The Angel at the Gate of Purgatory'),
+    'William Blake 001.jpg':
+        ('Purgatorio', 30, 55, 57, 'Beatrice Addressing Dante from the Car'),
+    'William Blake - St Peter and St James with Dante and Beatrice - Google Art Project.jpg':
+        ('Paradiso', 25, 19, 24, 'St Peter and St James with Dante and Beatrice'),
+    "Illustrations to Dante's Divine Comedy object 100 Butlin 812-97 The Vision of the Deity from Whom Proceed the Nine Spheres.jpg":
+        ('Paradiso', 28, 16, 21, 'The Vision of the Deity, from Whom Proceed the Nine Spheres'),
+    "Illustrations to Dante's Divine Comedy, object 101 Butlin 812-98 Dante in the Empyrean Drinking at the River of Light.jpg":
+        ('Paradiso', 30, 85, 90, 'Dante in the Empyrean, Drinking at the River of Light'),
+    "Illustrations to Dante's Divine Comedy object 102 Butlin 812-99 The Queen of Heaven in Glory.jpg":
+        ('Paradiso', 31, 115, 123, 'The Queen of Heaven in Glory'),
+}
+
+# the other files in the category when it was looked at (see above)
+KNOWN_OTHERS = [
+    'Beatrice Addressing Dante (by William Blake).jpg',
+    'Beatrice Addressing Dante (by William Blake).tif',
+    'Beatrice Addressing Dante (detail).jpg',
+    'Blake - Illustrations of Dante, object 4 (Bentley 448-3) The Baffled Devils Fighting.jpg',
+    "Blake - Lion & Wolf from Dante's Divine Comedy object 1 (Butlin 812-1).jpg",
+    'Blake Dante Hell V.jpg',
+    'Blake Dante Hell XIV Capaneus.jpg',
+    'Blake Dante Inferno I.jpg',
+    'Blake Dante Inverno II.jpg',
+    'Blake Hell 26 Ulisses&Diomedes.jpg',
+    'Blake Hell 34 Lucifer.jpg',
+    'Blake Plutus Inferno 7 1-15.jpg',
+    'Blake01.jpg',
+    'Dante Running from the Three Beasts Blake.jpg',
+    'Dante and Virgil Meet Muhammad and His Son-in-law, Ali in Hell.jpg',
+    'Dante and Virgil Penetrating the Forest Blake.jpg',
+    'Dantes Himmelsspirale.jpg',
+    'Homer and the Ancient Poets Blake.jpg',
+    "Illustrations to Dante's Divine Comedy, object 1 Butlin 812-1Dante Running from the Three Beasts.jpg",
+    "Illustrations to Dante's Divine Comedy, object 71 Butlin 812-68 Ugolino and His Sons in Prison.jpg",
+    'Life of William Blake (1880), volume 1, page 377.png',
+    'Muhammad blake.jpg',
+    "The Circle of Corrupt Officials- The Devils Mauling Each Other, from Dante's Inferno, Canto XXII MET DP816842.jpg",
+    "The Circle of Corrupt Officials- The Devils Mauling Each Other, from Dante's Inferno, Canto XXII MET MM1914.jpg",
+    "The Circle of Corrupt Officials- The Devils Tormenting Ciampolo, from Dante's Inferno, Canto XXII MET DP816843.jpg",
+    "The Circle of Corrupt Officials- The Devils Tormenting Ciampolo, from Dante's Inferno, Canto XXII MET MM1913.jpg",
+    "The Circle of Traitors- Dante's Foot Striking Bocca degli Abbate, from Dante's Inferno, Canto XXXII MET DP816841.jpg",
+    "The Circle of Traitors- Dante's Foot Striking Bocca degli Abbate, from Dante's Inferno, Canto XXXII MET MM1917.jpg",
+    'The Circle of the Lustful- Paolo and Francesca LACMA M.60.17.jpg',
+    "The Circle of the Lustful- Paolo and Francesca, from Dante's Inferno, Canto V MET DP816845.jpg",
+    "The Circle of the Lustful- Paolo and Francesca, from Dante's Inferno, Canto V MET MM1791.jpg",
+    "The Circle of the Thieves; Buoso Donati Attacked by the Serpent , from Dante's Inferno, Canto XXV MET MM1916.jpg",
+    "The Circle of the Traitors - Dante's Foot Striking Bocca Degli Abati, illustration for the Divine Comedy, by William Blake, 1826-1827, engraving - Montreal Museum of Fine Arts - Montreal, Canada - DSC08890.jpg",
+    'The Inscription over Hell-Gate Blake.jpg',
+    'The Mission of Virgil Blake.jpg',
+    'The Wood of the Self-Murderers.jpg',
+    'William Blake - Count Ugolino and his sons in prision.jpg',
+    "William Blake - Pl 7, The Circle of Traitors, Dante Striking Against Bocca degli Abati (' 'Wherefore dost bruise - B1992.8.8(7) - Yale Center for British Art.jpg",
+    "William Blake - The Lovers' Whirlwind, Francesca da Rimini and Paolo Malatesta - WGA02230.jpg",
+    'William Blake 004.tif',
+    'William Blake, The Circle of the Falsifiers - Dante and Virgil Covering their Noses because of the st, 1827, NGA 802.jpg',
+    'William Blake, The Circle of the Falsifiers - Dante and Virgil Covering their Noses because of the st, 1827, NGA 8459.jpg',
+    'William Blake, The Circle of the Falsifiers - Dante and Virgil Covering their Noses because of the stench, 1827, NGA 57826.jpg',
+    'William Blake, The Circle of the Falsifiers- Dante and Virgil Covering their Noses because of the st, 1827, NGA 4896.jpg',
+    'William Blake, The Circle of the Falsifiers; Dante and Virgil Covering their Noses because of the stench, 1827, NGA 12094.jpg',
+    "William Blake, The Circle of the Traitors; Dante's Foot Striking Bocca degli Abbate, 1827, NGA 12093.jpg",
+    "William Blake, The Circle of the Traitors; Dante's Foot Striking Bocca degli Abbate, 1827, NGA 4895.jpg",
+    "William Blake, The Circle of the Traitors; Dante's Foot Striking Bocca degli Abbate, 1827, NGA 57827.jpg",
+    "William Blake, The Circle of the Traitors; Dante's Foot Striking Bocca degli Abbate, 1827, NGA 803.jpg",
+    "William Blake, The Circle of the Traitors; Dante's Foot Striking Bocca degli Abbate, 1827, NGA 8323.jpg",
+    "William Blake, The Circle of the Traitors; Dante's Foot Striking Bocca degli Abbate, 1827, NGA 8460.jpg",
+    'William Blake- Antaeus Setting Down Dante and Vergil-1826.jpg',
+]
+
+
 def dante() -> list:
+    """Blake's pictures for the Divine Comedy, each tied to its lines (DANTE_SCENES)."""
     files = [m["title"] for m in api(action="query", list="categorymembers", cmtype="file", cmlimit=500,
              cmtitle="Category:William Blake's illustrations to the Divine Comedy")["query"]["categorymembers"]]
-    info = file_info(files)
-    out, seen = [], set()
-    for f in sorted(files):
-        if f not in info:
-            continue
-        text = f + " " + info[f]["desc"]
-        m = re.search(r"(?i)\b(Hell|Inferno|Inverno|Purgatory|Purgatorio|Paradise|Paradiso)\b,?\s*(?:Canto\s*)?"
-                      r"([IVXLC]+|\d+)\b", text)
-        if not m:
-            continue
-        part = PART[m.group(1).lower()]
-        canto = int(m.group(2)) if m.group(2).isdigit() else roman(m.group(2))
-        if not 1 <= canto <= (34 if part == "Inferno" else 33):
-            continue
-        title = re.sub(r"(?i)^File:|\.(jpe?g|png|gif|tif)$", "", f)
-        title = re.sub(r"(?i)(Illustrations to Dante's Divine Comedy,? object \d+ Butlin [\d-]+\s*(?:recto\)?)?|"
-                       r"Blake Dante |\bBlake\b|Hell|Inferno|Inverno|Canto|\b[IVXLC]+\b|\d+)", " ", title)
-        title = re.sub(r",? from Dante's.*$|\b(LACMA|MET)\b.*$|\(.*?\)", "", title)
-        title = re.sub(r"\s+", " ", title).strip(" -,.;&") or f"{part}, Canto {canto}"
-        key = (part, canto, " ".join(re.findall(r"[a-z]+", title.lower())))       # (two impressions: one)
-        if key in seen:
-            continue
-        seen.add(key)
-        out.append(art("dante", len(out) + 1, title, part, canto, None, None, info[f], f"{part} {canto}"))
+    info = file_info([f"File:{f}" for f in DANTE_SCENES])
+    known = set(KNOWN_OTHERS) | set(DANTE_SCENES)
+    for f in files:
+        if f[5:] not in known:
+            print(f"  ? new in the category, not yet looked at: {f}")
+    out = []
+    for f, (part, canto, start, end, title) in DANTE_SCENES.items():
+        expect(f"File:{f}" in info, f"Blake's Dante file gone from Commons: {f}")
+        out.append(art("dante", f"{part[:3].lower()}{canto}l{start}", title, part, canto, start, end,
+                       info[f"File:{f}"], f"{part} {canto}:{start}-{end}"))
     return out
 
 

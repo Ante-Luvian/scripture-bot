@@ -60,7 +60,7 @@ def test_dante_by_line(do, lookup):
     """Each Dante plate is tied to the lines it shows (Charon's boat: Inferno 3:82-84)."""
     button = do.art_buttons(lookup.get_verse("Inferno 3:82"))[0]
     assert [(do.by_key()[k]["chapter"], do.by_key()[k]["start"]) for k in button.keys] == [(3, 82)]
-    assert do.art_buttons(lookup.get_verse("Inferno 3:1")) == []
+    assert do.for_result(lookup.get_verse("Inferno 3:40"), "dore") == []
     dante = [p for p in do.plates() if p["set"] == "dante" and p["book"]]
     assert sum(p["book"] == "Inferno" for p in dante) == 75                  # (all of them)
     for p in dante:                                                         # the lines open in the bot
@@ -121,6 +121,20 @@ def test_blakes_job_plates_carry_every_verse_engraved_on_them(do, lookup):
     for p in (p for p in do.plates("blake") if p["set"] == "job"):
         for c, a, b in p["passages"]:
             assert lookup.get_verse(f"Job {c}:{a}-{b}")["found"], p["key"]
+
+
+def test_blakes_dante_pictures_are_tied_to_their_lines(do, lookup):
+    dante = [p for p in do.plates("blake") if p["set"] == "dante"]
+    assert len(dante) == 56 and {p["book"] for p in dante} == {"Inferno", "Purgatorio", "Paradiso"}
+    for p in dante:
+        assert lookup.get_verse(f"{p['book']} {p['chapter']}:{p['start']}-{p['end']}")["found"], p["key"]
+    charon = next(p for p in dante if p["title"] == "Charon and the Condemned Souls")
+    d = do.plate_embed(charon).description
+    assert d == ("**Inferno 3:109–111**\n*Charon the demon, with the eyes of glede,*\n"
+                 "*Beckoning to them, collects them all together,*\n*Beats with his oar whoever lags behind.*")
+    [button] = do.art_buttons(lookup.get_verse("Inferno 3:109"))                # (Doré has none there)
+    assert button.item.custom_id.startswith("blakeart:")
+    assert [do.by_key()[k]["title"] for k in button.keys] == ["Charon and the Condemned Souls"]
 
 
 def test_blake_command_takes_a_passage(bot_module, fake_ctx):
