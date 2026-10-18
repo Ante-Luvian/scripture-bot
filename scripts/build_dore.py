@@ -10,7 +10,9 @@ button on !verse. Only image addresses are stored; Discord shows the pictures fr
     a Commons file for each; the English titles are translated from it.
   · The Divine Comedy (1861-68). The plates of the German edition of 1870-71 on Commons, each
     tied to its canto by Commons' "Gustave Doré - Inferno Canto NN" categories (the few without
-    one were identified by eye: see CANTO).
+    one were identified by eye: see CANTO). Those are photographs of whole pages, so each plate is
+    shown from a clean copy elsewhere on Commons (CLEAN_COPIES) or cut out of its scan into
+    data/dore/dante/ (see clean_dante).
   · Paradise Lost (1866). "Paradise Lost 1.jpg" ... "50.jpg", with the lines each one quotes, from
     the Wikisource transcription of the illustrated edition; the lines are found in the bot's own
     Milton, so the numbers agree with !verse Paradise Lost.
@@ -257,6 +259,125 @@ def dante() -> list:
     return plates
 
 
+# The German scans are whole book pages (margins, binding, the page edge), so each plate is shown
+# instead from a clean copy on Commons where one is bigger than the crop below (found by matching
+# the pictures, checked by eye), and otherwise as the engraving cut out of its scan, saved in
+# data/dore/dante/ (not in git: rebuilt by this script, ~30 MB; without it the bot shows the scan).
+CLEAN_COPIES = {
+    "148618027": "Dante lost in the dark forest, illustration to Dante’s Inferno by Gustave Doré.jpg",
+    "148618051": "Inferno Canto 1 - Leopard (148618051).jpg",
+    "148618067": "Gustave Doré - Dante Alighieri - Inferno - Plate 3 (The lion).jpg",
+    "148618079": "Gustave Doré - Dante Alighieri - Inferno - Plate 4 (Dante meets Virgil).jpg",
+    "148618085": "Gustave Doré - Dante Alighieri - Inferno - Plate 5 (End of Canto I).jpg",
+    "148618089": "Gustave Doré - Dante Alighieri - Inferno - Plate 6 (Start of Canto II - Day was departing).jpg",
+    "148618104": "Gustave Doré - Dante Alighieri - Inferno - Plate 7 (Beatrice).jpg",
+    "148618126": "Gustave Doré - Dante Alighieri - Inferno - Plate 8 (Canto III - Abandon all hope ye who enter here).jpg",
+    "148618170": "DVinfernoDoomedSoulsCrossAcheron.jpg",
+    "148618192": "Gustave Doré - Dante Alighieri - Inferno - Plate 11 (Canto IV - Limbo, the Viruous Pagans).jpg",
+    "148618206": "Gustave Doré - Dante Alighieri - Inferno - Plate 12 (Canto IV - Limbo, Dante is accepted as an equal by the great Greek and Roman poets).jpg",
+    "148618228": "Gustave Doré - Dante Alighieri - Inferno - Plate 13 (Canto V - Minos).jpg",
+    "148618250": "Francesca da Rimini and Paolo among the lustful, carried by the infernal whirlwind, illustration to Dante’s Inferno by Gustave Doré.jpg",
+    "148618265": "Gustave Doré - Dante Alighieri - Inferno - Plate 15 (Canto V - Francesca di Rimini).jpg",
+    "148618301": "Gustave Doré - The Inferno, Canto 5-2.jpg",
+    "148618330": "Inferno Canto 6 (148618330).jpg",
+    "148618401": "Gustave Doré - Dante Alighieri - Inferno - Plate 22 (Canto VII - Hoarders and Wasters).png",
+    "148618415": "DVinfernoVirgilShowSoulsOfWrathful m.jpg",
+    "148618431": "Inferno Canto 08 - Styx (148618431).jpg",
+    "148618496": "DVinfernoMegaeraTisifphoneAlecto m.jpg",
+    "148618558": "Dore woodcut Divine Comedy 01.jpg",
+    "148618629": "Gustave Doré - The Inferno, Canto 12-1.jpg",
+    "148618661": "DVinfernoForestOfSuicides m.jpg",
+    "148618667": "Gustave Doré - The Inferno, Canto 13.jpg",
+    "148618679": "DVinfernoViolentInRainOfFire m.jpg",
+    "148618685": "Inferno Canto 15 (148618685).jpg",
+    "148618710": "DVinfernoShadeOfThais m.jpg",
+    "148618830": "DVinfernoCiampoloDemonAlichino m.jpg",
+    "148618926": "DVinfernoHypocritesAddressDante m.jpg",
+    "148619014": "Inferno Canto 24 (148619014).jpg",
+    "148619071": "DVinfernoAgnelloChangingIntoSerpent m.jpg",
+    "148619179": "Mohammed (148619179).jpg",
+    "148619246": "DVinfernoSeveredHeadOfBertranddeBorn m.jpg",
+    "148619272": "DVinfernoVirgilReprovesDantesCuriosity m.jpg",
+    "148619488": "Gustave Doré - Dante Alighieri - Inferno - Plate 65 (Canto XXXI - The Titans).png",
+    "148619513": "DVinfernoGiantAntaeusLoweringDanteAndVirgil m.jpg",
+    "148619555": "Inferno Canto 32 (148619555).jpg",
+    "148619564": "DVinfernoUgolinoGnawingHeadOfRuggieari m.jpg",
+    "148619628": "Inferno Canto 34 (148619628).jpg",
+}
+CROPS = ROOT / "data" / "dore" / "dante"
+
+
+def engraving_box(img) -> tuple:
+    """The engraving on a scanned page: the biggest area darker than the paper that doesn't touch
+    the edge of the scan (the binding and the table it lies on do)."""
+    import numpy as np
+    from scipy import ndimage
+    a = np.asarray(img, dtype=float)
+    mean = ndimage.uniform_filter(a, 9)
+    texture = np.sqrt(np.maximum(ndimage.uniform_filter(a * a, 9) - mean * mean, 0))   # (the engraver's lines)
+    mask = (mean < np.percentile(a, 92) - 30) | (texture > 12)
+    mask = ndimage.binary_closing(ndimage.binary_opening(mask, iterations=3), iterations=6)
+    mask = ndimage.binary_fill_holes(mask)
+    lab, _ = ndimage.label(mask)
+    H, W = a.shape
+    best, best_area = None, 0
+    for i, (ys, xs) in enumerate(ndimage.find_objects(lab), 1):
+        if ys.start <= 2 or xs.start <= 2 or ys.stop >= H - 2 or xs.stop >= W - 2:
+            continue
+        area = int((lab[ys, xs] == i).sum())
+        if area > best_area:
+            best, best_area = (ys, xs), area
+    expect(best is not None, "no engraving on the page")
+    ys, xs = best
+    inside = lab[ys, xs] > 0
+    rows, cols = np.where(inside.mean(1) > 0.5)[0], np.where(inside.mean(0) > 0.5)[0]
+    box = (xs.start + cols[0], ys.start + rows[0], xs.start + cols[-1] + 1, ys.start + rows[-1] + 1)
+    inset = int(min(box[2] - box[0], box[3] - box[1]) * 0.012)        # (the plate's ragged edge)
+    return box[0] + inset, box[1] + inset, box[2] - inset, box[3] - inset
+
+
+def crop_scan(image_url: str, out: Path) -> None:
+    import io
+    from PIL import Image, ImageOps
+    url = re.sub(r"/\d+px-", "/1920px-", image_url.split("?")[0])
+    for attempt in range(8):
+        try:
+            data = urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=120).read()
+            break
+        except Exception:
+            time.sleep(20 * (attempt + 1))
+    else:
+        raise SystemExit(f"couldn't fetch {url}")
+    img = Image.open(io.BytesIO(data)).convert("L")
+    x0, y0, x1, y1 = engraving_box(img)
+    share = (x1 - x0) * (y1 - y0) / (img.width * img.height)
+    expect(0.3 < share < 0.6, f"{out.name}: the engraving found is {share:.0%} of the page")
+    img = ImageOps.autocontrast(img.crop((x0, y0, x1, y1)), cutoff=(0.3, 0.3))   # (the scans are faded)
+    if img.width > 1000:
+        img = img.resize((1000, round(img.height * 1000 / img.width)), Image.LANCZOS)
+    img.save(out, quality=85)
+    time.sleep(1)
+
+
+def clean_dante(plates: list) -> None:
+    """Each plate's picture: a clean copy on Commons, or the engraving cut out of its scan."""
+    CROPS.mkdir(parents=True, exist_ok=True)
+    sids = {id(p): re.search(r"\((\d{9})\)", urllib.parse.unquote(p["page"])) for p in plates}
+    copies = file_info([f"File:{f}" for f in CLEAN_COPIES.values()])
+    for p in plates:
+        sid = sids[id(p)] and sids[id(p)].group(1)
+        p.pop("file", None)
+        if sid in CLEAN_COPIES:
+            info = copies[f"File:{CLEAN_COPIES[sid]}"]
+            p["image"], p["page"] = info["image"], info["page"]
+            continue
+        out = CROPS / f"{sid}.jpg"
+        if not out.exists():
+            crop_scan(p["image"], out)
+        p["file"] = out.relative_to(ROOT).as_posix()
+    print(f"  the Divine Comedy: {sum('file' in p for p in plates)} plates cut out of their scans")
+
+
 def cantos_from_twins() -> dict:
     """{scan number: canto} from the canto categories, whose files share the German scans' numbers."""
     out = {}
@@ -356,6 +477,7 @@ def main():
         expect(ref is not None, f"{p['n']} {p['title']}: {p['cited']}")
         p["book"], p["chapter"], p["start"], p["end"] = ref
     print(f"  the Bible: {len(plates)} plates; the Divine Comedy: {len(d)}")
+    clean_dante(d)
     m = milton()
     print(f"  Paradise Lost: {len(m)} plates")
     OUT.write_text(json.dumps({"source": "Gustave Doré's engravings, from Wikimedia Commons",

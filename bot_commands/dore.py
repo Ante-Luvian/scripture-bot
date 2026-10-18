@@ -5,7 +5,9 @@ William Blake's illustrations to Job, the Bible, Paradise Lost, The Pilgrim's Pr
 Divine Comedy (data/blake/art.json, scripts/build_blake_art.py).
 
 !dore shows Doré's (Blake's are in !blake, bot_commands/blake.py), and under !verse a 🖼️ Doré
-and a 🎨 Blake button appear wherever a passage has one. The pictures are shown from Wikimedia.
+and a 🎨 Blake button appear wherever a passage has one. The pictures are shown from Wikimedia,
+except the Dante plates that only exist there as whole-page book scans: those are attached, cut
+out of their scans by the build (data/dore/dante/).
 """
 import functools
 import json
@@ -98,9 +100,23 @@ def plate_embed(p: dict) -> discord.Embed:
                           color=COLOR if p["artist"] == "dore" else BLAKE_COLOR)
     if read:
         embed.add_field(name="Read it", value=f"`{read}`", inline=False)
-    embed.set_image(url=p["image"])
-    embed.set_footer(text=f"{name}, {WORKS[(p['artist'], p['set'])]} · image: Wikimedia Commons")
+    local = _local_file(p)
+    embed.set_image(url=f"attachment://{local.name}" if local else p["image"])
+    embed.set_footer(text=f"{name}, {WORKS[(p['artist'], p['set'])]} · "
+                          + ("scan: Wikimedia Commons" if local else "image: Wikimedia Commons"))
     return embed
+
+
+def _local_file(p: dict):
+    """The engraving cut out of its page scan (most Dante plates), if the build made it."""
+    path = ROOT / p["file"] if p.get("file") else None
+    return path if path and path.exists() else None
+
+
+def plate_message(shown: list) -> dict:
+    """send() arguments for some plates: their embeds, and the cut-out engravings attached."""
+    files = [discord.File(_local_file(p)) for p in shown if _local_file(p)]
+    return {"embeds": [plate_embed(p) for p in shown], **({"files": files} if files else {})}
 
 
 class ArtButton(discord.ui.DynamicItem[discord.ui.Button], template=r"(?P<artist>dore|blakeart):(?P<keys>[a-z0-9,]+)"):
@@ -123,7 +139,7 @@ class ArtButton(discord.ui.DynamicItem[discord.ui.Button], template=r"(?P<artist
         if not shown:
             await interaction.response.send_message("⚠️ I can't find that picture any more.", ephemeral=True)
             return
-        await interaction.response.send_message(embeds=[plate_embed(p) for p in shown])
+        await interaction.response.send_message(**plate_message(shown))
 
 
 bot.add_dynamic_items(ArtButton)
@@ -165,7 +181,7 @@ async def send_art(ctx, query: str, artist: str = "dore") -> bool:
         return False
     extra = f"*{len(found)} pictures; here are the first {MAX_SHOWN}. Ask for a chapter to narrow it.*" \
         if len(found) > MAX_SHOWN else None
-    await ctx.send(extra, embeds=[plate_embed(p) for p in found[:MAX_SHOWN]])
+    await ctx.send(extra, **plate_message(found[:MAX_SHOWN]))
     return True
 
 
@@ -186,7 +202,7 @@ async def send_dore(ctx, query: str = "") -> None:
             "Under `!verse`, a 🖼️ Doré button appears whenever the passage has one.")))
         return
     if not q:
-        await ctx.send(embed=plate_embed(random.choice(plates())))
+        await ctx.send(**plate_message([random.choice(plates())]))
         return
     if await send_art(ctx, q, "dore"):
         return

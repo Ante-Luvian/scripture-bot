@@ -47,6 +47,20 @@ def test_dante_by_canto(do, lookup):
     assert all(do.by_key()[k]["chapter"] == 3 for k in button.keys)
 
 
+def test_dante_is_not_a_page_scan(do):
+    """The German edition's scans are photographs of whole pages: each Dante plate is a clean copy,
+    or the engraving cut out of its scan (attached when the build has made it)."""
+    for p in (p for p in do.plates() if p["set"] == "dante"):
+        assert p.get("file") or "Gottliche" not in p["image"], p["key"]
+    par3 = next(p for p in do.plates() if p["set"] == "dante" and p["book"] == "Paradiso" and p["chapter"] == 3)
+    message = do.plate_message([par3])
+    if (do.ROOT / par3["file"]).exists():
+        assert message["files"][0].filename == par3["file"].rsplit("/", 1)[1]
+        assert message["embeds"][0].image.url == f"attachment://{message['files'][0].filename}"
+    else:                                                        # (not built: the scan, from Commons)
+        assert "files" not in message and message["embeds"][0].image.url.startswith("https://")
+
+
 def test_blakes_art(do, lookup):
     blake = do.plates("blake")
     sets = {p["set"] for p in blake}
