@@ -89,3 +89,12 @@ def test_command_is_hidden_and_mods_only(dl, bot_module, fake_ctx):
     fake_ctx.author.guild_permissions.administrator = True
     asyncio.run(cmd.callback(fake_ctx))
     assert "empty" in fake_ctx.sent[-1]["embed"].description
+
+
+def test_search_results_count_too(dl):
+    raw = {"id": "500", "content": "+20 deluge points", "timestamp": "2026-08-01T12:00:00+00:00",
+           "author": {"id": "9", "username": "xpnc"}, "mentions": [],
+           "referenced_message": {"id": "499", "author": {"id": "3", "username": "groyper"}}}
+    m = dl._searched(raw, types.SimpleNamespace(id=7))
+    data = {}
+    assert dl.record(data, m, mod=True) == {"3": 20} and data["7"]["log"][0]["author"] == "xpnc"

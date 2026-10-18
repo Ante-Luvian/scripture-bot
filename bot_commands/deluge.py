@@ -10,10 +10,12 @@ On its first start in each server the owner is in, it reads back through the ser
 history and counts every award already made there.
 """
 import asyncio
+import datetime
 import json
 import random
 import re
 import time
+import types
 
 import discord
 
@@ -147,6 +149,50 @@ async def _channels(guild: discord.Guild):
                     pass
 
 
+SEARCH_WORDS = ("deluge", "delugepoints", "delugepoint")
+
+
+class _User(types.SimpleNamespace):
+    def __str__(self):
+        return self.name
+
+
+def _searched(data: dict, guild) -> types.SimpleNamespace:
+    """A search result (raw message JSON) as just enough of a Message for record()."""
+    def user(u):
+        return _User(id=int(u["id"]), bot=bool(u.get("bot")), name=u.get("username", ""))
+    replied = data.get("referenced_message")
+    return types.SimpleNamespace(
+        id=int(data["id"]), content=data.get("content") or "", guild=guild, author=user(data["author"]),
+        mentions=[user(u) for u in data.get("mentions", [])],
+        reference=types.SimpleNamespace(resolved=types.SimpleNamespace(author=user(replied["author"])))
+        if replied else None,
+        created_at=datetime.datetime.fromisoformat(data["timestamp"]))
+
+
+async def search(guild: discord.Guild, before) -> list:
+    """Every message in the server's history that says the word, via Discord's own search (oldest first)."""
+    found = {}
+    for word in SEARCH_WORDS:
+        offset = 0
+        while offset <= 9975:
+            route = discord.http.Route("GET", "/guilds/{guild_id}/messages/search", guild_id=guild.id)
+            params = {"content": word, "limit": 25, "offset": offset, "max_id": discord.utils.time_snowflake(before),
+                      "sort_by": "timestamp", "sort_order": "asc", "include_nsfw": "true"}
+            page = await bot.http.request(route, params=params)
+            if page.get("code") == 110000:                      # Discord is still indexing the server
+                await asyncio.sleep(page.get("retry_after", 2) + 1)
+                continue
+            batch = [m for group in page.get("messages", []) for m in (group if isinstance(group, list) else [group])]
+            for m in batch:
+                found[m["id"]] = m
+            if len(batch) < 25:
+                break
+            offset += 25
+            await asyncio.sleep(0.5)
+    return sorted(found.values(), key=lambda m: int(m["id"]))
+
+
 async def backfill(guild: discord.Guild, before) -> int:
     mods: dict = {}
 
@@ -162,6 +208,22 @@ async def backfill(guild: discord.Guild, before) -> int:
         return mods[user.id]
 
     found, seen = 0, set()
+    try:
+        results = await search(guild, before)
+    except discord.HTTPException as e:
+        log.info(f"Deluge history: search refused ({e}); reading every channel instead")
+        results = None
+    if results is not None:
+        data = _load()
+        for raw in results:
+            message = _searched(raw, guild)
+            if message.author.bot or message.content.startswith("!") or not PHRASE.search(message.content):
+                continue
+            if record(data, message, await mod(message.author)):
+                found += 1
+        _ledger(data, guild.id)["backfilled"] = True
+        _atomic_write_json(DELUGE_PATH, data)
+        return found
     async for channel in _channels(guild):
         if channel.id in seen:
             continue
