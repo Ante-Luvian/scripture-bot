@@ -32,7 +32,10 @@ BEFORE = re.compile(rf"(?:(?P<sign>[+\-−–])\s*)?(?:(?P<digits>\d[\d,]*)(?P<s
                     rf"|(?P<words>(?:\b(?:{_WORD})\b[\s-]*)+))\s*(?:more\s+|extra\s+|whole\s+)?$", re.I)
 AFTER = re.compile(r"^\s*[:=]?\s*(?P<sign>[+\-−–])\s*(?P<digits>\d[\d,]*)", re.I)
 TAKING = re.compile(r"\b(?:minus|lose[sd]?|losing|lost|take[ns]?|taking|took|remove[sd]?|removing|deduct\w*|dock\w*|"
-                    r"subtract\w*|negative|revoke[sd]?|revoking|strip\w*|fined?)\b", re.I)
+                    r"subtract\w*|negative|revoke[sd]?|revoking|strip\w*|fined?|that'?ll be)\b", re.I)
+OFFER = re.compile(r"\b(?:if|would|i'?ll|i will|will (?:pay|give)|could|offer\w*|bount\w*|any(?:one|body)|whoever|"
+                   r"every(?:one|body)|costs?|owe[sd]?|salary|until|how many|once you|per)\b", re.I)
+LOOKBACK = datetime.timedelta(minutes=15)           # "15 deluge points", said just after someone's message
 
 
 def amount(text: str) -> "int | None":
@@ -60,6 +63,8 @@ def amount(text: str) -> "int | None":
         n, sign = int(after.group("digits").replace(",", "")), after.group("sign")
     else:
         return None
+    if OFFER.search(text):                              # promises, bounties and what-ifs aren't payments
+        return None
     if sign:
         return n if sign == "+" else -n
     taking = TAKING.search(text) or re.match(r"\s*from\b", text[m.end():], re.I)   # "50 points from Gryffindor"
@@ -74,6 +79,20 @@ def recipients(message: discord.Message) -> list:
     replied = getattr(message.reference, "resolved", None) if message.reference else None
     if getattr(replied, "author", None) and not replied.author.bot:      # (not a deleted message)
         return [replied.author]
+    return []
+
+
+async def previous_author(message, channel) -> list:
+    """For a bare "15 deluge points": the last person (not the speaker) to post in the channel just before."""
+    if channel is None or re.search(r"\bpoints?\s+to\s+\w", message.content or "", re.I):   # "to cold brah": by name
+        return []
+    try:
+        async for earlier in channel.history(limit=5, before=discord.Object(id=message.id)):
+            if earlier.author.bot or earlier.author.id == message.author.id:
+                continue
+            return [earlier.author] if message.created_at - earlier.created_at <= LOOKBACK else []
+    except discord.HTTPException:
+        pass
     return []
 
 
@@ -97,13 +116,14 @@ def _ledger(data: dict, guild_id: int) -> dict:
     return data.setdefault(str(guild_id), {"points": {}, "counted": [], "backfilled": False, "log": []})
 
 
-def record(data: dict, message: discord.Message, mod: bool) -> dict:
-    """Counts a message into the ledger (once); returns {user id: points} given, empty if none."""
+def record(data: dict, message: discord.Message, mod: bool, earlier: list = ()) -> dict:
+    """Counts a message into the ledger (once); returns {user id: points} given, empty if none.
+    `earlier`: who posted just before, for a message that neither mentions nor replies to anyone."""
     ledger = _ledger(data, message.guild.id)
     if str(message.id) in ledger["counted"]:
         return {}
     n = amount(message.content or "")
-    people = recipients(message) if n is not None else []
+    people = (recipients(message) or list(earlier)) if n is not None else []
     given = {str(u.id): n for u in people} if (mod and n) else {}
     for uid, pts in given.items():
         ledger["points"][uid] = ledger["points"].get(uid, 0) + pts
@@ -111,7 +131,7 @@ def record(data: dict, message: discord.Message, mod: bool) -> dict:
         ledger["counted"].append(str(message.id))
         ledger["log"].append({"id": str(message.id), "at": message.created_at.isoformat(timespec="seconds"),
                               "author": str(message.author), "mod": mod, "text": (message.content or "")[:300],
-                              "given": given})
+                              "given": given, "to": [str(u) for u in people] if given else []})
     return given
 
 
@@ -121,8 +141,12 @@ async def deluge_listener(message: discord.Message):
         return
     if not PHRASE.search(message.content or ""):
         return
+    mod = is_mod(message.author)
+    earlier = []
+    if mod and amount(message.content or "") and not recipients(message):
+        earlier = await previous_author(message, message.channel)
     data = _load()
-    given = record(data, message, is_mod(message.author))
+    given = record(data, message, mod, earlier)
     _atomic_write_json(DELUGE_PATH, data)
     if given:
         log.info(f"Deluge points in {message.guild.name}: {given}")
@@ -167,7 +191,7 @@ def _searched(data: dict, guild) -> types.SimpleNamespace:
         mentions=[user(u) for u in data.get("mentions", [])],
         reference=types.SimpleNamespace(resolved=types.SimpleNamespace(author=user(replied["author"])))
         if replied else None,
-        created_at=datetime.datetime.fromisoformat(data["timestamp"]))
+        created_at=datetime.datetime.fromisoformat(data["timestamp"]), channel_id=int(data["channel_id"]))
 
 
 async def search(guild: discord.Guild, before) -> list:
@@ -207,6 +231,19 @@ async def backfill(guild: discord.Guild, before) -> int:
             mods[user.id] = is_mod(member) if member else user.id == bot.owner_id
         return mods[user.id]
 
+    async def count(data: dict, message, channel) -> bool:
+        is_a_mod = await mod(message.author)
+        earlier = []
+        if is_a_mod and amount(message.content) and not recipients(message):
+            earlier = await previous_author(message, channel)
+        return bool(record(data, message, is_a_mod, earlier))
+
+    async def channel_of(cid: int):
+        try:
+            return guild.get_channel_or_thread(cid) or await bot.fetch_channel(cid)
+        except discord.HTTPException:
+            return None
+
     found, seen = 0, set()
     try:
         results = await search(guild, before)
@@ -219,7 +256,7 @@ async def backfill(guild: discord.Guild, before) -> int:
             message = _searched(raw, guild)
             if message.author.bot or message.content.startswith("!") or not PHRASE.search(message.content):
                 continue
-            if record(data, message, await mod(message.author)):
+            if await count(data, message, await channel_of(message.channel_id)):
                 found += 1
         _ledger(data, guild.id)["backfilled"] = True
         _atomic_write_json(DELUGE_PATH, data)
@@ -233,7 +270,7 @@ async def backfill(guild: discord.Guild, before) -> int:
                 if message.author.bot or (message.content or "").startswith("!") or not PHRASE.search(message.content or ""):
                     continue
                 data = _load()
-                if record(data, message, await mod(message.author)):
+                if await count(data, message, channel):
                     found += 1
                 _atomic_write_json(DELUGE_PATH, data)
         except (discord.Forbidden, discord.HTTPException) as e:

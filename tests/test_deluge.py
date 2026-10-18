@@ -21,6 +21,12 @@ def dl(bot_module):
     ("−2 deluge points", -2), ("one hundred and fifty deluge points", 150),
     ("what are deluge points", None), ("the deluge points ledger", None), ("no deluge points", None),
     ("I love the deluge", None), ("+0 deluge points", 0),
+    ("i would pay you 100,000 deluge points if you got a samaritan", None),          # offers aren't payments
+    ("Anyone who boosts the server gets 50 deluge points", None), ("I'll give you 50 deluge points", None),
+    ("Placing a bounty of 1000 deluge points", None), ("a 10,000 deluge point salary", None),
+    ("That'll be one thousand deluge points", -1000), ("Patriot. Plus 15 deluge points.", 15),
+    ("I have subtracted 15 deluge points from your account.", -15),
+    ("15 deluge points have been deposited in your account", 15),
 ])
 def test_amount(dl, text, n):
     assert dl.amount(text) == n
@@ -44,9 +50,11 @@ def test_the_ledger(dl):
     dl.record(data, _message("50 deluge points from you", reply_to=_user(1), mid=2), mod=True)
     dl.record(data, _message("1000 deluge points", [_user(3)], mid=3), mod=False)           # not a mod: doesn't count
     dl.record(data, _message("+9 deluge points", [_user(4, bot=True)], mid=4), mod=True)   # nor do bots
+    dl.record(data, _message("15 deluge points", mid=5), mod=True, earlier=[_user(2)])     # said just after their post
+    dl.record(data, _message("15 deluge points", [_user(1)], mid=6), mod=True, earlier=[_user(2)])   # a mention wins
     ledger = data["7"]
-    assert ledger["points"] == {"1": -45, "2": 5}                 # negative points are allowed
-    assert [e["given"] for e in ledger["log"]] == [{"1": 5, "2": 5}, {"1": -50}, {}, {}]
+    assert ledger["points"] == {"1": -30, "2": 20}                 # negative points are allowed
+    assert [e["given"] for e in ledger["log"]] == [{"1": 5, "2": 5}, {"1": -50}, {}, {}, {"2": 15}, {"1": 15}]
 
 
 def test_mods(dl):
@@ -92,7 +100,7 @@ def test_command_is_hidden_and_mods_only(dl, bot_module, fake_ctx):
 
 
 def test_search_results_count_too(dl):
-    raw = {"id": "500", "content": "+20 deluge points", "timestamp": "2026-08-01T12:00:00+00:00",
+    raw = {"id": "500", "channel_id": "1", "content": "+20 deluge points", "timestamp": "2026-08-01T12:00:00+00:00",
            "author": {"id": "9", "username": "xpnc"}, "mentions": [],
            "referenced_message": {"id": "499", "author": {"id": "3", "username": "groyper"}}}
     m = dl._searched(raw, types.SimpleNamespace(id=7))
