@@ -14,6 +14,10 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-18 · Jewish learning of the day
+- ✡️ **New: `!parsha`, this week's Torah portion.** The Five Books of Moses are read through in synagogue every year, a portion (*parashah*) each Shabbat. `!parsha` tells you this week's: what it's about, its seven readings (each with the command to read it), and the passage from the Prophets read with it, the *Haftarah*. `!parsha 12-25` gives another week's.
+- 📖 **New: `!dafyomi`, today's page of the Talmud.** In the *Daf Yomi* ("page of the day") cycle, Jews around the world study the same double-sided page of the Talmud each day, finishing all 2,711 pages in about seven and a half years. `!dafyomi` shows you today's page.
+- 📅 **New: `!learning`, all of the day's learning.** Besides the Torah portion and Daf Yomi there are many daily cycles: a Mishnah a day, Maimonides' code of law, a chapter of the Bible, Jewish law, the Tanya and more. `!learning` lists today's, each with the command to read it. Server admins can have it posted every morning with `!learningsetup channel #channel`.
 ## 2026-10-18 · Fixes: "I Kings", "I John" and long Jewish references
 - 🔧 **Books written with Roman numerals now open the right book.** `!verse I Kings 9` showed *2 Kings* 9, and `!verse I John 1:1` showed *3 John*: the bot didn't understand Roman numerals and guessed the nearest name. Now `I`, `II`, `III` and `IV` work like `1`, `2`, `3` and `4`, and the old Catholic names `III Kings` and `IV Kings` (`3 Kings`, `4 Kings`) open 1 and 2 Kings. A misspelt numbered book, like `1 Jhon`, also keeps its number.
 - 🔧 **Passages of Jewish texts that cross a chapter now open.** References like `!verse Mishnah Oholot 10:7-11:1` or `!verse Shulchan Arukh, Orach Chayim 277:4-278:1` said "Unknown book"; now they're looked up in Sefaria's library like any other.

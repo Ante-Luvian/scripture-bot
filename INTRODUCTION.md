@@ -184,6 +184,15 @@ The prayers, hymns and holy images of the Eastern Orthodox Church. (Its calendar
 
 **`!divineliturgy`** — the Divine Liturgy of St John Chrysostom, the service most Orthodox churches celebrate every Sunday, a page at a time in an 1866 English translation: the spoken parts, with what the priest and deacon do in italics. ◀ ▶ turn the pages, and a menu jumps to any part (the Creed, the Cherubic Hymn, Holy Communion…), or ask for one: `!divineliturgy creed`.
 
+## ✡️ Jewish learning
+Jews around the world study the same texts each day, in cycles that run through whole books. These come from Sefaria's learning calendar, and every text opens in the bot.
+
+**`!parsha`** — this week's Torah portion: the section of the Five Books of Moses read in synagogue on Shabbat, so that the whole Torah is read in a year. You get what it's about, its seven readings and the passage from the Prophets read with it (the *Haftarah*). Another week: `!parsha 12-25`.
+
+**`!dafyomi`** — today's *Daf Yomi*, "page of the day": one double-sided page of the Talmud a day, finishing all 2,711 in about seven and a half years. I show the page's text.
+
+**`!learning`** — all of the day's cycles at once: the Torah portion, Daf Yomi, a Mishnah, Maimonides, a chapter of the Bible, a passage of Jewish law and more, each with the command to read it. Admins: **`!learningsetup channel #chan`** posts it every morning.
+
 ## 🔮 Oracles
 For centuries people have sought guidance by opening a revered book at random or casting lots. I keep several of those traditions alive — for reflection and fun:
 • `!virgil` — the *Sortes Vergilianae*: a random line from Virgil's *Aeneid*, as people did in the Middle Ages

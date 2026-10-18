@@ -41,6 +41,10 @@
   "creed": [
    "creeds"
   ],
+  "dafyomi": [
+   "daf",
+   "dafyomit"
+  ],
   "delphi": [],
   "delugeboard": [
    "delugeleaderboard",
@@ -127,6 +131,14 @@
   "leaderboard": [
    "lb"
   ],
+  "learning": [
+   "dailylearning",
+   "jewishlearning",
+   "limmud"
+  ],
+  "learningsetup": [
+   "learningconfig"
+  ],
   "measure": [
    "convert",
    "measures",
@@ -161,6 +173,12 @@
    "par",
    "po",
    "poem"
+  ],
+  "parsha": [
+   "parasha",
+   "parashah",
+   "sidra",
+   "torahportion"
   ],
   "place": [
    "map",
@@ -337,6 +355,7 @@
   "compare",
   "concordance",
   "creed",
+  "dafyomi",
   "delphi",
   "dictionary",
   "discover",
@@ -359,6 +378,8 @@
   "journey",
   "kings",
   "leaderboard",
+  "learning",
+  "learningsetup",
   "measure",
   "memorize",
   "metrical",
@@ -368,6 +389,7 @@
   "oracle",
   "oraclesetup",
   "parallel",
+  "parsha",
   "place",
   "plan",
   "prayer",

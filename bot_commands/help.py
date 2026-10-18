@@ -748,6 +748,19 @@ async def cmd_help(ctx, *, topic: str = ""):
         await ctx.send(embed=embed)
         return
 
+    if topic in ("parsha", "parasha", "dafyomi", "daf", "learning", "jewishlearning", "learningsetup"):
+        embed = discord.Embed(title="✡️ Jewish learning of the day", color=discord.Color.dark_blue(), description=(
+            "Jews around the world study the same texts each day, in cycles through whole books. "
+            "These come from Sefaria's learning calendar.\n\n"
+            "`!parsha` — this week's Torah portion: what it's about, its seven readings and its Haftarah\n"
+            "`!dafyomi` — today's page of the Talmud, with its text\n"
+            "`!learning` — every cycle for today: Torah portion, Daf Yomi, Mishnah, Maimonides, a Bible "
+            "chapter, Jewish law…, each with the command to read it\n"
+            "Add a date for another day: `!parsha 12-25`, `!dafyomi 2026-12-25`\n\n"
+            "**Admins:** `!learningsetup channel #chan` posts `!learning` every morning (`time HH:MM` UTC, `test`, `off`)"))
+        await ctx.send(embed=embed)
+        return
+
     if topic in ("buddhist", "buddhism", "pali", "pali canon", "suttas", "sutta", "tipitaka"):
         embed = discord.Embed(title="☸️ Buddhist Texts — Citation Guide", color=discord.Color.orange(), description=(
             "The **Pali Canon**, the earliest Buddhist scriptures, comes from SuttaCentral in Bhikkhu Sujato's "
@@ -980,7 +993,7 @@ async def cmd_help(ctx, *, topic: str = ""):
         color=discord.Color.dark_gold()
     )
     embed.add_field(name="✡️ Jewish Texts", value=(
-        "`!help jewish` — Mishnah · Talmud · Jerusalem Talmud · Tosefta · Targum · Midrash · Zohar · Kabbalah"
+        "`!help jewish` — Mishnah, Talmud, Midrash, Zohar… · `!parsha` · `!dafyomi` · `!learning`"
     ), inline=False)
     embed.add_field(name="☪️ Islamic Texts", value=(
         "`!help islamic` — Quran (114 surahs, 52 translations) · Hadith (10 collections) · citation formats"
@@ -1066,7 +1079,8 @@ async def cmd_help(ctx, *, topic: str = ""):
         "`!hymndaysetup channel #chan` — the hymn of the day (`time`, `test`, `off`)\n"
         "`!saintsetup channel #chan` — the saint of the day (`time`, `test`, `off`)\n"
         "`!angelussetup channel #chan` — the Angelus at noon, or `time 06:00 12:00 18:00` (`test`, `off`)\n"
-        "`!troparionsetup channel #chan` — the Orthodox troparia of the day (`time`, `test`, `off`)"
+        "`!troparionsetup channel #chan` — the Orthodox troparia of the day (`time`, `test`, `off`)\n"
+        "`!learningsetup channel #chan` — the day's Jewish learning (`time`, `test`, `off`)"
     ), inline=False)
     embed.add_field(name="🏛️ Ancient Languages & Strong's", value=(
         "Append to `!verse`: `OE` `WLC` `LXX` `TR` `VULG` `peshitta` `CSL`\n"

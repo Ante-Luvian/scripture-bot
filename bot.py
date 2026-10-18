@@ -50,6 +50,9 @@ from bot_commands.hymnday import (
 from bot_commands.troparion import (
     daily_troparion_task,
 )
+from bot_commands.jewish_learning import (
+    daily_learning_task,
+)
 from bot_commands.angelus import (
     angelus_task,
 )
@@ -77,6 +80,7 @@ from bot_commands import (  # noqa: F401
     hymnday,
     hymns,
     icons,
+    jewish_learning,
     journeys,
     kings,
     latin_psalms,
@@ -143,6 +147,7 @@ async def on_ready():
     daily_saint_task.start()
     angelus_task.start()
     daily_troparion_task.start()
+    daily_learning_task.start()
     plan_reminder_task.start()
     memorize_review_task.start()
     weekly_report_task.start()

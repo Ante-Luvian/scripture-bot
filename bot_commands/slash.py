@@ -481,6 +481,17 @@ async def angelussetup_slash(interaction: discord.Interaction, action: str = "sh
     await _command("angelussetup")(ctx, "" if action == "show" else action, arg=value)
 
 
+@bot.tree.command(name="learningsetup", description="(Admins) Post the day's Jewish learning in a channel")
+@app_commands.describe(action="What to change", channel="For 'channel'", value="For 'time' (HH:MM, UTC)")
+@app_commands.choices(action=[app_commands.Choice(name=a, value=a) for a in ("show", "channel", "time", "test", "off")])
+@_admin_only
+async def learningsetup_slash(interaction: discord.Interaction, action: str = "show",
+                              channel: discord.TextChannel = None, value: str = ""):
+    ctx = await _slash_ctx(interaction)
+    ctx.message = _WithChannelMention(ctx.message, channel)
+    await _command("learningsetup")(ctx, "" if action == "show" else action, arg=value)
+
+
 @bot.tree.command(name="troparionsetup", description="(Admins) Post the day's Orthodox troparia in a channel")
 @app_commands.describe(action="What to change", channel="For 'channel'", value="For 'time' (HH:MM, UTC)")
 @app_commands.choices(action=[app_commands.Choice(name=a, value=a) for a in ("show", "channel", "time", "test", "off")])

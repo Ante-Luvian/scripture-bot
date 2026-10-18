@@ -7,7 +7,7 @@ import pytest
 
 # Owner/maintenance tools that stay prefix-only
 PREFIX_ONLY = {"guildactivity", "scanstats", "votdmode"}
-ADMIN_SLASH = {"votdsetup", "oraclesetup", "quizsetup", "verslesetup", "hymndaysetup", "saintsetup", "angelussetup", "troparionsetup", "changelogsetup", "changelogintro", "features"}
+ADMIN_SLASH = {"votdsetup", "oraclesetup", "quizsetup", "verslesetup", "hymndaysetup", "saintsetup", "angelussetup", "troparionsetup", "learningsetup", "changelogsetup", "changelogintro", "features"}
 
 
 def test_every_command_has_a_slash_version(bot_module):
