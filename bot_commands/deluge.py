@@ -316,13 +316,17 @@ def _fmt(n: int) -> str:
     return f"{n:+,}" if n else "0"
 
 
-def ledger_embed(points: dict, rng: random.Random = random) -> discord.Embed:
+def ledger_embed(points: dict, rng: random.Random = random, whole: bool = False) -> discord.Embed:
     people = list(points.items())
-    share = rng.sample(people, k=min(len(people), max(1, rng.randint(len(people) // 3, len(people) // 2 + 1))))
+    share = people if whole else rng.sample(
+        people, k=min(len(people), max(1, rng.randint(len(people) // 3, len(people) // 2 + 1))))
     share.sort(key=lambda p: -p[1])
-    embed = discord.Embed(title="📜 The Ledger of the Delugery", color=COLOR,
-                          description="\n".join(f"<@{uid}> — **{_fmt(n)}**" for uid, n in share[:20]))
-    embed.set_footer(text="An excerpt. The full ledger is kept by the Treasurer of the Delugery.")
+    lines = [f"<@{uid}> — **{_fmt(n)}**" for uid, n in share]
+    while len("\n".join(lines)) > 4000:                 # (an embed's limit; dozens of people before it matters)
+        lines.pop(-2 if len(lines) > 1 else -1)
+    embed = discord.Embed(title="📜 The Ledger of the Delugery", color=COLOR, description="\n".join(lines))
+    embed.set_footer(text="The whole ledger." if whole else
+                          "An excerpt. The full ledger is kept by the Treasurer of the Delugery.")
     return embed
 
 
@@ -339,4 +343,5 @@ async def cmd_delugepoints(ctx, *, who: str = ""):
     if not points:
         await ctx.send(embed=discord.Embed(color=COLOR, description="The ledger is empty. For now."))
         return
-    await ctx.send(embed=ledger_embed(points))
+    owner = ctx.author.id in (bot.owner_id, ctx.guild.owner_id)       # the Treasurer: the whole ledger is theirs alone
+    await ctx.send(embed=ledger_embed(points, whole=owner and who.strip().lower() in ("all", "full", "whole", "everyone")))

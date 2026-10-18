@@ -83,12 +83,14 @@ def test_excerpt(dl):
     assert 1 <= len(lines) < 30 and "Delugery" in embed.title
     values = [int(line.split("**")[1].replace(",", "")) for line in lines]
     assert values == sorted(values, reverse=True)
+    whole = dl.ledger_embed(points, random.Random(1), whole=True).description.splitlines()
+    assert len(whole) == 30 and whole[0].endswith("**+19**") and whole[-1].endswith("**-10**")
 
 
 def test_command_is_hidden_and_mods_only(dl, bot_module, fake_ctx):
     cmd = bot_module.bot.get_command("delugepoints")
     assert cmd.hidden
-    fake_ctx.guild = types.SimpleNamespace(id=7)
+    fake_ctx.guild = types.SimpleNamespace(id=7, owner_id=42)
     fake_ctx.author = types.SimpleNamespace(id=2, guild_permissions=types.SimpleNamespace(
         administrator=False, manage_guild=False, manage_messages=False))
     fake_ctx.message = types.SimpleNamespace(mentions=[])
@@ -97,6 +99,13 @@ def test_command_is_hidden_and_mods_only(dl, bot_module, fake_ctx):
     fake_ctx.author.guild_permissions.administrator = True
     asyncio.run(cmd.callback(fake_ctx))
     assert "empty" in fake_ctx.sent[-1]["embed"].description
+    dl._atomic_write_json(dl.DELUGE_PATH, {"7": {"points": {str(i): i for i in range(1, 13)}}})
+    asyncio.run(cmd.callback(fake_ctx, who="all"))                 # a mod asking for it all: still an excerpt
+    assert "excerpt" in fake_ctx.sent[-1]["embed"].footer.text
+    fake_ctx.author.id = 42                                         # the server's owner: the whole ledger
+    asyncio.run(cmd.callback(fake_ctx, who="all"))
+    assert fake_ctx.sent[-1]["embed"].footer.text == "The whole ledger."
+    assert len(fake_ctx.sent[-1]["embed"].description.splitlines()) == 12
 
 
 def test_search_results_count_too(dl):
