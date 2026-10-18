@@ -717,6 +717,17 @@ async def cmd_help(ctx, *, topic: str = ""):
         await ctx.send(embed=embed)
         return
 
+    if topic in ("quran translations", "qurantranslations", "quran translation", "translations quran"):
+        import quran_lookup
+        embed = discord.Embed(title="☪️ Quran translations", color=discord.Color.green(), description=(
+            "`!verse Quran 2:255` is M.A.S. Abdel Haleem's translation. Put any of these names after the "
+            "reference for another, or several to compare them: `!verse Quran 1:1 haleem arberry studyquran`."))
+        names = [f"`{s}` {n}" for s, (_, n) in quran_lookup.EDITIONS.items()]
+        for i in range(0, len(names), 14):
+            embed.add_field(name="Translations" if i == 0 else "​", value="\n".join(names[i:i + 14]), inline=False)
+        await ctx.send(embed=embed)
+        return
+
     if topic in ("islamic", "islam", "quran", "hadith", "muslim"):
         embed = discord.Embed(title="☪️ Islamic Texts — Citation Guide", color=discord.Color.green())
         embed.add_field(name="Quran  (surah:ayah)", value=(
@@ -724,6 +735,12 @@ async def cmd_help(ctx, *, topic: str = ""):
             "`!verse Quran 1:1`  *(Al-Faatiha, verse 1)*\n"
             "`!verse Quran 112:1`  *(Al-Ikhlaas)*\n"
             "114 surahs · use `!books` → Quran for full list with names and verse counts"
+        ), inline=False)
+        embed.add_field(name="Quran translations", value=(
+            "M.A.S. Abdel Haleem (Oxford, 2004) unless you name another after the reference:\n"
+            "`!verse Quran 2:255 arberry` · `… studyquran` · `… asad` · `… pickthall` · `… sahih`\n"
+            "Several at once to compare: `!verse Quran 1:1 haleem arberry asad`\n"
+            "All 52: `!help quran translations`"
         ), inline=False)
         embed.add_field(name="The Six Books (Kutub al-Sittah)", value=(
             "`!verse Sahih al-Bukhari 1`  *(1–7,563, 97 books)*\n"

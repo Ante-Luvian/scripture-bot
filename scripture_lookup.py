@@ -1994,12 +1994,20 @@ class ScriptureLookup:
                     return key, int(v), max(end, int(m.group(2)))
         return chap_key, verse_start, verse_end
 
-    def get_verse(self, reference: str) -> dict:
+    def get_verse(self, reference: str, _quran_api: bool = True) -> dict:
         """
         Parse a free-form reference like "John 3:16" or "D&C 76:22-24"
         and return the verse text.
         """
         ref = reference.strip()
+
+        # The Quran: Abdel Haleem (or any translation named after it) from the Quran API,
+        # with our own Pickthall for "pickthall" and whenever the API can't be reached
+        if _quran_api:
+            import quran_lookup
+            quran = quran_lookup.get_quran(ref, lambda r: self.get_verse(r, _quran_api=False))
+            if quran is not None:
+                return quran
 
         # Homer is cited book.line ("Iliad 6.440-465"); the general parser
         # only takes a dot without a range, so read the dot as a colon.

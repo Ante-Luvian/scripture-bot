@@ -50,10 +50,13 @@ def isolate_runtime_files(tmp_path, monkeypatch):
 
 @pytest.fixture(autouse=True)
 def offline_sefaria_names(request, monkeypatch):
-    """An unknown book asks Sefaria whether it's in their library; offline tests get "no"."""
+    """An unknown book asks Sefaria whether it's in their library, and the Quran comes from
+    the Quran API; offline tests get "no" and our own Pickthall."""
     if request.node.get_closest_marker("live") is None:
+        import quran_lookup
         import sefaria_lookup
         monkeypatch.setattr(sefaria_lookup, "sefaria_name", lambda query: None)
+        monkeypatch.setattr(quran_lookup, "fetch_surah", lambda edition, surah: None)
 
 
 class FakeCtx:

@@ -14,6 +14,10 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-17 · The Quran in 52 English translations
+- ☪️ **The Quran now comes in M.A.S. Abdel Haleem's translation.** Abdel Haleem's 2004 translation for Oxford World's Classics is the one most used by scholars and universities today: accurate and in clear modern English. `!verse Quran 2:255` (the Throne Verse) now shows it. Until now the bot used Marmaduke Pickthall's 1930 translation, whose old-fashioned "thee and thou" English matched the King James Bible.
+- 📚 **Every other well-known English translation is there too, 52 in all.** Put a translator's name after the reference: `!verse Quran 2:255 arberry` for A. J. Arberry's literary *The Koran Interpreted*, `studyquran` for *The Study Quran*, the major scholarly translation of 2015, `asad` for Muhammad Asad, `sahih` for Saheeh International, `pickthall` for Pickthall, and many more, including the first English translations by George Sale (1734) and J. M. Rodwell (1861). `!help quran translations` lists them all.
+- ⚖️ **Compare translations side by side.** Name several: `!verse Quran 1:1 haleem arberry asad` shows the same verse in each, one after another.
 ## 2026-10-17 · Hadith: the Forty Hadith Qudsi
 - ☪️ **New: the Forty Hadith Qudsi.** A *hadith qudsi* is a saying of God reported in the words of the Prophet Muhammad, a special class of hadith, between the Quran and the ordinary sayings. This classic collection of forty of them joins the Bukhari, Muslim, Nawawi and other collections the bot already has. Try `!verse Qudsi 1`.
 - 🔧 **The last hadith of two collections now work.** Sunan an-Nasa'i was listed as running to 5,761 and Muwatta Malik to 1,852; the real last numbers are 5,758 and 1,858, and `!help` and `!books` now say so. The last book of Muwatta Malik also couldn't be reached by some lookups; now it can.
