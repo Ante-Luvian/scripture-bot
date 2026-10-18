@@ -717,6 +717,20 @@ async def cmd_help(ctx, *, topic: str = ""):
         await ctx.send(embed=embed)
         return
 
+    if topic in ("gita", "bhagavad gita", "hindu", "hinduism", "dharmic"):
+        import gita_lookup
+        embed = discord.Embed(title="🕉️ The Bhagavad Gita", color=discord.Color.orange(), description=(
+            "`!verse Gita 2:47` is Shri Purohit Swami's translation (1935). Put a name after the reference for "
+            "another translation or a commentary, or several to compare: `!verse Gita 2:47 purohit sivananda shankara`."))
+        names = [f"`{s}` {n}" for s, (_, _, n) in gita_lookup.EDITIONS.items()]
+        embed.add_field(name="Translations", value="\n".join(names[:6]), inline=False)
+        embed.add_field(name="Commentaries, in English", value="\n".join(names[6:]), inline=False)
+        embed.add_field(name="Also in the library", value=(
+            "The four Vedas (`!verse Rig Veda 1.1:1`) · twelve Upanishads (`!verse Isa Upanishad 1`) · "
+            "the Yoga Sutras (`!verse Yoga Sutras 1:2`) · the Laws of Manu"), inline=False)
+        await ctx.send(embed=embed)
+        return
+
     if topic in ("buddhist", "buddhism", "pali", "pali canon", "suttas", "sutta", "tipitaka"):
         embed = discord.Embed(title="☸️ Buddhist Texts — Citation Guide", color=discord.Color.orange(), description=(
             "The **Pali Canon**, the earliest Buddhist scriptures, comes from SuttaCentral in Bhikkhu Sujato's "
@@ -954,8 +968,8 @@ async def cmd_help(ctx, *, topic: str = ""):
     embed.add_field(name="☪️ Islamic Texts", value=(
         "`!help islamic` — Quran (114 surahs, 52 translations) · Hadith (10 collections) · citation formats"
     ), inline=False)
-    embed.add_field(name="☸️ Buddhist Texts", value=(
-        "`!help buddhist` — the Pali Canon (DN, MN, SN, AN…) · Dhammapada · Jataka"
+    embed.add_field(name="☸️ 🕉️ Buddhist & Hindu Texts", value=(
+        "`!help buddhist` — the Pali Canon · `!help gita` — Gita translations & commentaries"
     ), inline=False)
     embed.add_field(name="🏺 Ancient Near Eastern Texts", value=(
         "`!help ane` — Gilgamesh · Baal Cycle · Egyptian texts · Ahikar · citation formats"

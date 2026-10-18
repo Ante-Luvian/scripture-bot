@@ -2013,6 +2013,11 @@ class ScriptureLookup:
             sutta = sutta_lookup.get_sutta(ref)
             if sutta is not None:
                 return sutta
+            # The Gita in a named translation or commentary (plain "Gita 2:47" stays our Purohit)
+            import gita_lookup
+            gita = gita_lookup.get_gita(ref, lambda r: self.get_verse(r, _quran_api=False))
+            if gita is not None:
+                return gita
 
         # Homer is cited book.line ("Iliad 6.440-465"); the general parser
         # only takes a dot without a range, so read the dot as a colon.

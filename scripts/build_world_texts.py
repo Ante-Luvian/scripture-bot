@@ -344,7 +344,7 @@ def bhagavad_gita():
     for t in translations:
         if t["authorName"] == GITA_TRANSLATOR and t["lang"] == "english":
             chap, verse = where[t["verse_id"]]
-            book.setdefault(chap, {})[verse] = tidy(t["description"])
+            book.setdefault(chap, {})[verse] = re.sub(r"^Revised:\s*", "", tidy(t["description"]))   # (2.48: an editor's note in the source)
     for chap in book:
         book[chap] = dict(sorted(book[chap].items(), key=lambda kv: int(kv[0])))
     book = dict(sorted(book.items(), key=lambda kv: int(kv[0])))

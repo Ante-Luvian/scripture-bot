@@ -50,7 +50,7 @@ Many of my answers come with buttons underneath. Under a Bible verse you'll see 
 Browse all of it with `!books`, or let me pick something at random with `!discover`.
 
 ## 📚 My library: Asia and the wider world
-**Hinduism** — the four **Vedas**; the **Bhagavad Gita** (every verse, in Shri Purohit Swami's translation: `!verse Gita 2:47`); twelve **Upanishads**, the philosophical heart of the Vedas — the Isa, Katha and Kena, and in Max Müller's translation the Chandogya, Brihadaranyaka, Mundaka, Taittiriya and more (`!verse Chandogya Upanishad 6.8:7`: "thou, O Svetaketu, art it", the famous "Thou art that"); the **Yoga Sutras** of Patanjali (`!verse Yoga Sutras 1:2`); and the **Laws of Manu**.
+**Hinduism** — the four **Vedas**; the **Bhagavad Gita** (every verse, in Shri Purohit Swami's translation: `!verse Gita 2:47`; or name one of five other translations, or the great commentaries of Shankara and Ramanuja: `!verse Gita 2:47 sivananda shankara`, `!help gita`); twelve **Upanishads**, the philosophical heart of the Vedas — the Isa, Katha and Kena, and in Max Müller's translation the Chandogya, Brihadaranyaka, Mundaka, Taittiriya and more (`!verse Chandogya Upanishad 6.8:7`: "thou, O Svetaketu, art it", the famous "Thou art that"); the **Yoga Sutras** of Patanjali (`!verse Yoga Sutras 1:2`); and the **Laws of Manu**.
 
 **Sikhism** — the whole **Guru Granth Sahib**, the Sikh scripture, cited by page (*Ang*) and line as Sikhs cite it (`!verse Guru Granth Sahib 1:1`), and the **Japji**, Guru Nanak's morning prayer that opens it, by stanza (`!verse Japji 1`).
 
