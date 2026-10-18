@@ -35,6 +35,11 @@ TAKING = re.compile(r"\b(?:minus|lose[sd]?|losing|lost|take[ns]?|taking|took|rem
                     r"subtract\w*|negative|revoke[sd]?|revoking|strip\w*|fined?|that'?ll be)\b", re.I)
 OFFER = re.compile(r"\b(?:if|would|i'?ll|i will|will (?:pay|give)|could|offer\w*|bount\w*|any(?:one|body)|whoever|"
                    r"every(?:one|body)|costs?|owe[sd]?|salary|until|how many|once you|per)\b", re.I)
+# questions about points, and remarks on someone's balance, give or take nothing
+TALK = re.compile(r"\?|^\W*(?:how|what|why|who|whom|whose|where|when|which|does|do|did|is|are|was|were|can|could|"
+                  r"should|has|have|am)\b|\b(?:you'?re|you are|they'?re|he'?s|she'?s|i'?m|is|are|now|sitting|"
+                  r"currently|still)\s+(?:at|on)\b|\b(?:ha(?:ve|s)|had)\b(?!\s+(?:been|just|now|\w+ed)\b)|"
+                  r"\bbalance\b|\btotal\b", re.I)
 LOOKBACK = datetime.timedelta(minutes=15)           # "15 deluge points", said just after someone's message
 
 
@@ -63,7 +68,7 @@ def amount(text: str) -> "int | None":
         n, sign = int(after.group("digits").replace(",", "")), after.group("sign")
     else:
         return None
-    if OFFER.search(text):                              # promises, bounties and what-ifs aren't payments
+    if OFFER.search(text) or TALK.search(text):         # promises, what-ifs, questions and balances aren't payments
         return None
     if sign:
         return n if sign == "+" else -n

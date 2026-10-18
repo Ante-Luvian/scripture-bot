@@ -27,6 +27,11 @@ def dl(bot_module):
     ("That'll be one thousand deluge points", -1000), ("Patriot. Plus 15 deluge points.", 15),
     ("I have subtracted 15 deluge points from your account.", -15),
     ("15 deluge points have been deposited in your account", 15),
+    ("how does nico have negative one thousand deluge points", None),                  # questions and balances
+    ("<@3> you're at negative 1k deluge points btw .", None), ("does he really have 500 deluge points", None),
+    ("is it 50 deluge points or 60?", None), ("she has 20 deluge points", None),
+    ("<@3> your balance is 40 deluge points", None), ("-500 deluge points", -500),
+    ("I have just removed 30 deluge points", -30), ("you have been given 10 deluge points", 10),
 ])
 def test_amount(dl, text, n):
     assert dl.amount(text) == n
