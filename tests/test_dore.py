@@ -37,6 +37,20 @@ def test_the_button_under_verse(do, lookup, ref, title):
     assert any(do.plate_embed(p).title == f"🖼️ {title}" for p in shown)
 
 
+def test_every_picture_has_its_text_as_caption(do):
+    """Bible plates are captioned with their verses, like Dante's and Milton's with their lines."""
+    magi = next(p for p in do.plates() if p["title"] == "The Wise Men Guided by the Star")
+    d = do.plate_embed(magi).description
+    assert d.startswith("**Matthew 2:1–2**\n1 *Now when Jesus was born in Bethlehem")
+    assert "\n2 *Saying, Where is he that is born King of the Jews?" in d
+    for p in do.plates() + do.plates("blake"):
+        if p["start"]:
+            assert "*" in do.plate_embed(p).description.replace("**", ""), p["key"]   # its text, in italics
+    sizes = [sum(len(e.description or "") + len(e.title) for e in map(do.plate_embed, ps))
+             for ps in zip(*[iter(do.plates() + do.plates("blake"))] * do.MAX_SHOWN)]
+    assert max(sizes) < 5000                                                    # (Discord: 6,000 a message)
+
+
 def test_no_button_without_a_picture(do, lookup):
     assert do.art_buttons(lookup.get_verse("John 3:16")) == []
     assert do.art_buttons(lookup.get_verse("Leviticus 3:1")) == []
@@ -96,6 +110,8 @@ def test_blakes_art(do, lookup):
 
 def test_blake_command_takes_a_passage(bot_module, fake_ctx):
     from bot_commands import blake
+    asyncio.run(blake.send_blake(fake_ctx, "Inferno 5"))            # (by canto: no lines to quote)
+    assert fake_ctx.sent[-1]["embeds"][0].title.startswith("🎨")
     asyncio.run(blake.send_blake(fake_ctx, "Job 38"))
     assert [e.title for e in fake_ctx.sent[-1]["embeds"]][:1] == ["🎨 The Lord Answering Job out of the Whirlwind"]
 

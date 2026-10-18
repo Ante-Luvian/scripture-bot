@@ -100,6 +100,31 @@ def caption(p: dict) -> str:
     return p["title"].split(" / ")[0].rstrip(",;:") if p["set"] == "milton" else p["title"]
 
 
+CAPTION_CHARS = 600                 # (four pictures to a message, and Discord allows 6,000 characters)
+
+
+@functools.lru_cache(maxsize=512)
+def passage_caption(span: str) -> str:
+    """The verses a picture shows, from the bot's own text (the KJV for the Bible), in italics; a long
+    passage is cut after the verse, or sentence, that passes CAPTION_CHARS ("Read it" has the rest)."""
+    result = lookup.get_verse(span)
+    if not result.get("found"):
+        return ""
+    verses = re.findall(r"\*\*\[(\d+)\]\*\*\s*(.+)", result["text"]) or [("", result["text"])]
+    lines, size = [], 0
+    for n, text in verses:
+        if size > CAPTION_CHARS:
+            lines.append("*…*")
+            break
+        text = " ".join(text.replace("*", "").split())
+        if len(text) > CAPTION_CHARS + 200:             # (one long paragraph: Bunyan's)
+            cut = max(text.rfind(". ", 0, CAPTION_CHARS), text.rfind("; ", 0, CAPTION_CHARS))
+            text = text[:cut + 1 if cut > 0 else CAPTION_CHARS] + " …"
+        lines.append((f"{n} " if len(verses) > 1 else "") + f"*{text}*")
+        size += len(text)
+    return "\n".join(lines)
+
+
 def plate_embed(p: dict) -> discord.Embed:
     name, emoji, _ = ARTIST[p["artist"]]
     if p["set"] == "milton":
@@ -107,14 +132,20 @@ def plate_embed(p: dict) -> discord.Embed:
         description = f"*{p['title']}*"
         read = f"!verse {reference(p, '-')}"
     elif p["set"] == "dante":
-        if p["book"]:                                  # the lines it shows, from the bot's Longfellow
+        if p.get("quote"):                             # Doré's: the lines it shows, from the bot's Longfellow
             title, read = reference(p), f"!verse {reference(p, '-')}"
             description = "\n".join(f"*{line}*" for line in p["quote"].splitlines())
-        else:                                          # (the portrait)
+        elif p["book"]:                                # Blake's, known by canto
+            title, description = p["title"], f"**{reference(p)}**"
+            read = f"!verse {reference(p, '-')}"
+        else:                                          # (Doré's portrait of Dante)
             title, description, read = p["title"], None, ""
     else:
-        span = f"{p['book']} {p['chapter']}:{p['start']}" + (f"-{p['end']}" if p["end"] != p["start"] else "")
-        title, description, read = p["title"], span, f"!verse {span}"
+        span = f"{p['book']} {p['chapter']}:{p['start']}" + (f"-{p['end']}" if p["end"] != p["start"] else "") \
+            if p["start"] else f"{p['book']} {p['chapter']}"
+        text = passage_caption(span) if p["start"] else ""
+        title, read = p["title"], f"!verse {span}"
+        description = f"**{reference(p)}**" + (f"\n{text}" if text else "")
     embed = discord.Embed(title=f"{emoji} {title}", url=p["page"], description=description,
                           color=COLOR if p["artist"] == "dore" else BLAKE_COLOR)
     if read:
