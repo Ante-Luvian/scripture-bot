@@ -201,6 +201,8 @@ answer, and every answer has a 🖼️ Card button that renders it as an image.
 
 Plus `!stats`, and owner/admin tools `!guildactivity`, `!scanstats`, `!errors [days]`
 (recent errors, grouped) and `!weeklyreport` (preview of the Monday DM report).
+Secret (kept out of !help, INTRODUCTION and the changelog on purpose): mods saying "+5 deluge
+points @someone" are quietly tallied; mods get a random excerpt with `!delugepoints` (`bot_commands/deluge.py`).
 Right-clicking a message → Apps → **Look up verses** shows the references in it, privately.
 
 The bot copies its runtime files in `data/` to `backups/YYYY-MM-DD/` once a day,

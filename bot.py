@@ -67,6 +67,7 @@ from bot_commands import (  # noqa: F401
     card,
     changelog,
     church,
+    deluge,
     cloud,
     divine_liturgy,
     games,
