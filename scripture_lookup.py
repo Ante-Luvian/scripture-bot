@@ -2008,6 +2008,11 @@ class ScriptureLookup:
             quran = quran_lookup.get_quran(ref, lambda r: self.get_verse(r, _quran_api=False))
             if quran is not None:
                 return quran
+            # The Pali Canon from SuttaCentral (MN 1, SN 56.11, AN 3.65...)
+            import sutta_lookup
+            sutta = sutta_lookup.get_sutta(ref)
+            if sutta is not None:
+                return sutta
 
         # Homer is cited book.line ("Iliad 6.440-465"); the general parser
         # only takes a dot without a range, so read the dot as a colon.

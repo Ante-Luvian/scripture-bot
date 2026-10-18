@@ -717,6 +717,26 @@ async def cmd_help(ctx, *, topic: str = ""):
         await ctx.send(embed=embed)
         return
 
+    if topic in ("buddhist", "buddhism", "pali", "pali canon", "suttas", "sutta", "tipitaka"):
+        embed = discord.Embed(title="☸️ Buddhist Texts — Citation Guide", color=discord.Color.orange(), description=(
+            "The **Pali Canon**, the earliest Buddhist scriptures, comes from SuttaCentral in Bhikkhu Sujato's "
+            "translation, cited the way Buddhists cite it. A number after a colon gives one section of a sutta."))
+        embed.add_field(name="The Pali Canon", value=(
+            "`!verse DN 16`  *Long Discourses (Dīgha Nikāya)*\n"
+            "`!verse MN 1`  *Middle Discourses (Majjhima Nikāya)*\n"
+            "`!verse SN 56.11`  *Linked Discourses (Saṁyutta Nikāya): the first sermon*\n"
+            "`!verse AN 3.65`  *Numbered Discourses (Aṅguttara Nikāya): to the Kālāmas*\n"
+            "`!verse Ud 1.1` · `Iti 1` · `Thag 1.1` · `Thig 1.1` · `Kp 9`\n"
+            "`!verse MN 1:3`  *(section 3 only)*\n"
+            "`!verse Dhp 183 sujato` · `!verse Snp 1.8 sujato`  *(Sujato's Dhammapada and Sutta Nipāta)*"
+        ), inline=False)
+        embed.add_field(name="Also in the library", value=(
+            "`!verse Dhammapada 183` *(Max Müller)* · `!verse Sutta Nipata 1.8` · `!verse Jataka 7`\n"
+            "`!verse Diamond Sutra 1` · `!verse Lotus Sutra 1:1` · Questions of King Milinda"
+        ), inline=False)
+        await ctx.send(embed=embed)
+        return
+
     if topic in ("quran translations", "qurantranslations", "quran translation", "translations quran"):
         import quran_lookup
         embed = discord.Embed(title="☪️ Quran translations", color=discord.Color.green(), description=(
@@ -932,7 +952,10 @@ async def cmd_help(ctx, *, topic: str = ""):
         "`!help jewish` — Mishnah · Talmud · Jerusalem Talmud · Tosefta · Targum · Midrash · Zohar · Kabbalah"
     ), inline=False)
     embed.add_field(name="☪️ Islamic Texts", value=(
-        "`!help islamic` — Quran (114 surahs) · Hadith (9 collections) · citation formats"
+        "`!help islamic` — Quran (114 surahs, 52 translations) · Hadith (10 collections) · citation formats"
+    ), inline=False)
+    embed.add_field(name="☸️ Buddhist Texts", value=(
+        "`!help buddhist` — the Pali Canon (DN, MN, SN, AN…) · Dhammapada · Jataka"
     ), inline=False)
     embed.add_field(name="🏺 Ancient Near Eastern Texts", value=(
         "`!help ane` — Gilgamesh · Baal Cycle · Egyptian texts · Ahikar · citation formats"
