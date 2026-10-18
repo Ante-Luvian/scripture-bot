@@ -8,6 +8,10 @@
    "angelusconfig"
   ],
   "bcp": [],
+  "blake": [
+   "blakeplate",
+   "illuminated"
+  ],
   "books": [],
   "canon": [],
   "card": [
@@ -265,6 +269,10 @@
    "st",
    "thomas"
   ],
+  "tarot": [
+   "riderwaite",
+   "taro"
+  ],
   "theme": [
    "topicacross",
    "traditions"
@@ -346,6 +354,7 @@
   "angelus",
   "angelussetup",
   "bcp",
+  "blake",
   "books",
   "canon",
   "card",
@@ -420,6 +429,7 @@
   "study",
   "subscribe",
   "summa",
+  "tarot",
   "theme",
   "timeline",
   "today",

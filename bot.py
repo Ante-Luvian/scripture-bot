@@ -66,6 +66,7 @@ from bot_commands.report import (
 from bot_commands import (  # noqa: F401
     angelus,
     autodetect,
+    blake,
     books,
     card,
     changelog,
@@ -100,6 +101,7 @@ from bot_commands import (  # noqa: F401
     slash,
     stories,
     stats,
+    tarot,
     translations,
     verse,
     votd,

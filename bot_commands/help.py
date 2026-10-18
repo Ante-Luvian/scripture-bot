@@ -748,6 +748,32 @@ async def cmd_help(ctx, *, topic: str = ""):
         await ctx.send(embed=embed)
         return
 
+    if topic in ("tarot", "riderwaite", "rider waite"):
+        embed = discord.Embed(title="🃏 !tarot — the Rider tarot", color=discord.Color.purple(), description=(
+            "The Rider tarot of 1909, the deck most tarot since has followed: 78 cards drawn by Pamela Colman "
+            "Smith, with A. E. Waite's own account of each from *The Pictorial Key to the Tarot* (1911).\n\n"
+            "`!tarot` — draw a card (shown upside down if it falls reversed, with Waite's reversed meaning)\n"
+            "`!tarot three` — the past, the present and the future\n"
+            "`!tarot celtic` — Waite's ten-card Celtic Cross\n"
+            "`!tarot the tower` · `!tarot queen of cups` · `!tarot 13` — a card, with both meanings\n"
+            "`!tarot list` — the whole deck"))
+        await ctx.send(embed=embed)
+        return
+
+    if topic in ("blake", "illuminated", "william blake"):
+        embed = discord.Embed(title="🎨 !blake — William Blake's illuminated books", color=discord.Color.dark_orange(),
+                              description=(
+            "Blake etched his poems and pictures together on copper, printed them himself and coloured each copy "
+            "by hand. Here are his illuminated books plate by plate, each in one copy.\n\n"
+            "`!blake` — a plate at random\n"
+            "`!blake songs` — a book from its first plate; ◀ ▶ turn the plates\n"
+            "`!blake urizen 5` — a book at a plate\n"
+            "`!blake list` — every book\n\n"
+            "Their words: `!verse Songs of Experience 12` (*The Tiger*), `!verse Thel 1`, "
+            "`!verse Marriage of Heaven and Hell 4` (the Proverbs of Hell)"))
+        await ctx.send(embed=embed)
+        return
+
     if topic in ("salah", "salat", "prayertimes", "namaz"):
         embed = discord.Embed(title="🕌 !salah — Muslim prayer times", color=discord.Color.green(), description=(
             "Muslims pray five times a day, at times set by the sun: **Fajr** at dawn, **Dhuhr** after midday, "
@@ -1028,7 +1054,8 @@ async def cmd_help(ctx, *, topic: str = ""):
         "`!prefer` — set your default translation · `!help prefer`"
     ), inline=False)
     embed.add_field(name="📜 Classical & Poetic", value=(
-        "`!parallel` — Homer, Virgil, Ovid, Heliand, Plato + more · `!help parallel`"
+        "`!parallel` — Homer, Virgil, Ovid, Heliand, Plato + more · `!help parallel`\n"
+        "`!blake` — Blake's illuminated books · `!help blake`"
     ), inline=False)
     embed.add_field(name="⛪ Catholic", value=(
         "`!ccc` — Catechism · `!help ccc`\n"
@@ -1048,7 +1075,7 @@ async def cmd_help(ctx, *, topic: str = ""):
         "`!prayer` — random devotional prayer from the BCP · `!help prayer`"
     ), inline=False)
     embed.add_field(name="🎲 Divination", value=(
-        "`!oracle` `!delphi` `!homer` `!virgil` `!sortesbiblicae` `!iching` `!hafez` `!rumi` — oracular & sortes · `!help oracle`\n"
+        "`!oracle` `!delphi` `!homer` `!virgil` `!sortesbiblicae` `!iching` `!hafez` `!rumi` `!tarot` · `!help oracle`\n"
         "`!quiz` — guess which book a verse is from (`!quiz hard`, `!quiz buddhist`, `!quiz leaderboard`)\n"
         "`!whoami` — Who Am I? Guess a Bible figure from clues that get easier · `!help whoami`\n"
         "`!versle` — the daily verse puzzle: where in the Bible is it? · `!help versle`"
@@ -1069,11 +1096,11 @@ async def cmd_help(ctx, *, topic: str = ""):
     ), inline=False)
     embed.add_field(name="🗺️ People, Places & Hymns", value=(
         "`!who Ruth` — who someone was, their family, every verse naming them · `!help who`\n"
-        "`!tree David` / `!tree Abraham to David` — a family tree, or a line of descent, drawn · `!help tree`\n"
+        "`!tree David` / `!tree Abraham to David` — family trees, drawn · `!help tree`\n"
         "`!place Bethel` — a place on a map, with its verses · `!help place`\n"
-        "`!journey paul 2` — a journey on a map: Paul's, the Exodus, Abraham's… · `!help journey`\n"
+        "`!journey paul 2` — journeys on a map (Paul, the Exodus…) · `!help journey`\n"
         "`!measure 300 cubits` — Bible weights, measures and money in today's terms · `!help measure`\n"
-        "`!kings` — every king of Israel and Judah: reigns and the Bible's verdict, as a chart · `!help kings`\n"
+        "`!kings` — the kings of Israel and Judah, charted · `!help kings`\n"
         "`!hymn amazing grace` — a hymn's words, its tune to play, the Bible behind it · `!midi <hymn>` just the tune · `!hymnlist` · `!help hymn`\n"
         "`!metrical 23` — a psalm in rhyming verse to sing (Scottish Psalter, 1650), with its tune · "
         "`!help metrical`"

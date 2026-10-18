@@ -1,0 +1,883 @@
+{
+ "source": "William Blake's illuminated books, from Wikimedia Commons (numbered as in the William Blake Archive)",
+ "illuminated": {
+  "songs": {
+   "title": "Songs of Innocence and of Experience",
+   "year": "1794",
+   "about": "\"Shewing the two contrary states of the human soul\": the Songs of Innocence with their answers, The Tyger, London and the rest.",
+   "copy": "Z",
+   "plates": [
+    {
+     "object": 1,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 01 Frontispiece to Songs of Innocence.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/7/71/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_01_Frontispiece_to_Songs_of_Innocence.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_01_Frontispiece_to_Songs_of_Innocence.jpg"
+    },
+    {
+     "object": 2,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 02.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/3/3d/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_02.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_02.jpg"
+    },
+    {
+     "object": 3,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 03 SI - Title.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/4/45/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_03_SI_-_Title.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_03_SI_-_Title.jpg"
+    },
+    {
+     "object": 4,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 04 SI - Intro.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/e/e9/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_04_SI_-_Intro.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_04_SI_-_Intro.jpg"
+    },
+    {
+     "object": 5,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 05 The Shepherd.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/3/3a/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_05_The_Shepherd.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_05_The_Shepherd.jpg"
+    },
+    {
+     "object": 6,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 06 The Ecchoing Green.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/1/10/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_06_The_Ecchoing_Green.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_06_The_Ecchoing_Green.jpg"
+    },
+    {
+     "object": 7,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 07 The Ecchoing Green p2.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/2/25/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_07_The_Ecchoing_Green_p2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_07_The_Ecchoing_Green_p2.jpg"
+    },
+    {
+     "object": 8,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 08 The Lamb.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/a/a7/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_08_The_Lamb.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_08_The_Lamb.jpg"
+    },
+    {
+     "object": 9,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 09 The Little Black Boy.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/7/78/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_09_The_Little_Black_Boy.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_09_The_Little_Black_Boy.jpg"
+    },
+    {
+     "object": 10,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 10 The Little Black Boy.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/9/91/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_10_The_Little_Black_Boy.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_10_The_Little_Black_Boy.jpg"
+    },
+    {
+     "object": 11,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 11 The Blossom.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/3/38/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_11_The_Blossom.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_11_The_Blossom.jpg"
+    },
+    {
+     "object": 12,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 12 The Chimney Sweeper.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/8/8c/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_12_The_Chimney_Sweeper.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_12_The_Chimney_Sweeper.jpg"
+    },
+    {
+     "object": 13,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 13 The Little Boy Lost.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/6/66/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_13_The_Little_Boy_Lost.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_13_The_Little_Boy_Lost.jpg"
+    },
+    {
+     "object": 14,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 14 The Little Boy Found.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/1/1d/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_14_The_Little_Boy_Found.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_14_The_Little_Boy_Found.jpg"
+    },
+    {
+     "object": 15,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 15 Laughing Song.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/5/50/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_15_Laughing_Song.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_15_Laughing_Song.jpg"
+    },
+    {
+     "object": 16,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 16 A Cradle Song.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/a/aa/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_16_A_Cradle_Song.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_16_A_Cradle_Song.jpg"
+    },
+    {
+     "object": 17,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 17 A Cradle Song p2.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/3/34/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_17_A_Cradle_Song_p2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_17_A_Cradle_Song_p2.jpg"
+    },
+    {
+     "object": 18,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 18 The Divine Image.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/9/94/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_18_The_Divine_Image.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_18_The_Divine_Image.jpg"
+    },
+    {
+     "object": 19,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 19 Holy Thursday.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/b/be/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_19_Holy_Thursday.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_19_Holy_Thursday.jpg"
+    },
+    {
+     "object": 20,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 20 Night.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/8/8d/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_20_Night.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_20_Night.jpg"
+    },
+    {
+     "object": 21,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 21 Night p2.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/b/b6/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_21_Night_p2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_21_Night_p2.jpg"
+    },
+    {
+     "object": 22,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 22 Spring.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/0/01/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_22_Spring.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_22_Spring.jpg"
+    },
+    {
+     "object": 23,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 23 Spring p2.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/6/68/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_23_Spring_p2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_23_Spring_p2.jpg"
+    },
+    {
+     "object": 24,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 24 Nurse's Song.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/b/ba/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_24_Nurse%27s_Song.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_24_Nurse%27s_Song.jpg"
+    },
+    {
+     "object": 25,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 25 Infant Joy.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/f/f3/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_25_Infant_Joy.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_25_Infant_Joy.jpg"
+    },
+    {
+     "object": 26,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 26 A Dream.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/a/a2/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_26_A_Dream.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_26_A_Dream.jpg"
+    },
+    {
+     "object": 27,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 27 On Anothers Sorrow.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/0/02/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_27_On_Anothers_Sorrow.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_27_On_Anothers_Sorrow.jpg"
+    },
+    {
+     "object": 28,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 28.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/0/00/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_28.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_28.jpg"
+    },
+    {
+     "object": 29,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 29 SE - Title.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/a/a9/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_29_SE_-_Title.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_29_SE_-_Title.jpg"
+    },
+    {
+     "object": 30,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 30 SE - Intro.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/c/c1/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_30_SE_-_Intro.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_30_SE_-_Intro.jpg"
+    },
+    {
+     "object": 31,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 31 Earth's Answer.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/d/d0/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_31_Earth%27s_Answer.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_31_Earth%27s_Answer.jpg"
+    },
+    {
+     "object": 32,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 32 The Clod & The Pebble.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/3/3a/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_32_The_Clod_%26_The_Pebble.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_32_The_Clod_%26_The_Pebble.jpg"
+    },
+    {
+     "object": 33,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 33 Holy Thursday.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/7/7b/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_33_Holy_Thursday.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_33_Holy_Thursday.jpg"
+    },
+    {
+     "object": 34,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 34 The Little Girl Lost.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/2/2f/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_34_The_Little_Girl_Lost.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_34_The_Little_Girl_Lost.jpg"
+    },
+    {
+     "object": 35,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 35 The Little Girl Found.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/6/6c/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_35_The_Little_Girl_Found.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_35_The_Little_Girl_Found.jpg"
+    },
+    {
+     "object": 36,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 36 The Little Girl Found p2.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/1/14/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_36_The_Little_Girl_Found_p2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_36_The_Little_Girl_Found_p2.jpg"
+    },
+    {
+     "object": 37,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 37 The Chimney Sweeper.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/0/05/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_37_The_Chimney_Sweeper.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_37_The_Chimney_Sweeper.jpg"
+    },
+    {
+     "object": 38,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 38 Nurses Song.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/5/5e/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_38_Nurses_Song.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_38_Nurses_Song.jpg"
+    },
+    {
+     "object": 39,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) Object 39 The Sick Rose.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/a/a8/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_Object_39_The_Sick_Rose.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_Object_39_The_Sick_Rose.jpg"
+    },
+    {
+     "object": 40,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 40 The Fly.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/0/0a/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_40_The_Fly.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_40_The_Fly.jpg"
+    },
+    {
+     "object": 41,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 41 The Angel.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/7/7f/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_41_The_Angel.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_41_The_Angel.jpg"
+    },
+    {
+     "object": 42,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 42 The Tyger.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/f/f8/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_42_The_Tyger.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_42_The_Tyger.jpg"
+    },
+    {
+     "object": 43,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 43 My Pretty Rose Tree.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/9/97/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_43_My_Pretty_Rose_Tree.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_43_My_Pretty_Rose_Tree.jpg"
+    },
+    {
+     "object": 44,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 44 The Garden of Love.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/a/a2/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_44_The_Garden_of_Love.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_44_The_Garden_of_Love.jpg"
+    },
+    {
+     "object": 45,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 45 The Little Vagabond.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/1/13/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_45_The_Little_Vagabond.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_45_The_Little_Vagabond.jpg"
+    },
+    {
+     "object": 46,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 46 London.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/7/7e/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_46_London.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_46_London.jpg"
+    },
+    {
+     "object": 47,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 47 The Human Abstract.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/7/77/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_47_The_Human_Abstract.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_47_The_Human_Abstract.jpg"
+    },
+    {
+     "object": 48,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 48 Infant Sorrow.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/b/bf/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_48_Infant_Sorrow.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_48_Infant_Sorrow.jpg"
+    },
+    {
+     "object": 49,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 49 A Poison Tree.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/6/69/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_49_A_Poison_Tree.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_49_A_Poison_Tree.jpg"
+    },
+    {
+     "object": 50,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 50 A Little Boy Lost.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/e/ea/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_50_A_Little_Boy_Lost.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_50_A_Little_Boy_Lost.jpg"
+    },
+    {
+     "object": 51,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 51 A Little Girl Lost.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/8/82/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_51_A_Little_Girl_Lost.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_51_A_Little_Girl_Lost.jpg"
+    },
+    {
+     "object": 52,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 52 To Tirzah.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/6/67/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_52_To_Tirzah.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_52_To_Tirzah.jpg"
+    },
+    {
+     "object": 53,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 53 The School Boy.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/9/96/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_53_The_School_Boy.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_53_The_School_Boy.jpg"
+    },
+    {
+     "object": 54,
+     "file": "File:Songs of Innocence and of Experience, copy Z, 1826 (Library of Congress) object 54 The Voice of the Ancient Bard.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/1/17/Songs_of_Innocence_and_of_Experience%2C_copy_Z%2C_1826_%28Library_of_Congress%29_object_54_The_Voice_of_the_Ancient_Bard.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Songs_of_Innocence_and_of_Experience,_copy_Z,_1826_(Library_of_Congress)_object_54_The_Voice_of_the_Ancient_Bard.jpg"
+    }
+   ]
+  },
+  "thel": {
+   "title": "The Book of Thel",
+   "year": "1789",
+   "about": "Thel, a maiden of the vales of Har, asks why she must fade, and visits the grave.",
+   "copy": "F",
+   "plates": [
+    {
+     "object": 1,
+     "file": "File:Book of Thel copy F plate 01.jpg",
+     "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/53/Book_of_Thel_copy_F_plate_01.jpg/1280px-Book_of_Thel_copy_F_plate_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+     "page": "https://commons.wikimedia.org/wiki/File:Book_of_Thel_copy_F_plate_01.jpg"
+    },
+    {
+     "object": 2,
+     "file": "File:Book of Thel copy F plate 02.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/8/80/Book_of_Thel_copy_F_plate_02.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Book_of_Thel_copy_F_plate_02.jpg"
+    },
+    {
+     "object": 3,
+     "file": "File:Book of Thel copy F plate 03.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/4/44/Book_of_Thel_copy_F_plate_03.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Book_of_Thel_copy_F_plate_03.jpg"
+    },
+    {
+     "object": 4,
+     "file": "File:Book of Thel copy F plate 04.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/8/8b/Book_of_Thel_copy_F_plate_04.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Book_of_Thel_copy_F_plate_04.jpg"
+    },
+    {
+     "object": 5,
+     "file": "File:Book of Thel copy F plate 05.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/b/b6/Book_of_Thel_copy_F_plate_05.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Book_of_Thel_copy_F_plate_05.jpg"
+    },
+    {
+     "object": 6,
+     "file": "File:Book of Thel copy F plate 06.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/c/cc/Book_of_Thel_copy_F_plate_06.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Book_of_Thel_copy_F_plate_06.jpg"
+    },
+    {
+     "object": 7,
+     "file": "File:Book of Thel copy F plate 07.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/e/ee/Book_of_Thel_copy_F_plate_07.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Book_of_Thel_copy_F_plate_07.jpg"
+    },
+    {
+     "object": 8,
+     "file": "File:Book of Thel copy F plate 08.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/c/c9/Book_of_Thel_copy_F_plate_08.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Book_of_Thel_copy_F_plate_08.jpg"
+    }
+   ]
+  },
+  "visions": {
+   "title": "Visions of the Daughters of Albion",
+   "year": "1793",
+   "about": "Oothoon's cry for freedom in love and against slavery.",
+   "copy": "G",
+   "plates": [
+    {
+     "object": 1,
+     "file": "File:Visions of the Daughters of Albion copy G plate 01.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/f/f8/Visions_of_the_Daughters_of_Albion_copy_G_plate_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Visions_of_the_Daughters_of_Albion_copy_G_plate_01.jpg"
+    },
+    {
+     "object": 2,
+     "file": "File:Visions of the Daughters of Albion copy G plate 02.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/9/99/Visions_of_the_Daughters_of_Albion_copy_G_plate_02.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Visions_of_the_Daughters_of_Albion_copy_G_plate_02.jpg"
+    },
+    {
+     "object": 3,
+     "file": "File:Visions of the Daughters of Albion copy G plate 03.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/f/f8/Visions_of_the_Daughters_of_Albion_copy_G_plate_03.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Visions_of_the_Daughters_of_Albion_copy_G_plate_03.jpg"
+    },
+    {
+     "object": 4,
+     "file": "File:Visions of the Daughters of Albion copy G plate 04.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/f/fc/Visions_of_the_Daughters_of_Albion_copy_G_plate_04.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Visions_of_the_Daughters_of_Albion_copy_G_plate_04.jpg"
+    },
+    {
+     "object": 5,
+     "file": "File:Visions of the Daughters of Albion copy G plate 05.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/a/a6/Visions_of_the_Daughters_of_Albion_copy_G_plate_05.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Visions_of_the_Daughters_of_Albion_copy_G_plate_05.jpg"
+    },
+    {
+     "object": 6,
+     "file": "File:Visions of the Daughters of Albion copy G plate 06.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/8/8a/Visions_of_the_Daughters_of_Albion_copy_G_plate_06.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Visions_of_the_Daughters_of_Albion_copy_G_plate_06.jpg"
+    },
+    {
+     "object": 7,
+     "file": "File:Visions of the Daughters of Albion copy G plate 07.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/3/39/Visions_of_the_Daughters_of_Albion_copy_G_plate_07.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Visions_of_the_Daughters_of_Albion_copy_G_plate_07.jpg"
+    },
+    {
+     "object": 8,
+     "file": "File:Visions of the Daughters of Albion copy G plate 08.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/6/6a/Visions_of_the_Daughters_of_Albion_copy_G_plate_08.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Visions_of_the_Daughters_of_Albion_copy_G_plate_08.jpg"
+    },
+    {
+     "object": 9,
+     "file": "File:Visions of the Daughters of Albion copy G plate 09.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/c/c8/Visions_of_the_Daughters_of_Albion_copy_G_plate_09.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Visions_of_the_Daughters_of_Albion_copy_G_plate_09.jpg"
+    },
+    {
+     "object": 10,
+     "file": "File:Visions of the Daughters of Albion copy G plate 10.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/8/8e/Visions_of_the_Daughters_of_Albion_copy_G_plate_10.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Visions_of_the_Daughters_of_Albion_copy_G_plate_10.jpg"
+    },
+    {
+     "object": 11,
+     "file": "File:Visions of the Daughters of Albion copy G plate 11.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/4/44/Visions_of_the_Daughters_of_Albion_copy_G_plate_11.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Visions_of_the_Daughters_of_Albion_copy_G_plate_11.jpg"
+    }
+   ]
+  },
+  "america": {
+   "title": "America a Prophecy",
+   "year": "1793",
+   "about": "The American Revolution as a cosmic uprising, led by the fiery spirit Orc.",
+   "copy": "A",
+   "plates": [
+    {
+     "object": 1,
+     "file": "File:America a Prophecy copy a plate 01.jpg",
+     "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bb/America_a_Prophecy_copy_a_plate_01.jpg/1280px-America_a_Prophecy_copy_a_plate_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+     "page": "https://commons.wikimedia.org/wiki/File:America_a_Prophecy_copy_a_plate_01.jpg"
+    },
+    {
+     "object": 2,
+     "file": "File:America a Prophecy copy a plate 02.jpg",
+     "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/27/America_a_Prophecy_copy_a_plate_02.jpg/1280px-America_a_Prophecy_copy_a_plate_02.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+     "page": "https://commons.wikimedia.org/wiki/File:America_a_Prophecy_copy_a_plate_02.jpg"
+    },
+    {
+     "object": 3,
+     "file": "File:America a Prophecy copy a plate 03.jpg",
+     "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9d/America_a_Prophecy_copy_a_plate_03.jpg/1280px-America_a_Prophecy_copy_a_plate_03.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+     "page": "https://commons.wikimedia.org/wiki/File:America_a_Prophecy_copy_a_plate_03.jpg"
+    },
+    {
+     "object": 4,
+     "file": "File:America a Prophecy copy a plate 04.jpg",
+     "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/95/America_a_Prophecy_copy_a_plate_04.jpg/1280px-America_a_Prophecy_copy_a_plate_04.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+     "page": "https://commons.wikimedia.org/wiki/File:America_a_Prophecy_copy_a_plate_04.jpg"
+    },
+    {
+     "object": 5,
+     "file": "File:America a Prophecy copy a plate 05.jpg",
+     "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/71/America_a_Prophecy_copy_a_plate_05.jpg/1280px-America_a_Prophecy_copy_a_plate_05.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+     "page": "https://commons.wikimedia.org/wiki/File:America_a_Prophecy_copy_a_plate_05.jpg"
+    },
+    {
+     "object": 6,
+     "file": "File:America a Prophecy copy a plate 06.jpg",
+     "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f0/America_a_Prophecy_copy_a_plate_06.jpg/1280px-America_a_Prophecy_copy_a_plate_06.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+     "page": "https://commons.wikimedia.org/wiki/File:America_a_Prophecy_copy_a_plate_06.jpg"
+    },
+    {
+     "object": 7,
+     "file": "File:America a Prophecy copy a plate 07.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/8/8d/America_a_Prophecy_copy_a_plate_07.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:America_a_Prophecy_copy_a_plate_07.jpg"
+    },
+    {
+     "object": 8,
+     "file": "File:America a Prophecy copy a plate 08.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/f/f3/America_a_Prophecy_copy_a_plate_08.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:America_a_Prophecy_copy_a_plate_08.jpg"
+    },
+    {
+     "object": 9,
+     "file": "File:America a Prophecy copy a plate 09.jpg",
+     "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f9/America_a_Prophecy_copy_a_plate_09.jpg/1280px-America_a_Prophecy_copy_a_plate_09.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+     "page": "https://commons.wikimedia.org/wiki/File:America_a_Prophecy_copy_a_plate_09.jpg"
+    },
+    {
+     "object": 10,
+     "file": "File:America a Prophecy copy a plate 10.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/1/1a/America_a_Prophecy_copy_a_plate_10.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:America_a_Prophecy_copy_a_plate_10.jpg"
+    },
+    {
+     "object": 11,
+     "file": "File:America a Prophecy copy a plate 11.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/c/cf/America_a_Prophecy_copy_a_plate_11.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:America_a_Prophecy_copy_a_plate_11.jpg"
+    },
+    {
+     "object": 13,
+     "file": "File:America a Prophecy copy a plate 13.jpg",
+     "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0e/America_a_Prophecy_copy_a_plate_13.jpg/1280px-America_a_Prophecy_copy_a_plate_13.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+     "page": "https://commons.wikimedia.org/wiki/File:America_a_Prophecy_copy_a_plate_13.jpg"
+    },
+    {
+     "object": 14,
+     "file": "File:America a Prophecy copy a plate 14.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/e/e9/America_a_Prophecy_copy_a_plate_14.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:America_a_Prophecy_copy_a_plate_14.jpg"
+    },
+    {
+     "object": 15,
+     "file": "File:America a Prophecy copy a plate 15.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/b/bf/America_a_Prophecy_copy_a_plate_15.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:America_a_Prophecy_copy_a_plate_15.jpg"
+    },
+    {
+     "object": 16,
+     "file": "File:America a Prophecy copy a plate 16.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/7/7f/America_a_Prophecy_copy_a_plate_16.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:America_a_Prophecy_copy_a_plate_16.jpg"
+    },
+    {
+     "object": 17,
+     "file": "File:America a Prophecy copy a plate 17.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/a/af/America_a_Prophecy_copy_a_plate_17.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:America_a_Prophecy_copy_a_plate_17.jpg"
+    },
+    {
+     "object": 18,
+     "file": "File:America a Prophecy copy a plate 18.jpg",
+     "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/23/America_a_Prophecy_copy_a_plate_18.jpg/1280px-America_a_Prophecy_copy_a_plate_18.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+     "page": "https://commons.wikimedia.org/wiki/File:America_a_Prophecy_copy_a_plate_18.jpg"
+    }
+   ]
+  },
+  "europe": {
+   "title": "Europe a Prophecy",
+   "year": "1794",
+   "about": "Eighteen hundred years of Europe's sleep, and its waking.",
+   "copy": "K",
+   "plates": [
+    {
+     "object": 1,
+     "file": "File:Europe a Prophecy copy K plate 01 (square crop).jpg",
+     "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6e/Europe_a_Prophecy_copy_K_plate_01_%28square_crop%29.jpg/1280px-Europe_a_Prophecy_copy_K_plate_01_%28square_crop%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
+     "page": "https://commons.wikimedia.org/wiki/File:Europe_a_Prophecy_copy_K_plate_01_(square_crop).jpg"
+    },
+    {
+     "object": 2,
+     "file": "File:Europe a Prophecy copy K plate 02.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/1/10/Europe_a_Prophecy_copy_K_plate_02.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Europe_a_Prophecy_copy_K_plate_02.jpg"
+    },
+    {
+     "object": 3,
+     "file": "File:Europe a Prophecy copy K plate 03.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/a/a3/Europe_a_Prophecy_copy_K_plate_03.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Europe_a_Prophecy_copy_K_plate_03.jpg"
+    },
+    {
+     "object": 4,
+     "file": "File:Europe a Prophecy copy K plate 04.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/d/d9/Europe_a_Prophecy_copy_K_plate_04.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Europe_a_Prophecy_copy_K_plate_04.jpg"
+    },
+    {
+     "object": 5,
+     "file": "File:Europe a Prophecy copy K plate 05.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/0/01/Europe_a_Prophecy_copy_K_plate_05.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Europe_a_Prophecy_copy_K_plate_05.jpg"
+    },
+    {
+     "object": 6,
+     "file": "File:Europe a Prophecy copy K plate 06.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/3/31/Europe_a_Prophecy_copy_K_plate_06.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Europe_a_Prophecy_copy_K_plate_06.jpg"
+    },
+    {
+     "object": 7,
+     "file": "File:Europe a Prophecy copy K plate 07.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/f/f3/Europe_a_Prophecy_copy_K_plate_07.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Europe_a_Prophecy_copy_K_plate_07.jpg"
+    },
+    {
+     "object": 8,
+     "file": "File:Europe a Prophecy copy K plate 08.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/8/84/Europe_a_Prophecy_copy_K_plate_08.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Europe_a_Prophecy_copy_K_plate_08.jpg"
+    },
+    {
+     "object": 9,
+     "file": "File:Europe a Prophecy copy K plate 09.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/e/ee/Europe_a_Prophecy_copy_K_plate_09.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Europe_a_Prophecy_copy_K_plate_09.jpg"
+    },
+    {
+     "object": 10,
+     "file": "File:Europe a Prophecy copy K plate 10.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/5/50/Europe_a_Prophecy_copy_K_plate_10.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Europe_a_Prophecy_copy_K_plate_10.jpg"
+    },
+    {
+     "object": 11,
+     "file": "File:Europe a Prophecy copy K plate 11.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/0/0e/Europe_a_Prophecy_copy_K_plate_11.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Europe_a_Prophecy_copy_K_plate_11.jpg"
+    },
+    {
+     "object": 12,
+     "file": "File:Europe a Prophecy copy K plate 12.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/6/6d/Europe_a_Prophecy_copy_K_plate_12.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Europe_a_Prophecy_copy_K_plate_12.jpg"
+    },
+    {
+     "object": 13,
+     "file": "File:Europe a Prophecy copy K plate 13.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/a/ab/Europe_a_Prophecy_copy_K_plate_13.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Europe_a_Prophecy_copy_K_plate_13.jpg"
+    },
+    {
+     "object": 14,
+     "file": "File:Europe a Prophecy copy K plate 14.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/b/bf/Europe_a_Prophecy_copy_K_plate_14.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Europe_a_Prophecy_copy_K_plate_14.jpg"
+    },
+    {
+     "object": 15,
+     "file": "File:Europe a Prophecy copy K plate 15.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/c/c1/Europe_a_Prophecy_copy_K_plate_15.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Europe_a_Prophecy_copy_K_plate_15.jpg"
+    },
+    {
+     "object": 16,
+     "file": "File:Europe a Prophecy copy K plate 16.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/e/ed/Europe_a_Prophecy_copy_K_plate_16.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Europe_a_Prophecy_copy_K_plate_16.jpg"
+    },
+    {
+     "object": 17,
+     "file": "File:Europe a Prophecy copy K plate 17.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/7/76/Europe_a_Prophecy_copy_K_plate_17.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Europe_a_Prophecy_copy_K_plate_17.jpg"
+    },
+    {
+     "object": 18,
+     "file": "File:Europe a Prophecy copy K plate 18.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/0/03/Europe_a_Prophecy_copy_K_plate_18.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Europe_a_Prophecy_copy_K_plate_18.jpg"
+    }
+   ]
+  },
+  "urizen": {
+   "title": "The Book of Urizen",
+   "year": "1794",
+   "about": "Blake's dark Genesis: Urizen, the god of reason and law, divides himself from eternity.",
+   "copy": "G",
+   "plates": [
+    {
+     "object": 2,
+     "file": "File:Book of Urizen copy G plate 02.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/4/45/Book_of_Urizen_copy_G_plate_02.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Book_of_Urizen_copy_G_plate_02.jpg"
+    },
+    {
+     "object": 3,
+     "file": "File:Book of Urizen copy G plate 03.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/1/1a/Book_of_Urizen_copy_G_plate_03.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Book_of_Urizen_copy_G_plate_03.jpg"
+    },
+    {
+     "object": 4,
+     "file": "File:Book of Urizen copy G plate 04.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/a/a6/Book_of_Urizen_copy_G_plate_04.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Book_of_Urizen_copy_G_plate_04.jpg"
+    },
+    {
+     "object": 5,
+     "file": "File:Book of Urizen copy G plate 05.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/e/e2/Book_of_Urizen_copy_G_plate_05.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Book_of_Urizen_copy_G_plate_05.jpg"
+    },
+    {
+     "object": 6,
+     "file": "File:Book of Urizen copy G plate 06.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/b/bf/Book_of_Urizen_copy_G_plate_06.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Book_of_Urizen_copy_G_plate_06.jpg"
+    },
+    {
+     "object": 7,
+     "file": "File:Book of Urizen copy G plate 07.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/e/e0/Book_of_Urizen_copy_G_plate_07.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Book_of_Urizen_copy_G_plate_07.jpg"
+    },
+    {
+     "object": 8,
+     "file": "File:Book of Urizen copy G plate 08.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/5/5b/Book_of_Urizen_copy_G_plate_08.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Book_of_Urizen_copy_G_plate_08.jpg"
+    },
+    {
+     "object": 10,
+     "file": "File:Book of Urizen copy G plate 10.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/9/97/Book_of_Urizen_copy_G_plate_10.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Book_of_Urizen_copy_G_plate_10.jpg"
+    },
+    {
+     "object": 11,
+     "file": "File:Book of Urizen copy G plate 11.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/6/65/Book_of_Urizen_copy_G_plate_11.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Book_of_Urizen_copy_G_plate_11.jpg"
+    },
+    {
+     "object": 12,
+     "file": "File:Book of Urizen copy G plate 12.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/7/76/Book_of_Urizen_copy_G_plate_12.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Book_of_Urizen_copy_G_plate_12.jpg"
+    },
+    {
+     "object": 13,
+     "file": "File:Book of Urizen copy G plate 13.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/3/31/Book_of_Urizen_copy_G_plate_13.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Book_of_Urizen_copy_G_plate_13.jpg"
+    },
+    {
+     "object": 14,
+     "file": "File:Book of Urizen copy G plate 14.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/6/65/Book_of_Urizen_copy_G_plate_14.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Book_of_Urizen_copy_G_plate_14.jpg"
+    },
+    {
+     "object": 15,
+     "file": "File:Book of Urizen copy G plate 15.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/9/9b/Book_of_Urizen_copy_G_plate_15.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Book_of_Urizen_copy_G_plate_15.jpg"
+    },
+    {
+     "object": 16,
+     "file": "File:Book of Urizen copy G plate 16.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/e/e8/Book_of_Urizen_copy_G_plate_16.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Book_of_Urizen_copy_G_plate_16.jpg"
+    },
+    {
+     "object": 17,
+     "file": "File:Book of Urizen copy G plate 17.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/6/6d/Book_of_Urizen_copy_G_plate_17.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Book_of_Urizen_copy_G_plate_17.jpg"
+    },
+    {
+     "object": 19,
+     "file": "File:Book of Urizen copy G plate 19.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/7/75/Book_of_Urizen_copy_G_plate_19.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Book_of_Urizen_copy_G_plate_19.jpg"
+    },
+    {
+     "object": 20,
+     "file": "File:Book of Urizen copy G plate 20.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/d/db/Book_of_Urizen_copy_G_plate_20.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Book_of_Urizen_copy_G_plate_20.jpg"
+    },
+    {
+     "object": 21,
+     "file": "File:Book of Urizen copy G plate 21.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/c/c6/Book_of_Urizen_copy_G_plate_21.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Book_of_Urizen_copy_G_plate_21.jpg"
+    },
+    {
+     "object": 22,
+     "file": "File:Book of Urizen copy G plate 22.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/5/51/Book_of_Urizen_copy_G_plate_22.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Book_of_Urizen_copy_G_plate_22.jpg"
+    },
+    {
+     "object": 23,
+     "file": "File:Book of Urizen copy G plate 23.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/8/8e/Book_of_Urizen_copy_G_plate_23.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Book_of_Urizen_copy_G_plate_23.jpg"
+    },
+    {
+     "object": 25,
+     "file": "File:Book of Urizen copy G plate 25.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/1/19/Book_of_Urizen_copy_G_plate_25.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Book_of_Urizen_copy_G_plate_25.jpg"
+    },
+    {
+     "object": 26,
+     "file": "File:Book of Urizen copy G plate 26.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/6/6c/Book_of_Urizen_copy_G_plate_26.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Book_of_Urizen_copy_G_plate_26.jpg"
+    },
+    {
+     "object": 27,
+     "file": "File:Book of Urizen copy G plate 27.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/6/6e/Book_of_Urizen_copy_G_plate_27.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:Book_of_Urizen_copy_G_plate_27.jpg"
+    }
+   ]
+  },
+  "ahania": {
+   "title": "The Book of Ahania",
+   "year": "1795",
+   "about": "The sequel to Urizen.",
+   "copy": "A",
+   "plates": [
+    {
+     "object": 1,
+     "file": "File:The Book of Ahania copy A plate 01.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/a/ac/The_Book_of_Ahania_copy_A_plate_01.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:The_Book_of_Ahania_copy_A_plate_01.jpg"
+    },
+    {
+     "object": 2,
+     "file": "File:The Book of Ahania copy A plate 02.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/f/f7/The_Book_of_Ahania_copy_A_plate_02.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:The_Book_of_Ahania_copy_A_plate_02.jpg"
+    },
+    {
+     "object": 3,
+     "file": "File:The Book of Ahania copy A plate 03.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/1/1c/The_Book_of_Ahania_copy_A_plate_03.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:The_Book_of_Ahania_copy_A_plate_03.jpg"
+    },
+    {
+     "object": 4,
+     "file": "File:The Book of Ahania copy A plate 04.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/3/3d/The_Book_of_Ahania_copy_A_plate_04.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:The_Book_of_Ahania_copy_A_plate_04.jpg"
+    },
+    {
+     "object": 5,
+     "file": "File:The Book of Ahania copy A plate 05.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/a/ac/The_Book_of_Ahania_copy_A_plate_05.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:The_Book_of_Ahania_copy_A_plate_05.jpg"
+    },
+    {
+     "object": 6,
+     "file": "File:The Book of Ahania copy A plate 06.jpg",
+     "image": "https://upload.wikimedia.org/wikipedia/commons/a/af/The_Book_of_Ahania_copy_A_plate_06.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
+     "page": "https://commons.wikimedia.org/wiki/File:The_Book_of_Ahania_copy_A_plate_06.jpg"
+    }
+   ]
+  }
+ }
+}
