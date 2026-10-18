@@ -5,8 +5,9 @@ import asyncio
 
 import pytest
 
-# Owner/maintenance tools that stay prefix-only
-PREFIX_ONLY = {"guildactivity", "scanstats", "votdmode"}
+# Owner/maintenance tools that stay prefix-only; and commands added after the bot reached
+# Discord's limit of 100 slash commands
+PREFIX_ONLY = {"guildactivity", "scanstats", "votdmode", "vov"}
 ADMIN_SLASH = {"votdsetup", "oraclesetup", "quizsetup", "verslesetup", "hymndaysetup", "saintsetup", "angelussetup", "troparionsetup", "learningsetup", "changelogsetup", "changelogintro", "features"}
 
 

@@ -339,6 +339,10 @@
   "votdsetup": [
    "votdconfig"
   ],
+  "vov": [
+   "puritan",
+   "valleyofvision"
+  ],
   "weeklyreport": [],
   "who": [
    "person",

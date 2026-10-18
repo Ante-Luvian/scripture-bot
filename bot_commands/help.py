@@ -1087,7 +1087,8 @@ async def cmd_help(ctx, *, topic: str = ""):
         "`!mp` / `!ep` — both lessons for that period\n"
         "`!psalm` / `!psalm mp` / `!psalm ep` — appointed Coverdale psalms\n"
         "`!collect` — the Collect of the Day\n"
-        "`!prayer` — random devotional prayer from the BCP · `!help prayer`"
+        "`!prayer` — random devotional prayer from the BCP · `!help prayer`\n"
+        "`!vov` — Puritan prayers (`!vov topics`)"
     ), inline=False)
     embed.add_field(name="🎲 Divination", value=(
         "`!oracle` `!delphi` `!homer` `!virgil` `!sortesbiblicae` `!iching` `!hafez` `!rumi` `!tarot` · `!help oracle`\n"

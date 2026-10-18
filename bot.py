@@ -75,6 +75,7 @@ from bot_commands import (  # noqa: F401
     cloud,
     divine_liturgy,
     dore,
+    vov,
     games,
     harmony,
     report,
