@@ -66,6 +66,11 @@
    "chrysostomliturgy",
    "orthodoxliturgy"
   ],
+  "dore": [
+   "doré",
+   "engraving",
+   "engravings"
+  ],
   "ep": [
    "evensong",
    "vespers"
@@ -374,6 +379,7 @@
   "dictionary",
   "discover",
   "divineliturgy",
+  "dore",
   "ep",
   "export",
   "features",

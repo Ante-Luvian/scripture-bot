@@ -13,6 +13,7 @@ from bot_commands.card import (
 from bot_commands.church import (
     cmd_catena,
 )
+from bot_commands.dore import DoreButton, dore_button
 from bot_commands.reference import (
     cmd_notes,
     cmd_xref,
@@ -135,6 +136,9 @@ def _study_view_from_message(message, pressed_custom_id: str) -> discord.ui.View
             if m:
                 done = component.disabled or component.custom_id == pressed_custom_id
                 view.add_item(StudyButton(m["action"], m["ref"], disabled=done))
+            d = DoreButton.__discord_ui_compiled_template__.fullmatch(getattr(component, "custom_id", None) or "")
+            if d:                                       # (the Doré button stays: it can be pressed again)
+                view.add_item(DoreButton(d["keys"].split(",")))
     return view
 
 
@@ -152,7 +156,9 @@ def _study_buttons(result: dict) -> list:
 
 
 async def _send_with_study(ctx, result: dict):
-    await _send_result(ctx, result, extra_buttons=_study_buttons(result))
+    buttons = _study_buttons(result)
+    dore = dore_button(result)                      # 🖼️ Doré, wherever the passage has an engraving
+    await _send_result(ctx, result, extra_buttons=buttons + ([dore] if dore else []))
 
 
 @bot.command(name="verse", aliases=["v", "scripture"])

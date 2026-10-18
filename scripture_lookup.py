@@ -433,6 +433,11 @@ ALIASES: dict[str, str] = {
     "thel": "The Book of Thel", "book of thel": "The Book of Thel", "mhh": "The Marriage of Heaven and Hell",
     "marriage of heaven and hell": "The Marriage of Heaven and Hell", "songs of innocence": "Songs of Innocence",
     "songs of experience": "Songs of Experience",
+    # John Bunyan
+    "pilgrims progress": "Pilgrim's Progress", "pilgrim's progress part one": "Pilgrim's Progress",
+    "pilgrim's progress part two": "Pilgrim's Progress, Part Two", "pilgrim's progress part 2": "Pilgrim's Progress, Part Two",
+    "pilgrims progress part two": "Pilgrim's Progress, Part Two", "pilgrims progress part 2": "Pilgrim's Progress, Part Two",
+    "pilgrim's progress 2": "Pilgrim's Progress, Part Two", "christiana": "Pilgrim's Progress, Part Two",
     # John Milton
     "pl": "Paradise Lost", "paradise regain'd": "Paradise Regained", "pr": "Paradise Regained",
     "samson": "Samson Agonistes", "sa": "Samson Agonistes",
@@ -1752,6 +1757,7 @@ class ScriptureLookup:
                 "swedenborg.json",
                 "blake.json",
                 "milton.json",
+                "pilgrims_progress.json",
             ],
         }
         for corpus, filenames in corpus_dirs.items():

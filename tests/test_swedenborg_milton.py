@@ -48,3 +48,15 @@ def test_no_editors_notes_in_milton(lookup):
     for book in ("Paradise Lost", "Paradise Regained", "Samson Agonistes"):
         for chapter in lookup._data["medieval"][book].values():
             assert not any(v.lstrip().startswith(("Note:", "Notes:")) or "1674." in v for v in chapter.values()), book
+
+
+@pytest.mark.parametrize("ref, reference, snippet", [
+    ("Pilgrim's Progress 1:1", "Pilgrim's Progress 1:1", "As I walk'd through the wilderness of this world"),
+    ("Pilgrims Progress 0:1", "Pilgrim's Progress 0:1", "When at the first I took my Pen in hand"),
+    ("Pilgrim's Progress Part Two 1:1", "Pilgrim's Progress, Part Two 1:1", "Go now my little Book"),
+    ("Christiana 2:1", "Pilgrim's Progress, Part Two 2:1", ""),
+])
+def test_pilgrims_progress(lookup, ref, reference, snippet):
+    r = lookup.get_verse(ref)
+    assert r["found"] and r["reference"] == reference and snippet in r["text"], r.get("error")
+    assert "Bunyan" in r["source"] and "Section I" not in r["text"]

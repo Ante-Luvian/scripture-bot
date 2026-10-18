@@ -1084,6 +1084,9 @@ BOOKS_TREE = [
                 "De Conjugio", "God the Saviour", "Canons of the New Church",
             ]),
         ]),
+        ("John Bunyan", [
+            ("John Bunyan", ["Pilgrim's Progress", "Pilgrim's Progress, Part Two"]),
+        ]),
         ("John Milton", [
             ("John Milton", ["Paradise Lost", "Paradise Regained", "Samson Agonistes"]),
         ]),

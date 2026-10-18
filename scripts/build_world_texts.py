@@ -1852,6 +1852,41 @@ def swedenborg():
     print(f"wrote {path.relative_to(ROOT)}: {len(books)} works, {path.stat().st_size // 1_000_000} MB")
 
 
+# ── John Bunyan ─────────────────────────────────────────────────────────────
+
+def pilgrims_progress():
+    """John Bunyan's The Pilgrim's Progress, both parts (1678, 1684), from the sacred-texts.com
+    archive (chr/bunyan), in Bunyan's own spelling: each part in its ten sections, a verse to a
+    paragraph (his verses keep their lines); Part One's verse Apology is section 0."""
+    import html as html_lib
+    pages = {"Pilgrim's Progress": ["pp00.htm"] + [f"pp{n:02d}.htm" for n in range(1, 11)],
+             "Pilgrim's Progress, Part Two": ["pp11.htm"] + [f"pp{n:02d}.htm" for n in range(13, 22)]}
+    books = {}
+    for book, files in pages.items():
+        out = {}
+        for i, page in enumerate(files):
+            raw = sacred_text(f"chr/bunyan/{page}")
+            pre = re.findall(r"(?is)<pre>(.*?)</pre>", raw)
+            expect(pre, f"{page}: no text")
+            text = html_lib.unescape(re.sub(r"<[^>]+>", "", "\n\n".join(pre)))
+            paras, heading = [], ""
+            for p in _stanzas(text):
+                if re.fullmatch(r"Section [IVXL]+\.?", p):          # (the section number: it's the chapter)
+                    continue
+                if "\n" not in p and len(p) < 90 and not re.search(r"[.;:,?!]$", p):   # a heading
+                    heading = f"{heading} · {p}" if heading else p
+                    continue
+                paras.append(f"*{heading}*\n{p}" if heading else p)
+                heading = ""
+            verses = {str(n): v for n, v in enumerate(paras, 1)}
+            expect(len(verses) > 3, f"{page}: {len(verses)} paragraphs")
+            out[str(i if book == "Pilgrim's Progress" else i + 1)] = verses
+        books[book] = out
+        print(f"  {book}: sections {list(out)}, {sum(map(len, out.values()))} paragraphs")
+    write("medieval", "pilgrims_progress.json",
+          "John Bunyan, The Pilgrim's Progress (1678, 1684), sacred-texts.com", books)
+
+
 # ── John Milton ─────────────────────────────────────────────────────────────
 
 def _milton_book(chunk: str, label: str) -> dict:
@@ -2002,7 +2037,7 @@ BUILDERS = {f.__name__: f for f in (dhammapada, diamond_sutra, tao_te_ching, ana
                                     jaina_sutras, kojiki, nihongi, popol_vuh, avesta,
                                     zhuangzi, mencius, great_learning_and_mean, masnavi, rubaiyat,
                                     lotus_sutra, milinda, jataka, upanishads_muller, laws_of_manu, yoga_sutras,
-                                    kalevala, mabinogion, cloud_of_unknowing, julian_of_norwich, brother_lawrence, swedenborg, blake, milton)}
+                                    kalevala, mabinogion, cloud_of_unknowing, julian_of_norwich, brother_lawrence, swedenborg, blake, milton, pilgrims_progress)}
 
 if __name__ == "__main__":
     for name in sys.argv[1:] or BUILDERS:

@@ -74,6 +74,7 @@ from bot_commands import (  # noqa: F401
     deluge,
     cloud,
     divine_liturgy,
+    dore,
     games,
     harmony,
     report,

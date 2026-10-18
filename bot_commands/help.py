@@ -748,6 +748,19 @@ async def cmd_help(ctx, *, topic: str = ""):
         await ctx.send(embed=embed)
         return
 
+    if topic in ("dore", "doré", "engravings"):
+        embed = discord.Embed(title="🖼️ !dore — Gustave Doré's engravings", color=discord.Color.dark_grey(), description=(
+            "Doré's engravings for the Bible (1866, the Apocrypha included), the *Divine Comedy* and *Paradise Lost* "
+            "(1866), each tied to the passage it shows.\n\n"
+            "`!dore Genesis 11` — a chapter's engravings (`!dore Judith 13`, `!dore Mark 14`)\n"
+            "`!dore Inferno 3` — Dante's, by canto\n"
+            "`!dore Paradise Lost 1` — Milton's, by book and line\n"
+            "`!dore babel` — by name · `!dore` — one at random · `!dore list`\n\n"
+            "Under `!verse`, a **🖼️ Doré** button appears whenever the passage has an engraving: "
+            "`!verse Genesis 11:4`, `!verse Paradise Lost 12:644`."))
+        await ctx.send(embed=embed)
+        return
+
     if topic in ("tarot", "riderwaite", "rider waite"):
         embed = discord.Embed(title="🃏 !tarot — the Rider tarot", color=discord.Color.purple(), description=(
             "The Rider tarot of 1909, the deck most tarot since has followed: 78 cards drawn by Pamela Colman "
@@ -1055,7 +1068,7 @@ async def cmd_help(ctx, *, topic: str = ""):
     ), inline=False)
     embed.add_field(name="📜 Classical & Poetic", value=(
         "`!parallel` — Homer, Virgil, Ovid, Heliand, Plato + more · `!help parallel`\n"
-        "`!blake` — Blake's illuminated books · `!help blake`"
+        "`!blake` — Blake's illuminated books · `!dore` — Doré's engravings · `!help dore`"
     ), inline=False)
     embed.add_field(name="⛪ Catholic", value=(
         "`!ccc` — Catechism · `!help ccc`\n"
