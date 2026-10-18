@@ -31,20 +31,38 @@ def test_the_whole_set(do, lookup):
     ("Paradise Lost 12:644", "Paradise Lost 12:644"), ("Mark 14:22", "The Last Supper"),
 ])
 def test_the_button_under_verse(do, lookup, ref, title):
-    button = do.dore_button(lookup.get_verse(ref))
+    button = next((b for b in do.art_buttons(lookup.get_verse(ref)) if b.artist == "dore"), None)
     assert button is not None and button.item.custom_id.startswith("dore:")
     shown = [do.by_key()[k] for k in button.keys]
     assert any(do.plate_embed(p).title == f"🖼️ {title}" for p in shown)
 
 
-def test_no_button_without_an_engraving(do, lookup):
-    assert do.dore_button(lookup.get_verse("John 3:16")) is None
-    assert do.dore_button(lookup.get_verse("Leviticus 3:1")) is None
+def test_no_button_without_a_picture(do, lookup):
+    assert do.art_buttons(lookup.get_verse("John 3:16")) == []
+    assert do.art_buttons(lookup.get_verse("Leviticus 3:1")) == []
 
 
 def test_dante_by_canto(do, lookup):
-    button = do.dore_button(lookup.get_verse("Inferno 3:1"))
-    assert button and all(do.by_key()[k]["chapter"] == 3 for k in button.keys)
+    button = do.art_buttons(lookup.get_verse("Inferno 3:1"))[0]
+    assert all(do.by_key()[k]["chapter"] == 3 for k in button.keys)
+
+
+def test_blakes_art(do, lookup):
+    blake = do.plates("blake")
+    sets = {p["set"] for p in blake}
+    assert sets == {"job", "bible", "pl", "pp", "dante"} and sum(p["set"] == "job" for p in blake) == 21
+    ids = [b.item.custom_id for b in do.art_buttons(lookup.get_verse("Genesis 28:12"))]
+    assert ids[0].startswith("dore:") and ids[1].startswith("blakeart:")           # Jacob's ladder, by both
+    shown = [do.by_key()[k] for k in do.art_buttons(lookup.get_verse("Job 38:7"))[0].keys]
+    assert shown[0]["title"] == "When the Morning Stars Sang Together" and do.plate_embed(shown[0]).title.startswith("🎨")
+    for p in blake:                                    # every passage opens in the bot
+        assert lookup.get_verse(f"{p['book']} {p['chapter']}" + (f":{p['start']}" if p["start"] else ""))["found"], p["key"]
+
+
+def test_blake_command_takes_a_passage(bot_module, fake_ctx):
+    from bot_commands import blake
+    asyncio.run(blake.send_blake(fake_ctx, "Job 38"))
+    assert [e.title for e in fake_ctx.sent[-1]["embeds"]][:1] == ["🎨 The Lord Answering Job out of the Whirlwind"]
 
 
 @pytest.mark.parametrize("query, first", [("Genesis 11", "🖼️ The Tower of Babel"), ("flood", None),
@@ -70,6 +88,7 @@ def test_the_button_survives_a_study_button(bot_module):
     from bot_commands import verse
     import types
     rows = [types.SimpleNamespace(children=[types.SimpleNamespace(custom_id="study:notes:Genesis 11:4", disabled=False),
-                                            types.SimpleNamespace(custom_id="dore:b010", disabled=False)])]
+                                            types.SimpleNamespace(custom_id="dore:b010", disabled=False),
+                                            types.SimpleNamespace(custom_id="blakeart:kb1", disabled=False)])]
     view = verse._study_view_from_message(types.SimpleNamespace(components=rows), "study:notes:Genesis 11:4")
-    assert [c.custom_id for c in view.children] == ["study:notes:Genesis 11:4", "dore:b010"]
+    assert [c.custom_id for c in view.children] == ["study:notes:Genesis 11:4", "dore:b010", "blakeart:kb1"]

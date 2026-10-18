@@ -781,7 +781,9 @@ async def cmd_help(ctx, *, topic: str = ""):
             "`!blake` — a plate at random\n"
             "`!blake songs` — a book from its first plate; ◀ ▶ turn the plates\n"
             "`!blake urizen 5` — a book at a plate\n"
-            "`!blake list` — every book\n\n"
+            "`!blake list` — every book\n"
+            "`!blake Job 38` · `!blake Inferno 5` · `!blake Paradise Lost 9` · `!blake Revelation 12` · "
+            "`!blake Pilgrim's Progress 4` — his illustrations of a passage (and a 🎨 Blake button under `!verse`)\n\n"
             "Their words: `!verse Songs of Experience 12` (*The Tiger*), `!verse Thel 1`, "
             "`!verse Marriage of Heaven and Hell 4` (the Proverbs of Hell)"))
         await ctx.send(embed=embed)

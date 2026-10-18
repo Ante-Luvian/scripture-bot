@@ -5,7 +5,7 @@ import discord
 import re
 from scripture_lookup import ALIASES, DRB_SUFFIXES, KNOX_SUFFIXES, get_verse_drb, get_verse_knox
 from translation_lookup import TRANSLATION_SUFFIXES, get_translation
-from bot_commands.dore import dore_button
+from bot_commands.dore import art_buttons
 from bot_commands.verse import (
     _study_buttons,
 )
@@ -187,9 +187,7 @@ def find_verses(content: str, limit: int = 3) -> list:
     for embed, result in replies:
         # Bible verses get the same Notes / Cross-refs / Interlinear / Card
         # buttons as !verse (persistent buttons: the view must never time out)
-        buttons = _study_buttons(result)
-        dore = dore_button(result)                      # 🖼️ Doré, when the passage has an engraving
-        buttons = buttons + ([dore] if dore else [])
+        buttons = _study_buttons(result) + art_buttons(result)   # 🖼️ Doré · 🎨 Blake, when the passage has one
         view = None
         if buttons:
             view = discord.ui.View(timeout=None)

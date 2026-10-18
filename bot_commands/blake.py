@@ -90,6 +90,10 @@ def list_embed() -> discord.Embed:
         "Blake etched his poems and pictures together on copper, printed them himself and coloured each "
         "copy by hand, so no two copies are alike.\n\n" + "\n".join(
             f"• **{b['title']}** ({b['year']}) — {len(b['plates'])} plates · `!blake {k}`" for k, b in books().items())))
+    embed.add_field(name="And his illustrations of other books", value=(
+        "The Book of Job (`!blake Job 38`), the Bible (`!blake Revelation 12`), the Divine Comedy (`!blake Inferno 5`), "
+        "Paradise Lost (`!blake Paradise Lost 9`) and The Pilgrim's Progress (`!blake Pilgrim's Progress 4`). "
+        "Under `!verse`, a 🎨 Blake button appears whenever the passage has one."), inline=False)
     embed.set_footer(text="!blake <book> <plate> · !blake on its own: a plate at random")
     return embed
 
@@ -110,8 +114,12 @@ async def send_blake(ctx, query: str = "") -> None:
     name, plate = (m.group(1), int(m.group(2))) if m else (q, 1)
     key = find(name)
     if key is None:
-        await ctx.send(f"I don't have a Blake book called **{discord.utils.escape_markdown(name)}**. "
-                       f"`!blake list` shows the ones I have.")
+        # not one of his illuminated books: his illustrations of a passage ("Job 38", "Inferno 5", "Paradise Lost 9")
+        from bot_commands.dore import send_art
+        if await send_art(ctx, q, "blake"):
+            return
+        await ctx.send(f"I don't have a Blake book or picture for **{discord.utils.escape_markdown(q)}**. "
+                       f"`!blake list` shows his illuminated books; `!blake Job 38` or `!blake Inferno 5` his illustrations.")
         return
     count = len(books()[key]["plates"])
     if not 1 <= plate <= count:
