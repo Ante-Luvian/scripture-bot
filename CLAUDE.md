@@ -11,6 +11,12 @@ See README.md for what the bot does, the command list, layout, and data schema.
   this folder). Code changes only go live after `Restart-Service ScriptureBot`; then
   check `C:\ProgramData\nssm\logs\scripturebot.err.log` for "Logged in as" and
   "Synced N slash command(s)". Web/cloud sessions can't reach the service — say so.
+- The service runs as the restricted account `NT SERVICE\ScriptureBot` (since 2026-10-19; it was
+  LocalSystem). It can read the project and `C:\Python314`, and write only the files directly in
+  `data\` (not its subfolders: the library is read-only to it), `backups\`, `.avatar_hash` and the
+  NSSM logs. So: a new runtime file goes directly in `data\`; a package the bot needs must be in
+  the shared `C:\Python314\Lib\site-packages` (`pip install` as admin), not the user site; and
+  changing the service itself (`sc.exe config`, `nssm set`) needs the owner in an admin PowerShell.
 - Never commit the runtime state files in `data/` (stats, guild_*, user_prefs,
   bookmarks, reading_plans, subscribers, votd_mode, versle, hymnday, saintday, angelus, troparion, deluge, learning). `.gitignore` covers them.
 - Never commit audio or images a script can rebuild (the chant in `data/hymns/audio/sung/` and
