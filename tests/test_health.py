@@ -74,3 +74,36 @@ def test_canary_quiet_on_success(health, monkeypatch):
     owner = FakeOwner()
     assert asyncio.run(health.run_notes_check(FakeClient(owner))) is True
     assert owner.dms == []
+
+
+# ── every outside source ────────────────────────────────────────────────────
+
+def test_one_dm_lists_every_failed_source(health):
+    owner = FakeOwner()
+    sources = [("good.org", "!a", lambda: (True, "fine")),
+               ("bad.org", "!b", lambda: (False, "it said no")),
+               ("crashing.org", "!c", lambda: 1 / 0)]
+    results = asyncio.run(health.run_source_checks(FakeClient(owner), sources))
+    assert [r[2] for r in results] == [True, False, False]
+    assert len(owner.dms) == 1
+    dm = owner.dms[0]
+    assert "2 of 3" in dm and "bad.org" in dm and "it said no" in dm and "ZeroDivisionError" in dm
+    assert "good.org" not in dm
+
+
+def test_every_source_is_checked(health):
+    names = [s[0] for s in health.SOURCES]
+    for host in ("bolls.life", "Sefaria", "netbible.org", "SuttaCentral", "BaniDB", "verseoftheday.com",
+                 "oca.org", "aladhan.com", "catenabible.com", "newadvent.org", "gematrix.org"):
+        assert host in names, host
+
+
+def test_checked_once_a_week_not_every_restart(health, monkeypatch):
+    calls = []
+
+    async def fake_run(client, sources=None):
+        calls.append(1)
+    monkeypatch.setattr(health, "run_source_checks", fake_run)
+    asyncio.run(health.weekly_notes_check.coro())
+    asyncio.run(health.weekly_notes_check.coro())               # (a restart soon after)
+    assert len(calls) == 1

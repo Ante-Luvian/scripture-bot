@@ -22,6 +22,7 @@ data/angelus.json
 data/troparion.json
 data/deluge.json
 data/learning.json
+data/source_check.json
 
 # Daily copies of the runtime state above (bot_commands/backup.py)
 backups/
