@@ -563,6 +563,25 @@ def guild_traditions(guild_id) -> frozenset:
     return frozenset(TRADITIONS) if chosen is None else (frozenset(chosen) | {"bible"}) & frozenset(TRADITIONS)
 
 
+def pack_enabled(guild_id, pack: str) -> bool:
+    return pack in guild_packs(guild_id)
+
+
+def guild_calendars(guild_id, wanted: list) -> list:
+    """The !today calendars (catholic, anglican, orthodox, jewish, islamic) of `wanted` that go with this
+    server's choices; all of `wanted` if none do (a server that chose only "church" still gets a calendar)."""
+    if guild_id is None:
+        return list(wanted)
+    packs, traditions = guild_packs(guild_id), guild_traditions(guild_id)
+    has = {"catholic": bool({"catholic_devotion", "catholic_teaching"} & packs),
+           "anglican": "protestant" in packs,
+           "orthodox": "orthodox" in packs,
+           "jewish": "jewish_learning" in packs or "jewish" in traditions,
+           "islamic": "islamic_prayer" in packs or "islamic" in traditions}
+    kept = [w for w in wanted if has.get(w, True)]
+    return kept or list(wanted)
+
+
 def tradition_enabled(guild_id, key) -> bool:
     return key is None or key in guild_traditions(guild_id)
 

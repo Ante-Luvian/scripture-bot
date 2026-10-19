@@ -16,7 +16,7 @@ import re
 import discord
 from discord.ext import commands, tasks
 
-from core import command_enabled, ROOT, _atomic_write_json, _load_guild_config, _update_guild_config, bot, log
+from core import command_enabled, pack_enabled, ROOT, _atomic_write_json, _load_guild_config, _update_guild_config, bot, log
 from bot_commands.hymns import COLOR, chant_part, hymn_embed, hymn_view, hymns, shelf
 from liturgical_calendar import western_season
 
@@ -83,10 +83,11 @@ def _by_title() -> dict:
     return {h["title"]: h for h in hymns()}
 
 
-def hymn_for(day: datetime.date) -> tuple[dict, str]:
-    """(the hymn, why: "For Pentecost", "In Advent", "") for a day."""
+def hymn_for(day: datetime.date, latin: bool = True) -> tuple[dict, str]:
+    """(the hymn, why: "For Pentecost", "In Advent", "") for a day; without the Latin chant if not `latin`
+    (a server without the Catholic devotions gets the English hymns and the Sacred Harp)."""
     season, feast = western_season(day)
-    titles = _by_title()
+    titles = {t: h for t, h in _by_title().items() if latin or shelf(h) != "chant"}
     if feast:
         choices = [titles[t] for t in FEAST_HYMNS[feast] if t in titles]
         if choices:
@@ -97,15 +98,16 @@ def hymn_for(day: datetime.date) -> tuple[dict, str]:
         if choices:
             # each in turn through the season, starting at a different one each year
             return choices[(day.toordinal() + day.year) % len(choices)], f"In {SEASON_NAMES[season]}"
-    kind = ROTATION[day.toordinal() % len(ROTATION)]
+    rotation = ROTATION if latin else [k for k in ROTATION if k != "chant"]
+    kind = rotation[day.toordinal() % len(rotation)]
     pool = [h for h in hymns() if shelf(h) == kind and (kind != "chant" or chant_part(h) == "Hymn")]
     pool.sort(key=lambda h: h["title"])
     return rng.choice(pool), ""
 
 
-def hymnday_message(day: datetime.date) -> dict:
+def hymnday_message(day: datetime.date, guild_id=None) -> dict:
     """send() kwargs for the day's hymn: a heading, the hymn, its Play button."""
-    hymn, why = hymn_for(day)
+    hymn, why = hymn_for(day, latin=guild_id is None or pack_enabled(guild_id, "catholic_devotion"))
     heading = f"🎵 **Hymn of the day** · {day.strftime('%A')} {day.day} {day.strftime('%B')}" + (f" · {why}" if why else "")
     return {"content": heading, "embed": hymn_embed(hymn), "view": hymn_view(hymn)}
 
@@ -126,7 +128,7 @@ async def cmd_hymnday(ctx, *, when: str = ""):
         except ValueError:
             await ctx.send("Give a date like `!hymnday 2026-12-25`, or nothing for today's.")
             return
-    await ctx.send(**hymnday_message(day))
+    await ctx.send(**hymnday_message(day, getattr(getattr(ctx, "guild", None), "id", None)))
 
 
 # ── the daily post (!hymndaysetup) ──────────────────────────────────────────
@@ -143,7 +145,7 @@ async def post_hymnday(guild_id, channel, day: datetime.date, force: bool = Fals
     state = _load_state()
     if state.get("posted", {}).get(str(guild_id)) == day.isoformat() and not force:
         return False                                    # (a restart doesn't post it twice)
-    await channel.send(**hymnday_message(day))
+    await channel.send(**hymnday_message(day, guild_id))
     state.setdefault("posted", {})[str(guild_id)] = day.isoformat()
     _atomic_write_json(HYMNDAY_PATH, state)
     return True

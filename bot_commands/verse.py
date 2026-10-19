@@ -214,8 +214,9 @@ async def verse_prefix(ctx, *, reference: str = ""):
             await _send_with_study(ctx, r1)
             await _send_with_study(ctx, r2)
         else:
-            # Just "Bible" — random from OT + NT + Apocrypha
-            result = lookup.random_verse_from_books(BIBLE_OT + BIBLE_NT + BIBLE_APOCRYPHA)
+            # Just "Bible" — random from OT + NT (+ the Apocrypha, where the server has it)
+            apocrypha = BIBLE_APOCRYPHA if "apocrypha" in guild_traditions(_guild_id(ctx)) else []
+            result = lookup.random_verse_from_books(BIBLE_OT + BIBLE_NT + apocrypha)
             await _send_with_study(ctx, result)
         return
 

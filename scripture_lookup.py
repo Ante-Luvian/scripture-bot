@@ -1981,7 +1981,9 @@ class ScriptureLookup:
             if allowed is not None and key not in allowed:
                 continue
             books = [(c, b, key) for c in corpora for b, chapters in self._data.get(c, {}).items()
-                     if b not in SKIP_BOOKS and any(chapters.values())]
+                     if b not in SKIP_BOOKS and any(chapters.values())
+                     and not (key == "bible" and allowed is not None and "apocrypha" not in allowed
+                              and b in BIBLE_APOCRYPHA)]
             if books:
                 traditions.append(books)
         if not traditions:

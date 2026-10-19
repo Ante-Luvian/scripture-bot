@@ -9,6 +9,7 @@ import re
 from discord import app_commands
 from core import (
     bot,
+    guild_calendars,
     lookup,
 )
 from core import ROOT
@@ -181,7 +182,7 @@ async def cmd_today(ctx, *, args: str = ""):
         await ctx.send(f"⚠️ Couldn't parse `{date_raw}` as a date. Try `YYYY-MM-DD` or `MM-DD`.")
         return
 
-    traditions = _TODAY_GROUPS[key]
+    traditions = guild_calendars(getattr(getattr(ctx, "guild", None), "id", None), _TODAY_GROUPS[key])
     if key == "all":
         title_label = "All Traditions"
     elif key == "christian":
@@ -212,7 +213,7 @@ async def today_slash(interaction: discord.Interaction, tradition: str = "all", 
     if d is None:
         await interaction.followup.send(f"⚠️ Couldn't parse `{date}` as a date.")
         return
-    traditions = _TODAY_GROUPS[key]
+    traditions = guild_calendars(interaction.guild_id, _TODAY_GROUPS[key])
     if key == "all":
         title_label = "All Traditions"
     elif key == "christian":

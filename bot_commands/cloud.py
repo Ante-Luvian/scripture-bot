@@ -15,7 +15,7 @@ from collections import Counter
 
 import discord
 
-from core import bot, log, lookup
+from core import tradition_enabled, bot, log, lookup
 
 FONT = "C:/Windows/Fonts/GARABD.TTF"           # Garamond bold: an old book's face
 BACKGROUND = (246, 239, 222)                    # parchment
@@ -106,6 +106,9 @@ async def cmd_cloud(ctx, *, book: str = ""):
         await ctx.send("Which book? For example: `!cloud Ecclesiastes`, `!cloud Revelation`, `!cloud Proverbs`.")
         return
     corpus, name = lookup._resolve_book(book.strip())
+    from scripture_lookup import CORPUS_TRADITION
+    if name and not tradition_enabled(getattr(getattr(ctx, "guild", None), "id", None), CORPUS_TRADITION.get(corpus)):
+        corpus, name = None, None                       # (a tradition this server turned off)
     if name is None or name not in lookup._data.get(corpus, {}):
         await ctx.send(f"I don't know a book called **{discord.utils.escape_markdown(book.strip())}**. "
                        f"Try `!cloud Ecclesiastes` or `!books` to browse.")

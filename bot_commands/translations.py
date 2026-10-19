@@ -12,9 +12,14 @@ from poem_lookup import classify_scripture, is_drb_reference, lookup_pair, parse
 from strongs_lookup import get_definition as get_local_strongs_definition
 from core import (
     _check_search_cooldown,
+    guild_traditions,
     bot,
     lookup,
 )
+
+# what !parallel offers a server without the Greek and Roman texts
+_BIBLE_ONLY_PARALLEL = ("`!parallel John 3:16` — a Bible verse beside the original: the Greek of the New Testament, "
+                        "the Hebrew of the Old.")
 
 # ── !compare — verse in multiple translations, paginated ─────────────────────
 
@@ -1055,9 +1060,10 @@ def perseus_parallel(reference: str) -> "tuple[dict, dict] | None":
 @bot.command(name="parallel", aliases=["poem", "po", "par", "classical"])
 async def cmd_parallel(ctx, *, reference: str = ""):
     """Look up a Bible verse or classical text in parallel languages. !parallel works for a list."""
+    classical = "classical" in guild_traditions(getattr(getattr(ctx, "guild", None), "id", None))
     if not reference or reference.strip().lower() in ("works", "list", "help"):
-        embed = discord.Embed(title="📜 Classical Poetry & Prose",
-                              description=poem_list_works(),
+        embed = discord.Embed(title="📜 Classical Poetry & Prose" if classical else "📜 Parallel texts",
+                              description=poem_list_works() if classical else _BIBLE_ONLY_PARALLEL,
                               color=discord.Color.dark_gold())
         await ctx.send(embed=embed)
         return
@@ -1079,6 +1085,9 @@ async def cmd_parallel(ctx, *, reference: str = ""):
             return
 
         # ── Classical poetry reference ─────────────────────────────────────
+        if not classical:
+            await ctx.send(f"⚠️ Couldn't parse `{ref}`.\nExample: `!parallel John 3:16`")
+            return
         spec = parse_poem_ref(ref_clean)
         if spec is None and (both := await asyncio.to_thread(perseus_parallel, ref_clean)):
             await _send_parallel(ctx, *both)           # a Perseus work, with its Greek or Latin
@@ -1105,11 +1114,8 @@ async def poem_slash(interaction: discord.Interaction,
                      reference: str, parallel: bool = False):
     await interaction.response.defer()
     ctx = await bot.get_context(interaction)
-    if reference.strip().lower() in ("works", "list", "help"):
-        embed = discord.Embed(title="📜 Classical Poetry & Prose",
-                              description=poem_list_works(),
-                              color=discord.Color.dark_gold())
-        await ctx.send(embed=embed)
+    if reference.strip().lower() in ("works", "list", "help") or "classical" not in guild_traditions(interaction.guild_id):
+        await cmd_parallel(ctx, reference=reference)        # (the same answers as the typed command)
         return
     spec = parse_poem_ref(reference.strip())
     ref = reference.strip()

@@ -12,6 +12,7 @@ import discord
 from bot_commands.angelus import AVE_MARIA, HAIL_MARY
 from bot_commands.hymns import hymns, sung_path
 from bot_commands.rosary import FATIMA, GLORY_BE, HAIL_HOLY_QUEEN, OUR_FATHER
+from core import pack_enabled
 
 COLOR = discord.Color.from_rgb(110, 70, 140)
 
@@ -243,6 +244,20 @@ PRAYERS.update({
 ORTHODOX = ["jesus prayer", "trisagion", "o heavenly king", "axion estin", "rejoice o virgin", "st ephrem",
             "orthodox creed"]
 
+# Catholic devotions: shown where the server has the Catholic devotions (a Catholic or high-church Anglican
+# one); the rest -- the Our Father, the Glory Be, grace, Come Holy Spirit, St Francis's -- every church says
+CATHOLIC = ["st michael", "memorare", "anima christi", "act of contrition", "angel of god", "morning offering",
+            "sub tuum", "divine praises", "st joseph", "eternal rest", "hail mary", "hail holy queen", "fatima"]
+
+
+def available(key: str, guild_id) -> bool:
+    if key in CATHOLIC:
+        return pack_enabled(guild_id, "catholic_devotion")
+    if key in ORTHODOX:
+        return pack_enabled(guild_id, "orthodox")
+    return True
+
+
 # prayers that have commands of their own
 ELSEWHERE = {"angelus": "`!angelus`", "regina caeli": "`!angelus` (in Eastertide)", "rosary": "`!rosary`",
              "apostles creed": "`!creed apostles`", "creed": "`!creed`", "nicene creed": "`!creed nicene`"}
@@ -280,11 +295,13 @@ def prayer_message(key: str) -> dict:
     return message
 
 
-def list_embed() -> discord.Embed:
-    lines = [f"• **{title}** — `!prayer {key}`" for key, (title, *_rest) in PRAYERS.items() if key not in ORTHODOX]
+def list_embed(guild_id=None) -> discord.Embed:
+    lines = [f"• **{title}** — `!prayer {key}`" for key, (title, *_rest) in PRAYERS.items()
+             if key not in ORTHODOX and available(key, guild_id)]
     embed = discord.Embed(title="🙏 Traditional prayers", color=COLOR, description="\n".join(lines))
-    embed.add_field(name="☦️ Orthodox", value="\n".join(f"• **{PRAYERS[k][0]}** — `!prayer {k}`" for k in ORTHODOX),
-                    inline=False)
+    if pack_enabled(guild_id, "orthodox"):
+        embed.add_field(name="☦️ Orthodox", value="\n".join(f"• **{PRAYERS[k][0]}** — `!prayer {k}`" for k in ORTHODOX),
+                        inline=False)
     embed.add_field(name="Elsewhere", value="The Angelus and Regina Caeli: `!angelus` · the Rosary: `!rosary` · "
                                             "the Creeds: `!creed` · a random Prayer Book prayer: `!prayer`",
                     inline=False)
@@ -293,13 +310,16 @@ def list_embed() -> discord.Embed:
 
 async def send_prayer(ctx, query: str) -> None:
     q = _norm(query)
+    guild_id = getattr(getattr(ctx, "guild", None), "id", None)
     if q in ("list", "all", "prayers", "index"):
-        await ctx.send(embed=list_embed())
+        await ctx.send(embed=list_embed(guild_id))
         return
     if q in ELSEWHERE:
         await ctx.send(f"That one has its own command: {ELSEWHERE[q]}.")
         return
     key = find(query)
+    if key is not None and not available(key, guild_id):
+        key = None                                       # (a church this server hasn't chosen)
     if key is None:
         await ctx.send(f"I don't know a prayer called **{discord.utils.escape_markdown(query.strip())}**. "
                        f"`!prayer list` shows the ones I have.")
