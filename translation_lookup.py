@@ -13,9 +13,6 @@ TRANSLATIONS: dict[str, tuple[str, str]] = {
     "esv":      ("ESV",      "English Standard Version (2016)"),
     "nasb":     ("NASB",     "New American Standard Bible (1995)"),
     "nasb95":   ("NASB",     "New American Standard Bible (1995)"),
-    "niv":      ("NIV",      "New International Version (1984)"),
-    "niv84":    ("NIV",      "New International Version (1984)"),
-    "niv2011":  ("NIV2011",  "New International Version (2011)"),
     "nrsvce":   ("NRSVCE",   "New Revised Standard Version Catholic Edition (1993)"),
     "nrsv":     ("NRSVCE",   "New Revised Standard Version Catholic Edition (1993)"),
     "rsv":      ("RSV",      "Revised Standard Version (1952)"),
@@ -83,7 +80,18 @@ TRANSLATIONS: dict[str, tuple[str, str]] = {
     "latin":    ("VULG",     "Vulgata Clementina (Latin)"),
 }
 
-TRANSLATION_SUFFIXES: set[str] = set(TRANSLATIONS.keys())
+# Translations bolls.life no longer serves: asked for one, it answers with a notice in place of every
+# verse ("Biblica, Inc. has prohibited me from using the NIV translation..."), which the bot then
+# showed as the verse. They're still recognised, so asking for one explains why it's gone.
+WITHDRAWN: dict[str, str] = {name: (
+    "📕 **The NIV isn't available any more.** I get modern translations from a free Bible service "
+    "(bolls.life), and Biblica, the publisher that owns the New International Version, has had it stop "
+    "offering the NIV, so I can't show it. The **NKJV**, **ESV**, **CSB** or **NLT** are close alternatives "
+    "(`!verse John 3:16 NKJV`), and `!translations` lists them all.") for name in ("niv", "niv84", "niv2011")}
+
+TRANSLATION_SUFFIXES: set[str] = set(TRANSLATIONS.keys()) | set(WITHDRAWN)
+# what bolls.life puts in place of a verse it may not show
+_WITHHELD = re.compile(r"has prohibited me from using|have chosen financial profit", re.I)
 
 _BOOK_IDS: dict[str, int] = {
     "genesis":1,"exodus":2,"leviticus":3,"numbers":4,"deuteronomy":5,
@@ -604,6 +612,8 @@ def _fetch_chapter(slug: str, book_id: int, chapter: int, book_raw: str = "") ->
                 data = json.loads(r.read().decode("utf-8"))
             if not isinstance(data, list) or not data:
                 return None
+            if any(_WITHHELD.search(str(v.get("text", ""))) for v in data[:3]):
+                return None                      # a notice that the translation is withheld, not verses
             if _ps_vstart is not None:
                 data = [v for v in data if _ps_vstart <= v.get("verse", 0) <= _ps_vend]
             _chapter_cache[key] = data
@@ -631,6 +641,8 @@ def _err(msg: str) -> dict:
 def get_translation(reference: str, translation: str) -> dict:
     """Look up a Bible passage in the given translation."""
     trans_key = translation.strip().lower()
+    if trans_key in WITHDRAWN:
+        return _err(WITHDRAWN[trans_key])
     if trans_key not in TRANSLATIONS:
         return _err(f"Unknown translation **{translation}**. Try `!translations` for the full list.")
     slug, display_name = TRANSLATIONS[trans_key]
@@ -737,6 +749,8 @@ def get_parallel(reference: str, translations: list[str]) -> dict:
     slugs = []
     for t in translations[:4]:
         key = t.strip().lower()
+        if key in WITHDRAWN:
+            return _err(WITHDRAWN[key])
         if key not in TRANSLATIONS:
             return _err(f"Unknown translation **{t}**. Try `!translations`.")
         slugs.append((TRANSLATIONS[key][0], TRANSLATIONS[key][1]))  # (slug, display)
@@ -780,6 +794,8 @@ def get_parallel(reference: str, translations: list[str]) -> dict:
 def get_random_verse(translation: str) -> dict:
     """Fetch a random verse in the given translation."""
     trans_key = translation.strip().lower()
+    if trans_key in WITHDRAWN:
+        return _err(WITHDRAWN[trans_key])
     if trans_key not in TRANSLATIONS:
         return _err(f"Unknown translation **{translation}**.")
     slug, display_name = TRANSLATIONS[trans_key]
@@ -802,6 +818,8 @@ def get_random_verse(translation: str) -> dict:
 def search_translation(query: str, translation: str, page: int = 1, limit: int = 5) -> dict:
     """Search bolls.life for a word or phrase in a specific translation."""
     trans_key = translation.strip().lower()
+    if trans_key in WITHDRAWN:
+        return _err(WITHDRAWN[trans_key])
     if trans_key not in TRANSLATIONS:
         return _err(f"Unknown translation **{translation}**.")
     slug, display_name = TRANSLATIONS[trans_key]

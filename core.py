@@ -457,6 +457,14 @@ def _save_user_prefs(data: dict) -> None:
 def _get_preferred_translation(user_id: int) -> str | None:
     return _load_user_prefs().get(str(user_id), {}).get("translation")
 
+def _clear_preferred_translation(user_id: int) -> None:
+    data = _load_user_prefs()
+    entry = data.get(str(user_id), {})
+    if entry.pop("translation", None) is not None:
+        if not entry:
+            data.pop(str(user_id), None)
+        _save_user_prefs(data)
+
 def _get_guild_votd(guild_id: int) -> dict:
     g = _load_guild_config().get(str(guild_id), {})
     return {

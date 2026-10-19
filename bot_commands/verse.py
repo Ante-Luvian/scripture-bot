@@ -5,7 +5,8 @@ import discord
 import re
 from scripture_lookup import (BIBLE_APOCRYPHA, BIBLE_NT, BIBLE_OT, DRB_SUFFIXES, KNOX_SUFFIXES, TRADITIONS,
                               get_verse_drb, get_verse_knox, tradition)
-from translation_lookup import TRANSLATION_SUFFIXES, get_parallel, get_random_verse, get_translation, search_translation
+from translation_lookup import (TRANSLATION_SUFFIXES, WITHDRAWN, get_parallel, get_random_verse, get_translation,
+                                search_translation)
 from bot_commands.card import (
     cmd_card,
     cmd_interlinear,
@@ -22,6 +23,7 @@ from core import (
     ANE_BOOKS,
     _build_bolls_search_embed,
     _check_search_cooldown,
+    _clear_preferred_translation,
     _get_preferred_translation,
     _send_result,
     bot,
@@ -270,6 +272,11 @@ async def verse_prefix(ctx, *, reference: str = ""):
     # lookup if it doesn't have this reference (e.g. Enoch, Mishnah, Quran --
     # anything outside the Protestant canon bolls.life translations cover).
     preferred = _get_preferred_translation(ctx.author.id)
+    if preferred and preferred.lower() in WITHDRAWN:
+        _clear_preferred_translation(ctx.author.id)
+        await ctx.send(WITHDRAWN[preferred.lower()] + "\nYou had it as your default (`!prefer`), so I've "
+                       "set you back to the KJV; `!prefer ESV` (or another) picks a new one.")
+        preferred = None
     if preferred:
         async with ctx.typing():
             pref_result = get_translation(ref, preferred)

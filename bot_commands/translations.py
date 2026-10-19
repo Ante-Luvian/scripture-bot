@@ -21,7 +21,7 @@ from core import (
 # All English translations for !compare, in display order
 _COMPARE_ALL = [
     # Major modern
-    "KJV", "ESV", "NASB", "NIV", "NIV2011", "NKJV", "NLT", "NET",
+    "KJV", "ESV", "NASB", "NKJV", "NLT", "NET",                  # (no NIV: see translation_lookup.WITHDRAWN)
     "NRSVCE", "RSV", "RSV2CE", "WEB", "CSB17", "AMP", "MSG",
     # Public domain / historical
     "ASV", "YLT", "GNV",

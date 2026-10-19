@@ -26,7 +26,7 @@ Many of my answers come with buttons underneath. Under a Bible verse you'll see 
 `!help` shows every command at a glance, and `!help <command>` explains one in detail — `!help verse`, `!help bcp`, `!help jewish`. The messages below are the full tour: first my library, then every command, grouped by what it's for.
 
 ## 📚 My library: the Bible and its neighbours
-**The Bible** — all 66 books, King James Version by default, plus **more than 40 other translations** you can ask for by name: modern English (ESV, NIV, NASB, NKJV, NLT, NRSVCE, NABRE, CSB, the NET Bible and more), older ones (Geneva Bible, Young's Literal, Douay-Rheims, Knox), and the **original and ancient languages**: Hebrew (Westminster Leningrad Codex), Greek New Testament (Textus Receptus, Tischendorf), the Greek Old Testament (Septuagint), Latin (Vulgate), Syriac (Peshitta), Church Slavonic and even Old English. `!translations` lists them all.
+**The Bible** — all 66 books, King James Version by default, plus **more than 40 other translations** you can ask for by name: modern English (ESV, NASB, NKJV, NLT, NRSVCE, NABRE, CSB, the NET Bible and more), older ones (Geneva Bible, Young's Literal, Douay-Rheims, Knox), and the **original and ancient languages**: Hebrew (Westminster Leningrad Codex), Greek New Testament (Textus Receptus, Tischendorf), the Greek Old Testament (Septuagint), Latin (Vulgate), Syriac (Peshitta), Church Slavonic and even Old English. `!translations` lists them all.
 
 <!-- texts: apocrypha -->**Apocrypha & Pseudepigrapha** — the 15 deuterocanonical books (Tobit, Judith, Wisdom, Sirach, Maccabees…) and 29 more ancient Jewish and early Christian writings: the **Book of Enoch**, **Jubilees**, the Testaments of the Twelve Patriarchs, the Psalms of Solomon, 3 & 4 Maccabees, Psalms 151–155 **2 Enoch** (the *Book of the Secrets of Enoch*), the First and Second Books of **Adam and Eve**, and the **Odes of Solomon**, early Christian hymns.
 
@@ -71,7 +71,7 @@ Browse all of it with `!books`, or let me pick something at random with `!discov
 ## 📖 Reading scripture
 **`!verse`** (or `!v`) is my main command.
 • `!verse John 3:16` — one verse · `!verse Genesis 1:1-5` — a range · `!verse John 7:53-8:11` — across chapters · `!verse Psalm 23` — a whole chapter, in pages
-• `!verse John 3:16 ESV` — in another translation · `!verse John 3:16 KJV ESV NIV` — several side by side
+• `!verse John 3:16 ESV` — in another translation · `!verse John 3:16 KJV ESV NKJV` — several side by side
 • `!verse` — a random verse · `!verse Proverbs` — random from one book · `!verse bible nt` — random from the New Testament
 <!-- pack: comparative -->• Other traditions work the same way: `!verse Quran 2:255`, `!verse Enoch 1:9`, `!verse Berakhot 2a`, `!verse Gilgamesh 11`, `!verse Rig Veda 10.121:9`, `!verse Republic 514a` (Plato by the page-and-section numbers printed in every edition, or a stretch: `!verse Republic 514a-515c`), `!verse Iliad 6.440` (Homer by book and line)
 Abbreviations are fine (`Jn`, `1 Cor`, `Ps`). Bible verses come with the four study buttons, and any passage Gustave Doré engraved or William Blake painted gets a **🖼️ Doré** or **🎨 Blake** button too.
@@ -102,7 +102,7 @@ Abbreviations are fine (`Jn`, `1 Cor`, `Ps`). Bible verses come with the four st
 
 **`!parallel`** — classic works side by side in English and the original: `!parallel Il. 6.440-465` (Homer's *Iliad* in Greek with Pope's translation), `!parallel Aen. 4.1-30` (Virgil in Latin with Dryden), Ovid, the Old Saxon *Heliand*, Plato, Gilgamesh with the Akkadian, the Baal Cycle with the Ugaritic. `!parallel` alone lists everything available.
 
-**`!card John 3:16`** — turns a verse into a parchment-style image to share (`!card John 3:16 ESV NIV` stacks translations). The **Card** button does the same.
+**`!card John 3:16`** — turns a verse into a parchment-style image to share (`!card John 3:16 ESV NKJV` stacks translations). The **Card** button does the same.
 
 ## 🎓 Study tools
 **`!notes John 3:16`** — the NET Bible's translators' notes: why a word was translated the way it was, background on the passage, and where ancient manuscripts disagree. Small numbers in the verse show which word each note is about. (Also the **Notes** button.)

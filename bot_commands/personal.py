@@ -4,7 +4,7 @@ Per-user and per-guild settings and data: !features, !save / !saved / !unsave,
 """
 import discord
 import re
-from translation_lookup import TRANSLATION_SUFFIXES
+from translation_lookup import TRANSLATION_SUFFIXES, WITHDRAWN
 from discord import app_commands
 from discord.ext import commands, tasks
 from core import (
@@ -426,6 +426,9 @@ async def cmd_prefer(ctx, *, translation: str = ""):
         await ctx.send("Cleared your default translation. Plain `!verse` lookups will use the local KJV again.")
         return
 
+    if arg in WITHDRAWN:
+        await ctx.send(WITHDRAWN[arg])
+        return
     if arg not in TRANSLATION_SUFFIXES:
         await ctx.send(f"⚠️ `{arg}` isn't a recognized translation slug. See `!translations` for the full list.")
         return
