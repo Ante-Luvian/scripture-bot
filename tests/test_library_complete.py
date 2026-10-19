@@ -78,6 +78,33 @@ def test_works_that_couldnt_be_reached(lookup, ref, expect):
     assert result["found"] and result["reference"] == expect, result.get("error")
 
 
+def test_works_that_share_a_title_can_all_be_read(lookup):
+    """Two Fathers' works of one title: the later file's used to replace the earlier's (some 25 lost).
+    The one that answered to the title before still does; the others carry their author's name."""
+    assert lookup.get_verse("On Prayer 1:1")["source"].startswith("Origen")
+    assert lookup.get_verse("On Prayer (Tertullian) 1:1")["found"]
+    assert lookup.get_verse("Ecclesiastical History (Socrates Scholasticus) 1:1")["found"]
+    assert lookup.get_verse("ecclesiastical history socrates 1:1")["reference"].startswith("Ecclesiastical History (Socrates")
+    assert lookup.get_verse("On the Holy Spirit (Basil the Great) 1:1")["found"]
+    assert len(lookup._renamed["Letters"]) >= 4 and len(lookup._renamed["Fragments"]) >= 5
+
+
+@pytest.mark.parametrize("book, chapters", [
+    ("Tractates on the Gospel of John", 124),        # held one index line (scripts/build_fathers.py)
+    ("The Great Catechism", 41),                    # held only its one-page summary
+    ("On Prayer", 20),                              # Origen's: held a title line
+])
+def test_the_fathers_repaired(lookup, book, chapters):
+    corpus, name = lookup._resolve_book(book)
+    assert corpus == "patristics" and len(lookup._data[corpus][name]) == chapters
+
+
+def test_de_principiis_has_all_four_books(lookup):
+    keys = lookup._data["patristics"]["De Principiis"]
+    assert {k.split(".")[0] for k in keys} >= {"1", "2", "3", "4"}
+    assert "1. I know that some" in lookup.get_verse("De Principiis 1.1:1")["text"][:40]    # (Books I-II untouched)
+
+
 def test_saint_names_are_no_longer_books(lookup):
     for ref in ("Lucy 1:1", "Book I 1:1"):
         assert not lookup.get_verse(ref)["found"]

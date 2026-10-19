@@ -947,8 +947,6 @@ ALIASES: dict[str, str] = {
     "exposition of the orthodox faith": "Exposition of the Orthodox Faith",
     "orthodox faith": "Exposition of the Orthodox Faith",
     "de fide orthodoxa": "Exposition of the Orthodox Faith",
-    "philosophical chapters": "Philosophical Chapters",
-    "dialectica": "Philosophical Chapters",
     "discourses to hypatius": "Discourses to Hypatius",
     "against mani": "Against Mani",
     "nisibene hymns": "Nisibene Hymns",
@@ -1456,6 +1454,10 @@ ALIASES: dict[str, str] = {
     "the acts": "Acts",
     "tobias": "Tobit",
     "josue": "Joshua",
+    # Cyprian's twelfth treatise (scripts/build_fathers.py)
+    "testimonies against the jews": "Three Books of Testimonies Against the Jews",
+    "testimonies": "Three Books of Testimonies Against the Jews",
+    "ad quirinum": "Three Books of Testimonies Against the Jews",
 }
 
 # Priority order when the same book name exists in multiple corpora
@@ -1581,6 +1583,7 @@ class ScriptureLookup:
         self._book_sources: dict[str, str] = {}
         self._corpus_sources: dict[str, dict[str, str]] = {}
         self._book_file: dict[tuple, str] = {}           # (corpus, book) -> the data file it came from
+        self._renamed: dict[str, list] = {}               # a shared title -> the "Title (Author)" names given
         # LRU cache for search_by_corpus (up to 64 queries)
         self._search_cache: dict = {}
         self._theme_cache: dict[str, list] = {}
@@ -1880,6 +1883,7 @@ class ScriptureLookup:
                 with open(path, encoding="utf-8") as f:
                     payload = json.load(f)
                 books = self._as_one_work(fname, payload.get("books", {}))
+                self._make_room(corpus, books)
                 self._data[corpus].update(books)
                 # Store per-book source string for footer display
                 file_source = payload.get("source", "")
@@ -1902,11 +1906,14 @@ class ScriptureLookup:
             with open(path, encoding="utf-8") as f:
                 payload = json.load(f)
             books = payload.get("books", {})
+            self._make_room("classical", books)
             self._data["classical"].update(books)
+            self._book_file.update({("classical", b): path.name for b in books})
             sources = {b: payload.get("source", "") for b in books}
             sources.update(payload.get("book_sources", {}))
             self._book_sources.update(sources)
             self._corpus_sources.setdefault("classical", {}).update(sources)
+        self._aliases_to_renamed()
         for corpus in ("classical", "medieval", "ancient_near_east"):
             self._regroup_line_chunks(corpus, self._LINE_CHUNKED)
         # Chapters numbered "I.1" (book I, chapter 1: Aristotle's Physics, Topics...) as "1.1",
@@ -1936,6 +1943,46 @@ class ScriptureLookup:
                 key = book_name.lower()
                 if key not in self._book_index:
                     self._book_index[key] = (corpus, book_name)
+
+    # Two Fathers often wrote works of the same title (Letters, Fragments, On the Holy Spirit, an
+    # Ecclesiastical History), and a later file's book silently replaced an earlier one's of that name:
+    # some 25 works were unreachable. The work that answered to the title before keeps it, so no
+    # citation changes; the others are named with their author: "Ecclesiastical History (Socrates
+    # Scholasticus)". An alias that names the author ("ecclesiastical history socrates") follows them.
+
+    @staticmethod
+    def _author_of(fname: str) -> str:
+        words = fname.rsplit(".", 1)[0].replace("_", " ").split()
+        small = {"of", "the", "and", "de"}
+        return " ".join(w if (i and w in small) else w[:1].upper() + w[1:] for i, w in enumerate(words))
+
+    def _make_room(self, corpus: str, books: dict) -> None:
+        """Before `books` are added: rename any book of the same title already there to "Title (Author)"."""
+        stored = self._data.setdefault(corpus, {})
+        for title in [b for b in books if b in stored]:
+            earlier = self._book_file.get((corpus, title))
+            if not earlier:
+                continue
+            name = f"{title} ({self._author_of(earlier)})"
+            if name in stored or name in books:
+                continue
+            stored[name] = stored.pop(title)
+            self._book_file[(corpus, name)] = earlier
+            if title in self._book_sources:
+                self._book_sources[name] = self._book_sources[title]
+            if title in self._corpus_sources.get(corpus, {}):
+                self._corpus_sources[corpus][name] = self._corpus_sources[corpus][title]
+            self._renamed.setdefault(title, []).append(name)
+
+    def _aliases_to_renamed(self) -> None:
+        """"ecclesiastical history socrates" -> "Ecclesiastical History (Socrates Scholasticus)"."""
+        for title, names in self._renamed.items():
+            for name in names:
+                author = name[len(title) + 2:-1].lower()
+                words = [w for w in author.split() if len(w) > 3 and w not in ("great", "saint")]
+                for alias, target in list(ALIASES.items()):
+                    if target == title and any(w in alias for w in words):
+                        ALIASES[alias] = name
 
     # Files that store a work a part per "book" -- Bede's five books as "Book I"..."Book V", the
     # Golden Legend a "book" per saint -- which left the works themselves impossible to cite, and
@@ -3502,6 +3549,11 @@ class ScriptureLookup:
                 return entry
         # 2. Direct name lookup (case-insensitive)
         entry = self._book_index.get(key)
+        if entry:
+            return entry
+        # 3. With or without a leading "The" ("Great Catechism" is The Great Catechism)
+        other = key[4:] if key.startswith("the ") else "the " + key
+        entry = self._book_index.get(other) or (self._book_index.get(ALIASES[other].lower()) if other in ALIASES else None)
         if entry:
             return entry
         return None, None

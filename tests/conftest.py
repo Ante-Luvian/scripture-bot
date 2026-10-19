@@ -65,6 +65,15 @@ def isolate_runtime_files(tmp_path, monkeypatch):
 
 
 @pytest.fixture(autouse=True)
+def fresh_speed_limit():
+    """The per-person speed limit (core.over_rate_limit) remembers commands; tests send many as the same
+    fake user, so a fast run could trip it and fail whichever test came eleventh."""
+    core = sys.modules.get("core")
+    if core is not None and hasattr(core, "_recent_commands"):
+        core._recent_commands.clear()
+
+
+@pytest.fixture(autouse=True)
 def offline_sefaria_names(request, monkeypatch):
     """An unknown book asks Sefaria whether it's in their library, and the Quran comes from
     the Quran API; offline tests get "no" and our own Pickthall."""

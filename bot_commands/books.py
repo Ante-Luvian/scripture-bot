@@ -1033,7 +1033,7 @@ BOOKS_TREE = [
                 "On the Life of St. Martin","Dialogues","Sacred History",
             ]),
             ("John of Damascus", [
-                "Exposition of the Orthodox Faith","Philosophical Chapters",
+                "Exposition of the Orthodox Faith",
             ]),
             ("Gregory the Great", [
                 "Dialogues","Pastoral Rule","Letters of Gregory the Great",
@@ -1260,6 +1260,29 @@ def _complete_tree(tree, lookup) -> int:
     return sum(len(b) for by_author in missing.values() for b in by_author.values())
 
 
+def _own_titles(tree, lookup) -> int:
+    """A work listed by a title it shares with another Father's ("On Prayer" under Tertullian) is
+    shown by the name it has now that both can be read ("On Prayer (Tertullian)")."""
+    changed = 0
+
+    def walk(node, above):
+        nonlocal changed
+        for i, item in enumerate(node):
+            if isinstance(item, tuple):
+                walk(item[1], above + [item[0].lower()])
+            elif item in lookup._renamed:
+                for name in lookup._renamed[item]:
+                    author = name[len(item) + 2:-1].lower()
+                    first = author.split()[0]
+                    if any(first in label for label in above):
+                        node[i] = name
+                        changed += 1
+                        break
+    walk(tree, [])
+    return changed
+
+
+_RETITLED_IN_TREE = _own_titles(BOOKS_TREE, lookup)
 _ADDED_TO_TREE = _complete_tree(BOOKS_TREE, lookup)
 
 # Top-level browsing groups two supergroups on top of BOOKS_TREE without
