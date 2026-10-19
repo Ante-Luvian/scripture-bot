@@ -5,30 +5,64 @@ import asyncio
 
 import pytest
 
-# Owner/maintenance tools that stay prefix-only; and commands added after the bot reached
-# Discord's limit of 100 slash commands
-PREFIX_ONLY = {"guildactivity", "scanstats", "votdmode", "vov"}
+# Owner/maintenance tools that stay prefix-only
+PREFIX_ONLY = {"guildactivity", "scanstats", "votdmode"}
+# Admin commands; their slash forms are subcommands of /setup (Discord allows 100 slash commands)
 ADMIN_SLASH = {"votdsetup", "oraclesetup", "quizsetup", "verslesetup", "hymndaysetup", "saintsetup", "angelussetup", "troparionsetup", "learningsetup", "changelogsetup", "changelogintro", "features"}
 
 
 def test_every_command_has_a_slash_version(bot_module):
     slash = {c.name for c in bot_module.bot.tree.get_commands()}
     missing = sorted(c.name for c in bot_module.bot.commands
-                     if not c.hidden and c.name not in PREFIX_ONLY and c.name not in slash)
+                     if not c.hidden and c.name not in PREFIX_ONLY | ADMIN_SLASH and c.name not in slash)
     assert not missing, f"prefix commands without a slash version: {missing}"
+
+
+def test_within_discords_slash_limit(bot_module):
+    from discord import AppCommandType
+    assert len(bot_module.bot.tree.get_commands(type=AppCommandType.chat_input)) <= 100
+
+
+def test_setup_group_is_locked_down(bot_module):
+    group = bot_module.bot.tree.get_command("setup")
+    assert group.default_permissions is not None and group.default_permissions.administrator   # hidden from non-admins
+    assert group.guild_only
 
 
 @pytest.mark.parametrize("name", sorted(ADMIN_SLASH))
 def test_admin_slash_commands_are_locked_down(bot_module, name):
-    cmd = bot_module.bot.tree.get_command(name)
-    assert cmd.default_permissions is not None and cmd.default_permissions.administrator   # hidden from non-admins
-    assert cmd.checks, "must also enforce the permission, not just hide the command"
-    assert cmd.guild_only
+    from bot_commands import slash
+    sub = bot_module.bot.tree.get_command("setup").get_command(slash.SETUP_SUBCOMMANDS[name])
+    assert sub is not None, f"/setup has no subcommand for !{name}"
+    assert sub.checks, "must also enforce the permission, not just hide the command"
 
 
 def test_admin_prefix_commands_still_check_permissions(bot_module):
     for name in ADMIN_SLASH:
         assert bot_module.bot.get_command(name).checks, name
+
+
+def test_setup_subcommand_calls_the_prefix_command(bot_module, monkeypatch, fake_ctx):
+    from bot_commands import slash
+    calls = []
+
+    async def fake_ctx_for(interaction):
+        return fake_ctx
+
+    class FakeCommand:
+        def __init__(self, name):
+            self.name = name
+
+        async def __call__(self, ctx, *args, **kwargs):
+            calls.append((self.name, args, kwargs))
+
+    monkeypatch.setattr(slash, "_slash_ctx", fake_ctx_for)
+    monkeypatch.setattr(slash, "_command", FakeCommand)
+    fake_ctx.message = object()
+    group = bot_module.bot.tree.get_command("setup")
+    asyncio.run(group.get_command("votd").callback(None, action="time", channel=None, value="07:00"))
+    asyncio.run(group.get_command("saint").callback(None))
+    assert calls == [("votdsetup", ("time",), {"arg": "07:00"}), ("saintsetup", ("",), {"arg": ""})]
 
 
 def test_slash_setup_commands_receive_the_picked_channel(bot_module):

@@ -355,81 +355,18 @@ async def unsave_slash(interaction: discord.Interaction, number: int):
     await _command("unsave")(await _slash_ctx(interaction), number)
 
 
-@bot.tree.command(name="features", description="(Admins) Turn optional server features on or off")
-@app_commands.describe(name="Which feature (leave empty to see them all)", state="on or off")
-@app_commands.choices(name=[app_commands.Choice(name=k, value=k) for k in GUILD_FEATURES],
-                      state=[app_commands.Choice(name="on", value="on"), app_commands.Choice(name="off", value="off")])
-@_admin_only
-async def features_slash(interaction: discord.Interaction, name: str = "", state: str = ""):
-    await _command("features")(await _slash_ctx(interaction), name, state)
 
 
-@bot.tree.command(name="votdsetup", description="(Admins) Configure the daily Verse of the Day post")
-@app_commands.describe(action="What to change", channel="For 'channel'", value="For 'time' (HH:MM, UTC) or 'mode' (basic/full/extended)")
-@app_commands.choices(action=[app_commands.Choice(name=a, value=a) for a in ("show", "channel", "time", "mode", "off")])
-@_admin_only
-async def votdsetup_slash(interaction: discord.Interaction, action: str = "show",
-                          channel: discord.TextChannel = None, value: str = ""):
-    ctx = await _slash_ctx(interaction)
-    ctx.message = _WithChannelMention(ctx.message, channel)
-    await _command("votdsetup")(ctx, "" if action == "show" else action, arg=value)
 
 
-@bot.tree.command(name="oraclesetup", description="(Admins) Configure the daily oracle post")
-@app_commands.describe(action="What to change", channel="For 'channel'",
-                       value="For 'time' (HH:MM, UTC) or 'kind' (any/virgil/homer/delphi/oracle/iching/hafez/rumi)")
-@app_commands.choices(action=[app_commands.Choice(name=a, value=a) for a in ("show", "channel", "time", "kind", "test", "off")])
-@_admin_only
-async def oraclesetup_slash(interaction: discord.Interaction, action: str = "show",
-                            channel: discord.TextChannel = None, value: str = ""):
-    ctx = await _slash_ctx(interaction)
-    ctx.message = _WithChannelMention(ctx.message, channel)
-    await _command("oraclesetup")(ctx, "" if action == "show" else action, arg=value)
 
 
-@bot.tree.command(name="quizsetup", description="(Admins) Configure the daily quiz question")
-@app_commands.describe(action="What to change", channel="For 'channel'",
-                       value="For 'time' (HH:MM, UTC) or 'kind' (bible/hard)")
-@app_commands.choices(action=[app_commands.Choice(name=a, value=a) for a in ("show", "channel", "time", "kind", "test", "off")])
-@_admin_only
-async def quizsetup_slash(interaction: discord.Interaction, action: str = "show",
-                          channel: discord.TextChannel = None, value: str = ""):
-    ctx = await _slash_ctx(interaction)
-    ctx.message = _WithChannelMention(ctx.message, channel)
-    await _command("quizsetup")(ctx, "" if action == "show" else action, arg=value)
 
 
-@bot.tree.command(name="verslesetup", description="(Admins) Post each day's Versle puzzle in a channel")
-@app_commands.describe(action="What to change", channel="For 'channel'", value="For 'time' (HH:MM, UTC)")
-@app_commands.choices(action=[app_commands.Choice(name=a, value=a) for a in ("show", "channel", "time", "test", "off")])
-@_admin_only
-async def verslesetup_slash(interaction: discord.Interaction, action: str = "show",
-                            channel: discord.TextChannel = None, value: str = ""):
-    ctx = await _slash_ctx(interaction)
-    ctx.message = _WithChannelMention(ctx.message, channel)
-    await _command("verslesetup")(ctx, "" if action == "show" else action, arg=value)
 
 
-@bot.tree.command(name="hymndaysetup", description="(Admins) Post the hymn of the day in a channel")
-@app_commands.describe(action="What to change", channel="For 'channel'", value="For 'time' (HH:MM, UTC)")
-@app_commands.choices(action=[app_commands.Choice(name=a, value=a) for a in ("show", "channel", "time", "test", "off")])
-@_admin_only
-async def hymndaysetup_slash(interaction: discord.Interaction, action: str = "show",
-                             channel: discord.TextChannel = None, value: str = ""):
-    ctx = await _slash_ctx(interaction)
-    ctx.message = _WithChannelMention(ctx.message, channel)
-    await _command("hymndaysetup")(ctx, "" if action == "show" else action, arg=value)
 
 
-@bot.tree.command(name="saintsetup", description="(Admins) Post the saint of the day in a channel")
-@app_commands.describe(action="What to change", channel="For 'channel'", value="For 'time' (HH:MM, UTC)")
-@app_commands.choices(action=[app_commands.Choice(name=a, value=a) for a in ("show", "channel", "time", "test", "off")])
-@_admin_only
-async def saintsetup_slash(interaction: discord.Interaction, action: str = "show",
-                           channel: discord.TextChannel = None, value: str = ""):
-    ctx = await _slash_ctx(interaction)
-    ctx.message = _WithChannelMention(ctx.message, channel)
-    await _command("saintsetup")(ctx, "" if action == "show" else action, arg=value)
 
 
 @bot.tree.command(name="saint", description="The saint of the day, or any saint, from Butler and the Golden Legend")
@@ -453,51 +390,83 @@ async def hymnday_slash(interaction: discord.Interaction, date: str = ""):
     await _command("hymnday")(ctx, when=date)
 
 
-@bot.tree.command(name="changelogsetup", description="(Admins) Choose where the bot announces her updates")
+# ── /setup: the admins' settings, one group ──────────────────────────────────
+# Discord allows a bot 100 slash commands, and a group counts as one, so the twelve admin
+# commands that were /votdsetup, /oraclesetup... are /setup votd, /setup oracle... (the typed
+# !votdsetup etc. are unchanged). The group is hidden from non-admins and server-only, and each
+# subcommand checks the permission too.
+
+setup_group = app_commands.Group(name="setup", description="(Admins) The bot's settings for this server",
+                                 default_permissions=discord.Permissions(administrator=True), guild_only=True)
+_ADMIN = app_commands.checks.has_permissions(administrator=True)
+
+
+async def _run_setup(interaction: discord.Interaction, command: str, action: str, channel, value: str) -> None:
+    ctx = await _slash_ctx(interaction)
+    ctx.message = _WithChannelMention(ctx.message, channel)
+    await _command(command)(ctx, "" if action == "show" else action, arg=value)
+
+
+def _actions(*names):
+    return app_commands.choices(action=[app_commands.Choice(name=a, value=a) for a in names])
+
+
+def _daily(sub: str, command: str, what: str, actions: tuple, value_help: str = "For 'time' (HH:MM, UTC)"):
+    """A /setup subcommand for one of the daily posts (show / channel / time / ... / off)."""
+    @setup_group.command(name=sub, description=f"(Admins) {what}")
+    @app_commands.describe(action="What to change", channel="For 'channel'", value=value_help)
+    @_actions(*actions)
+    @_ADMIN
+    async def run(interaction: discord.Interaction, action: str = "show",
+                  channel: discord.TextChannel = None, value: str = ""):
+        await _run_setup(interaction, command, action, channel, value)
+    return run
+
+
+_daily("votd", "votdsetup", "The daily Verse of the Day post", ("show", "channel", "time", "mode", "off"),
+       "For 'time' (HH:MM, UTC) or 'mode' (basic/full/extended)")
+_daily("oracle", "oraclesetup", "The daily oracle post", ("show", "channel", "time", "kind", "test", "off"),
+       "For 'time' (HH:MM, UTC) or 'kind' (any/virgil/homer/delphi/oracle/iching/hafez/rumi)")
+_daily("quiz", "quizsetup", "The daily quiz question", ("show", "channel", "time", "kind", "test", "off"),
+       "For 'time' (HH:MM, UTC) or 'kind' (bible/hard)")
+_daily("versle", "verslesetup", "Each day's Versle puzzle", ("show", "channel", "time", "test", "off"))
+_daily("hymnday", "hymndaysetup", "The hymn of the day", ("show", "channel", "time", "test", "off"))
+_daily("saint", "saintsetup", "The saint of the day", ("show", "channel", "time", "test", "off"))
+_daily("angelus", "angelussetup", "The Angelus at chosen hours", ("show", "channel", "time", "test", "off"),
+       "For 'time': one or more HH:MM, UTC (06:00 12:00 18:00)")
+_daily("learning", "learningsetup", "The day's Jewish learning", ("show", "channel", "time", "test", "off"))
+_daily("troparion", "troparionsetup", "The day's Orthodox troparia", ("show", "channel", "time", "test", "off"))
+
+
+@setup_group.command(name="features", description="(Admins) Turn optional server features on or off")
+@app_commands.describe(name="Which feature (leave empty to see them all)", state="on or off")
+@app_commands.choices(name=[app_commands.Choice(name=k, value=k) for k in GUILD_FEATURES],
+                      state=[app_commands.Choice(name="on", value="on"), app_commands.Choice(name="off", value="off")])
+@_ADMIN
+async def setup_features(interaction: discord.Interaction, name: str = "", state: str = ""):
+    await _command("features")(await _slash_ctx(interaction), name, state)
+
+
+@setup_group.command(name="changelog", description="(Admins) Choose where the bot announces her updates")
 @app_commands.describe(channel="The updates channel (leave empty to see the current one)", off="Stop announcing updates")
-@_admin_only
-async def changelogsetup_slash(interaction: discord.Interaction, channel: discord.TextChannel = None, off: bool = False):
+@_ADMIN
+async def setup_changelog(interaction: discord.Interaction, channel: discord.TextChannel = None, off: bool = False):
     ctx = await _slash_ctx(interaction)
     ctx.message = _WithChannelMention(ctx.message, channel)
     await _command("changelogsetup")(ctx, arg="off" if off else (channel.mention if channel else ""))
 
 
-@bot.tree.command(name="changelogintro", description="(Admins) Post the full introduction + latest updates in the updates channel")
+@setup_group.command(name="intro", description="(Admins) Post the full introduction + latest updates in the updates channel")
 @app_commands.describe(fresh="First delete my own earlier messages there, so the introduction comes first")
-@_admin_only
-async def changelogintro_slash(interaction: discord.Interaction, fresh: bool = False):
+@_ADMIN
+async def setup_intro(interaction: discord.Interaction, fresh: bool = False):
     await _command("changelogintro")(await _slash_ctx(interaction), arg="fresh" if fresh else "")
 
 
-@bot.tree.command(name="angelussetup", description="(Admins) Post the Angelus in a channel at chosen hours")
-@app_commands.describe(action="What to change", channel="For 'channel'",
-                       value="For 'time': one or more HH:MM, UTC (06:00 12:00 18:00)")
-@app_commands.choices(action=[app_commands.Choice(name=a, value=a) for a in ("show", "channel", "time", "test", "off")])
-@_admin_only
-async def angelussetup_slash(interaction: discord.Interaction, action: str = "show",
-                             channel: discord.TextChannel = None, value: str = ""):
-    ctx = await _slash_ctx(interaction)
-    ctx.message = _WithChannelMention(ctx.message, channel)
-    await _command("angelussetup")(ctx, "" if action == "show" else action, arg=value)
+bot.tree.add_command(setup_group)
 
-
-@bot.tree.command(name="learningsetup", description="(Admins) Post the day's Jewish learning in a channel")
-@app_commands.describe(action="What to change", channel="For 'channel'", value="For 'time' (HH:MM, UTC)")
-@app_commands.choices(action=[app_commands.Choice(name=a, value=a) for a in ("show", "channel", "time", "test", "off")])
-@_admin_only
-async def learningsetup_slash(interaction: discord.Interaction, action: str = "show",
-                              channel: discord.TextChannel = None, value: str = ""):
-    ctx = await _slash_ctx(interaction)
-    ctx.message = _WithChannelMention(ctx.message, channel)
-    await _command("learningsetup")(ctx, "" if action == "show" else action, arg=value)
-
-
-@bot.tree.command(name="troparionsetup", description="(Admins) Post the day's Orthodox troparia in a channel")
-@app_commands.describe(action="What to change", channel="For 'channel'", value="For 'time' (HH:MM, UTC)")
-@app_commands.choices(action=[app_commands.Choice(name=a, value=a) for a in ("show", "channel", "time", "test", "off")])
-@_admin_only
-async def troparionsetup_slash(interaction: discord.Interaction, action: str = "show",
-                               channel: discord.TextChannel = None, value: str = ""):
-    ctx = await _slash_ctx(interaction)
-    ctx.message = _WithChannelMention(ctx.message, channel)
-    await _command("troparionsetup")(ctx, "" if action == "show" else action, arg=value)
+# the slash form of each admin command, for the tests and !help
+SETUP_SUBCOMMANDS = {"votdsetup": "votd", "oraclesetup": "oracle", "quizsetup": "quiz", "verslesetup": "versle",
+                     "hymndaysetup": "hymnday", "saintsetup": "saint", "angelussetup": "angelus",
+                     "learningsetup": "learning", "troparionsetup": "troparion", "features": "features",
+                     "changelogsetup": "changelog", "changelogintro": "intro"}

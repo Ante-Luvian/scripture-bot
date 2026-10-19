@@ -112,4 +112,9 @@ async def cmd_vov(ctx, *, query: str = ""):
            !vov penitence    — a prayer on a theme"""
     await send_vov(ctx, query)
 
-# (no /vov: Discord allows a bot 100 slash commands, and this one has them all)
+
+@bot.tree.command(name="vov", description="A Puritan prayer from The Valley of Vision")
+@discord.app_commands.describe(query="A number (37), a theme (penitence), 'topics' or 'topics 4'; empty for one at random")
+async def vov_slash(interaction: discord.Interaction, query: str = ""):
+    await interaction.response.defer()
+    await send_vov(await bot.get_context(interaction), query)

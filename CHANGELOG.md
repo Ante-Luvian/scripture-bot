@@ -14,6 +14,10 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-18 · /vov, and the admin settings gathered under /setup
+- 🙏 **`/vov` now works as a slash command.** The Puritan prayers from *The Valley of Vision* (added earlier today as `!vov`) can now be found by typing `/`. Leave it empty for a prayer at random, or fill in a number (`/vov query:37`), a theme (`/vov query:penitence`), `topics` for the list of themes, or `topics 4` for the prayers under one theme.
+- ⚙️ **For server admins: the twelve setup slash commands are now one command, `/setup`.** Discord lets a bot have at most 100 slash commands, and the bot had reached that limit. `/votdsetup` is now `/setup votd`, `/oraclesetup` is `/setup oracle`, `/changelogsetup` is `/setup changelog`, `/changelogintro` is `/setup intro`, `/features` is `/setup features`, and the same goes for quiz, versle, hymnday, saint, angelus, learning and troparion. The options are the same as before, and `/setup` is still visible only to admins. The typed commands such as `!votdsetup` haven't changed, and your existing settings are kept.
+
 ## 2026-10-18 · !vov: Puritan prayers
 - 🙏 **New: `!vov`, the prayers of the English Puritans**, as gathered in the collection *The Valley of Vision*: 194 prayers on eleven themes, from the Trinity and redemption to penitence, service and a week of morning and evening prayers. `!vov` gives one at random; `!vov penitence` or `!vov trinity` one on a theme; `!vov topics` lists the themes and `!vov topics 4` the prayers under one, each with its number; `!vov 37` shows that prayer.
 
