@@ -61,7 +61,7 @@ LIVE_SAMPLE = ["", "asdfghjkl", "xyzzy 3:16", "Jhon 3:16", "🙏", "*", "`", "\\
 
 # Commands that reach the internet (left to the live run), wait for an answer, or are owner-only.
 NETWORK = {"salah", "notes", "compare", "parallel", "variants", "dafyomi", "parsha", "learning", "midi"}
-SKIP = {"weeklyreport", "scanstats", "guildactivity", "errors", "changelogintro"}   # owner tools that DM/scan
+SKIP = {"weeklyreport", "scanstats", "guildactivity", "errors", "changelogintro", "checksources"}   # owner tools that DM/scan
 
 # What a reply must not contain.
 LEAKS = {

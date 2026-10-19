@@ -2227,104 +2227,135 @@ class ScriptureLookup:
         corpus = self._resolve_book(book)[0] if book else None
         return CORPUS_TRADITION.get(corpus)
 
+    # ── How a reference is read ────────────────────────────────────────────────
+    # A reference goes to the first reader below that recognises it; the order matters (Plato's
+    # "Republic 514a" before the Talmud's "Berakhot 2a", which both end in a number and a letter).
+    # Each takes the reference and returns a result, or None to pass it on. Then the general
+    # "Book chapter:verse" parser; then, for a book that isn't stored here, the online libraries.
+    # tests/test_reference_readers.py pins the order and each reader.
+
+    def _readers_before_parsing(self, online: bool = True) -> list:
+        """[(name, read(ref), the tradition its results belong to, or None to work it out)]."""
+        readers = [
+            ("the Quran, from the Quran API", self._read_quran, "islamic"),
+            ("the Pali Canon, from SuttaCentral", self._read_sutta, "buddhist"),
+            ("the Gita's other translations, from the Gita API", self._read_gita, "hindu"),
+            ("Sikh scripture, from BaniDB", self._read_bani, "sikh"),
+        ] if online else []
+        return readers + [
+            ("the Epistle of Jeremiah (Baruch 6)", lambda ref: self._read_epistle_of_jeremiah(ref, online), None),
+            ("the ancient Near East (Baal N:M, Muallaqat N:M)", self._try_ancient_near_east, None),
+            ("Plato by Stephanus page", self._try_stephanus, None),
+            ("the Babylonian Talmud by page", self._read_talmud, "jewish"),
+            ("the Zohar", self._read_zohar, "jewish"),
+            ("Delphi 1:N and 2:N", self._read_delphi, None),
+            ("the Shepherd of Hermas by Vision, Mandate or Similitude", self._try_hermas, None),
+            ("anything Sefaria has that the parser can't read", self._read_unparseable, "jewish"),
+        ]
+
+    def _readers_for_unknown_books(self) -> list:
+        """[(name, read(ref, book, chapter, verse, end), tradition)] for a book that isn't stored here."""
+        return [
+            ("the Mishnah", lambda ref, b, c, v, e: self._try_sefaria(b, c, v, e), "jewish"),
+            ("the Jerusalem Talmud", lambda ref, b, c, v, e: self._try_yerushalmi(b, c, v), "jewish"),
+            ("the Tosefta", lambda ref, b, c, v, e: self._try_tosefta(b, c, v), "jewish"),
+            ("the Targumim", lambda ref, b, c, v, e: self._try_targum(ref), "jewish"),
+            ("the Midrash", lambda ref, b, c, v, e: self._try_midrash(b, c, v), "jewish"),
+            ("Kabbalah", lambda ref, b, c, v, e: self._try_kabbalah(b, c, v), "jewish"),
+            ("the Mishneh Torah", lambda ref, b, c, v, e: self._try_mishneh_torah(ref), "jewish"),
+            ("the Guide for the Perplexed", lambda ref, b, c, v, e: self._try_guide(ref), "jewish"),
+            ("the hadith", lambda ref, b, c, v, e: self._try_hadith(ref), "islamic"),
+            ("the rest of Sefaria's library (Rashi on Genesis, the Kuzari...)",
+             lambda ref, b, c, v, e: __import__("sefaria_lookup").fetch_sefaria_any(ref), "jewish"),
+        ]
+
+    def _homer_lines(self, ref: str) -> str:
+        """Homer is cited book.line ("Iliad 6.440-465"); the general parser only takes a dot without a
+        range, so the dot is read as a colon."""
+        m = re.match(r"^(.+?)\s+(\d+)\.(\d+\s*[-–]\s*\d+)$", ref)
+        if m and self._resolve_book(m.group(1))[1] in self._LINE_CHUNKED:
+            return f"{m.group(1)} {m.group(2)}:{m.group(3)}"
+        return ref
+
+    def _read_quran(self, ref):
+        """Abdel Haleem (or any translation named after it) from the Quran API, with our own Pickthall
+        for "pickthall" and whenever the API can't be reached."""
+        import quran_lookup
+        return quran_lookup.get_quran(ref, lambda r: self.get_verse(r, _quran_api=False))
+
+    def _read_sutta(self, ref):
+        """MN 1, SN 56.11, AN 3.65..."""
+        import sutta_lookup
+        return sutta_lookup.get_sutta(ref)
+
+    def _read_gita(self, ref):
+        """The Gita in a named translation or commentary (plain "Gita 2:47" stays our Purohit)."""
+        import gita_lookup
+        return gita_lookup.get_gita(ref, lambda r: self.get_verse(r, _quran_api=False))
+
+    def _read_bani(self, ref):
+        """The Dasam Granth, Bhai Gurdas, more Guru Granth Sahib translations."""
+        import banidb_lookup
+        return banidb_lookup.get_bani(ref, lambda r: self.get_verse(r, _quran_api=False))
+
+    def _read_epistle_of_jeremiah(self, ref, online=True):
+        """Chapter 6 of Baruch in the KJV's Apocrypha. It has one chapter: "Epistle of Jeremiah 1" is
+        all of it, "1:5" or "5" its fifth verse."""
+        m = re.match(r"^(?:the\s+)?(?:epistle|letter|ep\.?|let\.?)\s*(?:of\s+)?jer(?:emiah|\.)?"
+                     r"(?:\s+(1:)?(\d+(?:\s*[-–]\s*\d+)?))?\s*$", ref, re.IGNORECASE)
+        if not m:
+            return None
+        whole = m.group(2) is None or (m.group(1) is None and m.group(2) == "1")
+        return self._get_verse("Baruch 6" if whole else f"Baruch 6:{m.group(2)}", online)
+
+    def _read_talmud(self, ref):
+        """"Talmud Berakhot 2a:3", "Gemara Shabbat 31a", "Berakhot 2a:3": a page (daf) and side."""
+        return get_talmud(ref) if re.search(r"\d+[ab]", ref, re.IGNORECASE) else None
+
+    def _read_zohar(self, ref):
+        """"Zohar Bereshit 5", "Zohar 1:1a:3", or "Zohar" alone for one at random."""
+        if not re.match(r"^(?:the\s+)?zohar\b", ref, re.IGNORECASE):
+            return None
+        return self._try_zohar_raw(ref) or {
+            "found": False,
+            "error": "Could not fetch that Zohar reference.\nFormat: `Zohar Bereshit 5` or just `Zohar` for random.",
+            "suggestions": []}
+
+    def _read_delphi(self, ref):
+        """Delphi 1:N (the maxims) and Delphi 2:N (the oracular statements)."""
+        delphi_m = re.match(r"^delphi\s+([12]):(\d+)$", ref, re.IGNORECASE)
+        if not delphi_m:
+            return None
+        sub, num = delphi_m.group(1), delphi_m.group(2)
+        book = "Delphic Maxims" if sub == "1" else "Oracular Statements"
+        entries = self._data.get("classical", {}).get(book, {})
+        if entries.get(num) is None:
+            max_n = max((int(k) for k in entries), default=0)
+            return {"found": False, "error": f"**{book}** has no entry {num}. (Max: {max_n})", "suggestions": []}
+        return {"found": True, "reference": f"Delphi {sub}:{num}", "text": entries[num].get("1", ""),
+                "source": book, "book": book, "chapter": int(num), "verse": 1}
+
+    def _read_unparseable(self, ref):
+        """A reference the general parser can't read may still be in Sefaria's library
+        ("Jerusalem Talmud Makkot 2:7:2-3:7:1")."""
+        if self._parse_reference(ref) is not None:
+            return None
+        import sefaria_lookup
+        return sefaria_lookup.fetch_sefaria_any(ref)
+
     def _get_verse(self, reference: str, _quran_api: bool = True) -> dict:
         """
         Parse a free-form reference like "John 3:16" or "D&C 76:22-24"
         and return the verse text.
         """
-        ref = reference.strip()
-
-        # The Quran: Abdel Haleem (or any translation named after it) from the Quran API,
-        # with our own Pickthall for "pickthall" and whenever the API can't be reached
-        if _quran_api:
-            import quran_lookup
-            quran = quran_lookup.get_quran(ref, lambda r: self.get_verse(r, _quran_api=False))
-            if quran is not None:
-                return _tagged(quran, "islamic")
-            # The Pali Canon from SuttaCentral (MN 1, SN 56.11, AN 3.65...)
-            import sutta_lookup
-            sutta = sutta_lookup.get_sutta(ref)
-            if sutta is not None:
-                return _tagged(sutta, "buddhist")
-            # The Gita in a named translation or commentary (plain "Gita 2:47" stays our Purohit)
-            import gita_lookup
-            gita = gita_lookup.get_gita(ref, lambda r: self.get_verse(r, _quran_api=False))
-            if gita is not None:
-                return _tagged(gita, "hindu")
-            # Sikh scripture from BaniDB: the Dasam Granth, Bhai Gurdas, more Guru Granth Sahib translations
-            import banidb_lookup
-            bani = banidb_lookup.get_bani(ref, lambda r: self.get_verse(r, _quran_api=False))
-            if bani is not None:
-                return _tagged(bani, "sikh")
-
-        # The Epistle (Letter) of Jeremiah is chapter 6 of Baruch in the KJV's Apocrypha. It has one
-        # chapter: "Epistle of Jeremiah 1" is all of it, "1:5" or "5" its fifth verse
-        m = re.match(r"^(?:the\s+)?(?:epistle|letter|ep\.?|let\.?)\s*(?:of\s+)?jer(?:emiah|\.)?"
-                     r"(?:\s+(1:)?(\d+(?:\s*[-–]\s*\d+)?))?\s*$", ref, re.IGNORECASE)
-        if m:
-            whole = m.group(2) is None or (m.group(1) is None and m.group(2) == "1")
-            return self._get_verse("Baruch 6" if whole else f"Baruch 6:{m.group(2)}", _quran_api)
-
-        # Homer is cited book.line ("Iliad 6.440-465"); the general parser
-        # only takes a dot without a range, so read the dot as a colon.
-        m = re.match(r"^(.+?)\s+(\d+)\.(\d+\s*[-–]\s*\d+)$", ref)
-        if m and self._resolve_book(m.group(1))[1] in self._LINE_CHUNKED:
-            ref = f"{m.group(1)} {m.group(2)}:{m.group(3)}"
-
-        # ── Ancient Near East: intercept "Baal N:M" and "Muallaqat N:M" ─────
-        # These use numeric episode/ode as the "chapter" and section/stanza as "verse"
-        # Map to named book keys before _parse_reference splits incorrectly.
-        _ane_result = self._try_ancient_near_east(ref)
-        if _ane_result is not None:
-            return _ane_result
-
-        # ── Talmud: try early before generic parsing strips the daf letter ──
-        # "Talmud Berakhot 2a:3", "Gemara Shabbat 31a", "Berakhot 2a:3" all
-        # contain a daf (digit+a/b). parse_talmud_ref handles all these forms.
-        # BUT: check for Plato first since Stephanus refs also end in letter+digit.
-        stephanus_result = self._try_stephanus(ref)
-        if stephanus_result is not None:
-            return stephanus_result
-
-        if re.search(r"\d+[ab]", ref, re.IGNORECASE):
-            talmud_result = get_talmud(ref)
-            if talmud_result is not None:
-                return _tagged(talmud_result, "jewish")
-
-        # ── Zohar: "Zohar 1:1a:3" or bare "Zohar" ────────────────────────────
-        if re.match(r"^(?:the\s+)?zohar\b", ref, re.IGNORECASE):
-            zohar_result = self._try_zohar_raw(ref)
-            if zohar_result is not None:
-                return _tagged(zohar_result, "jewish")
-            return {
-                "found": False,
-                "error": "Could not fetch that Zohar reference.\nFormat: `Zohar Bereshit 5` or just `Zohar` for random.",
-                "suggestions": []
-            }
-        # ── Delphi 1:N (maxims) / Delphi 2:N (oracular statements) ──────────
-        delphi_m = re.match(r"^delphi\s+([12]):(\d+)$", ref, re.IGNORECASE)
-        if delphi_m:
-            sub, num = delphi_m.group(1), delphi_m.group(2)
-            book = "Delphic Maxims" if sub == "1" else "Oracular Statements"
-            corpus = "classical"
-            chap_data = self._data.get(corpus, {}).get(book, {}).get(num)
-            if chap_data is None:
-                max_n = max((int(k) for k in self._data.get(corpus, {}).get(book, {})), default=0)
-                return {"found": False, "error": f"**{book}** has no entry {num}. (Max: {max_n})", "suggestions": []}
-            text = chap_data.get("1", "")
-            return {"found": True, "reference": f"Delphi {sub}:{num}", "text": text,
-                    "source": book, "book": book, "chapter": int(num), "verse": 1}
-
-        hermas_result = self._try_hermas(ref)
-        if hermas_result is not None:
-            return hermas_result
+        ref = self._homer_lines(reference.strip())
+        for _name, read, tradition_key in self._readers_before_parsing(_quran_api):
+            result = read(ref)
+            if result is not None:
+                return _tagged(result, tradition_key) if tradition_key else result
 
         parsed = self._parse_reference(ref)
         if parsed is None:
-            import sefaria_lookup                       # e.g. "Jerusalem Talmud Makkot 2:7:2-3:7:1"
-            any_result = sefaria_lookup.fetch_sefaria_any(ref)
-            if any_result is not None:
-                return _tagged(any_result, "jewish")
             return {
                 "found": False,
                 "error": f'Could not parse reference: **{ref}**\nTry: `Book Chapter:Verse`',
@@ -2362,47 +2393,10 @@ class ScriptureLookup:
                     "text": text, "source": "Kitáb-i-Aqdas — Bahá'u'lláh (1992)",
                     "book": "Kitab-i-Aqdas", "chapter": chapter, "verse": 1}
         if canon_book is None:
-            # Try Sefaria (Mishnah) as fallback
-            sefaria_result = self._try_sefaria(book_raw, chapter, verse_start, verse_end)
-            if sefaria_result is not None:
-                return _tagged(sefaria_result, "jewish")
-            # Try Jerusalem Talmud
-            yet_result = self._try_yerushalmi(book_raw, chapter, verse_start)
-            if yet_result is not None:
-                return _tagged(yet_result, "jewish")
-            # Try Tosefta
-            tosefta_result = self._try_tosefta(book_raw, chapter, verse_start)
-            if tosefta_result is not None:
-                return _tagged(tosefta_result, "jewish")
-            # Try Targum
-            targum_result = self._try_targum(ref)
-            if targum_result is not None:
-                return _tagged(targum_result, "jewish")
-            # Try Midrash
-            midrash_result = self._try_midrash(book_raw, chapter, verse_start)
-            if midrash_result is not None:
-                return _tagged(midrash_result, "jewish")
-            # Try Kabbalah
-            kabbalah_result = self._try_kabbalah(book_raw, chapter, verse_start)
-            if kabbalah_result is not None:
-                return _tagged(kabbalah_result, "jewish")
-            # Try Mishneh Torah
-            mt_result = self._try_mishneh_torah(ref)
-            if mt_result is not None:
-                return _tagged(mt_result, "jewish")
-            # Try Guide for the Perplexed
-            guide_result = self._try_guide(ref)
-            if guide_result is not None:
-                return _tagged(guide_result, "jewish")
-            # Try Hadith
-            hadith_result = self._try_hadith(ref)
-            if hadith_result is not None:
-                return _tagged(hadith_result, "islamic")
-            # Anything else in Sefaria's library (Pirkei DeRabbi Eliezer, Rashi on Genesis, Kuzari...)
-            import sefaria_lookup
-            any_result = sefaria_lookup.fetch_sefaria_any(ref)
-            if any_result is not None:
-                return _tagged(any_result, "jewish")
+            for _name, read, tradition_key in self._readers_for_unknown_books():
+                result = read(ref, book_raw, chapter, verse_start, verse_end)
+                if result is not None:
+                    return _tagged(result, tradition_key)
             return {
                 "found": False,
                 "error": f'Unknown book: **{book_raw}**',
