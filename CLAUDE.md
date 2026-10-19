@@ -54,6 +54,10 @@ See README.md for what the bot does, the command list, layout, and data schema.
      offline run skips. A new command gets inputs shaped for it too (bad page numbers, dates...).
   This grew out of the owner's girlfriend's stress-testing of /theme with bare symbols ($ % * _ ~
   { >), which turned up web debris and broken markup (tests/test_corpus_clean.py).
+- The two PDF guides the owner sends people (every feature; every work with a command that opens
+  it) come from `python scripts/build_guides.py`, into `guides/` (not in git). It tries every
+  command it prints against the bot and stops on one that fails. Rebuild them when the library or
+  INTRODUCTION.md changes, if the owner wants fresh copies.
 - After adding or rebuilding a corpus, run `python scripts/clean_corpora.py` (strips web
   leftovers, licences, footnotes, Beta Code; see README "Cleaning") and then
   `python -m pytest -m corpus`, the slow check that every corpus file is clean.

@@ -60,3 +60,6 @@ data/dore/dante/
 
 # texts the owner supplied for scripts/build_reformation.py (the built data/reformation files are committed)
 scripts/sources/
+
+# the PDF guides (scripts/build_guides.py)
+guides/
