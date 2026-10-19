@@ -522,8 +522,15 @@ def _clean(text: str) -> str:
     # approach) left orphaned numbers like "853" behind whenever the tag
     # wasn't glued directly onto a preceding word.
     text = re.sub(r"<S>\d+</S>", "", text)
+    # Footnote and cross-reference marks, which bolls.life puts in superscript: the CSB's circled
+    # letters ("the Pharisees ⓒ named"), "[1]" in the CSB, CEB, CEV, GNT, ERV and NABRE, the NABRE's
+    # "[AA]", the ISV's whole notes and section titles ("{Lit. him}", "{Jesus Talks with Nicodemus}")
+    text = re.sub(r"(?is)<sup\b[^>]*>.*?</sup>", "", text)
+    if text.lstrip().startswith(tuple("abcdefghijklmnopqrstuvwxyz")):
+        text = re.sub(r"^\s*[a-z]\s+(?=[A-Z])", "", text)    # (the ISV's note letter after a title: "d Now there")
     text = re.sub(r"<[^>]+>", "", text)  # any other stray HTML tags
     text = re.sub(r"[ \t]+", " ", text)  # collapse whitespace left by removed standalone tags
+    text = re.sub(r" +([,.;:!?”’)])", r"\1", text)    # ("Rabbi ⓕ, we" -> "Rabbi, we")
     return text.strip()
 
 
