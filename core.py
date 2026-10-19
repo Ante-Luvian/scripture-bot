@@ -429,13 +429,26 @@ def _atomic_write_json(path: Path, data) -> None:
 # ── Per-guild config (VOTD channel/time/mode) ───────────────────────────────────
 GUILD_CONFIG_PATH = Path(__file__).parent / "data" / "guild_config.json"
 
+_guild_config_cache: dict = {}        # (path, mtime, size) -> the parsed file
+
+
 def _load_guild_config() -> dict:
-    if GUILD_CONFIG_PATH.exists():
+    """Every server's settings. Read on every command (core._pack_check), so the parsed file is kept
+    until the file itself changes; callers get their own copy, since some change what they get."""
+    import copy
+    try:
+        stat = GUILD_CONFIG_PATH.stat()
+    except OSError:
+        return {}
+    key = (str(GUILD_CONFIG_PATH), stat.st_mtime_ns, stat.st_size)
+    if key not in _guild_config_cache:
         try:
-            return json.loads(GUILD_CONFIG_PATH.read_text(encoding="utf-8"))
+            data = json.loads(GUILD_CONFIG_PATH.read_text(encoding="utf-8"))
         except Exception:
-            pass
-    return {}
+            return {}
+        _guild_config_cache.clear()
+        _guild_config_cache[key] = data
+    return copy.deepcopy(_guild_config_cache[key])
 
 def _save_guild_config(cfg: dict) -> None:
     _atomic_write_json(GUILD_CONFIG_PATH, cfg)
