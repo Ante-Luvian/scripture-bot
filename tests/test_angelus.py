@@ -4,6 +4,8 @@ import datetime
 
 import pytest
 
+from tests.conftest import needs_sung_chant
+
 D = datetime.date
 
 
@@ -25,6 +27,7 @@ def test_eastertide(ang, day, easter):
     assert ang.eastertide(day) is easter
 
 
+@needs_sung_chant
 def test_the_angelus(ang):
     m = ang.angelus_message(D(2026, 10, 14))
     english, latin = m["embeds"]
@@ -35,6 +38,7 @@ def test_the_angelus(ang):
     assert m["file"].filename == "Ave_Maria_sung.ogg" and "Ave Maria" in m["content"]
 
 
+@needs_sung_chant
 def test_regina_caeli_in_eastertide(ang):
     m = ang.angelus_message(D(2027, 4, 10))
     english, latin = m["embeds"]
@@ -43,6 +47,7 @@ def test_regina_caeli_in_eastertide(ang):
     assert m["file"].filename == "Regina_caeli_sung.ogg"
 
 
+@needs_sung_chant
 def test_the_sung_chants_exist(ang):
     from bot_commands.hymns import hymns, sung_path
     titles = {h["title"]: h for h in hymns()}

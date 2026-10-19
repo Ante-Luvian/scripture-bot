@@ -5,6 +5,7 @@ import json
 import pytest
 
 from core import ROOT
+from tests.conftest import HAVE_ORGAN_CHANT, needs_organ_chant, needs_sung_chant
 
 MORE = ROOT / "data" / "hymns" / "more_hymns.json"
 
@@ -38,7 +39,7 @@ def _one(hymns, query):
 def test_the_requested_chants(hymns, query, opening):
     hymn = _one(hymns, query)
     assert hymn["stanzas"][0].startswith(opening), hymn["stanzas"][0][:60]
-    assert hymn.get("language") == "Latin" and hymns.audio_path(hymn) is not None
+    assert hymn.get("language") == "Latin" and (hymns.audio_path(hymn) is not None or not HAVE_ORGAN_CHANT)
 
 
 def test_stanzas_and_melody(hymns):
@@ -77,11 +78,12 @@ def test_names_keys_and_audio(hymns, more):
     assert len(more) >= 400
     for h in more:
         assert h["stanzas"] and all(s.strip() for s in h["stanzas"]), h["title"]
-        if h.get("audio"):
+        if h.get("audio") and HAVE_ORGAN_CHANT:
             assert hymns.audio_path(h) is not None, h["title"]
         assert "<" not in " ".join(h["stanzas"]), h["title"]          # no gabc markup left
 
 
+@needs_organ_chant
 def test_midi_posts_just_the_tune(hymns, fake_ctx):
     import asyncio
     asyncio.run(hymns.send_hymn_tune(fake_ctx, "Salve Regina"))
@@ -90,6 +92,7 @@ def test_midi_posts_just_the_tune(hymns, fake_ctx):
     assert "embed" not in sent                                   # no words
 
 
+@needs_sung_chant
 def test_every_chant_is_sung(hymns, more):
     for h in more:
         if h.get("audio_kind") == "chant":
@@ -118,6 +121,7 @@ def test_scores(hymns, more):
     assert f"page {n} of {n}" in hymns.score_message(long, -1)["content"]
 
 
+@needs_sung_chant
 def test_chant_sings_straight_away(hymns, fake_ctx):
     import asyncio
     asyncio.run(hymns.send_chant(fake_ctx, "Pater noster"))
@@ -183,7 +187,7 @@ def test_hymn_harp_is_a_random_sacred_harp_song(hymns, fake_ctx):
                                    "Requiem aeternam (Introit of the Requiem Mass)", "Libera me (Responsory of the Requiem)"])
 def test_the_mass_and_the_requiem(hymns, title):
     hymn = next(h for h in hymns.hymns() if h["title"] == title)
-    assert hymns.audio_path(hymn) is not None and hymn["stanzas"]
+    assert (hymns.audio_path(hymn) is not None or not HAVE_ORGAN_CHANT) and hymn["stanzas"]
 
 
 def test_english_translations(hymns):

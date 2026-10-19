@@ -8,6 +8,8 @@ from pathlib import Path
 
 import pytest
 
+from tests.conftest import HAVE_ORGAN_CHANT
+
 ROOT = Path(__file__).resolve().parent.parent
 
 
@@ -75,7 +77,8 @@ def test_every_hymn_has_a_tune(hy):
     for h in hy.hymns():
         if "midi" in h:                                           # (the chant is rendered from its score)
             assert (hy.MIDI_DIR / h["midi"]).exists(), h["title"]
-        assert hy.audio_path(h) is not None, h["title"]          # rendered ahead: python scripts/render_hymn_audio.py
+        if h.get("audio_kind") != "chant" or HAVE_ORGAN_CHANT:   # (chant audio isn't in git: build_chant.py)
+            assert hy.audio_path(h) is not None, h["title"]      # rendered ahead: python scripts/render_hymn_audio.py
 
 
 def test_the_bot_needs_nothing_to_play_a_tune(hy):

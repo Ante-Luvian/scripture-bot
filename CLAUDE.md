@@ -13,6 +13,10 @@ See README.md for what the bot does, the command list, layout, and data schema.
   "Synced N slash command(s)". Web/cloud sessions can't reach the service — say so.
 - Never commit the runtime state files in `data/` (stats, guild_*, user_prefs,
   bookmarks, reading_plans, subscribers, votd_mode, versle, hymnday, saintday, angelus, troparion, deluge, learning). `.gitignore` covers them.
+- Never commit audio or images a script can rebuild (the chant in `data/hymns/audio/sung/` and
+  `more/`, the chanted psalms, scores, Doré crops); `.gitignore` covers them. The repo was 1.1 GB,
+  mostly re-rendered chant, until the history was rewritten on 2026-10-19 to drop it. Downloaded
+  media with no other copy (the Sacred Harp, hymn tunes) stays tracked.
 - Commit messages: a summary line plus a body explaining *why*, and noting anything
   verified or deliberately left out.
 - **Add a `CHANGELOG.md` entry for every user-visible change worth announcing** (new

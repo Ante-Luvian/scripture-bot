@@ -4,6 +4,8 @@ import re
 
 import pytest
 
+from tests.conftest import needs_sung_chant
+
 from core import ROOT
 
 
@@ -66,6 +68,7 @@ def test_the_chants_exist(pr):
         assert not p[5] or p[5] in titles, key
 
 
+@needs_sung_chant                      # (it sends the sung chant)
 def test_the_command(pr, fake_ctx):
     from bot_commands import liturgy
     asyncio.run(liturgy.cmd_prayer.callback(fake_ctx, name="st michael"))

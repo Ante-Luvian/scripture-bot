@@ -1955,13 +1955,13 @@ class ScriptureLookup:
         for key, (_, corpora) in TRADITIONS.items():
             if allowed is not None and key not in allowed:
                 continue
-            books = [(c, b) for c in corpora for b, chapters in self._data.get(c, {}).items()
+            books = [(c, b, key) for c in corpora for b, chapters in self._data.get(c, {}).items()
                      if b not in SKIP_BOOKS and any(chapters.values())]
             if books:
                 traditions.append(books)
         if not traditions:
             return {"found": False, "error": "No verse data loaded.", "suggestions": []}
-        corpus, book = rng.choice(rng.choice(traditions))
+        corpus, book, tradition_key = rng.choice(rng.choice(traditions))
         chapters = self._data[corpus][book]
         chap = rng.choice([c for c, v in chapters.items() if v])
         verse = rng.choice(list(chapters[chap]))
@@ -1976,6 +1976,7 @@ class ScriptureLookup:
             "book": book,
             "chapter": chap,
             "verse": verse,
+            "tradition": tradition_key,
         }
 
     def random_verse_from_book(self, book_raw: str) -> dict:
@@ -2157,7 +2158,10 @@ class ScriptureLookup:
         return result
 
     def tradition_of(self, result: dict):
-        """The TRADITIONS key of a local passage, from its book, or None."""
+        """The TRADITIONS key of a passage: its own "tradition" when it has one (a title can be in two
+        corpora), else from its book; None when unsure."""
+        if result.get("tradition"):
+            return result["tradition"]
         book = result.get("book")
         if not book:
             m = re.match(r"^(.+?)\s+[\d¶]", result.get("reference", ""))

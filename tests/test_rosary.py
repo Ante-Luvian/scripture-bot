@@ -4,6 +4,8 @@ import datetime
 
 import pytest
 
+from tests.conftest import needs_sung_chant
+
 D = datetime.date
 
 
@@ -53,6 +55,7 @@ def test_the_pages(ro):
         assert len(ids) == len(set(ids)) == (1 if page in (0, ro.PAGES - 1) else 2)
 
 
+@needs_sung_chant                      # (it sends the sung chant)
 def test_the_command(ro, fake_ctx):
     asyncio.run(ro.send_rosary(fake_ctx, "sorrowful"))
     sent = fake_ctx.sent[-1]

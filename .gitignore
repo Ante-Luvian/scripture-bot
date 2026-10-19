@@ -43,6 +43,13 @@ experiments/sung_chant/sung/
 # the chanted psalms' audio: rebuilt by scripts/build_psalm_chant.py, not kept in git
 data/psalter/chant/
 
+# the chant hymns' audio (about 645 MB): rebuilt on the bot's machine, not kept in git -- the organ
+# (more/) by scripts/build_chant.py, the sung choir (sung/) by scripts/build_sung_chant.py. The tests
+# skip their audio checks where it hasn't been rendered. (The Sacred Harp's audio/harp/ and the hymn
+# tunes were downloaded, not rendered, so they stay in git as their backup.)
+data/hymns/audio/sung/
+data/hymns/audio/more/
+
 # chant scores: drawn by scripts/build_chant_scores.py, not kept in git
 data/hymns/scores/
 scripts/score/node_modules/

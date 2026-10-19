@@ -19,6 +19,22 @@ def bot_module():
     return bot
 
 
+# Chant audio rendered on the bot's machine and not kept in git (data/hymns/audio/more/ by
+# scripts/build_chant.py, sung/ by scripts/build_sung_chant.py): a fresh clone hasn't got it, and
+# the tests that need it skip their audio checks there.
+def _rendered(folder: str) -> bool:
+    path = Path(__file__).resolve().parent.parent / "data" / "hymns" / "audio" / folder
+    return path.is_dir() and any(path.glob("*.ogg"))
+
+
+HAVE_ORGAN_CHANT = _rendered("more")
+HAVE_SUNG_CHANT = _rendered("sung")
+needs_sung_chant = pytest.mark.skipif(not HAVE_SUNG_CHANT, reason="sung chant not rendered here "
+                                                                  "(python scripts/build_sung_chant.py)")
+needs_organ_chant = pytest.mark.skipif(not HAVE_ORGAN_CHANT, reason="chant audio not rendered here "
+                                                                    "(python scripts/build_chant.py)")
+
+
 @pytest.fixture(scope="session")
 def lookup(bot_module):
     return bot_module.lookup
