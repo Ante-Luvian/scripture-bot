@@ -2,6 +2,7 @@
 Per-user and per-guild settings and data: !features, !save / !saved / !unsave,
 !plan, !leaderboard, !prefer.
 """
+import asyncio
 import discord
 import re
 from translation_lookup import TRANSLATION_SUFFIXES, WITHDRAWN
@@ -85,9 +86,9 @@ async def cmd_save(ctx, *, reference: str = ""):
     if len(note) > 300:
         note = note[:297] + "…"
 
-    result = lookup.get_verse(ref)
+    result = (await asyncio.to_thread(lookup.get_verse, ref))
     if not result.get("found") and "Could not parse" in result.get("error", ""):
-        result = lookup.random_verse_from_book(ref)
+        result = (await asyncio.to_thread(lookup.random_verse_from_book, ref))
     if not result.get("found"):
         await ctx.send(f"⚠️ Could not find **{ref}** — nothing saved.")
         return
@@ -108,6 +109,10 @@ async def cmd_save(ctx, *, reference: str = ""):
             await ctx.send(f"**{canon_ref}** is already in your saved list. Add `| <note>` to attach or update a note.")
         return
 
+    if len(entries) >= MAX_BOOKMARKS:
+        await ctx.send(f"You've saved {MAX_BOOKMARKS} verses, as many as I keep for one person. "
+                       "`!unsave <number>` makes room (`!saved` shows the numbers).")
+        return
     entries.append({
         "reference": canon_ref,
         "source": result.get("source", ""),
@@ -137,7 +142,7 @@ async def cmd_saved(ctx, action: str = ""):
         import io
         lines = []
         for e in entries:
-            result = lookup.get_verse(e["reference"])
+            result = (await asyncio.to_thread(lookup.get_verse, e["reference"]))
             text = re.sub(r"\*\*\[\d+\]\*\*\s*", "", result.get("text", "")).replace("**", "") if result.get("found") else ""
             block = f"{e['reference']} ({e.get('source', '')})\n{text}"
             if e.get("note"):
@@ -295,7 +300,7 @@ async def cmd_plan(ctx, action: str = "", *, arg: str = ""):
         data[uid] = plan
         _save_reading_plans(data)
 
-    result = lookup.get_verse(f"{plan['book']} {chap}")
+    result = (await asyncio.to_thread(lookup.get_verse, f"{plan['book']} {chap}"))
     await _send_result(ctx, result)
     if ctx.guild and _get_guild_features(ctx.guild.id).get("streaks"):
         await ctx.send(f"🔥 {plan.get('streak', 1)}-day streak!")
@@ -324,7 +329,7 @@ async def run_plan_reminders(client, today, current_hm: str) -> int:
         changed = True
         try:
             user = client.get_user(int(uid)) or await client.fetch_user(int(uid))
-            result = lookup.get_verse(f"{plan['book']} {day}")
+            result = (await asyncio.to_thread(lookup.get_verse, f"{plan['book']} {day}"))
             await user.send(f"📖 Day {day} of {plan['total_chapters']} of your reading plan through "
                             f"**{plan['book']}**. (`!plan remind off` to stop these.)")
             await _send_result(user, result)
@@ -389,6 +394,9 @@ async def leaderboard_slash(interaction: discord.Interaction):
     await interaction.response.defer()
     ctx = await bot.get_context(interaction)
     await cmd_leaderboard(ctx)
+
+
+MAX_BOOKMARKS = 300          # per person (they're kept on the owner's computer; this is plenty)
 
 
 # ── !prefer — personal default translation ───────────────────────────────────────

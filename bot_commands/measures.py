@@ -11,6 +11,7 @@ own words. tests/test_measures.py checks every quotation against the local
 dictionary and every verse against the local KJV. Money is given in denarii
 and days' wages (Matthew 20:2), not in today's currency.
 """
+import asyncio
 import re
 from fractions import Fraction
 
@@ -595,7 +596,7 @@ async def send_measure(ctx, query: str) -> None:
         await ctx.send(embed=list_embed())
         return
     if re.search(r"\d+\s*:\s*\d+", query):
-        result = lookup.get_verse(query)
+        result = (await asyncio.to_thread(lookup.get_verse, query))
         if result.get("found"):
             ref = result.get("reference", query)
             found = measurements_in(result["text"], ref)

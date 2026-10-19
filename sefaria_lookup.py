@@ -225,7 +225,7 @@ def fetch_mishnah(tractate_index: str, chapter: int, mishna: int) -> dict:
     Returns {"found": True/False, "reference": ..., "text": ..., "source": ...}
     """
     tref = f"{tractate_index}.{chapter}.{mishna}"
-    url  = SEFARIA_BASE + urllib.parse.quote(tref) + "?version=english"
+    url  = SEFARIA_BASE + urllib.parse.quote(tref, safe="") + "?version=english"
 
     try:
         req = urllib.request.Request(
@@ -275,7 +275,7 @@ def fetch_mishnah_chapter(tractate_index: str, chapter: int) -> dict:
     Returns {"found": True/False, "reference": ..., "text": ..., "source": ...}
     """
     tref = f"{tractate_index}.{chapter}"
-    url  = SEFARIA_BASE + urllib.parse.quote(tref) + "?version=english"
+    url  = SEFARIA_BASE + urllib.parse.quote(tref, safe="") + "?version=english"
 
     try:
         req = urllib.request.Request(
@@ -448,7 +448,7 @@ def _fetch_sefaria_daf(tref: str, section: int | None, tractate_display: str,
     tref: e.g. "Berakhot.2a" or "Zohar.1.1a"
     section: 1-indexed section number, or None for whole daf
     """
-    url = SEFARIA_BASE + urllib.parse.quote(tref) + "?version=english"
+    url = SEFARIA_BASE + urllib.parse.quote(tref, safe="") + "?version=english"
     try:
         req = urllib.request.Request(
             url, headers={"User-Agent": "ScriptureBot/1.0"}
@@ -652,7 +652,7 @@ def fetch_zohar(parasha: str, segment: int | None) -> dict:
         tref += f".{segment}"
 
     import urllib.request, json as _json
-    url = f"https://www.sefaria.org/api/v3/texts/{urllib.parse.quote(tref)}?version=english"
+    url = f"https://www.sefaria.org/api/v3/texts/{urllib.parse.quote(tref, safe='')}?version=english"
     try:
         req = urllib.request.Request(url, headers={"User-Agent": "ScriptureBot/1.0"})
         with urllib.request.urlopen(req, timeout=10) as r:
@@ -763,7 +763,7 @@ def fetch_sefaria_generic(tref: str) -> dict | None:
     Returns result dict with found/text/reference/source, or None on hard failure.
     On soft failure (no English text) returns {found: False, error: ...}.
     """
-    url = SEFARIA_BASE + urllib.parse.quote(tref) + "?version=english"
+    url = SEFARIA_BASE + urllib.parse.quote(tref, safe="") + "?version=english"
     try:
         req = urllib.request.Request(
             url, headers={"User-Agent": "ScriptureBot/1.0"}
@@ -834,7 +834,7 @@ SEFARIA_NAME = "https://www.sefaria.org/api/name/"
 
 def sefaria_name(query: str) -> "str | None":
     """Sefaria's tref for a reference, or None if it isn't one (or Sefaria can't be reached)."""
-    url = SEFARIA_NAME + urllib.parse.quote(query.strip()) + "?limit=0"
+    url = SEFARIA_NAME + urllib.parse.quote(query.strip(), safe="") + "?limit=0"
     try:
         req = urllib.request.Request(url, headers={"User-Agent": "ScriptureBot/1.0"})
         with urllib.request.urlopen(req, timeout=10) as r:

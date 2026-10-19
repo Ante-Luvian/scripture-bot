@@ -6,6 +6,7 @@ world study together, a page a day), !learning (all of the day's learning cycles
 
 API: https://www.sefaria.org/api/calendars?year=Y&month=M&day=D&diaspora=1
 """
+import asyncio
 import datetime
 import json
 import re
@@ -148,7 +149,7 @@ async def send_parsha(ctx, when: str = "") -> None:
     if day is None:
         await ctx.send("Give a date like `!parsha 2026-12-25` or `!parsha 12-25`, or nothing for this week's.")
         return
-    items = calendar(day)
+    items = (await asyncio.to_thread(calendar, day))
     embed = parsha_embed(items) if items else None
     if embed is None:
         await ctx.send("⚠️ I couldn't reach Sefaria's calendar just now.")
@@ -161,7 +162,7 @@ async def send_daf(ctx, when: str = "") -> None:
     if day is None:
         await ctx.send("Give a date like `!dafyomi 2026-12-25` or `!dafyomi 12-25`, or nothing for today's.")
         return
-    items = calendar(day)
+    items = (await asyncio.to_thread(calendar, day))
     daf = _item(items or [], "Daf Yomi")
     if daf is None:
         await ctx.send("⚠️ I couldn't reach Sefaria's calendar just now.")
@@ -170,7 +171,7 @@ async def send_daf(ctx, when: str = "") -> None:
     await ctx.send(f"✡️ **Daf Yomi for {_when(day)}: {_en(daf.get('displayValue'))}.** Each day Jews around the "
                    f"world study the same page of the Talmud, finishing it all in about seven and a half years. "
                    f"Here is its first side; the second is `!verse {ref[:-1]}b`.")
-    await _send_result(ctx, lookup.get_verse(ref))
+    await _send_result(ctx, (await asyncio.to_thread(lookup.get_verse, ref)))
 
 
 @bot.command(name="parsha", aliases=["parasha", "parashah", "torahportion", "sidra"])
@@ -208,7 +209,7 @@ async def send_learning(ctx, when: str = "") -> None:
     if day is None:
         await ctx.send("Give a date like `!learning 2026-12-25` or `!learning 12-25`, or nothing for today's.")
         return
-    items = calendar(day)
+    items = (await asyncio.to_thread(calendar, day))
     if not items:
         await ctx.send("⚠️ I couldn't reach Sefaria's calendar just now.")
         return
@@ -244,7 +245,7 @@ async def post_learning(guild_id, channel, day: datetime.date, force: bool = Fal
     state = _load_state()
     if state.get("posted", {}).get(str(guild_id)) == day.isoformat() and not force:
         return False                                     # (a restart doesn't post it twice)
-    items = calendar(day)
+    items = (await asyncio.to_thread(calendar, day))
     if not items:
         return False
     await channel.send(embed=learning_embed(items, day))

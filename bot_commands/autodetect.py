@@ -1,6 +1,7 @@
 """
 Auto-detection of scripture references in ordinary messages.
 """
+import asyncio
 import discord
 import re
 from scripture_lookup import ALIASES, DRB_SUFFIXES, KNOX_SUFFIXES, get_verse_drb, get_verse_knox
@@ -76,7 +77,7 @@ async def on_raw_reaction_add(payload: discord.RawReactionActionEvent):
     reference = re.sub(r"\s*\(\d+/\d+\)\s*$", "", title).strip()
     if not reference:
         return
-    result = lookup.get_verse(reference)
+    result = (await asyncio.to_thread(lookup.get_verse, reference))
     if not result.get("found"):
         return
 

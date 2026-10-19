@@ -1,6 +1,7 @@
 """
 !verse / !search, plus !discover and !study.
 """
+import asyncio
 import discord
 import re
 from scripture_lookup import (BIBLE_APOCRYPHA, BIBLE_NT, BIBLE_OT, DRB_SUFFIXES, KNOX_SUFFIXES, TRADITIONS,
@@ -232,12 +233,12 @@ async def verse_prefix(ctx, *, reference: str = ""):
     suffix = parts[1].lower() if len(parts) == 2 else ""
 
     if suffix in KNOX_SUFFIXES:
-        result = get_verse_knox(parts[0].strip())
+        result = (await asyncio.to_thread(get_verse_knox, parts[0].strip()))
         await _send_with_study(ctx, result)
         return
 
     if suffix in DRB_SUFFIXES:
-        result = get_verse_drb(parts[0].strip())
+        result = (await asyncio.to_thread(get_verse_drb, parts[0].strip()))
         await _send_with_study(ctx, result)
         return
 
@@ -252,18 +253,18 @@ async def verse_prefix(ctx, *, reference: str = ""):
         if len(trans_list) >= 2:
             base_ref = " ".join(tokens[:i + 1])
             async with ctx.typing():
-                result = get_parallel(base_ref, trans_list)
+                result = (await asyncio.to_thread(get_parallel, base_ref, trans_list))
             await _send_translation_parallel(ctx, result)
             return
         # Bare translation slug → random verse in that translation
         if not parts[0].strip():
             async with ctx.typing():
-                result = get_random_verse(suffix)
+                result = (await asyncio.to_thread(get_random_verse, suffix))
             await _send_with_study(ctx, result)
             return
         # Single translation lookup
         async with ctx.typing():
-            result = get_translation(parts[0].strip(), parts[1])
+            result = (await asyncio.to_thread(get_translation, parts[0].strip(), parts[1]))
         await _send_with_study(ctx, result)
         return
 
@@ -280,19 +281,19 @@ async def verse_prefix(ctx, *, reference: str = ""):
         preferred = None
     if preferred:
         async with ctx.typing():
-            pref_result = get_translation(ref, preferred)
+            pref_result = (await asyncio.to_thread(get_translation, ref, preferred))
         if pref_result.get("found"):
             await _send_with_study(ctx, pref_result)
             return
 
-    result = lookup.get_verse(ref)
+    result = (await asyncio.to_thread(lookup.get_verse, ref))
     if result["found"]:
         await _send_with_study(ctx, result)
         return
 
     # If it failed to parse (no chapter:verse) try it as a book name for random verse
     if "Could not parse" in result.get("error", ""):
-        result = lookup.random_verse_from_book(ref)
+        result = (await asyncio.to_thread(lookup.random_verse_from_book, ref))
         if result.get("found"):
             log.info(f"RNG  random_verse_from_book({ref}) → {result.get('reference', '?')} (user: {ctx.author})")
 
@@ -314,7 +315,7 @@ async def search_prefix(ctx, *, query: str = ""):
         phrase = " ".join(tokens[:-1])
         trans  = tokens[-1]
         async with ctx.typing():
-            data = search_translation(phrase, trans, page=1)
+            data = (await asyncio.to_thread(search_translation, phrase, trans, page=1))
         if not data.get("found") or not data.get("results"):
             await ctx.send(f"No results for **{phrase}** in **{trans.upper()}**.")
             return
@@ -343,7 +344,7 @@ async def search_prefix(ctx, *, query: str = ""):
     if allowed is not None:
         corpora = allowed & frozenset(corpora) if corpora else allowed
     async with ctx.typing():
-        by_corpus = lookup.search_by_corpus(query, corpora)
+        by_corpus = (await asyncio.to_thread(lookup.search_by_corpus, query, corpora))
 
     if not by_corpus:
         await ctx.send(f"No results found for **{discord.utils.escape_markdown(query)}**{where}.")

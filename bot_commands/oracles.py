@@ -169,7 +169,7 @@ async def cmd_gematria(ctx, *, query: str = ""):
                     "Accept": "text/html",
                 }
             )
-            with urllib.request.urlopen(req, timeout=15) as r:
+            with (await asyncio.to_thread(urllib.request.urlopen, req, timeout=15)) as r:
                 raw = r.read().decode("utf-8")
         except Exception as e:
             await ctx.send(f"⚠️ Could not reach gematrix.org: {e}")
@@ -276,7 +276,7 @@ async def cmd_gematria(ctx, *, query: str = ""):
                     url,
                     headers={"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36"}
                 )
-                with urllib.request.urlopen(req, timeout=15) as r:
+                with (await asyncio.to_thread(urllib.request.urlopen, req, timeout=15)) as r:
                     raw2 = r.read().decode("utf-8")
             except Exception as e:
                 await interaction.followup.send(f"⚠️ Could not reach gematrix.org: {e}", ephemeral=True)

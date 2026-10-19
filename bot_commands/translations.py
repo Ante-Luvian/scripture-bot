@@ -158,7 +158,7 @@ async def cmd_variants(ctx, *, reference: str = ""):
         )
         return
 
-    result = lookup.get_verse(ref)
+    result = (await asyncio.to_thread(lookup.get_verse, ref))
     if not result.get("found"):
         await ctx.send(f"⚠️ {result.get('error', 'Verse not found.')}")
         return
@@ -178,7 +178,7 @@ async def cmd_variants(ctx, *, reference: str = ""):
         return
 
     async with ctx.typing():
-        dss_result = lookup.get_verse(f"{scroll_book} {chap}:{verse}")
+        dss_result = (await asyncio.to_thread(lookup.get_verse, f"{scroll_book} {chap}:{verse}"))
         loop = asyncio.get_event_loop()
         lxx_result = await loop.run_in_executor(None, get_translation, result["reference"], "LXX")
 
@@ -644,7 +644,7 @@ async def _send_compare_ancient_strong(ctx, reference: str):
 
     # KJV verse text
     ref_single = re.sub(r"(\d+:\d+)[-–]\d+$", r"\1", reference.strip())
-    kjv = lookup.get_verse(ref_single)
+    kjv = (await asyncio.to_thread(lookup.get_verse, ref_single))
     kjv_text = kjv["text"] if kjv.get("found") else "*Not available*"
     display_ref = kjv.get("reference", ref_single) if kjv.get("found") else ref_single
 

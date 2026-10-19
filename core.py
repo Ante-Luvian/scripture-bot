@@ -3,6 +3,7 @@ Shared state and helpers used across the bot: the Bot instance, the
 ScriptureLookup engine, logging, per-guild/per-user persistence, stats,
 and the common result/embed senders.
 """
+import asyncio
 import collections
 import discord
 import json
@@ -103,8 +104,41 @@ class ScriptureContext(commands.Context):
         return await super().send(apologetic(self.guild, content), **kwargs)
 
 
+# ── A speed limit per person ──────────────────────────────────────────────────
+# The bot runs on the owner's own computer, and many commands fetch from other sites or draw images:
+# someone sending command after command could tie the machine up, or get it blocked by those sites.
+# More than RATE_MAX commands in RATE_WINDOW seconds and the rest are turned away (with one notice).
+RATE_WINDOW, RATE_MAX = 20.0, 10
+_recent_commands: dict = {}
+
+
+def over_rate_limit(user_id: int) -> tuple:
+    """(turned away, first time this window) for one more command from `user_id`."""
+    now = time.monotonic()
+    if len(_recent_commands) > 5000:                     # (forget people who've gone quiet)
+        for uid in [u for u, (times, _) in _recent_commands.items() if not times or now - times[-1] > RATE_WINDOW]:
+            del _recent_commands[uid]
+    times, warned = _recent_commands.setdefault(user_id, (collections.deque(), [False]))
+    while times and now - times[0] > RATE_WINDOW:
+        times.popleft()
+    if len(times) >= RATE_MAX:
+        first = not warned[0]
+        warned[0] = True
+        return True, first
+    times.append(now)
+    warned[0] = False
+    return False, False
+
+
 class ScriptureTree(discord.app_commands.CommandTree):
     async def interaction_check(self, interaction: discord.Interaction) -> bool:
+        if (getattr(interaction, "type", None) == discord.InteractionType.application_command
+                and not await bot_is_owner(interaction.user)):
+            limited, first = over_rate_limit(interaction.user.id)
+            if limited:
+                if first:
+                    await interaction.response.send_message(RATE_MESSAGE, ephemeral=True)
+                return False
         """Slash commands' text options get the same cleaning as typed commands (this runs before
         discord.py reads the options out of the interaction)."""
         def clean(options):
@@ -114,6 +148,24 @@ class ScriptureTree(discord.app_commands.CommandTree):
                 clean(opt.get("options"))
         clean((interaction.data or {}).get("options"))
         return True
+
+
+RATE_MESSAGE = "⏳ That's a lot of commands at once. Give me a few seconds, then try again."
+
+
+async def bot_is_owner(user) -> bool:
+    try:
+        return await bot.is_owner(user)
+    except Exception:
+        return False
+
+
+class RateLimited(commands.CheckFailure):
+    """Too many commands too fast: told once, then ignored until it eases off."""
+
+    def __init__(self, first: bool):
+        super().__init__()
+        self.first = first
 
 
 class ScriptureBot(commands.Bot):
@@ -160,6 +212,10 @@ async def on_command_error(ctx, error):
         # else: silently ignored
         return
     if isinstance(error, PackDisabled):          # this server turned that command off
+        return
+    if isinstance(error, RateLimited):
+        if error.first:
+            await ctx.send(RATE_MESSAGE, delete_after=10)
         return
     if isinstance(error, commands.MissingPermissions):
         await ctx.send("🔒 Only server admins can use that command.")
@@ -651,6 +707,15 @@ def embed_for_guild(embed: discord.Embed, guild_id) -> discord.Embed:
 
 
 @bot.check
+async def _rate_check(ctx) -> bool:
+    if ctx.command is not None and ctx.command.name != "help" and not await bot_is_owner(ctx.author):
+        limited, first = over_rate_limit(ctx.author.id)
+        if limited:
+            raise RateLimited(first)
+    return True
+
+
+@bot.check
 async def _pack_check(ctx) -> bool:
     if ctx.guild is not None and ctx.command is not None and not command_enabled(ctx.guild.id, ctx.command.name):
         raise PackDisabled()
@@ -1046,7 +1111,7 @@ def _make_chapter_nav_button(book_name: str, chapter_labels: list[str], index: i
             await interaction.response.edit_message(view=parent_view)
         else:
             await interaction.response.defer()
-        result = fetch_chapter_result(lookup, get_hadith_section, book_name, target_label, mode)
+        result = (await asyncio.to_thread(fetch_chapter_result, lookup, get_hadith_section, book_name, target_label, mode))
         nav_btns = _make_chapter_nav_buttons(book_name, chapter_labels, target, mode)
         await _send_result(interaction, result, extra_buttons=nav_btns)
 
@@ -1308,7 +1373,7 @@ def _build_bolls_search_embed(query, trans, data):
             if page > 1:
                 b = discord.ui.Button(label="◀ Prev", style=discord.ButtonStyle.secondary)
                 async def prev(interaction: discord.Interaction):
-                    new_data = search_translation(query, trans, page=page - 1)
+                    new_data = (await asyncio.to_thread(search_translation, query, trans, page=page - 1))
                     e, v = _build_bolls_search_embed(query, trans, new_data)
                     v.message = self.message
                     await interaction.response.edit_message(embed=e, view=v)
@@ -1319,7 +1384,7 @@ def _build_bolls_search_embed(query, trans, data):
             if page < total_pages:
                 b = discord.ui.Button(label="Next ▶", style=discord.ButtonStyle.secondary)
                 async def nxt(interaction: discord.Interaction):
-                    new_data = search_translation(query, trans, page=page + 1)
+                    new_data = (await asyncio.to_thread(search_translation, query, trans, page=page + 1))
                     e, v = _build_bolls_search_embed(query, trans, new_data)
                     v.message = self.message
                     await interaction.response.edit_message(embed=e, view=v)

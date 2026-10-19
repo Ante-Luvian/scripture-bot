@@ -23,7 +23,7 @@ PRAYERS = [("Fajr", "the dawn prayer"), ("Sunrise", "(the end of Fajr's time)"),
 def fetch(place: str) -> "dict | None":
     """Aladhan's answer for a place; None if it can't find it (or can't be reached)."""
     try:
-        req = urllib.request.Request(API + urllib.parse.quote(place), headers={"User-Agent": "ScriptureBot/1.0"})
+        req = urllib.request.Request(API + urllib.parse.quote(place, safe=""), headers={"User-Agent": "ScriptureBot/1.0"})
         with urllib.request.urlopen(req, timeout=45) as r:      # (finding an unfamiliar place can be slow)
             data = json.loads(r.read().decode("utf-8"))
     except Exception:

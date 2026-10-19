@@ -647,7 +647,7 @@ async def cmd_interlinear(ctx, *, reference: str = ""):
                 None, _fetch_kjv_word_map, strongs["book_id"], strongs["chapter"], strongs["verse"]
             )
             for word, num in pairs:
-                entry = _fetch_strongs_definition(num)
+                entry = (await asyncio.to_thread(_fetch_strongs_definition, num))
                 translit = (entry or {}).get("transliteration", "") or ""
                 candidate_nums = _STRONGS_INFLECTION_FAMILIES.get(num, (num,))
                 kjv_word = None
@@ -912,7 +912,7 @@ async def cmd_card(ctx, *, reference: str = ""):
 
     if len(trans_list) >= 2:
         async with ctx.typing():
-            result = get_parallel(base_ref, trans_list[:4])
+            result = (await asyncio.to_thread(get_parallel, base_ref, trans_list[:4]))
         if not result.get("found"):
             await ctx.send(f"⚠️ {result.get('error', 'Verse not found.')}")
             return
@@ -930,11 +930,11 @@ async def cmd_card(ctx, *, reference: str = ""):
 
     if len(trans_list) == 1:
         async with ctx.typing():
-            result = get_translation(base_ref, trans_list[0])
+            result = (await asyncio.to_thread(get_translation, base_ref, trans_list[0]))
     else:
-        result = lookup.get_verse(ref)
+        result = (await asyncio.to_thread(lookup.get_verse, ref))
         if not result.get("found") and "Could not parse" in result.get("error", ""):
-            result = lookup.random_verse_from_book(ref)
+            result = (await asyncio.to_thread(lookup.random_verse_from_book, ref))
 
     if not result.get("found"):
         await ctx.send(f"⚠️ {result.get('error', 'Verse not found.')}")

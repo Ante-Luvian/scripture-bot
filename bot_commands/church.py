@@ -1,6 +1,7 @@
 """
 !catena, !ccc / !canon, !creed, !summa.
 """
+import asyncio
 import concurrent.futures
 import discord
 import json
@@ -207,7 +208,7 @@ async def cmd_catena(ctx, *, reference: str = ""):
     """Fetch patristic commentary from catenabible.com. Usage: !catena John 3:16"""
     # If no reference given, use today's Verse of the Day reference
     if not reference:
-        ref_raw, _ = _scrape_votd()
+        ref_raw, _ = (await asyncio.to_thread(_scrape_votd))
         if ref_raw is None:
             await ctx.send("⚠️ Could not fetch today's verse reference. Try: `!catena John 3:16`")
             return
@@ -233,7 +234,7 @@ async def cmd_catena(ctx, *, reference: str = ""):
 
     # ── Get KJV verse text ────────────────────────────────────────────────────
     ref_label = f"{book_raw.title()} {chapter}:{verse}"
-    kjv_result = lookup.get_verse(f"{book_raw} {chapter}:{verse}")
+    kjv_result = (await asyncio.to_thread(lookup.get_verse, f"{book_raw} {chapter}:{verse}"))
     kjv_text = f"*{kjv_result['text']}*\n\n" if kjv_result.get("found") else ""
 
     # ── Build paginated view ──────────────────────────────────────────────────
@@ -664,7 +665,7 @@ async def cmd_summa(ctx, *, reference: str = ""):
 
     async with ctx.typing():
         if not ref or ref.lower() in ("random", "rand", "r"):
-            result = get_summa_random()
+            result = (await asyncio.to_thread(get_summa_random))
         else:
             parsed = parse_summa_ref(ref)
             if parsed is None:
@@ -674,7 +675,7 @@ async def cmd_summa(ctx, *, reference: str = ""):
                 )
                 return
             part, question, article = parsed
-            result = get_summa(part, question, article)
+            result = (await asyncio.to_thread(get_summa, part, question, article))
 
     if not result["found"]:
         embed = discord.Embed(

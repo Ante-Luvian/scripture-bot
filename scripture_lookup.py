@@ -2652,7 +2652,7 @@ class ScriptureLookup:
         # Simple LRU: evict oldest if over 64 entries
         if len(self._search_cache) >= 64:
             oldest = next(iter(self._search_cache))
-            del self._search_cache[oldest]
+            self._search_cache.pop(oldest, None)        # (two searches may finish at once, each in its thread)
         self._search_cache[(q, corpora)] = by_corpus
         return by_corpus
 
@@ -2711,7 +2711,7 @@ class ScriptureLookup:
             if best:
                 out.append((label, best[1]))
         if len(self._theme_cache) >= 32:
-            del self._theme_cache[next(iter(self._theme_cache))]
+            self._theme_cache.pop(next(iter(self._theme_cache), None), None)
         self._theme_cache[q] = out
         return out
 

@@ -43,7 +43,7 @@ async def _send_votd(ctx_or_channel, translation: str = ""):
     Core VOTD logic. Scrapes verseoftheday.com, falls back to a random
     well-known verse if the site is unreachable. Supports optional translation.
     """
-    reference, date_text = _scrape_votd()
+    reference, date_text = (await asyncio.to_thread(_scrape_votd))
     used_fallback = False
     if reference is None:
         reference = random.choice(_VOTD_FALLBACKS)
@@ -56,11 +56,11 @@ async def _send_votd(ctx_or_channel, translation: str = ""):
     # Resolve text — local KJV or live translation
     trans_key = translation.strip().lower()
     if trans_key and trans_key in TRANSLATION_SUFFIXES:
-        result = get_translation(ref_single, translation)
+        result = (await asyncio.to_thread(get_translation, ref_single, translation))
     else:
-        result = lookup.get_verse(ref_single)
+        result = (await asyncio.to_thread(lookup.get_verse, ref_single))
         if not result.get("found"):
-            result = lookup.get_verse(reference)
+            result = (await asyncio.to_thread(lookup.get_verse, reference))
 
     if not result.get("found"):
         msg = f"⚠️ Today's verse is **{reference}** but couldn't be retrieved."
@@ -225,7 +225,7 @@ async def _send_votd_full(ctx_or_channel):
     from poem_lookup import classify_scripture
 
     # ── 1. Get today's reference ──────────────────────────────────────────────
-    reference, date_text = _scrape_votd()
+    reference, date_text = (await asyncio.to_thread(_scrape_votd))
     used_fallback = False
     if reference is None:
         reference = random.choice(_VOTD_FALLBACKS)
@@ -236,9 +236,9 @@ async def _send_votd_full(ctx_or_channel):
     ref_single = re.sub(r"\s*[-–]\s*\d+$", "", reference)
 
     # ── 2. KJV verse text ─────────────────────────────────────────────────────
-    kjv_result = lookup.get_verse(ref_single)
+    kjv_result = (await asyncio.to_thread(lookup.get_verse, ref_single))
     if not kjv_result.get("found"):
-        kjv_result = lookup.get_verse(reference)
+        kjv_result = (await asyncio.to_thread(lookup.get_verse, reference))
 
     if not kjv_result.get("found"):
         msg = f"⚠️ Today's verse is **{reference}** but couldn't be retrieved."

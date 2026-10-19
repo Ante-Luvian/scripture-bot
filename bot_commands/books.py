@@ -2291,7 +2291,7 @@ class BooksView(discord.ui.View):
         async def callback(interaction: discord.Interaction):
             if mode == "hadith":
                 await interaction.response.defer()
-            result = fetch_chapter_result(lookup, get_hadith_section, book_name, chap_label, mode)
+            result = (await asyncio.to_thread(fetch_chapter_result, lookup, get_hadith_section, book_name, chap_label, mode))
             nav_btns = _make_chapter_nav_buttons(book_name, chapter_labels, index, mode)
             await _send_result(interaction, result, extra_buttons=nav_btns)
         return callback
@@ -2400,7 +2400,7 @@ class _ChapterJumpModal(discord.ui.Modal, title="Jump to chapter"):
         index = self.chapter_labels.index(match)
         if self.mode == "hadith":
             await interaction.response.defer()
-        result = fetch_chapter_result(lookup, get_hadith_section, self.book_name, match, self.mode)
+        result = (await asyncio.to_thread(fetch_chapter_result, lookup, get_hadith_section, self.book_name, match, self.mode))
         nav_btns = _make_chapter_nav_buttons(self.book_name, self.chapter_labels, index, self.mode)
         await _send_result(interaction, result, extra_buttons=nav_btns)
 
@@ -2537,6 +2537,21 @@ async def list_books(ctx, *, section: str = ""):
 
 # ── !export — bundle a book/chapter range into a downloadable text file ─────────
 
+EXPORT_PAUSE = 30                           # seconds between one person's exports
+_last_export: dict = {}
+
+
+def _export_wait(user_id: int) -> int:
+    """Seconds this person must still wait before another export (0: go ahead, and the clock starts)."""
+    import time
+    now = time.monotonic()
+    left = EXPORT_PAUSE - (now - _last_export.get(user_id, -EXPORT_PAUSE))
+    if left > 0:
+        return int(left) + 1
+    _last_export[user_id] = now
+    return 0
+
+
 def _export_chapters(book_name: str, labels: list[str]) -> tuple[str, str]:
     """Fetch and concatenate every mode string in `labels` for book_name into
     one text blob. Returns (text, mode). Runs off the event loop."""
@@ -2602,7 +2617,8 @@ async def cmd_export(ctx, *, arg: str = ""):
     else:
         chosen = labels
 
-    limit = 20 if mode == "hadith" else 200
+    online = mode == "hadith" or lookup._resolve_exact(book_name)[1] is None      # (Sefaria, the hadith)
+    limit = 20 if online else 200
     if len(chosen) > limit:
         await ctx.send(
             f"That's {len(chosen)} {'hadith books' if mode == 'hadith' else 'chapters'} — "
@@ -2610,6 +2626,10 @@ async def cmd_export(ctx, *, arg: str = ""):
         )
         return
 
+    wait = _export_wait(ctx.author.id)
+    if wait:
+        await ctx.send(f"⏳ One export at a time: try again in {wait} seconds.", delete_after=10)
+        return
     async with ctx.typing():
         loop = asyncio.get_event_loop()
         text, _mode = await loop.run_in_executor(None, _export_chapters, book_name, chosen)

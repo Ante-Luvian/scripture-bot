@@ -6,6 +6,7 @@ early Christians read as foretelling Christ, each with the Christian who read it
 The stories are a curated table, data/stories.json: a reference and a quotation
 for each passage, both checked against the loaded text by tests/test_stories.py.
 """
+import asyncio
 import functools
 import json
 import re
@@ -102,7 +103,7 @@ class StoryPicker(discord.ui.DynamicItem[discord.ui.Select], template=r"story:(?
             await interaction.response.send_message("I can't find that story any more.", ephemeral=True)
             return
         p = story["passages"][int(self.item.values[0])]
-        await interaction.response.send_message(embed=_build_embed(lookup.get_verse(p["ref"])))
+        await interaction.response.send_message(embed=_build_embed((await asyncio.to_thread(lookup.get_verse, p["ref"]))))
 
 
 bot.add_dynamic_items(StoryPicker)

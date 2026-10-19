@@ -30,13 +30,13 @@ async def cmd_xref(ctx, *, reference: str = ""):
         await ctx.send("Usage: `!xref <reference>` — e.g. `!xref John 3:16`")
         return
 
-    result = lookup.get_verse(ref)
+    result = (await asyncio.to_thread(lookup.get_verse, ref))
     if not result.get("found"):
         await ctx.send(f"⚠️ {result.get('error', 'Verse not found.')}")
         return
 
     canon_ref = result["reference"]
-    xrefs = get_cross_references(canon_ref)
+    xrefs = (await asyncio.to_thread(get_cross_references, canon_ref))
     if not xrefs:
         await ctx.send(f"No cross-references found for **{canon_ref}** — the dataset only covers the 66-book Protestant canon.")
         return
@@ -234,7 +234,7 @@ async def cmd_quoted(ctx, *, reference: str = ""):
         await ctx.send("Usage: `!quoted <reference>` — e.g. `!quoted Isaiah 53:5` or `!quoted Matthew 1:23`")
         return
 
-    result = lookup.get_verse(ref)
+    result = (await asyncio.to_thread(lookup.get_verse, ref))
     if not result.get("found"):
         await ctx.send(f"⚠️ {result.get('error', 'Verse not found.')}")
         return
@@ -259,7 +259,7 @@ async def cmd_quoted(ctx, *, reference: str = ""):
     embed = discord.Embed(title=f"📖 Quotations — {canon_ref}", color=discord.Color.dark_gold())
     for side_a, side_b, note in matches[:SHOWN]:
         for side_ref in (side_a, side_b):
-            side_result = lookup.get_verse(side_ref)
+            side_result = (await asyncio.to_thread(lookup.get_verse, side_ref))
             if side_result.get("found"):
                 text = side_result["text"]
                 if len(text) > 1000:
