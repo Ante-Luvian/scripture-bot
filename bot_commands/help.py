@@ -122,7 +122,7 @@ async def cmd_help(ctx, *, topic: str = ""):
             "**Midrash Rabbah** — `!verse Bereshit Rabbah 1:1` *(section:subsection)*\n"
             "**Zohar** — `!verse Zohar Bereshit 5` *(parasha + segment)*\n"
             "**Sefer Yetzirah** — `!verse Sefer Yetzirah 1:1` · **Tanya** — `!verse Tanya 1:1`\n"
-            "**Quran** — `!verse Quran 2:255` · **Hadith** — `!verse Sahih al-Bukhari 1:1`\n"
+            "**Quran** — `!verse Quran 2:255` · **Hadith** — `!verse Sahih al-Bukhari 1` *(hadith number)*\n"
             "**Homer** — `!verse Iliad 6.440` *(book.line)* · `!verse Odyssey 1` *(a whole book)*\n"
             "**Plato** — `!verse Republic 514a` *(Stephanus)* · ranges: `!verse Republic 361e-362a` · `!help books` for full list"
         ), inline=False)
