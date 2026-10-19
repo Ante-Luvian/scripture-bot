@@ -60,7 +60,8 @@ LIVE_SAMPLE = ["", "asdfghjkl", "xyzzy 3:16", "Jhon 3:16", "🙏", "*", "`", "\\
                "John 999:999", "the " * 400]
 
 # Commands that reach the internet (left to the live run), wait for an answer, or are owner-only.
-NETWORK = {"salah", "notes", "compare", "parallel", "variants", "dafyomi", "parsha", "learning", "midi"}
+NETWORK = {"salah", "notes", "compare", "parallel", "variants", "dafyomi", "parsha", "learning", "midi",
+           "gematria", "today", "interlinear", "reverseinterlinear", "strong", "catena", "study"}
 SKIP = {"weeklyreport", "scanstats", "guildactivity", "errors", "changelogintro", "checksources"}   # owner tools that DM/scan
 
 # What a reply must not contain.
@@ -218,7 +219,8 @@ def _context_class():
 async def run(command: str, arg: str, channel: Recorder, timeout: float = 30) -> list:
     """Run `!command arg` through the bot's own command machinery; the problems found (empty if fine)."""
     from discord.ext import commands
-    from core import bot, clean_input
+    from core import _recent_commands, bot, clean_input
+    _recent_commands.clear()           # (the per-person speed limit would turn away all but the first ten inputs)
     text = clean_input(f"!{command} {arg}".rstrip() if arg.strip() else f"!{command}")
     member = _fake_member(channel)
     message = types.SimpleNamespace(content=text, author=member, channel=channel, guild=channel.guild, id=1,
@@ -234,8 +236,11 @@ async def run(command: str, arg: str, channel: Recorder, timeout: float = 30) ->
         return [f"no command !{command}"]
     before = len(channel.sent)
     found = []
+    from core import RateLimited
     try:
         await asyncio.wait_for(ctx.command.invoke(ctx), timeout)
+    except RateLimited:
+        found.append("turned away by the speed limit, so never tried")   # (a pass that tested nothing)
     except (commands.UserInputError, commands.CheckFailure):
         pass                                                 # the bot answers these politely itself
     except asyncio.TimeoutError:
