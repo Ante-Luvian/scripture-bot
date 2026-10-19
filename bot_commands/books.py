@@ -531,8 +531,7 @@ BOOKS_TREE = [
                 "Greater Hippias", "Lesser Hippias", "Ion", "Menexenus",
                 "Cleitophon", "Republic", "Timaeus", "Critias", "Minos",
                 "Laws", "Epinomis", "Letters",
-                "Axiochus", "On Justice", "On Virtue", "Demodocus",
-                "Sisyphus", "Eryxias", "Definitions",
+                "Axiochus", "Eryxias",
             ]),
             ("Philo of Alexandria", [
                 "On the Creation",
@@ -893,7 +892,7 @@ BOOKS_TREE = [
                 "Hortatory Address to the Greeks","Discourse to the Greeks",
             ]),
             ("Irenaeus of Lyons", [
-                "Adversus haereses",
+                "Against Heresies",
                 "Fragments from the Lost Writings of Irenaeus",
             ]),
             ("Clement of Alexandria", [
@@ -960,7 +959,7 @@ BOOKS_TREE = [
                 "On the Incarnation","Discourses Against the Arians",
                 "On the Decrees of Nicaea","Apologia Contra Arianos",
                 "Life of Antony","Historia Arianorum","De Sententia Dionysii",
-                "Letters of Athanasius",
+                "Festal Letters of Athanasius", "Letters of Athanasius",
             ]),
             ("Hilary of Poitiers", [
                 "On the Trinity","On the Councils, or the Faith of the Easterns",
@@ -1630,6 +1629,8 @@ def chapter_options_for_book(lookup: "ScriptureLookup", book_name: str) -> tuple
     keys = lookup.chapter_keys(book_name)
     if keys:
         return keys, "verse"
+    if book_name == "Epistle of Jeremiah":                 # Baruch 6 in the KJV (see ScriptureLookup.get_verse)
+        return ["1"], "verse"
     if book_name in _BAVLI_RANGES:
         first, last = _BAVLI_RANGES[book_name]
         return _daf_range(first, last), "verse"

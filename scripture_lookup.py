@@ -291,7 +291,6 @@ ALIASES: dict[str, str] = {
     "wis": "Wisdom of Solomon", "wisd": "Wisdom of Solomon", "wisdom": "Wisdom of Solomon",
     "sir": "Sirach", "ecclus": "Sirach",
     "bar": "Baruch",
-    "epjer": "Epistle of Jeremiah", "ep jer": "Epistle of Jeremiah",
     "sg3": "Song of the Three Children",
     "sus": "Susanna",
     "bel": "Bel and the Dragon",
@@ -607,12 +606,7 @@ ALIASES: dict[str, str] = {
     "letters": "Letters",
     "platonic letters": "Letters",
     "axiochus": "Axiochus",
-    "on justice": "On Justice",
-    "on virtue": "On Virtue",
-    "demodocus": "Demodocus",
-    "sisyphus": "Sisyphus",
     "eryxias": "Eryxias",
-    "definitions": "Definitions",
     # ── Homer ──────────────────────────────────────────────────────────────────
     "iliad": "Iliad",
     "homer iliad": "Iliad",
@@ -934,8 +928,6 @@ ALIASES: dict[str, str] = {
     "on nature and grace": "On Nature and Grace",
     "on the spirit and the letter": "On the Spirit and the Letter",
     "de spiritu et littera": "On the Spirit and the Letter",
-    "retractions": "Retractions", "retractations": "Retractions",
-    "on free will": "On Free Will",
     "on the morals of the catholic church": "On the Morals of the Catholic Church",
     "letters of jerome": "Letters",
     "lives of illustrious men": "Lives of Illustrious Men",
@@ -955,17 +947,14 @@ ALIASES: dict[str, str] = {
     "exposition of the orthodox faith": "Exposition of the Orthodox Faith",
     "orthodox faith": "Exposition of the Orthodox Faith",
     "de fide orthodoxa": "Exposition of the Orthodox Faith",
-    "on holy images": "On Holy Images",
     "philosophical chapters": "Philosophical Chapters",
     "dialectica": "Philosophical Chapters",
     "discourses to hypatius": "Discourses to Hypatius",
     "against mani": "Against Mani",
     "nisibene hymns": "Nisibene Hymns",
-    "homilies on our lord": "Homilies on Our Lord",
     "dialogues": "Dialogues",
     "pastoral rule": "Pastoral Rule", "regula pastoralis": "Pastoral Rule",
     "letters of gregory the great": "Letters of Gregory the Great",
-    "moralia": "Moralia on Job", "moralia on job": "Moralia on Job",
 
     # ── Extended Patristics (from epub extraction) ─────────────────────────────
     # Ambrose
@@ -1011,8 +1000,8 @@ ALIASES: dict[str, str] = {
     "gregory the wonderworker": "The Oration and Panegyric Addressed to Origen",
     "panegyric to origen": "The Oration and Panegyric Addressed to Origen",
     # Hermas
-    "the shepherd": 'The Pastor (or "The Shepherd")',
-    "pastor of hermas": 'The Pastor (or "The Shepherd")',
+    "the shepherd": "Shepherd of Hermas",
+    "pastor of hermas": "Shepherd of Hermas",
     # Hilary of Poitiers
     "hilary": "On the Trinity",
     "hilary of poitiers": "On the Trinity",
@@ -1034,10 +1023,12 @@ ALIASES: dict[str, str] = {
     "epistle to the smyrnaeans": "Epistle to the Smyrnæans",
     "epistle to polycarp": "Epistle to Polycarp",
     # Irenaeus
-    "irenaeus": "Adversus haereses",
-    "against heresies": "Adversus haereses",
-    "adversus haereses": "Adversus haereses",
-    "adv haer": "Adversus haereses",
+    "irenaeus": "Against Heresies",
+    "against heresies": "Against Heresies",
+    "adversus haereses": "Against Heresies",
+    "adv haer": "Against Heresies",
+    "adv. haer.": "Against Heresies",
+    "irenaeus against heresies": "Against Heresies",
     # John Cassian
     "john cassian": "Institutes",
     "cassian": "Institutes",
@@ -1268,18 +1259,32 @@ ALIASES: dict[str, str] = {
     "definitions hermes asclepius": "Definitions of Hermes Trismegistus to Asclepius",
 
     # Bede
-    "bede": "bede",
-    "venerable bede": "bede",
-    "bede ecclesiastical history": "bede",
-    "ecclesiastical history england": "bede",
-    "historia ecclesiastica bede": "bede",
+    "bede": "Ecclesiastical History of the English People",
+    "venerable bede": "Ecclesiastical History of the English People",
+    "bede ecclesiastical history": "Ecclesiastical History of the English People",
+    "ecclesiastical history england": "Ecclesiastical History of the English People",
+    "historia ecclesiastica bede": "Ecclesiastical History of the English People",
+    "historia ecclesiastica gentis anglorum": "Ecclesiastical History of the English People",
 
     # Golden Legend
-    "golden legend": "golden_legend",
-    "legenda aurea": "golden_legend",
-    "voragine": "golden_legend",
-    "jacobus de voragine": "golden_legend",
-    "lives of the saints": "golden_legend",
+    "golden legend": "The Golden Legend",
+    "legenda aurea": "The Golden Legend",
+    "voragine": "The Golden Legend",
+    "jacobus de voragine": "The Golden Legend",
+    "lives of the saints": "The Golden Legend",
+    # Athanasius's and Basil's letters; Aristotle filled in (scripts/build_library_gaps.py)
+    "festal letters": "Festal Letters of Athanasius",
+    "athanasius festal letters": "Festal Letters of Athanasius",
+    "festal letter": "Festal Letters of Athanasius",
+    "athanasius letters": "Letters of Athanasius",
+    "basil letters": "Letters of Basil",
+    "basil's letters": "Letters of Basil",
+    "generation of animals": "On the Generation of Animals",
+    "de generatione animalium": "On the Generation of Animals",
+    "on youth and old age": "On Youth, Old Age, Life and Death",
+    "youth and old age": "On Youth, Old Age, Life and Death",
+    "on life and death": "On Youth, Old Age, Life and Death",
+    "on breathing": "On Youth, Old Age, Life and Death",
     "patriarch timothy": "Apology for Christianity to Caliph Al-Mahdi",
     "timothy apology": "Apology for Christianity to Caliph Al-Mahdi",
     "apology to al-mahdi": "Apology for Christianity to Caliph Al-Mahdi",
@@ -1415,14 +1420,14 @@ ALIASES: dict[str, str] = {
     "al-harith":           "Muallaqat: Al-Harith ibn Hilliza",
     "harith":              "Muallaqat: Al-Harith ibn Hilliza",
     # Ahikar
-    "ahikar":              "Ahikar",
-    "story of ahikar":     "Ahikar",
-    "ahiqar":              "Ahikar",
+    "ahikar": "The Story of Ahikar",
+    "story of ahikar": "The Story of Ahikar",
+    "ahiqar": "The Story of Ahikar",
     # Hymn to the Aten
-    "hymn to the aten":    "Hymn to the Aten",
-    "great hymn to the aten": "Hymn to the Aten",
-    "aten":                "Hymn to the Aten",
-    "akhenaten hymn":      "Hymn to the Aten",
+    "hymn to the aten": "The Great Hymn to the Aten",
+    "great hymn to the aten": "The Great Hymn to the Aten",
+    "aten": "The Great Hymn to the Aten",
+    "akhenaten hymn": "The Great Hymn to the Aten",
     # Gilgamesh — individual tablets via "Gilgamesh N" syntax handled by intercept
     "gilgamesh":           "Gilgamesh — Tablet First",
     # Book of the Dead
@@ -1431,16 +1436,16 @@ ALIASES: dict[str, str] = {
     "pert em hru":         "Book of the Dead",
     "coming forth by day": "Book of the Dead",
     # Leiden Hymns
-    "leiden hymns":        "Leiden Hymns",
-    "hymns to amun":       "Leiden Hymns",
-    "leiden":              "Leiden Hymns",
+    "leiden hymns": "The Leiden Hymns",
+    "hymns to amun": "The Leiden Hymns",
+    "leiden": "The Leiden Hymns",
     # Instruction of Amenemope
-    "amenemope":           "Instruction of Amenemope",
-    "instruction of amenemope": "Instruction of Amenemope",
+    "amenemope": "The Instruction of Amenemope",
+    "instruction of amenemope": "The Instruction of Amenemope",
     # Book of Two Ways
-    "book of two ways":    "Book of Two Ways",
-    "two ways":            "Book of Two Ways",
-    "coffin texts 1042":   "Book of Two Ways",
+    "book of two ways": "The Book of Two Ways",
+    "two ways": "The Book of Two Ways",
+    "coffin texts 1042": "The Book of Two Ways",
 }
 
 # Priority order when the same book name exists in multiple corpora
@@ -1491,6 +1496,22 @@ def tradition(name: str):
     key = name.strip().lower()
     key = TRADITION_ALIASES.get(key, key)
     return key if key in TRADITIONS else None
+
+
+_ROMAN_CHAPTER = re.compile(r"^([IVXLC]+)\.(\S+)$")
+
+
+def _roman_int(numeral: str) -> int:
+    values = {"I": 1, "V": 5, "X": 10, "L": 50, "C": 100}
+    total = 0
+    for a, b in zip(numeral, numeral[1:] + " "):
+        total += -values[a] if values.get(b, 0) > values[a] else values[a]
+    return total
+
+
+def _arabic_chapter(key: str) -> str:
+    m = _ROMAN_CHAPTER.match(key)
+    return f"{_roman_int(m.group(1))}.{m.group(2)}" if m else key
 
 
 # corpus -> its TRADITIONS key
@@ -1595,6 +1616,8 @@ class ScriptureLookup:
                 "iamblichus.json",
                 "aristotle_perseus.json",
                 "aristotle_mit.json",
+                "aristotle_more.json",
+                "plato_spuria.json",
                 "hesiod_evelyn_white.json",
                 "meditations_long.json",
                 "enchiridion_higginson.json",
@@ -1832,7 +1855,7 @@ class ScriptureLookup:
                     continue
                 with open(path, encoding="utf-8") as f:
                     payload = json.load(f)
-                books = payload.get("books", {})
+                books = self._as_one_work(fname, payload.get("books", {}))
                 self._data[corpus].update(books)
                 # Store per-book source string for footer display
                 file_source = payload.get("source", "")
@@ -1861,6 +1884,15 @@ class ScriptureLookup:
             self._corpus_sources.setdefault("classical", {}).update(sources)
         for corpus in ("classical", "medieval", "ancient_near_east"):
             self._regroup_line_chunks(corpus, self._LINE_CHUNKED)
+        # Chapters numbered "I.1" (book I, chapter 1: Aristotle's Physics, Topics...) as "1.1",
+        # the way every other work's are -- the reference parser can't read a Roman numeral there
+        for books in self._data.values():
+            for book, chapters in books.items():
+                if isinstance(chapters, dict) and chapters and all(_ROMAN_CHAPTER.match(k) for k in chapters):
+                    renamed = {_arabic_chapter(k): v for k, v in chapters.items()}
+                    if len(renamed) == len(chapters):
+                        books[book] = renamed
+
         # Normalize chapter shape: some source files store a chapter as a bare
         # string (a single untitled passage) instead of {verse_num: text}.
         # Treat that string as verse "1" so lookups and random selection
@@ -1879,6 +1911,34 @@ class ScriptureLookup:
                 key = book_name.lower()
                 if key not in self._book_index:
                     self._book_index[key] = (corpus, book_name)
+
+    # Files that store a work a part per "book" -- Bede's five books as "Book I"..."Book V", the
+    # Golden Legend a "book" per saint -- which left the works themselves impossible to cite, and
+    # "Book I", "Lucy" or "Andrew" answering as books of their own
+    _WHOLE_WORKS = {"bede.json": "Ecclesiastical History of the English People",
+                    "golden_legend.json": "The Golden Legend"}
+
+    def _as_one_work(self, fname: str, books: dict) -> dict:
+        """Bede as one work cited book.chapter ("Bede 3.5:1"); the Golden Legend as one with a
+        chapter per life, in its order, the life's title leading it ("Golden Legend 54")."""
+        name = self._WHOLE_WORKS.get(fname)
+        if name is None:
+            return books
+        work = {}
+        for i, (part, chapters) in enumerate(books.items(), 1):
+            m = re.fullmatch(r"Book ([IVX]+)", part)
+            if m:
+                for chap, verses in chapters.items():
+                    work[f"{_roman_int(m.group(1))}.{chap}"] = verses
+                continue
+            verses = {}
+            for chap_verses in chapters.values():
+                for text in (chap_verses.values() if isinstance(chap_verses, dict) else [chap_verses]):
+                    verses[str(len(verses) + 1)] = text
+            if verses and not verses["1"].lstrip("*").lower().startswith(part.lower()[:20]):
+                verses["1"] = f"*{part}*\n{verses['1']}"
+            work[str(i)] = verses
+        return {name: work}
 
     # ── Public API ─────────────────────────────────────────────────────────────
 
@@ -2134,6 +2194,14 @@ class ScriptureLookup:
             bani = banidb_lookup.get_bani(ref, lambda r: self.get_verse(r, _quran_api=False))
             if bani is not None:
                 return _tagged(bani, "sikh")
+
+        # The Epistle (Letter) of Jeremiah is chapter 6 of Baruch in the KJV's Apocrypha. It has one
+        # chapter: "Epistle of Jeremiah 1" is all of it, "1:5" or "5" its fifth verse
+        m = re.match(r"^(?:the\s+)?(?:epistle|letter|ep\.?|let\.?)\s*(?:of\s+)?jer(?:emiah|\.)?"
+                     r"(?:\s+(1:)?(\d+(?:\s*[-–]\s*\d+)?))?\s*$", ref, re.IGNORECASE)
+        if m:
+            whole = m.group(2) is None or (m.group(1) is None and m.group(2) == "1")
+            return self._get_verse("Baruch 6" if whole else f"Baruch 6:{m.group(2)}", _quran_api)
 
         # Homer is cited book.line ("Iliad 6.440-465"); the general parser
         # only takes a dot without a range, so read the dot as a colon.
