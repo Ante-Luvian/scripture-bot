@@ -1446,6 +1446,16 @@ ALIASES: dict[str, str] = {
     "book of two ways": "The Book of Two Ways",
     "two ways": "The Book of Two Ways",
     "coffin texts 1042": "The Book of Two Ways",
+    # Other names for Bible books, which the closest-name guess had answered with the wrong book
+    # (Ecclesiasticus as Ecclesiastes, Acts of the Apostles as the Acts of Thaddaeus)
+    "song of songs": "Song of Solomon",
+    "canticles": "Song of Solomon",
+    "canticle of canticles": "Song of Solomon",
+    "ecclesiasticus": "Sirach",
+    "acts of the apostles": "Acts",
+    "the acts": "Acts",
+    "tobias": "Tobit",
+    "josue": "Joshua",
 }
 
 # Priority order when the same book name exists in multiple corpora
@@ -1496,6 +1506,19 @@ def tradition(name: str):
     key = name.strip().lower()
     key = TRADITION_ALIASES.get(key, key)
     return key if key in TRADITIONS else None
+
+
+def _edit_distance(a: str, b: str) -> int:
+    """Letters added, dropped, changed or swapped to turn a into b (Damerau-Levenshtein)."""
+    if abs(len(a) - len(b)) > 3:
+        return 99
+    d = [[i + j if i * j == 0 else 0 for j in range(len(b) + 1)] for i in range(len(a) + 1)]
+    for i in range(1, len(a) + 1):
+        for j in range(1, len(b) + 1):
+            d[i][j] = min(d[i - 1][j] + 1, d[i][j - 1] + 1, d[i - 1][j - 1] + (a[i - 1] != b[j - 1]))
+            if i > 1 and j > 1 and a[i - 1] == b[j - 2] and a[i - 2] == b[j - 1]:
+                d[i][j] = min(d[i][j], d[i - 2][j - 2] + 1)
+    return d[len(a)][len(b)]
 
 
 _ROMAN_CHAPTER = re.compile(r"^([IVXLC]+)\.(\S+)$")
@@ -1983,6 +2006,8 @@ class ScriptureLookup:
         """Pick a random verse from a specific book."""
         import random as _random
         corpus, canon_book = self._resolve_book(book_raw)
+        if canon_book and self._resolve_exact(book_raw)[1] is None and self._guessed(book_raw, canon_book):
+            return self._did_you_mean(book_raw, book_raw.strip(), canon_book)
         if canon_book is None:
             return {
                 "found": False,
@@ -2149,10 +2174,39 @@ class ScriptureLookup:
                     return key, int(v), max(end, int(m.group(2)))
         return chap_key, verse_start, verse_end
 
+    def _guessed(self, typed: str, book: str) -> bool:
+        """Whether reading `typed` as `book` is a guess too far to make silently: more than a slip of
+        a letter or two from the book's name and every one of its aliases ("Against Heresies" was
+        answered with Cicero's Against Verres; "Jhon" and "Genisis" are plainly John and Genesis)."""
+        typed = typed.lower().strip()
+        if re.match(r"\d\s", book) and not re.match(r"\d", typed):
+            return True                                   # "Corinthians": the first or the second?
+        names = [book.lower()] + [a for a, target in ALIASES.items() if target == book]
+        allowed = 1 if len(typed) < 8 else 2
+        return min(_edit_distance(typed, n) for n in names) > allowed
+
+    def _did_you_mean(self, reference: str, typed: str, guess: str) -> dict:
+        """The reply to a book I don't have, with the closest few to choose from."""
+        rest = reference.strip()[len(typed):]
+        names = [guess] + [s for s in self._suggest_books(typed) if s != guess]
+        refs = [f"{name}{rest}" for name in names[:3]]
+        return {"found": False, "error": f"I don't have a book called **{typed}**.",
+                "suggestions": refs, "did_you_mean": refs}
+
     def get_verse(self, reference: str, _quran_api: bool = True) -> dict:
         """A passage by reference, tagged with the TRADITIONS key it belongs to ("tradition",
         None when unsure), so a server that has turned that tradition off can leave it out."""
         result = self._get_verse(reference, _quran_api)
+        typed = re.match(r"^(.+?)\s+[\d¶]", reference.strip())
+        if result.get("found") and typed:
+            typed = typed.group(1)
+            book = result.get("book")                         # (some paths give only the reference)
+            if not book:
+                named = re.match(r"^(.+?)\s+[\d¶]", result.get("reference", ""))
+                book = named.group(1) if named else None
+            if (book and self._resolve_exact(typed)[1] is None and self._resolve_fuzzy(typed)[1] == book
+                    and self._guessed(typed, book)):
+                return self._did_you_mean(reference, typed, book)
         if result.get("found") and "tradition" not in result:
             result["tradition"] = self.tradition_of(result)
         return result
@@ -3419,7 +3473,13 @@ class ScriptureLookup:
         return book, chapter, verse_start, verse_end
 
     def _resolve_book(self, raw: str) -> tuple[Optional[str], Optional[str]]:
-        """Return (corpus, canonical_book_name) or (None, None)."""
+        """Return (corpus, canonical_book_name) or (None, None): the book by name or alias, else
+        the closest name (so "1 Jhon" is 1 John -- see _guessed for when that's too far a guess)."""
+        exact = self._resolve_exact(raw)
+        return exact if exact[1] else self._resolve_fuzzy(raw)
+
+    def _resolve_exact(self, raw: str) -> tuple[Optional[str], Optional[str]]:
+        """(corpus, book) for a book's own name or one of its aliases; (None, None) otherwise."""
         key = raw.lower().strip()
         # Roman-numbered books ("I Kings", "II Corinthians", Sefaria's style); the Douay
         # "3 Kings" and "4 Kings" are the King James 1 and 2 Kings
@@ -3430,6 +3490,12 @@ class ScriptureLookup:
             if numbered in ALIASES or numbered in self._book_index:
                 key = raw = numbered
         key = {"3 kings": "1 kings", "4 kings": "2 kings"}.get(key, key)
+        # "First Samuel", "2nd Timothy"; "the Gospel of John", "the Gospel according to St Luke"
+        key = re.sub(r"^(?:first|1st)\s+", "1 ", key)
+        key = re.sub(r"^(?:second|2nd)\s+", "2 ", key)
+        key = re.sub(r"^(?:third|3rd)\s+", "3 ", key)
+        key = re.sub(r"^(?:the\s+)?gospel\s+(?:of|according\s+to)\s+(?:st\.?\s+|saint\s+)?(matthew|mark|luke|john)$",
+                     r"\1", key)
         # 1. Direct alias lookup
         if key in ALIASES:
             canon = ALIASES[key]
@@ -3440,6 +3506,11 @@ class ScriptureLookup:
         entry = self._book_index.get(key)
         if entry:
             return entry
+        return None, None
+
+    def _resolve_fuzzy(self, raw: str) -> tuple[Optional[str], Optional[str]]:
+        """The book whose name is closest to `raw`, if any is close enough."""
+        key = raw.lower().strip()
         # 3. Fuzzy match on alias values + book index keys
         candidates = list(ALIASES.values()) + [v[1] for v in self._book_index.values()]
         number = re.match(r"^(\d)\s", key)

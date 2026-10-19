@@ -1041,6 +1041,19 @@ def _extra_view_timeout(extra_buttons: list) -> "float | None":
     return None if any(isinstance(b, discord.ui.DynamicItem) for b in extra_buttons) else 180
 
 
+class _DidYouMean(discord.ui.Button):
+    """Under "I don't have a book called X": opens the passage in the book I'd guess at."""
+
+    def __init__(self, ref: str):
+        super().__init__(label=ref[:80], style=discord.ButtonStyle.secondary, emoji="📖")
+        self.ref = ref
+
+    async def callback(self, interaction: discord.Interaction):
+        import asyncio
+        await interaction.response.defer()
+        await _send_result(interaction, await asyncio.to_thread(lookup.get_verse, self.ref))
+
+
 async def _send_result(ctx_or_interaction, result: dict, extra_buttons: "list | None" = None):
     """Send a verse or whole-chapter result, splitting across multiple embeds if needed.
     extra_buttons, if given, are appended to whatever view the result ends up
@@ -1073,6 +1086,8 @@ async def _send_result(ctx_or_interaction, result: dict, extra_buttons: "list | 
     if not result["found"]:
         embed = _build_embed(result)
         view = None
+        if result.get("did_you_mean"):                       # a button for each book I might have meant
+            extra_buttons = [_DidYouMean(ref) for ref in result["did_you_mean"][:3]] + extra_buttons
         if extra_buttons:
             view = discord.ui.View(timeout=_extra_view_timeout(extra_buttons))
             for b in extra_buttons:
