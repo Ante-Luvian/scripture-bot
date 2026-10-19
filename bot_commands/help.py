@@ -11,10 +11,195 @@ from core import (
     bot,
     command_enabled,
     embed_for_guild,
+    for_guild,
 )
 from bot_commands.votd import (
     DM_DIGEST_TIME,
 )
+
+# ── The !help menu ───────────────────────────────────────────────────────────
+# Its sections, hand-written, laid out by menu_embeds: split over as many embeds (and messages) as
+# Discord's limits need, so a new line never means trimming the others to fit. A command no line
+# mentions still appears, in "More", from its own description.
+HELP_MENU = [
+    ('✡️ Jewish Texts', [
+        '`!help jewish` — Mishnah, Talmud, Midrash, Zohar… · `!parsha` · `!dafyomi` · `!learning`',
+        '`!gematria love` — the numerical values of a word in Hebrew and English gematria',
+    ]),
+    ('☪️ Islamic Texts', [
+        '`!help islamic` — Quran (52 translations) · Hadith (10 collections) · `!salah London` prayer times',
+    ]),
+    ('☸️ 🕉️ ☬ Buddhist, Hindu & Sikh Texts', [
+        '`!help buddhist` — the Pali Canon · `!help gita` — the Gita · `!help sikh` — Sikh scripture',
+    ]),
+    ('🏺 Ancient Near Eastern Texts', [
+        '`!help ane` — Gilgamesh · Baal Cycle · Egyptian texts · Ahikar · citation formats',
+    ]),
+    ('📖 Scripture', [
+        '`!verse` — look up or randomise a verse · `!help verse`',
+        '`!compare` — multi-translation view · `!help compare`',
+        '`!search` — search for a phrase (`in:buddhist` for one tradition) · `!help search`',
+        '`!theme` — one passage on a theme from each tradition, side by side',
+        "`!cloud Ecclesiastes` — a book's most distinctive words as a word cloud",
+        '`!story flood` — one story told by many traditions (`creation`, `underworld`, `christ`…)',
+        '`!votd` — verse of the day · `!help votd`',
+        '`!today` — liturgical calendar across traditions · `!help today`',
+        '`!books` — browse collections · `!help books`',
+        '`!export John 1-5` — a book or some chapters as a text file to download',
+        '`!translations` — list translation slugs',
+        '`!prefer` — set your default translation · `!help prefer`',
+    ]),
+    ('📜 Classical & Poetic', [
+        '`!parallel` — Homer, Virgil, Ovid, Heliand, Plato + more · `!help parallel`',
+        "`!blake` — Blake's illuminated books · `!dore` — Doré's engravings · `!help dore`",
+    ]),
+    ('⛪ Catholic', [
+        '`!ccc` — Catechism · `!help ccc`',
+        '`!summa` — Summa Theologica · `!help summa`',
+        '`!canon` — Code of Canon Law',
+        '`!catena` — Patristic commentary · `!help catena`',
+        '`!saint` — the saint of the day, or `!saint George`, `!saint 25 July` · `!help saint`',
+        "`!rosary` — pray the Rosary a decade at a time, with the day's mysteries (`!rosary sorrowful`)",
+        '`!angelus` — the Angelus (the Regina Caeli in Eastertide), with the Ave Maria sung',
+        '`!chant pater noster` — a Latin chant, sung straight away',
+    ]),
+    ('☦️ Orthodox', [
+        "`!troparion` — the day's troparia and kontakia, the hymns of its saints and feasts",
+        "`!icon` — an Orthodox icon and what it shows (`!icon trinity`, `!icon list`)",
+        "`!divineliturgy` — the Divine Liturgy of St John Chrysostom, a page at a time",
+    ]),
+    ('📜 Creeds', [
+        '`!creed apostle` / `nicene` / `athanasius` — traditional English · `!help creed`',
+    ]),
+    ('📖 Anglican Daily Office', [
+        '`!bcp` — psalms, lessons, and collect for Morning/Evening Prayer · `!help bcp`',
+        '`!mp` / `!ep` — both lessons for that period',
+        '`!psalm` / `!psalm mp` / `!psalm ep` — appointed Coverdale psalms',
+        '`!collect` — the Collect of the Day',
+        '`!prayer` — random devotional prayer from the BCP · `!help prayer`',
+        '`!vov` — Puritan prayers (`!vov topics`)',
+    ]),
+    ('🎲 Divination', [
+        '`!oracle` `!delphi` `!homer` `!virgil` `!sortesbiblicae` `!iching` `!hafez` `!rumi` `!tarot` · `!help oracle`',
+        '`!quiz` — guess which book a verse is from (`!quiz hard`, `!quiz buddhist`, `!quiz leaderboard`)',
+        '`!whoami` — Who Am I? Guess a Bible figure from clues that get easier · `!help whoami`',
+        '`!versle` — the daily verse puzzle: where in the Bible is it? · `!help versle`',
+    ]),
+    ('🔭 Discovery & Personal', [
+        '`!discover` — random passage from any loaded tradition · `!help discover`',
+        '`!study` — verse + patristic commentary together · `!help study`',
+        '`!xref` — cross-references (Treasury of Scripture Knowledge) · `!help xref`',
+        '`!harmony feeding five thousand` — the four Gospels side by side · `!help harmony`',
+        "`!notes` — NET Bible translators' notes on a verse · `!help notes`",
+        '`!quoted Isaiah 53:5` — where the New Testament quotes the Old, side by side',
+        "`!dictionary Melchizedek` — Easton's and Smith's Bible dictionaries",
+        "`!timeline Abraham` — where a person or event falls in Ussher's chronology",
+        "`!stats` — the most-read verses and books, and how I've been used",
+        "`!topic` — browse scripture by subject (Nave's Topical Bible) · `!help topic`",
+        '`!save` / `!saved` / `!unsave` — personal bookmarks · `!help save`',
+        '`!plan` — chapter-a-day reading plan · `!help plan`',
+        '`!memorize` — learn a verse by heart, with reviews by DM · `!help memorize`',
+        '`!leaderboard` — most active bookmarkers · `!help leaderboard`',
+        '`!subscribe` / `!unsubscribe` — daily verse by DM · `!help subscribe`',
+        '`!card` — shareable verse image · `!help card`',
+    ]),
+    ('🗺️ People, Places & Hymns', [
+        '`!who Ruth` — who someone was, their family, every verse naming them · `!help who`',
+        '`!tree David` / `!tree Abraham to David` — family trees, drawn · `!help tree`',
+        '`!place Bethel` — a place on a map, with its verses · `!help place`',
+        '`!journey paul 2` — journeys on a map (Paul, the Exodus…) · `!help journey`',
+        "`!measure 300 cubits` — Bible weights, measures and money in today's terms · `!help measure`",
+        '`!kings` — the kings of Israel and Judah, charted · `!help kings`',
+        "`!hymn amazing grace` — a hymn's words, its tune to play, the Bible behind it · `!midi <hymn>` just the tune · `!hymnlist` · `!help hymn`",
+        "`!hymnday` — the hymn of the day, chosen for the Church year",
+        '`!metrical 23` — a psalm in rhyming verse to sing (Scottish Psalter, 1650), with its tune · `!help metrical`',
+    ]),
+    ('⚙️ Server Setup (Admin)', [
+        '`!votdsetup` — the daily VOTD channel/time/mode · `!help votdsetup`',
+        '`!features` — optional extras · `!help features`',
+        '`!changelogsetup #channel` — where I post my updates · `!changelog` — recent updates',
+        '`!changelogintro` — post my introduction there (`fresh` clears my old posts first)',
+        '`!oraclesetup channel #chan` — a daily oracle post (`time`, `kind`, `test`, `off`)',
+        '`!quizsetup channel #chan` — a daily quiz question (`time`, `kind bible|hard`, `test`, `off`)',
+        "`!verslesetup channel #chan` — the day's Versle puzzle (`time`, `test`, `off`)",
+        '`!hymndaysetup channel #chan` — the hymn of the day (`time`, `test`, `off`)',
+        '`!saintsetup channel #chan` — the saint of the day (`time`, `test`, `off`)',
+        '`!angelussetup channel #chan` — the Angelus (`time 06:00 12:00 18:00`, `test`, `off`)',
+        '`!troparionsetup channel #chan` — the Orthodox troparia of the day (`time`, `test`, `off`)',
+        "`!learningsetup channel #chan` — the day's Jewish learning (`time`, `test`, `off`)",
+        '`!serversetup` — what this server is for · `!packs` — turn packs on/off',
+    ]),
+    ("🏛️ Ancient Languages & Strong's", [
+        'Append to `!verse`: `OE` `WLC` `LXX` `TR` `VULG` `peshitta` `CSL`',
+        '`!compare ancient <ref>` — all ancient witnesses at once · `!help compare`',
+        "`!compare strong <ref>` — KJV + original-language Strong's tagging · `!help compare`",
+        "`!strong G3588` / `!strong H7225` — Strong's lexicon lookup · `!help strong`",
+        '`!interlinear John 3:16` — the Greek or Hebrew word by word, with what each word means',
+        '`!reverseinterlinear John 3:16` — the KJV, each word labelled with the word it translates',
+        '`!concordance G26` — every verse where a Hebrew or Greek word appears',
+        "`!root love` — a word's root and the words built from it",
+        '`!variants Isaiah 53:5` — the KJV beside the Septuagint and the Dead Sea Scrolls',
+    ]),
+]
+
+HELP_TOPICS = ['verse', 'compare', 'votd', 'votdsetup', 'features', 'today', 'bcp', 'prayer', 'strong', 'books', 'parallel', 'oracle', 'discover', 'study', 'xref', 'notes', 'topic', 'save', 'plan', 'leaderboard', 'subscribe', 'card', 'who', 'tree', 'whoami', 'versle', 'place', 'journey', 'measure', 'kings', 'harmony', 'hymn', 'metrical', 'creed', 'ccc', 'summa']
+NOT_IN_MENU = {"help", "guildactivity", "scanstats", "votdmode"}       # (owner and maintenance tools)
+_FIELD, _EMBED = 1024, 5800
+
+
+def _mentioned() -> set:
+    import re
+    text = " ".join(line for _, lines in HELP_MENU for line in lines)
+    return {bot.get_command(n).name for n in re.findall(r"!([a-z]+)", text) if bot.get_command(n)}
+
+
+def _more_lines() -> list:
+    """A line for each command the menu doesn't mention, from its own description."""
+    import re
+    mentioned = _mentioned()
+    lines = []
+    for command in sorted(bot.commands, key=lambda c: c.name):
+        if command.hidden or command.name in mentioned or command.name in NOT_IN_MENU:
+            continue
+        about = " ".join(re.split(r"\s*Usage:", command.help or "")[0].split())     # (docstrings wrap)
+        about = re.split(r"(?<=[a-z)])\.\s", about)[0].strip().rstrip(".")           # its first sentence
+        if len(about) > 100:
+            about = about[:100].rsplit(" ", 1)[0] + "…"
+        lines.append(f"`!{command.name}` — {about}" if about else f"`!{command.name}`")
+    return lines
+
+
+def menu_embeds(guild_id=None) -> list:
+    """The menu as embeds, each within Discord's limits, leaving out what the server has turned off."""
+    sections = HELP_MENU + ([("➕ More", _more_lines())] if _more_lines() else [])
+    fields = []
+    for name, lines in sections:
+        text = for_guild("\n".join(lines), guild_id)
+        chunk = []
+        for line in text.split("\n") if text else []:
+            if chunk and len("\n".join(chunk + [line])) > _FIELD:
+                fields.append((name, "\n".join(chunk)))
+                chunk, name = [], f"{name} (continued)"
+            chunk.append(line[:_FIELD])
+        if chunk:
+            fields.append((name, "\n".join(chunk)))
+    footer = for_guild(" · ".join(f"!help {t}" for t in HELP_TOPICS), guild_id).replace("\n", " · ")[:2048]
+
+    def new(first):
+        return discord.Embed(title="📖 ScriptureBot — Help" + ("" if first else " (continued)"),
+                             description="Use `!help <command>` for detailed help on any command." if first else None,
+                             color=discord.Color.dark_gold())
+    embeds = [new(True)]
+    for name, value in fields:
+        current = embeds[-1]
+        if len(current.fields) == 25 or len(current) + len(name) + len(value) + len(footer) > _EMBED:
+            embeds.append(new(False))
+            current = embeds[-1]
+        current.add_field(name=name, value=value, inline=False)
+    embeds[-1].set_footer(text=footer)
+    return embeds
+
+
 
 @bot.command(name="help", aliases=["h", "commands", "?"])
 async def cmd_help(ctx, *, topic: str = ""):
@@ -1043,113 +1228,9 @@ async def cmd_help(ctx, *, topic: str = ""):
         await ctx.send(embed=embed)
         return
 
-    # ── Main help menu ────────────────────────────────────────────────────────
-    embed = discord.Embed(
-        title="📖 ScriptureBot — Help",
-        description="Use `!help <command>` for detailed help on any command.",
-        color=discord.Color.dark_gold()
-    )
-    embed.add_field(name="✡️ Jewish Texts", value=(
-        "`!help jewish` — Mishnah, Talmud, Midrash, Zohar… · `!parsha` · `!dafyomi` · `!learning`"
-    ), inline=False)
-    embed.add_field(name="☪️ Islamic Texts", value=(
-        "`!help islamic` — Quran (52 translations) · Hadith (10 collections) · `!salah London` prayer times"
-    ), inline=False)
-    embed.add_field(name="☸️ 🕉️ ☬ Buddhist, Hindu & Sikh Texts", value=(
-        "`!help buddhist` — the Pali Canon · `!help gita` — the Gita · `!help sikh` — Sikh scripture"
-    ), inline=False)
-    embed.add_field(name="🏺 Ancient Near Eastern Texts", value=(
-        "`!help ane` — Gilgamesh · Baal Cycle · Egyptian texts · Ahikar · citation formats"
-    ), inline=False)
-    embed.add_field(name="📖 Scripture", value=(
-        "`!verse` — look up or randomise a verse · `!help verse`\n"
-        "`!compare` — multi-translation view · `!help compare`\n"
-        "`!search` — search for a phrase (`in:buddhist` for one tradition) · `!help search`\n"
-        "`!theme` — one passage on a theme from each tradition, side by side\n"
-        "`!cloud Ecclesiastes` — a book's most distinctive words as a word cloud\n"
-        "`!story flood` — one story told by many traditions (`creation`, `underworld`, `christ`…)\n"
-        "`!votd` — verse of the day · `!help votd`\n"
-        "`!today` — liturgical calendar across traditions · `!help today`\n"
-        "`!books` — browse collections · `!help books`\n"
-        "`!translations` — list translation slugs\n"
-        "`!prefer` — set your default translation · `!help prefer`"
-    ), inline=False)
-    embed.add_field(name="📜 Classical & Poetic", value=(
-        "`!parallel` — Homer, Virgil, Ovid, Heliand, Plato + more · `!help parallel`\n"
-        "`!blake` — Blake's illuminated books · `!dore` — Doré's engravings · `!help dore`"
-    ), inline=False)
-    embed.add_field(name="⛪ Catholic", value=(
-        "`!ccc` — Catechism · `!help ccc`\n"
-        "`!summa` — Summa Theologica · `!help summa`\n"
-        "`!canon` — Code of Canon Law\n"
-        "`!catena` — Patristic commentary · `!help catena`\n"
-        "`!saint` — the saint of the day, or `!saint George`, `!saint 25 July` · `!help saint`"
-    ), inline=False)
-    embed.add_field(name="📜 Creeds", value=(
-        "`!creed apostle` / `nicene` / `athanasius` — traditional English · `!help creed`"
-    ), inline=False)
-    embed.add_field(name="📖 Anglican Daily Office", value=(
-        "`!bcp` — psalms, lessons, and collect for Morning/Evening Prayer · `!help bcp`\n"
-        "`!mp` / `!ep` — both lessons for that period\n"
-        "`!psalm` / `!psalm mp` / `!psalm ep` — appointed Coverdale psalms\n"
-        "`!collect` — the Collect of the Day\n"
-        "`!prayer` — random devotional prayer from the BCP · `!help prayer`\n"
-        "`!vov` — Puritan prayers (`!vov topics`)"
-    ), inline=False)
-    embed.add_field(name="🎲 Divination", value=(
-        "`!oracle` `!delphi` `!homer` `!virgil` `!sortesbiblicae` `!iching` `!hafez` `!rumi` `!tarot` · `!help oracle`\n"
-        "`!quiz` — guess which book a verse is from (`!quiz hard`, `!quiz buddhist`, `!quiz leaderboard`)\n"
-        "`!whoami` — Who Am I? Guess a Bible figure from clues that get easier · `!help whoami`\n"
-        "`!versle` — the daily verse puzzle: where in the Bible is it? · `!help versle`"
-    ), inline=False)
-    embed.add_field(name="🔭 Discovery & Personal", value=(
-        "`!discover` — random passage from any loaded tradition · `!help discover`\n"
-        "`!study` — verse + patristic commentary together · `!help study`\n"
-        "`!xref` — cross-references (Treasury of Scripture Knowledge) · `!help xref`\n"
-        "`!harmony feeding five thousand` — the four Gospels side by side · `!help harmony`\n"
-        "`!notes` — NET Bible translators' notes on a verse · `!help notes`\n"
-        "`!topic` — browse scripture by subject (Nave's Topical Bible) · `!help topic`\n"
-        "`!save` / `!saved` / `!unsave` — personal bookmarks · `!help save`\n"
-        "`!plan` — chapter-a-day reading plan · `!help plan`\n"
-        "`!memorize` — learn a verse by heart, with reviews by DM · `!help memorize`\n"
-        "`!leaderboard` — most active bookmarkers · `!help leaderboard`\n"
-        "`!subscribe` / `!unsubscribe` — daily verse by DM · `!help subscribe`\n"
-        "`!card` — shareable verse image · `!help card`"
-    ), inline=False)
-    embed.add_field(name="🗺️ People, Places & Hymns", value=(
-        "`!who Ruth` — who someone was, their family, every verse naming them · `!help who`\n"
-        "`!tree David` / `!tree Abraham to David` — family trees, drawn · `!help tree`\n"
-        "`!place Bethel` — a place on a map, with its verses · `!help place`\n"
-        "`!journey paul 2` — journeys on a map (Paul, the Exodus…) · `!help journey`\n"
-        "`!measure 300 cubits` — Bible weights, measures and money in today's terms · `!help measure`\n"
-        "`!kings` — the kings of Israel and Judah, charted · `!help kings`\n"
-        "`!hymn amazing grace` — a hymn's words, its tune to play, the Bible behind it · `!midi <hymn>` just the tune · `!hymnlist` · `!help hymn`\n"
-        "`!metrical 23` — a psalm in rhyming verse to sing (Scottish Psalter, 1650), with its tune · "
-        "`!help metrical`"
-    ), inline=False)
-    embed.add_field(name="⚙️ Server Setup (Admin)", value=(
-        "`!votdsetup` — the daily VOTD channel/time/mode · `!help votdsetup`\n"
-        "`!features` — optional extras · `!help features`\n"
-        "`!changelogsetup #channel` — where I post my updates · `!changelog` — recent updates\n"
-        "`!changelogintro` — post my introduction there (`fresh` clears my old posts first)\n"
-        "`!oraclesetup channel #chan` — a daily oracle post (`time`, `kind`, `test`, `off`)\n"
-        "`!quizsetup channel #chan` — a daily quiz question (`time`, `kind bible|hard`, `test`, `off`)\n"
-        "`!verslesetup channel #chan` — the day's Versle puzzle (`time`, `test`, `off`)\n"
-        "`!hymndaysetup channel #chan` — the hymn of the day (`time`, `test`, `off`)\n"
-        "`!saintsetup channel #chan` — the saint of the day (`time`, `test`, `off`)\n"
-        "`!angelussetup channel #chan` — the Angelus (`time 06:00 12:00 18:00`, `test`, `off`)\n"
-        "`!troparionsetup channel #chan` — the Orthodox troparia of the day (`time`, `test`, `off`)\n"
-        "`!learningsetup channel #chan` — the day's Jewish learning (`time`, `test`, `off`)\n"
-        "`!serversetup` — what this server is for · `!packs` — turn packs on/off"
-    ), inline=False)
-    embed.add_field(name="🏛️ Ancient Languages & Strong's", value=(
-        "Append to `!verse`: `OE` `WLC` `LXX` `TR` `VULG` `peshitta` `CSL`\n"
-        "`!compare ancient <ref>` — all ancient witnesses at once · `!help compare`\n"
-        "`!compare strong <ref>` — KJV + original-language Strong's tagging · `!help compare`\n"
-        "`!strong G3588` / `!strong H7225` — Strong's lexicon lookup · `!help strong`"
-    ), inline=False)
-    embed.set_footer(text="!help verse · !help compare · !help votd · !help votdsetup · !help features · !help today · !help bcp · !help prayer · !help strong · !help books · !help parallel · !help oracle · !help discover · !help study · !help xref · !help notes · !help topic · !help save · !help plan · !help leaderboard · !help subscribe · !help card · !help who · !help tree · !help whoami · !help versle · !help place · !help journey · !help measure · !help kings · !help harmony · !help hymn · !help metrical · !help creed · !help ccc · !help summa")
-    await ctx.send(embed=embed_for_guild(embed, guild_id))
+    # ── Main help menu (HELP_MENU, laid out by menu_embeds) ────────────────────
+    for embed in menu_embeds(guild_id):
+        await ctx.send(embed=embed)
 
 
 @bot.tree.command(name="help", description="Show ScriptureBot command help")
