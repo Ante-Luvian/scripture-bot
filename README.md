@@ -435,3 +435,7 @@ python -m pytest            # a few seconds, no network needed
   removing one on purpose, regenerate it:
   `python -c "import tests.test_command_registry as t; t.regenerate()"`
 - **Deploying:** commit, push, then `Restart-Service ScriptureBot`.
+
+## Licence
+
+The code is licensed under the GNU General Public License v3.0 (LICENSE). The texts in `data/` come from their own sources and keep their own terms; they are not covered by the code's licence. See CONTRIBUTING.md to work on the bot, CODE_OF_CONDUCT.md, and SECURITY.md to report a problem privately.
