@@ -1185,6 +1185,81 @@ def _perseus_authors() -> list:
 
 dict(BOOKS_TREE)["🏛️ Classical"].append(("The Perseus Library: Greek & Latin authors", _perseus_authors()))
 
+# Books the tree above shows another way: the Gilgamesh tablets and the Baal Cycle's episodes are
+# listed as "Gilgamesh 1 — ..." / "Baal 1 — ...", which read them by number
+_SHOWN_ELSEWHERE = ({f"Gilgamesh Tablet {n}" for n in range(1, 13)} | {"Baal and Yamm", "The Palace of Baal", "Baal and Mot"}
+                    | {"Quran"})                                  # (listed surah by surah)
+
+
+def _leaves(node):
+    for item in node:
+        if isinstance(item, tuple):
+            yield from _leaves(item[1])
+        else:
+            yield item
+
+
+def _author(fname: str) -> str:
+    """The person (or collection) a data file holds: "clement_of_alexandria.json" -> "Clement of Alexandria"."""
+    words = re.sub(r"_en$", "", fname.rsplit(".", 1)[0]).replace("_", " ").split()   # (muallaqat_en.json)
+    small = {"of", "the", "and", "on", "to", "in", "de"}
+    return " ".join(w if (i and w in small) else w[:1].upper() + w[1:] for i, w in enumerate(words))
+
+
+def _complete_tree(tree, lookup) -> int:
+    """Add every book in the library that the hand-kept tree leaves out, under the section that holds
+    the rest of its collection, by author: the tree had drifted, missing ~200 of the Church Fathers'
+    treatises. Returns how many were added."""
+    import collections
+    listed, home = set(), collections.defaultdict(collections.Counter)
+    for section, contents in tree:
+        for leaf in _leaves(contents):
+            listed.add(leaf)
+            corpus, book = lookup._resolve_exact(leaf)
+            if book:
+                listed.add(book)
+                home[corpus][section] += 1
+    missing = collections.defaultdict(lambda: collections.defaultdict(list))
+    for corpus, books in lookup._data.items():
+        for book, chapters in books.items():
+            if book in listed or book in _SHOWN_ELSEWHERE or not home[corpus] or not any(chapters.values()):
+                continue
+            if lookup._resolve_exact(book) != (corpus, book):       # (a name another collection answers to)
+                continue
+            section = home[corpus].most_common(1)[0][0]
+            missing[section][_author(lookup._book_file.get((corpus, book), corpus))].append(book)
+    # an author the tree already has ("Augustine" -> "Augustine of Hippo") gets them in his own list
+    authors = {}
+
+    def index(node):
+        for item in node:
+            if isinstance(item, tuple):
+                if item[1]:
+                    authors.setdefault(item[0].lower(), item[1])
+                index(item[1])
+    index(tree)
+
+    def own_list(author):
+        a = author.lower()
+        return authors.get(a) or next((books for label, books in authors.items()
+                                       if label.startswith(a + " ") or a.startswith(label + " ") or label.endswith(" " + a)), None)
+    sections = dict(tree)
+    for section, by_author in missing.items():
+        others = []
+        for author, books in sorted(by_author.items()):
+            books = sorted(books, key=str.lower)
+            existing = own_list(author)
+            if existing is not None:
+                existing.extend(books)
+            else:
+                others.append((author, books))
+        if others:
+            sections[section].append(("📚 Also in the library", others))
+    return sum(len(b) for by_author in missing.values() for b in by_author.values())
+
+
+_ADDED_TO_TREE = _complete_tree(BOOKS_TREE, lookup)
+
 # Top-level browsing groups two supergroups on top of BOOKS_TREE without
 # reordering it: Abrahamic-descended scripture/commentary traditions (still
 # living faiths with a canon + commentary literature) vs. mythological and

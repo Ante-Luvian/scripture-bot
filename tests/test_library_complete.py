@@ -39,6 +39,26 @@ def test_every_listed_work_can_be_read(bot_module, lookup):
     assert not unreadable, unreadable
 
 
+def test_every_work_in_the_library_is_in_the_tree(bot_module, lookup):
+    """The hand-kept !books tree had drifted (~200 of the Fathers' treatises weren't in it);
+    books._complete_tree adds what it leaves out."""
+    from bot_commands import books
+    listed = set()
+
+    def walk(node):
+        for item in node:
+            if isinstance(item, tuple):
+                walk(item[1])
+            else:
+                listed.add(item)
+                listed.add(lookup._resolve_exact(item)[1])
+    walk(books.ROOT_BOOKS_TREE)
+    left_out = [(c, b) for c, bs in lookup._data.items() for b, ch in bs.items()
+                if b not in listed and b not in books._SHOWN_ELSEWHERE and any(ch.values())
+                and lookup._resolve_exact(b) == (c, b)]
+    assert not left_out, left_out[:20]
+
+
 @pytest.mark.parametrize("ref, expect", [
     ("Physics 8.10:1", "Physics 8.10:1"),              # Book VIII: the import had stopped after Book I
     ("Topics 8.14", "Topics 8.14"),

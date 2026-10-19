@@ -1580,6 +1580,7 @@ class ScriptureLookup:
         # canonical book_name → source string for footer display
         self._book_sources: dict[str, str] = {}
         self._corpus_sources: dict[str, dict[str, str]] = {}
+        self._book_file: dict[tuple, str] = {}           # (corpus, book) -> the data file it came from
         # LRU cache for search_by_corpus (up to 64 queries)
         self._search_cache: dict = {}
         self._theme_cache: dict[str, list] = {}
@@ -1889,6 +1890,7 @@ class ScriptureLookup:
                 # Book names repeat across corpora (Plato's "Apology" and
                 # Rufinus' in patristics): keep each corpus's own credits too
                 self._corpus_sources.setdefault(corpus, {}).update(sources)
+                self._book_file.update({(corpus, b): fname for b in books})
         # The Perseus library (scripts/build_perseus.py): a file per author, all classical
         perseus = self.data_dir / "classical" / "perseus"
         if (perseus / "aliases.json").exists():         # catalogue titles: "Germania", "Annales"...
