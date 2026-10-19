@@ -16,7 +16,7 @@ import re
 import discord
 from discord.ext import commands, tasks
 
-from core import ROOT, _atomic_write_json, _load_guild_config, _update_guild_config, bot, log
+from core import command_enabled, ROOT, _atomic_write_json, _load_guild_config, _update_guild_config, bot, log
 from bot_commands.hymns import COLOR, chant_part, hymn_embed, hymn_view, hymns, shelf
 from liturgical_calendar import western_season
 
@@ -154,6 +154,8 @@ async def run_daily_hymns(client, day: datetime.date, current_hm: str) -> int:
     for guild_id, g in _load_guild_config().items():
         channel_id = g.get("hymnday_channel_id")
         if not channel_id or g.get("hymnday_time", DEFAULT_HYMNDAY_TIME) != current_hm:
+            continue
+        if not command_enabled(int(guild_id), "hymnday"):   # the server turned it off
             continue
         channel = client.get_channel(int(channel_id))
         if channel is None:

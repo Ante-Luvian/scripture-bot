@@ -9,6 +9,8 @@ from bot_commands.books import (
 )
 from core import (
     bot,
+    command_enabled,
+    embed_for_guild,
 )
 from bot_commands.votd import (
     DM_DIGEST_TIME,
@@ -18,6 +20,10 @@ from bot_commands.votd import (
 async def cmd_help(ctx, *, topic: str = ""):
     """Show help for ScriptureBot commands."""
     topic = topic.strip().lower()
+    guild_id = getattr(getattr(ctx, "guild", None), "id", None)
+    asked = bot.get_command(topic) if topic else None
+    if asked is not None and not command_enabled(guild_id, asked.name):
+        return                                  # a command this server has turned off
 
     # ── Topic-specific help ───────────────────────────────────────────────────
     if topic in ("verse", "v", "scripture"):
@@ -1122,18 +1128,19 @@ async def cmd_help(ctx, *, topic: str = ""):
         "`!help metrical`"
     ), inline=False)
     embed.add_field(name="⚙️ Server Setup (Admin)", value=(
-        "`!votdsetup` — configure this server's daily VOTD channel/time/mode · `!help votdsetup`\n"
-        "`!features` — turn optional features on/off · `!help features`\n"
-        "`!changelogsetup #channel` — where I announce my updates · `!changelog` — recent updates\n"
-        "`!changelogintro` — post my full introduction + latest updates there (`fresh` clears my old posts first)\n"
+        "`!votdsetup` — the daily VOTD channel/time/mode · `!help votdsetup`\n"
+        "`!features` — optional extras · `!help features`\n"
+        "`!changelogsetup #channel` — where I post my updates · `!changelog` — recent updates\n"
+        "`!changelogintro` — post my introduction there (`fresh` clears my old posts first)\n"
         "`!oraclesetup channel #chan` — a daily oracle post (`time`, `kind`, `test`, `off`)\n"
         "`!quizsetup channel #chan` — a daily quiz question (`time`, `kind bible|hard`, `test`, `off`)\n"
         "`!verslesetup channel #chan` — the day's Versle puzzle (`time`, `test`, `off`)\n"
         "`!hymndaysetup channel #chan` — the hymn of the day (`time`, `test`, `off`)\n"
         "`!saintsetup channel #chan` — the saint of the day (`time`, `test`, `off`)\n"
-        "`!angelussetup channel #chan` — the Angelus at noon, or `time 06:00 12:00 18:00` (`test`, `off`)\n"
+        "`!angelussetup channel #chan` — the Angelus (`time 06:00 12:00 18:00`, `test`, `off`)\n"
         "`!troparionsetup channel #chan` — the Orthodox troparia of the day (`time`, `test`, `off`)\n"
-        "`!learningsetup channel #chan` — the day's Jewish learning (`time`, `test`, `off`)"
+        "`!learningsetup channel #chan` — the day's Jewish learning (`time`, `test`, `off`)\n"
+        "`!serversetup` — what this server is for · `!packs` — turn packs on/off"
     ), inline=False)
     embed.add_field(name="🏛️ Ancient Languages & Strong's", value=(
         "Append to `!verse`: `OE` `WLC` `LXX` `TR` `VULG` `peshitta` `CSL`\n"
@@ -1142,7 +1149,7 @@ async def cmd_help(ctx, *, topic: str = ""):
         "`!strong G3588` / `!strong H7225` — Strong's lexicon lookup · `!help strong`"
     ), inline=False)
     embed.set_footer(text="!help verse · !help compare · !help votd · !help votdsetup · !help features · !help today · !help bcp · !help prayer · !help strong · !help books · !help parallel · !help oracle · !help discover · !help study · !help xref · !help notes · !help topic · !help save · !help plan · !help leaderboard · !help subscribe · !help card · !help who · !help tree · !help whoami · !help versle · !help place · !help journey · !help measure · !help kings · !help harmony · !help hymn · !help metrical · !help creed · !help ccc · !help summa")
-    await ctx.send(embed=embed)
+    await ctx.send(embed=embed_for_guild(embed, guild_id))
 
 
 @bot.tree.command(name="help", description="Show ScriptureBot command help")

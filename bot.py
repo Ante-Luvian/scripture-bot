@@ -91,6 +91,7 @@ from bot_commands import (  # noqa: F401
     measures,
     memorize,
     oracles,
+    packs,
     people,
     personal,
     psalter,
@@ -126,8 +127,10 @@ async def on_ready():
 
     log.info(f"Logged in as {bot.user} (ID: {bot.user.id})")
     log.info(f"Connected to {len(bot.guilds)} guild(s)")
-    synced = await bot.tree.sync()
-    log.info(f"Synced {len(synced)} slash command(s)")
+    # the global slash commands, then each server's pack commands (bot_commands/packs.py)
+    synced = await packs.sync_all()
+    log.info(f"Synced {synced} slash command(s)")
+    bot.add_view(packs.WelcomeView())          # the welcome message's Set me up button
     log.info(f"Corpora loaded: {', '.join(lookup.corpora_names())}")
 
     # One-time migration: seed per-guild config from the old hardcoded channel.

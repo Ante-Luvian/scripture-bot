@@ -1493,6 +1493,17 @@ def tradition(name: str):
     return key if key in TRADITIONS else None
 
 
+# corpus -> its TRADITIONS key
+CORPUS_TRADITION = {corpus: key for key, (_, corpora) in TRADITIONS.items() for corpus in corpora}
+
+
+def _tagged(result, key: str):
+    """A passage fetched from an online library, marked as belonging to the tradition `key`."""
+    if result is not None and result.get("found"):
+        result["tradition"] = key
+    return result
+
+
 CORPUS_PRIORITY = ["kjv", "lds", "brenton", "charles", "nt_apocrypha", "apostolic_fathers", "quran", "classical", "jewish", "bahai", "qumran", "gnostic", "dharmic", "buddhist", "chinese", "sufi", "sikh", "jain", "shinto", "zoroastrian", "mesoamerican", "finnish", "celtic", "norse", "ancient_near_east", "patristics", "medieval", "reformation"]
 
 
@@ -1871,17 +1882,19 @@ class ScriptureLookup:
 
     # ── Public API ─────────────────────────────────────────────────────────────
 
-    def random_verse(self, rng=None) -> dict:
-        """A random passage from anywhere: a tradition first, each as likely as
-        the next, then a book in it, then a passage in the book -- so the
-        biggest texts (the Guru Granth Sahib's 60,000 lines, Plutarch) don't
-        crowd out the rest, as picking among all passages at once did."""
+    def random_verse(self, rng=None, traditions=None) -> dict:
+        """A random passage from anywhere (or from the TRADITIONS keys in `traditions`): a
+        tradition first, each as likely as the next, then a book in it, then a passage in
+        the book -- so the biggest texts (the Guru Granth Sahib's 60,000 lines, Plutarch)
+        don't crowd out the rest, as picking among all passages at once did."""
         import random as _random
         rng = rng or _random
         # Skip Mishnah/Talmud/Zohar/Hadith (live API) and Vivec (sermon-length)
         SKIP_BOOKS = {"Vivec"}
-        traditions = []
-        for _, corpora in TRADITIONS.values():
+        allowed, traditions = traditions, []
+        for key, (_, corpora) in TRADITIONS.items():
+            if allowed is not None and key not in allowed:
+                continue
             books = [(c, b) for c in corpora for b, chapters in self._data.get(c, {}).items()
                      if b not in SKIP_BOOKS and any(chapters.values())]
             if books:
@@ -2076,6 +2089,23 @@ class ScriptureLookup:
         return chap_key, verse_start, verse_end
 
     def get_verse(self, reference: str, _quran_api: bool = True) -> dict:
+        """A passage by reference, tagged with the TRADITIONS key it belongs to ("tradition",
+        None when unsure), so a server that has turned that tradition off can leave it out."""
+        result = self._get_verse(reference, _quran_api)
+        if result.get("found") and "tradition" not in result:
+            result["tradition"] = self.tradition_of(result)
+        return result
+
+    def tradition_of(self, result: dict):
+        """The TRADITIONS key of a local passage, from its book, or None."""
+        book = result.get("book")
+        if not book:
+            m = re.match(r"^(.+?)\s+[\d¶]", result.get("reference", ""))
+            book = m.group(1) if m else None
+        corpus = self._resolve_book(book)[0] if book else None
+        return CORPUS_TRADITION.get(corpus)
+
+    def _get_verse(self, reference: str, _quran_api: bool = True) -> dict:
         """
         Parse a free-form reference like "John 3:16" or "D&C 76:22-24"
         and return the verse text.
@@ -2088,22 +2118,22 @@ class ScriptureLookup:
             import quran_lookup
             quran = quran_lookup.get_quran(ref, lambda r: self.get_verse(r, _quran_api=False))
             if quran is not None:
-                return quran
+                return _tagged(quran, "islamic")
             # The Pali Canon from SuttaCentral (MN 1, SN 56.11, AN 3.65...)
             import sutta_lookup
             sutta = sutta_lookup.get_sutta(ref)
             if sutta is not None:
-                return sutta
+                return _tagged(sutta, "buddhist")
             # The Gita in a named translation or commentary (plain "Gita 2:47" stays our Purohit)
             import gita_lookup
             gita = gita_lookup.get_gita(ref, lambda r: self.get_verse(r, _quran_api=False))
             if gita is not None:
-                return gita
+                return _tagged(gita, "hindu")
             # Sikh scripture from BaniDB: the Dasam Granth, Bhai Gurdas, more Guru Granth Sahib translations
             import banidb_lookup
             bani = banidb_lookup.get_bani(ref, lambda r: self.get_verse(r, _quran_api=False))
             if bani is not None:
-                return bani
+                return _tagged(bani, "sikh")
 
         # Homer is cited book.line ("Iliad 6.440-465"); the general parser
         # only takes a dot without a range, so read the dot as a colon.
@@ -2129,13 +2159,13 @@ class ScriptureLookup:
         if re.search(r"\d+[ab]", ref, re.IGNORECASE):
             talmud_result = get_talmud(ref)
             if talmud_result is not None:
-                return talmud_result
+                return _tagged(talmud_result, "jewish")
 
         # ── Zohar: "Zohar 1:1a:3" or bare "Zohar" ────────────────────────────
         if re.match(r"^(?:the\s+)?zohar\b", ref, re.IGNORECASE):
             zohar_result = self._try_zohar_raw(ref)
             if zohar_result is not None:
-                return zohar_result
+                return _tagged(zohar_result, "jewish")
             return {
                 "found": False,
                 "error": "Could not fetch that Zohar reference.\nFormat: `Zohar Bereshit 5` or just `Zohar` for random.",
@@ -2164,7 +2194,7 @@ class ScriptureLookup:
             import sefaria_lookup                       # e.g. "Jerusalem Talmud Makkot 2:7:2-3:7:1"
             any_result = sefaria_lookup.fetch_sefaria_any(ref)
             if any_result is not None:
-                return any_result
+                return _tagged(any_result, "jewish")
             return {
                 "found": False,
                 "error": f'Could not parse reference: **{ref}**\nTry: `Book Chapter:Verse`',
@@ -2176,7 +2206,7 @@ class ScriptureLookup:
             import sefaria_lookup
             any_result = sefaria_lookup.fetch_sefaria_any(ref)
             if any_result is not None:
-                return any_result
+                return _tagged(any_result, "jewish")
 
         # Cross-chapter range sentinel
         if len(parsed) == 6 and parsed[5] == "cross_chapter":
@@ -2205,44 +2235,44 @@ class ScriptureLookup:
             # Try Sefaria (Mishnah) as fallback
             sefaria_result = self._try_sefaria(book_raw, chapter, verse_start, verse_end)
             if sefaria_result is not None:
-                return sefaria_result
+                return _tagged(sefaria_result, "jewish")
             # Try Jerusalem Talmud
             yet_result = self._try_yerushalmi(book_raw, chapter, verse_start)
             if yet_result is not None:
-                return yet_result
+                return _tagged(yet_result, "jewish")
             # Try Tosefta
             tosefta_result = self._try_tosefta(book_raw, chapter, verse_start)
             if tosefta_result is not None:
-                return tosefta_result
+                return _tagged(tosefta_result, "jewish")
             # Try Targum
             targum_result = self._try_targum(ref)
             if targum_result is not None:
-                return targum_result
+                return _tagged(targum_result, "jewish")
             # Try Midrash
             midrash_result = self._try_midrash(book_raw, chapter, verse_start)
             if midrash_result is not None:
-                return midrash_result
+                return _tagged(midrash_result, "jewish")
             # Try Kabbalah
             kabbalah_result = self._try_kabbalah(book_raw, chapter, verse_start)
             if kabbalah_result is not None:
-                return kabbalah_result
+                return _tagged(kabbalah_result, "jewish")
             # Try Mishneh Torah
             mt_result = self._try_mishneh_torah(ref)
             if mt_result is not None:
-                return mt_result
+                return _tagged(mt_result, "jewish")
             # Try Guide for the Perplexed
             guide_result = self._try_guide(ref)
             if guide_result is not None:
-                return guide_result
+                return _tagged(guide_result, "jewish")
             # Try Hadith
             hadith_result = self._try_hadith(ref)
             if hadith_result is not None:
-                return hadith_result
+                return _tagged(hadith_result, "islamic")
             # Anything else in Sefaria's library (Pirkei DeRabbi Eliezer, Rashi on Genesis, Kuzari...)
             import sefaria_lookup
             any_result = sefaria_lookup.fetch_sefaria_any(ref)
             if any_result is not None:
-                return any_result
+                return _tagged(any_result, "jewish")
             return {
                 "found": False,
                 "error": f'Unknown book: **{book_raw}**',

@@ -22,7 +22,7 @@ def intro_text():
 
 
 def test_sections_fit_in_discord(cl, intro_text):
-    sections = cl.parse_sections(intro_text)
+    sections = cl.intro_sections()                 # as posted: without the pack markers
     assert len(sections) >= 8
     for title, body in sections:
         assert title and len(title) <= 256

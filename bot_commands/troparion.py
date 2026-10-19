@@ -14,7 +14,7 @@ import urllib.request
 import discord
 from discord.ext import commands, tasks
 
-from core import ROOT, _atomic_write_json, _load_guild_config, _update_guild_config, bot, log
+from core import command_enabled, ROOT, _atomic_write_json, _load_guild_config, _update_guild_config, bot, log
 
 TROPARION_PATH = ROOT / "data" / "troparion.json"   # {"posted": {guild id: "YYYY-MM-DD"}}
 DEFAULT_TIME = "06:00"
@@ -175,6 +175,8 @@ async def run_daily_troparia(client, day: datetime.date, current_hm: str) -> int
     for guild_id, g in _load_guild_config().items():
         channel_id = g.get("troparion_channel_id")
         if not channel_id or g.get("troparion_time", DEFAULT_TIME) != current_hm:
+            continue
+        if not command_enabled(int(guild_id), "troparion"):   # the server turned it off
             continue
         channel = client.get_channel(int(channel_id))
         if channel is None:

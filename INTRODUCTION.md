@@ -6,6 +6,10 @@ Each section must stay under ~3,800 characters (Discord's embed limit is
 4,096), and every user-facing command must be mentioned somewhere — a test
 checks both. Written for people who have never used the bot.
 
+A server only sees the lines about what it has: a line naming only commands it has turned
+off is left out, and so is one marked `<!-- texts: hindu -->` or `<!-- pack: orthodox -->`
+(for lines that name no command) when that tradition or pack is off (core.for_guild).
+
 ## 👋 Hello! I'm ScriptureBot
 I'm a library of sacred and ancient texts that lives in this server. I can look up a verse from the Bible in dozens of translations, show you the original Hebrew and Greek, tell you what the translators were thinking, pray the daily office with you, consult an ancient oracle — and a great deal more, across about **a thousand works** from more than a dozen traditions.
 
@@ -24,52 +28,52 @@ Many of my answers come with buttons underneath. Under a Bible verse you'll see 
 ## 📚 My library: the Bible and its neighbours
 **The Bible** — all 66 books, King James Version by default, plus **more than 40 other translations** you can ask for by name: modern English (ESV, NIV, NASB, NKJV, NLT, NRSVCE, NABRE, CSB, the NET Bible and more), older ones (Geneva Bible, Young's Literal, Douay-Rheims, Knox), and the **original and ancient languages**: Hebrew (Westminster Leningrad Codex), Greek New Testament (Textus Receptus, Tischendorf), the Greek Old Testament (Septuagint), Latin (Vulgate), Syriac (Peshitta), Church Slavonic and even Old English. `!translations` lists them all.
 
-**Apocrypha & Pseudepigrapha** — the 15 deuterocanonical books (Tobit, Judith, Wisdom, Sirach, Maccabees…) and 29 more ancient Jewish and early Christian writings: the **Book of Enoch**, **Jubilees**, the Testaments of the Twelve Patriarchs, the Psalms of Solomon, 3 & 4 Maccabees, Psalms 151–155 **2 Enoch** (the *Book of the Secrets of Enoch*), the First and Second Books of **Adam and Eve**, and the **Odes of Solomon**, early Christian hymns.
+<!-- texts: apocrypha -->**Apocrypha & Pseudepigrapha** — the 15 deuterocanonical books (Tobit, Judith, Wisdom, Sirach, Maccabees…) and 29 more ancient Jewish and early Christian writings: the **Book of Enoch**, **Jubilees**, the Testaments of the Twelve Patriarchs, the Psalms of Solomon, 3 & 4 Maccabees, Psalms 151–155 **2 Enoch** (the *Book of the Secrets of Enoch*), the First and Second Books of **Adam and Eve**, and the **Odes of Solomon**, early Christian hymns.
 
-**New Testament Apocrypha** — 41 early Christian writings that didn't make it into the Bible: the **infancy gospels** (the *Protevangelium of James*, the story of Mary's own birth and childhood: `!verse Protevangelium 1:1`; the *Infancy Gospel of Thomas*, about Jesus as a boy), the **Acts of Pilate** or *Gospel of Nicodemus* with Christ's descent into hell, the **Acts of Paul and Thecla** and other acts of the apostles, and the **Passing of Mary**.
+<!-- texts: apocrypha -->**New Testament Apocrypha** — 41 early Christian writings that didn't make it into the Bible: the **infancy gospels** (the *Protevangelium of James*, the story of Mary's own birth and childhood: `!verse Protevangelium 1:1`; the *Infancy Gospel of Thomas*, about Jesus as a boy), the **Acts of Pilate** or *Gospel of Nicodemus* with Christ's descent into hell, the **Acts of Paul and Thecla** and other acts of the apostles, and the **Passing of Mary**.
 
-**The Dead Sea Scrolls** — the Community Rule, War Scroll, Damascus Document, Thanksgiving Hymns, the Habakkuk commentary and others, plus scroll copies of Isaiah, Exodus, Deuteronomy, Psalms and Daniel.
+<!-- texts: jewish -->**The Dead Sea Scrolls** — the Community Rule, War Scroll, Damascus Document, Thanksgiving Hymns, the Habakkuk commentary and others, plus scroll copies of Isaiah, Exodus, Deuteronomy, Psalms and Daniel.
 
-**Latter-day Saint scripture** — the Book of Mormon, Doctrine and Covenants, and Pearl of Great Price.
+<!-- texts: lds -->**Latter-day Saint scripture** — the Book of Mormon, Doctrine and Covenants, and Pearl of Great Price.
 
-**Jewish writers of the Greek world** — the complete works of **Josephus** (Antiquities, Jewish War…) and **Philo of Alexandria**.
+<!-- texts: jewish -->**Jewish writers of the Greek world** — the complete works of **Josephus** (Antiquities, Jewish War…) and **Philo of Alexandria**.
 
-**The early Church** — the **Apostolic Fathers** (Clement, Ignatius, Polycarp, the Didache, the Shepherd of Hermas…), Dionysius the Areopagite, and about **400 works of the Church Fathers**, from Justin Martyr and Irenaeus through Augustine, Chrysostom and Jerome, plus early church histories. From the Middle Ages: **Bede**, **The Golden Legend**, the **Rule of St Benedict**, Thomas à Kempis's **Imitation of Christ** and Dante's **Divine Comedy** (Longfellow's translation, by canto and line: `!verse Inferno 1.1`). And three classics of Christian prayer: **The Cloud of Unknowing**, Julian of Norwich's **Revelations of Divine Love** (`!verse Julian of Norwich 5:1`) and Brother Lawrence's **Practice of the Presence of God**. From the 17th century, John Bunyan's **Pilgrim's Progress**, both parts, by section and paragraph (`!verse Pilgrim's Progress 1:1`, `!verse Pilgrim's Progress Part Two 1:1`), and **John Milton**: *Paradise Lost* by book and line (`!verse Paradise Lost 1:1-26` is its opening), *Paradise Regained* and *Samson Agonistes* (`!verse Samson Agonistes 1:80`), in the spelling of his own editions. From the 18th, the visionary **Emanuel Swedenborg**: all his theological works, among them *Heaven and Hell*, *Arcana Coelestia* and *True Christian Religion*, cited by his own section numbers (`!verse Heaven and Hell 51`, or `!verse HH 51`). And **William Blake**, who answered him: the *Songs of Innocence and of Experience* (`!verse Songs of Experience 12` is *The Tiger*), *The Marriage of Heaven and Hell* and *The Book of Thel*; **`!blake`** shows his illuminated books plate by plate, as he printed and hand-coloured them (`!blake songs`, `!blake list`), and his illustrations of other books by passage: the Book of Job (`!blake Job 38`), the Bible, Dante, *Paradise Lost* and *The Pilgrim's Progress*.
+<!-- texts: christian -->**The early Church** — the **Apostolic Fathers** (Clement, Ignatius, Polycarp, the Didache, the Shepherd of Hermas…), Dionysius the Areopagite, and about **400 works of the Church Fathers**, from Justin Martyr and Irenaeus through Augustine, Chrysostom and Jerome, plus early church histories. From the Middle Ages: **Bede**, **The Golden Legend**, the **Rule of St Benedict**, Thomas à Kempis's **Imitation of Christ** and Dante's **Divine Comedy** (Longfellow's translation, by canto and line: `!verse Inferno 1.1`). And three classics of Christian prayer: **The Cloud of Unknowing**, Julian of Norwich's **Revelations of Divine Love** (`!verse Julian of Norwich 5:1`) and Brother Lawrence's **Practice of the Presence of God**. From the 17th century, John Bunyan's **Pilgrim's Progress**, both parts, by section and paragraph (`!verse Pilgrim's Progress 1:1`, `!verse Pilgrim's Progress Part Two 1:1`), and **John Milton**: *Paradise Lost* by book and line (`!verse Paradise Lost 1:1-26` is its opening), *Paradise Regained* and *Samson Agonistes* (`!verse Samson Agonistes 1:80`), in the spelling of his own editions. From the 18th, the visionary **Emanuel Swedenborg**: all his theological works, among them *Heaven and Hell*, *Arcana Coelestia* and *True Christian Religion*, cited by his own section numbers (`!verse Heaven and Hell 51`, or `!verse HH 51`). And **William Blake**, who answered him: the *Songs of Innocence and of Experience* (`!verse Songs of Experience 12` is *The Tiger*), *The Marriage of Heaven and Hell* and *The Book of Thel*; **`!blake`** shows his illuminated books plate by plate, as he printed and hand-coloured them (`!blake songs`, `!blake list`), and his illustrations of other books by passage: the Book of Job (`!blake Job 38`), the Bible, Dante, *Paradise Lost* and *The Pilgrim's Progress*.
 
 ## 📚 My library: other traditions
-**Rabbinic & mystical Judaism** (from Sefaria) — the **Mishnah**, **Tosefta**, **Babylonian** and **Jerusalem Talmud**, the Targumim (Aramaic Bible translations), **Midrash Rabbah** and other midrashim, **Maimonides** (Mishneh Torah, Guide for the Perplexed), and Kabbalah: the **Zohar**, Sefer Yetzirah, the Bahir and the Tanya; and anything else Sefaria has in English (`!verse Rashi on Genesis 1:1`). `!help jewish` shows how to cite each.
+<!-- texts: jewish -->**Rabbinic & mystical Judaism** (from Sefaria) — the **Mishnah**, **Tosefta**, **Babylonian** and **Jerusalem Talmud**, the Targumim (Aramaic Bible translations), **Midrash Rabbah** and other midrashim, **Maimonides** (Mishneh Torah, Guide for the Perplexed), and Kabbalah: the **Zohar**, Sefer Yetzirah, the Bahir and the Tanya; and anything else Sefaria has in English (`!verse Rashi on Genesis 1:1`). `!help jewish` shows how to cite each.
 
-**Islam** — the **Quran** in 52 English translations (Abdel Haleem's by default; `!verse Quran 2:255 arberry` for another, or name several to compare) and ten **hadith** collections, including Sahih al-Bukhari and Sahih Muslim. `!help islamic` has the details. From the Persian poets: 43 poems from the **Divan of Hafiz** (`!verse Hafiz 1`), Rumi's **Masnavi** (its stories, by book and story: `!verse Masnavi 1.0` is the song of the reed flute) and Omar Khayyam's **Rubaiyat** (`!verse Rubaiyat 1:12`).
+<!-- texts: islamic -->**Islam** — the **Quran** in 52 English translations (Abdel Haleem's by default; `!verse Quran 2:255 arberry` for another, or name several to compare) and ten **hadith** collections, including Sahih al-Bukhari and Sahih Muslim. `!help islamic` has the details. From the Persian poets: 43 poems from the **Divan of Hafiz** (`!verse Hafiz 1`), Rumi's **Masnavi** (its stories, by book and story: `!verse Masnavi 1.0` is the song of the reed flute) and Omar Khayyam's **Rubaiyat** (`!verse Rubaiyat 1:12`).
 
-**The Greek and Roman world** — Homer (*Iliad*, *Odyssey*), Virgil's *Aeneid*, Hesiod (*Theogony*, *Works and Days*, *Shield of Heracles*), Ovid, the Homeric and Orphic Hymns; philosophy from **Plato** and **Aristotle** to the Neoplatonists (Plotinus, Porphyry, Iamblichus, Proclus) and the emperor Julian; the Stoics **Marcus Aurelius** (*Meditations*) and **Epictetus** (*Enchiridion*); the **Hermetic** writings (Corpus Hermeticum, the Emerald Tablet); and oracles (Delphic maxims, the Chaldaean Oracles, the Golden Verses of Pythagoras). And about **600 more Greek and Latin works** in English from the Perseus Digital Library: the tragedies of Aeschylus, Sophocles and Euripides; Aristophanes and Plautus; the historians Herodotus, Thucydides (`!verse History of the Peloponnesian War 2.40`), Xenophon, Polybius, Livy, Tacitus and Suetonius; Plutarch's *Lives* and *Moralia*; Cicero, Caesar, Lucretius, Ovid, Horace, Lucian, Pausanias and the Greek orators. `!books` → Classical → The Perseus Library lists them by author.
+<!-- texts: classical -->**The Greek and Roman world** — Homer (*Iliad*, *Odyssey*), Virgil's *Aeneid*, Hesiod (*Theogony*, *Works and Days*, *Shield of Heracles*), Ovid, the Homeric and Orphic Hymns; philosophy from **Plato** and **Aristotle** to the Neoplatonists (Plotinus, Porphyry, Iamblichus, Proclus) and the emperor Julian; the Stoics **Marcus Aurelius** (*Meditations*) and **Epictetus** (*Enchiridion*); the **Hermetic** writings (Corpus Hermeticum, the Emerald Tablet); and oracles (Delphic maxims, the Chaldaean Oracles, the Golden Verses of Pythagoras). And about **600 more Greek and Latin works** in English from the Perseus Digital Library: the tragedies of Aeschylus, Sophocles and Euripides; Aristophanes and Plautus; the historians Herodotus, Thucydides (`!verse History of the Peloponnesian War 2.40`), Xenophon, Polybius, Livy, Tacitus and Suetonius; Plutarch's *Lives* and *Moralia*; Cicero, Caesar, Lucretius, Ovid, Horace, Lucian, Pausanias and the Greek orators. `!books` → Classical → The Perseus Library lists them by author.
 
-**Gnostic & related** — the **Gospel of Thomas**, 114 sayings of Jesus (`!verse Gospel of Thomas 77`), the **Nag Hammadi library** (41 texts), the Mandaean *Ginza Rba* and *Book of John*, and Manichaean psalms.
+<!-- texts: gnostic -->**Gnostic & related** — the **Gospel of Thomas**, 114 sayings of Jesus (`!verse Gospel of Thomas 77`), the **Nag Hammadi library** (41 texts), the Mandaean *Ginza Rba* and *Book of John*, and Manichaean psalms.
 
-**Further afield** — eight works of the **Bahá'í** faith, including the Kitáb-i-Aqdas; the Norse **Poetic Edda**; and the **ancient Near East**: the Epic of Gilgamesh, the Babylonian creation epic **Enuma Elish** (`!verse Enuma Elish 4`), the Canaanite Baal Cycle, the Egyptian Book of the Dead and Hymn to the Aten, the Wisdom of Ahikar, and the pre-Islamic Arabic Mu'allaqat poems. (I even have the Sermons of Vivec from *The Elder Scrolls*.)
+<!-- pack: comparative -->**Further afield** — eight works of the **Bahá'í** faith, including the Kitáb-i-Aqdas; the Norse **Poetic Edda**; and the **ancient Near East**: the Epic of Gilgamesh, the Babylonian creation epic **Enuma Elish** (`!verse Enuma Elish 4`), the Canaanite Baal Cycle, the Egyptian Book of the Dead and Hymn to the Aten, the Wisdom of Ahikar, and the pre-Islamic Arabic Mu'allaqat poems. (I even have the Sermons of Vivec from *The Elder Scrolls*.)
 
 Browse all of it with `!books`, or let me pick something at random with `!discover`.
 
 ## 📚 My library: Asia and the wider world
-**Hinduism** — the four **Vedas**; the **Bhagavad Gita** (every verse, in Shri Purohit Swami's translation: `!verse Gita 2:47`; or name one of five other translations, or the great commentaries of Shankara and Ramanuja: `!verse Gita 2:47 sivananda shankara`, `!help gita`); twelve **Upanishads**, the philosophical heart of the Vedas — the Isa, Katha and Kena, and in Max Müller's translation the Chandogya, Brihadaranyaka, Mundaka, Taittiriya and more (`!verse Chandogya Upanishad 6.8:7`: "thou, O Svetaketu, art it", the famous "Thou art that"); the **Yoga Sutras** of Patanjali (`!verse Yoga Sutras 1:2`); and the **Laws of Manu**.
+<!-- texts: hindu -->**Hinduism** — the four **Vedas**; the **Bhagavad Gita** (every verse, in Shri Purohit Swami's translation: `!verse Gita 2:47`; or name one of five other translations, or the great commentaries of Shankara and Ramanuja: `!verse Gita 2:47 sivananda shankara`, `!help gita`); twelve **Upanishads**, the philosophical heart of the Vedas — the Isa, Katha and Kena, and in Max Müller's translation the Chandogya, Brihadaranyaka, Mundaka, Taittiriya and more (`!verse Chandogya Upanishad 6.8:7`: "thou, O Svetaketu, art it", the famous "Thou art that"); the **Yoga Sutras** of Patanjali (`!verse Yoga Sutras 1:2`); and the **Laws of Manu**.
 
-**Sikhism** — the whole **Guru Granth Sahib**, the Sikh scripture, cited by page (*Ang*) and line as Sikhs cite it (`!verse Guru Granth Sahib 1:1`), and the **Japji**, Guru Nanak's morning prayer that opens it, by stanza (`!verse Japji 1`); Manmohan Singh's translation too (`!verse Guru Granth Sahib 1:1 manmohan`); the **Dasam Granth**, the writings of Guru Gobind Singh (`!verse Dasam Granth 1`); and the **Vaaran of Bhai Gurdas** (`!verse Bhai Gurdas 1:1`). `!help sikh` shows how to cite them.
+<!-- texts: sikh -->**Sikhism** — the whole **Guru Granth Sahib**, the Sikh scripture, cited by page (*Ang*) and line as Sikhs cite it (`!verse Guru Granth Sahib 1:1`), and the **Japji**, Guru Nanak's morning prayer that opens it, by stanza (`!verse Japji 1`); Manmohan Singh's translation too (`!verse Guru Granth Sahib 1:1 manmohan`); the **Dasam Granth**, the writings of Guru Gobind Singh (`!verse Dasam Granth 1`); and the **Vaaran of Bhai Gurdas** (`!verse Bhai Gurdas 1:1`). `!help sikh` shows how to cite them.
 
-**Jainism** — the oldest Jain scriptures: the **Akaranga Sutra** (the conduct of monks, cited book.lecture.lesson: `!verse Akaranga Sutra 1.1.1`), the **Sutrakritanga**, the **Uttaradhyayana Sutra** (Mahavira's last teachings) and the **Kalpa Sutra** (the lives of the Jinas).
+<!-- texts: jain -->**Jainism** — the oldest Jain scriptures: the **Akaranga Sutra** (the conduct of monks, cited book.lecture.lesson: `!verse Akaranga Sutra 1.1.1`), the **Sutrakritanga**, the **Uttaradhyayana Sutra** (Mahavira's last teachings) and the **Kalpa Sutra** (the lives of the Jinas).
 
-**Buddhism** — the whole **Pali Canon** of the earliest Buddhist scriptures, in Bhikkhu Sujato's translation, cited as Buddhists cite it (`!verse MN 1`, `!verse SN 56.11`, the first sermon; `!help buddhist`); the **Dhammapada** (the Buddha's sayings in verse: `!verse Dhammapada 183`), the **Sutta Nipāta** (some of the oldest teachings), all 547 **Jataka** tales of the Buddha's former lives (`!verse Jataka 7`), the **Questions of King Milinda**, and two great Mahayana sutras, the **Diamond Sutra** and the **Lotus Sutra**.
+<!-- texts: buddhist -->**Buddhism** — the whole **Pali Canon** of the earliest Buddhist scriptures, in Bhikkhu Sujato's translation, cited as Buddhists cite it (`!verse MN 1`, `!verse SN 56.11`, the first sermon; `!help buddhist`); the **Dhammapada** (the Buddha's sayings in verse: `!verse Dhammapada 183`), the **Sutta Nipāta** (some of the oldest teachings), all 547 **Jataka** tales of the Buddha's former lives (`!verse Jataka 7`), the **Questions of King Milinda**, and two great Mahayana sutras, the **Diamond Sutra** and the **Lotus Sutra**.
 
-**China and Japan** — the **Tao Te Ching** and the **Zhuangzi** (`!verse Zhuangzi 2`, the butterfly dream is at its end); Confucius's **Analects** (`!verse Analects 2.4`), **Mencius** (by book, part and chapter: `!verse Mencius 6.1.2`), the **Great Learning** and the **Doctrine of the Mean**; the **I Ching**; and Shinto's sacred histories, the **Kojiki** and the **Nihongi**.
+<!-- texts: chinese -->**China and Japan** — the **Tao Te Ching** and the **Zhuangzi** (`!verse Zhuangzi 2`, the butterfly dream is at its end); Confucius's **Analects** (`!verse Analects 2.4`), **Mencius** (by book, part and chapter: `!verse Mencius 6.1.2`), the **Great Learning** and the **Doctrine of the Mean**; the **I Ching**; and Shinto's sacred histories, the **Kojiki** and the **Nihongi**.
 
-**Persia, the Americas and old Europe** — the **Zoroastrian** scriptures: the **Gathas** (Zarathustra's own hymns), the **Yasna**, the **Yashts**, the **Vendidad** and the **Bundahishn**, the Zoroastrian account of creation; the Maya **Popol Vuh**; the Finnish **Kalevala**; and the Welsh **Mabinogion**.
+<!-- pack: comparative -->**Persia, the Americas and old Europe** — the **Zoroastrian** scriptures: the **Gathas** (Zarathustra's own hymns), the **Yasna**, the **Yashts**, the **Vendidad** and the **Bundahishn**, the Zoroastrian account of creation; the Maya **Popol Vuh**; the Finnish **Kalevala**; and the Welsh **Mabinogion**.
 
-`!search` and `!theme` know each of these as a tradition: `in:sikh`, `in:jain`, `in:shinto`, `in:zoroastrian`, `in:mesoamerican`, `in:finnish`, `in:celtic`.
+<!-- pack: comparative -->`!search` and `!theme` know each of these as a tradition: `in:sikh`, `in:jain`, `in:shinto`, `in:zoroastrian`, `in:mesoamerican`, `in:finnish`, `in:celtic`.
 
 ## 📖 Reading scripture
 **`!verse`** (or `!v`) is my main command.
 • `!verse John 3:16` — one verse · `!verse Genesis 1:1-5` — a range · `!verse John 7:53-8:11` — across chapters · `!verse Psalm 23` — a whole chapter, in pages
 • `!verse John 3:16 ESV` — in another translation · `!verse John 3:16 KJV ESV NIV` — several side by side
 • `!verse` — a random verse · `!verse Proverbs` — random from one book · `!verse bible nt` — random from the New Testament
-• Other traditions work the same way: `!verse Quran 2:255`, `!verse Enoch 1:9`, `!verse Berakhot 2a`, `!verse Gilgamesh 11`, `!verse Rig Veda 10.121:9`, `!verse Republic 514a` (Plato by the page-and-section numbers printed in every edition, or a stretch: `!verse Republic 514a-515c`), `!verse Iliad 6.440` (Homer by book and line)
+<!-- pack: comparative -->• Other traditions work the same way: `!verse Quran 2:255`, `!verse Enoch 1:9`, `!verse Berakhot 2a`, `!verse Gilgamesh 11`, `!verse Rig Veda 10.121:9`, `!verse Republic 514a` (Plato by the page-and-section numbers printed in every edition, or a stretch: `!verse Republic 514a-515c`), `!verse Iliad 6.440` (Homer by book and line)
 Abbreviations are fine (`Jn`, `1 Cor`, `Ps`). Bible verses come with the four study buttons, and any passage Gustave Doré engraved or William Blake painted gets a **🖼️ Doré** or **🎨 Blake** button too.
 
 **`!dore`** — Gustave Doré's famous engravings for the Bible (the Apocrypha included), the *Divine Comedy* and *Paradise Lost*, each tied to the verse or line it shows: `!dore Genesis 11` lists that chapter's engravings with the verse of each, `!dore Inferno 3:82` shows Charon's boat, `!dore Paradise Lost 1` Satan's fall; `!dore` alone shows one at random, and `!dore list` what there is.
@@ -135,30 +139,30 @@ Abbreviations are fine (`Jn`, `1 Cor`, `Ps`). Bible verses come with the four st
 
 ## 🎵 Hymns and psalms to sing
 **`!hymn amazing grace`** — a hymn's words, who wrote them and the tune, and the Bible passages it draws on. Search by title, first line, a line you remember from the words, a topic (`!hymn christmas`) or a passage (`!hymn Psalm 23` finds hymns based on it). `!hymn` alone picks one at random. Two buttons sit under each hymn:
-• **▶️ Play the tune** — the tune once through, in four parts on an organ, to play right in Discord.
-• **📖 Read the passages** — the Bible verses behind the hymn.
-• **🇬🇧 English** — on many Latin chants: a published English translation (the Prayer Book's, Neale's, Caswall's…).
-• **🎤 Sung** — on the Latin chants: sung in Latin by a synthesised choir.
-• **🎼 Score** — the chant in square notes, as chant books print it.
+<!-- pack: church -->• **▶️ Play the tune** — the tune once through, in four parts on an organ, to play right in Discord.
+<!-- pack: church -->• **📖 Read the passages** — the Bible verses behind the hymn.
+<!-- pack: church -->• **🇬🇧 English** — on many Latin chants: a published English translation (the Prayer Book's, Neale's, Caswall's…).
+<!-- pack: church -->• **🎤 Sung** — on the Latin chants: sung in Latin by a synthesised choir.
+<!-- pack: church -->• **🎼 Score** — the chant in square notes, as chant books print it.
 **`!chant pater noster`** — a Latin chant sung, straight away; `!chant` alone sings a random one.
 **`!midi amazing grace`** — just the tune, straight away: I skip the words and post the audio. It searches the same way as `!hymn`; `!midi` alone plays a random one.
 **`!hymnday`** — the hymn of the day, chosen for the Church year and the same for everyone: on a great feast that feast's hymn (*Veni Creator* at Pentecost, *Vexilla Regis* on Good Friday), in Advent, Lent or Eastertide one of the season's hymns, and the rest of the year an English hymn, a Latin chant and a Sacred Harp song in turn. `!hymnday 2026-12-25` shows another day's. Server admins can have it posted every morning with **`!hymndaysetup channel #hymns`** (`time 08:00` in UTC, `test`, `off`).
 **`!hymnlist`** — the whole hymnal by title: how many hymns are in each section, then `!hymnlist all` (every title, a page at a time), `!hymnlist chant` (just the Latin chant), `!hymnlist chant sequences`, or `!hymnlist veni` (titles with that word). Pick one from the list to open it.
-About 290 public-domain hymns and carols, from the Open Hymnal Project and Hymnary.org — and **720 ancient Latin hymns and chants in Gregorian chant**, with their Latin words and the chant melody to play: the hymns of the Church's daily prayer (*Te lucis ante terminum*, *Veni Creator Spiritus*, *Vexilla Regis*, *Pange lingua*), the great sequences (*Dies irae*, *Stabat Mater*, *Victimae paschali laudes*), the *Te Deum*, and the antiphons *Salve Regina*, *Regina caeli* and *Ubi caritas*. And **the whole Sacred Harp**, the American shape-note songbook: 550 songs, each sung in four parts with its words, such as *Idumea*, *Northfield* and *Babylon Is Fallen* (`!hymn Idumea`, `!hymnlist harp`; `!hymn harp` for a random one).
+<!-- pack: church -->About 290 public-domain hymns and carols, from the Open Hymnal Project and Hymnary.org — and **720 ancient Latin hymns and chants in Gregorian chant**, with their Latin words and the chant melody to play: the hymns of the Church's daily prayer (*Te lucis ante terminum*, *Veni Creator Spiritus*, *Vexilla Regis*, *Pange lingua*), the great sequences (*Dies irae*, *Stabat Mater*, *Victimae paschali laudes*), the *Te Deum*, and the antiphons *Salve Regina*, *Regina caeli* and *Ubi caritas*. And **the whole Sacred Harp**, the American shape-note songbook: 550 songs, each sung in four parts with its words, such as *Idumea*, *Northfield* and *Babylon Is Fallen* (`!hymn Idumea`, `!hymnlist harp`; `!hymn harp` for a random one).
 
 **`!metrical 23`** — a psalm from the **Scottish Metrical Psalter** of 1650: all 150 Psalms rewritten in rhyme and a steady beat so a whole congregation could sing them, still sung in Scottish churches today (it gave us *The Lord's my shepherd, I'll not want*). I show the psalm with its stanzas numbered by Bible verse, and the tune it's traditionally sung to:
-• **▶️ Play the tune** — one verse of the tune in four parts on an organ; every stanza is sung to it.
-• **The tune menu** — play the psalm to any other tune in the same rhythm, since any of them fits the words.
-• **📖 Read in the KJV** — the same psalm in ordinary prose, to compare.
-• **Second version** — some psalms (like Psalm 100) have two versions in the Psalter, and this switches between them. Ask for one directly with `!metrical 100b`.
-Long psalms have buttons to turn the page, or ask for some verses: `!metrical 119:105-112`. Psalm 119 shows its 22 parts under their Hebrew letters (Aleph, Beth, Gimel…), with a menu to jump between them; ask for one by name with `!metrical 119 nun`. You can also search the words (`!metrical shepherd`), list every psalm sung to a tune (`!metrical crimond`), or get a random one with `!metrical`. `!psalm 23 sing` does the same as `!metrical 23`.
+<!-- pack: church -->• **▶️ Play the tune** — one verse of the tune in four parts on an organ; every stanza is sung to it.
+<!-- pack: church -->• **The tune menu** — play the psalm to any other tune in the same rhythm, since any of them fits the words.
+<!-- pack: church -->• **📖 Read in the KJV** — the same psalm in ordinary prose, to compare.
+<!-- pack: church -->• **Second version** — some psalms (like Psalm 100) have two versions in the Psalter, and this switches between them. Ask for one directly with `!metrical 100b`.
+<!-- pack: church -->Long psalms have buttons to turn the page, or ask for some verses: `!metrical 119:105-112`. Psalm 119 shows its 22 parts under their Hebrew letters (Aleph, Beth, Gimel…), with a menu to jump between them; ask for one by name with `!metrical 119 nun`. You can also search the words (`!metrical shepherd`), list every psalm sung to a tune (`!metrical crimond`), or get a random one with `!metrical`. `!psalm 23 sing` does the same as `!metrical 23`.
 
 ## ⛪ Prayer, liturgy & the Church
 **`!today`** — what's happening today across traditions: the Catholic, Anglican and Orthodox calendars (feasts, saints, seasons, Orthodox fasting), the Hebrew date and Jewish holidays, and the Islamic date and holidays. Narrow it down with `!today catholic`, `!today orthodox`, `!today jewish`, `!today islam`; add a date with `!today 12-25`.
 
 **`!salah London`** — today's five Muslim prayer times for any city (Fajr at dawn, Dhuhr, Asr, Maghrib at sunset and Isha at night), worked out the way that country's Muslim authorities do. Add the country if a city name is ambiguous: `!salah Cairo, Egypt`.
 
-**The Daily Office** — Morning and Evening Prayer from the Book of Common Prayer (the Canadian 1962 Prayer Book, with Coverdale's Psalter):
+<!-- pack: protestant -->**The Daily Office** — Morning and Evening Prayer from the Book of Common Prayer (the Canadian 1962 Prayer Book, with Coverdale's Psalter):
 • `!bcp` — today's psalms, two readings and collect, for morning or evening depending on the time · `!bcp morning`, `!bcp evening`, `!bcp 2026-12-25`
 • `!mp` / `!ep` — just the readings for Morning or Evening Prayer
 • `!psalm` — today's appointed psalms (`!psalm ep` for the evening ones)
@@ -175,13 +179,13 @@ Long psalms have buttons to turn the page, or ask for some verses: `!metrical 11
 
 **`!creed`** — the Apostles', Nicene and Athanasian Creeds in traditional English: `!creed nicene`, with `latin` or `greek` for the original (`!creed nicene greek`) or `parallel` for all at once.
 
-**Catholic teaching**
+<!-- pack: catholic_teaching -->**Catholic teaching**
 • `!ccc 1` — a paragraph of the *Catechism of the Catholic Church* (`!ccc 1700-1715` for a range, `!ccc random`)
 • `!canon 1` — a canon of the Code of Canon Law
 • `!summa I.2.3` — an article of St Thomas Aquinas's *Summa Theologica* (Part I, Question 2, Article 3), or `!summa random`
 
 ## ☦️ The Orthodox Church
-The prayers, hymns and holy images of the Eastern Orthodox Church. (Its calendar and fasting days are in `!today orthodox`, and its daily prayers in `!prayer`, with their Greek: `!prayer jesus prayer`, `!prayer trisagion`, `!prayer list`.)
+<!-- pack: orthodox -->The prayers, hymns and holy images of the Eastern Orthodox Church. (Its calendar and fasting days are in `!today orthodox`, and its daily prayers in `!prayer`, with their Greek: `!prayer jesus prayer`, `!prayer trisagion`, `!prayer list`.)
 
 **`!troparion`** — the Orthodox hymns of the day: every day the Orthodox Church remembers its saints and feasts with a short hymn, the *troparion*, and a second, the *kontakion*. I give each, with the *tone* (one of eight melodies) it's sung to, from the Orthodox Church in America. Another day: `!troparion 12-25`. Admins: **`!troparionsetup channel #chan`** posts them every morning.
 
@@ -190,7 +194,7 @@ The prayers, hymns and holy images of the Eastern Orthodox Church. (Its calendar
 **`!divineliturgy`** — the Divine Liturgy of St John Chrysostom, the service most Orthodox churches celebrate every Sunday, a page at a time in an 1866 English translation: the spoken parts, with what the priest and deacon do in italics. ◀ ▶ turn the pages, and a menu jumps to any part (the Creed, the Cherubic Hymn, Holy Communion…), or ask for one: `!divineliturgy creed`.
 
 ## ✡️ Jewish learning
-Jews around the world study the same texts each day, in cycles that run through whole books. These come from Sefaria's learning calendar, and every text opens in the bot.
+<!-- pack: jewish_learning -->Jews around the world study the same texts each day, in cycles that run through whole books. These come from Sefaria's learning calendar, and every text opens in the bot.
 
 **`!parsha`** — this week's Torah portion: the section of the Five Books of Moses read in synagogue on Shabbat, so that the whole Torah is read in a year. You get what it's about, its seven readings and the passage from the Prophets read with it (the *Haftarah*). Another week: `!parsha 12-25`.
 
@@ -198,8 +202,15 @@ Jews around the world study the same texts each day, in cycles that run through 
 
 **`!learning`** — all of the day's cycles at once: the Torah portion, Daf Yomi, a Mishnah, Maimonides, a chapter of the Bible, a passage of Jewish law and more, each with the command to read it. Admins: **`!learningsetup channel #chan`** posts it every morning.
 
+## 🎲 Games
+**Play a game:** `!quiz` shows a verse and four buttons — which book is it from? `!quiz hard` mixes traditions (Proverbs? the Quran? the Norse Edda?), and you can quiz yourself on one tradition: `!quiz buddhist`, `!quiz chinese`, `!quiz hindu`, `!quiz classical`, `!quiz norse` and more. `!quiz leaderboard` shows this server's top scorers — this week (it starts fresh every Monday) and of all time. Everyone gets one guess; the answer is revealed after a minute. Get three or more right in a row and you'll see your 🔥 streak.
+
+**Versle**, the daily verse puzzle: `!versle` shows today's verse, the same one for everyone, and asks where in the Bible it is. Press **✍️ Guess** and type a verse; you get six tries. After each one I tell you privately how close you were: 🟩 right, 🟨 within three, ⬛ further off, for the book, the chapter and the verse, plus which way to go ("later in the Bible, by 5 books"). When you're done, **📣 Share my result** shows the channel your squares without giving the answer away. `!versle stats` shows your record and streak. A new verse comes at midnight UTC.
+
+**Who Am I?** `!whoami` picks a mystery person from the Bible and gives you one clue to start: how many verses name them and where in the Bible. Press **💡 Next clue** for an easier one: their family, where they were born and died, what their name means, a verse about them with the name hidden, the names of their relatives, and at last the first letter. Anyone in the channel can press **✍️ Guess** (one guess per clue each), and the first right answer wins. Press **🏳️ Give up** to see who it was.
+
 ## 🔮 Oracles
-For centuries people have sought guidance by opening a revered book at random or casting lots. I keep several of those traditions alive — for reflection and fun:
+<!-- pack: divination -->For centuries people have sought guidance by opening a revered book at random or casting lots. I keep several of those traditions alive — for reflection and fun:
 • `!virgil` — the *Sortes Vergilianae*: a random line from Virgil's *Aeneid*, as people did in the Middle Ages
 • `!homer` — I roll three dice and give you the matching answer from the *Homeromanteion*, an oracle preserved on an ancient Egyptian papyrus
 • `!delphi` — one of the maxims carved at the Temple of Apollo at Delphi
@@ -210,14 +221,8 @@ For centuries people have sought guidance by opening a revered book at random or
 • `!rumi` — the same with the *Masnavi* of Rumi, the 13th-century Sufi poet: I open it anywhere and read you a few couplets, with the story they come from
 • `!tarot` — draw a card from the Rider tarot of 1909, in Pamela Colman Smith's pictures, with what it means in A. E. Waite's own words (upside down if it falls reversed). `!tarot three` lays past, present and future, `!tarot celtic` Waite's ten-card Celtic Cross, and `!tarot the tower` shows any card
 
-**Play a game:** `!quiz` shows a verse and four buttons — which book is it from? `!quiz hard` mixes traditions (Proverbs? the Quran? the Norse Edda?), and you can quiz yourself on one tradition: `!quiz buddhist`, `!quiz chinese`, `!quiz hindu`, `!quiz classical`, `!quiz norse` and more. `!quiz leaderboard` shows this server's top scorers — this week (it starts fresh every Monday) and of all time. Everyone gets one guess; the answer is revealed after a minute. Get three or more right in a row and you'll see your 🔥 streak.
-
-**Versle**, the daily verse puzzle: `!versle` shows today's verse, the same one for everyone, and asks where in the Bible it is. Press **✍️ Guess** and type a verse; you get six tries. After each one I tell you privately how close you were: 🟩 right, 🟨 within three, ⬛ further off, for the book, the chapter and the verse, plus which way to go ("later in the Bible, by 5 books"). When you're done, **📣 Share my result** shows the channel your squares without giving the answer away. `!versle stats` shows your record and streak. A new verse comes at midnight UTC.
-
-**Who Am I?** `!whoami` picks a mystery person from the Bible and gives you one clue to start: how many verses name them and where in the Bible. Press **💡 Next clue** for an easier one: their family, where they were born and died, what their name means, a verse about them with the name hidden, the names of their relatives, and at last the first letter. Anyone in the channel can press **✍️ Guess** (one guess per clue each), and the first right answer wins. Press **🏳️ Give up** to see who it was.
-
 **Ask a question** by typing it after the command — `!virgil will I find work?` — and I'll show it with the answer.
-Every answer has a **🖼️ Card** button that turns it into an image to share.
+<!-- pack: divination -->Every answer has a **🖼️ Card** button that turns it into an image to share.
 
 ## 🌅 Every day, and just for you
 **`!votd`** — today's Verse of the Day. `!votd ESV` gives it in another translation; `!votd full` adds the ancient translations and a Church Father's commentary; `!votd extended` adds today's calendar too. Servers can have it posted automatically each day. Press **📅 Today's readings** under it to see that day's psalms and Bible readings for morning and evening prayer (from the Book of Common Prayer) — just for you.
@@ -243,6 +248,8 @@ These need the server's Administrator permission.
 • `!verslesetup channel #channel` — post each day's Versle puzzle in a channel, with yesterday's answer and how many people solved it. `!verslesetup time 07:00`, `!verslesetup test`, `!verslesetup off`
 • `!changelogsetup #channel` — where I announce my updates (like this channel); `!changelogsetup off` to stop
 • `!changelogintro` — post this introduction, followed by the latest updates, in the updates channel (`!changelogintro fresh` first clears my earlier messages there)
+• `!serversetup` (or `/setup traditions`) — tell me what this server is for: which traditions (Christianity, Judaism, Islam, Buddhism…), which church (and for Anglicans, how high church), and whether you'd like oracles and divination. I put away the commands and texts you won't use, so they stop cluttering `!help`, the `/` menu and searches; nothing is deleted, and you can change your mind any time
+• `!packs` — what this server has, and switch one thing on or off: `!packs divination off`, `!packs saints on`, or a tradition's texts, `!packs hindu on`
 • `!features` — optional extras, all off unless you turn them on: `!features react_save on` lets people bookmark a verse by reacting 📌, `!features streaks on` shows reading-plan streaks, `!features export on` lets people download their bookmarks with `!saved export`
 
 Below are my most recent updates — new ones will appear here as they happen. Welcome! 📖

@@ -10,7 +10,7 @@ import logging
 import re
 import time
 import traceback
-from scripture_lookup import BIBLE_NT, BIBLE_OT, ScriptureLookup
+from scripture_lookup import BIBLE_NT, BIBLE_OT, TRADITIONS, ScriptureLookup
 from pathlib import Path
 from discord.ext import commands
 from hadith_lookup import get_hadith_section
@@ -158,6 +158,8 @@ async def on_command_error(ctx, error):
         elif _unknown_cmd_counts[cmd] == _UNKNOWN_CMD_THRESHOLD + 1:
             log.warning(f"Unknown command !{cmd} seen {_UNKNOWN_CMD_THRESHOLD}+ times — suppressing further logs (likely another bot's prefix)")
         # else: silently ignored
+        return
+    if isinstance(error, PackDisabled):          # this server turned that command off
         return
     if isinstance(error, commands.MissingPermissions):
         await ctx.send("🔒 Only server admins can use that command.")
@@ -482,6 +484,137 @@ GUILD_FEATURES = {
 def _get_guild_features(guild_id: int) -> dict:
     g = _load_guild_config().get(str(guild_id), {})
     return {key: g.get(f"feature_{key}", False) for key in GUILD_FEATURES}
+
+# ── Packs: which commands, and which traditions' texts, a server has ─────────────
+# Chosen when the bot joins a server (bot_commands/packs.py asks its admins what traditions
+# they want) or later with /setup traditions and !packs. A server that never chose has
+# everything, so nothing changed for the servers the bot was already in. A command in a
+# turned-off pack drops out of that server's / menu and is ignored when typed; a turned-off
+# tradition's texts are left out of !verse, !search, !theme and !discover as though the bot
+# didn't have them. Commands in no pack (the Bible, study tools, games...) are always there.
+PACKS = {
+    "church": ("⛪ Christian worship & study", "Hymns, creeds, prayers, the church year and the Church Fathers' commentary",
+                  frozenset({"creed", "hymn", "hymnlist", "midi", "hymnday", "prayer", "today", "study", "catena",
+                             "metrical"})),
+    "protestant": ("✝️ Protestant & Anglican", "The Prayer Book's daily office and collects, and Puritan prayers",
+                   frozenset({"bcp", "mp", "ep", "psalm", "collect", "vov"})),
+    "saints": ("😇 Saints", "The saint of the day, from Butler's Lives of the Saints", frozenset({"saint"})),
+    "catholic_devotion": ("📿 Catholic devotions", "The Rosary, the Angelus and Latin chant",
+                          frozenset({"rosary", "angelus", "chant"})),
+    "catholic_teaching": ("📕 Catholic teaching", "The Catechism, canon law and Aquinas's Summa",
+                          frozenset({"ccc", "canon", "summa"})),
+    "orthodox": ("☦️ Orthodox", "Icons, the Divine Liturgy and the day's troparia",
+                 frozenset({"icon", "divineliturgy", "troparion"})),
+    "jewish_learning": ("✡️ Jewish learning", "The Torah portion, Daf Yomi, the day's learning and gematria",
+               frozenset({"parsha", "dafyomi", "learning", "gematria"})),
+    "islamic_prayer": ("☪️ Islamic prayer times", "The five daily prayer times", frozenset({"salah"})),
+    "comparative": ("🌐 Comparative religion", "The same story or theme as the world's traditions tell it",
+                    frozenset({"story", "theme"})),
+    "divination": ("🔮 Divination & esoteric", "Oracles, the I Ching, tarot, bibliomancy and William Blake",
+                   frozenset({"oracle", "virgil", "homer", "delphi", "iching", "hafez", "rumi", "sortesbiblicae",
+                              "tarot", "blake"})),
+}
+PACK_OF = {command: key for key, (_, _, commands_) in PACKS.items() for command in commands_}
+
+
+class PackDisabled(commands.CheckFailure):
+    """A typed command whose pack this server has turned off: ignored, without a reply."""
+
+
+def guild_packs(guild_id) -> frozenset:
+    if guild_id is None:
+        return frozenset(PACKS)
+    chosen = _load_guild_config().get(str(guild_id), {}).get("packs")
+    return frozenset(PACKS) if chosen is None else frozenset(chosen) & frozenset(PACKS)
+
+
+def command_enabled(guild_id, name: str) -> bool:
+    """Whether this server has the command (anything outside a server, or in no pack, always)."""
+    pack = PACK_OF.get(name)
+    return pack is None or guild_id is None or pack in guild_packs(guild_id)
+
+
+def guild_traditions(guild_id) -> frozenset:
+    """The TRADITIONS keys whose texts this server has (the Bible always)."""
+    if guild_id is None:
+        return frozenset(TRADITIONS)
+    chosen = _load_guild_config().get(str(guild_id), {}).get("traditions")
+    return frozenset(TRADITIONS) if chosen is None else (frozenset(chosen) | {"bible"}) & frozenset(TRADITIONS)
+
+
+def tradition_enabled(guild_id, key) -> bool:
+    return key is None or key in guild_traditions(guild_id)
+
+
+def guild_corpora(guild_id):
+    """The corpora holding this server's traditions, or None when it has them all."""
+    keys = guild_traditions(guild_id)
+    if keys == frozenset(TRADITIONS):
+        return None
+    return frozenset(corpus for key in keys for corpus in TRADITIONS[key][1])
+
+
+# Lines in !help and the introduction about a command or tradition a server has turned off are
+# left out there. A line goes when the commands it names (`!rosary`, `/vov`, `!help jewish`) are
+# all off, or when it's marked <!-- texts: hindu --> or <!-- pack: orthodox --> (for paragraphs
+# that name no command) and that one is off. The markers themselves never show.
+_MARKER = re.compile(r"<!--\s*(texts|pack):\s*(\w+)\s*-->\s*")
+_MENTION = re.compile(r"!help\s+([a-z]+)|(?<![\w/:.])[!/]([a-z]+)\b")
+_HELP_TOPIC_TRADITION = {"gita": "hindu", "ane": "neareast", "sikh": "sikh", "buddhist": "buddhist",
+                         "jewish": "jewish", "islamic": "islamic"}
+
+
+def _mention_enabled(name: str, guild_id):
+    """Whether this server has the command or help topic `name`; None for anything else."""
+    command = bot.get_command(name)
+    if command is not None and name.endswith("setup") and bot.get_command(name[:-5]) is not None:
+        command = bot.get_command(name[:-5])      # !saintsetup goes with !saint
+    if command is not None:
+        return command_enabled(guild_id, command.name)
+    key = _HELP_TOPIC_TRADITION.get(name)
+    return None if key is None else tradition_enabled(guild_id, key)
+
+
+def for_guild(text: str, guild_id) -> str:
+    """`text` as the server `guild_id` should see it (see above); None: every line, unmarked."""
+    lines = []
+    for line in text.split("\n"):
+        keep = True
+        for kind, key in _MARKER.findall(line):
+            if kind == "texts" and not tradition_enabled(guild_id, key):
+                keep = False
+            if kind == "pack" and key in PACKS and key not in guild_packs(guild_id):
+                keep = False
+        line = _MARKER.sub("", line)
+        if keep and guild_id is not None:
+            states = [state for state in (_mention_enabled(a or b, guild_id) for a, b in _MENTION.findall(line))
+                      if state is not None]
+            keep = not states or any(states)
+        if keep:
+            lines.append(line)
+    return re.sub(r"\n{3,}", "\n\n", "\n".join(lines)).strip()
+
+
+def embed_for_guild(embed: discord.Embed, guild_id) -> discord.Embed:
+    """The embed's fields and footer list (" · "-separated) without what the server turned off."""
+    if guild_id is None:
+        return embed
+    fields = [(f.name, for_guild(f.value, guild_id), f.inline) for f in embed.fields]
+    embed.clear_fields()
+    for name, value, inline in fields:
+        if value:
+            embed.add_field(name=name, value=value, inline=inline)
+    if embed.footer and embed.footer.text and " · " in embed.footer.text:
+        items = [item for item in embed.footer.text.split(" · ") if for_guild(item, guild_id)]
+        embed.set_footer(text=" · ".join(items))
+    return embed
+
+
+@bot.check
+async def _pack_check(ctx) -> bool:
+    if ctx.guild is not None and ctx.command is not None and not command_enabled(ctx.guild.id, ctx.command.name):
+        raise PackDisabled()
+    return True
 
 # ── Personal bookmarks ───────────────────────────────────────────────────────────
 BOOKMARKS_PATH = Path(__file__).parent / "data" / "bookmarks.json"

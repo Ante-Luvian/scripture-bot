@@ -10,7 +10,7 @@ import re
 import discord
 from discord.ext import commands
 
-from core import ROOT, _load_guild_config, _update_guild_config, bot, log
+from core import ROOT, _load_guild_config, _update_guild_config, bot, for_guild, log
 
 CHANGELOG_PATH = ROOT / "CHANGELOG.md"
 INTRO_PATH = ROOT / "INTRODUCTION.md"
@@ -106,23 +106,27 @@ def parse_sections(text: str) -> list[tuple[str, str]]:
     return sections
 
 
-def intro_embeds() -> list[discord.Embed]:
+def intro_sections(guild_id=None) -> list[tuple[str, str]]:
+    """The introduction's sections as the server `guild_id` should see them: without what
+    it has turned off (core.for_guild), and without sections that leaves empty."""
     try:
         text = INTRO_PATH.read_text(encoding="utf-8")
     except OSError:
         return []
+    sections = [(title, for_guild(body, guild_id)) for title, body in parse_sections(text)]
+    return [(title, body) for title, body in sections if body]
+
+
+def intro_embeds(guild_id=None) -> list[discord.Embed]:
     return [discord.Embed(title=title, description=body[:4096], color=discord.Color.dark_gold())
-            for title, body in parse_sections(text)]
+            for title, body in intro_sections(guild_id)]
 
 
-def intro_fingerprint() -> str:
-    """Changes whenever any introduction section's title or text changes."""
+def intro_fingerprint(guild_id=None) -> str:
+    """Changes whenever the introduction's text, or what the server sees of it, changes."""
     import hashlib
-    try:
-        text = INTRO_PATH.read_text(encoding="utf-8")
-    except OSError:
-        return ""
-    return hashlib.sha256(repr(parse_sections(text)).encode("utf-8")).hexdigest()
+    sections = intro_sections(guild_id)
+    return hashlib.sha256(repr(sections).encode("utf-8")).hexdigest() if sections else ""
 
 
 async def post_introduction(channel, guild_id: "int | None" = None) -> tuple[int, int]:
@@ -132,7 +136,7 @@ async def post_introduction(channel, guild_id: "int | None" = None) -> tuple[int
     hold the introduction (and a fingerprint of its text), so
     refresh_introductions can edit them in place when INTRODUCTION.md
     changes. Returns (sections, entries) posted."""
-    embeds = intro_embeds()
+    embeds = intro_embeds(guild_id)
     message_ids = []
     for embed in embeds:
         message = await channel.send(embed=embed)
@@ -142,7 +146,7 @@ async def post_introduction(channel, guild_id: "int | None" = None) -> tuple[int
         await channel.send(embed=entry_embed(entry))
     if guild_id is not None:
         _update_guild_config(guild_id, changelog_intro={
-            "channel_id": channel.id, "message_ids": message_ids, "fingerprint": intro_fingerprint()})
+            "channel_id": channel.id, "message_ids": message_ids, "fingerprint": intro_fingerprint(guild_id)})
     return len(embeds), len(recent)
 
 
@@ -152,10 +156,10 @@ async def refresh_introductions(client) -> int:
     old messages are deleted if it shrank; if it grew, new sections can't be
     inserted above the updates below them, so the owner is told to run
     `!changelogintro fresh`. Returns how many introductions were updated."""
-    current = intro_fingerprint()
-    embeds = intro_embeds()
     updated = 0
     for guild_id, g in _load_guild_config().items():
+        current = intro_fingerprint(int(guild_id))
+        embeds = intro_embeds(int(guild_id))
         intro = g.get("changelog_intro")
         if not intro or not current or intro.get("fingerprint") == current:
             continue

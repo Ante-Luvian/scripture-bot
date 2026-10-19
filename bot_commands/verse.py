@@ -25,8 +25,11 @@ from core import (
     _get_preferred_translation,
     _send_result,
     bot,
+    guild_corpora,
+    guild_traditions,
     log,
     lookup,
+    tradition_enabled,
 )
 
 # ── Prefix command  !verse ─────────────────────────────────────────────────────
@@ -155,7 +158,22 @@ def _study_buttons(result: dict) -> list:
     return [StudyButton(action, ref) for action in actions]
 
 
+def _guild_id(ctx):
+    return ctx.guild.id if getattr(ctx, "guild", None) else None
+
+
+def hidden_in_guild(ctx, result: dict) -> dict:
+    """`result`, or, when it's from a tradition this server has turned off, the reply for a
+    book I don't have: the server chose not to see those texts, so they stay out of sight."""
+    if not result.get("found") or tradition_enabled(_guild_id(ctx), result.get("tradition")):
+        return result
+    book = result.get("book") or re.sub(r"\s+[\d¶].*$", "", result.get("reference", ""))
+    return {"found": False, "error": f"Unknown book: **{discord.utils.escape_markdown(str(book))}**",
+            "suggestions": []}
+
+
 async def _send_with_study(ctx, result: dict):
+    result = hidden_in_guild(ctx, result)
     buttons = _study_buttons(result) + art_buttons(result)    # 🖼️ Doré · 🎨 Blake, wherever the passage has one
     await _send_result(ctx, result, extra_buttons=buttons)
 
@@ -166,7 +184,7 @@ async def verse_prefix(ctx, *, reference: str = ""):
 
     # No reference — fully random verse
     if not ref:
-        result = lookup.random_verse()
+        result = lookup.random_verse(traditions=guild_traditions(_guild_id(ctx)))
         log.info(f"RNG  random_verse          → {result.get('reference', '?')} (user: {ctx.author})")
         await _send_with_study(ctx, result)
         return
@@ -301,9 +319,9 @@ async def search_prefix(ctx, *, query: str = ""):
     m = re.search(r"(?:^|\s)in:(\S+)", query, flags=re.IGNORECASE)
     if m:
         key = tradition(m.group(1))
-        if key is None:
-            await ctx.send(f"I don't know the tradition **{m.group(1)}**. Try one of: "
-                           + ", ".join(f"`in:{k}`" for k in TRADITIONS))
+        if key not in guild_traditions(_guild_id(ctx)):
+            await ctx.send(f"I don't know the tradition **{discord.utils.escape_markdown(m.group(1))}**. Try one of: "
+                           + ", ".join(f"`in:{k}`" for k in TRADITIONS if k in guild_traditions(_guild_id(ctx))))
             return
         label, corpora = TRADITIONS[key]
         where = f" in {label}"
@@ -312,7 +330,10 @@ async def search_prefix(ctx, *, query: str = ""):
             await ctx.send("What should I search for? For example: `!search emptiness in:buddhist`")
             return
 
-    # Local corpus search — show overview first
+    # Local corpus search — show overview first (only in the traditions this server has)
+    allowed = guild_corpora(_guild_id(ctx))
+    if allowed is not None:
+        corpora = allowed & frozenset(corpora) if corpora else allowed
     async with ctx.typing():
         by_corpus = lookup.search_by_corpus(query, corpora)
 
@@ -364,6 +385,8 @@ async def cmd_theme(ctx, *, query: str = ""):
     import asyncio
     async with ctx.typing():
         passages = await asyncio.to_thread(lookup.theme_passages, query)
+    shown = {TRADITIONS[k][0] for k in guild_traditions(_guild_id(ctx))}
+    passages = [(label, hit) for label, hit in passages if label in shown]
     if not passages:
         await ctx.send(f"I couldn't find **{discord.utils.escape_markdown(query)}** in any tradition. "
                        f"A theme is a word or two, like `!theme mercy`.")
@@ -490,7 +513,7 @@ def _build_corpus_results_embed(query: str, corpus_label: str, hits: list,
 @bot.command(name="discover")
 async def cmd_discover(ctx):
     """Random passage from any loaded tradition — scripture, patristics, classical texts, and more."""
-    result = lookup.random_verse()
+    result = lookup.random_verse(traditions=guild_traditions(_guild_id(ctx)))
     log.info(f"RNG  discover               → {result.get('reference', '?')} (user: {ctx.author})")
     await _send_result(ctx, result)
 

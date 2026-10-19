@@ -8,7 +8,7 @@ import pytest
 # Owner/maintenance tools that stay prefix-only
 PREFIX_ONLY = {"guildactivity", "scanstats", "votdmode"}
 # Admin commands; their slash forms are subcommands of /setup (Discord allows 100 slash commands)
-ADMIN_SLASH = {"votdsetup", "oraclesetup", "quizsetup", "verslesetup", "hymndaysetup", "saintsetup", "angelussetup", "troparionsetup", "learningsetup", "changelogsetup", "changelogintro", "features"}
+ADMIN_SLASH = {"votdsetup", "oraclesetup", "quizsetup", "verslesetup", "hymndaysetup", "saintsetup", "angelussetup", "troparionsetup", "learningsetup", "changelogsetup", "changelogintro", "features", "serversetup", "packs"}
 
 
 def test_every_command_has_a_slash_version(bot_module):

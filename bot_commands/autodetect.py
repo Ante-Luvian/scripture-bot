@@ -6,11 +6,11 @@ import re
 from scripture_lookup import ALIASES, DRB_SUFFIXES, KNOX_SUFFIXES, get_verse_drb, get_verse_knox
 from translation_lookup import TRANSLATION_SUFFIXES, get_translation
 from bot_commands.dore import art_buttons
+from bot_commands.packs import welcome
 from bot_commands.verse import (
     _study_buttons,
 )
 from core import (
-    GUILD_FEATURES,
     _AUTO_RE,
     _build_embed,
     _get_guild_features,
@@ -18,6 +18,7 @@ from core import (
     _save_bookmarks,
     bot,
     lookup,
+    tradition_enabled,
 )
 
 # ── Auto-detection ─────────────────────────────────────────────────────────────
@@ -43,37 +44,8 @@ def _trim_to_book(raw: str) -> str:
 
 @bot.event
 async def on_guild_join(guild: discord.Guild):
-    """Introduce the opt-in features to a new server's admins."""
-    channel = guild.system_channel
-    if channel is None or not channel.permissions_for(guild.me).send_messages:
-        channel = next(
-            (c for c in guild.text_channels if c.permissions_for(guild.me).send_messages),
-            None,
-        )
-    if channel is None:
-        return
-
-    embed = discord.Embed(
-        title="📖 Thanks for adding ScriptureBot!",
-        description=(
-            "I'm a library of sacred and ancient texts — try `!verse John 3:16`, `!discover`, or `!virgil`. "
-            "`!help` lists everything.\n\n"
-            "**Worth setting up (admins):**\n"
-            "• `!changelogsetup #channel` then `!changelogintro` — a channel that introduces me to "
-            "everyone (what I can do, every command explained) and where I announce my updates\n"
-            "• `!votdsetup channel #channel` — a daily Verse of the Day\n"
-            "• `!oraclesetup channel #channel` — a daily oracle (Virgil, Homer, Delphi…)\n"
-            "• `!quizsetup channel #channel` — a daily quiz question: which book is this verse from?\n\n"
-            "**Optional features (all off by default)** — turn on with `!features <name> on`:\n"
-            + "\n".join(f"• `{k}` — {v}" for k, v in GUILD_FEATURES.items())
-        ),
-        color=discord.Color.dark_gold(),
-    )
-    embed.set_footer(text="!help <command> explains any command in detail")
-    try:
-        await channel.send(embed=embed)
-    except discord.Forbidden:
-        pass
+    """Welcome a new server, and ask its admins what it's for (bot_commands/packs.py)."""
+    await welcome(guild)
 
 
 @bot.event
@@ -140,16 +112,17 @@ async def on_message(message: discord.Message):
     if message.content.startswith("!"):
         return
 
-    for embed, view in find_verses(message.content, limit=3):
+    for embed, view in find_verses(message.content, limit=3, guild_id=getattr(getattr(message, "guild", None), "id", None)):
         if view is not None:
             await message.channel.send(embed=embed, view=view)
         else:
             await message.channel.send(embed=embed)
 
 
-def find_verses(content: str, limit: int = 3) -> list:
+def find_verses(content: str, limit: int = 3, guild_id=None) -> list:
     """[(embed, study-button view or None), ...] for the first `limit`
-    references in `content` that resolve to real verses."""
+    references in `content` that resolve to real verses (in the traditions
+    the server `guild_id` has)."""
     matches = _AUTO_RE.findall(content)
 
     # De-duplicate while preserving order
@@ -180,7 +153,7 @@ def find_verses(content: str, limit: int = 3) -> list:
         else:
             result = lookup.get_verse(ref)
 
-        if result["found"]:
+        if result["found"] and tradition_enabled(guild_id, result.get("tradition")):
             replies.append((_build_embed(result), result))
 
     out = []
@@ -206,7 +179,7 @@ CONTEXT_MENU_LIMIT = 5
 
 @bot.tree.context_menu(name="Look up verses")
 async def look_up_verses(interaction: discord.Interaction, message: discord.Message):
-    found = find_verses(message.content or "", limit=CONTEXT_MENU_LIMIT)
+    found = find_verses(message.content or "", limit=CONTEXT_MENU_LIMIT, guild_id=getattr(interaction, "guild_id", None))
     if not found:
         await interaction.response.send_message(
             "I couldn't find any scripture references in that message (like `John 3:16`).", ephemeral=True)

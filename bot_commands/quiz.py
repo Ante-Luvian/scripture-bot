@@ -17,7 +17,7 @@ import discord
 from discord import app_commands
 from discord.ext import commands, tasks
 
-from core import ROOT, _atomic_write_json, _load_guild_config, _update_guild_config, bot, log, lookup
+from core import ROOT, _atomic_write_json, _load_guild_config, _update_guild_config, bot, guild_traditions, log, lookup
 from scripture_lookup import BIBLE_NT, BIBLE_OT, TRADITIONS, tradition
 
 QUIZ_SCORES_PATH = ROOT / "data" / "quiz_scores.json"
@@ -87,9 +87,16 @@ def _usable(text: str) -> bool:
     return len(text) >= 25 and "no recoverable text" not in text.lower()
 
 
-def make_question(hard: bool = False, rng: random.Random = random, tradition: str = "") -> "dict | None":
+def make_question(hard: bool = False, rng: random.Random = random, tradition: str = "",
+                  traditions=None) -> "dict | None":
     """{"text", "answer", "choices": [up to 4 names, shuffled], "reference"} or
-    None. `tradition`: a QUIZ_POOLS key, for a question within one tradition."""
+    None. `tradition`: a QUIZ_POOLS key, for a question within one tradition;
+    `traditions`: the TRADITIONS keys a hard question may come from (None: any)."""
+    hard_pool = [(book, name) for book, name in HARD_POOL
+                 if traditions is None or lookup.tradition_of({"book": book}) in set(traditions) | {None}]
+    if len(hard_pool) < 4:
+        hard_pool = HARD_POOL if traditions is None else [(b, n) for b, n in HARD_POOL
+                                                           if lookup.tradition_of({"book": b}) == "bible"]
     for _ in range(10):
         if tradition:
             pool = QUIZ_POOLS[tradition]
@@ -104,9 +111,9 @@ def make_question(hard: bool = False, rng: random.Random = random, tradition: st
             return {"text": text, "answer": answer, "choices": choices, "reference": result.get("reference", ""),
                     "tradition": tradition}
         if hard:
-            book, answer = rng.choice(HARD_POOL)
+            book, answer = rng.choice(hard_pool)
             result = lookup.random_verse_from_book(book)
-            others = [name for _, name in HARD_POOL if name != answer]
+            others = [name for _, name in hard_pool if name != answer]
         else:
             testament = BIBLE_OT if rng.random() < 0.6 else BIBLE_NT
             result = lookup.random_verse_from_books(testament)
@@ -295,13 +302,15 @@ async def cmd_quiz(ctx, *, mode: str = ""):
         await ctx.send(embed=leaderboard_embed(guild.id if guild else None),
                        allowed_mentions=discord.AllowedMentions.none())
         return
+    guild = getattr(ctx, "guild", None)
+    allowed = guild_traditions(guild.id if guild else None)
     key = tradition(mode) if mode not in ("", "hard") else None
-    if mode and mode != "hard" and key != "bible" and key not in QUIZ_POOLS:
+    if mode and mode != "hard" and key != "bible" and (key not in QUIZ_POOLS or key not in allowed):
         await ctx.send("Pick a quiz: `!quiz` (the Bible), `!quiz hard` (many traditions), or one tradition: "
-                       + ", ".join(f"`!quiz {k}`" for k in QUIZ_POOLS) + ".")
+                       + ", ".join(f"`!quiz {k}`" for k in QUIZ_POOLS if k in allowed) + ".")
         return
     hard = mode == "hard"
-    question = make_question(hard, tradition=key if key in QUIZ_POOLS else "")
+    question = make_question(hard, tradition=key if key in QUIZ_POOLS else "", traditions=allowed)
     if question is None:
         await ctx.send("⚠️ I couldn't come up with a question just now — try again.")
         return

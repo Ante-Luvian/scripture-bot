@@ -14,7 +14,7 @@ import urllib.request
 import discord
 from discord.ext import commands, tasks
 
-from core import (ROOT, _atomic_write_json, _load_guild_config, _send_result, _update_guild_config, bot, log,
+from core import (command_enabled, ROOT, _atomic_write_json, _load_guild_config, _send_result, _update_guild_config, bot, log,
                   lookup)
 
 LEARNING_PATH = ROOT / "data" / "learning.json"     # {"posted": {guild id: "YYYY-MM-DD"}}
@@ -258,6 +258,8 @@ async def run_daily_learning(client, day: datetime.date, current_hm: str) -> int
     for guild_id, g in _load_guild_config().items():
         channel_id = g.get("learning_channel_id")
         if not channel_id or g.get("learning_time", DEFAULT_TIME) != current_hm:
+            continue
+        if not command_enabled(int(guild_id), "learning"):   # the server turned it off
             continue
         channel = client.get_channel(int(channel_id))
         if channel is None:

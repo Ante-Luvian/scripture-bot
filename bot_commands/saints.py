@@ -20,7 +20,7 @@ import zlib
 import discord
 from discord.ext import commands, tasks
 
-from core import ROOT, _atomic_write_json, _load_guild_config, _update_guild_config, bot, log
+from core import command_enabled, ROOT, _atomic_write_json, _load_guild_config, _update_guild_config, bot, log
 
 SAINTS_PATH = ROOT / "data" / "saints" / "saints.json"
 GOLDEN_LEGEND_PATH = ROOT / "data" / "medieval" / "golden_legend.json"
@@ -296,6 +296,8 @@ async def run_daily_saints(client, day: datetime.date, current_hm: str) -> int:
     for guild_id, g in _load_guild_config().items():
         channel_id = g.get("saintday_channel_id")
         if not channel_id or g.get("saintday_time", DEFAULT_SAINTDAY_TIME) != current_hm:
+            continue
+        if not command_enabled(int(guild_id), "saint"):   # the server turned it off
             continue
         channel = client.get_channel(int(channel_id))
         if channel is None:

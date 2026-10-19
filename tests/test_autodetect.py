@@ -71,8 +71,13 @@ def test_references_mid_sentence_are_found(autodetect, monkeypatch, text, expect
     assert sent and expected in sent[0]["embed"].description
 
 
-def test_welcome_message_points_to_the_setup_commands(autodetect, bot_module):
+def test_welcome_message_points_to_the_setup_commands(autodetect, bot_module, monkeypatch):
+    from bot_commands import packs
     sent = []
+
+    async def no_sync(guild, tree=None):
+        return 0
+    monkeypatch.setattr(packs, "sync_guild", no_sync)
 
     class Channel:
         def permissions_for(self, member):
@@ -84,9 +89,11 @@ def test_welcome_message_points_to_the_setup_commands(autodetect, bot_module):
     guild = type("Guild", (), {"system_channel": Channel(), "me": object(), "text_channels": []})()
     asyncio.run(autodetect.on_guild_join(guild))
     text = sent[0]["embed"].description
-    for command in ("!changelogsetup", "!changelogintro", "!votdsetup", "!oraclesetup", "!features"):
-        assert command in text
-        assert bot_module.bot.get_command(command[1:]) is not None   # and it's real
+    setup = bot_module.bot.tree.get_command("setup")
+    for sub in ("changelog", "intro", "votd", "quiz"):
+        assert f"/setup {sub}" in text
+        assert setup.get_command(sub) is not None                    # and it's real
+    assert "Set me up" in text and setup.get_command("traditions") is not None
 
 
 def test_ordinary_chat_gets_no_reply(autodetect, monkeypatch):

@@ -177,6 +177,9 @@
   "oraclesetup": [
    "oracleconfig"
   ],
+  "packs": [
+   "pack"
+  ],
   "parallel": [
    "classical",
    "par",
@@ -251,6 +254,9 @@
   ],
   "search": [
    "find"
+  ],
+  "serversetup": [
+   "onboard"
   ],
   "sortesbiblicae": [
    "biblicae",

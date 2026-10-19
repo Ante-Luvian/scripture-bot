@@ -14,6 +14,7 @@ from bot_commands.verse import (
 )
 from discord.ext import commands, tasks
 from core import (
+    command_enabled,
     _load_guild_config,
     _update_guild_config,
     bot,
@@ -758,6 +759,8 @@ async def run_daily_oracles(client, current_hm: str) -> int:
     for guild_id, g in _load_guild_config().items():
         channel_id = g.get("oracle_channel_id")
         if not channel_id or g.get("oracle_time", "12:00") != current_hm:
+            continue
+        if not command_enabled(int(guild_id), "oracle"):   # the server turned it off
             continue
         channel = client.get_channel(int(channel_id))
         if channel is None:
