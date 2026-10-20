@@ -123,6 +123,8 @@ TERT_FILES = re.compile(r"^(patristics/.*|classical/julian\.json)$")
 def greek_from_tertullian(text: str) -> str:
     def swap(m):
         tok = m.group(1)
+        if re.fullmatch(r"[A-Za-z]+\[[A-Za-z]+\]", tok):           # English, a word completed in brackets:
+            return tok                                             # "mouth[s]", "no[thing]", not Beta Code
         core = re.sub(r"(?<=[A-Za-z])[)(\]\[]+$", "", tok)          # a closing bracket, not a breathing
         if not _TERT_MARK.search(core) and not _BETA_MARK.search(core):
             return tok

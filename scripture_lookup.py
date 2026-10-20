@@ -893,6 +893,10 @@ ALIASES: dict[str, str] = {
     "sayings of the holy fathers": "Sayings of the Desert Fathers", "apophthegmata": "Sayings of the Desert Fathers",
     "apophthegmata patrum": "Sayings of the Desert Fathers", "paradise of the fathers": "Sayings of the Desert Fathers",
     "paradise of the holy fathers": "Sayings of the Desert Fathers",
+    "paradise of palladius": "The Paradise of Palladius",
+    "rule of pachomius": "The Rule of Pachomius", "pachomian rule": "The Rule of Pachomius",
+    "history of the monks": "The History of the Monks of Egypt", "historia monachorum": "The History of the Monks of Egypt",
+    "history of the monks of egypt": "The History of the Monks of Egypt",
     # the Philokalia (philokalia.json)
     "chapters on love": "Four Hundred Texts on Love", "four hundred chapters on love": "Four Hundred Texts on Love",
     "on prayer evagrios": "On Prayer: One Hundred and Fifty-Three Texts (Evagrios the Solitary)",
@@ -1889,8 +1893,8 @@ class ScriptureLookup:
                 "anatolius_and_minor_writers.json",
                 # ── The Philokalia (scripts/build_philokalia.py) ──────────
                 "philokalia.json",
-                # ── Budge's Sayings of the Fathers (scripts/build_desert_fathers.py)
-                "desert_fathers.json",
+                # ── Budge's Paradise of the Holy Fathers, from Wikisource (scripts/build_paradise.py)
+                "paradise_of_the_fathers.json",
             ],
             "medieval": [
                 "bede.json",
