@@ -154,7 +154,27 @@ def clean_text(text: str, rel: str) -> str:
     text = re.sub(r"(?<=\w)_(?=\w)", " ", text)
     text = re.sub(r"(?<![\w*])_(?=\w)|(?<=[\w.,;:!?])_(?![\w*])", "", text)   # an unpaired one
     text = re.sub(r"(\w)~ (\w)", r"\1\2", text)          # a broken hyphenation: "recog~ nised"
-    return text
+    text = re.sub(r"[ \t]*\}\}-->[ \t]*", " ", text).strip()    # the end of an HTML comment (NewAdvent)
+    text = re.sub(r"\[\[([^\[\]\n]*)\]\]", r"[\1]", text)        # "[[Greek: aktines]]"
+    return _unpaired_stars(text)
+
+
+_PAIRED = re.compile(r"\*\*(?=\S)[^*\n]+?(?<=\S)\*\*|(?<!\*)\*(?=[^\s*])[^*\n]*?(?<=[^\s*])\*(?!\*)")
+
+
+def _unpaired_stars(text: str) -> str:
+    """Without the asterisks that italicise nothing (footnote marks: "thoughts,* he"; "* * *"), which
+    would leave Discord's italics open."""
+    if "*" not in text:
+        return text
+    keep = {i for m in _PAIRED.finditer(text) for i in range(m.start(), m.end())}
+    out = "".join(ch if ch != "*" or i in keep else
+                  (" " if 0 < i < len(text) - 1 and text[i - 1].isalnum() and text[i + 1].isalnum() else "")
+                  for i, ch in enumerate(text))
+    if out != text:
+        out = re.sub(r"[ \t]{2,}", " ", out)
+        out = "\n".join(line.strip() for line in out.split("\n")).strip()
+    return out
 
 
 def clean_corpus(payload: dict, rel: str) -> int:

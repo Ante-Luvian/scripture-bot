@@ -888,6 +888,11 @@ ALIASES: dict[str, str] = {
     "mara bar serapion": "Letter of Mara, Son of Serapion", "letter of mara bar serapion": "Letter of Mara, Son of Serapion",
     "testament of abraham": "The Testament of Abraham: First Version",
     "nativity hymns": "Hymns on the Nativity", "epiphany hymns": "Hymns for the Feast of the Epiphany",
+    # Budge's Paradise of the Holy Fathers, Vol. II (desert_fathers.json)
+    "desert fathers": "Sayings of the Desert Fathers", "sayings of the fathers": "Sayings of the Desert Fathers",
+    "sayings of the holy fathers": "Sayings of the Desert Fathers", "apophthegmata": "Sayings of the Desert Fathers",
+    "apophthegmata patrum": "Sayings of the Desert Fathers", "paradise of the fathers": "Sayings of the Desert Fathers",
+    "paradise of the holy fathers": "Sayings of the Desert Fathers",
     # the Philokalia (philokalia.json)
     "chapters on love": "Four Hundred Texts on Love", "four hundred chapters on love": "Four Hundred Texts on Love",
     "on prayer evagrios": "On Prayer: One Hundred and Fifty-Three Texts (Evagrios the Solitary)",
@@ -1884,6 +1889,8 @@ class ScriptureLookup:
                 "anatolius_and_minor_writers.json",
                 # ── The Philokalia (scripts/build_philokalia.py) ──────────
                 "philokalia.json",
+                # ── Budge's Sayings of the Fathers (scripts/build_desert_fathers.py)
+                "desert_fathers.json",
             ],
             "medieval": [
                 "bede.json",
