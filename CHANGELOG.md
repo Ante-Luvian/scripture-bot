@@ -14,6 +14,12 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-20 · Aesop's Fables, and !fable
+- 🦊 **New command, `!fable`: one of Aesop's Fables.** These are the short Greek stories, told for some 2,500 years, in which animals act like people and each tale ends with a lesson: the hare and the tortoise, the boy who cried wolf, the fox and the grapes. All 313 fables of George Fyler Townsend's well-known Victorian translation are here. Try `!fable` for one at random.
+- 🔎 **Find the one you want.** `!fable fox` gives you a fable with the fox in its title (there are dozens), `!fable lion and mouse` finds one by its name, `!fable 12` by its number, and `!fable list` shows every title, a page at a time. Press **🎲 Another** for another of the same kind. It's also `!aesop`, or `/fable`.
+- 🖼️ **Every fable has a Card button.** It makes a picture of the fable on a page with a Greek-key border, the text *justified* so it lines up on both edges like a printed book, with the title underneath, ready to save or share.
+- 📖 **The fables are in the library as well**, so `!verse Aesop 12` shows a fable as plain text, with the new ◀ Previous and Next ▶ buttons to read on, and `!books` has them under Classical → Fables.
+
 ## 2026-10-20 · Read on from any passage, and phone-sized pages
 - ▶️ **New buttons under a passage: ◀ Previous, Next ▶ and 📖 Whole chapter.** They work for any text in the library, not just the Bible: Plato, the Gita, the Church Fathers, the Enuma Elish and the rest. Press **Next** and the message turns into the passage that follows, so you can read on without filling the channel; at the end of a chapter it carries on into the next one. **Whole chapter** brings up the chapter the passage is from, and when you're already looking at a whole chapter, the arrows step a chapter at a time. Try `!verse Timaeus 67` and press **Next**. (Bible translations fetched from the internet, such as the ESV, and the Talmud don't have these buttons yet, because the bot only sees the one passage it was given.)
 - 📱 **Long passages come in smaller pages.** A long passage used to arrive as several huge messages in a row, about three phone screens of text. Now it's one message with pages of about a screen each, and ◀ ▶ to turn them. Nothing is cut: every page is there. Try `!verse John 6`.
