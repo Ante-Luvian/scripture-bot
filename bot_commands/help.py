@@ -52,6 +52,7 @@ HELP_MENU = [
     ('📜 Classical & Poetic', [
         '`!parallel` — Homer, Virgil, Ovid, Heliand, Plato + more · `!help parallel`',
         "`!blake` — Blake's illuminated books · `!dore` — Doré's engravings · `!help dore`",
+        "`!fable` — one of Aesop's Fables, or `!fable fox`, `!fable list` · `!help fable`",
     ]),
     ('⛪ Catholic', [
         '`!ccc` — Catechism · `!help ccc`',
@@ -1233,6 +1234,22 @@ async def cmd_help(ctx, *, topic: str = ""):
             "`!desert anger` — one with those words in it\n\n"
             "**🎲 Another** draws again from the same father or topic. Also `!apophthegm`, and "
             "`!verse Sayings of the Desert Fathers 1:303` for the plain text."
+        )
+        await ctx.send(embed=embed)
+        return
+
+    if topic in ("fable", "fables", "aesop"):
+        embed = discord.Embed(title="🦊 !fable — Aesop's Fables", color=discord.Color.dark_gold())
+        embed.description = (
+            "The 313 fables of George Fyler Townsend's translation (1867): short Greek stories, mostly of "
+            "animals, each with its lesson.\n\n"
+            "`!fable` — a fable at random\n"
+            "`!fable fox` — one with the fox in its title (or, failing that, one that mentions it)\n"
+            "`!fable lion and mouse` — one by its title\n"
+            "`!fable 12` — one by its number\n"
+            "`!fable list` — all the titles, a page at a time\n\n"
+            "**🎲 Another** draws again from the same kind, and **🖼️ Card** makes an image of the fable, set "
+            "justified like a printed book. Also `!aesop`, and `!verse Aesop 12` for the plain text."
         )
         await ctx.send(embed=embed)
         return

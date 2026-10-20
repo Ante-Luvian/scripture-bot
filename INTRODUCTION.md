@@ -74,7 +74,9 @@ Browse all of it with `!books`, or let me pick something at random with `!discov
 • `!verse John 3:16 ESV` — in another translation · `!verse John 3:16 KJV ESV NKJV` — several side by side
 • `!verse` — a random verse · `!verse Proverbs` — random from one book · `!verse bible nt` — random from the New Testament
 <!-- pack: comparative -->• Other traditions work the same way: `!verse Quran 2:255`, `!verse Enoch 1:9`, `!verse Berakhot 2a`, `!verse Gilgamesh 11`, `!verse Rig Veda 10.121:9`, `!verse Republic 514a` (Plato by the page-and-section numbers printed in every edition, or a stretch: `!verse Republic 514a-515c`), `!verse Iliad 6.440` (Homer by book and line)
-Abbreviations are fine (`Jn`, `1 Cor`, `Ps`). Bible verses come with the four study buttons, and any passage Gustave Doré engraved or William Blake painted gets a **🖼️ Doré** or **🎨 Blake** button too.
+Abbreviations are fine (`Jn`, `1 Cor`, `Ps`). Bible verses come with the four study buttons, and any passage Gustave Doré engraved or William Blake painted gets a **🖼️ Doré** or **🎨 Blake** button too. Under a passage from any of my texts, **◀ Previous** and **Next ▶** read on and **📖 Whole chapter** opens its chapter.
+
+**`!fable`** — one of Aesop's Fables (313 of them, in Townsend's translation): `!fable` at random, `!fable fox` one with the fox in its title, `!fable lion and mouse` by name, `!fable 12` by number, `!fable list` all the titles. **🖼️ Card** makes a picture of the fable you can save or share.
 
 **`!dore`** — Gustave Doré's famous engravings for the Bible (the Apocrypha included), the *Divine Comedy* and *Paradise Lost*, each tied to the verse or line it shows: `!dore Genesis 11` lists that chapter's engravings with the verse of each, `!dore Inferno 3:82` shows Charon's boat, `!dore Paradise Lost 1` Satan's fall; `!dore` alone shows one at random, and `!dore list` what there is.
 

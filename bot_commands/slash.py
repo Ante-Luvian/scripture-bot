@@ -383,6 +383,13 @@ async def desert_slash(interaction: discord.Interaction, about: str = ""):
     await _command("desert")(ctx, query=about)
 
 
+@bot.tree.command(name="fable", description="One of Aesop's Fables")
+@app_commands.describe(about="An animal or title (fox, lion and mouse), a number (12), 'list', or empty for any")
+async def fable_slash(interaction: discord.Interaction, about: str = ""):
+    ctx = await _slash_ctx(interaction)
+    await _command("fable")(ctx, query=about)
+
+
 @bot.tree.command(name="cloud", description="A book's most distinctive words, drawn as a word cloud")
 @app_commands.describe(book="A book, e.g. Ecclesiastes, Revelation, Tao Te Ching")
 async def cloud_slash(interaction: discord.Interaction, book: str):

@@ -84,6 +84,10 @@
   ],
   "errors": [],
   "export": [],
+  "fable": [
+   "aesop",
+   "fables"
+  ],
   "features": [],
   "gematria": [
    "gem",
@@ -397,6 +401,7 @@
   "dore",
   "ep",
   "export",
+  "fable",
   "gematria",
   "hafez",
   "harmony",

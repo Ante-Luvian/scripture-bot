@@ -506,6 +506,9 @@ BOOKS_TREE = [
             ("Homer", ["Iliad", "Odyssey"]),
             ("Virgil", ["Aeneid"]),
         ]),
+        ("Fables", [
+            ("Aesop", ["Aesop's Fables"]),
+        ]),
         ("Theogonies & Hymns", [
             ("Hesiod", ["Theogony", "Works and Days", "Shield of Heracles"]),
             ("Homeric", ["Homeric Hymns"]),

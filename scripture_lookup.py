@@ -851,6 +851,9 @@ ALIASES: dict[str, str] = {
     # ── Porphyry additions ─────────────────────────────────────────────────────
     "life of plotinus": "Life of Plotinus",
     "porphyry life of plotinus": "Life of Plotinus",
+    # Aesop (Townsend), one chapter a fable
+    "aesop": "Aesop's Fables", "aesops fables": "Aesop's Fables", "aesop's fables": "Aesop's Fables",
+    "fables": "Aesop's Fables", "fables of aesop": "Aesop's Fables", "aesop fables": "Aesop's Fables",
     # 36 Lessons of Vivec
     "vivec": "Vivec",
     "lessons of vivec": "Vivec",
@@ -1692,6 +1695,7 @@ class ScriptureLookup:
                 "julian.json",
                 "sallustius.json",
                 "isis_and_osiris.json",          # Plutarch (Babbitt): not in the Perseus Plutarch
+                "aesop.json",                    # Townsend (scripts/build_aesop.py)
                 "proclus_theology.json",
                 "hierocles.json",
                 "marinus.json",
