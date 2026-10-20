@@ -65,8 +65,11 @@ def test_message_pages_a_long_saying_without_losing_any(desert):
 def test_heading_is_left_out_of_the_saying(desert):
     m = desert.message("1", 183)
     assert not m["embed"].description.startswith("*")
-    assert "Of Patient Endurance" in m["embed"].footer.text
-    assert desert.brief(desert.topic_of("1", 1)) == "Of Flight From Men"
+    assert m["embed"].footer.text == "Patient Endurance · Budge (1907)"
+    assert desert.brief(desert.topic_of("1", 1)) == "Flight from Men"
+    assert len(desert.SHORT) == len(desert.topics())
+    assert desert.find_topic("hospitality") == 8
+    assert len(m["embed"].footer.text) < 60
 
 
 def test_button_ids_fit(desert):

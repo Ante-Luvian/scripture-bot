@@ -24,7 +24,7 @@ import discord
 from core import bot, log, lookup
 
 BOOK = "Sayings of the Desert Fathers"
-SOURCE = "Budge, The Paradise of the Holy Fathers, Vol. II (1907)"
+SOURCE = "Budge (1907)"
 COLOR = discord.Color.from_rgb(176, 132, 72)
 PAGE = 3800
 BOOK_NAMES = {"1": "Book I", "2": "Book II"}
@@ -78,11 +78,19 @@ def topic_of(book: str, n: int) -> str:
     return next((t for b, a, z, t in topics() if b == book and a <= n <= z), "")
 
 
+# A short name for each of Budge's chapters and sections, in order (his own titles run to thirty words)
+SHORT = ["Flight from Men", "Fasting", "Scripture, Vigils and Prayer", "Weeping for Sin", "Voluntary Poverty",
+         "Patient Endurance", "Obedience", "Watchfulness", "Love and Hospitality", "Humility", "Fornication",
+         "Repentance", "Wonderworkers", "The Solitary Life",
+         "The Rule of Life", "The Pupils' Questions", "The Vision of the Mind", "The Brethren's Questions"]
+
+
 def brief(title: str) -> str:
-    """A chapter's title to its first clause: "Of Flight From Men", "Questions And Answers On The Rule Of
-    Life Of The Holy Men"."""
-    short = re.split(r",| Which | \[A Work\]", title)[0].strip()
-    return short + (" (Appendix)" if title.endswith("(Appendix)") and not short.endswith(")") else "")
+    """A chapter's short name ("Patient Endurance"), from Budge's title."""
+    for i, (_, _, _, t) in enumerate(topics()):
+        if t == title and i < len(SHORT):
+            return SHORT[i]
+    return re.split(r",| Which | \[A Work\]", title)[0].strip()
 
 
 @functools.lru_cache(maxsize=1)
@@ -158,7 +166,8 @@ def find_topic(query: str) -> "int | None":
     words = [w for w in q.split() if w not in ("of", "the", "and", "topic", "chapter")]
     if not words:
         return None
-    hits = [i for i, (_, _, _, t) in enumerate(topics()) if all(re.search(rf"\b{re.escape(w)}", _fold(t)) for w in words)]
+    hits = [i for i, (_, _, _, t) in enumerate(topics())
+            if all(re.search(rf"\b{re.escape(w)}", _fold(t + " " + brief(t))) for w in words)]
     return hits[0] if len(hits) == 1 else None
 
 
@@ -250,9 +259,9 @@ def topics_embed() -> discord.Embed:
         if book != last_book:
             lines.append(f"**{BOOK_NAMES[book]}**")
             last_book = book
-        lines.append(f"`{i}` {title} — {z - a + 1} sayings")
+        lines.append(f"`{i}` **{brief(title)}** — {z - a + 1} sayings")
     embed = discord.Embed(title="🏜️ The Desert Fathers — topics", description="\n".join(lines), color=COLOR)
-    embed.set_footer(text="!desert topic 6, or a word of the title: !desert humility")
+    embed.set_footer(text="!desert topic 6, or by name: !desert humility · Budge, The Paradise of the Holy Fathers (1907)")
     return embed
 
 
