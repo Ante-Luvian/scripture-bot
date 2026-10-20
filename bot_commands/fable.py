@@ -27,6 +27,8 @@ SOURCE = "trans. George Fyler Townsend (1867)"
 COLOR = discord.Color.from_rgb(150, 110, 60)
 LIST_PAGE = 40
 STOP = {"the", "and", "a", "an", "of", "his", "her", "its", "in", "on", "to", "with"}
+# what people call them now -> Townsend's word (!fable donkey finds The Ass and the Grasshopper)
+SAME = {"donkey": "ass", "donkeys": "asses"}
 
 
 def _fold(text: str) -> str:
@@ -55,7 +57,7 @@ def body(n: int) -> str:
 
 
 def _significant(text: str) -> list:
-    return [w for w in re.findall(r"[a-z]+", _fold(text)) if w not in STOP]
+    return [SAME.get(w, w) for w in re.findall(r"[a-z]+", _fold(text)) if w not in STOP]
 
 
 def numbers() -> list:

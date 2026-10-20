@@ -29,6 +29,9 @@ def test_choosing(fable):
     assert fable.pool(fable.parse("lion and mouse")[0]) == [1]
     assert fable.parse("strong ropes")[0] == "w:strong ropes" and 1 in fable.pool("w:strong ropes")
     assert fable.pool(fable.parse("asdfghjkl")[0]) == []
+    donkeys = fable.pool(fable.parse("donkey")[0])                  # Townsend's "Ass"
+    assert donkeys == fable.pool("t:ass") and len(donkeys) > 10
+    assert fable.pool(fable.parse("donkey and grasshopper")[0]) == fable.pool(fable.parse("ass and grasshopper")[0])
     assert fable.parse("the and")[0].startswith("w:")              # nothing but little words
 
 
