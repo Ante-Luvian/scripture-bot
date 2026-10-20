@@ -267,11 +267,11 @@ if __name__ == "__main__":
     update("patristics/augustine.json", {}, remove=("Retractions", "On Free Will"))
     write("classical/plato_spuria.json", "Dialogues once ascribed to Plato.",
           {"Axiochus": numbered_dialogue("Axiochus (Burges)"), "Eryxias": paragraph_dialogue("Eryxias (Jowett)")},
-          {"Axiochus": "Axiochus, once ascribed to Plato, trans. George Burges (1854), from Wikisource",
-           "Eryxias": "Eryxias, once ascribed to Plato, trans. Benjamin Jowett, from Wikisource"})
+          {"Axiochus": "Axiochus, once ascribed to Plato, trans. George Burges (1854)",
+           "Eryxias": "Eryxias, once ascribed to Plato, trans. Benjamin Jowett"})
     write("classical/aristotle_more.json", "Aristotle.",
           {"On Youth, Old Age, Life and Death": youth_and_old_age(),
            "On the Generation of Animals": generation_of_animals()},
           {"On Youth, Old Age, Life and Death": "Aristotle, On Youth and Old Age, On Life and Death, On Breathing, "
                                                 "trans. G. R. T. Ross. MIT Internet Classics Archive",
-           "On the Generation of Animals": "Aristotle, trans. Arthur Platt (1910), from Wikisource"})
+           "On the Generation of Animals": "Aristotle, trans. Arthur Platt (1910)"})
