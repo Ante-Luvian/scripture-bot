@@ -171,8 +171,6 @@ Abbreviations are fine (`Jn`, `1 Cor`, `Ps`). Bible verses come with the four st
 • `!prayer` — a random prayer from the 1662 Prayer Book; `!prayer st michael`, `!prayer memorare`, `!prayer anima christi`… — a traditional prayer by name, in English and Latin, sung where it's also a chant; Orthodox prayers too, with their Greek (`!prayer jesus prayer`, `!prayer trisagion`); `!prayer list` for them all
 • `!vov` — a prayer of the English Puritans, from the collection *The Valley of Vision*: `!vov` at random, `!vov penitence` on a theme, `!vov topics` to browse them, `!vov 37` by number
 
-**`!saint`** — the saint of the day on the traditional calendar, from *Butler's Lives of the Saints*, with a **📖 Golden Legend** button when the medieval *Golden Legend* tells their story too. Look up any saint by name (`!saint George`, `!saint Christopher`; if there are several, like the two Augustines, I'll ask which) or by day (`!saint 25 July`). Admins: `!saintsetup channel #saints` posts the day's saint every morning.
-
 **`!rosary`** — pray the Rosary, a page at a time: the opening prayers, then five decades (an Our Father, ten Hail Marys and a Glory Be), each on one of the day's *mysteries*, events from the lives of Jesus and Mary, with its Bible passage to think on, then the closing prayers. ◀ ▶ move through it, and the *Ave Maria* comes sung. It picks the day's set (the Joyful on Mondays, the Luminous on Thursdays…), or ask for one: `!rosary sorrowful`.
 
 **`!angelus`** — the Angelus, the short prayer said morning, noon and evening in memory of the angel's message to Mary, in English and Latin, with the *Ave Maria* sung. In Eastertide the *Regina Cæli* ("O Queen of heaven, rejoice!") takes its place, as the Church directs. Admins: **`!angelussetup channel #prayer`** posts it every day at noon UTC, or at the traditional three hours with `time 06:00 12:00 18:00`.
@@ -183,6 +181,11 @@ Abbreviations are fine (`Jn`, `1 Cor`, `Ps`). Bible verses come with the four st
 • `!ccc 1` — a paragraph of the *Catechism of the Catholic Church* (`!ccc 1700-1715` for a range, `!ccc random`)
 • `!canon 1` — a canon of the Code of Canon Law
 • `!summa I.2.3` — an article of St Thomas Aquinas's *Summa Theologica* (Part I, Question 2, Article 3), or `!summa random`
+
+## 😇 Saints and the Desert Fathers
+<!-- pack: saints -->**`!saint`** — the saint of the day on the traditional calendar, from *Butler's Lives of the Saints*, with a **📖 Golden Legend** button when the medieval *Golden Legend* tells their story too. Look up any saint by name (`!saint George`, `!saint Christopher`; if there are several, like the two Augustines, I'll ask which) or by day (`!saint 25 July`). Admins: `!saintsetup channel #saints` posts the day's saint every morning.
+
+<!-- pack: saints -->**`!desert`** — a saying of the Desert Fathers, the monks and nuns who went out into the Egyptian desert in the 4th and 5th centuries, from E. A. Wallis Budge's *Paradise of the Holy Fathers*. `!desert` gives one at random; `!desert Poemen` one by or about a particular father (`!desert fathers` lists them all, with how many sayings each has); `!desert topics` shows Budge's chapters, like *Of Humility* or *Of Patient Endurance*, and `!desert humility` picks from one; `!desert 1:303` finds a saying by its number, and `!desert anger` one with those words in it. The **🎲 Another** button draws again from the same father or topic. Also called `!apophthegm`, after the Greek name for these sayings.
 
 ## ☦️ The Orthodox Church
 <!-- pack: orthodox -->The prayers, hymns and holy images of the Eastern Orthodox Church. (Its calendar and fasting days are in `!today orthodox`, and its daily prayers in `!prayer`, with their Greek: `!prayer jesus prayer`, `!prayer trisagion`, `!prayer list`.)

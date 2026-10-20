@@ -58,6 +58,12 @@
   "delugepoints": [
    "delugepoint"
   ],
+  "desert": [
+   "abba",
+   "apophthegm",
+   "apophthegmata",
+   "desertfathers"
+  ],
   "dictionary": [
    "define",
    "dict"
@@ -384,6 +390,7 @@
   "creed",
   "dafyomi",
   "delphi",
+  "desert",
   "dictionary",
   "discover",
   "divineliturgy",

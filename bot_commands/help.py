@@ -59,6 +59,7 @@ HELP_MENU = [
         '`!canon` — Code of Canon Law',
         '`!catena` — Patristic commentary · `!help catena`',
         '`!saint` — the saint of the day, or `!saint George`, `!saint 25 July` · `!help saint`',
+        '`!desert` — a saying of the Desert Fathers, or `!desert Poemen`, `!desert topics` · `!help desert`',
         "`!rosary` — pray the Rosary a decade at a time, with the day's mysteries (`!rosary sorrowful`)",
         '`!angelus` — the Angelus (the Regina Caeli in Eastertide), with the Ave Maria sung',
         '`!chant pater noster` — a Latin chant, sung straight away',
@@ -1215,6 +1216,23 @@ async def cmd_help(ctx, *, topic: str = ""):
             "when the medieval *Golden Legend* tells the story too; saints only the Legend has, like "
             "Christopher, open straight to it.\n\n"
             "**Admins:** `!saintsetup channel #chan` posts the saint of the day (`time HH:MM` UTC, `test`, `off`)"
+        )
+        await ctx.send(embed=embed)
+        return
+
+    if topic in ("desert", "apophthegm", "apophthegmata", "desertfathers", "abba"):
+        embed = discord.Embed(title="🏜️ !desert — the Desert Fathers", color=discord.Color.dark_gold())
+        embed.description = (
+            "Sayings of the monks and nuns of the Egyptian desert (4th–5th century), in E. A. Wallis Budge's "
+            "*Paradise of the Holy Fathers* (1907).\n\n"
+            "`!desert` — a saying at random\n"
+            "`!desert Poemen` — one by or about a father (or mother: `!desert Sarah`)\n"
+            "`!desert fathers` — who is in the sayings, and how many each has\n"
+            "`!desert topics` — Budge's chapters; then `!desert humility` or `!desert topic 10`\n"
+            "`!desert 1:303` — a saying by its number (Book I, saying 303)\n"
+            "`!desert anger` — one with those words in it\n\n"
+            "**🎲 Another** draws again from the same father or topic. Also `!apophthegm`, and "
+            "`!verse Sayings of the Desert Fathers 1:303` for the plain text."
         )
         await ctx.send(embed=embed)
         return

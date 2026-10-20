@@ -101,6 +101,7 @@ Prefix commands use `!`; most also have a `/` slash-command version.
 | `!story [name]` | `!stories`, `!myth` | One story across traditions (`stories.py`, curated in `data/stories.json`: a reference and a quotation per passage, both checked against the text by `tests/test_stories.py`); `christ` adds the Church Fathers who read each pagan text as foretelling Christ |
 | `!cloud <book>` | `!wordcloud` | A book's most distinctive words as an image (`cloud.py`, the `wordcloud` package): tf-idf against the other books of its corpus, stopwords (KJV's included) removed |
 | `!saint [name \| day]` | `!saints`, `!saintoftheday` | The saint of the day, or by name/day (`saints.py`, `data/saints/saints.json` from `build_saints.py`): Butler's 1894 abridged Lives, with a 📖 Golden Legend button; Legend-only saints open to the Legend; several of a name give a picker |
+| `!desert [father \| topic \| fathers \| topics \| 1:303 \| words]` | `!apophthegm`, `!apophthegmata`, `!desertfathers`, `!abba` | A saying of the Desert Fathers (`desert.py`, from Budge's Paradise Vol. II in `paradise_of_the_fathers.json`): random, by father, by chapter, by number or by words; ◀ ▶ pages, 🎲 another of the same kind |
 | `!saintsetup` | `!saintconfig` | (Admins) Post the saint of the day in a channel: `channel #chan`, `time HH:MM` (UTC, default 07:00), `test`, `off`; `saintday.json` stops double posts |
 | `!xref <ref>` | `!crossref` | Cross-references (Treasury of Scripture Knowledge) |
 | `!notes <ref>` | `!netnotes` | The NET Bible's translator's, study, and text-critical notes for a verse (up to 5 verses) |
@@ -292,6 +293,7 @@ bot_commands/           One module per feature area; each registers its
   hymns.py                !hymn (tunes played by hymn_audio.py)
   hymnday.py              !hymnday, !hymndaysetup (the hymn of the day)
   saints.py               !saint, !saintsetup (Butler's Lives and the Golden Legend)
+  desert.py               !desert (the sayings of the Desert Fathers, Budge)
   cloud.py                !cloud (word clouds)
   stories.py              !story (one story across traditions; data/stories.json)
   psalter.py              !metrical (the Scottish Metrical Psalter)

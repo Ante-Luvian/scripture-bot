@@ -72,6 +72,7 @@ from bot_commands import (  # noqa: F401
     changelog,
     church,
     deluge,
+    desert,
     cloud,
     divine_liturgy,
     dore,

@@ -151,7 +151,7 @@ def numbered(paras: list, first: int) -> "tuple[dict, int]":
 
 
 def _heading(t: str) -> bool:
-    return bool(re.match(r"^\*?(Chapter|Book|Here (begin|end))\b", t)) and len(t) < 260
+    return bool(re.match(r"^\*?(Chapter|Book|Here (begin|end)|Questions (And|By|of)|Appendix$)\b", t)) and len(t) < 260
 
 
 def prose(paras: list) -> dict:
@@ -173,6 +173,8 @@ V1, V2 = "The Paradise/Volume 1", "The Paradise/Volume 2"
 # the printer set so tight that their space is a hair's breadth; "ot" and "thyselt" are an f broken in the
 # type. Left as printed: Budge's own "undertand" (1:575). The build stops if one no longer matches.
 CORRECTIONS = [
+    ("Sayings of the Desert Fathers", "1", "444", "And Of Bow A Man", "And Of How A Man"),   # (black letter h)
+    ("Sayings of the Desert Fathers", "1", "444", "Himself The Interior Of", "Himself The Inferior Of"),
     ("Sayings of the Desert Fathers", "1", "49", "man tohold his", "man to hold his"),
     ("Sayings of the Desert Fathers", "1", "89", "layest aheavy load", "layest a heavy load"),
     ("Sayings of the Desert Fathers", "1", "179", "give theecounsel", "give thee counsel"),

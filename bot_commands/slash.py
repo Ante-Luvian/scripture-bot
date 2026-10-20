@@ -376,6 +376,13 @@ async def saint_slash(interaction: discord.Interaction, query: str = ""):
     await _command("saint")(ctx, query=query)
 
 
+@bot.tree.command(name="desert", description="A saying of the Desert Fathers")
+@app_commands.describe(about="A father (Poemen), a topic (humility), 'fathers', 'topics', a number (1:303), or words")
+async def desert_slash(interaction: discord.Interaction, about: str = ""):
+    ctx = await _slash_ctx(interaction)
+    await _command("desert")(ctx, query=about)
+
+
 @bot.tree.command(name="cloud", description="A book's most distinctive words, drawn as a word cloud")
 @app_commands.describe(book="A book, e.g. Ecclesiastes, Revelation, Tao Te Ching")
 async def cloud_slash(interaction: discord.Interaction, book: str):
