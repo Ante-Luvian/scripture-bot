@@ -126,6 +126,7 @@ def words_text(hymn: dict, limit: int = 4000) -> str:
     """The verses, numbered, with the refrain after the first."""
     parts = []
     for i, stanza in enumerate(hymn["stanzas"], 1):
+        stanza = re.sub(rf"^{i}\.\s+", "", stanza)         # chant books number their verses themselves ("**7.** 7. Meménto")
         parts.append(f"**{i}.** {stanza}")
         if i == 1 and hymn["refrain"]:
             parts.append("*Refrain:*\n*" + hymn["refrain"].replace("\n", "*\n*") + "*")
@@ -186,7 +187,8 @@ class HymnButton(discord.ui.DynamicItem[discord.ui.Button],
         if self.action in ("play", "sung"):
             await play(interaction, hymn, sung=self.action == "sung")
         elif self.action == "score":
-            await interaction.response.send_message(**score_message(hymn, 0))
+            await interaction.response.defer(thinking=True)          # (an image upload, like play's)
+            await interaction.followup.send(**score_message(hymn, 0))
         elif self.action == "english":
             await interaction.response.send_message(embed=english_embed(hymn))
         else:
@@ -322,8 +324,9 @@ class ScoreButton(discord.ui.DynamicItem[discord.ui.Button],
             await interaction.response.send_message("⚠️ I can't find that score any more.", ephemeral=True)
             return
         message = score_message(hymn, self.page)
-        await interaction.response.edit_message(content=message["content"], attachments=[message["file"]],
-                                                view=message.get("view"))
+        await interaction.response.defer()
+        await interaction.edit_original_response(content=message["content"], attachments=[message["file"]],
+                                                 view=message.get("view"))
 
 
 bot.add_dynamic_items(ScoreButton)
@@ -353,7 +356,10 @@ async def play(interaction: discord.Interaction, hymn: dict, sung: bool = False)
     if message is None:
         await interaction.response.send_message("⚠️ I don't have that tune to play.", ephemeral=True)
         return
-    await interaction.response.send_message(message[0], file=message[1])
+    # Acknowledge first: Discord drops a reply not begun within 3 seconds, and uploading a
+    # recording can take longer than that ("ScriptureBot didn't respond in time")
+    await interaction.response.defer(thinking=True)
+    await interaction.followup.send(message[0], file=message[1])
 
 
 def list_embed(query: str, found: list) -> discord.Embed:

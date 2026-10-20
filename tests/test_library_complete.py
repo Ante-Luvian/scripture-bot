@@ -53,8 +53,9 @@ def test_every_work_in_the_library_is_in_the_tree(bot_module, lookup):
                 listed.add(item)
                 listed.add(lookup._resolve_exact(item)[1])
     walk(books.ROOT_BOOKS_TREE)
+    from scripture_lookup import HIDDEN_BOOKS                    # (easter eggs, unlisted on purpose)
     left_out = [(c, b) for c, bs in lookup._data.items() for b, ch in bs.items()
-                if b not in listed and b not in books._SHOWN_ELSEWHERE and any(ch.values())
+                if b not in listed and b not in books._SHOWN_ELSEWHERE and b not in HIDDEN_BOOKS and any(ch.values())
                 and lookup._resolve_exact(b) == (c, b)]
     assert not left_out, left_out[:20]
 

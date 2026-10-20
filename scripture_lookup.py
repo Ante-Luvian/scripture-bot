@@ -855,7 +855,6 @@ ALIASES: dict[str, str] = {
     "vivec": "Vivec",
     "lessons of vivec": "Vivec",
     "36 lessons of vivec": "Vivec",
-    "sermon": "Vivec",
     "sermons of vivec": "Vivec",
     # Delphi
     "delphic maxims": "Delphic Maxims",
@@ -1580,6 +1579,10 @@ def _arabic_chapter(key: str) -> str:
 # corpus -> its TRADITIONS key
 CORPUS_TRADITION = {corpus: key for key, (_, corpora) in TRADITIONS.items() for corpus in corpora}
 
+# Easter eggs: read by name for those who know (!verse vivec), but never listed, suggested,
+# searched or drawn at random (the owner: "it's not meant to show up when looking")
+HIDDEN_BOOKS = frozenset({"Vivec"})
+
 
 def _tagged(result, key: str):
     """A passage fetched from an online library, marked as belonging to the tradition `key`."""
@@ -2070,8 +2073,8 @@ class ScriptureLookup:
         don't crowd out the rest, as picking among all passages at once did."""
         import random as _random
         rng = rng or _random
-        # Skip Mishnah/Talmud/Zohar/Hadith (live API) and Vivec (sermon-length)
-        SKIP_BOOKS = {"Vivec"}
+        # (Mishnah, Talmud, Zohar and hadith are live lookups, not in _data)
+        SKIP_BOOKS = HIDDEN_BOOKS
         allowed, traditions = traditions, []
         for key, (_, corpora) in TRADITIONS.items():
             if allowed is not None and key not in allowed:
@@ -2641,6 +2644,8 @@ class ScriptureLookup:
         all_hits = []
         for corpus, books in self._data.items():
             for book, chapters in books.items():
+                if book in HIDDEN_BOOKS:
+                    continue
                 for chap, verses in chapters.items():
                     for verse, text in verses.items():
                         t = text.lower() if isinstance(text, str) else ""
@@ -2720,6 +2725,8 @@ class ScriptureLookup:
                 continue
             hits = []
             for book, chapters in books.items():
+                if book in HIDDEN_BOOKS:
+                    continue
                 for chap, verses in chapters.items():
                     for verse, text in verses.items():
                         t = text.lower() if isinstance(text, str) else ""
@@ -3624,7 +3631,7 @@ class ScriptureLookup:
         return None, None
 
     def _suggest_books(self, raw: str) -> list[str]:
-        local_candidates = [v[1] for v in self._book_index.values()]
+        local_candidates = [v[1] for v in self._book_index.values() if v[1] not in HIDDEN_BOOKS]
         mishnah_candidates = [
             v.replace("Mishnah_", "").replace("_", " ")
             for v in MISHNAH_TRACTATES.values()

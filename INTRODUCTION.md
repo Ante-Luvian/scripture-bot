@@ -49,7 +49,7 @@ Many of my answers come with buttons underneath. Under a Bible verse you'll see 
 
 <!-- texts: gnostic -->**Gnostic & related** — the **Gospel of Thomas**, 114 sayings of Jesus (`!verse Gospel of Thomas 77`), the **Nag Hammadi library** (41 texts), the Mandaean *Ginza Rba* and *Book of John*, and Manichaean psalms.
 
-<!-- pack: comparative -->**Further afield** — eight works of the **Bahá'í** faith, including the Kitáb-i-Aqdas; the Norse **Poetic Edda**; and the **ancient Near East**: the Epic of Gilgamesh, the Babylonian creation epic **Enuma Elish** (`!verse Enuma Elish 4`), the Canaanite Baal Cycle, the Egyptian Book of the Dead and Hymn to the Aten, the Wisdom of Ahikar, and the pre-Islamic Arabic Mu'allaqat poems. (I even have the Sermons of Vivec from *The Elder Scrolls*.)
+<!-- pack: comparative -->**Further afield** — eight works of the **Bahá'í** faith, including the Kitáb-i-Aqdas; the Norse **Poetic Edda**; and the **ancient Near East**: the Epic of Gilgamesh, the Babylonian creation epic **Enuma Elish** (`!verse Enuma Elish 4`), the Canaanite Baal Cycle, the Egyptian Book of the Dead and Hymn to the Aten, the Wisdom of Ahikar, and the pre-Islamic Arabic Mu'allaqat poems.
 
 Browse all of it with `!books`, or let me pick something at random with `!discover`.
 

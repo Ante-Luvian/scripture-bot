@@ -6,7 +6,7 @@ import discord
 import io
 import re
 from hadith_lookup import get_hadith_section
-from scripture_lookup import ScriptureLookup
+from scripture_lookup import HIDDEN_BOOKS, ScriptureLookup
 from core import (
     _HADITH_DISPLAY_TO_KEY,
     guild_traditions,
@@ -1224,7 +1224,8 @@ def _complete_tree(tree, lookup) -> int:
     missing = collections.defaultdict(lambda: collections.defaultdict(list))
     for corpus, books in lookup._data.items():
         for book, chapters in books.items():
-            if book in listed or book in _SHOWN_ELSEWHERE or not home[corpus] or not any(chapters.values()):
+            if (book in listed or book in _SHOWN_ELSEWHERE or book in HIDDEN_BOOKS or not home[corpus]
+                    or not any(chapters.values())):
                 continue
             if lookup._resolve_exact(book) != (corpus, book):       # (a name another collection answers to)
                 continue
@@ -2228,12 +2229,21 @@ class BooksView(discord.ui.View):
                 btn.callback = self._make_book_open(book_name)
                 self.add_item(btn)
         else:
-            total_pages = max(1, (len(subcats) + PAGE_SIZE - 1) // PAGE_SIZE)
+            # Shelves first, then any single books beside them (Mesopotamian: the Gilgamesh
+            # shelf and Enuma Elish -- the books were once dropped, and couldn't be found)
+            items = subcats + strings
+            total_pages = max(1, (len(items) + PAGE_SIZE - 1) // PAGE_SIZE)
             page = max(0, min(self.page, total_pages - 1))
-            page_items = subcats[page * PAGE_SIZE:(page + 1) * PAGE_SIZE]
+            page_items = items[page * PAGE_SIZE:(page + 1) * PAGE_SIZE]
 
             # Content buttons (rows 0-3, 4 per row)
-            for i, (sub_name, sub_contents) in enumerate(page_items):
+            for i, item in enumerate(page_items):
+                if isinstance(item, str):
+                    btn = discord.ui.Button(label=item[:80], style=discord.ButtonStyle.primary, row=i // 4)
+                    btn.callback = self._make_book_open(item)
+                    self.add_item(btn)
+                    continue
+                sub_name, sub_contents = item
                 btn_label = sub_name
                 for emoji in ("📖 ","👼 ","✡️ ","☪️ ","🏛️ ","📯 ","🌍 ","🔥 ","🧿 ","⛪ "):
                     btn_label = btn_label.replace(emoji, "")

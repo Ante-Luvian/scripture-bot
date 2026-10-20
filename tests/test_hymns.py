@@ -152,17 +152,30 @@ def test_hymns_from_hymnary(hy, title, first):
 
 
 def test_play_sends_just_the_audio(hy):
-    sent = {}
+    """...after acknowledging the press, so a slow upload can't miss Discord's 3-second deadline."""
+    sent, order = {}, []
 
     class Response:
-        async def send_message(self, content=None, **kwargs):
+        async def defer(self, **kwargs):
+            order.append("defer")
+
+    class Followup:
+        async def send(self, content=None, **kwargs):
+            order.append("send")
             sent.update(kwargs, content=content)
 
     class Interaction:
-        response = Response()
+        response, followup = Response(), Followup()
 
     asyncio.run(hy.play(Interaction(), _one(hy, "I Heard the Voice of Jesus Say")))
+    assert order == ["defer", "send"]
     assert "files" not in sent and sent["file"].filename.endswith(".ogg")
+
+
+def test_a_chant_verse_is_numbered_once(hy):
+    numbered = next(h for h in hy.hymns() if any(s.startswith("2. ") for s in h["stanzas"][1:2]))
+    text = hy.words_text(numbered)
+    assert "**2.** 2. " not in text and "**2.** " in text
 
 
 def test_the_phos_hilaron(hy):
