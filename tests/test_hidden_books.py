@@ -34,3 +34,5 @@ def test_a_shelf_with_books_and_subshelves_shows_both():
     view = books.BooksView([("Books", books.BOOKS_TREE, "tree"), (label, node, "tree")])
     labels = [getattr(c, "label", "") for c in view.children]
     assert "Enuma Elish" in labels and any("Gilgamesh" in l for l in labels)
+    text = books._books_embed(node, label).description             # and the list above the buttons
+    assert "Enuma Elish" in text and "Gilgamesh" in text

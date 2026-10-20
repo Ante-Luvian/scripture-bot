@@ -2156,9 +2156,10 @@ def _books_embed(node, title: str, page: int = 0) -> discord.Embed:
         page_items = strings[page * PAGE_SIZE:(page + 1) * PAGE_SIZE]
         lines = [_book_label(item) for item in page_items]
     else:
-        total_pages = max(1, (len(subcats) + PAGE_SIZE - 1) // PAGE_SIZE)
+        items = subcats + strings                    # (in the same order as BooksView's buttons)
+        total_pages = max(1, (len(items) + PAGE_SIZE - 1) // PAGE_SIZE)
         page = max(0, min(page, total_pages - 1))
-        page_items = subcats[page * PAGE_SIZE:(page + 1) * PAGE_SIZE]
+        page_items = items[page * PAGE_SIZE:(page + 1) * PAGE_SIZE]
         lines = []
         for item in page_items:
             if isinstance(item, tuple):
@@ -2166,7 +2167,7 @@ def _books_embed(node, title: str, page: int = 0) -> discord.Embed:
                 count = _count_leaves(sub_contents)
                 lines.append(f"**{sub_name}** ({count})" if count > 1 else sub_name)
             else:
-                lines.append(f"  {_book_label(item)}")
+                lines.append(_book_label(item))
 
     footer = "!verse <book> for a random verse"
     if total_pages > 1:
