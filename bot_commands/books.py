@@ -512,7 +512,7 @@ BOOKS_TREE = [
             ("Orphic", ["Orphic Hymns"]),
             ("Pythagorean", ["Golden Verses of Pythagoras"]),
         ]),
-        ("Platonic & Neoplatonic", [
+        ("Platonic", [
             ("Orphic", ["Orphic Hymns"]),
             ("Pythagorean", [
                 "Golden Verses of Pythagoras",
@@ -575,6 +575,22 @@ BOOKS_TREE = [
                 "Questions on Genesis I",
                 "Questions on Genesis II",
                 "Questions on Genesis III",
+            ]),
+            # his Platonist and religious essays; all of him (the Lives too) is on his own shelf
+            ("Plutarch", [
+                "Isis and Osiris",
+                "The Ε at Delphi",
+                "The Oracle at Delphi no Longer Given in Verse",
+                "The Obsolesence of Oracles",
+                "Plutarch's Platonic questions",
+                "Concerning the procreation of the soul as discoursed in Timaeus",
+                "A Discourse Concerning Socrates's Daemon",
+                "Concerning Such Whom God is Slow to Punish",
+                "Concerning the Face which Appears in the Orb Of the Moon",
+                "Of Fate",
+                "Superstition",
+                "On Moral Virtue",
+                "Of Love",
             ]),
             ("Plotinus", ["Enneads"]),
             ("Porphyry", [

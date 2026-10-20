@@ -991,6 +991,35 @@ def _chunk(text: str, size: int) -> list[str]:
     return [text[i:i+size] for i in range(0, len(text), size)]
 
 
+PASSAGE_PAGE = 1500     # a page of a long passage: about a phone screen (4,000 took three, a user found)
+
+
+def passage_pages(text: str, size: int = PASSAGE_PAGE) -> list[str]:
+    """`text` in pages of at most `size` characters, broken between verses (lines) where it can, else
+    between sentences, else between words; nothing is dropped."""
+    units = []                                   # (piece, what joins it to the one before)
+    for line in text.split("\n"):
+        if len(line) <= size:
+            units.append((line, "\n"))
+            continue
+        joiner = "\n"
+        for sentence in (s for s in re.split(r"(?<=[.!?;:])\s+", line) if s):
+            words = [sentence] if len(sentence) <= size else sentence.split(" ")
+            for w in words:
+                units.append((w, joiner))
+                joiner = " "
+    pages, cur = [], ""
+    for piece, joiner in units:
+        if cur and len(cur) + 1 + len(piece) > size:
+            pages.append(cur.strip())
+            cur = piece
+        else:
+            cur = f"{cur}{joiner}{piece}" if cur else piece
+    if cur.strip():
+        pages.append(cur.strip())
+    return pages or [""]
+
+
 async def _maybe_react_savable(ctx_or_interaction, msg):
     """Add a 📌 bookmark reaction to a verse embed, if this guild opted into react_save."""
     guild = getattr(ctx_or_interaction, "guild", None)
@@ -1193,17 +1222,15 @@ async def _send_result(ctx_or_interaction, result: dict, extra_buttons: "list | 
         await _reply(embed=embed, view=view) if view else await _reply(embed=embed)
         return
 
-    # ── Paginated whole-chapter result ────────────────────────────────────────
-    pages = result.get("pages")
-    if pages and len(pages) > 1:
+    # ── A long passage: one message, a phone screen a page, ◀ ▶ ──────────────
+    pages = [p for page in (result.get("pages") or [result["text"]]) for p in passage_pages(page)]
+    if len(pages) > 1:
         ref    = result["reference"]
         source = result["source"]
         total  = len(pages)
 
         def make_page_embed(idx):
             text = pages[idx]
-            if len(text) > 3900:
-                text = text[:3897] + "…"
             embed = discord.Embed(
                 title=f"{ref} ({idx + 1}/{total})",
                 description=text,
@@ -1240,60 +1267,15 @@ async def _send_result(ctx_or_interaction, result: dict, extra_buttons: "list | 
         await _maybe_react_savable(ctx_or_interaction, view.message)
         return
 
-    MAX = 3900
-    text   = result["text"]
-    title  = result["reference"]
-    source = result["source"]
-
-    if len(text) <= MAX:
-        embed = discord.Embed(title=title, description=text, color=discord.Color.dark_gold())
-        embed.set_footer(text=source)
-        view = None
-        if extra_buttons:
-            view = discord.ui.View(timeout=_extra_view_timeout(extra_buttons))
-            for b in extra_buttons:
-                view.add_item(b)
-        msg = await (_reply(embed=embed, view=view) if view else _reply(embed=embed))
-        await _maybe_react_savable(ctx_or_interaction, msg)
-        return
-
-    # Split long text into chunks at sentence or line boundaries
-    chunks = []
-    current = ""
-    # Split on newlines first; if text is one long blob, split on sentences
-    lines = text.split("\n")
-    if len(lines) == 1 and len(text) > MAX:
-        # No newlines — split on sentence boundaries
-        sentences = re.split(r'(?<=[.!?])\s+', text)
-        lines = sentences
-
-    for line in lines:
-        if len(current) + len(line) + 1 > MAX and current:
-            chunks.append(current.strip())
-            current = line
-        else:
-            current = (current + "\n" + line) if current else line
-    if current:
-        chunks.append(current.strip())
-
-    for i, chunk in enumerate(chunks):
-        part_title = title if len(chunks) == 1 else f"{title} ({i+1}/{len(chunks)})"
-        embed = discord.Embed(title=part_title, description=chunk, color=discord.Color.dark_gold())
-        is_last = i == len(chunks) - 1
-        if is_last:
-            embed.set_footer(text=source)
-        view = None
-        if is_last and extra_buttons:
-            view = discord.ui.View(timeout=_extra_view_timeout(extra_buttons))
-            for b in extra_buttons:
-                view.add_item(b)
-        if i == 0:
-            msg = await (_reply(embed=embed, view=view) if view else _reply(embed=embed))
-        else:
-            channel = ctx_or_interaction.channel if is_interaction else ctx_or_interaction
-            msg = await (channel.send(embed=embed, view=view) if view else channel.send(embed=embed))
-        if is_last:
-            await _maybe_react_savable(ctx_or_interaction, msg)
+    embed = discord.Embed(title=result["reference"], description=pages[0], color=discord.Color.dark_gold())
+    embed.set_footer(text=result["source"])
+    view = None
+    if extra_buttons:
+        view = discord.ui.View(timeout=_extra_view_timeout(extra_buttons))
+        for b in extra_buttons:
+            view.add_item(b)
+    msg = await (_reply(embed=embed, view=view) if view else _reply(embed=embed))
+    await _maybe_react_savable(ctx_or_interaction, msg)
 
 
 def _build_local_search_embed(query, results, offset, total, page_size):

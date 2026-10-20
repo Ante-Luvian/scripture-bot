@@ -161,7 +161,7 @@ NOTES = {
              "translations after it for that one, `!verse Quran 2:255 arberry`; `!help islamic` lists them.",
     "Hadith": "Collection and hadith number: `!verse Sahih al-Bukhari 1`.",
     "Sufi & Persian Poetry": "Rumi's Masnavi by book and story: `!verse Masnavi 1.0` is the song of the reed flute.",
-    "Platonic & Neoplatonic": "Plato by the Stephanus page-and-section numbers printed in every edition: "
+    "Platonic": "Plato by the Stephanus page-and-section numbers printed in every edition: "
                               "`!verse Republic 514a`, or a stretch, `!verse Republic 514a-515c`.",
     "Epic Poetry": "Homer by book and line: `!verse Iliad 6.440`.",
     "Aristotelian": "Works in several books by book.chapter: `!verse Physics 8.10:1`.",

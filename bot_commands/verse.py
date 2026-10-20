@@ -26,8 +26,10 @@ from core import (
     _check_search_cooldown,
     _clear_preferred_translation,
     _get_preferred_translation,
+    _build_embed,
     _send_result,
     bot,
+    passage_pages,
     guild_corpora,
     guild_traditions,
     log,
@@ -145,7 +147,53 @@ def _study_view_from_message(message, pressed_custom_id: str) -> discord.ui.View
             d = ArtButton.__discord_ui_compiled_template__.fullmatch(getattr(component, "custom_id", None) or "")
             if d:                                       # (the Doré and Blake buttons stay: they can be pressed again)
                 view.add_item(ArtButton(d["artist"], d["keys"].split(",")))
+            p = PassageButton.__discord_ui_compiled_template__.fullmatch(getattr(component, "custom_id", None) or "")
+            if p:                                       # (and ◀ Previous · Next ▶ · 📖 Whole chapter)
+                view.add_item(PassageButton(p["kind"], p["ref"]))
     return view
+
+
+# ── ◀ Previous · Next ▶ · 📖 Whole chapter, under a passage from any text held here ──
+
+class PassageButton(discord.ui.DynamicItem[discord.ui.Button], template=r"pnav:(?P<kind>[pnc]):(?P<ref>.{1,93})"):
+    """Steps to the passage before or after, or opens the whole chapter (lookup.neighbours). The message
+    becomes the new passage, so reading on doesn't fill the channel; a whole chapter longer than a page
+    comes as its own message, with ◀ ▶ through its pages."""
+    LOOK = {"p": ("Previous", "◀"), "n": ("Next", "▶"), "c": ("Whole chapter", "📖")}
+
+    def __init__(self, kind: str, ref: str):
+        label, emoji = self.LOOK[kind]
+        super().__init__(discord.ui.Button(label=label, emoji=emoji, style=discord.ButtonStyle.secondary, row=2,
+                                           custom_id=f"pnav:{kind}:{ref}"))
+        self.kind, self.ref = kind, ref
+
+    @classmethod
+    async def from_custom_id(cls, interaction, item, match):
+        return cls(match["kind"], match["ref"])
+
+    async def callback(self, interaction: discord.Interaction):
+        await interaction.response.defer()
+        result = hidden_in_guild(interaction, await asyncio.to_thread(lookup.get_verse, self.ref))
+        buttons = _study_buttons(result) + art_buttons(result) + passage_buttons(result)
+        if result.get("found") and not result.get("pages") and len(passage_pages(result["text"])) == 1:
+            view = discord.ui.View(timeout=None)
+            for b in buttons:
+                view.add_item(b)
+            await interaction.edit_original_response(embed=_build_embed(result), view=view)
+        else:
+            await _send_result(interaction, result, extra_buttons=buttons)
+
+
+bot.add_dynamic_items(PassageButton)
+
+
+def passage_buttons(result: dict) -> list:
+    """◀ Previous / Next ▶ / 📖 Whole chapter for a passage of a text held here; [] for anything else."""
+    if not result.get("found"):
+        return []
+    near = lookup.neighbours(result.get("reference", ""))
+    return [PassageButton(kind, near[key]) for kind, key in (("p", "prev"), ("n", "next"), ("c", "chapter"))
+            if near.get(key) and len(near[key]) <= 93]
 
 
 def _study_buttons(result: dict) -> list:
@@ -177,7 +225,8 @@ def hidden_in_guild(ctx, result: dict) -> dict:
 
 async def _send_with_study(ctx, result: dict):
     result = hidden_in_guild(ctx, result)
-    buttons = _study_buttons(result) + art_buttons(result)    # 🖼️ Doré · 🎨 Blake, wherever the passage has one
+    buttons = (_study_buttons(result) + art_buttons(result)    # 🖼️ Doré · 🎨 Blake, wherever the passage has one
+               + passage_buttons(result))
     await _send_result(ctx, result, extra_buttons=buttons)
 
 

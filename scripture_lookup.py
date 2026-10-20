@@ -1691,6 +1691,7 @@ class ScriptureLookup:
                 "enchiridion_higginson.json",
                 "julian.json",
                 "sallustius.json",
+                "isis_and_osiris.json",          # Plutarch (Babbitt): not in the Perseus Plutarch
                 "proclus_theology.json",
                 "hierocles.json",
                 "marinus.json",
@@ -3460,6 +3461,61 @@ class ScriptureLookup:
             "error": f"**{canon_book} {book_num+'.' if book_num else ''}{page}{section}** not found. Available sections start at: {', '.join(available)}",
             "suggestions": [],
         }
+
+    # ── stepping through a book: ◀ Previous · Next ▶ · 📖 Whole chapter ──────────
+
+    def _units(self, corpus: str, book: str) -> list:
+        """Every (chapter, verse) of a book, in reading order."""
+        def order(keys):
+            keys = list(keys)
+            return sorted(keys, key=int) if all(k.isdigit() for k in keys) else keys
+        chapters = self._data[corpus][book]
+        return [(c, v) for c in order(chapters) if isinstance(chapters[c], dict) for v in order(chapters[c])]
+
+    @staticmethod
+    def _unit_ref(book: str, chapters: dict, c: str, v: str) -> str:
+        """The reference that opens just this unit: "Timaeus 67b" for a one-passage chapter, else "John 3:16"."""
+        return f"{book} {c}" if list(chapters[c]) == ["1"] else f"{book} {c}:{v}"
+
+    def neighbours(self, reference: str) -> dict:
+        """{"prev", "next", "chapter"}: the references that open the passage before and after the one a
+        result's `reference` shows, and its whole chapter; each None where there's nothing to show. A whole
+        chapter steps a chapter at a time. {} for anything this library doesn't hold itself (a translation
+        read online, the Talmud...), which can't be stepped through here."""
+        m = re.fullmatch(r"(?P<book>.+) (?P<c>[\w.]+?)(?::(?P<v1>\w+)(?:[–-](?P<v2>\w+))?)?(?:[–-](?P<c2>[\w.]+))?",
+                         reference.strip())
+        if not m:
+            return {}
+        corpus, book = self._resolve_exact(m["book"])
+        if not book or book != m["book"] or m["c"] not in self._data[corpus].get(book, {}):
+            return {}
+        chapters = self._data[corpus][book]
+        units = self._units(corpus, book)
+        c = m["c"]
+        whole = not m["v1"] and len(chapters[c]) > 1
+        if whole:                                            # a chapter: step by chapters
+            names = list(dict.fromkeys(u[0] for u in units))
+            i = names.index(c)
+            j = names.index(m["c2"]) if m["c2"] in names else i
+            return {"prev": f"{book} {names[i - 1]}" if i > 0 else None,
+                    "next": f"{book} {names[j + 1]}" if j + 1 < len(names) else None, "chapter": None}
+        def unit(ch, v):
+            """(ch, v), or for a text stored in chunks of lines (Enuma Elish 1:1-8 is the chunk at line 1),
+            the chunk that holds line v."""
+            if (ch, v) in units or not v.isdigit() or not all(k.isdigit() for k in chapters[ch]):
+                return (ch, v)
+            held = [k for k in chapters[ch] if int(k) <= int(v)]
+            return (ch, max(held, key=int)) if held else (ch, v)
+
+        first = unit(c, m["v1"] or next(iter(chapters[c])))
+        last_c = m["c2"] if m["c2"] in chapters and not m["v1"] else c
+        last = unit(last_c, m["v2"] or m["v1"] or list(chapters[last_c])[-1])
+        if first not in units or last not in units:
+            return {}
+        i, j = units.index(first), units.index(last)
+        return {"prev": self._unit_ref(book, chapters, *units[i - 1]) if i > 0 else None,
+                "next": self._unit_ref(book, chapters, *units[j + 1]) if j + 1 < len(units) else None,
+                "chapter": f"{book} {c}" if len(chapters[c]) > 1 else None}
 
     _STEPHANUS_PAGE_CHARS = 3500     # a range longer than this is split into pages
 

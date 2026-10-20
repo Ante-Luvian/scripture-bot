@@ -5,7 +5,7 @@ texts across many traditions: the Bible in dozens of translations (plus the
 Septuagint, Vulgate, Peshitta, and Dead Sea Scrolls), the Apocrypha, LDS
 scripture, the Apostolic and Church Fathers, Enoch and Jubilees, the Quran and
 hadith, the Talmud and other rabbinic literature (via Sefaria), and Gnostic,
-Hermetic, Neoplatonic, Classical, Norse, Dharmic, and Ancient Near Eastern texts.
+Hermetic, Platonist, Classical, Norse, Dharmic, and Ancient Near Eastern texts.
 It also has study tools (Strong's, interlinears, cross-references, topical and
 dictionary lookups), the Book of Common Prayer daily office, a liturgical
 calendar, and a daily Verse of the Day.

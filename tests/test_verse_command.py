@@ -153,7 +153,8 @@ def test_verse_command_attaches_study_buttons(verse, monkeypatch, fake_ctx):
     monkeypatch.setattr(verse, "_get_preferred_translation", lambda user_id: None)
     asyncio.run(verse.verse_prefix.callback(fake_ctx, reference="John 3:16"))
     view = fake_ctx.sent[0]["view"]
-    assert [c.item.label for c in view.children] == ["Notes", "Cross-refs", "Interlinear", "Card", "Catena"]
+    assert [c.item.label for c in view.children] == ["Notes", "Cross-refs", "Interlinear", "Card", "Catena",
+                                                     "Previous", "Next", "Whole chapter"]
     # A view that times out unregisters its persistent buttons bot-wide
     assert view.timeout is None
 
