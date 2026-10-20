@@ -282,6 +282,11 @@ def tidy(text: str) -> str:
     text = re.sub(r"(?<=[a-z]{3})é(?=[\s,.;:!?])", "ct", text)        # ("perfeé labour")
     text = re.sub(r"(?<=[a-z])&(?=\W)", "ct", text)                   # ("condu&")
     text = re.sub(r"\bAbb[aAâàáäéèe&4]{1,2}(?=\W)", "Abbâ", text)
+    # "[" read as "T" ("T and if we have]", "Tf or us to have]"), then "I" read as "T" ("and T pray",
+    # "T possessed", "Tf I can find")
+    text = re.sub(r"(?<![\w\[])T(f?) ?(?=[a-z][^\[\]\n]{0,80}\])", lambda m: "[" + m.group(1), text)
+    text = re.sub(r"(?<![\w.])T(?= [a-z])", "I", text)
+    text = re.sub(r"\bTf\b", "If", text)
     text = re.sub(r"\bO[lt][dp]\s+M[a@]n\b", "Old Man", text)
     accent = str.maketrans("áàéèíìóòúù", "ââêêîîôôûû")
     text = re.sub(r"\b[A-Z][a-z]*[áàéèíìóòúù][a-zâêîôû]*\b", lambda m: m.group(0).translate(accent), text)
