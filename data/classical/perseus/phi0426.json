@@ -1,5 +1,5 @@
 {
- "source": "Pseudo-Caesar. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Pseudo-Caesar",
  "books": {
   "The African War": {
@@ -106,6 +106,6 @@
   }
  },
  "book_sources": {
-  "The African War": "Pseudo-Caesar, The African War, trans. A. G. Way. Perseus Digital Library (CC-BY-SA)."
+  "The African War": "trans. A. G. Way"
  }
 }

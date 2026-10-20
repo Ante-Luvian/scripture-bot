@@ -1,5 +1,5 @@
 {
- "source": "Julius Caesar. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Julius Caesar",
  "books": {
   "Gallic War": {
@@ -757,7 +757,7 @@
   }
  },
  "book_sources": {
-  "Gallic War": "Julius Caesar, Gallic War, trans. W. S Bohn. Perseus Digital Library (CC-BY-SA).",
-  "Commentaries on the Civil War": "Julius Caesar, Commentaries on the Civil War, trans. William Duncan. Perseus Digital Library (CC-BY-SA)."
+  "Gallic War": "trans. W. S Bohn",
+  "Commentaries on the Civil War": "trans. William Duncan"
  }
 }

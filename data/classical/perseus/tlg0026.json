@@ -1,5 +1,5 @@
 {
- "source": "Aeschines. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Aeschines",
  "books": {
   "Against Timarchus": {
@@ -656,8 +656,8 @@
   }
  },
  "book_sources": {
-  "Against Timarchus": "Aeschines, Against Timarchus, trans. Charles Darwin Adams. Perseus Digital Library (CC-BY-SA).",
-  "Aeschines: On the Embassy": "Aeschines, On the Embassy, trans. Charles Darwin Adams. Perseus Digital Library (CC-BY-SA).",
-  "Against Ctesiphon": "Aeschines, Against Ctesiphon, trans. Charles Darwin Adams. Perseus Digital Library (CC-BY-SA)."
+  "Against Timarchus": "trans. Charles Darwin Adams",
+  "Aeschines: On the Embassy": "trans. Charles Darwin Adams",
+  "Against Ctesiphon": "trans. Charles Darwin Adams"
  }
 }

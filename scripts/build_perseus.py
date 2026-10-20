@@ -231,8 +231,7 @@ def main(only=None):
             continue
         g = by_group.setdefault(w["group"], {"author": w["author"], "books": {}, "book_sources": {}})
         g["books"][name] = book
-        credit = f"{w['author']}, {w['label']}" + (f", trans. {w['translator']}" if w["translator"] else "")
-        g["book_sources"][name] = credit + ". Perseus Digital Library (CC-BY-SA)."
+        g["book_sources"][name] = f"trans. {w['translator']}" if w["translator"] else "Perseus Digital Library"
         index.setdefault(short_author(w["author"]), []).append(name)
         if w["original"]:
             try:
@@ -251,7 +250,7 @@ def main(only=None):
             alias_votes.setdefault(alias, set()).add(name)
     for group, g in by_group.items():
         path = OUT / f"{group}.json"
-        path.write_text(json.dumps({"source": f"{g['author']}. Perseus Digital Library (CC-BY-SA).",
+        path.write_text(json.dumps({"source": "Perseus Digital Library",
                                     "author": g["author"], "books": g["books"], "book_sources": g["book_sources"]},
                                    ensure_ascii=False, indent=1), encoding="utf-8")
     if not only:

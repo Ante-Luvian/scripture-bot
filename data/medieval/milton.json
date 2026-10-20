@@ -1,9 +1,9 @@
 {
- "source": "John Milton, ed. H. C. Beeching (Project Gutenberg)",
+ "source": "John Milton, ed. H. C. Beeching",
  "book_sources": {
-  "Paradise Lost": "John Milton, Paradise Lost (1674), ed. H. C. Beeching (Project Gutenberg)",
-  "Paradise Regained": "John Milton, Paradise Regain'd (1671), ed. H. C. Beeching (Project Gutenberg)",
-  "Samson Agonistes": "John Milton, Samson Agonistes (1671), ed. H. C. Beeching (Project Gutenberg)"
+  "Paradise Lost": "John Milton (1674), ed. H. C. Beeching",
+  "Paradise Regained": "John Milton (1671), ed. H. C. Beeching",
+  "Samson Agonistes": "John Milton (1671), ed. H. C. Beeching"
  },
  "books": {
   "Paradise Lost": {

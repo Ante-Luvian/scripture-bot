@@ -26,7 +26,7 @@ PSALTER_PATH = ROOT / "data" / "psalter" / "psalter.json"
 AUDIO_DIR = ROOT / "data" / "psalter" / "audio"
 COLOR = discord.Color.from_rgb(40, 80, 130)
 PAGE_CHARS = 3600
-SOURCE = "Scottish Psalter, 1650 · words and tunes via the Open 1650 project"
+SOURCE = "Scottish Psalter (1650)"
 
 
 @functools.lru_cache(maxsize=1)

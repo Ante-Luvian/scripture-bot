@@ -1,5 +1,5 @@
 {
- "source": "Euripides. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Euripides",
  "books": {
   "The Cyclops": {
@@ -11041,24 +11041,24 @@
   }
  },
  "book_sources": {
-  "The Cyclops": "Euripides, The Cyclops, trans. Edward P. Coleridge. Perseus Digital Library (CC-BY-SA).",
-  "Alcestis": "Euripides, Alcestis, trans. Edward P. Coleridge. Perseus Digital Library (CC-BY-SA).",
-  "Medea": "Euripides, Medea, trans. Edward P. Coleridge. Perseus Digital Library (CC-BY-SA).",
-  "Heracleidae": "Euripides, Heracleidae, trans. Edward P. Coleridge. Perseus Digital Library (CC-BY-SA).",
-  "Hippolytus": "Euripides, Hippolytus, trans. Edward P. Coleridge. Perseus Digital Library (CC-BY-SA).",
-  "Andromache": "Euripides, Andromache, trans. Edward P. Coleridge. Perseus Digital Library (CC-BY-SA).",
-  "Hecuba": "Euripides, Hecuba, trans. Edward P. Coleridge. Perseus Digital Library (CC-BY-SA).",
-  "The Suppliants": "Euripides, The Suppliants, trans. Edward P. Coleridge. Perseus Digital Library (CC-BY-SA).",
-  "Heracles Mad": "Euripides, Heracles Mad, trans. Edward P. Coleridge. Perseus Digital Library (CC-BY-SA).",
-  "Euripides: Ion": "Euripides, Ion, trans. Edward P. Coleridge. Perseus Digital Library (CC-BY-SA).",
-  "The Trojan Women": "Euripides, The Trojan Women, trans. Edward P. Coleridge. Perseus Digital Library (CC-BY-SA).",
-  "Euripides: Electra": "Euripides, Electra, trans. Edward P. Coleridge. Perseus Digital Library (CC-BY-SA).",
-  "Iphigenia Among the Tauri": "Euripides, Iphigenia Among the Tauri, trans. Edward P. Coleridge. Perseus Digital Library (CC-BY-SA).",
-  "Euripides: Helen": "Euripides, Helen, trans. Edward P. Coleridge. Perseus Digital Library (CC-BY-SA).",
-  "The Phoenician Maidens": "Euripides, The Phoenician Maidens, trans. Edward P. Coleridge. Perseus Digital Library (CC-BY-SA).",
-  "Orestes": "Euripides, Orestes, trans. Edward P. Coleridge. Perseus Digital Library (CC-BY-SA).",
-  "The Bacchae": "Euripides, The Bacchae, trans. Theodore Alois Buckley. Perseus Digital Library (CC-BY-SA).",
-  "Iphigenia at Aulis": "Euripides, Iphigenia at Aulis, trans. Edward P. Coleridge. Perseus Digital Library (CC-BY-SA).",
-  "Rhesus": "Euripides, Rhesus, trans. Gilbert Murray. Perseus Digital Library (CC-BY-SA)."
+  "The Cyclops": "trans. Edward P. Coleridge",
+  "Alcestis": "trans. Edward P. Coleridge",
+  "Medea": "trans. Edward P. Coleridge",
+  "Heracleidae": "trans. Edward P. Coleridge",
+  "Hippolytus": "trans. Edward P. Coleridge",
+  "Andromache": "trans. Edward P. Coleridge",
+  "Hecuba": "trans. Edward P. Coleridge",
+  "The Suppliants": "trans. Edward P. Coleridge",
+  "Heracles Mad": "trans. Edward P. Coleridge",
+  "Euripides: Ion": "trans. Edward P. Coleridge",
+  "The Trojan Women": "trans. Edward P. Coleridge",
+  "Euripides: Electra": "trans. Edward P. Coleridge",
+  "Iphigenia Among the Tauri": "trans. Edward P. Coleridge",
+  "Euripides: Helen": "trans. Edward P. Coleridge",
+  "The Phoenician Maidens": "trans. Edward P. Coleridge",
+  "Orestes": "trans. Edward P. Coleridge",
+  "The Bacchae": "trans. Theodore Alois Buckley",
+  "Iphigenia at Aulis": "trans. Edward P. Coleridge",
+  "Rhesus": "trans. Gilbert Murray"
  }
 }

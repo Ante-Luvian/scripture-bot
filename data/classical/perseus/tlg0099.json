@@ -1,5 +1,5 @@
 {
- "source": "Strabo. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Strabo",
  "books": {
   "Geography": {
@@ -2373,6 +2373,6 @@
   }
  },
  "book_sources": {
-  "Geography": "Strabo, Geography, trans. Hans Claude Hamilton. Perseus Digital Library (CC-BY-SA)."
+  "Geography": "trans. Hans Claude Hamilton"
  }
 }

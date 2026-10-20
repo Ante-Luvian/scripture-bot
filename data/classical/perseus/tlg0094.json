@@ -1,5 +1,5 @@
 {
- "source": "Pseudo-Plutarch. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Pseudo-Plutarch",
  "books": {
   "Of the Names of Rivers and Mountains": {
@@ -337,8 +337,8 @@
   }
  },
  "book_sources": {
-  "Of the Names of Rivers and Mountains": "Pseudo-Plutarch, Of the Names of Rivers and Mountains, and of Such Things as are to be Found Therein, trans. William W. Goodwin. Perseus Digital Library (CC-BY-SA).",
-  "Concerning music": "Pseudo-Plutarch, Concerning music, trans. John Philips. Perseus Digital Library (CC-BY-SA).",
-  "Of Those Sentiments Concerning Nature with which Philosophers were Delighted": "Pseudo-Plutarch, Of Those Sentiments Concerning Nature with which Philosophers were Delighted, trans. John Dowell. Perseus Digital Library (CC-BY-SA)."
+  "Of the Names of Rivers and Mountains": "trans. William W. Goodwin",
+  "Concerning music": "trans. John Philips",
+  "Of Those Sentiments Concerning Nature with which Philosophers were Delighted": "trans. John Dowell"
  }
 }

@@ -274,7 +274,7 @@ def main() -> None:
     for b, vs in s.items():
         nums = sorted(map(int, vs))
         print(f"  Sayings book {b}: {nums[0]}-{nums[-1]}, missing {sorted(set(range(1, nums[-1] + 1)) - set(nums))[:30]}")
-    payload = {"source": "The Paradise, or Garden of the Holy Fathers, trans. E. A. Wallis Budge (1907)",
+    payload = {"source": "trans. E. A. Wallis Budge (1907)",
                "books": books}
     OUT.write_text(json.dumps(payload, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"wrote {OUT.relative_to(ROOT)}")

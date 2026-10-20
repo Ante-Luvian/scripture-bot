@@ -1,5 +1,5 @@
 {
- "source": "Diogenes Laertius. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Diogenes Laertius",
  "books": {
   "Lives of Eminent Philosophers": {
@@ -1381,6 +1381,6 @@
   }
  },
  "book_sources": {
-  "Lives of Eminent Philosophers": "Diogenes Laertius, Lives of Eminent Philosophers, trans. R. D. Hicks. Perseus Digital Library (CC-BY-SA)."
+  "Lives of Eminent Philosophers": "trans. R. D. Hicks"
  }
 }

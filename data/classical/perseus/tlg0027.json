@@ -1,5 +1,5 @@
 {
- "source": "Andocides. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Andocides",
  "books": {
   "Andocides: On the Mysteries": {
@@ -295,9 +295,9 @@
   }
  },
  "book_sources": {
-  "Andocides: On the Mysteries": "Andocides, On the Mysteries, trans. Kenneth John Maidment. Perseus Digital Library (CC-BY-SA).",
-  "On His Return": "Andocides, On His Return, trans. Kenneth John Maidment. Perseus Digital Library (CC-BY-SA).",
-  "On the Peace with Sparta": "Andocides, On the Peace with Sparta, trans. Kenneth John Maidment. Perseus Digital Library (CC-BY-SA).",
-  "Against Alcibiades": "Andocides, Against Alcibiades, trans. Kenneth John Maidment. Perseus Digital Library (CC-BY-SA)."
+  "Andocides: On the Mysteries": "trans. Kenneth John Maidment",
+  "On His Return": "trans. Kenneth John Maidment",
+  "On the Peace with Sparta": "trans. Kenneth John Maidment",
+  "Against Alcibiades": "trans. Kenneth John Maidment"
  }
 }

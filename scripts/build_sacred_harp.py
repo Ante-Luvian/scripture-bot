@@ -132,7 +132,7 @@ def main():
             "composer": info["composer"], "tune": info["title"], "meter": info["meter"],
             "scripture": extra.get("scripture", []), "topics": ["Sacred Harp", *extra.get("topics", [])],
             "stanzas": info["stanzas"], "refrain": "", "first_line": info["stanzas"][0].split("\n")[0],
-            "source": f"The Sacred Harp, 1991 Edition, no. {page} (words via fasola.org); sung by Sacred Harp Bremen",
+            "source": f"The Sacred Harp, no. {page} · sung by Sacred Harp Bremen",
             "audio": f"harp/{out.name}", "audio_kind": "sung", "seconds": round(seconds), "sacred_harp": page,
         })
         print(page, title, flush=True)

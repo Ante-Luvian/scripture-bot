@@ -1,5 +1,5 @@
 {
- "source": "Aristophanes. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Aristophanes",
  "books": {
   "Clouds": {
@@ -1545,7 +1545,7 @@
   }
  },
  "book_sources": {
-  "Clouds": "Aristophanes, Clouds, trans. William James Hickie. Perseus Digital Library (CC-BY-SA).",
-  "Birds": "Aristophanes, Birds, trans. Vol. 2. Anonymous Greek Drama. Perseus Digital Library (CC-BY-SA)."
+  "Clouds": "trans. William James Hickie",
+  "Birds": "trans. Vol. 2. Anonymous Greek Drama"
  }
 }

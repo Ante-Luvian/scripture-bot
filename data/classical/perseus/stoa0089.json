@@ -1,5 +1,5 @@
 {
- "source": "Claudian. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Claudian",
  "books": {
   "Shorter Poems": {
@@ -581,19 +581,19 @@
   }
  },
  "book_sources": {
-  "Shorter Poems": "Claudian, Shorter Poems, trans. Maurice Platnauer. Perseus Digital Library (CC-BY-SA).",
-  "The War Against Gildo": "Claudian, The War Against Gildo, trans. Maurice Platnauer. Perseus Digital Library (CC-BY-SA).",
-  "The Gothic War": "Claudian, The Gothic War, trans. Maurice Platnauer. Perseus Digital Library (CC-BY-SA).",
-  "On Stilicho's Consulship": "Claudian, On Stilicho's Consulship, trans. Maurice Platnauer. Perseus Digital Library (CC-BY-SA).",
-  "Rape of Proserpine": "Claudian, Rape of Proserpine, trans. Maurice Platnauer. Perseus Digital Library (CC-BY-SA).",
-  "Epithalamium of Honorius and Maria": "Claudian, Epithalamium of Honorius and Maria, trans. Maurice Platnauer. Perseus Digital Library (CC-BY-SA).",
-  "Fescennine Verses in Honour of the Marriage of the Emperor Honorius": "Claudian, Fescennine Verses in Honour of the Marriage of the Emperor Honorius, trans. Maurice Platnauer. Perseus Digital Library (CC-BY-SA).",
-  "Against Eutropius": "Claudian, Against Eutropius, trans. Maurice Platnauer. Perseus Digital Library (CC-BY-SA).",
-  "Against Rufinus": "Claudian, Against Rufinus, trans. Maurice Platnauer. Perseus Digital Library (CC-BY-SA).",
-  "Panegyric on the Third Consulship of the Emperor Honorius": "Claudian, Panegyric on the Third Consulship of the Emperor Honorius, trans. Maurice Platnauer. Perseus Digital Library (CC-BY-SA).",
-  "Panegyric on the Fourth Consulship of the Emperor Honorius": "Claudian, Panegyric on the Fourth Consulship of the Emperor Honorius, trans. Maurice Platnauer. Perseus Digital Library (CC-BY-SA).",
-  "Panegyric on the Sixth Consulship of Honorius": "Claudian, Panegyric on the Sixth Consulship of Honorius, trans. Maurice Platnauer. Perseus Digital Library (CC-BY-SA).",
-  "Panegyric on the Consulshiip of Fl. Manlius Theodorius": "Claudian, Panegyric on the Consulshiip of Fl. Manlius Theodorius, trans. Maurice Platnauer. Perseus Digital Library (CC-BY-SA).",
-  "Panegyric on the Consuls Probinus and Olybrius": "Claudian, Panegyric on the Consuls Probinus and Olybrius, trans. Maurice Platnauer. Perseus Digital Library (CC-BY-SA)."
+  "Shorter Poems": "trans. Maurice Platnauer",
+  "The War Against Gildo": "trans. Maurice Platnauer",
+  "The Gothic War": "trans. Maurice Platnauer",
+  "On Stilicho's Consulship": "trans. Maurice Platnauer",
+  "Rape of Proserpine": "trans. Maurice Platnauer",
+  "Epithalamium of Honorius and Maria": "trans. Maurice Platnauer",
+  "Fescennine Verses in Honour of the Marriage of the Emperor Honorius": "trans. Maurice Platnauer",
+  "Against Eutropius": "trans. Maurice Platnauer",
+  "Against Rufinus": "trans. Maurice Platnauer",
+  "Panegyric on the Third Consulship of the Emperor Honorius": "trans. Maurice Platnauer",
+  "Panegyric on the Fourth Consulship of the Emperor Honorius": "trans. Maurice Platnauer",
+  "Panegyric on the Sixth Consulship of Honorius": "trans. Maurice Platnauer",
+  "Panegyric on the Consulshiip of Fl. Manlius Theodorius": "trans. Maurice Platnauer",
+  "Panegyric on the Consuls Probinus and Olybrius": "trans. Maurice Platnauer"
  }
 }

@@ -1,5 +1,5 @@
 {
- "source": "Euclid. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Euclid",
  "books": {
   "The Thirteen Books of Euclid's Elements": {
@@ -2391,6 +2391,6 @@
   }
  },
  "book_sources": {
-  "The Thirteen Books of Euclid's Elements": "Euclid, The Thirteen Books of Euclid's Elements, trans. Thomas Little Heath. Perseus Digital Library (CC-BY-SA)."
+  "The Thirteen Books of Euclid's Elements": "trans. Thomas Little Heath"
  }
 }

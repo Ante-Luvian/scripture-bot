@@ -1,5 +1,5 @@
 {
- "source": "Herodotus. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Herodotus",
  "books": {
   "Histories": {
@@ -7339,6 +7339,6 @@
   }
  },
  "book_sources": {
-  "Histories": "Herodotus, Histories, trans. Alfred Denis Godley. Perseus Digital Library (CC-BY-SA)."
+  "Histories": "trans. Alfred Denis Godley"
  }
 }

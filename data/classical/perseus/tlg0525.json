@@ -1,5 +1,5 @@
 {
- "source": "Pausanias. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Pausanias",
  "books": {
   "Description of Greece": {
@@ -3890,6 +3890,6 @@
   }
  },
  "book_sources": {
-  "Description of Greece": "Pausanias, Description of Greece, trans. W.H.S. Jones. Perseus Digital Library (CC-BY-SA)."
+  "Description of Greece": "trans. W.H.S. Jones"
  }
 }

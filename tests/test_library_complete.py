@@ -81,7 +81,7 @@ def test_works_that_couldnt_be_reached(lookup, ref, expect):
 def test_works_that_share_a_title_can_all_be_read(lookup):
     """Two Fathers' works of one title: the later file's used to replace the earlier's (some 25 lost).
     The one that answered to the title before still does; the others carry their author's name."""
-    assert lookup.get_verse("On Prayer 1:1")["source"].startswith("Origen")
+    assert lookup.get_verse("On Prayer 1:1")["source"] == "trans. William A. Curtis"       # Origen's
     assert lookup.get_verse("On Prayer (Tertullian) 1:1")["found"]
     assert lookup.get_verse("Ecclesiastical History (Socrates Scholasticus) 1:1")["found"]
     assert lookup.get_verse("ecclesiastical history socrates 1:1")["reference"].startswith("Ecclesiastical History (Socrates")

@@ -656,7 +656,7 @@ def main():
     d = clean_dante(d)
     m = milton()
     print(f"  Paradise Lost: {len(m)} plates")
-    OUT.write_text(json.dumps({"source": "Gustave Doré's engravings, from Wikimedia Commons",
+    OUT.write_text(json.dumps({"source": "Gustave Doré",
                                "plates": plates + d + m}, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"wrote {OUT.relative_to(ROOT)}: {len(plates) + len(d) + len(m)} plates")
 

@@ -1,5 +1,5 @@
 {
- "source": "Lucan. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Lucan",
  "books": {
   "Civil War": {
@@ -9457,6 +9457,6 @@
   }
  },
  "book_sources": {
-  "Civil War": "Lucan, Civil War, trans. Sir Edward Ridley. Perseus Digital Library (CC-BY-SA)."
+  "Civil War": "trans. Sir Edward Ridley"
  }
 }

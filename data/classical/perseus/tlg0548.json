@@ -1,5 +1,5 @@
 {
- "source": "Apollodorus. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Apollodorus",
  "books": {
   "Library": {
@@ -477,7 +477,7 @@
   }
  },
  "book_sources": {
-  "Library": "Apollodorus, Library, trans. Sir James George Frazer. Perseus Digital Library (CC-BY-SA).",
-  "Epitome": "Apollodorus, Epitome, trans. Sir James George Frazer. Perseus Digital Library (CC-BY-SA)."
+  "Library": "trans. Sir James George Frazer",
+  "Epitome": "trans. Sir James George Frazer"
  }
 }

@@ -17,7 +17,7 @@ from core import ROOT, bot
 
 TAROT_DIR = ROOT / "data" / "tarot"
 COLOR = discord.Color.from_rgb(120, 60, 140)
-SOURCE = "Rider tarot (1909), drawn by Pamela Colman Smith · words: A. E. Waite, The Pictorial Key to the Tarot (1911)"
+SOURCE = "Pamela Colman Smith (1909); A. E. Waite (1911)"
 
 NO_REVERSED = "*Waite gives no reversed meaning for this card.*"
 THREE = ["The past", "The present", "The future"]

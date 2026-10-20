@@ -1,19 +1,19 @@
 {
  "source": "The Anglican divines",
  "book_sources": {
-  "The Temple": "George Herbert, The Temple: Sacred Poems and Private Ejaculations (1633), Wikisource",
-  "Private Devotions of Lancelot Andrewes": "Lancelot Andrewes, Preces Privatae, trans. J. H. Newman and J. M. Neale, CCEL",
-  "Holy Living": "Jeremy Taylor, The Rule and Exercises of Holy Living (1650), CCEL",
-  "Holy Dying": "Jeremy Taylor, The Rule and Exercises of Holy Dying (1651), CCEL",
-  "A Serious Call to a Devout and Holy Life": "William Law, A Serious Call to a Devout and Holy Life (1729), CCEL",
-  "Laws of Ecclesiastical Polity": "Richard Hooker, Of the Laws of Ecclesiastical Polity, Preface and Books I-IV (1594-97), ed. John Keble",
-  "The Book of Homilies, First Book": "Certain Sermons or Homilies, the First Book (1547), largely by Thomas Cranmer",
-  "Bonner's Homilies": "Homilies Set Forth by the Right Reverend Father in God Edmund, Bishop of London (1555)",
-  "The Book of Homilies, Second Book": "The Second Book of Homilies (1563), largely by John Jewel",
-  "Donne's LXXX Sermons": "John Donne, LXXX Sermons (1640), modernized spelling",
-  "Donne's Fifty Sermons": "John Donne, Fifty Sermons (1649), modernized spelling",
-  "Donne's XXVI Sermons": "John Donne, XXVI Sermons (1661), modernized spelling",
-  "Holy Sonnets": "John Donne, Holy Sonnets, modernized spelling"
+  "The Temple": "George Herbert (1633)",
+  "Private Devotions of Lancelot Andrewes": "trans. J. H. Newman and J. M. Neale",
+  "Holy Living": "Jeremy Taylor (1650)",
+  "Holy Dying": "Jeremy Taylor (1651)",
+  "A Serious Call to a Devout and Holy Life": "William Law (1729)",
+  "Laws of Ecclesiastical Polity": "ed. John Keble",
+  "The Book of Homilies, First Book": "Thomas Cranmer et al. (1547)",
+  "Bonner's Homilies": "Edmund, Bishop of London (1555)",
+  "The Book of Homilies, Second Book": "John Jewel et al. (1563)",
+  "Donne's LXXX Sermons": "John Donne (1640)",
+  "Donne's Fifty Sermons": "John Donne (1649)",
+  "Donne's XXVI Sermons": "John Donne (1661)",
+  "Holy Sonnets": "John Donne"
  },
  "books": {
   "The Temple": {

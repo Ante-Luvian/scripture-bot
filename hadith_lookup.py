@@ -223,7 +223,7 @@ def fetch_hadith(collection_key: str, number: int) -> dict:
                 "found": True,
                 "reference": f"{display_name} {number}",
                 "text": text,
-                "source": f"{display_name} (fawazahmed0 Hadith API)",
+                "source": display_name,
             }
 
     # ── Strategy 2: section files ─────────────────────────────────────────────
@@ -267,7 +267,7 @@ def fetch_hadith(collection_key: str, number: int) -> dict:
                     "found": True,
                     "reference": f"{display_name} {number}",
                     "text": text,
-                    "source": f"{display_name} (fawazahmed0 Hadith API)",
+                    "source": display_name,
                 }
             # Found but empty text
             all_hadiths = _COLLECTION_CACHE.get(cache_key, [])

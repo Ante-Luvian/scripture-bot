@@ -1,5 +1,5 @@
 {
- "source": "Titus Livius (Livy). Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Titus Livius (Livy)",
  "books": {
   "The History of Rome": {
@@ -6924,6 +6924,6 @@
   }
  },
  "book_sources": {
-  "The History of Rome": "Titus Livius (Livy), The History of Rome, trans. Rev Canon. Perseus Digital Library (CC-BY-SA)."
+  "The History of Rome": "trans. Rev Canon"
  }
 }

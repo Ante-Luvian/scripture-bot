@@ -1,5 +1,5 @@
 {
- "source": "Dinarchus. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Dinarchus",
  "books": {
   "Dinarchus: Against Demosthenes": {
@@ -178,8 +178,8 @@
   }
  },
  "book_sources": {
-  "Dinarchus: Against Demosthenes": "Dinarchus, Against Demosthenes, trans. J. O. Burtt. Perseus Digital Library (CC-BY-SA).",
-  "Against Aristogiton": "Dinarchus, Against Aristogiton, trans. J. O. Burtt. Perseus Digital Library (CC-BY-SA).",
-  "Against Philocles": "Dinarchus, Against Philocles, trans. J. O. Burtt. Perseus Digital Library (CC-BY-SA)."
+  "Dinarchus: Against Demosthenes": "trans. J. O. Burtt",
+  "Against Aristogiton": "trans. J. O. Burtt",
+  "Against Philocles": "trans. J. O. Burtt"
  }
 }

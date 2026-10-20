@@ -1,5 +1,5 @@
 {
- "source": "Terence. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Terence",
  "books": {
   "Andria": {
@@ -3571,11 +3571,11 @@
   }
  },
  "book_sources": {
-  "Andria": "Terence, Andria; or, The Fair Andrian, trans. George Colman. Perseus Digital Library (CC-BY-SA).",
-  "Heautontimorumenos": "Terence, Heautontimorumenos; or, The Self-Tormenter, trans. George Colman. Perseus Digital Library (CC-BY-SA).",
-  "Eunuchus": "Terence, Eunuchus; or, The Eunuch, trans. George Colman. Perseus Digital Library (CC-BY-SA).",
-  "Phormio": "Terence, Phormio; or, The Scheming Parasite, trans. George Colman. Perseus Digital Library (CC-BY-SA).",
-  "Hecyra": "Terence, Hecyra; The Mother-in-Law, trans. George Colman. Perseus Digital Library (CC-BY-SA).",
-  "Adelphi": "Terence, Adelphi; or, The Brothers, trans. George Colman. Perseus Digital Library (CC-BY-SA)."
+  "Andria": "trans. George Colman",
+  "Heautontimorumenos": "trans. George Colman",
+  "Eunuchus": "trans. George Colman",
+  "Phormio": "trans. George Colman",
+  "Hecyra": "trans. George Colman",
+  "Adelphi": "trans. George Colman"
  }
 }

@@ -1,8 +1,8 @@
 {
  "source": "Aristotle.",
  "book_sources": {
-  "On Youth, Old Age, Life and Death": "Aristotle, On Youth and Old Age, On Life and Death, On Breathing, trans. G. R. T. Ross. MIT Internet Classics Archive",
-  "On the Generation of Animals": "Aristotle, trans. Arthur Platt (1910)"
+  "On Youth, Old Age, Life and Death": "trans. G. R. T. Ross",
+  "On the Generation of Animals": "trans. Arthur Platt (1910)"
  },
  "books": {
   "On Youth, Old Age, Life and Death": {

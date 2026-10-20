@@ -304,7 +304,7 @@ def main():
             "composer": "Gregorian chant" + (f", mode {r['mode']}" if r["mode"] else ""),
             "tune": "", "meter": "", "scripture": [], "topics": [PARTS.get(part, "Chant"), "Latin", "Gregorian chant"],
             "stanzas": stanzas, "refrain": "", "first_line": stanzas[0].split("\n")[0][:90],
-            "source": "GregoBase" + (f", from {book}" if book else "") + (f" ({r['version']})" if r["version"] else ""),
+            "source": (f"{book} ({r['version']})" if book and r["version"] else book or r["version"] or "GregoBase"),
             "audio": f"more/{name}", "audio_kind": "chant", "seconds": round(seconds), "language": "Latin",
             "gregobase": int(r["id"]),
         })

@@ -1,5 +1,5 @@
 {
- "source": "Galen. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Galen",
  "books": {
   "On the Natural Faculties": {
@@ -298,6 +298,6 @@
   }
  },
  "book_sources": {
-  "On the Natural Faculties": "Galen, On the Natural Faculties, trans. Arthur John Brock. Perseus Digital Library (CC-BY-SA)."
+  "On the Natural Faculties": "trans. Arthur John Brock"
  }
 }

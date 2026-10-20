@@ -1,5 +1,5 @@
 {
- "source": "Antiphon. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Antiphon",
  "books": {
   "Prosecution Of The Stepmother For Poisoning": {
@@ -341,11 +341,11 @@
   }
  },
  "book_sources": {
-  "Prosecution Of The Stepmother For Poisoning": "Antiphon, Prosecution Of The Stepmother For Poisoning, trans. Kenneth John Maidment. Perseus Digital Library (CC-BY-SA).",
-  "The First Tetralogy: Anonymous Prosecution for Murder": "Antiphon, The First Tetralogy: Anonymous Prosecution for Murder, trans. Kenneth John Maidment. Perseus Digital Library (CC-BY-SA).",
-  "The Second Tetralogy: Prosecution for Accidental Homicide": "Antiphon, The Second Tetralogy: Prosecution for Accidental Homicide, trans. Kenneth John Maidment. Perseus Digital Library (CC-BY-SA).",
-  "The Third Tetralogy: Prosecution for Murder Of One Who Pleads That He Was Acting in Self-Defence": "Antiphon, The Third Tetralogy: Prosecution for Murder Of One Who Pleads That He Was Acting in Self-Defence, trans. Kenneth John Maidment. Perseus Digital Library (CC-BY-SA).",
-  "On the Murder of Herodes": "Antiphon, On the Murder of Herodes, trans. Kenneth John Maidment. Perseus Digital Library (CC-BY-SA).",
-  "On the Choreutes": "Antiphon, On the Choreutes, trans. Kenneth John Maidment. Perseus Digital Library (CC-BY-SA)."
+  "Prosecution Of The Stepmother For Poisoning": "trans. Kenneth John Maidment",
+  "The First Tetralogy: Anonymous Prosecution for Murder": "trans. Kenneth John Maidment",
+  "The Second Tetralogy: Prosecution for Accidental Homicide": "trans. Kenneth John Maidment",
+  "The Third Tetralogy: Prosecution for Murder Of One Who Pleads That He Was Acting in Self-Defence": "trans. Kenneth John Maidment",
+  "On the Murder of Herodes": "trans. Kenneth John Maidment",
+  "On the Choreutes": "trans. Kenneth John Maidment"
  }
 }

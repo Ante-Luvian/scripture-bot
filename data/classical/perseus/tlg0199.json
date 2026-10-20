@@ -1,5 +1,5 @@
 {
- "source": "Bacchylides. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Bacchylides",
  "books": {
   "Epinicians": {
@@ -414,7 +414,7 @@
   }
  },
  "book_sources": {
-  "Epinicians": "Bacchylides, Epinicians, trans. Diane Arnson Svarlien. Perseus Digital Library (CC-BY-SA).",
-  "Dithyrambs": "Bacchylides, Dithyrambs, trans. Diane Arnson Svarlien. Perseus Digital Library (CC-BY-SA)."
+  "Epinicians": "trans. Diane Arnson Svarlien",
+  "Dithyrambs": "trans. Diane Arnson Svarlien"
  }
 }

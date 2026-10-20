@@ -1,5 +1,5 @@
 {
- "source": "Sallust. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Sallust",
  "books": {
   "Conspiracy of Catiline": {
@@ -273,7 +273,7 @@
   }
  },
  "book_sources": {
-  "Conspiracy of Catiline": "Sallust, Conspiracy of Catiline, trans. J. S. Watson. Perseus Digital Library (CC-BY-SA).",
-  "Jugurthine War": "Sallust, Jugurthine War, trans. J. S. Watson. Perseus Digital Library (CC-BY-SA)."
+  "Conspiracy of Catiline": "trans. J. S. Watson",
+  "Jugurthine War": "trans. J. S. Watson"
  }
 }

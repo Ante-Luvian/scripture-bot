@@ -1,5 +1,5 @@
 {
- "source": "Seneca, Lucius Annaeus. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Seneca, Lucius Annaeus",
  "books": {
   "Apocolocyntosis": {
@@ -46,6 +46,6 @@
   }
  },
  "book_sources": {
-  "Apocolocyntosis": "Seneca, Lucius Annaeus, Apocolocyntosis, trans. Michael Heseltine. Perseus Digital Library (CC-BY-SA)."
+  "Apocolocyntosis": "trans. Michael Heseltine"
  }
 }

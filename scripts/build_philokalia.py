@@ -363,10 +363,8 @@ def main(pdf: str) -> None:
         books[name] = chapters
     if missing:
         raise SystemExit(f"no text found for: {missing}")
-    by_title = {w["title"]: w["author"] for w in works}
-    sources = {name: f"{by_title[re.sub(r" \(.*\)$", "", name)] if name not in by_title else by_title[name]}, in the Philokalia "
-                     f"(trans. G.E.H. Palmer, Philip Sherrard and Kallistos Ware)" for name in books}
-    payload = {"source": "The Philokalia: The Complete Text, trans. G.E.H. Palmer, Philip Sherrard and Kallistos Ware",
+    sources = {name: "trans. Palmer, Sherrard and Ware" for name in books}
+    payload = {"source": "trans. Palmer, Sherrard and Ware",
                "book_sources": sources, "books": books}
     OUT.write_text(json.dumps(payload, ensure_ascii=False, indent=1), encoding="utf-8")
     for name, chapters in books.items():

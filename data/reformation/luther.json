@@ -1,16 +1,16 @@
 {
  "source": "Martin Luther",
  "book_sources": {
-  "Ninety-Five Theses": "Martin Luther, The Ninety-Five Theses (1517), sacred-texts.com",
-  "Treatise on Good Works": "Martin Luther, Treatise on Good Works (1520), Philadelphia edition, Project Gutenberg",
-  "The Bondage of the Will": "Martin Luther, The Bondage of the Will (1525), trans. Henry Cole (1823), CCEL",
-  "Luther on Galatians": "Martin Luther, Commentary on Galatians (1535), trans. Theodore Graebner, Project Gutenberg",
-  "Table Talk": "Martin Luther, Table Talk, trans. William Hazlitt, Project Gutenberg",
-  "Sermons of Martin Luther": "Martin Luther, sermons, trans. J. N. Lenker, sacred-texts.com",
-  "An Open Letter to the Christian Nobility": "Martin Luther, An Open Letter to the Christian Nobility (1520-22), Works of Martin Luther, Philadelphia edition (1915), Project Gutenberg",
-  "The Babylonian Captivity of the Church": "Martin Luther, The Babylonian Captivity of the Church (1520-22), Works of Martin Luther, Philadelphia edition (1915), Project Gutenberg",
-  "A Treatise on Christian Liberty": "Martin Luther, A Treatise on Christian Liberty (1520-22), Works of Martin Luther, Philadelphia edition (1915), Project Gutenberg",
-  "The Eight Wittenberg Sermons": "Martin Luther, The Eight Wittenberg Sermons (1520-22), Works of Martin Luther, Philadelphia edition (1915), Project Gutenberg"
+  "Ninety-Five Theses": "Martin Luther (1517)",
+  "Treatise on Good Works": "Philadelphia edition (1915)",
+  "The Bondage of the Will": "trans. Henry Cole (1823)",
+  "Luther on Galatians": "trans. Theodore Graebner",
+  "Table Talk": "trans. William Hazlitt",
+  "Sermons of Martin Luther": "trans. J. N. Lenker",
+  "An Open Letter to the Christian Nobility": "Philadelphia edition (1915)",
+  "The Babylonian Captivity of the Church": "Philadelphia edition (1915)",
+  "A Treatise on Christian Liberty": "Philadelphia edition (1915)",
+  "The Eight Wittenberg Sermons": "Philadelphia edition (1915)"
  },
  "books": {
   "Ninety-Five Theses": {

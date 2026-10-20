@@ -1,5 +1,5 @@
 {
- "source": "Vitruvius Pollio. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Vitruvius Pollio",
  "books": {
   "On Architecture": {
@@ -866,6 +866,6 @@
   }
  },
  "book_sources": {
-  "On Architecture": "Vitruvius Pollio, On Architecture, Virtruvius the ten books on architecture, trans. M. H. Morgan. Perseus Digital Library (CC-BY-SA)."
+  "On Architecture": "trans. M. H. Morgan"
  }
 }

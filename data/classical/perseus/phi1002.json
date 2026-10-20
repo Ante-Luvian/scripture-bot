@@ -1,5 +1,5 @@
 {
- "source": "Quintilian. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Quintilian",
  "books": {
   "Institutio Oratoria": {
@@ -3948,6 +3948,6 @@
   }
  },
  "book_sources": {
-  "Institutio Oratoria": "Quintilian, Institutio Oratoria, trans. Harold Edgeworth Butler. Perseus Digital Library (CC-BY-SA)."
+  "Institutio Oratoria": "trans. Harold Edgeworth Butler"
  }
 }

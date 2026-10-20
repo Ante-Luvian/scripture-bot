@@ -903,15 +903,15 @@ def additions() -> None:
     treatises once credited to Cyprian, and the abridged works made whole."""
     create(DATA / "church_councils.json", "Nicene and Post-Nicene Fathers, Series II, Vol. 14: The Seven Ecumenical Councils, "
            "ed. Henry R. Percival (1900); the councils' own texts, without the commentary", councils())
-    create(DATA / "apostolic_constitutions.json", "Ante-Nicene Fathers, Vol. 7, trans. James Donaldson (1886)",
+    create(DATA / "apostolic_constitutions.json", "trans. James Donaldson (1886)",
            {"Apostolic Constitutions": constitutions()})
-    create(DATA / "early_liturgies.json", "Ante-Nicene Fathers, Vol. 7 (1886)", liturgies())
-    create(DATA / "ancient_syriac_documents.json", "Ante-Nicene Fathers, Vol. 8, trans. B. P. Pratten (1886)", syriac_documents())
-    create(DATA / "remains_of_the_second_and_third_centuries.json", "Ante-Nicene Fathers, Vol. 8, trans. B. P. Pratten (1886)",
+    create(DATA / "early_liturgies.json", "Ante-Nicene Fathers (1886)", liturgies())
+    create(DATA / "ancient_syriac_documents.json", "trans. B. P. Pratten (1886)", syriac_documents())
+    create(DATA / "remains_of_the_second_and_third_centuries.json", "trans. B. P. Pratten (1886)",
            remains())
-    create(DATA / "anatolius_and_minor_writers.json", "Ante-Nicene Fathers, Vol. 6, trans. S. D. F. Salmond (1886)",
+    create(DATA / "anatolius_and_minor_writers.json", "trans. S. D. F. Salmond (1886)",
            minor_writers())
-    create(ROOT / "data" / "nt_apocrypha" / "anf9_apocrypha.json", "Ante-Nicene Fathers, Vol. 9, ed. Allan Menzies (1896)",
+    create(ROOT / "data" / "nt_apocrypha" / "anf9_apocrypha.json", "ed. Allan Menzies (1896)",
            anf9_apocrypha())
     update("ephrem_the_syrian.json", replace={
         "Hymns on the Nativity": whole("npnf213", "Ephraim Syrus: Nineteen Hymns on the Nativity of Christ in the Flesh."),
@@ -932,7 +932,7 @@ def write() -> None:
     update("augustine.json", replace={"Tractates on the Gospel of John": tractates_on_john()})
     update("gregory_of_nyssa.json", replace={"The Great Catechism": great_catechism()})
     update("origen.json", replace={"On Prayer": origen_on_prayer()}, extend={"De Principiis": de_principiis_books_3_and_4()},
-           sources={"On Prayer": "Origen, On Prayer, trans. William A. Curtis, from CCEL"})
+           sources={"On Prayer": "trans. William A. Curtis"})
     update("cyprian_of_carthage.json", replace={"Three Books of Testimonies Against the Jews": testimonies()})
     update("john_of_damascus.json", remove=("Philosophical Chapters",))
     additions()

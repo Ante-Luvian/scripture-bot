@@ -1,5 +1,5 @@
 {
-  "source": "Book of Common Prayer 1662 — The Order how the Psalter is appointed to be read",
+  "source": "Book of Common Prayer (1662)",
   "notes": "The Psalter is divided into sixty portions, one for Morning Prayer and one for Evening Prayer of each of the thirty days of the month. On the 31st day, the Psalms of the previous day are repeated. The incipits are the opening words of the Coverdale (BCP 1662) Psalter.",
   "days": {
     "1":  {"morning": ["1", "2", "3", "4", "5"],       "evening": ["6", "7", "8"]},

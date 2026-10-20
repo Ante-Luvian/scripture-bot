@@ -1,5 +1,5 @@
 {
- "source": "Hyperides. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Hyperides",
  "books": {
   "In Defence of Lycophron": {
@@ -186,11 +186,11 @@
   }
  },
  "book_sources": {
-  "In Defence of Lycophron": "Hyperides, In Defence of Lycophron, trans. J. O. Burtt. Perseus Digital Library (CC-BY-SA).",
-  "Against Philippides": "Hyperides, Against Philippides, trans. J. O. Burtt. Perseus Digital Library (CC-BY-SA).",
-  "Against Athenogenes": "Hyperides, Against Athenogenes, trans. J. O. Burtt. Perseus Digital Library (CC-BY-SA).",
-  "In Defence of Euxenippus": "Hyperides, In Defence of Euxenippus, trans. J. O. Burtt. Perseus Digital Library (CC-BY-SA).",
-  "Hyperides: Against Demosthenes": "Hyperides, Against Demosthenes, trans. J. O. Burtt. Perseus Digital Library (CC-BY-SA).",
-  "Hyperides: Funeral Oration": "Hyperides, Funeral Oration, trans. J. O. Burtt. Perseus Digital Library (CC-BY-SA)."
+  "In Defence of Lycophron": "trans. J. O. Burtt",
+  "Against Philippides": "trans. J. O. Burtt",
+  "Against Athenogenes": "trans. J. O. Burtt",
+  "In Defence of Euxenippus": "trans. J. O. Burtt",
+  "Hyperides: Against Demosthenes": "trans. J. O. Burtt",
+  "Hyperides: Funeral Oration": "trans. J. O. Burtt"
  }
 }

@@ -19,7 +19,7 @@ from discord import app_commands
 from core import ROOT, bot, log
 
 DATA_PATH = ROOT / "data" / "people_places" / "people_places.json"
-SOURCE = "Theographic Bible Metadata · Easton's Bible Dictionary · OpenBible.info"
+SOURCE = "Theographic, Easton, OpenBible.info"
 PERSON_COLOR = discord.Color.from_rgb(150, 90, 40)
 PLACE_COLOR = discord.Color.from_rgb(60, 120, 90)
 SHOW_VERSES = 40

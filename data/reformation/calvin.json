@@ -1,9 +1,9 @@
 {
  "source": "John Calvin",
  "book_sources": {
-  "Institutes of the Christian Religion": "John Calvin, Institutes of the Christian Religion (1559), trans. Henry Beveridge (1845), sacred-texts.com",
-  "Prefatory Address to Francis I": "John Calvin, Prefatory Address to the Institutes (1536), trans. Henry Beveridge, sacred-texts.com",
-  "A Treatise on Relics": "John Calvin, A Treatise on Relics (1543), trans. Valerian Krasinski (1854), Project Gutenberg"
+  "Institutes of the Christian Religion": "trans. Henry Beveridge (1845)",
+  "Prefatory Address to Francis I": "trans. Henry Beveridge (1845)",
+  "A Treatise on Relics": "trans. Valerian Krasinski (1854)"
  },
  "books": {
   "Institutes of the Christian Religion": {

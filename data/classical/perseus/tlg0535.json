@@ -1,5 +1,5 @@
 {
- "source": "Demades. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Demades",
  "books": {
   "On the Twelve Years": {
@@ -73,6 +73,6 @@
   }
  },
  "book_sources": {
-  "On the Twelve Years": "Demades, On the Twelve Years, trans. John Ormiston Burtt. Perseus Digital Library (CC-BY-SA)."
+  "On the Twelve Years": "trans. John Ormiston Burtt"
  }
 }

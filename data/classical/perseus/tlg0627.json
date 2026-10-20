@@ -1,5 +1,5 @@
 {
- "source": "Hippocrates. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Hippocrates",
  "books": {
   "Ancient Medicine": {
@@ -1204,24 +1204,24 @@
   }
  },
  "book_sources": {
-  "Ancient Medicine": "Hippocrates, Ancient Medicine, trans. William Henry Samuel Jones. Perseus Digital Library (CC-BY-SA).",
-  "Airs": "Hippocrates, Airs, Waters, and Places, trans. Francis Adams. Perseus Digital Library (CC-BY-SA).",
-  "Of the Prognostics": "Hippocrates, Of the Prognostics, trans. Francis Adams. Perseus Digital Library (CC-BY-SA).",
-  "On Regimen in Acute Diseases": "Hippocrates, On Regimen in Acute Diseases, trans. Francis Adams. Perseus Digital Library (CC-BY-SA).",
-  "The Epidemics": "Hippocrates, The Epidemics, trans. Francis Adams. Perseus Digital Library (CC-BY-SA).",
-  "On Injuries of the Head": "Hippocrates, On Injuries of the Head, trans. Francis Adams. Perseus Digital Library (CC-BY-SA).",
-  "On the Surgery": "Hippocrates, On the Surgery, trans. Francis Adams. Perseus Digital Library (CC-BY-SA).",
-  "On Fractures": "Hippocrates, On Fractures, trans. Francis Adams. Perseus Digital Library (CC-BY-SA).",
-  "On the Articulations": "Hippocrates, On the Articulations, trans. Francis Adams. Perseus Digital Library (CC-BY-SA).",
-  "Mochlicus": "Hippocrates, Mochlicus, trans. Francis Adams. Perseus Digital Library (CC-BY-SA).",
-  "Aphorisms": "Hippocrates, Aphorisms, trans. Francis Adams. Perseus Digital Library (CC-BY-SA).",
-  "Oath": "Hippocrates, Oath, trans. William Henry Samuel Jones. Perseus Digital Library (CC-BY-SA).",
-  "The Law": "Hippocrates, The Law, trans. Francis Adams. Perseus Digital Library (CC-BY-SA).",
-  "On the Sacred Disease": "Hippocrates, On the Sacred Disease, trans. Francis Adams. Perseus Digital Library (CC-BY-SA).",
-  "On Ulcers": "Hippocrates, On Ulcers, trans. Francis Adams. Perseus Digital Library (CC-BY-SA).",
-  "On Hemorrhoids": "Hippocrates, On Hemorrhoids, trans. Francis Adams. Perseus Digital Library (CC-BY-SA).",
-  "On Fistulae": "Hippocrates, On Fistulae, trans. Francis Adams. Perseus Digital Library (CC-BY-SA).",
-  "Nutriment": "Hippocrates, Nutriment, trans. William Henry Samuel Jones. Perseus Digital Library (CC-BY-SA).",
-  "Precepts": "Hippocrates, Precepts, trans. William Henry Samuel Jones. Perseus Digital Library (CC-BY-SA)."
+  "Ancient Medicine": "trans. William Henry Samuel Jones",
+  "Airs": "trans. Francis Adams",
+  "Of the Prognostics": "trans. Francis Adams",
+  "On Regimen in Acute Diseases": "trans. Francis Adams",
+  "The Epidemics": "trans. Francis Adams",
+  "On Injuries of the Head": "trans. Francis Adams",
+  "On the Surgery": "trans. Francis Adams",
+  "On Fractures": "trans. Francis Adams",
+  "On the Articulations": "trans. Francis Adams",
+  "Mochlicus": "trans. Francis Adams",
+  "Aphorisms": "trans. Francis Adams",
+  "Oath": "trans. William Henry Samuel Jones",
+  "The Law": "trans. Francis Adams",
+  "On the Sacred Disease": "trans. Francis Adams",
+  "On Ulcers": "trans. Francis Adams",
+  "On Hemorrhoids": "trans. Francis Adams",
+  "On Fistulae": "trans. Francis Adams",
+  "Nutriment": "trans. William Henry Samuel Jones",
+  "Precepts": "trans. William Henry Samuel Jones"
  }
 }

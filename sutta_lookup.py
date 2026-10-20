@@ -23,7 +23,7 @@ from collections import OrderedDict
 
 API = "https://suttacentral.net/api/"
 TRANSLATOR = "sujato"
-SOURCE = "Bhikkhu Sujato's translation (SuttaCentral)"
+SOURCE = "trans. Bhikkhu Sujato"
 
 # uid prefix: (names people use, what it's called)
 COLLECTIONS = {
@@ -182,5 +182,5 @@ def get_sutta(reference: str) -> "dict | None":
                 f"SuttaCentral has no **{cite}** in Sujato's translation.", "suggestions": []}
     pages = pack(lines)
     return {"found": True, "reference": f"{cite} · {title}" if title else cite, "text": pages[0],
-            "source": f"{COLLECTIONS[coll][1]} — {SOURCE}", "pages": pages if len(pages) > 1 else None,
+            "source": SOURCE, "pages": pages if len(pages) > 1 else None,
             "book": COLLECTIONS[coll][1], "chapter": uid[len(coll):], "verse": sec or 1}

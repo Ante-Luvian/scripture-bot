@@ -1,8 +1,8 @@
 {
  "source": "Dialogues once ascribed to Plato.",
  "book_sources": {
-  "Axiochus": "Axiochus, once ascribed to Plato, trans. George Burges (1854)",
-  "Eryxias": "Eryxias, once ascribed to Plato, trans. Benjamin Jowett"
+  "Axiochus": "trans. George Burges (1854)",
+  "Eryxias": "trans. Benjamin Jowett"
  },
  "books": {
   "Axiochus": {

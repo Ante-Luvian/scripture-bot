@@ -1,5 +1,5 @@
 {
- "source": "Celsus, Aulus Cornelius. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Celsus, Aulus Cornelius",
  "books": {
   "De Medicina": {
@@ -878,6 +878,6 @@
   }
  },
  "book_sources": {
-  "De Medicina": "Celsus, Aulus Cornelius, De Medicina, trans. Walter George Spencer. Perseus Digital Library (CC-BY-SA)."
+  "De Medicina": "trans. Walter George Spencer"
  }
 }

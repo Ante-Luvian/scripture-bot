@@ -1,5 +1,5 @@
 {
- "source": "Isaeus. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Isaeus",
  "books": {
   "On The Estate of Cleonymus": {
@@ -601,17 +601,17 @@
   }
  },
  "book_sources": {
-  "On The Estate of Cleonymus": "Isaeus, On The Estate of Cleonymus, trans. Edward Seymour Forster. Perseus Digital Library (CC-BY-SA).",
-  "On the Estate of Menecles": "Isaeus, On the Estate of Menecles, trans. Edward Seymour Forster. Perseus Digital Library (CC-BY-SA).",
-  "On The Estate Of Pyrrhus": "Isaeus, On The Estate Of Pyrrhus, trans. Edward Seymour Forster. Perseus Digital Library (CC-BY-SA).",
-  "On the Estate of Nicostratus": "Isaeus, On the Estate of Nicostratus, trans. Edward Seymour Forster. Perseus Digital Library (CC-BY-SA).",
-  "On the Estate of Dicaeogenes": "Isaeus, On the Estate of Dicaeogenes, trans. Edward Seymour Forster. Perseus Digital Library (CC-BY-SA).",
-  "On the Estate of Philoctemon": "Isaeus, On the Estate of Philoctemon, trans. Edward Seymour Forster. Perseus Digital Library (CC-BY-SA).",
-  "On The Estate of Apollodorus": "Isaeus, On The Estate of Apollodorus, trans. Edward Seymour Forster. Perseus Digital Library (CC-BY-SA).",
-  "On The Estate of Ciron": "Isaeus, On The Estate of Ciron, trans. Edward Seymour Forster. Perseus Digital Library (CC-BY-SA).",
-  "On the Estate of Astyphilus": "Isaeus, On the Estate of Astyphilus, trans. Edward Seymour Forster. Perseus Digital Library (CC-BY-SA).",
-  "On The Estate of Aristarchus": "Isaeus, On The Estate of Aristarchus, trans. Edward Seymour Forster. Perseus Digital Library (CC-BY-SA).",
-  "On the Estate of Hagnias": "Isaeus, On the Estate of Hagnias, trans. Edward Seymour Forster. Perseus Digital Library (CC-BY-SA).",
-  "On Behalf of Euphiletus": "Isaeus, On Behalf of Euphiletus, trans. Edward Seymour Forster. Perseus Digital Library (CC-BY-SA)."
+  "On The Estate of Cleonymus": "trans. Edward Seymour Forster",
+  "On the Estate of Menecles": "trans. Edward Seymour Forster",
+  "On The Estate Of Pyrrhus": "trans. Edward Seymour Forster",
+  "On the Estate of Nicostratus": "trans. Edward Seymour Forster",
+  "On the Estate of Dicaeogenes": "trans. Edward Seymour Forster",
+  "On the Estate of Philoctemon": "trans. Edward Seymour Forster",
+  "On The Estate of Apollodorus": "trans. Edward Seymour Forster",
+  "On The Estate of Ciron": "trans. Edward Seymour Forster",
+  "On the Estate of Astyphilus": "trans. Edward Seymour Forster",
+  "On The Estate of Aristarchus": "trans. Edward Seymour Forster",
+  "On the Estate of Hagnias": "trans. Edward Seymour Forster",
+  "On Behalf of Euphiletus": "trans. Edward Seymour Forster"
  }
 }

@@ -1,5 +1,5 @@
 {
- "source": "Athenaeus of Naucratis. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Athenaeus of Naucratis",
  "books": {
   "The Deipnosophists": {
@@ -16896,6 +16896,6 @@
   }
  },
  "book_sources": {
-  "The Deipnosophists": "Athenaeus of Naucratis, The Deipnosophists, trans. Charles Duke Yonge. Perseus Digital Library (CC-BY-SA)."
+  "The Deipnosophists": "trans. Charles Duke Yonge"
  }
 }

@@ -1,5 +1,5 @@
 {
- "source": "Sophocles. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Sophocles",
  "books": {
   "Trachiniae": {
@@ -4295,13 +4295,13 @@
   }
  },
  "book_sources": {
-  "Trachiniae": "Sophocles, Trachiniae, trans. Sir Richard Claverhouse Jebb. Perseus Digital Library (CC-BY-SA).",
-  "Antigone": "Sophocles, Antigone, trans. Sir Richard Claverhouse Jebb. Perseus Digital Library (CC-BY-SA).",
-  "Ajax": "Sophocles, Ajax, trans. Sir Richard Claverhouse Jebb. Perseus Digital Library (CC-BY-SA).",
-  "Oedipus Tyrannus": "Sophocles, Oedipus Tyrannus, trans. Sir Richard Claverhouse Jebb. Perseus Digital Library (CC-BY-SA).",
-  "Sophocles: Electra": "Sophocles, Electra, trans. Sir Richard Claverhouse Jebb. Perseus Digital Library (CC-BY-SA).",
-  "Philoctetes": "Sophocles, Philoctetes, trans. Sir Richard Claverhouse Jebb. Perseus Digital Library (CC-BY-SA).",
-  "Oedipus at Colonus": "Sophocles, Oedipus at Colonus, trans. Sir Richard Claverhouse Jebb. Perseus Digital Library (CC-BY-SA).",
-  "Tracking Satyrs": "Sophocles, Tracking Satyrs, trans. Anne Mahoney. Perseus Digital Library (CC-BY-SA)."
+  "Trachiniae": "trans. Sir Richard Claverhouse Jebb",
+  "Antigone": "trans. Sir Richard Claverhouse Jebb",
+  "Ajax": "trans. Sir Richard Claverhouse Jebb",
+  "Oedipus Tyrannus": "trans. Sir Richard Claverhouse Jebb",
+  "Sophocles: Electra": "trans. Sir Richard Claverhouse Jebb",
+  "Philoctetes": "trans. Sir Richard Claverhouse Jebb",
+  "Oedipus at Colonus": "trans. Sir Richard Claverhouse Jebb",
+  "Tracking Satyrs": "trans. Anne Mahoney"
  }
 }

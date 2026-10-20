@@ -1,5 +1,5 @@
 {
- "source": "Tibullus. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Tibullus",
  "books": {
   "Six Poems": {
@@ -58,6 +58,6 @@
   }
  },
  "book_sources": {
-  "Six Poems": "Tibullus, Six Poems, trans. Anne Mahoney. Perseus Digital Library (CC-BY-SA)."
+  "Six Poems": "trans. Anne Mahoney"
  }
 }

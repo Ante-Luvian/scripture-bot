@@ -1,5 +1,5 @@
 {
- "source": "Epictetus. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Epictetus",
  "books": {
   "Arrian's Discourses of Epictetus": {
@@ -771,7 +771,7 @@
   }
  },
  "book_sources": {
-  "Arrian's Discourses of Epictetus": "Epictetus, Arrian's Discourses of Epictetus, trans. George Long. Perseus Digital Library (CC-BY-SA).",
-  "Epictetus: Fragments": "Epictetus, Fragments, trans. George Long. Perseus Digital Library (CC-BY-SA)."
+  "Arrian's Discourses of Epictetus": "trans. George Long",
+  "Epictetus: Fragments": "trans. George Long"
  }
 }

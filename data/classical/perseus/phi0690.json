@@ -1,5 +1,5 @@
 {
- "source": "P. Vergilius Maro (Virgil). Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "P. Vergilius Maro (Virgil)",
  "books": {
   "Eclogues": {
@@ -1180,7 +1180,7 @@
   }
  },
  "book_sources": {
-  "Eclogues": "P. Vergilius Maro (Virgil), Eclogues, trans. James Rhoades. Perseus Digital Library (CC-BY-SA).",
-  "Georgics": "P. Vergilius Maro (Virgil), Georgics, trans. James Rhoades. Perseus Digital Library (CC-BY-SA)."
+  "Eclogues": "trans. James Rhoades",
+  "Georgics": "trans. James Rhoades"
  }
 }

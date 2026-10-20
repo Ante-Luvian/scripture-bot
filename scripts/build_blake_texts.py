@@ -313,7 +313,7 @@ def main():
         expect(key in shown and len(texts) == len(shown[key]["plates"]),
                f"{key}: {len(texts)} texts for {len(shown.get(key, {}).get('plates', []))} plates")
         print(f"  {shown[key]['title']}: {sum(bool(t) for t in texts)} of {len(texts)} plates have words")
-    OUT.write_text(json.dumps({"source": "Wikisource transcriptions (Songs: copy Z); Thel: Project Gutenberg",
+    OUT.write_text(json.dumps({"source": "William Blake",
                                "texts": out}, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"wrote {OUT.relative_to(ROOT)}")
 

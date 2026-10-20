@@ -1,17 +1,17 @@
 {
  "source": "Protestant confessions of faith",
  "book_sources": {
-  "Heidelberg Catechism": "The Heidelberg Catechism (1563), sacred-texts.com",
-  "Second Helvetic Confession": "The Second Helvetic Confession (1566), sacred-texts.com",
-  "Belgic Confession": "The Belgic Confession (1561), as revised at Dort (1619), from The Constitution of the Reformed Dutch Church (1840), Wikisource",
-  "Canons of Dort": "The Canons of the Synod of Dort (1619), from The Constitution of the Reformed Dutch Church (1840), Wikisource",
-  "Scots Confession": "The Scots Confession (1560), Wikisource",
-  "Westminster Confession of Faith": "The Westminster Confession of Faith (1646), Wikisource (transcribed from the 1646 manuscript, tercentenary edition, 1946)",
-  "Westminster Shorter Catechism": "The Westminster Shorter Catechism (1647), sacred-texts.com",
-  "Westminster Larger Catechism": "The Westminster Larger Catechism (1647), Wikisource",
-  "Thirty-Nine Articles": "The Articles of Religion of the Church of England (1571), Wikisource",
-  "Methodist Articles of Religion": "John Wesley, The Articles of Religion (1784), Wikisource",
-  "Second London Baptist Confession": "The Second London Baptist Confession of Faith (1677/1689), CCEL"
+  "Heidelberg Catechism": "1563 text",
+  "Second Helvetic Confession": "1566 text",
+  "Belgic Confession": "as revised at Dort (1619)",
+  "Canons of Dort": "1619 text",
+  "Scots Confession": "1560 text",
+  "Westminster Confession of Faith": "1646 text",
+  "Westminster Shorter Catechism": "1647 text",
+  "Westminster Larger Catechism": "1647 text",
+  "Thirty-Nine Articles": "Church of England (1571)",
+  "Methodist Articles of Religion": "John Wesley (1784)",
+  "Second London Baptist Confession": "1689 text"
  },
  "books": {
   "Heidelberg Catechism": {

@@ -1,5 +1,5 @@
 {
- "source": "Pindar. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Pindar",
  "books": {
   "Olympian Odes": {
@@ -1176,9 +1176,9 @@
   }
  },
  "book_sources": {
-  "Olympian Odes": "Pindar, Olympian Odes, trans. Diane Arnson Svarlien. Perseus Digital Library (CC-BY-SA).",
-  "Pythian Odes": "Pindar, Pythian Odes, trans. Diane Arnson Svarlien. Perseus Digital Library (CC-BY-SA).",
-  "Nemean Odes": "Pindar, Nemean Odes, trans. Diane Arnson Svarlien. Perseus Digital Library (CC-BY-SA).",
-  "Isthmean Odes": "Pindar, Isthmean Odes, trans. Diane Arnson Svarlien. Perseus Digital Library (CC-BY-SA)."
+  "Olympian Odes": "trans. Diane Arnson Svarlien",
+  "Pythian Odes": "trans. Diane Arnson Svarlien",
+  "Nemean Odes": "trans. Diane Arnson Svarlien",
+  "Isthmean Odes": "trans. Diane Arnson Svarlien"
  }
 }

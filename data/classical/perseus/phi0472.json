@@ -1,5 +1,5 @@
 {
- "source": "Catullus, C. Valerius. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Catullus, C. Valerius",
  "books": {
   "Carmina": {
@@ -2523,6 +2523,6 @@
   }
  },
  "book_sources": {
-  "Carmina": "Catullus, C. Valerius, Carmina, trans. Sir Richard Francis Burton. Perseus Digital Library (CC-BY-SA)."
+  "Carmina": "trans. Sir Richard Francis Burton"
  }
 }

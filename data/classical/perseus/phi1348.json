@@ -1,5 +1,5 @@
 {
- "source": "Suetonius. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Suetonius",
  "books": {
   "Julius Caesar": {
@@ -986,17 +986,17 @@
   }
  },
  "book_sources": {
-  "Julius Caesar": "Suetonius, Julius Caesar, trans. M.D Alexander. Perseus Digital Library (CC-BY-SA).",
-  "Augustus": "Suetonius, Augustus, trans. M.D Alexander. Perseus Digital Library (CC-BY-SA).",
-  "Tiberius": "Suetonius, Tiberius, trans. M.D Alexander. Perseus Digital Library (CC-BY-SA).",
-  "C. Caligula": "Suetonius, C. Caligula, trans. M.D Alexander. Perseus Digital Library (CC-BY-SA).",
-  "Claudius": "Suetonius, Claudius, trans. M.D Alexander. Perseus Digital Library (CC-BY-SA).",
-  "Nero": "Suetonius, Nero, trans. M.D Alexander. Perseus Digital Library (CC-BY-SA).",
-  "Suetonius: Galba": "Suetonius, Galba, trans. M.D Alexander. Perseus Digital Library (CC-BY-SA).",
-  "Suetonius: Otho": "Suetonius, Otho, trans. M.D Alexander. Perseus Digital Library (CC-BY-SA).",
-  "Vitellius": "Suetonius, Vitellius, trans. M.D Alexander. Perseus Digital Library (CC-BY-SA).",
-  "Vespasian": "Suetonius, Vespasian, trans. M.D Alexander. Perseus Digital Library (CC-BY-SA).",
-  "Suetonius: Titus": "Suetonius, Titus, trans. M.D Alexander. Perseus Digital Library (CC-BY-SA).",
-  "Domitian": "Suetonius, Domitian, trans. M.D Alexander. Perseus Digital Library (CC-BY-SA)."
+  "Julius Caesar": "trans. M.D Alexander",
+  "Augustus": "trans. M.D Alexander",
+  "Tiberius": "trans. M.D Alexander",
+  "C. Caligula": "trans. M.D Alexander",
+  "Claudius": "trans. M.D Alexander",
+  "Nero": "trans. M.D Alexander",
+  "Suetonius: Galba": "trans. M.D Alexander",
+  "Suetonius: Otho": "trans. M.D Alexander",
+  "Vitellius": "trans. M.D Alexander",
+  "Vespasian": "trans. M.D Alexander",
+  "Suetonius: Titus": "trans. M.D Alexander",
+  "Domitian": "trans. M.D Alexander"
  }
 }

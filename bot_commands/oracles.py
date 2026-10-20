@@ -24,9 +24,9 @@ from core import (
 )
 from core import ROOT
 
-VIRGIL_SOURCE = "The Aeneid — Virgil (trans. John Dryden, 1697)"
-HOMER_SOURCE = "Sortes Homericae — PMG VII"
-DELPHI_SOURCE = "Delphic Maxims — trans. Melissa Gold (Hellenion)"
+VIRGIL_SOURCE = "trans. John Dryden (1697)"
+HOMER_SOURCE = "PMG VII"
+DELPHI_SOURCE = "trans. Melissa Gold"
 _ORACULAR_BOOKS = {   # !oracle's pool: book -> (source, stats prefix)
     "Delphic Maxims":      (DELPHI_SOURCE, "Delphi 1"),
     "Oracular Statements": ("Oracular Statements from Delphi", "Delphi 2"),
@@ -529,7 +529,7 @@ async def sortes_biblicae_slash(interaction: discord.Interaction, question: str 
 # "changing": their texts are read, and they flip to give a second hexagram.
 # Lines are built from the bottom up. Text: Legge (SBE 16, 1882).
 
-ICHING_SOURCE = "The I Ching, trans. James Legge (Sacred Books of the East 16, 1882)"
+ICHING_SOURCE = "trans. James Legge (1882)"
 _ICHING_META = None
 
 
@@ -614,7 +614,7 @@ async def cmd_iching(ctx, *, question: str = ""):
 # Hafiz at random, and read the poem you find as the answer. Bell's 43
 # ghazals stand in for the full Divan.
 
-HAFIZ_SOURCE = "Hafiz, Poems from the Divan of Hafiz, trans. Gertrude Bell (1897)"
+HAFIZ_SOURCE = "trans. Gertrude Bell (1897)"
 
 
 def _hafiz_poems() -> dict:
@@ -644,7 +644,7 @@ async def cmd_hafez(ctx, *, question: str = ""):
 # read what you find. Whinfield's abridgement keeps each story's prose summary
 # as its first passage; the oracle reads a run of the couplets themselves.
 
-RUMI_SOURCE = "Rumi, The Masnavi, abridged and trans. E. H. Whinfield (1898)"
+RUMI_SOURCE = "trans. E. H. Whinfield (1898)"
 
 
 def _masnavi() -> dict:

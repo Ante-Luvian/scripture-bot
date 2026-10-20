@@ -1,5 +1,5 @@
 {
- "source": "Ovid. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Ovid",
  "books": {
   "Amores": {
@@ -21553,11 +21553,11 @@
   }
  },
  "book_sources": {
-  "Amores": "Ovid, Amores. Perseus Digital Library (CC-BY-SA).",
-  "Epistles": "Ovid, Epistles. Perseus Digital Library (CC-BY-SA).",
-  "The Art of Beauty": "Ovid, The Art of Beauty. Perseus Digital Library (CC-BY-SA).",
-  "The Art of Love": "Ovid, The Art of Love. Perseus Digital Library (CC-BY-SA).",
-  "Remedy of Love": "Ovid, Remedy of Love, trans. Nahum Tate. Perseus Digital Library (CC-BY-SA).",
-  "Metamorphoses": "Ovid, Metamorphoses, trans. Brookes More. Perseus Digital Library (CC-BY-SA)."
+  "Amores": "Perseus Digital Library",
+  "Epistles": "Perseus Digital Library",
+  "The Art of Beauty": "Perseus Digital Library",
+  "The Art of Love": "Perseus Digital Library",
+  "Remedy of Love": "trans. Nahum Tate",
+  "Metamorphoses": "trans. Brookes More"
  }
 }

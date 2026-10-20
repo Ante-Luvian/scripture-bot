@@ -1,5 +1,5 @@
 {
- "source": "Aeschylus. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Aeschylus",
  "books": {
   "Suppliant Maidens": {
@@ -3944,12 +3944,12 @@
   }
  },
  "book_sources": {
-  "Suppliant Maidens": "Aeschylus, Suppliant Maidens, trans. Herbert Weir Smyth. Perseus Digital Library (CC-BY-SA).",
-  "Persians": "Aeschylus, Persians, trans. Herbert Weir Smyth. Perseus Digital Library (CC-BY-SA).",
-  "Prometheus Bound": "Aeschylus, Prometheus Bound, trans. Herbert Weir Smyth. Perseus Digital Library (CC-BY-SA).",
-  "Seven Against Thebes": "Aeschylus, Seven Against Thebes, trans. Herbert Weir Smyth. Perseus Digital Library (CC-BY-SA).",
-  "Agamemnon": "Aeschylus, Agamemnon, trans. Robert Browning. Perseus Digital Library (CC-BY-SA).",
-  "Libation Bearers": "Aeschylus, Libation Bearers, trans. Herbert Weir Smyth. Perseus Digital Library (CC-BY-SA).",
-  "Eumenides": "Aeschylus, Eumenides, trans. Herbert Weir Smyth. Perseus Digital Library (CC-BY-SA)."
+  "Suppliant Maidens": "trans. Herbert Weir Smyth",
+  "Persians": "trans. Herbert Weir Smyth",
+  "Prometheus Bound": "trans. Herbert Weir Smyth",
+  "Seven Against Thebes": "trans. Herbert Weir Smyth",
+  "Agamemnon": "trans. Robert Browning",
+  "Libation Bearers": "trans. Herbert Weir Smyth",
+  "Eumenides": "trans. Herbert Weir Smyth"
  }
 }

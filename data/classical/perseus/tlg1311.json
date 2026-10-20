@@ -1,5 +1,5 @@
 {
- "source": "Didache. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Didache",
  "books": {
   "The Didache, or Teaching of the Twelve Apostles": {
@@ -138,6 +138,6 @@
   }
  },
  "book_sources": {
-  "The Didache, or Teaching of the Twelve Apostles": "Didache, The Didache, or Teaching of the Twelve Apostles, trans. Kirsopp Lake. Perseus Digital Library (CC-BY-SA)."
+  "The Didache, or Teaching of the Twelve Apostles": "trans. Kirsopp Lake"
  }
 }

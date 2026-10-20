@@ -1,5 +1,5 @@
 {
- "source": "Lucretius. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Lucretius",
  "books": {
   "De Rerum Natura": {
@@ -2512,6 +2512,6 @@
   }
  },
  "book_sources": {
-  "De Rerum Natura": "Lucretius, De Rerum Natura. Perseus Digital Library (CC-BY-SA)."
+  "De Rerum Natura": "Perseus Digital Library"
  }
 }

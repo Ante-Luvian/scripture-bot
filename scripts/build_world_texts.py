@@ -133,7 +133,7 @@ def dhammapada():
                 verses[last] += " " + tidy(p)
         book[str(n)] = verses
     expect(numbers == list(range(1, 424)), f"verses run {numbers[:3]}...{numbers[-3:]} ({len(numbers)})")
-    write("buddhist", "dhammapada.json", "The Dhammapada, trans. F. Max Müller (Sacred Books of the East 10, 1881)",
+    write("buddhist", "dhammapada.json", "trans. F. Max Müller (1881)",
           {"Dhammapada": book})
 
 
@@ -159,7 +159,7 @@ def diamond_sutra():
     book["4"] = {"1": "(Chapters 3 and 4 are translated together: see Diamond Sutra 3.)"}
     book = dict(sorted(book.items(), key=lambda kv: int(kv[0])))
     expect(list(book) == [str(i) for i in range(1, 33)], f"chapters {list(book)[:3]}...{list(book)[-3:]}")
-    write("buddhist", "diamond_sutra.json", "The Diamond Sutra, trans. William Gemmell (1912), from the Chinese of Kumarajiva",
+    write("buddhist", "diamond_sutra.json", "trans. William Gemmell (1912)",
           {"Diamond Sutra": book})
 
 
@@ -209,7 +209,7 @@ def sutta_nipata():
     print(f"  {len(book)} suttas, {len(numbers)} verses, {numbers[0]}-{numbers[-1]}; "
           f"missing: {sorted(set(range(1, numbers[-1] + 1)) - set(numbers))[:20]}")
     expect(len(book) >= 70 and numbers[-1] >= 1140, "suttas/verses")
-    write("buddhist", "sutta_nipata.json", "The Sutta-Nipata, trans. V. Fausbøll (Sacred Books of the East 10, 1881)",
+    write("buddhist", "sutta_nipata.json", "trans. V. Fausbøll (1881)",
           {"Sutta Nipata": book})
 
 
@@ -246,7 +246,7 @@ def tao_te_ching():
     paras = [p for p in paragraphs(body) if not re.match(r"^PART \d\.?$", p)]
     book = _legge_numbered(paras)
     expect(list(book) == [str(i) for i in range(1, 82)], f"chapters {list(book)[:3]}...{list(book)[-3:]} ({len(book)})")
-    write("chinese", "tao_te_ching.json", "Tao Te Ching (The Tao Teh King), Laozi, trans. James Legge (Sacred Books of the East 39, 1891)",
+    write("chinese", "tao_te_ching.json", "trans. James Legge (1891)",
           {"Tao Te Ching": book})
 
 
@@ -285,7 +285,7 @@ def analects():
             prev = n
         out[str(roman(num))] = verses
     expect(list(out) == [str(i) for i in range(1, 21)], f"books {list(out)}")
-    write("chinese", "analects.json", "The Analects of Confucius, trans. James Legge (The Chinese Classics, 1861)",
+    write("chinese", "analects.json", "trans. James Legge (1861)",
           {"Analects": out})
 
 
@@ -322,7 +322,7 @@ def i_ching():
         meta[n] = {"name": h["name_pinyin"], "chinese": h["name_zh"], "english": h["name_en"],
                    "lines": h["lines"]}          # bottom to top; 1 = unbroken (yang)
     book = dict(sorted(book.items(), key=lambda kv: int(kv[0])))
-    write("chinese", "i_ching.json", "The I Ching (Yi King), trans. James Legge (Sacred Books of the East 16, 1882), via the Chinese Text Project",
+    write("chinese", "i_ching.json", "trans. James Legge (1882)",
           {"I Ching": book})
     (DATA / "chinese" / "iching_hexagrams.json").write_text(
         json.dumps(dict(sorted(meta.items(), key=lambda kv: int(kv[0]))), ensure_ascii=False, indent=1), encoding="utf-8")
@@ -350,7 +350,7 @@ def bhagavad_gita():
     book = dict(sorted(book.items(), key=lambda kv: int(kv[0])))
     expect(list(book) == [str(i) for i in range(1, 19)] and sum(map(len, book.values())) == 701,
            f"{len(book)} chapters, {sum(map(len, book.values()))} verses")
-    write("dharmic", "bhagavad_gita.json", "The Bhagavad Gita, trans. Shri Purohit Swami (1935)", {"Bhagavad Gita": book})
+    write("dharmic", "bhagavad_gita.json", "trans. Shri Purohit Swami (1935)", {"Bhagavad Gita": book})
 
 
 def upanishads():
@@ -383,7 +383,7 @@ def upanishads():
         out[name] = book
     expect([len(out["Katha Upanishad"]), len(out["Kena Upanishad"]), len(out["Isa Upanishad"]["1"])] == [6, 4, 18],
            f"parts {[len(b) for b in out.values()]}, Isa verses {len(out['Isa Upanishad']['1'])}")
-    write("dharmic", "upanishads_paramananda.json", "The Upanishads, trans. Swami Paramananda (1919)", out)
+    write("dharmic", "upanishads_paramananda.json", "trans. Swami Paramananda (1919)", out)
 
 
 # ── Classical ───────────────────────────────────────────────────────────────
@@ -422,7 +422,7 @@ def meditations():
     counts = [len(book[str(i)]) for i in range(1, 13)]
     # (Long prints Book V's last two sections, 36-37, as one)
     expect(counts == [17, 17, 16, 51, 36, 59, 75, 61, 42, 38, 39, 36], f"sections per book {counts}")
-    write("classical", "meditations_long.json", "Marcus Aurelius, Meditations (Thoughts), trans. George Long (1862)",
+    write("classical", "meditations_long.json", "trans. George Long (1862)",
           {"Meditations": book})
 
 
@@ -462,7 +462,7 @@ def hesiod():
                 last = list(passages)[-1]
                 passages[last]["1"] += " " + t
         out[name] = passages
-    write("classical", "hesiod_evelyn_white.json", "Hesiod, trans. Hugh G. Evelyn-White (Loeb Classical Library, 1914). Perseus Digital Library (CC-BY-SA).", out)
+    write("classical", "hesiod_evelyn_white.json", "trans. Hugh G. Evelyn-White (1914)", out)
 
 
 def enchiridion():
@@ -478,7 +478,7 @@ def enchiridion():
         chunk = re.sub(r"\[\d+\]", "", chunk)
         book[str(roman(num))] = {str(i): tidy(p) for i, p in enumerate(paragraphs(chunk), 1)}
     expect(list(book) == [str(i) for i in range(1, 52)], f"chapters {list(book)}")
-    write("classical", "enchiridion_higginson.json", "Epictetus, The Enchiridion, trans. Thomas Wentworth Higginson (1865)",
+    write("classical", "enchiridion_higginson.json", "trans. Thomas Wentworth Higginson (1865)",
           {"Enchiridion of Epictetus": book})
 
 
@@ -515,7 +515,7 @@ def imitation_of_christ():
             out[f"{b}.{roman(num)}"] = sections
     counts = [sum(1 for k in out if k.startswith(f"{b}.")) for b in range(1, 5)]
     expect(counts == [25, 12, 59, 18], f"chapters per book {counts}")
-    write("medieval", "imitation_of_christ.json", "Thomas à Kempis, The Imitation of Christ, trans. William Benham",
+    write("medieval", "imitation_of_christ.json", "trans. William Benham",
           {"Imitation of Christ": out})
 
 
@@ -540,7 +540,7 @@ def rule_of_benedict():
         if title:
             verses["1"] = f"*{title}*\n{verses['1']}"
         book[m.group(2) or "0"] = verses
-    write("medieval", "rule_of_benedict.json", "St Benedict's Rule for Monasteries, trans. Leonard J. Doyle (1948)",
+    write("medieval", "rule_of_benedict.json", "trans. Leonard J. Doyle (1948)",
           {"Rule of Benedict": book})
 
 
@@ -566,7 +566,7 @@ def divine_comedy():
     expect(counts == [34, 33, 33], f"cantos {counts}")
     lines = {c: sum(len(v["1"].splitlines()) for v in out[c].values()) for c in out}
     expect(lines == {"Inferno": 4720, "Purgatorio": 4755, "Paradiso": 4758}, f"lines {lines}")
-    write("medieval", "divine_comedy_longfellow.json", "Dante Alighieri, The Divine Comedy, trans. Henry Wadsworth Longfellow (1867)", out)
+    write("medieval", "divine_comedy_longfellow.json", "trans. Henry Wadsworth Longfellow (1867)", out)
 
 
 # ── New Testament Apocrypha ─────────────────────────────────────────────────
@@ -638,7 +638,7 @@ def nt_apocrypha():
         out[title.replace("Barnabus", "Barnabas")] = book
     print(f"  {len(out)} texts; one chapter only (no chapter numbers in the source): {flat}")
     write("nt_apocrypha", "anf8_apocrypha.json",
-          "Apocrypha of the New Testament, trans. Alexander Walker (Ante-Nicene Fathers VIII, 1886), via Wikisource", out)
+          "trans. Alexander Walker (1886)", out)
 
 
 # ── Pseudepigrapha ──────────────────────────────────────────────────────────
@@ -662,7 +662,7 @@ def secrets_of_enoch():
         book[num] = verses
     expect(list(book) == [str(i) for i in range(1, len(book) + 1)] and len(book) >= 60, f"{len(book)} chapters")
     write("charles", "secrets_of_enoch.json",
-          "2 Enoch (The Book of the Secrets of Enoch), in The Forgotten Books of Eden, ed. Rutherford H. Platt (1926), via Wikisource",
+          "ed. Rutherford H. Platt (1926)",
           {"2 Enoch": book})
 
 
@@ -734,7 +734,7 @@ def forgotten_books_of_eden():
         expect(list(book) == [str(i) for i in range(1, count + 1)], f"{name}: {list(book)[:3]}... ({len(book)})")
         out[name] = book
     write("charles", "forgotten_books_of_eden.json",
-          "The Forgotten Books of Eden, ed. Rutherford H. Platt (1926): Adam and Eve trans. S. C. Malan, Odes of Solomon trans. J. Rendel Harris",
+          "ed. Rutherford H. Platt (1926)",
           out)
 
 
@@ -756,7 +756,7 @@ def gospel_of_thomas():
     for num, chunk in zip(parts[0::2], parts[1::2]):
         book["0" if num == "P" else num] = {"1": re.sub(r"\s*-{5,}\s*$", "", tidy(chunk))}
     expect(list(book) == [str(i) for i in range(0, 115)], f"sayings {list(book)[:3]}...{list(book)[-3:]}")
-    write("gnostic", "gospel_of_thomas.json", "The Gospel of Thomas (Coptic, Nag Hammadi), trans. Thomas O. Lambdin",
+    write("gnostic", "gospel_of_thomas.json", "trans. Thomas O. Lambdin",
           {"Gospel of Thomas": book})
 
 
@@ -778,7 +778,7 @@ def enuma_elish():
         for start in range(0, len(lines), 8):
             book[f"{tablet}.{start + 1}"] = {"1": "\n".join(lines[start:start + 8])}
     write("ancient_near_east", "enuma_elish.json",
-          "Enuma Elish, trans. L. W. King (The Seven Tablets of Creation, 1902)", {"Enuma Elish": book})
+          "trans. L. W. King (1902)", {"Enuma Elish": book})
 
 
 _ORDINALS = ["FIRST", "SECOND", "THIRD", "FOURTH", "FIFTH", "SIXTH", "SEVENTH", "EIGHTH", "NINTH"]
@@ -844,7 +844,7 @@ def enneads():
     expect(sorted(book, key=lambda k: tuple(map(int, k.split(".")))) ==
            [f"{e}.{t}" for e in range(1, 7) for t in range(1, 10)], f"tractates {list(book)}")
     expect(all(chapter for chapter in book.values()), "an empty tractate")
-    write("classical", "plotinus.json", "Plotinus, The Six Enneads, trans. Stephen MacKenna and B. S. Page", {"Enneads": book})
+    write("classical", "plotinus.json", "trans. MacKenna and Page", {"Enneads": book})
 
 
 def enoch_missing_chapters():
@@ -898,7 +898,7 @@ def hafiz():
     for num, chunk in zip(parts[0::2], parts[1::2]):
         book[str(roman(num))] = {str(i): s for i, s in enumerate(stanzas(chunk), 1)}
     expect(list(book) == [str(i) for i in range(1, 44)], f"poems {list(book)}")
-    write("sufi", "hafiz_bell.json", "Hafiz, Poems from the Divan of Hafiz, trans. Gertrude Lowthian Bell (1897)",
+    write("sufi", "hafiz_bell.json", "trans. Gertrude Bell (1897)",
           {"Divan of Hafiz": book})
 
 
@@ -1124,7 +1124,7 @@ def zhuangzi():
         verses["1"] = f"*{title}*\n{verses['1']}"
         book[str(n)] = verses
     expect(len(book) == 33, f"{len(book)} books")
-    write("chinese", "zhuangzi.json", "The Zhuangzi (Writings of Kwang-dze), trans. James Legge (Sacred Books of the East 39-40, 1891)",
+    write("chinese", "zhuangzi.json", "trans. James Legge (1891)",
           {"Zhuangzi": book})
 
 
@@ -1180,7 +1180,7 @@ def mencius():
     # 6B's last chapter (16, "There are many arts in teaching") is lost at the end of its page,
     # where no gap shows it -- checked by hand: 6B.1-15 open where they should
     expect(all(page_last[k] == v - (k == (6, 2)) for k, v in standard.items()), "chapter numbering")
-    write("chinese", "mencius.json", "The Works of Mencius, trans. James Legge (The Chinese Classics, 1861-1895)", {"Mencius": book})
+    write("chinese", "mencius.json", "trans. James Legge (1861–95)", {"Mencius": book})
 
 
 def great_learning_and_mean():
@@ -1201,7 +1201,7 @@ def great_learning_and_mean():
             book[str(c)] = {str(i): p for i, p in enumerate(paras, 1)}
         out[name] = book
     print(f"  {[(k, [len(c) for c in v.values()]) for k, v in out.items()]}")
-    write("chinese", "great_learning_mean.json", "The Great Learning and The Doctrine of the Mean, trans. James Legge (1893)", out)
+    write("chinese", "great_learning_mean.json", "trans. James Legge (1893)", out)
 
 
 # ── Hindu, more ─────────────────────────────────────────────────────────────
@@ -1244,7 +1244,7 @@ def upanishads_muller():
     counts = {k: (len(v), sum(map(len, v.values()))) for k, v in out.items()}
     print(f"  Upanishads (chapters, verses): {counts}")
     expect(all(c > 0 and v >= 2 * c for c, v in counts.values()), "an Upanishad with too few verses")
-    write("dharmic", "upanishads_muller.json", "The Upanishads, trans. F. Max Müller (Sacred Books of the East 1 and 15, 1879-1884)", out)
+    write("dharmic", "upanishads_muller.json", "trans. F. Max Müller (1879–84)", out)
 
 
 def laws_of_manu():
@@ -1257,7 +1257,7 @@ def laws_of_manu():
     counts = [len(v) for v in book.values()]
     print(f"  Manu verses per chapter: {counts}")
     expect(sum(counts) >= 2600, f"{sum(counts)} verses")      # the Manusmriti has 2,684
-    write("dharmic", "laws_of_manu.json", "The Laws of Manu, trans. Georg Bühler (Sacred Books of the East 25, 1886)",
+    write("dharmic", "laws_of_manu.json", "trans. Georg Bühler (1886)",
           {"Laws of Manu": book})
 
 
@@ -1272,7 +1272,7 @@ def yoga_sutras():
     counts = [len(v) for v in book.values()]
     expect(counts == [51, 55, 56, 34] or sum(counts) >= 190, f"sutras per chapter {counts}")
     print(f"  Yoga Sutras: {counts}")
-    write("dharmic", "yoga_sutras.json", "The Yoga Sutras of Patanjali, trans. BonGiovanni (The Threads of Union)",
+    write("dharmic", "yoga_sutras.json", "trans. BonGiovanni",
           {"Yoga Sutras": book})
 
 
@@ -1356,7 +1356,7 @@ def jaina_sutras():
     counts = {k: len(v) for k, v in out.items()}
     print(f"  chapters: {counts}")
     expect(counts["Uttaradhyayana Sutra"] == 36, f"Uttaradhyayana {counts}")
-    write("jain", "jaina_sutras.json", "The Jaina Sutras, trans. Hermann Jacobi (Sacred Books of the East 22 and 45, 1884-1895)", out)
+    write("jain", "jaina_sutras.json", "trans. Hermann Jacobi (1884–95)", out)
 
 
 # ── Shinto ──────────────────────────────────────────────────────────────────
@@ -1383,7 +1383,7 @@ def kojiki():
             verses["1"] = f"*{title.rstrip('.').title()}*\n{verses['1']}"
         book[str(i)] = verses
     expect(len(book) == 180, f"{len(book)} sections")
-    write("shinto", "kojiki.json", "The Kojiki (Records of Ancient Matters), trans. Basil Hall Chamberlain (1882)",
+    write("shinto", "kojiki.json", "trans. Basil Hall Chamberlain (1882)",
           {"Kojiki": book})
 
 
@@ -1417,7 +1417,7 @@ def nihongi():
             verses["1"] = f"*{title}*\n{verses['1']}"
     print(f"  Nihongi books: {[(k, len(v)) for k, v in book.items()]}")
     expect(set(book) >= {"1", "3", "25", "26"}, f"books {list(book)}")
-    write("shinto", "nihongi.json", "The Nihongi (Chronicles of Japan), trans. W. G. Aston (1896): selections, as on sacred-texts.com",
+    write("shinto", "nihongi.json", "trans. W. G. Aston (1896)",
           {"Nihongi": book})
 
 
@@ -1441,7 +1441,7 @@ def popol_vuh():
         book[str(_ORD_WORDS.index(word) + 1)] = {str(i): p for i, p in enumerate(sentence_groups(paras), 1)}
     expect(list(book) == ["1", "2", "3", "4"], f"books {list(book)}")
     write("mesoamerican", "popol_vuh.json",
-          "The Popol Vuh, retold with translated passages by Lewis Spence (The Popol Vuh, 1908)", {"Popol Vuh": book})
+          "retold by Lewis Spence (1908)", {"Popol Vuh": book})
 
 
 # ── Sikh ────────────────────────────────────────────────────────────────────
@@ -1487,7 +1487,7 @@ def guru_granth_sahib():
             break
     expect(pauri == 38 and "39" in japji, f"Japji: {pauri} pauris")
     write("sikh", "guru_granth_sahib.json",
-          "Shri Guru Granth Sahib, English translation by Sant Singh Khalsa (sacred-texts.com)",
+          "trans. Sant Singh Khalsa",
           {"Guru Granth Sahib": angs, "Japji": japji})
 
 
@@ -1508,7 +1508,7 @@ def lotus_sutra():
         verses = {str(i): tidy(l) for i, l in enumerate(body, 1)}
         verses["1"] = f"*{title}*\n{verses['1']}"
         book[str(n)] = verses
-    write("buddhist", "lotus_sutra.json", "The Saddharma-pundarika or Lotus of the True Law, trans. H. Kern (Sacred Books of the East 21, 1884)",
+    write("buddhist", "lotus_sutra.json", "trans. H. Kern (1884)",
           {"Lotus Sutra": book})
 
 
@@ -1538,7 +1538,7 @@ def milinda():
     book = dict(sorted(book.items(), key=lambda kv: tuple(map(int, kv[0].split(".")))))
     print(f"  Milinda: {list(book)}")
     expect(len(book) >= 20, f"{len(book)} chapters")
-    write("buddhist", "milinda.json", "The Questions of King Milinda, trans. T. W. Rhys Davids (Sacred Books of the East 35-36, 1890-1894)",
+    write("buddhist", "milinda.json", "trans. T. W. Rhys Davids (1890–94)",
           {"Questions of King Milinda": book})
 
 
@@ -1565,7 +1565,7 @@ def jataka():
     numbers = sorted(map(int, book))
     print(f"  Jataka: {len(book)} tales, {numbers[0]}-{numbers[-1]}; missing {sorted(set(range(1, 548)) - set(numbers))[:20]}")
     expect(len(book) >= 540, f"{len(book)} tales")
-    write("buddhist", "jataka.json", "The Jataka, or Stories of the Buddha's Former Births, ed. E. B. Cowell (1895-1907)",
+    write("buddhist", "jataka.json", "ed. E. B. Cowell (1895–1907)",
           {"Jataka": dict(sorted(book.items(), key=lambda kv: int(kv[0])))})
 
 
@@ -1620,7 +1620,7 @@ def masnavi():
     counts = [sum(1 for k in out if k.startswith(f"{b}.")) for b in range(1, 7)]
     print(f"  Masnavi stories per book: {counts}")
     expect(len(counts) == 6 and min(counts) >= 8, f"stories {counts}")
-    write("sufi", "masnavi_whinfield.json", "Rumi, The Masnavi, abridged and trans. E. H. Whinfield (1898)", {"Masnavi": out})
+    write("sufi", "masnavi_whinfield.json", "trans. E. H. Whinfield (1898)", {"Masnavi": out})
 
 
 def rubaiyat():
@@ -1633,7 +1633,7 @@ def rubaiyat():
             for n, q in zip(parts[0::2], parts[1::2])}
     expect(list(book) == [str(i) for i in range(1, len(book) + 1)] and len(book) >= 75,
            f"quatrains {list(book)[:3]}...{list(book)[-3:]}")
-    write("sufi", "rubaiyat_fitzgerald.json", "The Rubaiyat of Omar Khayyam, trans. Edward FitzGerald",
+    write("sufi", "rubaiyat_fitzgerald.json", "trans. Edward FitzGerald",
           {"Rubaiyat": {"1": book}})
 
 
@@ -1668,7 +1668,7 @@ def kalevala():
             verses["1"] = f"*{title}*\n{verses['1']}"
         book[key] = verses
     expect(sorted(map(int, book)) == list(range(0, 51)), f"runes {sorted(map(int, book))[:3]}... ({len(book)})")
-    write("finnish", "kalevala.json", "The Kalevala, trans. John Martin Crawford (1888)",
+    write("finnish", "kalevala.json", "trans. John Martin Crawford (1888)",
           {"Kalevala": dict(sorted(book.items(), key=lambda kv: int(kv[0])))})
 
 
@@ -1696,7 +1696,7 @@ def mabinogion():
         verses = {str(n): p for n, p in enumerate(sentence_groups(joined), 1)}
         verses["1"] = f"*{name.replace('HERE IS THE STORY OF ', '').title()}*\n{verses['1']}"
         book[str(i + 1)] = verses
-    write("celtic", "mabinogion.json", "The Mabinogion, trans. Lady Charlotte Guest (1849)", {"Mabinogion": book})
+    write("celtic", "mabinogion.json", "trans. Lady Charlotte Guest (1849)", {"Mabinogion": book})
 
 
 # ── Christian mystics ──────────────────────────────────────────────────────
@@ -1720,7 +1720,7 @@ def cloud_of_unknowing():
             verses["1"] = f"*{m.group(2).strip(' .')}*\n{verses['1']}"
         book[m.group(1)] = verses
     expect(sorted(map(int, book)) == list(range(1, 76)), f"chapters ({len(book)})")
-    write("medieval", "cloud_of_unknowing.json", "The Cloud of Unknowing, ed. Evelyn Underhill (1922)",
+    write("medieval", "cloud_of_unknowing.json", "ed. Evelyn Underhill (1922)",
           {"Cloud of Unknowing": dict(sorted(book.items(), key=lambda kv: int(kv[0])))})
 
 
@@ -1747,7 +1747,7 @@ def julian_of_norwich():
             paras = paras[1:]                             # the editor's summary, in quotation marks
         book[str(roman(m.group(1)))] = {str(n): p for n, p in enumerate(paras, 1) if p}
     expect(sorted(map(int, book)) == list(range(1, 87)), f"chapters ({len(book)})")
-    write("medieval", "julian_revelations.json", "Julian of Norwich, Revelations of Divine Love, ed. Grace Warrack (1901)",
+    write("medieval", "julian_revelations.json", "ed. Grace Warrack (1901)",
           {"Revelations of Divine Love": book})
 
 
@@ -1769,7 +1769,7 @@ def brother_lawrence():
             book[f"{c}.{n}"] = verses
     print(f"  Brother Lawrence: {list(book)}")
     expect(sum(1 for k in book if k.startswith("1.")) == 4, "four conversations")
-    write("medieval", "practice_of_presence.json", "Brother Lawrence, The Practice of the Presence of God (Project Gutenberg)",
+    write("medieval", "practice_of_presence.json", "Brother Lawrence",
           {"Practice of the Presence of God": book})
 
 
@@ -1844,10 +1844,10 @@ def swedenborg():
                     book[num][str(len(book[num]) + 1)] = p
         expect(len(book) >= 5, f"{title}: {len(book)} sections")
         books[title] = book
-        sources[title] = f"Emanuel Swedenborg, {title}" + (f", trans. {translator}" if translator else "") + " (sacred-texts.com)"
+        sources[title] = f"trans. {translator}" if translator else "Emanuel Swedenborg"
         print(f"  {title}: {len(book)} sections, {sum(len(v) for v in book.values())} paragraphs ({translator})")
     path = DATA / "medieval" / "swedenborg.json"
-    path.write_text(json.dumps({"source": "Emanuel Swedenborg, the theological works (sacred-texts.com)",
+    path.write_text(json.dumps({"source": "Emanuel Swedenborg",
                                 "book_sources": sources, "books": books}, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"wrote {path.relative_to(ROOT)}: {len(books)} works, {path.stat().st_size // 1_000_000} MB")
 
@@ -1884,7 +1884,7 @@ def pilgrims_progress():
         books[book] = out
         print(f"  {book}: sections {list(out)}, {sum(map(len, out.values()))} paragraphs")
     write("medieval", "pilgrims_progress.json",
-          "John Bunyan, The Pilgrim's Progress (1678, 1684), sacred-texts.com", books)
+          "John Bunyan (1678, 1684)", books)
 
 
 # ── John Milton ─────────────────────────────────────────────────────────────
@@ -1947,11 +1947,11 @@ def milton():
     for name, book in books.items():
         got = [max(int(k) for k in book[str(i)]) for i in range(1, len(lengths[name]) + 1)]
         expect(got == lengths[name], f"{name}: {got}")
-    sources = {"Paradise Lost": "John Milton, Paradise Lost (1674), ed. H. C. Beeching (Project Gutenberg)",
-               "Paradise Regained": "John Milton, Paradise Regain'd (1671), ed. H. C. Beeching (Project Gutenberg)",
-               "Samson Agonistes": "John Milton, Samson Agonistes (1671), ed. H. C. Beeching (Project Gutenberg)"}
+    sources = {"Paradise Lost": "John Milton (1674), ed. H. C. Beeching",
+               "Paradise Regained": "John Milton (1671), ed. H. C. Beeching",
+               "Samson Agonistes": "John Milton (1671), ed. H. C. Beeching"}
     path = DATA / "medieval" / "milton.json"
-    path.write_text(json.dumps({"source": "John Milton, ed. H. C. Beeching (Project Gutenberg)", "book_sources": sources,
+    path.write_text(json.dumps({"source": "John Milton, ed. H. C. Beeching", "book_sources": sources,
                                 "books": books}, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"wrote {path.relative_to(ROOT)}: " + ", ".join(f"{n} ({sum(len(c) for c in b.values())} lines)"
                                                          for n, b in books.items()))
@@ -2015,11 +2015,11 @@ def blake():
     book_of_thel["0"]["1"] = "*Thel's Motto*\n" + book_of_thel["0"]["1"]
     path = DATA / "medieval" / "blake.json"
     path.write_text(json.dumps({
-        "source": "William Blake (Project Gutenberg)",
-        "book_sources": {"Songs of Innocence": "William Blake, Songs of Innocence (1789), Project Gutenberg",
-                         "Songs of Experience": "William Blake, Songs of Experience (1794), Project Gutenberg",
-                         "The Marriage of Heaven and Hell": "William Blake, The Marriage of Heaven and Hell (c. 1790), Project Gutenberg",
-                         "The Book of Thel": "William Blake, The Book of Thel (1789), Project Gutenberg"},
+        "source": "William Blake",
+        "book_sources": {"Songs of Innocence": "William Blake (1789)",
+                         "Songs of Experience": "William Blake (1794)",
+                         "The Marriage of Heaven and Hell": "William Blake (c. 1790)",
+                         "The Book of Thel": "William Blake (1789)"},
         "books": {"Songs of Innocence": _numbered(innocence), "Songs of Experience": _numbered(experience),
                   "The Marriage of Heaven and Hell": _numbered(sections), "The Book of Thel": book_of_thel}},
         ensure_ascii=False, indent=1), encoding="utf-8")

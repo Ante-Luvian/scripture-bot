@@ -1,5 +1,5 @@
 {
- "source": "Gellius, Aulus. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Gellius, Aulus",
  "books": {
   "Attic Nights": {
@@ -2439,6 +2439,6 @@
   }
  },
  "book_sources": {
-  "Attic Nights": "Gellius, Aulus, Attic Nights, trans. John C. Rolfe. Perseus Digital Library (CC-BY-SA)."
+  "Attic Nights": "trans. John C. Rolfe"
  }
 }

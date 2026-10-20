@@ -504,7 +504,7 @@ def main():
     sets = {k: (b() if not only or k in only else [a for a in old if a["set"] == k]) for k, b in builders.items()}
     for k, v in sets.items():
         print(f"  {k}: {len(v)}")
-    OUT.write_text(json.dumps({"source": "William Blake's illustrations, from Wikimedia Commons",
+    OUT.write_text(json.dumps({"source": "William Blake",
                                "art": [a for v in sets.values() for a in v]}, ensure_ascii=False, indent=1),
                    encoding="utf-8")
     print(f"wrote {OUT.relative_to(ROOT)}")

@@ -29,8 +29,8 @@ CHANT = ROOT / "data" / "hymns" / "more_hymns.json"
 OUT = ROOT / "data" / "hymns" / "translations.json"
 UA = {"User-Agent": "ScriptureBotCorpusBuilder/1.0 (Discord bot; low-volume one-off import)"}
 BCP_URL = "https://www.gutenberg.org/cache/epub/29622/pg29622.txt"
-BCP_SOURCE = "The Book of Common Prayer (1662 text; Scottish Episcopal Church edition, 1912)"
-NEALE_SOURCE = "J. M. Neale, Mediaeval Hymns and Sequences (1867)"
+BCP_SOURCE = "The Book of Common Prayer (1662)"
+NEALE_SOURCE = "Mediaeval Hymns and Sequences (1867)"
 
 
 def norm(s: str) -> str:
@@ -260,7 +260,7 @@ def main():
             if title not in titles:
                 raise SystemExit(f"WIKIPEDIA names a chant that isn't there: {title!r}")
             if title not in out:
-                out[title] = {"translator": translator, "source": f"as printed in Wikipedia's article “{article}”",
+                out[title] = {"translator": translator, "source": "Wikipedia",
                               "stanzas": stanzas[part] if part else stanzas}
                 if note:
                     out[title]["note"] = note

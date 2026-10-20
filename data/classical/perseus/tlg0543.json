@@ -1,5 +1,5 @@
 {
- "source": "Polybius. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Polybius",
  "books": {
   "The Histories": {
@@ -1627,6 +1627,6 @@
   }
  },
  "book_sources": {
-  "The Histories": "Polybius, The Histories, trans. Evelyn S. Shuckburgh. Perseus Digital Library (CC-BY-SA)."
+  "The Histories": "trans. Evelyn S. Shuckburgh"
  }
 }

@@ -1,5 +1,5 @@
 {
- "source": "Pseudo-Lucian. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Pseudo-Lucian",
  "books": {
   "Loukios, or the Ass": {
@@ -146,9 +146,9 @@
   }
  },
  "book_sources": {
-  "Loukios, or the Ass": "Pseudo-Lucian, Loukios, or the Ass, trans. Emily James Smith. Perseus Digital Library (CC-BY-SA).",
-  "Demosthenes: an Encomium": "Pseudo-Lucian, Demosthenes: an Encomium, trans. F.G. Fowler. Perseus Digital Library (CC-BY-SA).",
-  "The Halcyon": "Pseudo-Lucian, The Halcyon, trans. Emily James Smith. Perseus Digital Library (CC-BY-SA).",
-  "The Cynic": "Pseudo-Lucian, The Cynic, trans. F.G. Fowler. Perseus Digital Library (CC-BY-SA)."
+  "Loukios, or the Ass": "trans. Emily James Smith",
+  "Demosthenes: an Encomium": "trans. F.G. Fowler",
+  "The Halcyon": "trans. Emily James Smith",
+  "The Cynic": "trans. F.G. Fowler"
  }
 }

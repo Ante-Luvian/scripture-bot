@@ -1,5 +1,5 @@
 {
- "source": "Aristotle. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Aristotle",
  "books": {
   "Poetics": {
@@ -430,6 +430,6 @@
   }
  },
  "book_sources": {
-  "Poetics": "Aristotle, Poetics, trans. William Hamilton Fyfe. Perseus Digital Library (CC-BY-SA)."
+  "Poetics": "trans. William Hamilton Fyfe"
  }
 }

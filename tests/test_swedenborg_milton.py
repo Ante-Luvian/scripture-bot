@@ -14,13 +14,14 @@ import pytest
 def test_swedenborg(lookup, ref, reference, snippet):
     r = lookup.get_verse(ref)
     assert r["found"] and r["reference"] == reference and snippet in r["text"], r.get("error")
-    assert "Swedenborg" in r["source"]
+    assert r["source"].startswith("trans. ")                         # his translator
 
 
 def test_swedenborg_is_whole(lookup):
     """Every work starts at section 1 (a page whose only heading is its footnotes' once lost
     Heaven and Hell 1-50); the few gaps left are gaps in the sacred-texts edition itself."""
-    books = {b: c for b, c in lookup._data["medieval"].items() if "Swedenborg" in lookup._book_sources.get(b, "")}
+    books = {b: c for b, c in lookup._data["medieval"].items()
+             if lookup._book_file.get(("medieval", b)) == "swedenborg.json"}
     assert len(books) == 33
     for name, sections in books.items():
         if name != "Spiritual Diary":                    # (sacred-texts' translation begins at 1539)

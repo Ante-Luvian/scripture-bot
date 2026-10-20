@@ -1,10 +1,10 @@
 {
- "source": "William Blake (Project Gutenberg)",
+ "source": "William Blake",
  "book_sources": {
-  "Songs of Innocence": "William Blake, Songs of Innocence (1789), Project Gutenberg",
-  "Songs of Experience": "William Blake, Songs of Experience (1794), Project Gutenberg",
-  "The Marriage of Heaven and Hell": "William Blake, The Marriage of Heaven and Hell (c. 1790), Project Gutenberg",
-  "The Book of Thel": "William Blake, The Book of Thel (1789), Project Gutenberg"
+  "Songs of Innocence": "William Blake (1789)",
+  "Songs of Experience": "William Blake (1794)",
+  "The Marriage of Heaven and Hell": "William Blake (c. 1790)",
+  "The Book of Thel": "William Blake (1789)"
  },
  "books": {
   "Songs of Innocence": {

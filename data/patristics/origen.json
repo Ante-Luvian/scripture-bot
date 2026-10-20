@@ -1,5 +1,5 @@
 {
-  "source": "Ante-Nicene Fathers Vol. 4 — trans. Crombie (1885); Pearse ed.",
+  "source": "trans. Crombie (1885)",
   "books": {
     "De Principiis": {
       "1.1": {
@@ -3851,6 +3851,6 @@
     }
   },
   "book_sources": {
-    "On Prayer": "Origen, On Prayer, trans. William A. Curtis, from CCEL"
+    "On Prayer": "trans. William A. Curtis"
   }
 }

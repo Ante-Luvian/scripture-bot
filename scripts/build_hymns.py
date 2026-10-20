@@ -667,7 +667,7 @@ def hymnary_hymn(spec: dict) -> dict:
         (MIDI / name).write_bytes(midi)
         import mido
         hymn.update(midi=name, seconds=round(mido.MidiFile(MIDI / name).length))
-        hymn["source"] = "Hymnary.org; tune from Wikimedia Commons"
+        hymn["source"] = "Hymnary.org"
     elif spec.get("local"):
         hymn = _local_tune(hymn, spec)
     return hymn
@@ -713,7 +713,7 @@ def main():
     for name, ends in misaligned:
         print(f"  voices end at different times: {name} {ends}", file=sys.stderr)
     OUT.parent.mkdir(parents=True, exist_ok=True)
-    data = {"source": "The Open Hymnal Project (openhymnal.org) and Hymnary.org, public-domain hymns",
+    data = {"source": "Open Hymnal Project, Hymnary.org",
             "hymns": sorted(hymns.values(), key=lambda h: h["title"].lower())}
     OUT.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"Wrote {len(hymns)} hymns ({unmetered} set out by punctuation, not meter) to {OUT}")

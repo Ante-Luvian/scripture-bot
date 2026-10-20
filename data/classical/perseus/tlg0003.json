@@ -1,5 +1,5 @@
 {
- "source": "Thucydides. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Thucydides",
  "books": {
   "History of the Peloponnesian War": {
@@ -5427,6 +5427,6 @@
   }
  },
  "book_sources": {
-  "History of the Peloponnesian War": "Thucydides, History of the Peloponnesian War, trans. Richard Crawley. Perseus Digital Library (CC-BY-SA)."
+  "History of the Peloponnesian War": "trans. Richard Crawley"
  }
 }

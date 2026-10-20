@@ -1,5 +1,5 @@
 {
- "source": "Horace. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Horace",
  "books": {
   "Odes": {
@@ -3304,8 +3304,8 @@
   }
  },
  "book_sources": {
-  "Odes": "Horace, Odes, trans. John Conington. Perseus Digital Library (CC-BY-SA).",
-  "Satires": "Horace, Satires, trans. Christopher Smart. Perseus Digital Library (CC-BY-SA).",
-  "The Art of Poetry: To the Pisos": "Horace, The Art of Poetry: To the Pisos, trans. Christopher Smart. Perseus Digital Library (CC-BY-SA)."
+  "Odes": "trans. John Conington",
+  "Satires": "trans. Christopher Smart",
+  "The Art of Poetry: To the Pisos": "trans. Christopher Smart"
  }
 }

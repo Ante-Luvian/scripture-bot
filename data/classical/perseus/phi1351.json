@@ -1,5 +1,5 @@
 {
- "source": "Tacitus, Cornelius. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Tacitus, Cornelius",
  "books": {
   "The Life of Cnaeus Julius Agricola": {
@@ -1315,10 +1315,10 @@
   }
  },
  "book_sources": {
-  "The Life of Cnaeus Julius Agricola": "Tacitus, Cornelius, The Life of Cnaeus Julius Agricola, trans. William Jackson Brodribb. Perseus Digital Library (CC-BY-SA).",
-  "Germany and its Tribes": "Tacitus, Cornelius, Germany and its Tribes, trans. William Jackson Brodribb. Perseus Digital Library (CC-BY-SA).",
-  "A Dialogue on Oratory": "Tacitus, Cornelius, A Dialogue on Oratory, trans. William Jackson Brodribb. Perseus Digital Library (CC-BY-SA).",
-  "The History": "Tacitus, Cornelius, The History, trans. William Jackson Brodribb. Perseus Digital Library (CC-BY-SA).",
-  "The Annals": "Tacitus, Cornelius, The Annals, trans. William Jackson Brodribb. Perseus Digital Library (CC-BY-SA)."
+  "The Life of Cnaeus Julius Agricola": "trans. William Jackson Brodribb",
+  "Germany and its Tribes": "trans. William Jackson Brodribb",
+  "A Dialogue on Oratory": "trans. William Jackson Brodribb",
+  "The History": "trans. William Jackson Brodribb",
+  "The Annals": "trans. William Jackson Brodribb"
  }
 }

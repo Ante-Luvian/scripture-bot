@@ -1,5 +1,5 @@
 {
- "source": "Appianus of Alexandria. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Appianus of Alexandria",
  "books": {
   "Author's Preface": {
@@ -1649,20 +1649,20 @@
   }
  },
  "book_sources": {
-  "Author's Preface": "Appianus of Alexandria, The Roman History: Author's Preface, trans. Horace White. Perseus Digital Library (CC-BY-SA).",
-  "Concerning the Kings": "Appianus of Alexandria, The Roman History: Concerning the Kings, trans. Horace White. Perseus Digital Library (CC-BY-SA).",
-  "Concerning Italy": "Appianus of Alexandria, The Roman History: Concerning Italy, trans. Horace White. Perseus Digital Library (CC-BY-SA).",
-  "The Samnite History": "Appianus of Alexandria, The Roman History: The Samnite History, trans. Horace White. Perseus Digital Library (CC-BY-SA).",
-  "The Gallic History": "Appianus of Alexandria, The Roman History: The Gallic History, trans. Horace White. Perseus Digital Library (CC-BY-SA).",
-  "Of Sicily and the Other Islands": "Appianus of Alexandria, The Roman History: Of Sicily and the Other Islands, trans. Horace White. Perseus Digital Library (CC-BY-SA).",
-  "The Wars in Spain": "Appianus of Alexandria, The Roman History: The Wars in Spain, trans. Horace White. Perseus Digital Library (CC-BY-SA).",
-  "The Hannibalic War": "Appianus of Alexandria, The Roman History: The Hannibalic War, trans. Horace White. Perseus Digital Library (CC-BY-SA).",
-  "The Punic Wars": "Appianus of Alexandria, The Roman History: The Punic Wars, trans. Horace White. Perseus Digital Library (CC-BY-SA).",
-  "Numidian Affairs": "Appianus of Alexandria, The Roman History: Numidian Affairs, trans. Horace White. Perseus Digital Library (CC-BY-SA).",
-  "Macedonian Affairs": "Appianus of Alexandria, The Roman History: Macedonian Affairs, trans. Horace White. Perseus Digital Library (CC-BY-SA).",
-  "The Illyrian Wars": "Appianus of Alexandria, The Roman History: The Illyrian Wars, trans. Horace White. Perseus Digital Library (CC-BY-SA).",
-  "The Syrian Wars": "Appianus of Alexandria, The Roman History: The Syrian Wars, trans. Horace White. Perseus Digital Library (CC-BY-SA).",
-  "The Mithridatic Wars": "Appianus of Alexandria, The Roman History: The Mithridatic Wars, trans. Horace White. Perseus Digital Library (CC-BY-SA).",
-  "The Civil Wars": "Appianus of Alexandria, The Roman History: The Civil Wars, trans. Horace White. Perseus Digital Library (CC-BY-SA)."
+  "Author's Preface": "trans. Horace White",
+  "Concerning the Kings": "trans. Horace White",
+  "Concerning Italy": "trans. Horace White",
+  "The Samnite History": "trans. Horace White",
+  "The Gallic History": "trans. Horace White",
+  "Of Sicily and the Other Islands": "trans. Horace White",
+  "The Wars in Spain": "trans. Horace White",
+  "The Hannibalic War": "trans. Horace White",
+  "The Punic Wars": "trans. Horace White",
+  "Numidian Affairs": "trans. Horace White",
+  "Macedonian Affairs": "trans. Horace White",
+  "The Illyrian Wars": "trans. Horace White",
+  "The Syrian Wars": "trans. Horace White",
+  "The Mithridatic Wars": "trans. Horace White",
+  "The Civil Wars": "trans. Horace White"
  }
 }

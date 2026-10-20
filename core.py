@@ -1079,7 +1079,7 @@ def fetch_chapter_result(lookup: "ScriptureLookup", get_hadith_section_fn, book_
         "found": True,
         "reference": title,
         "text": pages[0] if pages else "",
-        "source": f"{book_name} (fawazahmed0 Hadith API)",
+        "source": book_name,
         "pages": pages,
     }
 

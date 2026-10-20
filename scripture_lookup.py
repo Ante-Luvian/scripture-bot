@@ -2486,7 +2486,7 @@ class ScriptureLookup:
                 return {"found": False, "error": f"**Kitáb-i-Aqdas** has no paragraph {chapter}. (Max: {max_p})", "suggestions": []}
             text = chap_data.get("1", "")
             return {"found": True, "reference": f"Kitáb-i-Aqdas ¶{chapter}",
-                    "text": text, "source": "Kitáb-i-Aqdas — Bahá'u'lláh (1992)",
+                    "text": text, "source": "Bahá'í World Centre (1992)",
                     "book": "Kitab-i-Aqdas", "chapter": chapter, "verse": 1}
         if canon_book is None:
             for _name, read, tradition_key in self._readers_for_unknown_books():
@@ -2934,7 +2934,7 @@ class ScriptureLookup:
                         "found": True,
                         "reference": f"Mishnah {index_display} {chapter}:{v_label}",
                         "text": "\n".join(texts),
-                        "source": r.get("source", "Mishnah (via Sefaria)"),
+                        "source": r.get("source", "Sefaria"),
                     }
                 return None
 
@@ -3155,7 +3155,7 @@ class ScriptureLookup:
             display = sefaria_name.replace("Jerusalem_Talmud_", "").replace("_", " ")
             v_label = f"{chapter}:{halakhah}" if halakhah else str(chapter)
             result["reference"] = f"Jerusalem Talmud {display} {v_label}"
-            result["source"] = "Jerusalem Talmud (Guggenheimer trans., via Sefaria)"
+            result["source"] = "trans. Guggenheimer"
         return result
 
     def _try_tosefta(self, book_raw: str, chapter: int, verse_start) -> Optional[dict]:
@@ -3175,7 +3175,7 @@ class ScriptureLookup:
             display = sefaria_name.replace("Tosefta_", "").replace("_", " ")
             v_label = f"{chapter}:{verse_start}" if verse_start else str(chapter)
             result["reference"] = f"Tosefta {display} {v_label}"
-            result["source"] = "Tosefta (via Sefaria)"
+            result["source"] = "Sefaria"
         return result
 
     def _try_targum(self, raw_ref: str) -> Optional[dict]:
@@ -3220,7 +3220,7 @@ class ScriptureLookup:
         if result and result.get("found"):
             v_label = f"{chapter}:{verse_start}" if verse_start else str(chapter)
             result["reference"] = f"{tname} {canon_book} {v_label}"
-            result["source"] = f"{tname} (via Sefaria)"
+            result["source"] = "Sefaria"
         return result
 
     def _try_midrash(self, book_raw: str, chapter: int, verse_start) -> Optional[dict]:
@@ -3237,7 +3237,7 @@ class ScriptureLookup:
             display = sefaria_name.replace("_", " ").replace("d\'", "d'")
             v_label = f"{chapter}:{verse_start}" if verse_start else str(chapter)
             result["reference"] = f"{display} {v_label}"
-            result["source"] = f"{display} (via Sefaria)"
+            result["source"] = "Sefaria"
         return result
 
     def _try_kabbalah(self, book_raw: str, chapter: int, verse_start) -> Optional[dict]:
@@ -3273,7 +3273,7 @@ class ScriptureLookup:
                 }
                 pname = part_names.get(part_num, f"Part {part_num}")
                 result["reference"] = f"Tanya, {pname} ch. {chapter_in_part}"
-                result["source"] = "Tanya — R. Shneur Zalman of Liadi (via Sefaria)"
+                result["source"] = "Sefaria"
             return result
 
         # All other Kabbalah texts
@@ -3285,7 +3285,7 @@ class ScriptureLookup:
             display = sefaria_name.replace("_", " ")
             v_label = f"{chapter}:{verse_start}" if verse_start else str(chapter)
             result["reference"] = f"{display} {v_label}"
-            result["source"] = f"{display} (via Sefaria)"
+            result["source"] = "Sefaria"
         return result
 
     def _try_mishneh_torah(self, raw_ref: str) -> Optional[dict]:
@@ -3325,7 +3325,7 @@ class ScriptureLookup:
         if result and result.get("found"):
             v_label = f"{chapter}:{halacha}" if halacha else chapter
             result["reference"] = f"Mishneh Torah, {section} {v_label}"
-            result["source"] = "Mishneh Torah — Maimonides (Touger trans., via Sefaria)"
+            result["source"] = "trans. Touger"
         return result
 
     def _try_guide(self, raw_ref: str) -> Optional[dict]:
@@ -3352,7 +3352,7 @@ class ScriptureLookup:
         if result and result.get("found"):
             label = f"Part {part}" + (f", Ch. {chapter}" if chapter else "")
             result["reference"] = f"Guide for the Perplexed {label}"
-            result["source"] = "Guide for the Perplexed — Maimonides (via Sefaria)"
+            result["source"] = "Sefaria"
         return result
 
     def _try_hadith(self, raw_ref: str) -> Optional[dict]:
@@ -3959,7 +3959,7 @@ def get_verse_knox(reference: str) -> dict:
             "found": True,
             "reference": f"{canon_book} {chapter} (Knox)",
             "text": "\n".join(texts),
-            "source": "Knox Bible — trans. Msgr. Ronald Knox (1945–49)",
+            "source": "trans. Ronald Knox (1945–49)",
             "pages": pages if len(pages) > 1 else None,
         }
 
@@ -3983,7 +3983,7 @@ def get_verse_knox(reference: str) -> dict:
         "found": True,
         "reference": f"{canon_book} {chapter}:{v_label} (Knox)",
         "text": "\n".join(texts),
-        "source": "Knox Bible — trans. Msgr. Ronald Knox (1945–49)",
+        "source": "trans. Ronald Knox (1945–49)",
         "book": canon_book,
         "chapter": int(chapter),
         "verse": verse_s,

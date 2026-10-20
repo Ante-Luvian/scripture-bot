@@ -374,7 +374,7 @@ def catholic_today(d: datetime.date) -> dict:
         "found": True,
         "summary": feast,
         "details": details,
-        "source": "universalis.com (General Calendar)",
+        "source": "General Roman Calendar",
     }
 
 

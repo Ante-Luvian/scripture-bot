@@ -1,5 +1,5 @@
 {
- "source": "Aretaeus of Cappadocia. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Aretaeus of Cappadocia",
  "books": {
   "On the Causes and Symptoms of Acute Diseases": {
@@ -485,9 +485,9 @@
   }
  },
  "book_sources": {
-  "On the Causes and Symptoms of Acute Diseases": "Aretaeus of Cappadocia, On the Causes and Symptoms of Acute Diseases, trans. Francis Adams. Perseus Digital Library (CC-BY-SA).",
-  "On the Causes and Symptoms of Chronic Diseases": "Aretaeus of Cappadocia, On the Causes and Symptoms of Chronic Diseases, trans. Francis Adams. Perseus Digital Library (CC-BY-SA).",
-  "On the Therapeutics of Acute Diseases": "Aretaeus of Cappadocia, On the Therapeutics of Acute Diseases, trans. Francis Adams. Perseus Digital Library (CC-BY-SA).",
-  "On the Cure of Chronic Diseases": "Aretaeus of Cappadocia, On the Cure of Chronic Diseases, trans. Francis Adams. Perseus Digital Library (CC-BY-SA)."
+  "On the Causes and Symptoms of Acute Diseases": "trans. Francis Adams",
+  "On the Causes and Symptoms of Chronic Diseases": "trans. Francis Adams",
+  "On the Therapeutics of Acute Diseases": "trans. Francis Adams",
+  "On the Cure of Chronic Diseases": "trans. Francis Adams"
  }
 }

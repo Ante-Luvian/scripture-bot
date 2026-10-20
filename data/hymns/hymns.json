@@ -1,5 +1,5 @@
 {
- "source": "The Open Hymnal Project (openhymnal.org) and Hymnary.org, public-domain hymns",
+ "source": "Open Hymnal Project, Hymnary.org",
  "hymns": [
   {
    "title": "'Take Up Thy Cross', the Savior Said",
@@ -5784,7 +5784,7 @@
    "refrain": "",
    "first_line": "And did those feet in ancient time",
    "file": "hymnary.org/text/and_did_those_feet_in_ancient_time",
-   "source": "Hymnary.org; tune from Wikimedia Commons",
+   "source": "Hymnary.org",
    "midi": "And_Did_Those_Feet_In_Ancient_Time_Jerusalem_.mid",
    "seconds": 84
   },
@@ -9587,7 +9587,7 @@
    "refrain": "",
    "first_line": "Once in royal David’s city",
    "file": "hymnary.org/text/once_in_royal_davids_city_stood_a_lowly",
-   "source": "Hymnary.org; tune from Wikimedia Commons",
+   "source": "Hymnary.org",
    "midi": "Once_in_Royal_David_s_City.mid",
    "seconds": 60
   },

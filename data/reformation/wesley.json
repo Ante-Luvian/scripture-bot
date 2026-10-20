@@ -1,9 +1,9 @@
 {
  "source": "John Wesley",
  "book_sources": {
-  "Sermons of John Wesley": "John Wesley, Sermons on Several Occasions, CCEL",
-  "A Plain Account of Christian Perfection": "John Wesley, A Plain Account of Christian Perfection (1766), CCEL",
-  "The Journal of John Wesley": "John Wesley, The Journal (abridged), CCEL"
+  "Sermons of John Wesley": "John Wesley",
+  "A Plain Account of Christian Perfection": "John Wesley (1766)",
+  "The Journal of John Wesley": "John Wesley"
  },
  "books": {
   "Sermons of John Wesley": {

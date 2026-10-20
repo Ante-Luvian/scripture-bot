@@ -25,7 +25,7 @@ from liturgical_calendar import _easter_sunday
 ANGELUS_PATH = ROOT / "data" / "angelus.json"      # {"posted": {guild id: "YYYY-MM-DD HH:MM"}}
 DEFAULT_TIMES = ["12:00"]
 COLOR = discord.Color.from_rgb(70, 110, 170)
-SOURCE = "A Manual of Prayers for the Use of the Catholic Laity (Baltimore, 1889)"
+SOURCE = "Manual of Prayers (1889)"
 
 HAIL_MARY = ("Hail, Mary, full of grace; the Lord is with thee: blessed art thou among women, and blessed is the "
              "fruit of thy womb, Jesus. Holy Mary, Mother of God, pray for us sinners, now and at the hour of our "

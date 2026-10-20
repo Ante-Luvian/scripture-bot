@@ -265,7 +265,7 @@ def fetch_mishnah(tractate_index: str, chapter: int, mishna: int) -> dict:
         "found": True,
         "reference": display_ref,
         "text": text,
-        "source": f"Mishnah — {version_title} (via Sefaria)",
+        "source": version_title,
     }
 
 
@@ -318,7 +318,7 @@ def fetch_mishnah_chapter(tractate_index: str, chapter: int) -> dict:
         "found": True,
         "reference": display_ref,
         "text": "\n".join(texts),
-        "source": f"Mishnah — {version_title} (via Sefaria)",
+        "source": version_title,
     }
 
 
@@ -482,7 +482,7 @@ def _fetch_sefaria_daf(tref: str, section: int | None, tractate_display: str,
             "found": True,
             "reference": f"{tractate_display} {daf}",
             "text": "\n".join(lines),
-            "source": f"{source_label} — {version_title} (via Sefaria)",
+            "source": version_title,
         }
     else:
         # Single section — zero-indexed
@@ -501,7 +501,7 @@ def _fetch_sefaria_daf(tref: str, section: int | None, tractate_display: str,
             "found": True,
             "reference": f"{tractate_display} {daf}:{section}",
             "text": text,
-            "source": f"{source_label} — {version_title} (via Sefaria)",
+            "source": version_title,
         }
 
 
@@ -695,7 +695,7 @@ def fetch_zohar(parasha: str, segment: int | None) -> dict:
             "found": True,
             "reference": ref_label,
             "text": text,
-            "source": "Zohar (Pritzker Edition, via Sefaria)",
+            "source": "Pritzker Edition",
             "book": "Zohar",
         }
 
@@ -710,7 +710,7 @@ def fetch_zohar(parasha: str, segment: int | None) -> dict:
             "found": True,
             "reference": ref_label,
             "text": segments[0],
-            "source": "Zohar (Pritzker Edition, via Sefaria)",
+            "source": "Pritzker Edition",
             "book": "Zohar",
         }
 
@@ -728,7 +728,7 @@ def fetch_zohar(parasha: str, segment: int | None) -> dict:
         "found": True,
         "reference": ref_label,
         "text": segments[0],  # fallback
-        "source": "Zohar (Pritzker Edition, via Sefaria)",
+        "source": "Pritzker Edition",
         "book": "Zohar",
         "pages": pages,
     }
@@ -816,7 +816,7 @@ def fetch_sefaria_generic(tref: str) -> dict | None:
         "found": True,
         "reference": display_ref,
         "text": text,
-        "source": version_title + " (via Sefaria)",
+        "source": version_title,
     }
 
 

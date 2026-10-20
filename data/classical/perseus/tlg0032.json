@@ -1,5 +1,5 @@
 {
- "source": "Xenophon. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Xenophon",
  "books": {
   "Hellenica": {
@@ -6858,19 +6858,19 @@
   }
  },
  "book_sources": {
-  "Hellenica": "Xenophon, Hellenica. Perseus Digital Library (CC-BY-SA).",
-  "Memorabilia": "Xenophon, Memorabilia, trans. E. C. Marchant. Perseus Digital Library (CC-BY-SA).",
-  "Xenophon: Economics": "Xenophon, Economics, trans. E. C. Marchant. Perseus Digital Library (CC-BY-SA).",
-  "Xenophon: Symposium": "Xenophon, Symposium, trans. O. J. Todd. Perseus Digital Library (CC-BY-SA).",
-  "Xenophon: Apology": "Xenophon, Apology, trans. O. J. Todd. Perseus Digital Library (CC-BY-SA).",
-  "Anabasis": "Xenophon, Anabasis. Perseus Digital Library (CC-BY-SA).",
-  "Cyropaedia": "Xenophon, Cyropaedia, trans. Walter Miller. Perseus Digital Library (CC-BY-SA).",
-  "Hiero": "Xenophon, Hiero, trans. E. C. Marchant. Perseus Digital Library (CC-BY-SA).",
-  "Xenophon: Agesilaus": "Xenophon, Agesilaus, trans. E. C. Marchant. Perseus Digital Library (CC-BY-SA).",
-  "Constitution of the Lacedaimonians": "Xenophon, Constitution of the Lacedaimonians, trans. E. C. Marchant. Perseus Digital Library (CC-BY-SA).",
-  "Ways and Means": "Xenophon, Ways and Means, trans. E. C. Marchant. Perseus Digital Library (CC-BY-SA).",
-  "Xenophon: On the Cavalry Commander": "Xenophon, On the Cavalry Commander, trans. E. C. Marchant. Perseus Digital Library (CC-BY-SA).",
-  "Xenophon: On the Cavalry Commander II": "Xenophon, On the Cavalry Commander, trans. E. C. Marchant. Perseus Digital Library (CC-BY-SA).",
-  "On Hunting": "Xenophon, On Hunting, trans. E. C. Marchant. Perseus Digital Library (CC-BY-SA)."
+  "Hellenica": "Perseus Digital Library",
+  "Memorabilia": "trans. E. C. Marchant",
+  "Xenophon: Economics": "trans. E. C. Marchant",
+  "Xenophon: Symposium": "trans. O. J. Todd",
+  "Xenophon: Apology": "trans. O. J. Todd",
+  "Anabasis": "Perseus Digital Library",
+  "Cyropaedia": "trans. Walter Miller",
+  "Hiero": "trans. E. C. Marchant",
+  "Xenophon: Agesilaus": "trans. E. C. Marchant",
+  "Constitution of the Lacedaimonians": "trans. E. C. Marchant",
+  "Ways and Means": "trans. E. C. Marchant",
+  "Xenophon: On the Cavalry Commander": "trans. E. C. Marchant",
+  "Xenophon: On the Cavalry Commander II": "trans. E. C. Marchant",
+  "On Hunting": "trans. E. C. Marchant"
  }
 }

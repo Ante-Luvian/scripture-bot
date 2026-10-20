@@ -1,5 +1,5 @@
 {
- "source": "Pseudo-Caesar. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Pseudo-Caesar",
  "books": {
   "The Alexandrian War": {
@@ -86,6 +86,6 @@
   }
  },
  "book_sources": {
-  "The Alexandrian War": "Pseudo-Caesar, The Alexandrian War, trans. A. G. Way. Perseus Digital Library (CC-BY-SA)."
+  "The Alexandrian War": "trans. A. G. Way"
  }
 }

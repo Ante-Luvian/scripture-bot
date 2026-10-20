@@ -1,5 +1,5 @@
 {
- "source": "Ammianus Marcellinus. Perseus Digital Library (CC-BY-SA).",
+ "source": "Perseus Digital Library",
  "author": "Ammianus Marcellinus",
  "books": {
   "History": {
@@ -3294,6 +3294,6 @@
   }
  },
  "book_sources": {
-  "History": "Ammianus Marcellinus, History, trans. John C. Rolfe. Perseus Digital Library (CC-BY-SA)."
+  "History": "trans. John C. Rolfe"
  }
 }

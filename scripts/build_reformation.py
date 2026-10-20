@@ -210,7 +210,7 @@ def book_of_concord():
         expect(len(chapters) >= 1, f"{title}: nothing found")
         books[title] = chapters
         print(f"  {title}: {len(chapters)} articles/parts, {sum(map(len, chapters.values()))} paragraphs")
-    save("book_of_concord.json", "The Book of Concord, Concordia Triglotta translation (1921), bookofconcord.org", books)
+    save("book_of_concord.json", "Concordia Triglotta (1921)", books)
 
 
 # ── Wikisource, rendered (so pages built from scans come with their text) ──────
@@ -500,12 +500,12 @@ def luther():
     books = {"Ninety-Five Theses": ninety_five_theses(), **luther_works_ii(),
              "Treatise on Good Works": good_works(), "The Bondage of the Will": bondage_of_the_will(),
              "Luther on Galatians": galatians(), "Table Talk": table_talk(), "Sermons of Martin Luther": luther_sermons()}
-    sources = {"Ninety-Five Theses": "Martin Luther, The Ninety-Five Theses (1517), sacred-texts.com",
-               "Treatise on Good Works": "Martin Luther, Treatise on Good Works (1520), Philadelphia edition, Project Gutenberg",
-               "The Bondage of the Will": "Martin Luther, The Bondage of the Will (1525), trans. Henry Cole (1823), CCEL",
-               "Luther on Galatians": "Martin Luther, Commentary on Galatians (1535), trans. Theodore Graebner, Project Gutenberg",
-               "Table Talk": "Martin Luther, Table Talk, trans. William Hazlitt, Project Gutenberg",
-               "Sermons of Martin Luther": "Martin Luther, sermons, trans. J. N. Lenker, sacred-texts.com"}
+    sources = {"Ninety-Five Theses": "Martin Luther (1517)",
+               "Treatise on Good Works": "Philadelphia edition (1915)",
+               "The Bondage of the Will": "trans. Henry Cole (1823)",
+               "Luther on Galatians": "trans. Theodore Graebner",
+               "Table Talk": "trans. William Hazlitt",
+               "Sermons of Martin Luther": "trans. J. N. Lenker"}
     for b in ("An Open Letter to the Christian Nobility", "The Babylonian Captivity of the Church",
               "A Treatise on Christian Liberty", "The Eight Wittenberg Sermons"):
         sources[b] = f"Martin Luther, {b} (1520-22), Works of Martin Luther, Philadelphia edition (1915), Project Gutenberg"
@@ -583,9 +583,9 @@ def calvin():
     for b, ch in books.items():
         print(f"  {b}: {len(ch)} chapters, {sum(map(len, ch.values()))} passages")
     save("calvin.json", "John Calvin", books, {
-        "Institutes of the Christian Religion": "John Calvin, Institutes of the Christian Religion (1559), trans. Henry Beveridge (1845), sacred-texts.com",
-        "Prefatory Address to Francis I": "John Calvin, Prefatory Address to the Institutes (1536), trans. Henry Beveridge, sacred-texts.com",
-        "A Treatise on Relics": "John Calvin, A Treatise on Relics (1543), trans. Valerian Krasinski (1854), Project Gutenberg"})
+        "Institutes of the Christian Religion": "trans. Henry Beveridge (1845)",
+        "Prefatory Address to Francis I": "trans. Henry Beveridge (1845)",
+        "A Treatise on Relics": "trans. Valerian Krasinski (1854)"})
 
 
 # ── the Reformed and other confessions ──────────────────────────────────────
@@ -666,8 +666,8 @@ def baptist_1689() -> dict:
 
 RDC = "The Constitution of the Reformed Dutch Church of North America/"
 CONFESSIONS = {
-    "Heidelberg Catechism": ("The Heidelberg Catechism (1563), sacred-texts.com", heidelberg),
-    "Second Helvetic Confession": ("The Second Helvetic Confession (1566), sacred-texts.com", second_helvetic),
+    "Heidelberg Catechism": ("1563 text", heidelberg),
+    "Second Helvetic Confession": ("1566 text", second_helvetic),
     "Belgic Confession": ("The Belgic Confession (1561), as revised at Dort (1619), from The Constitution of the "
                           "Reformed Dutch Church (1840), Wikisource",
                           lambda: ws_chapters(ws_elements(RDC + "The Confession of Faith"), r"(?:Article )?[IVXL]+\.(?:\s|$)")),
@@ -675,20 +675,20 @@ CONFESSIONS = {
                        "(1840), Wikisource",
                        lambda: ws_chapters(ws_elements(RDC + "Canons of the Synod of Dordrecht"),
                                            r"(?:FIRST|SECOND|THIRD|FOURTH|FIFTH)(?: AND FOURTH)? HEADS? OF DOCTRINE")),
-    "Scots Confession": ("The Scots Confession (1560), Wikisource",
+    "Scots Confession": ("1560 text",
                          lambda: ws_chapters(ws_elements("Scots Confession"), r"The Preface|Chapter \d+:", first=0)),
     "Westminster Confession of Faith": ("The Westminster Confession of Faith (1646), Wikisource (transcribed from the "
                                         "1646 manuscript, tercentenary edition, 1946)",
                                         lambda: ws_chapters(ws_elements("The Confession of Faith of the Assembly of "
                                                                         "Divines at Westminster"), r"CHAPTER [IVXL]+\.?$")),
-    "Westminster Shorter Catechism": ("The Westminster Shorter Catechism (1647), sacred-texts.com", westminster_shorter),
-    "Westminster Larger Catechism": ("The Westminster Larger Catechism (1647), Wikisource", westminster_larger),
-    "Thirty-Nine Articles": ("The Articles of Religion of the Church of England (1571), Wikisource",
+    "Westminster Shorter Catechism": ("1647 text", westminster_shorter),
+    "Westminster Larger Catechism": ("1647 text", westminster_larger),
+    "Thirty-Nine Articles": ("Church of England (1571)",
                              lambda: ws_chapters(ws_elements("Thirty-Nine Articles of Religion"), r"[IVXL]+\. ")),
-    "Methodist Articles of Religion": ("John Wesley, The Articles of Religion (1784), Wikisource",
+    "Methodist Articles of Religion": ("John Wesley (1784)",
                                        lambda: ws_chapters(ws_elements("Articles of Religion (Methodist)"),
                                                            r"Article [IVXL]+")),
-    "Second London Baptist Confession": ("The Second London Baptist Confession of Faith (1677/1689), CCEL", baptist_1689),
+    "Second London Baptist Confession": ("1689 text", baptist_1689),
 }
 EXPECTED = {"Second Helvetic Confession": 30, "Belgic Confession": 37, "Canons of Dort": 4, "Scots Confession": 26,
             "Westminster Confession of Faith": 33, "Thirty-Nine Articles": 39, "Methodist Articles of Religion": 25}
@@ -754,9 +754,9 @@ def knox():
     }
     report(books)
     save("knox.json", "John Knox", books, {
-        "The History of the Reformation in Scotland": "John Knox, The History of the Reformation of Religion within the Realm of Scotland (1587), CCEL",
-        "The First Blast of the Trumpet": "John Knox, The First Blast of the Trumpet against the Monstrous Regiment of Women (1558), Project Gutenberg",
-        "A Treatise on Prayer": "John Knox, A Treatise on Prayer (1554), CCEL"})
+        "The History of the Reformation in Scotland": "John Knox (1587)",
+        "The First Blast of the Trumpet": "John Knox (1558)",
+        "A Treatise on Prayer": "John Knox (1554)"})
 
 
 def latimer():
@@ -772,7 +772,7 @@ def latimer():
                 out[str(len(out) + 1)] = numbered(paras, stitle if not paras[0].startswith("*") else "")
     books = {"Sermons of Hugh Latimer": out}
     report(books)
-    save("latimer.json", "Hugh Latimer, Sermons (1549-1552), Everyman edition (1906), CCEL", books)
+    save("latimer.json", "Everyman edition (1906)", books)
 
 
 def _poem_lines(html: str) -> list:
@@ -827,19 +827,19 @@ def anglican_divines():
     }
     report(books)
     save("anglican_divines.json", "The Anglican divines", books, {
-        "The Temple": "George Herbert, The Temple: Sacred Poems and Private Ejaculations (1633), Wikisource",
-        "Private Devotions of Lancelot Andrewes": "Lancelot Andrewes, Preces Privatae, trans. J. H. Newman and J. M. Neale, CCEL",
-        "Holy Living": "Jeremy Taylor, The Rule and Exercises of Holy Living (1650), CCEL",
-        "Holy Dying": "Jeremy Taylor, The Rule and Exercises of Holy Dying (1651), CCEL",
-        "A Serious Call to a Devout and Holy Life": "William Law, A Serious Call to a Devout and Holy Life (1729), CCEL",
-        "Laws of Ecclesiastical Polity": "Richard Hooker, Of the Laws of Ecclesiastical Polity, Preface and Books I-IV (1594-97), ed. John Keble",
-        "The Book of Homilies, First Book": "Certain Sermons or Homilies, the First Book (1547), largely by Thomas Cranmer",
-        "Bonner's Homilies": "Homilies Set Forth by the Right Reverend Father in God Edmund, Bishop of London (1555)",
-        "The Book of Homilies, Second Book": "The Second Book of Homilies (1563), largely by John Jewel",
-        "Donne's LXXX Sermons": "John Donne, LXXX Sermons (1640), modernized spelling",
-        "Donne's Fifty Sermons": "John Donne, Fifty Sermons (1649), modernized spelling",
-        "Donne's XXVI Sermons": "John Donne, XXVI Sermons (1661), modernized spelling",
-        "Holy Sonnets": "John Donne, Holy Sonnets, modernized spelling"})
+        "The Temple": "George Herbert (1633)",
+        "Private Devotions of Lancelot Andrewes": "trans. J. H. Newman and J. M. Neale",
+        "Holy Living": "Jeremy Taylor (1650)",
+        "Holy Dying": "Jeremy Taylor (1651)",
+        "A Serious Call to a Devout and Holy Life": "William Law (1729)",
+        "Laws of Ecclesiastical Polity": "ed. John Keble",
+        "The Book of Homilies, First Book": "Thomas Cranmer et al. (1547)",
+        "Bonner's Homilies": "Edmund, Bishop of London (1555)",
+        "The Book of Homilies, Second Book": "John Jewel et al. (1563)",
+        "Donne's LXXX Sermons": "John Donne (1640)",
+        "Donne's Fifty Sermons": "John Donne (1649)",
+        "Donne's XXVI Sermons": "John Donne (1661)",
+        "Holy Sonnets": "John Donne"})
 
 
 def wesley():
@@ -860,9 +860,9 @@ def wesley():
     expect(len(sermons) >= 100, f"Wesley: {len(sermons)} sermons")
     report(books)
     save("wesley.json", "John Wesley", books, {
-        "Sermons of John Wesley": "John Wesley, Sermons on Several Occasions, CCEL",
-        "A Plain Account of Christian Perfection": "John Wesley, A Plain Account of Christian Perfection (1766), CCEL",
-        "The Journal of John Wesley": "John Wesley, The Journal (abridged), CCEL"})
+        "Sermons of John Wesley": "John Wesley",
+        "A Plain Account of Christian Perfection": "John Wesley (1766)",
+        "The Journal of John Wesley": "John Wesley"})
 
 
 # ── texts the owner supplied (scripts/sources/, not in git) ──────────────────
