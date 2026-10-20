@@ -11,8 +11,10 @@ answers of Book II (data/patristics/paradise_of_the_fathers.json, built by scrip
     !desert 1:303           a saying by number (Book I, saying 303)
     !desert anger           anything else: a saying with those words in it
 
-A long saying comes a page at a time (◀ ▶); 🎲 draws another of the same kind.
+A long saying comes a page at a time (◀ ▶); 🎲 draws another of the same kind; 🖼️ Card makes an image
+of the page, set justified like a printed book (a Discord message can't be).
 """
+import asyncio
 import difflib
 import functools
 import random
@@ -21,6 +23,7 @@ import unicodedata
 
 import discord
 
+from bot_commands import card
 from core import bot, log, lookup
 
 BOOK = "Sayings of the Desert Fathers"
@@ -188,9 +191,9 @@ def parse(query: str) -> "tuple[str, str]":
 # ── showing ─────────────────────────────────────────────────────────────────
 
 class DesertButton(discord.ui.DynamicItem[discord.ui.Button],
-                   template=r"desert:(?P<action>pg|bk|again):(?P<book>[12]):(?P<n>\d+):(?P<page>\d+):(?P<spec>.{0,60})"):
-    """◀ ▶ through a long saying, and 🎲 another of the same kind. The custom_id carries what it needs,
-    so these keep working after a restart."""
+                   template=r"desert:(?P<action>pg|bk|again|card):(?P<book>[12]):(?P<n>\d+):(?P<page>\d+):(?P<spec>.{0,60})"):
+    """◀ ▶ through a long saying, 🎲 another of the same kind, and 🖼️ the page as a card (justified, which a
+    message can't be). The custom_id carries what it needs, so these keep working after a restart."""
 
     def __init__(self, action, book, n, page, spec, label="", emoji=""):
         super().__init__(discord.ui.Button(label=label or None, emoji=emoji or None, style=discord.ButtonStyle.secondary,
@@ -208,6 +211,10 @@ class DesertButton(discord.ui.DynamicItem[discord.ui.Button],
                 await interaction.response.send_message("I can't find another saying like that.", ephemeral=True)
                 return
             await interaction.response.send_message(**message(*choice, spec=self.spec))
+        elif self.action == "card":
+            await interaction.response.defer(thinking=True)
+            buf = await asyncio.to_thread(render_card, self.book, self.n, self.page)
+            await interaction.followup.send(file=discord.File(buf, filename=f"desert-{self.book}-{self.n}.png"))
         else:
             await interaction.response.edit_message(**message(self.book, self.n, self.page, self.spec))
 
@@ -238,7 +245,19 @@ def message(book: str, n: int, page: int = 0, spec: str = "", heading: str = "")
         view.add_item(DesertButton("bk", book, n, (page - 1) % len(parts), spec, emoji="◀"))
         view.add_item(DesertButton("pg", book, n, (page + 1) % len(parts), spec, emoji="▶"))
     view.add_item(DesertButton("again", book, n, 0, spec, label="Another", emoji="🎲"))
+    view.add_item(DesertButton("card", book, n, page, spec, label="Card", emoji="🖼️"))
     return {"embed": embed, "view": view}
+
+
+def render_card(book: str, n: int, page: int = 0):
+    """The saying's page as a PNG card, justified, in the desert style."""
+    parts = pages(body(sayings()[book][str(n)]))
+    page = max(0, min(page, len(parts) - 1))
+    text = re.sub(r"\*([^*\n]+)\*", r"\1", parts[page])            # italics mean nothing in an image
+    reference = f"The Desert Fathers, {BOOK_NAMES[book]}, saying {n}" +(f" (page {page + 1} of {len(parts)})" if len(parts) > 1 else "")
+    topic = topic_of(book, n)
+    source = (f"{brief(topic)} · " if topic else "") + SOURCE
+    return card._render_verse_card(reference, text, source, style="desert", justify=True)
 
 
 def fathers_embed() -> discord.Embed:

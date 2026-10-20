@@ -132,6 +132,8 @@ CARD_STYLES = {
                       frame="corners", ornament="knot"),
     "classical": dict(bg=(247, 245, 240), border=(128, 102, 58), text=(50, 44, 36), accent=(110, 84, 44),
                       frame="key", ornament="diamond"),
+    "desert":    dict(bg=(241, 229, 203), border=(128, 80, 36), text=(58, 38, 20), accent=(150, 70, 26),
+                      frame="double", ornament="diamond"),
 }
 _STYLE_BY_CORPUS = {"chinese": "ink", "sufi": "persian", "quran": "persian", "buddhist": "buddhist",
                     "dharmic": "hindu", "norse": "norse", "classical": "classical",
@@ -194,12 +196,31 @@ def _draw_ornament(draw, cx: int, cy: int, s: dict) -> None:
         draw.polygon([(cx, cy - 11), (cx + 11, cy), (cx, cy + 11), (cx - 11, cy)], outline=c, width=2)
 
 
-def _render_verse_card(reference: str, text: str, source: str, question: str = "", style: str = ""):
+def _justified_lines(paragraph: str, font, width: float, measure) -> list:
+    """Wrap a paragraph to `width` pixels: [(words, gap)] where gap is the space to put between the words
+    so the line reaches both edges; the paragraph's last line keeps ordinary spacing (gap None)."""
+    lines, words = [], paragraph.split()
+    space = measure(" ", font)
+    while words:
+        line = [words.pop(0)]
+        while words and measure(" ".join(line + [words[0]]), font) <= width:
+            line.append(words.pop(0))
+        if not words or len(line) == 1:
+            lines.append((line, None))
+        else:
+            ink = sum(measure(w, font) for w in line)
+            lines.append((line, max(space, (width - ink) / (len(line) - 1))))
+    return lines
+
+
+def _render_verse_card(reference: str, text: str, source: str, question: str = "", style: str = "",
+                       justify: bool = False):
     """Render a verse (or a whole chapter) as a PNG in its tradition's style
     (CARD_STYLES; by default chosen from the reference's book). Runs off the
     event loop (CPU-bound). Height grows to fit the text instead of
     truncating it -- a chapter-length card is just taller.
-    `question` (oracle answers): shown in italics above the text."""
+    `question` (oracle answers): shown in italics above the text.
+    `justify`: prose set flush to both margins, like a printed page, instead of centred lines."""
     from PIL import Image, ImageDraw, ImageFont
     import io, textwrap
 
@@ -224,6 +245,7 @@ def _render_verse_card(reference: str, text: str, source: str, question: str = "
     if len(quote_text) > MAX_CHARS:
         quote_text = quote_text[:MAX_CHARS - 1] + "…"
     is_rtl = _is_rtl_script(quote_text)
+    justify = justify and not is_rtl
     body_font_path = _script_font(FONTS, quote_text)
 
     # Each verse (separated by the newlines already in whole-chapter text)
@@ -234,7 +256,12 @@ def _render_verse_card(reference: str, text: str, source: str, question: str = "
     max_width = W - 160
     size, MIN_SIZE = _size_for_length(len(quote_text)), 22
     lines, line_height, font = [], 0, None
-    while size >= MIN_SIZE:
+    if justify:                                      # wrapped by measured width, so it always fits
+        font = ImageFont.truetype(body_font_path, size)
+        measure = lambda s_, f_: dummy.textlength(s_, font=f_)
+        lines = [l for para in paragraphs for l in (_justified_lines(para, font, max_width, measure) or [([], None)])]
+        line_height = int(size * 1.4)
+    while not justify and size >= MIN_SIZE:
         font = ImageFont.truetype(body_font_path, size)
         wrap_width = max(10, int(max_width / (size * 0.52)))
         lines = [l for para in paragraphs for l in (textwrap.wrap(para, width=wrap_width) or [""])]
@@ -263,7 +290,13 @@ def _render_verse_card(reference: str, text: str, source: str, question: str = "
     available = H - TOP_MARGIN - BOTTOM_RESERVED
     y = TOP_MARGIN + max(0, (available - text_height) // 2)
     for line in lines:
-        if is_rtl:
+        if justify:
+            words, gap = line
+            x = (W - max_width) / 2
+            for w in words:
+                draw.text((x, y), w, font=font, fill=TEXT)
+                x += draw.textlength(w, font=font) + (gap if gap is not None else draw.textlength(" ", font=font))
+        elif is_rtl:
             w = draw.textlength(_rtl_visual(line), font=font)
             _draw_rtl_line(draw, (W - w) / 2, y, line, font, TEXT)
         else:

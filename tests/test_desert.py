@@ -59,7 +59,7 @@ def test_message_pages_a_long_saying_without_losing_any(desert):
     assert re.sub(r"\s+", "", "".join(parts)) == re.sub(r"\s+", "", text)
     m = desert.message(*longest)
     assert m["embed"].description == parts[0]
-    assert len(m["view"].children) == 3                    # ◀ ▶ 🎲
+    assert len(m["view"].children) == 4                    # ◀ ▶ 🎲 🖼️
 
 
 def test_heading_is_left_out_of_the_saying(desert):
@@ -70,6 +70,32 @@ def test_heading_is_left_out_of_the_saying(desert):
     assert len(desert.SHORT) == len(desert.topics())
     assert desert.find_topic("hospitality") == 8
     assert len(m["embed"].footer.text) < 60
+
+
+def test_card_is_justified(desert):
+    """Every line but a paragraph's last reaches both margins; no word is lost on the way."""
+    from PIL import Image, ImageDraw, ImageFont
+    from bot_commands.card import _justified_lines
+    draw = ImageDraw.Draw(Image.new("RGB", (10, 10)))
+    font = ImageFont.truetype("C:/Windows/Fonts/georgia.ttf", 36)
+    measure = lambda s, f: draw.textlength(s, font=f)
+    text = desert.body(desert.sayings()["1"]["303"])
+    for para in text.split("\n"):
+        lines = _justified_lines(para, font, 1040, measure)
+        assert [w for ws, _ in lines for w in ws] == para.split()
+        for words, gap in lines[:-1]:
+            assert abs(sum(measure(w, font) for w in words) + gap * (len(words) - 1) - 1040) < 1
+        assert lines[-1][1] is None
+    buf = desert.render_card("1", 303)
+    assert Image.open(buf).size[0] == 1200
+
+
+def test_every_page_of_the_longest_saying_makes_a_card(desert):
+    from PIL import Image
+    longest = max(((b, int(n)) for b, vs in desert.sayings().items() for n in vs),
+                  key=lambda k: len(desert.sayings()[k[0]][str(k[1])]))
+    for page in range(len(desert.pages(desert.body(desert.sayings()[longest[0]][str(longest[1])])))):
+        assert Image.open(desert.render_card(*longest, page)).size[1] > 600
 
 
 def test_button_ids_fit(desert):
