@@ -509,6 +509,9 @@ BOOKS_TREE = [
         ("Fables", [
             ("Aesop", ["Aesop's Fables"]),
         ]),
+        ("Astrology", [
+            ("Ptolemy", ["Tetrabiblos", "Centiloquy"]),
+        ]),
         ("Theogonies & Hymns", [
             ("Hesiod", ["Theogony", "Works and Days", "Shield of Heracles"]),
             ("Homeric", ["Homeric Hymns"]),
@@ -1085,6 +1088,9 @@ BOOKS_TREE = [
             ("Anonymous (14th century)", ["Cloud of Unknowing"]),
             ("Julian of Norwich", ["Revelations of Divine Love"]),
             ("Brother Lawrence", ["Practice of the Presence of God"]),
+        ]),
+        ("Astrology", [
+            ("William Lilly", ["Lilly's Introduction to Astrology", "Lilly's Introduction to Astrology, Appendix"]),
         ]),
         ("Swedenborg", [
             ("The main works", [

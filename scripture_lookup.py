@@ -851,6 +851,13 @@ ALIASES: dict[str, str] = {
     # ── Porphyry additions ─────────────────────────────────────────────────────
     "life of plotinus": "Life of Plotinus",
     "porphyry life of plotinus": "Life of Plotinus",
+    # Astrology: Ptolemy (by book.chapter) and Lilly
+    "tetrabiblos": "Tetrabiblos", "quadripartite": "Tetrabiblos", "ptolemy tetrabiblos": "Tetrabiblos",
+    "centiloquy": "Centiloquy", "centiloquium": "Centiloquy", "ptolemy centiloquy": "Centiloquy",
+    "lilly": "Lilly's Introduction to Astrology", "william lilly": "Lilly's Introduction to Astrology",
+    "christian astrology": "Lilly's Introduction to Astrology",
+    "introduction to astrology": "Lilly's Introduction to Astrology",
+    "lilly appendix": "Lilly's Introduction to Astrology, Appendix",
     # Aesop (Townsend), one chapter a fable
     "aesop": "Aesop's Fables", "aesops fables": "Aesop's Fables", "aesop's fables": "Aesop's Fables",
     "fables": "Aesop's Fables", "fables of aesop": "Aesop's Fables", "aesop fables": "Aesop's Fables",
@@ -1696,6 +1703,7 @@ class ScriptureLookup:
                 "sallustius.json",
                 "isis_and_osiris.json",          # Plutarch (Babbitt): not in the Perseus Plutarch
                 "aesop.json",                    # Townsend (scripts/build_aesop.py)
+                "tetrabiblos.json",              # Ptolemy, and his Centiloquy (scripts/build_astrology.py)
                 "proclus_theology.json",
                 "hierocles.json",
                 "marinus.json",
@@ -1914,6 +1922,7 @@ class ScriptureLookup:
                 "julian_revelations.json",
                 "practice_of_presence.json",
                 "swedenborg.json",
+                "lilly_astrology.json",          # Lilly ed. Zadkiel (scripts/build_astrology.py)
                 "blake.json",
                 "milton.json",
                 "pilgrims_progress.json",
