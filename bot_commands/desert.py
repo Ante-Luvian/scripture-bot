@@ -206,11 +206,7 @@ class DesertButton(discord.ui.DynamicItem[discord.ui.Button],
 
     async def callback(self, interaction: discord.Interaction):
         if self.action == "again":
-            choice = _pick(self.spec)
-            if choice is None:
-                await interaction.response.send_message("I can't find another saying like that.", ephemeral=True)
-                return
-            await interaction.response.send_message(**message(*choice, spec=self.spec))
+            await interaction.response.send_message(**another(self.book, self.n, self.spec))
         elif self.action == "card":
             await interaction.response.defer(thinking=True)
             buf = await asyncio.to_thread(render_card, self.book, self.n, self.page)
@@ -220,6 +216,20 @@ class DesertButton(discord.ui.DynamicItem[discord.ui.Button],
 
 
 bot.add_dynamic_items(DesertButton)
+
+
+def another(book: str, n: int, spec: str) -> dict:
+    """🎲: a different saying of the same kind; when this was the only one, say so and give a random
+    saying instead (it used to bring the same one back every time)."""
+    others = [c for c in pool(spec) if c != (book, n)]
+    if others:
+        return message(*random.choice(others), spec=spec)
+    kind, _, arg = spec.partition(":")
+    label = {"f": f"by or about {arg}", "w": f"with “{arg}”",
+             "t": f"in “{brief(topics()[int(arg)][3])}”" if kind == "t" and arg.isdigit() else ""}.get(kind, "")
+    sorry = (f"Sorry, that's the only saying {label}. Here's a random saying instead." if label
+             else "Here's a random saying instead.")
+    return message(*random.choice([c for c in pool("") if c != (book, n)]), heading=sorry)
 
 
 def _pick(spec: str):

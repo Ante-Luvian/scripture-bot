@@ -98,6 +98,16 @@ def test_every_page_of_the_longest_saying_makes_a_card(desert):
         assert Image.open(desert.render_card(*longest, page)).size[1] > 600
 
 
+def test_another_never_repeats_and_owns_up_when_there_is_only_one(desert):
+    (only,) = desert.pool("w:ten lamps of fire")
+    for _ in range(10):
+        m = desert.another(*only, "w:ten lamps of fire")
+        assert m["embed"].title != f"🏜️ The Desert Fathers — Book I, saying {only[1]}"
+        assert m["embed"].author.name.startswith("Sorry, that's the only saying with “ten lamps of fire”")
+    m = desert.another("1", 1, "t:0")
+    assert not m["embed"].author and m["embed"].title != "🏜️ The Desert Fathers — Book I, saying 1"
+
+
 def test_button_ids_fit(desert):
     m = desert.message("2", 256, spec="w:" + "x" * 40)
     assert all(len(b.custom_id) <= 100 for b in m["view"].children)

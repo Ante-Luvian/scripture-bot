@@ -45,6 +45,20 @@ def test_message_and_buttons(fable):
     assert len(pages["embed"].description) < 4096 and len({c.custom_id for c in pages["view"].children}) == 2
 
 
+def test_another_never_repeats_and_owns_up_when_there_is_only_one(fable):
+    """Ten presses of 🎲 on fox and grapes brought the same fable back ten times."""
+    spec = fable.parse("fox and grapes")[0]
+    (only,) = fable.pool(spec)
+    for _ in range(20):
+        m = fable.another(only, spec)
+        assert m["embed"].title != f"🦊 {fable.title(only)}"
+        assert m["embed"].author.name == "Sorry, that's the only fable with “fox and grapes”. Here's a random fable instead."
+    foxes = fable.pool("t:fox")
+    for _ in range(20):
+        m = fable.another(foxes[0], "t:fox")
+        assert m["embed"].title != f"🦊 {fable.title(foxes[0])}" and "Fox" in m["embed"].title and not m["embed"].author
+
+
 def test_card(fable):
     from PIL import Image
     longest = max(fable.numbers(), key=lambda n: len(fable.body(n)))

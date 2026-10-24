@@ -108,11 +108,7 @@ class FableButton(discord.ui.DynamicItem[discord.ui.Button],
 
     async def callback(self, interaction: discord.Interaction):
         if self.action == "again":
-            found = pool(self.spec)
-            if not found:
-                await interaction.response.send_message("I can't find another fable like that.", ephemeral=True)
-                return
-            await interaction.response.send_message(**message(random.choice(found), spec=self.spec))
+            await interaction.response.send_message(**another(self.n, self.spec))
         elif self.action == "card":
             await interaction.response.defer(thinking=True)
             buf = await asyncio.to_thread(render_card, self.n)
@@ -133,6 +129,18 @@ def message(n: int, spec: str = "", heading: str = "") -> dict:
     view.add_item(FableButton("again", n, spec, label="Another", emoji="🎲"))
     view.add_item(FableButton("card", n, spec, label="Card", emoji="🖼️"))
     return {"embed": embed, "view": view}
+
+
+def another(n: int, spec: str) -> dict:
+    """🎲: a different fable of the same kind; when this was the only one (fox and grapes), say so and give
+    a random fable instead -- pressing it used to bring the same fable back every time."""
+    others = [m for m in pool(spec) if m != n]
+    if others:
+        return message(random.choice(others), spec=spec)
+    asked = spec.partition(":")[2]
+    sorry = (f"Sorry, that's the only fable with “{asked}”. Here's a random fable instead." if asked
+             else "Here's a random fable instead.")
+    return message(random.choice([m for m in numbers() if m != n]), heading=sorry)
 
 
 def render_card(n: int):
