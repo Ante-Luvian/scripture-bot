@@ -74,6 +74,7 @@ from bot_commands import (  # noqa: F401
     deluge,
     desert,
     fable,
+    planets,
     cloud,
     divine_liturgy,
     dore,

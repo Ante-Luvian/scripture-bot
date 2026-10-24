@@ -600,9 +600,9 @@ PACKS = {
     "islamic_prayer": ("☪️ Islamic prayer times", "The five daily prayer times", frozenset({"salah"})),
     "comparative": ("🌐 Comparative religion", "The same story or theme as the world's traditions tell it",
                     frozenset({"story", "theme"})),
-    "divination": ("🔮 Divination & esoteric", "Oracles, the I Ching, tarot, bibliomancy and William Blake",
+    "divination": ("🔮 Divination & esoteric", "Oracles, the I Ching, tarot, the planets, bibliomancy and William Blake",
                    frozenset({"oracle", "virgil", "homer", "delphi", "iching", "hafez", "rumi", "sortesbiblicae",
-                              "tarot", "blake"})),
+                              "tarot", "blake", "planets"})),
 }
 PACK_OF = {command: key for key, (_, _, commands_) in PACKS.items() for command in commands_}
 

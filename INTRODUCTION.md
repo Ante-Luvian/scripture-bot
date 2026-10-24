@@ -225,6 +225,7 @@ Abbreviations are fine (`Jn`, `1 Cor`, `Ps`). Bible verses come with the four st
 • `!hafez` — *Fāl-e Hāfez*, a custom still alive in Iran: hold a wish or question in mind and open the poems of Hafiz, the great 14th-century Persian poet, at random; the poem you find is your answer
 • `!rumi` — the same with the *Masnavi* of Rumi, the 13th-century Sufi poet: I open it anywhere and read you a few couplets, with the story they come from
 • `!tarot` — draw a card from the Rider tarot of 1909, in Pamela Colman Smith's pictures, with what it means in A. E. Waite's own words (upside down if it falls reversed). `!tarot three` lays past, present and future, `!tarot celtic` Waite's ten-card Celtic Cross, and `!tarot the tower` shows any card
+<!-- pack: divination -->• `!planets` — where the Sun, the Moon and the planets are in the zodiac right now (the western, tropical zodiac), worked out from NASA's own planetary tables, with the day's events to the minute: planets in exact aspect, a planet entering a new sign or turning retrograde, the Moon's quarters. `!planets 2026-12-25` for any day from 1900 to 2049. For what the old astrologers made of it, my library has Ptolemy's *Tetrabiblos* and William Lilly (`!verse Lilly 7` is his chapter on Mars)
 
 **Ask a question** by typing it after the command — `!virgil will I find work?` — and I'll show it with the answer.
 <!-- pack: divination -->Every answer has a **🖼️ Card** button that turns it into an image to share.

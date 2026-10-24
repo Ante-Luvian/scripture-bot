@@ -384,6 +384,13 @@ async def desert_slash(interaction: discord.Interaction, about: str = ""):
     await _command("desert")(ctx, query=about)
 
 
+@bot.tree.command(name="planets", description="Where the Sun, Moon and planets are in the zodiac, and the day's aspects")
+@app_commands.describe(when="A date (2026-12-25), 'tomorrow' or 'yesterday'; empty for now")
+async def planets_slash(interaction: discord.Interaction, when: str = ""):
+    ctx = await _slash_ctx(interaction)
+    await _command("planets")(ctx, when=when)
+
+
 @bot.tree.command(name="fable", description="One of Aesop's Fables")
 @app_commands.describe(about="An animal or title (fox, lion and mouse), a number (12), 'list', or empty for any")
 async def fable_slash(interaction: discord.Interaction, about: str = ""):

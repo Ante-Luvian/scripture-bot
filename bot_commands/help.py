@@ -83,6 +83,7 @@ HELP_MENU = [
     ]),
     ('🎲 Divination', [
         '`!oracle` `!delphi` `!homer` `!virgil` `!sortesbiblicae` `!iching` `!hafez` `!rumi` `!tarot` · `!help oracle`',
+        "`!planets` — where the Sun, Moon and planets are in the zodiac, and the day's aspects · `!help planets`",
         '`!quiz` — guess which book a verse is from (`!quiz hard`, `!quiz buddhist`, `!quiz leaderboard`)',
         '`!whoami` — Who Am I? Guess a Bible figure from clues that get easier · `!help whoami`',
         '`!versle` — the daily verse puzzle: where in the Bible is it? · `!help versle`',
@@ -1234,6 +1235,23 @@ async def cmd_help(ctx, *, topic: str = ""):
             "`!desert anger` — one with those words in it\n\n"
             "**🎲 Another** draws again from the same father or topic. Also `!apophthegm`, and "
             "`!verse Sayings of the Desert Fathers 1:303` for the plain text."
+        )
+        await ctx.send(embed=embed)
+        return
+
+    if topic in ("planets", "sky", "astrology", "ephemeris"):
+        embed = discord.Embed(title="🪐 !planets — the sky", color=discord.Color.dark_gold())
+        embed.description = (
+            "Where the Sun, the Moon and the planets out to Pluto are in the zodiac (the tropical, western "
+            "zodiac), worked out from NASA's own planetary tables, with ℞ for a planet that's retrograde.\n\n"
+            "Under them, the day's events, to the minute (UTC): planets in exact aspect (☌ conjunct, ⚹ "
+            "sextile, □ square, △ trine, ☍ opposite), a planet entering a new sign, a planet turning "
+            "retrograde or direct, and the Moon's quarters.\n\n"
+            "`!planets` — the sky now, and today\n"
+            "`!planets 2026-12-25` — any day from 1900 to 2049\n"
+            "`!planets tomorrow` — or `yesterday`\n\n"
+            "To read what the old astrologers made of it: `!verse Tetrabiblos 1.4` (Ptolemy on the planets) "
+            "or `!verse Lilly 7` (Lilly on Mars)."
         )
         await ctx.send(embed=embed)
         return

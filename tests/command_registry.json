@@ -208,6 +208,11 @@
    "where"
   ],
   "plan": [],
+  "planets": [
+   "astrology",
+   "ephemeris",
+   "sky"
+  ],
   "prayer": [],
   "prefer": [
    "defaulttranslation",
@@ -428,6 +433,7 @@
   "parsha",
   "place",
   "plan",
+  "planets",
   "prayer",
   "prefer",
   "psalm",

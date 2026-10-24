@@ -63,3 +63,6 @@ scripts/sources/
 
 # the PDF guides (scripts/build_guides.py)
 guides/
+
+# NASA JPL's planetary ephemeris for !planets (17 MB; downloaded from ssd.jpl.nasa.gov, see bot_commands/planets.py)
+data/de421.bsp

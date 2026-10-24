@@ -162,6 +162,7 @@ Prefix commands use `!`; most also have a `/` slash-command version.
 | `!sortesbiblicae` | `!bibliomancy` | Sortes Biblicae: the Bible opened at random (with the study buttons) |
 | `!hafez [question]` | `!hafiz`, `!fal` | Fāl-e Hāfez: a random poem from the Divan of Hafiz (Bell's 43 ghazals) |
 | `!rumi [question]` | `!masnavi`, `!mathnawi` | A random run of couplets from Rumi's Masnavi (Whinfield), with the story it comes from; also a daily-oracle kind |
+| `!planets [YYYY-MM-DD \| tomorrow \| yesterday]` | `!sky`, `!ephemeris`, `!astrology` | The Sun, Moon and planets in the tropical zodiac (℞ retrograde) and the day's exact aspects, ingresses, stations and lunar quarters (`planets.py`: Skyfield + NASA JPL DE421 in `data/de421.bsp`, not in git; Skyfield must be in the shared site-packages) |
 | `!iching [question]` | `!yijing`, `!hexagram` | Cast an I Ching hexagram (three coins): Judgment, Image, changing lines, the hexagram it becomes (Legge) |
 | `!oraclesetup` | | (Admins) A daily oracle in a channel: `channel #chan`, `time HH:MM` (UTC), `kind any\|virgil\|…`, `test`, `off` |
 
