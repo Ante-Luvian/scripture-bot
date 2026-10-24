@@ -312,9 +312,21 @@ async def _view_on_error(self, interaction: discord.Interaction, error: Exceptio
 discord.ui.View.on_error = _view_on_error
 
 
+class UserFacingError(discord.app_commands.AppCommandError):
+    """A slash command the user can put right themselves (a channel I can't see): its message goes to
+    them, privately, and not to the owner as an error."""
+
+
 @bot.tree.error
 async def on_app_command_error(interaction: discord.Interaction, error: Exception) -> None:
     from discord import app_commands
+    if isinstance(error, UserFacingError):                     # the user can put it right: tell them, not the owner
+        try:
+            await (interaction.followup.send(str(error), ephemeral=True) if interaction.response.is_done()
+                   else interaction.response.send_message(str(error), ephemeral=True))
+        except Exception:
+            pass
+        return
     if isinstance(error, app_commands.CheckFailure):
         msg = "🔒 You can't use that command here."
         try:

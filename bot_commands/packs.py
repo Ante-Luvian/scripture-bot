@@ -143,16 +143,30 @@ async def apply(guild) -> None:
 
 # ── What a server has ──────────────────────────────────────────────────────────
 
+def _fields(embed: discord.Embed, name: str, items: list, sep: str) -> None:
+    """`items` joined by `sep` in as many fields as Discord's 1,024 characters a field need, none split.
+    (The packs outgrew one field, and the last step of !serversetup failed with "Must be 1024 or fewer".)"""
+    chunks, cur = [], ""
+    for item in items:
+        if cur and len(cur) + len(sep) + len(item) > 1024:
+            chunks.append(cur)
+            cur = item
+        else:
+            cur = f"{cur}{sep}{item}" if cur else item
+    for i, chunk in enumerate(chunks + [cur]):
+        embed.add_field(name=name if i == 0 else "​", value=chunk, inline=False)
+
+
 def summary_embed(guild_id: int, title: str = "⚙️ What this server has") -> discord.Embed:
     packs, traditions = guild_packs(guild_id), guild_traditions(guild_id)
     embed = discord.Embed(title=title, color=discord.Color.dark_gold())
-    embed.add_field(name="Commands", value="\n".join(
-        f"{'✅' if key in packs else '▫️'} **{label}** (`{key}`) — {description}"
-        for key, (label, description, _) in PACKS.items()), inline=False)
-    embed.add_field(name="Texts in !verse, !search, !theme and !discover", value=(
-        "✅ **Bible** (always)\n" + " · ".join(
-            f"{'✅' if key in traditions else '▫️'} {name} (`{key}`)"
-            for key, (name, _, _) in TRADITION_CHOICES.items())), inline=False)
+    _fields(embed, "Commands", [f"{'✅' if key in packs else '▫️'} **{label}** (`{key}`) — {description}"
+                                for key, (label, description, _) in PACKS.items()], "\n")
+    _fields(embed, "Texts in !verse, !search, !theme and !discover",
+            ["✅ **Bible** (always)\n" + f"{'✅' if k in traditions else '▫️'} {name} (`{k}`)"
+             for k, (name, _, _) in list(TRADITION_CHOICES.items())[:1]]
+            + [f"{'✅' if k in traditions else '▫️'} {name} (`{k}`)"
+               for k, (name, _, _) in list(TRADITION_CHOICES.items())[1:]], " · ")
     embed.set_footer(text="Admins: !packs <name> on|off switches one · !serversetup (or /setup traditions) "
                           "asks the questions again · the Bible, study tools and games are always here")
     return embed

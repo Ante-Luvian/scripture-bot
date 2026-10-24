@@ -16,6 +16,7 @@ from bot_commands.church import (
 from scripture_lookup import TRADITIONS
 from core import (
     GUILD_FEATURES,
+    UserFacingError,
     bot,
     lookup,
 )
@@ -410,6 +411,37 @@ async def hymnday_slash(interaction: discord.Interaction, date: str = ""):
 # !votdsetup etc. are unchanged). The group is hidden from non-admins and server-only, and each
 # subcommand checks the permission too.
 
+class PostChannel(app_commands.Transformer):
+    """A text channel for my posts. A channel I haven't been told about (one made private before I was let
+    in: Discord only tells me of channels I can see) failed with "Failed to convert ... to TextChannel" and
+    DMed the owner; now I ask Discord for it, and if I still can't see it, say what to do."""
+
+    @property
+    def type(self) -> discord.AppCommandOptionType:
+        return discord.AppCommandOptionType.channel
+
+    @property
+    def channel_types(self) -> list:
+        return [discord.ChannelType.text, discord.ChannelType.news]
+
+    async def transform(self, interaction: discord.Interaction, value):
+        channel = value.resolve()
+        if channel is None:
+            try:
+                channel = await interaction.client.fetch_channel(value.id)
+            except discord.HTTPException:
+                channel = None
+        if not isinstance(channel, discord.TextChannel):
+            raise UserFacingError(
+                f"I can't see {value.mention}, so I can't post there. In that channel's settings, under "
+                "**Permissions**, add **ScriptureBot** and allow **View Channel**, **Send Messages**, "
+                "**Embed Links** and **Attach Files**; then try again.")
+        return channel
+
+
+PostChannelT = app_commands.Transform[discord.TextChannel, PostChannel]
+
+
 setup_group = app_commands.Group(name="setup", description="(Admins) The bot's settings for this server",
                                  default_permissions=discord.Permissions(administrator=True), guild_only=True)
 _ADMIN = app_commands.checks.has_permissions(administrator=True)
@@ -432,7 +464,7 @@ def _daily(sub: str, command: str, what: str, actions: tuple, value_help: str = 
     @_actions(*actions)
     @_ADMIN
     async def run(interaction: discord.Interaction, action: str = "show",
-                  channel: discord.TextChannel = None, value: str = ""):
+                  channel: PostChannelT = None, value: str = ""):
         await _run_setup(interaction, command, action, channel, value)
     return run
 
@@ -464,7 +496,7 @@ async def setup_features(interaction: discord.Interaction, name: str = "", state
 @setup_group.command(name="changelog", description="(Admins) Choose where the bot announces her updates")
 @app_commands.describe(channel="The updates channel (leave empty to see the current one)", off="Stop announcing updates")
 @_ADMIN
-async def setup_changelog(interaction: discord.Interaction, channel: discord.TextChannel = None, off: bool = False):
+async def setup_changelog(interaction: discord.Interaction, channel: PostChannelT = None, off: bool = False):
     ctx = await _slash_ctx(interaction)
     ctx.message = _WithChannelMention(ctx.message, channel)
     await _command("changelogsetup")(ctx, arg="off" if off else (channel.mention if channel else ""))
