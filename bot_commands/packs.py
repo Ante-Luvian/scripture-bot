@@ -47,6 +47,7 @@ TRADITION_CHOICES = {
     "norse": ("Norse", "🌲", "The Poetic Edda"),
     "finnish": ("Finnish", "🦢", "The Kalevala"),
     "celtic": ("Celtic", "☘️", "The Mabinogion"),
+    "arthurian": ("Arthurian legend", "⚔️", "Malory, Chrétien, Parzival, the Grail romances, Geoffrey of Monmouth"),
     "ballads": ("Folk tales & ballads", "🎻", "Grimm's fairy tales, and Child's ballads with their tunes"),
     "neareast": ("Ancient Near East", "🌙", "Gilgamesh, Enuma Elish, the Book of the Dead"),
     "mesoamerican": ("Mesoamerican", "🌽", "The Popol Vuh"),

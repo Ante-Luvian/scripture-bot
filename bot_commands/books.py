@@ -755,6 +755,21 @@ BOOKS_TREE = [
     ("☘️ Celtic", [
         "Mabinogion",
     ]),
+    ("⚔️ Arthurian legend", [
+        ("The chronicles", [
+            "Nennius, History of the Britons", "Geoffrey of Monmouth, History of the Kings of Britain",
+            "Wace, Roman de Brut", "Layamon's Brut",
+        ]),
+        ("Chrétien de Troyes", [
+            "Erec and Enide", "Cligès", "Yvain, the Knight with the Lion", "Lancelot, the Knight of the Cart",
+        ]),
+        ("The Grail", ["Parzival", "The High History of the Holy Graal", "The Quest of the Holy Grail"]),
+        ("Romances and lays", [
+            "Sir Gawain and the Green Knight", "Tristan and Iseult", "Lays of Marie de France", "Morien",
+            "Sir Libeaus Desconus", "Sir Launfal", "The Adventures of Arthur at the Tarn Wadeling", "Tyolet",
+        ]),
+        "Le Morte d'Arthur",
+    ]),
     ("🎻 Folk tales & ballads", [
         "Child Ballads",
         "Grimm's Household Tales",
@@ -1341,7 +1356,7 @@ _SUPERGROUP_ORDER = [
     ]),
     ("🌐 Mythology & Classical Traditions", [
         "🏛️ Classical", "🌲 Norse", "🦢 Finnish", "☘️ Celtic", "🌙 Ancient Near East",
-        "🔥 Zoroastrian", "🌽 Mesoamerican", "🎻 Folk tales & ballads",
+        "🔥 Zoroastrian", "🌽 Mesoamerican", "⚔️ Arthurian legend", "🎻 Folk tales & ballads",
     ]),
 ]
 # ── a server sees only the sections of the traditions it chose ──────────────

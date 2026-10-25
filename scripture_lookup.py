@@ -862,6 +862,60 @@ ALIASES: dict[str, str] = {
     # Aesop (Townsend), one chapter a fable
     "aesop": "Aesop's Fables", "aesops fables": "Aesop's Fables", "aesop's fables": "Aesop's Fables",
     "fables": "Aesop's Fables", "fables of aesop": "Aesop's Fables", "aesop fables": "Aesop's Fables",
+    # The Arthurian legend (scripts/build_arthurian.py)
+    "malory": "Le Morte d'Arthur",
+    "morte d'arthur": "Le Morte d'Arthur",
+    "morte darthur": "Le Morte d'Arthur",
+    "le morte darthur": "Le Morte d'Arthur",
+    "the morte d'arthur": "Le Morte d'Arthur",
+    "erec": "Erec and Enide",
+    "erec et enide": "Erec and Enide",
+    "cliges": "Cligès",
+    "cligès": "Cligès",
+    "yvain": "Yvain, the Knight with the Lion",
+    "knight with the lion": "Yvain, the Knight with the Lion",
+    "the knight with the lion": "Yvain, the Knight with the Lion",
+    "lancelot": "Lancelot, the Knight of the Cart",
+    "knight of the cart": "Lancelot, the Knight of the Cart",
+    "the knight of the cart": "Lancelot, the Knight of the Cart",
+    "parsifal": "Parzival",
+    "wolfram": "Parzival",
+    "high history": "The High History of the Holy Graal",
+    "high history of the holy graal": "The High History of the Holy Graal",
+    "perlesvaus": "The High History of the Holy Graal",
+    "queste": "The Quest of the Holy Grail",
+    "quest of the holy grail": "The Quest of the Holy Grail",
+    "queste del saint graal": "The Quest of the Holy Grail",
+    "the quest": "The Quest of the Holy Grail",
+    "tristan": "Tristan and Iseult",
+    "tristan and isolde": "Tristan and Iseult",
+    "romance of tristan and iseult": "Tristan and Iseult",
+    "bedier": "Tristan and Iseult",
+    "gawain": "Sir Gawain and the Green Knight",
+    "sggk": "Sir Gawain and the Green Knight",
+    "gawain and the green knight": "Sir Gawain and the Green Knight",
+    "green knight": "Sir Gawain and the Green Knight",
+    "marie de france": "Lays of Marie de France",
+    "lais of marie de france": "Lays of Marie de France",
+    "lays": "Lays of Marie de France",
+    "geoffrey of monmouth": "Geoffrey of Monmouth, History of the Kings of Britain",
+    "geoffrey": "Geoffrey of Monmouth, History of the Kings of Britain",
+    "history of the kings of britain": "Geoffrey of Monmouth, History of the Kings of Britain",
+    "historia regum britanniae": "Geoffrey of Monmouth, History of the Kings of Britain",
+    "wace": "Wace, Roman de Brut",
+    "roman de brut": "Wace, Roman de Brut",
+    "layamon": "Layamon's Brut",
+    "lawman": "Layamon's Brut",
+    "layamon's brut": "Layamon's Brut",
+    "nennius": "Nennius, History of the Britons",
+    "historia brittonum": "Nennius, History of the Britons",
+    "history of the britons": "Nennius, History of the Britons",
+    "libeaus": "Sir Libeaus Desconus",
+    "libeaus desconus": "Sir Libeaus Desconus",
+    "fair unknown": "Sir Libeaus Desconus",
+    "launfal": "Sir Launfal",
+    "tarn wadeling": "The Adventures of Arthur at the Tarn Wadeling",
+    "awntyrs": "The Adventures of Arthur at the Tarn Wadeling",
     # Two books of beasts (scripts/build_beasts.py)
     "bestiary": "Physiologus", "the physiologus": "Physiologus",
     "reynard": "Reynard the Fox", "history of reynard the fox": "Reynard the Fox", "reynart": "Reynard the Fox",
@@ -1547,6 +1601,7 @@ TRADITIONS = {
     "finnish":   ("🦢 Finnish", ("finnish",)),
     "celtic":    ("☘️ Celtic", ("celtic",)),
     "ballads":   ("🎻 Folk tales & ballads", ("ballads",)),
+    "arthurian": ("⚔️ Arthurian legend", ("arthurian",)),
     "neareast":  ("🌙 Ancient Near East", ("ancient_near_east",)),
     "mesoamerican": ("🌽 Mesoamerican", ("mesoamerican",)),
     "bahai":     ("🌍 Baháʼí", ("bahai",)),
@@ -1563,6 +1618,7 @@ TRADITION_ALIASES = {
     "sikhism": "sikh", "jainism": "jain", "jaina": "jain", "japanese": "shinto", "japan": "shinto",
     "zoroastrianism": "zoroastrian", "parsi": "zoroastrian", "avestan": "zoroastrian",
     "maya": "mesoamerican", "mayan": "mesoamerican", "welsh": "celtic", "finland": "finnish",
+    "arthur": "arthurian", "arthurian legend": "arthurian", "camelot": "arthurian", "grail": "arthurian",
     "ballad": "ballads", "folk": "ballads", "fairy tales": "ballads", "grimm": "ballads", "tales": "ballads", "child": "ballads", "child ballads": "ballads",
 }
 
@@ -1618,7 +1674,7 @@ def _tagged(result, key: str):
     return result
 
 
-CORPUS_PRIORITY = ["kjv", "lds", "brenton", "charles", "nt_apocrypha", "apostolic_fathers", "quran", "classical", "jewish", "bahai", "qumran", "gnostic", "dharmic", "buddhist", "chinese", "sufi", "sikh", "jain", "shinto", "zoroastrian", "mesoamerican", "finnish", "celtic", "norse", "ancient_near_east", "patristics", "medieval", "reformation", "ballads"]
+CORPUS_PRIORITY = ["kjv", "lds", "brenton", "charles", "nt_apocrypha", "apostolic_fathers", "quran", "classical", "jewish", "bahai", "qumran", "gnostic", "dharmic", "buddhist", "chinese", "sufi", "sikh", "jain", "shinto", "zoroastrian", "mesoamerican", "finnish", "celtic", "norse", "ancient_near_east", "patristics", "medieval", "reformation", "ballads", "arthurian"]
 
 
 # Shepherd of Hermas: (first, last) Lightfoot continuous chapter of each
@@ -1794,6 +1850,25 @@ class ScriptureLookup:
             "mesoamerican": ["popol_vuh.json"],
             "finnish": ["kalevala.json"],
             "celtic": ["mabinogion.json"],
+            "arthurian": [                       # the Arthurian legend (scripts/build_arthurian.py)
+                "malory.json",
+                "chretien.json",
+                "parzival.json",
+                "high_history.json",
+                "queste.json",
+                "tristan_bedier.json",
+                "gawain.json",
+                "marie_de_france.json",
+                "geoffrey.json",
+                "wace.json",
+                "layamon.json",
+                "nennius.json",
+                "morien.json",
+                "libeaus.json",
+                "launfal.json",
+                "tarn_wadeling.json",
+                "tyolet.json",
+            ],
             "ballads": ["child.json",             # Child's ballads (scripts/build_child.py)
                         "grimm.json",             # the Grimms' tales, Hunt (scripts/build_grimm.py)
                         "la_fontaine.json",       # Thornbury (scripts/build_fables.py)

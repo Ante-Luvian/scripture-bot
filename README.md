@@ -357,6 +357,13 @@ in Beta Code. `corpus_clean.py` holds the rules (general ones, plus fixes by fil
 `pip install beta-code`). Run it after rebuilding a corpus; `python -m pytest -m corpus`
 checks that nothing is left (several minutes, so it's not in the default run).
 
+**The Arthurian legend** (`data/arthurian/`, `scripts/build_arthurian.py`, tradition "arthurian"): twenty
+medieval works in English from Project Gutenberg (Malory, Chrétien, Parzival, the High History, Bédier's
+Tristan, Gawain, Marie de France, Wace, Nennius, Geoffrey of Monmouth) and York University's In Parentheses
+transcriptions (Layamon, the Vulgate Queste, Morien, Libeaus, Launfal, the Tarn Wadeling, Tyolet). The In
+Parentheses PDFs are read with PyMuPDF (Mac Roman text, drop capitals as images: `DROP_CAPS`, read on the
+page). Malory's chapters are `book.chapter`, numbered by place (the etext misprints one).
+
 Three reference datasets have their own shape, each rebuilt by a script in `scripts/`:
 
 - `data/people_places/` (`build_people_places.py`): `people_places.json` holds

@@ -638,7 +638,7 @@ def guild_traditions(guild_id) -> frozenset:
 
 
 # Traditions added after servers began choosing theirs: a server that chose every one there was gets these too
-ADDED_TRADITIONS = frozenset({"ballads"})
+ADDED_TRADITIONS = frozenset({"ballads", "arthurian"})
 
 
 def pack_enabled(guild_id, pack: str) -> bool:
