@@ -68,3 +68,7 @@ guides/
 
 # NASA JPL's planetary ephemeris for !planets (17 MB; downloaded from ssd.jpl.nasa.gov, see bot_commands/planets.py)
 data/de421.bsp
+
+# Child ballads' tunes: rebuilt by scripts/build_child_tunes.py from the Digital Tradition, not kept in git
+data/ballads/midi/
+data/ballads/audio/

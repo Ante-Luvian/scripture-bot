@@ -270,6 +270,11 @@ def text_commands(names=None) -> list:
     return out
 
 
+# Inputs shaped for one command, tried as well as the rest (bad numbers, versions, its own words)
+SHAPED = {"ballad": ["0", "305", "306", "12B", "12b", "12ZZ", "22A", "117", "child 84", "#84", "84:3", "list",
+                     "lord randal my son", "matty groves", "the", "o"]}
+
+
 def sample(command, live: bool = False) -> list:
     """The inputs to try on a command: the hostile set for commands taking text, or just a few."""
     takes_text = any(p.kind.name == "KEYWORD_ONLY" for p in command.clean_params.values())
@@ -277,7 +282,7 @@ def sample(command, live: bool = False) -> list:
     if not takes_any:
         return ["", "asdfghjkl", "🙏"]
     if takes_text:
-        return LIVE_SAMPLE if live else HOSTILE
+        return (LIVE_SAMPLE if live else HOSTILE) + SHAPED.get(command.name, [])
     return ["", "asdfghjkl", "🙏", "-1", "99999999999999999999999", "@everyone", "{book}", "John 3:16"]
 
 

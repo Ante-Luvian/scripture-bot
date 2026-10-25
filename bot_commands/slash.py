@@ -405,6 +405,13 @@ async def fable_slash(interaction: discord.Interaction, about: str = ""):
     await _command("fable")(ctx, query=about)
 
 
+@bot.tree.command(name="ballad", description="One of Child's English and Scottish ballads, with its tune")
+@app_commands.describe(which="A number (12, 12B), a title or a name it goes by (barbara allen), 'list', or empty for any")
+async def ballad_slash(interaction: discord.Interaction, which: str = ""):
+    ctx = await _slash_ctx(interaction)
+    await _command("ballad")(ctx, query=which)
+
+
 @bot.tree.command(name="cloud", description="A book's most distinctive words, drawn as a word cloud")
 @app_commands.describe(book="A book, e.g. Ecclesiastes, Revelation, Tao Te Ching")
 async def cloud_slash(interaction: discord.Interaction, book: str):

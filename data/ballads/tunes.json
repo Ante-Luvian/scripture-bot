@@ -1,0 +1,6004 @@
+{
+ "tunes": {
+  "1": [
+   {
+    "file": "BONBROMQ",
+    "song": "BONBROMQ",
+    "title": "Riddles Wisely Expounded (Bonnie Broom)",
+    "source": "Bronson Child 1 tune 1",
+    "key": "F",
+    "meter": "3/4",
+    "seconds": 14.4
+   },
+   {
+    "file": "DEVLNINE",
+    "song": "DEVLNINE",
+    "title": "The Devil's Nine Questions",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 19.2
+   },
+   {
+    "file": "JNFRGNTL",
+    "song": "JNFRGNTL",
+    "title": "Jennifer Gentle (Three Sisters)",
+    "source": "",
+    "key": "G",
+    "meter": "6/8",
+    "seconds": 14.4
+   }
+  ],
+  "2": [
+   {
+    "file": "ELFKNGT",
+    "song": "ELFKNGT",
+    "title": "The Elfin Knight",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 19.8
+   },
+   {
+    "file": "ELFKNGT2",
+    "song": "ELFKNGT2",
+    "title": "The Laird o' Elfin",
+    "source": "Bronson 1",
+    "key": "F",
+    "meter": "4/4",
+    "seconds": 19.2
+   },
+   {
+    "file": "ELFKNGT3",
+    "song": "ELFKNGT3",
+    "title": "Redio-Tedio",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 24.0
+   },
+   {
+    "file": "SCARFAIR",
+    "song": "SCARFAIR",
+    "title": "Scarborough Fair",
+    "source": "",
+    "key": "G",
+    "meter": "6/8",
+    "seconds": 12.0
+   },
+   {
+    "file": "ELFKNGT4",
+    "song": "ELFKNGT4",
+    "title": "Scarborough Fair",
+    "source": "",
+    "key": "G",
+    "meter": "6/8",
+    "seconds": 18.0
+   }
+  ],
+  "3": [
+   {
+    "file": "FALSKNT3",
+    "song": "FALSKNT3",
+    "title": "The False Knight and the Wee Boy",
+    "source": "Bronson 1",
+    "key": "C",
+    "meter": "2/4",
+    "seconds": 12.9
+   },
+   {
+    "file": "FALSKNT2",
+    "song": "FALSKNT2",
+    "title": "The False Knight on the Road",
+    "source": "",
+    "key": "E",
+    "meter": "4/2",
+    "seconds": 15.3
+   },
+   {
+    "file": "FALSKNGT",
+    "song": "FALSKNGT",
+    "title": "False Knight on the Road",
+    "source": "From Davis, Traditional Ballads of Virginia",
+    "key": "F",
+    "meter": "4/4",
+    "seconds": 19.2
+   },
+   {
+    "file": "FALSKNT4",
+    "song": "FALSKNT4",
+    "title": "The False Knight Upon the Road",
+    "source": "Bronson 5",
+    "key": "C",
+    "meter": "2/4",
+    "seconds": 30.3
+   }
+  ],
+  "4": [
+   {
+    "file": "KNGSPAIN",
+    "song": "KNGSPAIN",
+    "title": "The King O' Spain's Daughter",
+    "source": "",
+    "key": "G",
+    "meter": "3/4",
+    "seconds": 22.9
+   },
+   {
+    "file": "ELFKNGHT",
+    "song": "ELFKNGHT",
+    "title": "Lady Isabel and the Elf-Knight",
+    "source": "",
+    "key": "F",
+    "meter": "3/4",
+    "seconds": 30.6
+   },
+   {
+    "file": "OUTKNGHT",
+    "song": "OUTKNGHT",
+    "title": "Outlandish Knight",
+    "source": "",
+    "key": "F",
+    "meter": "6/8",
+    "seconds": 19.7
+   },
+   {
+    "file": "WILLWTRE",
+    "song": "WILLWTRE",
+    "title": "The Lonely Willow Tree",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 28.8
+   }
+  ],
+  "5": [
+   {
+    "file": "GILBRENT",
+    "song": "GILBRENT",
+    "title": "Gil Brenton",
+    "source": "Bronson #5 a",
+    "key": "G",
+    "meter": "3/4",
+    "seconds": 14.4
+   }
+  ],
+  "6": [
+   {
+    "file": "WILILADY",
+    "song": "WILILADY",
+    "title": "Willie's Lady",
+    "source": "From a Book of Scottish Ballads, Buchan",
+    "key": "G",
+    "meter": "2/4",
+    "seconds": 12.0
+   }
+  ],
+  "7": [
+   {
+    "file": "DOUGTRD4",
+    "song": "DOUGTRD4",
+    "title": "The Bold Soldier",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 27.6
+   },
+   {
+    "file": "DOUGTRAD",
+    "song": "DOUGTRAD",
+    "title": "The Douglas Tragedy",
+    "source": "Bronson 3",
+    "key": "G",
+    "meter": "4/4",
+    "seconds": 18.6
+   },
+   {
+    "file": "DOUGTRD3",
+    "song": "DOUGTRD3",
+    "title": "Earl Brand",
+    "source": "Bronson 11C",
+    "key": "G",
+    "meter": "4/4",
+    "seconds": 19.2
+   },
+   {
+    "file": "DOUGTRD2",
+    "song": "DOUGTRD2",
+    "title": "The Jolly Soldier",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 28.2
+   },
+   {
+    "file": "B007005",
+    "song": "LADYDRAG",
+    "title": "Lady Margaret and Lord William",
+    "source": "",
+    "key": "G",
+    "meter": "4/4",
+    "seconds": 19.2
+   }
+  ],
+  "9": [
+   {
+    "file": "FAIRFLWR",
+    "song": "FAIRFLWR",
+    "title": "Fair Flower of Northumberland",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 22.5
+   },
+   {
+    "file": "FAIRFLR2",
+    "song": "FAIRFLR2",
+    "title": "Fair Flower of Northumberland",
+    "source": "",
+    "key": "D",
+    "meter": "6/8",
+    "seconds": 24.0
+   },
+   {
+    "file": "B009001",
+    "song": "FAIRFLR3",
+    "title": "The Heiress of Northumberland",
+    "source": "",
+    "key": "C",
+    "meter": "6/8",
+    "seconds": 14.4
+   }
+  ],
+  "10": [
+   {
+    "file": "TWOSIS5",
+    "song": "TWOSIS5",
+    "title": "Binnorie",
+    "source": "Grieg-Duncan A",
+    "key": "D",
+    "meter": "2/4",
+    "seconds": 17.4
+   },
+   {
+    "file": "BINNORI",
+    "song": "BINNORI",
+    "title": "Binnorie",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 21.0
+   },
+   {
+    "file": "SWANSWIM",
+    "song": "SWANSWIM",
+    "title": "The Swan Swims Bonnie",
+    "source": "",
+    "key": "D",
+    "meter": "4/4",
+    "seconds": 19.2
+   },
+   {
+    "file": "TWOSIS6",
+    "song": "TWOSIS6",
+    "title": "The Twa Sisters",
+    "source": "",
+    "key": "C",
+    "meter": "6/8",
+    "seconds": 28.2
+   },
+   {
+    "file": "TWOSIS7",
+    "song": "TWOSIS7",
+    "title": "Two Sisters",
+    "source": "",
+    "key": "C",
+    "meter": "6/8",
+    "seconds": 27.3
+   },
+   {
+    "file": "TWOSIS8",
+    "song": "TWOSIS8",
+    "title": "The Two Sisters",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 22.2
+   },
+   {
+    "file": "TWOSIS",
+    "song": "TWOSIS",
+    "title": "Two Sisters (Binorrie)",
+    "source": "",
+    "key": "A",
+    "meter": "4/4",
+    "seconds": 21.0
+   },
+   {
+    "file": "WINDRAIN",
+    "song": "WINDRAIN",
+    "title": "The Wind and Rain",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 20.4
+   },
+   {
+    "file": "B10_56",
+    "song": null,
+    "title": "The Two Sisters",
+    "source": "",
+    "key": "F",
+    "meter": "6/8",
+    "seconds": 25.2
+   },
+   {
+    "file": "B10_57",
+    "song": null,
+    "title": "The Two Sisters",
+    "source": "",
+    "key": "F",
+    "meter": "6/8",
+    "seconds": 28.8
+   },
+   {
+    "file": "B10_58",
+    "song": null,
+    "title": "The Two Sisters",
+    "source": "",
+    "key": "F",
+    "meter": "6/8",
+    "seconds": 28.8
+   },
+   {
+    "file": "B10_59",
+    "song": null,
+    "title": "The Two Sisters",
+    "source": "",
+    "key": "F",
+    "meter": "6/8",
+    "seconds": 28.8
+   },
+   {
+    "file": "B10_60",
+    "song": null,
+    "title": "The Two Sisters",
+    "source": "",
+    "key": "F",
+    "meter": "6/8",
+    "seconds": 26.7
+   },
+   {
+    "file": "B10_61",
+    "song": null,
+    "title": "The Barkshire Tragedy",
+    "source": "",
+    "key": "G",
+    "meter": "6/8",
+    "seconds": 21.0
+   },
+   {
+    "file": "B10_62",
+    "song": null,
+    "title": "Farmer there lived in the North Country",
+    "source": "",
+    "key": "G",
+    "meter": "6/8",
+    "seconds": 21.6
+   },
+   {
+    "file": "B10_63",
+    "song": null,
+    "title": "The Two Sisters",
+    "source": "",
+    "key": "G",
+    "meter": "6/8",
+    "seconds": 14.4
+   },
+   {
+    "file": "B10_64",
+    "song": null,
+    "title": "The Twa Sisters",
+    "source": "",
+    "key": "C",
+    "meter": "6/8",
+    "seconds": 25.2
+   },
+   {
+    "file": "B10_65",
+    "song": null,
+    "title": "The Twa Sisters",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "B10_66",
+    "song": null,
+    "title": "The Miller's Daughters",
+    "source": "",
+    "key": "G",
+    "meter": "4/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "B10_67",
+    "song": null,
+    "title": "The Two Sisters",
+    "source": "",
+    "key": "C",
+    "meter": "6/8",
+    "seconds": 22.5
+   },
+   {
+    "file": "B10_68",
+    "song": null,
+    "title": "The Two Sisters",
+    "source": "",
+    "key": "G",
+    "meter": "6/8",
+    "seconds": 13.8
+   },
+   {
+    "file": "B10_69",
+    "song": null,
+    "title": "There was an Old Farmer",
+    "source": "",
+    "key": "G",
+    "meter": "6/8",
+    "seconds": 18.0
+   },
+   {
+    "file": "B10_70",
+    "song": null,
+    "title": "The Old Man in the Old Country",
+    "source": "",
+    "key": "C",
+    "meter": "6/8",
+    "seconds": 18.0
+   },
+   {
+    "file": "B10_71",
+    "song": null,
+    "title": "The Old Woman of the North Countree",
+    "source": "",
+    "key": "C",
+    "meter": "6/8",
+    "seconds": 19.2
+   },
+   {
+    "file": "B10_72",
+    "song": null,
+    "title": "The Sea Shore (The Swim Swom Bonny)",
+    "source": "",
+    "key": "F",
+    "meter": "6/8",
+    "seconds": 18.0
+   },
+   {
+    "file": "B10_73",
+    "song": null,
+    "title": "The Two Sisters",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 37.8
+   },
+   {
+    "file": "B10_74",
+    "song": null,
+    "title": "The Two Sisters",
+    "source": "",
+    "key": "C",
+    "meter": "2/2",
+    "seconds": 40.2
+   },
+   {
+    "file": "B10_75",
+    "song": null,
+    "title": "The Two Sisters",
+    "source": "",
+    "key": "C",
+    "meter": "2/2",
+    "seconds": 38.4
+   },
+   {
+    "file": "B10_76",
+    "song": null,
+    "title": "The Two Sisters",
+    "source": "",
+    "key": "G",
+    "meter": "2/4",
+    "seconds": 38.4
+   },
+   {
+    "file": "B10_77",
+    "song": null,
+    "title": "Two Little Sisters",
+    "source": "",
+    "key": "G",
+    "meter": "2/4",
+    "seconds": 19.2
+   },
+   {
+    "file": "B10_78",
+    "song": null,
+    "title": "The Two Little Sisters",
+    "source": "",
+    "key": "G",
+    "meter": "2/4",
+    "seconds": 27.6
+   },
+   {
+    "file": "B10_79",
+    "song": null,
+    "title": "The Cruel Sister",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 28.2
+   },
+   {
+    "file": "B10_80",
+    "song": null,
+    "title": "The Twa Sisters",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 27.3
+   },
+   {
+    "file": "B10_81",
+    "song": null,
+    "title": "There Lived Twa Sisters",
+    "source": "",
+    "key": "G",
+    "meter": "3/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "B10_82",
+    "song": null,
+    "title": "The Swan Swims Bonnie O",
+    "source": "",
+    "key": "G",
+    "meter": "4/4",
+    "seconds": 24.0
+   },
+   {
+    "file": "B10_83",
+    "song": null,
+    "title": "The Swan Swims so Bonny, O",
+    "source": "",
+    "key": "G",
+    "meter": "4/4",
+    "seconds": 19.2
+   },
+   {
+    "file": "B10_84",
+    "song": null,
+    "title": "The Two Sisters",
+    "source": "",
+    "key": "C",
+    "meter": "2/4",
+    "seconds": 19.8
+   },
+   {
+    "file": "B10_85",
+    "song": null,
+    "title": "The Swim Swom Bonny",
+    "source": "",
+    "key": "G",
+    "meter": "4/4",
+    "seconds": 19.2
+   },
+   {
+    "file": "B10_86",
+    "song": null,
+    "title": "Heigh ho! My Nancy Oh",
+    "source": "",
+    "key": "C",
+    "meter": "6/8",
+    "seconds": 14.4
+   },
+   {
+    "file": "B10_87",
+    "song": null,
+    "title": "Down By the Waters Rolling",
+    "source": "",
+    "key": "G",
+    "meter": "2/4",
+    "seconds": 11.4
+   },
+   {
+    "file": "B10_88",
+    "song": null,
+    "title": "Two Little Sisters",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 19.2
+   },
+   {
+    "file": "B10_89",
+    "song": null,
+    "title": "Binorie",
+    "source": "No Lyrics Provided. Conjectural.",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 19.2
+   },
+   {
+    "file": "B10_90",
+    "song": null,
+    "title": "Binorie",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 19.2
+   },
+   {
+    "file": "B10_91",
+    "song": null,
+    "title": "The Two Sisters",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 20.4
+   },
+   {
+    "file": "B10_92",
+    "song": null,
+    "title": "The Two Sisters",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 14.4
+   },
+   {
+    "file": "B10_93",
+    "song": null,
+    "title": "The Two Sisters",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 18.6
+   },
+   {
+    "file": "B10_94",
+    "song": null,
+    "title": "(Unnamed)",
+    "source": "",
+    "key": "C",
+    "meter": "2/4",
+    "seconds": 19.2
+   },
+   {
+    "file": "B10_95",
+    "song": null,
+    "title": "The Two Sisters",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 23.1
+   },
+   {
+    "file": "B10_96",
+    "song": null,
+    "title": "The Youngest Daughter",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 15.0
+   },
+   {
+    "file": "B10_97",
+    "song": null,
+    "title": "The Two Sisters",
+    "source": "",
+    "key": "C",
+    "meter": "6/8",
+    "seconds": 14.4
+   }
+  ],
+  "11": [
+   {
+    "file": "CRUELBRO",
+    "song": "CRUELBRO",
+    "title": "Cruel Brother",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 19.2
+   },
+   {
+    "file": "B11_01",
+    "song": null,
+    "title": "There waur three Ladies in a Ha'",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 19.2
+   },
+   {
+    "file": "B11_02",
+    "song": null,
+    "title": "The Cruel Brother",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 14.4
+   },
+   {
+    "file": "B11_03",
+    "song": null,
+    "title": "The Cruel Brother",
+    "source": "",
+    "key": "C",
+    "meter": "2/2",
+    "seconds": 19.2
+   },
+   {
+    "file": "B11_04",
+    "song": null,
+    "title": "The Cruel Brother",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 19.2
+   },
+   {
+    "file": "B11_05",
+    "song": null,
+    "title": "Oh, Lilly O",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 12.6
+   },
+   {
+    "file": "B11_06",
+    "song": null,
+    "title": "The Three Maids",
+    "source": "",
+    "key": "G",
+    "meter": "0/0",
+    "seconds": 28.8
+   },
+   {
+    "file": "B11_07",
+    "song": null,
+    "title": "The Three Knights",
+    "source": "",
+    "key": "F",
+    "meter": "3/4",
+    "seconds": 13.5
+   },
+   {
+    "file": "B11_08",
+    "song": null,
+    "title": "Flowers of the Valley",
+    "source": "",
+    "key": "G",
+    "meter": "4/4",
+    "seconds": 31.8
+   },
+   {
+    "file": "B11_09",
+    "song": null,
+    "title": "Flowers of the Valley",
+    "source": "",
+    "key": "G",
+    "meter": "4/4",
+    "seconds": 30.6
+   },
+   {
+    "file": "B11_10",
+    "song": null,
+    "title": "Flowers of the Valley",
+    "source": "",
+    "key": "G",
+    "meter": "4/4",
+    "seconds": 35.4
+   }
+  ],
+  "12": [
+   {
+    "file": "BLLYBOY2",
+    "song": "BLLYBOY2",
+    "title": "Billy Boy",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 38.4
+   },
+   {
+    "file": "EELHENRY",
+    "song": "EELHENRY",
+    "title": "Henry My Son",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 30.0
+   },
+   {
+    "file": "LORDRAND",
+    "song": "LORDRAN1",
+    "title": "Lord Randal",
+    "source": "tune from Sedley, Seeds of Love",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "LORDRNLD",
+    "song": "LORDRNLD",
+    "title": "Lord Ronald, My Son",
+    "source": "tune: Lord Ronald, My Son (#352)",
+    "key": "F",
+    "meter": "3/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "B12_01",
+    "song": null,
+    "title": "Lord Ronald my son",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "B12_02",
+    "song": null,
+    "title": "Lord Randall (or, Fair Elson)",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "B12_03",
+    "song": null,
+    "title": "Lord Randall",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 31.8
+   },
+   {
+    "file": "B12_04",
+    "song": null,
+    "title": "Lord Randall (or Orlando)",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 16.2
+   },
+   {
+    "file": "B12_05",
+    "song": null,
+    "title": "Lord Randall",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 14.1
+   },
+   {
+    "file": "B12_06",
+    "song": null,
+    "title": "Durango",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "B12_07",
+    "song": null,
+    "title": "Lord Rendal",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "B12_08",
+    "song": null,
+    "title": "Lorendo",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 38.4
+   },
+   {
+    "file": "B12_09",
+    "song": null,
+    "title": "Tarranty, My Son",
+    "source": "",
+    "key": "G",
+    "meter": "3/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "B12_10",
+    "song": null,
+    "title": "Lord Randall",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "B12_100",
+    "song": null,
+    "title": "The Little Wee Croodin' Doo",
+    "source": "",
+    "key": "C",
+    "meter": "6/8",
+    "seconds": 14.4
+   },
+   {
+    "file": "B12_101",
+    "song": null,
+    "title": "Croodin' Doo",
+    "source": "",
+    "key": "F",
+    "meter": "3/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "B12_102",
+    "song": null,
+    "title": "Lord Rendal; or Crudin' Doo",
+    "source": "",
+    "key": "G",
+    "meter": "6/8",
+    "seconds": 14.4
+   },
+   {
+    "file": "B12_103",
+    "song": null,
+    "title": "The Croodin' Doo",
+    "source": "",
+    "key": "G",
+    "meter": "6/8",
+    "seconds": 17.4
+   },
+   {
+    "file": "B12_11",
+    "song": null,
+    "title": "Tyranty,  My Son",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "B12_12",
+    "song": null,
+    "title": "Lord Randall",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "B12_13",
+    "song": null,
+    "title": "Lord Randal",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "B12_14",
+    "song": null,
+    "title": "Lord Randal",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 29.4
+   },
+   {
+    "file": "B12_15",
+    "song": null,
+    "title": "Lord Rendle",
+    "source": "",
+    "key": "G",
+    "meter": "6/8",
+    "seconds": 14.4
+   },
+   {
+    "file": "B12_16",
+    "song": null,
+    "title": "Lord Randall",
+    "source": "",
+    "key": "C",
+    "meter": "6/8",
+    "seconds": 18.0
+   },
+   {
+    "file": "B12_17",
+    "song": null,
+    "title": "Lord Randal",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 34.2
+   },
+   {
+    "file": "B12_18",
+    "song": null,
+    "title": "Lord Rendal",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "B12_19",
+    "song": null,
+    "title": "William, My Son",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 33.0
+   },
+   {
+    "file": "B12_20",
+    "song": null,
+    "title": "Lord Rendal",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "B12_21",
+    "song": null,
+    "title": "Johnny Randolph",
+    "source": "",
+    "key": "G",
+    "meter": "2/4",
+    "seconds": 20.4
+   },
+   {
+    "file": "B12_22",
+    "song": null,
+    "title": "Lord Rendal",
+    "source": "",
+    "key": "G",
+    "meter": "4/4",
+    "seconds": 38.4
+   },
+   {
+    "file": "B12_23",
+    "song": null,
+    "title": "Sweet Nelson",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "B12_24",
+    "song": null,
+    "title": "Lord Ronald",
+    "source": "",
+    "key": "C",
+    "meter": "6/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "B12_25",
+    "song": null,
+    "title": "Three Drops of Poison",
+    "source": "",
+    "key": "G",
+    "meter": "3/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "B12_26",
+    "song": null,
+    "title": "Johnny Randall",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "B12_27",
+    "song": null,
+    "title": "Terence, My Son",
+    "source": "",
+    "key": "C",
+    "meter": "2/4",
+    "seconds": 22.8
+   },
+   {
+    "file": "B12_28",
+    "song": null,
+    "title": "Johnny Rillus",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "B12_29",
+    "song": null,
+    "title": "Lord Ronald",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 14.4
+   },
+   {
+    "file": "B12_30",
+    "song": null,
+    "title": "Mother, Make My Bed Soon",
+    "source": "",
+    "key": "G",
+    "meter": "6/8",
+    "seconds": 16.4
+   },
+   {
+    "file": "B12_31",
+    "song": null,
+    "title": "Lord Ronald",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "B12_32",
+    "song": null,
+    "title": "Where Hast Thou Been Today?",
+    "source": "",
+    "key": "Bb",
+    "meter": "3/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "B12_33",
+    "song": null,
+    "title": "Lord Ronald, My Son",
+    "source": "",
+    "key": "F",
+    "meter": "3/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "B12_34",
+    "song": null,
+    "title": "Oh mak' my Bed easy",
+    "source": "",
+    "key": "F",
+    "meter": "3/4",
+    "seconds": 14.4
+   },
+   {
+    "file": "B12_35",
+    "song": null,
+    "title": "Lord Rendal",
+    "source": "",
+    "key": "G",
+    "meter": "3/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "B12_36",
+    "song": null,
+    "title": "Where were you all day?",
+    "source": "",
+    "key": "G",
+    "meter": "3/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "B12_37",
+    "song": null,
+    "title": "Lord Randall",
+    "source": "",
+    "key": "G",
+    "meter": "3/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "B12_38",
+    "song": null,
+    "title": "The Jealous Lover",
+    "source": "",
+    "key": "C",
+    "meter": "0/0",
+    "seconds": 36.0
+   },
+   {
+    "file": "B12_39",
+    "song": null,
+    "title": "Lord Rendal",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "B12_40",
+    "song": null,
+    "title": "Lord Ronald",
+    "source": "",
+    "key": "G",
+    "meter": "3/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "B12_41",
+    "song": null,
+    "title": "Lord Randal",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 32.4
+   },
+   {
+    "file": "B12_42",
+    "song": null,
+    "title": "Lord Randall",
+    "source": "",
+    "key": "G",
+    "meter": "0/0",
+    "seconds": 66.6
+   },
+   {
+    "file": "B12_43",
+    "song": null,
+    "title": "Lord Ronald",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "B12_44",
+    "song": null,
+    "title": "Lord Ronald",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "B12_45",
+    "song": null,
+    "title": "Lord Rendal",
+    "source": "",
+    "key": "G",
+    "meter": "3/4",
+    "seconds": 28.2
+   },
+   {
+    "file": "B12_46",
+    "song": null,
+    "title": "Johnny Randolph",
+    "source": "",
+    "key": "G",
+    "meter": "3/4",
+    "seconds": 39.6
+   },
+   {
+    "file": "B12_47",
+    "song": null,
+    "title": "Lord Randal",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "B12_48",
+    "song": null,
+    "title": "Lord Randal",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 25.0
+   },
+   {
+    "file": "B12_49",
+    "song": null,
+    "title": "Lord Randal",
+    "source": "",
+    "key": "C",
+    "meter": "2/4",
+    "seconds": 36.6
+   },
+   {
+    "file": "B12_50",
+    "song": null,
+    "title": "Lord Rendal",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 30.0
+   },
+   {
+    "file": "B12_51",
+    "song": null,
+    "title": "Lord Randal",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "B12_52",
+    "song": null,
+    "title": "Lord Randal",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "B12_53",
+    "song": null,
+    "title": "Lord Randal",
+    "source": "",
+    "key": "G",
+    "meter": "4/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "B12_54",
+    "song": null,
+    "title": "Lord Randal",
+    "source": "",
+    "key": "G",
+    "meter": "3/4",
+    "seconds": 33.6
+   },
+   {
+    "file": "B12_55",
+    "song": null,
+    "title": "Uriar, My Son",
+    "source": "",
+    "key": "C",
+    "meter": "2/4",
+    "seconds": 19.2
+   },
+   {
+    "file": "B12_56",
+    "song": null,
+    "title": "Lord Randal",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "B12_57",
+    "song": null,
+    "title": "Lord Rendle",
+    "source": "",
+    "key": "G",
+    "meter": "6/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "B12_58",
+    "song": null,
+    "title": "Lord Randal",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "B12_59",
+    "song": null,
+    "title": "Lord Rendal",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 22.8
+   },
+   {
+    "file": "B12_60",
+    "song": null,
+    "title": "Where were you all the day",
+    "source": "",
+    "key": "G",
+    "meter": "3/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "B12_61",
+    "song": null,
+    "title": "Where were you all the day",
+    "source": "",
+    "key": "Bb",
+    "meter": "3/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "B12_62",
+    "song": null,
+    "title": "Lord Randal",
+    "source": "",
+    "key": "G",
+    "meter": "3/4",
+    "seconds": 30.6
+   },
+   {
+    "file": "B12_63",
+    "song": null,
+    "title": "Lord Randal",
+    "source": "",
+    "key": "C",
+    "meter": "2/4",
+    "seconds": 19.2
+   },
+   {
+    "file": "B12_64",
+    "song": null,
+    "title": "John Willow, My Son",
+    "source": "",
+    "key": "G",
+    "meter": "3/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "B12_65",
+    "song": null,
+    "title": "Air to an old English Ballad",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 28.5
+   },
+   {
+    "file": "B12_66",
+    "song": null,
+    "title": "Sweet William, My Son",
+    "source": "",
+    "key": "G",
+    "meter": "3/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "B12_67",
+    "song": null,
+    "title": "Lord Rendal",
+    "source": "",
+    "key": "G",
+    "meter": "3/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "B12_68",
+    "song": null,
+    "title": "Lord Randal",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 33.0
+   },
+   {
+    "file": "B12_69",
+    "song": null,
+    "title": "Lord Randal",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 34.2
+   },
+   {
+    "file": "B12_70",
+    "song": null,
+    "title": "Lord Randall",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 19.2
+   },
+   {
+    "file": "B12_71",
+    "song": null,
+    "title": "Jo Reynard my Son",
+    "source": "",
+    "key": "G",
+    "meter": "3/4",
+    "seconds": 28.2
+   },
+   {
+    "file": "B12_72",
+    "song": null,
+    "title": "Lord Ronald my Son",
+    "source": "",
+    "key": "G",
+    "meter": "3/4",
+    "seconds": 31.2
+   },
+   {
+    "file": "B12_73",
+    "song": null,
+    "title": "Lord Ronald",
+    "source": "",
+    "key": "G",
+    "meter": "3/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "B12_74",
+    "song": null,
+    "title": "Lord Randal",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 27.6
+   },
+   {
+    "file": "B12_75",
+    "song": null,
+    "title": "Tiranti, my Son",
+    "source": "",
+    "key": "G",
+    "meter": "3/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "B12_76",
+    "song": null,
+    "title": "Lord Randall",
+    "source": "",
+    "key": "C",
+    "meter": "6/8",
+    "seconds": 14.4
+   },
+   {
+    "file": "B12_77",
+    "song": null,
+    "title": "Willie Ransome",
+    "source": "",
+    "key": "C",
+    "meter": "6/8",
+    "seconds": 17.6
+   },
+   {
+    "file": "B12_78",
+    "song": null,
+    "title": "Ramble, My Son",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 19.2
+   },
+   {
+    "file": "B12_79",
+    "song": null,
+    "title": "Lord Rendal",
+    "source": "",
+    "key": "C",
+    "meter": "7/4",
+    "seconds": 23.4
+   },
+   {
+    "file": "B12_80",
+    "song": null,
+    "title": "Jimmy Randal",
+    "source": "",
+    "key": "G",
+    "meter": "3/4",
+    "seconds": 45.0
+   },
+   {
+    "file": "B12_81",
+    "song": null,
+    "title": "Dear Adel My Son",
+    "source": "",
+    "key": "G",
+    "meter": "3/4",
+    "seconds": 30.6
+   },
+   {
+    "file": "B12_82",
+    "song": null,
+    "title": "Lord Rendal",
+    "source": "",
+    "key": "G",
+    "meter": "4/4",
+    "seconds": 19.2
+   },
+   {
+    "file": "B12_83",
+    "song": null,
+    "title": "Lord Rendal",
+    "source": "",
+    "key": "G",
+    "meter": "4/4",
+    "seconds": 19.8
+   },
+   {
+    "file": "B12_84",
+    "song": null,
+    "title": "Lord Rendal",
+    "source": "",
+    "key": "G",
+    "meter": "4/4",
+    "seconds": 19.2
+   },
+   {
+    "file": "B12_85",
+    "song": null,
+    "title": "Lord Ronald",
+    "source": "",
+    "key": "G",
+    "meter": "2/4",
+    "seconds": 24.0
+   },
+   {
+    "file": "B12_86",
+    "song": null,
+    "title": "Lord Randal",
+    "source": "",
+    "key": "C",
+    "meter": "6/8",
+    "seconds": 29.1
+   },
+   {
+    "file": "B12_87",
+    "song": null,
+    "title": "Fair Nelson",
+    "source": "",
+    "key": "G",
+    "meter": "3/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "B12_88",
+    "song": null,
+    "title": "Lord Ronald",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 28.5
+   },
+   {
+    "file": "B12_89",
+    "song": null,
+    "title": "Henry, My Son",
+    "source": "",
+    "key": "G",
+    "meter": "4/4",
+    "seconds": 24.3
+   },
+   {
+    "file": "B12_90",
+    "song": null,
+    "title": "Lord Rendal",
+    "source": "",
+    "key": "G",
+    "meter": "4/4",
+    "seconds": 30.0
+   },
+   {
+    "file": "B12_91",
+    "song": null,
+    "title": "Lord Rendal",
+    "source": "",
+    "key": "G",
+    "meter": "4/4",
+    "seconds": 24.0
+   },
+   {
+    "file": "B12_92",
+    "song": null,
+    "title": "Lord Rendal",
+    "source": "",
+    "key": "G",
+    "meter": "4/4",
+    "seconds": 21.0
+   },
+   {
+    "file": "B12_93",
+    "song": null,
+    "title": "Henry, My Son",
+    "source": "",
+    "key": "G",
+    "meter": "4/4",
+    "seconds": 21.0
+   },
+   {
+    "file": "B12_94",
+    "song": null,
+    "title": "Henry, My Son",
+    "source": "",
+    "key": "G",
+    "meter": "4/4",
+    "seconds": 22.8
+   },
+   {
+    "file": "B12_95",
+    "song": null,
+    "title": "Henry, My Son",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 24.0
+   },
+   {
+    "file": "B12_96",
+    "song": null,
+    "title": "Jimmy Randall",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 35.4
+   },
+   {
+    "file": "B12_97",
+    "song": null,
+    "title": "King Henry, my Son",
+    "source": "",
+    "key": "F",
+    "meter": "4/4",
+    "seconds": 18.9
+   },
+   {
+    "file": "B12_98",
+    "song": null,
+    "title": "Willie Doo",
+    "source": "",
+    "key": "F",
+    "meter": "3/4",
+    "seconds": 14.1
+   },
+   {
+    "file": "B12_99",
+    "song": null,
+    "title": "The Wee Little Croodin' Doo",
+    "source": "",
+    "key": "G",
+    "meter": "3/4",
+    "seconds": 28.8
+   }
+  ],
+  "13": [
+   {
+    "file": "EDWARD2",
+    "song": "EDWARD2",
+    "title": "Edward",
+    "source": "",
+    "key": "F",
+    "meter": "4/4",
+    "seconds": 24.0
+   },
+   {
+    "file": "EDWARD1",
+    "song": "EDWARD1",
+    "title": "Edward Ballad",
+    "source": "",
+    "key": "C",
+    "meter": "6/4",
+    "seconds": 14.1
+   }
+  ],
+  "14": [
+   {
+    "file": "VIRGIBN3",
+    "song": "VIRGIBN3",
+    "title": "The Banks of Fordie",
+    "source": "Bronson no. 7 for ballad 14",
+    "key": "C",
+    "meter": "6/8",
+    "seconds": 14.4
+   },
+   {
+    "file": "VIRGIBNK",
+    "song": "VIRGIBNK",
+    "title": "The Bonny Banks of the Virgie O",
+    "source": "",
+    "key": "G",
+    "meter": "4/4",
+    "seconds": 19.2
+   }
+  ],
+  "16": [
+   {
+    "file": "SHEATHKF",
+    "song": "SHEATHKF",
+    "title": "Sheath and Knife",
+    "source": "tune from Bronson Child 16 tune 1",
+    "key": "G",
+    "meter": "4/4",
+    "seconds": 21.0
+   }
+  ],
+  "17": [
+   {
+    "file": "HNDHORN2",
+    "song": "HNDHORN2",
+    "title": "Hind Horn",
+    "source": "",
+    "key": "G",
+    "meter": "2/4",
+    "seconds": 24.0
+   },
+   {
+    "file": "HNDHORN3",
+    "song": "HNDHORN3",
+    "title": "Hind Horn",
+    "source": "",
+    "key": "G",
+    "meter": "2/4",
+    "seconds": 20.4
+   }
+  ],
+  "18": [
+   {
+    "file": "JOVHUNTR",
+    "song": "JOVHUNTR",
+    "title": "Jovial Hunter",
+    "source": "",
+    "key": "C",
+    "meter": "2/4",
+    "seconds": 18.6
+   },
+   {
+    "file": "OLBANGUM",
+    "song": "OLBANGUM",
+    "title": "Old Bangum",
+    "source": "From Davis, Traditional Ballads of Virginia",
+    "key": "F",
+    "meter": "2/4",
+    "seconds": 17.7
+   },
+   {
+    "file": "WLDBOAR2",
+    "song": "WLDBOAR2",
+    "title": "Sir Eglamore",
+    "source": "From D'Urfey III",
+    "key": "G",
+    "meter": "6/4",
+    "seconds": 36.9
+   },
+   {
+    "file": "WLDBOAR",
+    "song": "WLDBOAR",
+    "title": "Wild Boar",
+    "source": "Bronson 2",
+    "key": "C",
+    "meter": "3/2",
+    "seconds": 21.6
+   }
+  ],
+  "19": [
+   {
+    "file": "KNGORFEO_1",
+    "song": "KNGORFEO",
+    "title": "King Orfeo",
+    "source": "Child #19, tune: Bronson",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 13.2
+   }
+  ],
+  "20": [
+   {
+    "file": "CRUELMOT",
+    "song": "CRUELMOT",
+    "title": "The Cruel Mother",
+    "source": "",
+    "key": "F",
+    "meter": "4/4",
+    "seconds": 25.8
+   },
+   {
+    "file": "CRUELMO4",
+    "song": "CRUELMO4",
+    "title": "The Cruel Mother",
+    "source": "",
+    "key": "G",
+    "meter": "6/8",
+    "seconds": 21.6
+   },
+   {
+    "file": "CRUELMO2",
+    "song": "CRUELMO2",
+    "title": "Cruel Mother (Fine Flowers)",
+    "source": "",
+    "key": "Bb",
+    "meter": "4/4",
+    "seconds": 19.2
+   },
+   {
+    "file": "CRUELMO5",
+    "song": "CRUELMO5",
+    "title": "Wella, Wella, Walle",
+    "source": "",
+    "key": "D",
+    "meter": "4/4",
+    "seconds": 19.8
+   }
+  ],
+  "21": [
+   {
+    "file": "WELLVALL",
+    "song": "MAIDPAL2",
+    "title": "The Well Below the Valley",
+    "source": "",
+    "key": "Bb",
+    "meter": "6/8",
+    "seconds": 18.3
+   }
+  ],
+  "22": [
+   {
+    "file": "STPHEROD",
+    "song": "STPHEROD",
+    "title": "St. Stephen and Herod",
+    "source": "",
+    "key": "D",
+    "meter": "6/4",
+    "seconds": 21.4
+   }
+  ],
+  "24": [
+   {
+    "file": "GREWILLO",
+    "song": "GREWILLO",
+    "title": "Banks of Green Willow",
+    "source": "",
+    "key": "G",
+    "meter": "3/4",
+    "seconds": 14.4
+   },
+   {
+    "file": "BONNYANN",
+    "song": "BONNYANN",
+    "title": "Bonnie Annie",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 18.6
+   }
+  ],
+  "25": [
+   {
+    "file": "WILILYKE",
+    "song": "WILILYKE",
+    "title": "Willie's Lyke-Wake",
+    "source": "",
+    "key": "F",
+    "meter": "2/4",
+    "seconds": 18.3
+   }
+  ],
+  "26": [
+   {
+    "file": "THRERAV6",
+    "song": "THRERAV6",
+    "title": "Said the Blackbird to the Crow",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 19.2
+   },
+   {
+    "file": "THRERAV2",
+    "song": "THRERAV2",
+    "title": "The Three Crows",
+    "source": "",
+    "key": "F",
+    "meter": "2/2",
+    "seconds": 38.7
+   },
+   {
+    "file": "THRERAVN",
+    "song": "THRERAVN",
+    "title": "The Three Ravens",
+    "source": "",
+    "key": "G",
+    "meter": "2/2",
+    "seconds": 31.8
+   },
+   {
+    "file": "THRERAV3",
+    "song": "THRERAV3",
+    "title": "Twa Corbies",
+    "source": "",
+    "key": "F",
+    "meter": "2/4",
+    "seconds": 17.7
+   },
+   {
+    "file": "THRERAV4",
+    "song": "THRERAV4",
+    "title": "The Twa Corbies (4)",
+    "source": "Bronson 9",
+    "key": "C",
+    "meter": "6/8",
+    "seconds": 21.6
+   }
+  ],
+  "27": [
+   {
+    "file": "KEYDOOR2",
+    "song": "KEYDOOR2",
+    "title": "The Keyhole in the Door",
+    "source": "",
+    "key": "D",
+    "meter": "6/8",
+    "seconds": 29.1
+   }
+  ],
+  "32": [
+   {
+    "file": "JHNMARCH",
+    "song": "KINGHENR",
+    "title": "When Johnny Comes Marching Home",
+    "source": "",
+    "key": "C",
+    "meter": "6/8",
+    "seconds": 30.3
+   }
+  ],
+  "34": [
+   {
+    "file": "KEMPOWN2",
+    "song": "KEMPOWN2",
+    "title": "Kempion",
+    "source": "From Singing Tradition of Cild's popular ballads, Bronson",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 17.1
+   },
+   {
+    "file": "LAIDLEY2",
+    "song": "LAIDLEY2",
+    "title": "The Laidley Worm",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 18.6
+   }
+  ],
+  "37": [
+   {
+    "file": "TOMRHYM",
+    "song": "TOMRHYM",
+    "title": "Thomas the Rhymer",
+    "source": "",
+    "key": "Bb",
+    "meter": "3/4",
+    "seconds": 14.1
+   }
+  ],
+  "38": [
+   {
+    "file": "WEEWEEMN",
+    "song": "WEEWEEMN",
+    "title": "The Wee Wee Man",
+    "source": "From the Oxford Book of Ballads, Kinsley",
+    "key": "F",
+    "meter": "6/8",
+    "seconds": 28.8
+   }
+  ],
+  "39": [
+   {
+    "file": "TAMLIN2",
+    "song": "TAMLIN2",
+    "title": "Young Tamblin (Tam Lin etc.)",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 25.8
+   },
+   {
+    "file": "TAMLIN1",
+    "song": "TAMLIN1",
+    "title": "Tam Lane (Tam Lin, etc.)",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 39.6
+   }
+  ],
+  "40": [
+   {
+    "file": "ELFANURS",
+    "song": "ELFANURS",
+    "title": "The Queen of Elfan's Nourice",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 19.2
+   }
+  ],
+  "41": [
+   {
+    "file": "HINDETIN",
+    "song": "HINDETIN",
+    "title": "Hind Etin",
+    "source": "From Bronson",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 38.4
+   }
+  ],
+  "42": [
+   {
+    "file": "CLRKCLVL",
+    "song": "CLRKCLVL",
+    "title": "Clerk Colvill",
+    "source": "Bronson (conjectural)",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 22.2
+   }
+  ],
+  "43": [
+   {
+    "file": "BROOMFLD",
+    "song": "BROOMFLD",
+    "title": "Broomfield Wager",
+    "source": "",
+    "key": "C",
+    "meter": "2/4",
+    "seconds": 21.0
+   },
+   {
+    "file": "BROMFLD2",
+    "song": "BROMFLD2",
+    "title": "The Broomfield Hill",
+    "source": "",
+    "key": "D",
+    "meter": "4/4",
+    "seconds": 19.2
+   },
+   {
+    "file": "MAIDSH3R",
+    "song": "MAIDSHOR",
+    "title": "The Maid on the Shore",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "MAIDSHR2",
+    "song": "MAIDSHR2",
+    "title": "Maid on the Shore (2)",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 30.6
+   }
+  ],
+  "44": [
+   {
+    "file": "MAGICN2",
+    "song": "MAGICN2",
+    "title": "The Two Magicians",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 38.4
+   }
+  ],
+  "45": [
+   {
+    "file": "DERRYDWN",
+    "song": "KJONCANT",
+    "title": "Derry Down",
+    "source": "",
+    "key": "C",
+    "meter": "6/8",
+    "seconds": 19.5
+   }
+  ],
+  "46": [
+   {
+    "file": "ACRELAND",
+    "song": "ACRELAND",
+    "title": "An Acre of Land",
+    "source": "",
+    "key": "F",
+    "meter": "6/8",
+    "seconds": 16.8
+   },
+   {
+    "file": "THREESIX",
+    "song": "THREESIX",
+    "title": "Three Dishes and Six Questions",
+    "source": "",
+    "key": "F",
+    "meter": "4/4",
+    "seconds": 19.2
+   },
+   {
+    "file": "PADWEST",
+    "song": "CAPWEDER",
+    "title": "Paddy West (Tramps and Hawkers, etc.)",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 48.7
+   }
+  ],
+  "47": [
+   {
+    "file": "PRDMARG2",
+    "song": "PRDMARG2",
+    "title": "Proud Margaret",
+    "source": "Bronson 1",
+    "key": "F",
+    "meter": "4/4",
+    "seconds": 19.2
+   }
+  ],
+  "49": [
+   {
+    "file": "ROLLSTON",
+    "song": "ROLLSTON",
+    "title": "The Rolling of the Stones",
+    "source": "",
+    "key": "G",
+    "meter": "4/4",
+    "seconds": 19.2
+   },
+   {
+    "file": "TWOBROS2",
+    "song": "TWOBROS2",
+    "title": "The Two Brothers",
+    "source": "From Sharp, English Folk Songs from the Southern Appalachians",
+    "key": "G",
+    "meter": "4/4",
+    "seconds": 18.6
+   },
+   {
+    "file": "TWOBROS3",
+    "song": "TWOBROS3",
+    "title": "The Two Brothers",
+    "source": "",
+    "key": "G",
+    "meter": "6/4",
+    "seconds": 21.3
+   },
+   {
+    "file": "TWOBROS4",
+    "song": "TWOBROS4",
+    "title": "The Two Brothers",
+    "source": "",
+    "key": "G",
+    "meter": "6/8",
+    "seconds": 14.4
+   }
+  ],
+  "51": [
+   {
+    "file": "LIZIWAN1",
+    "song": "LIZIWAN1",
+    "title": "Lizzie Wan",
+    "source": "From Sharp, English Folksongs from Southern Appalacians",
+    "key": "G",
+    "meter": "2/2",
+    "seconds": 21.6
+   }
+  ],
+  "52": [
+   {
+    "file": "KINGDAUJ",
+    "song": "KINGDAUJ",
+    "title": "Queen Jane",
+    "source": "Bronson 1.1",
+    "key": "F",
+    "meter": "4/4",
+    "seconds": 25.8
+   }
+  ],
+  "53": [
+   {
+    "file": "LORDBAT1",
+    "song": "LORDBATE",
+    "title": "Lord Bateman",
+    "source": "",
+    "key": "Bb",
+    "meter": "3/2",
+    "seconds": 57.0
+   },
+   {
+    "file": "LRDBEICH",
+    "song": "LRDBEICH",
+    "title": "Lord Beichan",
+    "source": "From Ancient Scottish Ballads, Kinloch",
+    "key": "D",
+    "meter": "3/4",
+    "seconds": 14.4
+   },
+   {
+    "file": "TURKLADY",
+    "song": "TURKLADY",
+    "title": "The Turkish Lady",
+    "source": "",
+    "key": "F",
+    "meter": "3/4",
+    "seconds": 14.4
+   }
+  ],
+  "54": [
+   {
+    "file": "CHERTREE",
+    "song": "CHERTREE",
+    "title": "The Cherry Tree Carol",
+    "source": "",
+    "key": "F",
+    "meter": "3/4",
+    "seconds": 30.0
+   }
+  ],
+  "55": [
+   {
+    "file": "PHARMKN2",
+    "song": "PHARMKN2",
+    "title": "Carnal and the Crane",
+    "source": "tune from Bonnie Bunch of Roses",
+    "key": "D",
+    "meter": "4/4",
+    "seconds": 18.6
+   },
+   {
+    "file": "PHARMKNG",
+    "song": "PHARMKNG",
+    "title": "King Pharim",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 19.2
+   }
+  ],
+  "56": [
+   {
+    "file": "DIVRSLAZ",
+    "song": "DIVRSLAZ",
+    "title": "Dives and Lazarus",
+    "source": "From The Oxford Book of Carols",
+    "key": "F",
+    "meter": "4/4",
+    "seconds": 38.4
+   },
+   {
+    "file": "STARDOWN",
+    "song": "DIVRSLA2",
+    "title": "Star of the County Down",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 66.4
+   }
+  ],
+  "58": [
+   {
+    "file": "PATSPENS",
+    "song": "PATSPENS",
+    "title": "Sir Patrick Spens",
+    "source": "",
+    "key": "Bb",
+    "meter": "4/4",
+    "seconds": 21.0
+   }
+  ],
+  "61": [
+   {
+    "file": "SIRCAWL",
+    "song": "SIRCAWL",
+    "title": "Sir Cawline",
+    "source": "Bronson I",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 19.2
+   }
+  ],
+  "62": [
+   {
+    "file": "FAIRANNI",
+    "song": "FAIRANNI",
+    "title": "",
+    "source": "",
+    "key": "G",
+    "meter": "4/4",
+    "seconds": 18.6
+   },
+   {
+    "file": "FAIRANN2",
+    "song": "FAIRANN2",
+    "title": "Fair Annie",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 19.2
+   }
+  ],
+  "64": [
+   {
+    "file": "FAIRJAN",
+    "song": "FAIRJAN",
+    "title": "FAIR JANET",
+    "source": "Bronson 1",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 14.1
+   }
+  ],
+  "65": [
+   {
+    "file": "SCLELAND",
+    "song": "SCLELAND",
+    "title": "Bonnie Susie Cleland",
+    "source": "",
+    "key": "G",
+    "meter": "4/4",
+    "seconds": 40.2
+   },
+   {
+    "file": "LMAISRY",
+    "song": "LMAISRY",
+    "title": "Lady Maisry",
+    "source": "",
+    "key": "F",
+    "meter": "2/2",
+    "seconds": 19.2
+   }
+  ],
+  "66": [
+   {
+    "file": "INGRWYLT",
+    "song": "INGRWYLT",
+    "title": "Lord Ingram and Child Wyet",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 19.8
+   }
+  ],
+  "68": [
+   {
+    "file": "FALSLADY",
+    "song": "FALSLADY",
+    "title": "The False Lady",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 24.0
+   },
+   {
+    "file": "YNGHUNT3",
+    "song": "YNGHUNT3",
+    "title": "The Lord of Scotland",
+    "source": "",
+    "key": "C",
+    "meter": "6/8",
+    "seconds": 14.4
+   },
+   {
+    "file": "YNGHUNT",
+    "song": "YNGHUNT",
+    "title": "Young Hunting",
+    "source": "Tune from Sharp English Folk Songs fom the Southern App.",
+    "key": "F",
+    "meter": "2/2",
+    "seconds": 24.0
+   },
+   {
+    "file": "YNGHUNT2",
+    "song": "YNGHUNT2",
+    "title": "Young Hunting",
+    "source": "Tune from Bronson",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 18.9
+   }
+  ],
+  "70": [
+   {
+    "file": "WILMAISY",
+    "song": "WILMAISY",
+    "title": "Fair William and Lady Maisry",
+    "source": "Child #70, from Bonny Bunch of Roses",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 38.4
+   }
+  ],
+  "73": [
+   {
+    "file": "BRWNGRL2",
+    "song": "BRWNGRL2",
+    "title": "Lord Thomas",
+    "source": "",
+    "key": "F",
+    "meter": "6/8",
+    "seconds": 14.4
+   },
+   {
+    "file": "BRWNGRL3",
+    "song": "BRWNGRL3",
+    "title": "Lord Thomas and Fair Ellender (3)",
+    "source": "",
+    "key": "C",
+    "meter": "6/4",
+    "seconds": 27.6
+   }
+  ],
+  "74": [
+   {
+    "file": "LADYMAR2",
+    "song": "LADYMAR2",
+    "title": "Lady Margaret and King William",
+    "source": "",
+    "key": "Bb",
+    "meter": "4/2",
+    "seconds": 22.1
+   }
+  ],
+  "76": [
+   {
+    "file": "HESGONE",
+    "song": "HESGONE",
+    "title": "He's Gone Away",
+    "source": "",
+    "key": "G",
+    "meter": "4/4",
+    "seconds": 142.2
+   },
+   {
+    "file": "LORGREG2",
+    "song": "LORGREG2",
+    "title": "Lord Gregory",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 19.2
+   }
+  ],
+  "77": [
+   {
+    "file": "WILIGHOS",
+    "song": "WILIGHOS",
+    "title": "Sweet William's Ghost",
+    "source": "",
+    "key": "A",
+    "meter": "3/4",
+    "seconds": 15.6
+   }
+  ],
+  "78": [
+   {
+    "file": "UNQUIGRV",
+    "song": "UNQUIGR1",
+    "title": "The Unquiet Grave",
+    "source": "",
+    "key": "Bb",
+    "meter": "6/8",
+    "seconds": 21.3
+   },
+   {
+    "file": "UNQUIGR2",
+    "song": "UNQUIGR2",
+    "title": "The Unquiet Grave (2)",
+    "source": "",
+    "key": "G",
+    "meter": "4/4",
+    "seconds": 19.2
+   }
+  ],
+  "79": [
+   {
+    "file": "LADYGAY",
+    "song": "LADYGAY",
+    "title": "Lady Gay",
+    "source": "",
+    "key": "Eb",
+    "meter": "4/4",
+    "seconds": 36.0
+   },
+   {
+    "file": "USHRWEL2",
+    "song": "USHRWEL2",
+    "title": "The Wife of Usher's Well",
+    "source": "",
+    "key": "F",
+    "meter": "4/4",
+    "seconds": 38.4
+   }
+  ],
+  "81": [
+   {
+    "file": "MATTIEG2",
+    "song": "MATTIEG2",
+    "title": "Lord Banner",
+    "source": "",
+    "key": "Bb",
+    "meter": "6/8",
+    "seconds": 14.1
+   },
+   {
+    "file": "MATTIEGR",
+    "song": "MATTIEGR",
+    "title": "Mattie Groves",
+    "source": "",
+    "key": "F",
+    "meter": "2/4",
+    "seconds": 18.9
+   }
+  ],
+  "83": [
+   {
+    "file": "GILMORIS",
+    "song": "GILMORIS",
+    "title": "",
+    "source": "Grieg-Duncan A",
+    "key": "C",
+    "meter": "2/4",
+    "seconds": 16.8
+   }
+  ],
+  "84": [
+   {
+    "file": "BARBALEN",
+    "song": "BARBALEN",
+    "title": "Barbara Allan",
+    "source": "",
+    "key": "D",
+    "meter": "3/4",
+    "seconds": 15.6
+   },
+   {
+    "file": "BARBALN2",
+    "song": "BARBALN2",
+    "title": "Barbara Allen",
+    "source": "",
+    "key": "Eb",
+    "meter": "6/8",
+    "seconds": 20.0
+   },
+   {
+    "file": "BARBALN3",
+    "song": "BARBALN3",
+    "title": "Barbara Ellen",
+    "source": "From Sharp, English Folk Songs",
+    "key": "E",
+    "meter": "5/4",
+    "seconds": 23.4
+   },
+   {
+    "file": "BARBALN4",
+    "song": "BARBALN4",
+    "title": "Bawbee Allan",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 18.6
+   }
+  ],
+  "85": [
+   {
+    "file": "GEOCLLNS",
+    "song": "GEOCLLNS",
+    "title": "George Collins",
+    "source": "",
+    "key": "G",
+    "meter": "6/8",
+    "seconds": 15.9
+   },
+   {
+    "file": "GEOCOL2",
+    "song": "GEOCOL2",
+    "title": "George Collins (2)",
+    "source": "",
+    "key": "G",
+    "meter": "6/8",
+    "seconds": 14.4
+   }
+  ],
+  "86": [
+   {
+    "file": "YNGBENJI",
+    "song": "YNGBENJI",
+    "title": "Young Benjie",
+    "source": "Bronson 86 I",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 14.4
+   }
+  ],
+  "88": [
+   {
+    "file": "JOHNSTON",
+    "song": "JOHNSTON",
+    "title": "Johnson and the Colonel",
+    "source": "Bronson 88 B4",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 19.2
+   }
+  ],
+  "90": [
+   {
+    "file": "JELGRAEM",
+    "song": "JELGRAEM",
+    "title": "Jellon Graeme",
+    "source": "Tune from Greig-Duncan 198",
+    "key": "Eb",
+    "meter": "4/4",
+    "seconds": 18.6
+   }
+  ],
+  "92": [
+   {
+    "file": "LOWHOLLD",
+    "song": "LOWHOLL9",
+    "title": "The Lowlands of Holland",
+    "source": "",
+    "key": "G",
+    "meter": "4/4",
+    "seconds": 38.4
+   },
+   {
+    "file": "LOWHOL10",
+    "song": "LOWHOL10",
+    "title": "Lowlands of Holland",
+    "source": "",
+    "key": "G",
+    "meter": "4/4",
+    "seconds": 38.4
+   },
+   {
+    "file": "LOWHOLL3",
+    "song": "LOWHOLL3",
+    "title": "Lowlands of Holland",
+    "source": "",
+    "key": "F",
+    "meter": "4/4",
+    "seconds": 18.9
+   },
+   {
+    "file": "LOWHOLL6",
+    "song": "LOWHOLL6",
+    "title": "The Lowlands of Holland",
+    "source": "",
+    "key": "F",
+    "meter": "4/4",
+    "seconds": 19.2
+   }
+  ],
+  "93": [
+   {
+    "file": "BLAMKIN",
+    "song": "BLAMKIN",
+    "title": "Bo Lamkin",
+    "source": "",
+    "key": "D",
+    "meter": "3/4",
+    "seconds": 30.5
+   },
+   {
+    "file": "BOLAMKN4",
+    "song": "BOLAMKN4",
+    "title": "False Lamkin",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 14.4
+   },
+   {
+    "file": "BOLAMKN2",
+    "song": "BOLAMKN2",
+    "title": "Lamkin",
+    "source": "",
+    "key": "F",
+    "meter": "3/4",
+    "seconds": 14.1
+   },
+   {
+    "file": "BOLAMKN3",
+    "song": "BOLAMKN3",
+    "title": "Long Lankin",
+    "source": "",
+    "key": "Bb",
+    "meter": "3/4",
+    "seconds": 14.4
+   },
+   {
+    "file": "ALANTHIA",
+    "song": "ALANTHIA",
+    "title": "Young Alanthia",
+    "source": "",
+    "key": "G",
+    "meter": "3/4",
+    "seconds": 13.8
+   }
+  ],
+  "95": [
+   {
+    "file": "HANGMAN2",
+    "song": "HANGMAN2",
+    "title": "The Golden Ball",
+    "source": "",
+    "key": "F",
+    "meter": "6/8",
+    "seconds": 14.4
+   },
+   {
+    "file": "HANGMN1",
+    "song": "HANGMN1",
+    "title": "Maid Freed From Gallows",
+    "source": "From Davis, Traditional Ballads of Virginia",
+    "key": "D",
+    "meter": "4/4",
+    "seconds": 19.2
+   }
+  ],
+  "96": [
+   {
+    "file": "GAYGHAWK",
+    "song": "GAYGHAWK",
+    "title": "The Gay Goshawk",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 14.4
+   }
+  ],
+  "97": [
+   {
+    "file": "BRNROBIN",
+    "song": "BRNROBIN",
+    "title": "Brown Robin",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 21.3
+   }
+  ],
+  "98": [
+   {
+    "file": "BRNADAM",
+    "song": "BRNADAM",
+    "title": "Brown Adam",
+    "source": "From Oxford Book of Ballads, Kinsley",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 19.2
+   }
+  ],
+  "99": [
+   {
+    "file": "JSCOTT2",
+    "song": "JSCOTT2",
+    "title": "Johnie Scot",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 19.2
+   },
+   {
+    "file": "JSCOTT1",
+    "song": "JSCOTT1",
+    "title": "Johnny Scott",
+    "source": "",
+    "key": "C",
+    "meter": "2/4",
+    "seconds": 18.0
+   }
+  ],
+  "100": [
+   {
+    "file": "WILLIWI3",
+    "song": "WILLIWI3",
+    "title": "Thomas of Winesbury",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 23.7
+   },
+   {
+    "file": "WILLIWIN",
+    "song": "WILLIWIN",
+    "title": "Lord Thomas of Winesberry",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 24.0
+   },
+   {
+    "file": "WILLIWI2",
+    "song": "WILLIWI2",
+    "title": "Young Barbour",
+    "source": "",
+    "key": "D",
+    "meter": "4/4",
+    "seconds": 24.0
+   }
+  ],
+  "102": [
+   {
+    "file": "SINFLIRT",
+    "song": "SINFLIRT",
+    "title": "Willie (Sinful to Flirt)",
+    "source": "",
+    "key": "F",
+    "meter": "4/4",
+    "seconds": 19.2
+   }
+  ],
+  "103": [
+   {
+    "file": "ROSELILY",
+    "song": "ROSELILY",
+    "title": "Red the Rose and White Lily",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 19.2
+   }
+  ],
+  "105": [
+   {
+    "file": "BAILDAUG",
+    "song": "BAILDAUG",
+    "title": "The Bailiff's Daughter of Islington",
+    "source": "This tune from New Green Mountain Songster",
+    "key": "F",
+    "meter": "2/2",
+    "seconds": 45.0
+   }
+  ],
+  "106": [
+   {
+    "file": "FLRSERV1",
+    "song": "FLRSERV1",
+    "title": "Border Widow's Lament",
+    "source": "",
+    "key": "G",
+    "meter": "4/4",
+    "seconds": 19.2
+   },
+   {
+    "file": "BRDRWDO_1",
+    "song": "BRDRWDO",
+    "title": "Oh Onochie O",
+    "source": "From Oswald's Caledonian Pocket Companion, book 1",
+    "key": "G",
+    "meter": "3/4",
+    "seconds": 57.6
+   },
+   {
+    "file": "FLRSERV2",
+    "song": "FLRSERV2",
+    "title": "Famous Flower of Servingmen",
+    "source": "tune from Flanders, Ballads Migrant in New England",
+    "key": "F",
+    "meter": "3/2",
+    "seconds": 28.2
+   }
+  ],
+  "110": [
+   {
+    "file": "SHEPDAU",
+    "song": "SHEPDAU",
+    "title": "The Knight and the Shepherd's Daughter",
+    "source": "",
+    "key": "A",
+    "meter": "4/4",
+    "seconds": 47.4
+   }
+  ],
+  "112": [
+   {
+    "file": "MORNDEW",
+    "song": "MORNDEW",
+    "title": "Blow Away the Morning Dew",
+    "source": "",
+    "key": "G",
+    "meter": "2/2",
+    "seconds": 28.3
+   },
+   {
+    "file": "KATYMORY",
+    "song": "KATYMORY",
+    "title": "Katey Morey",
+    "source": "",
+    "key": "C",
+    "meter": "6/8",
+    "seconds": 21.6
+   }
+  ],
+  "113": [
+   {
+    "file": "SILKIE1",
+    "song": "SILKIE1",
+    "title": "Great Silkie",
+    "source": "Child #113",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 29.4
+   },
+   {
+    "file": "SILKIE2",
+    "song": "SILKIE2",
+    "title": "Grey Selchie of Sule Skerry",
+    "source": "Tune from Judy Collins Songbook",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 34.2
+   }
+  ],
+  "114": [
+   {
+    "file": "BRAIDSLY",
+    "song": "BRAIDSLY",
+    "title": "Johnnie of Braidesly",
+    "source": "Bronson 9",
+    "key": "F",
+    "meter": "4/4",
+    "seconds": 24.0
+   }
+  ],
+  "120": [
+   {
+    "file": "ROBHDTH",
+    "song": "ROBHDTH",
+    "title": "Death of Robin Hood",
+    "source": "",
+    "key": "A",
+    "meter": "6/8",
+    "seconds": 28.8
+   }
+  ],
+  "125": [
+   {
+    "file": "RHLITJON",
+    "song": "RHLITJON",
+    "title": "Robin Hood and Little John",
+    "source": "",
+    "key": "G",
+    "meter": "6/8",
+    "seconds": 13.8
+   }
+  ],
+  "126": [
+   {
+    "file": "RHOODTAN",
+    "song": "RHOODTAN",
+    "title": "Robin Hood and the Tanner",
+    "source": "From English Folk Songs, Sharp",
+    "key": "F",
+    "meter": "3/4",
+    "seconds": 35.4
+   }
+  ],
+  "132": [
+   {
+    "file": "RHPEDLAR",
+    "song": "RHPEDLAR",
+    "title": "Bold Robin Hood and the Pedlar",
+    "source": "",
+    "key": "C",
+    "meter": "3/2",
+    "seconds": 21.0
+   }
+  ],
+  "140": [
+   {
+    "file": "RH3SQUIR",
+    "song": "RH3SQUIR",
+    "title": "Bold Robin Hood and the Threee Squires",
+    "source": "",
+    "key": "F",
+    "meter": "6/4",
+    "seconds": 28.8
+   }
+  ],
+  "141": [
+   {
+    "file": "ROBHDWST",
+    "song": "ROBHDWST",
+    "title": "The Rescue of Will Stutly",
+    "source": "",
+    "key": "A",
+    "meter": "4/4",
+    "seconds": 38.4
+   }
+  ],
+  "144": [
+   {
+    "file": "RHOODBSH",
+    "song": "RHOODBSH",
+    "title": "Robin Hood and the Bishop of Hereford",
+    "source": "Bronson #3",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 25.8
+   }
+  ],
+  "155": [
+   {
+    "file": "SIRHUGH",
+    "song": "SIRHUGH",
+    "title": "Sir Hugh",
+    "source": "",
+    "key": "G",
+    "meter": "2/2",
+    "seconds": 26.4
+   },
+   {
+    "file": "SIRHUGH2",
+    "song": "SIRHUGH2",
+    "title": "Little Sir Hugh",
+    "source": "",
+    "key": "G",
+    "meter": "6/8",
+    "seconds": 14.4
+   },
+   {
+    "file": "ADAMGRMN",
+    "song": "SIRHUGH1",
+    "title": "Adam Gorman",
+    "source": "",
+    "key": "F",
+    "meter": "6/4",
+    "seconds": 27.6
+   }
+  ],
+  "157": [
+   {
+    "file": "GUDWALL",
+    "song": "GUDWALL",
+    "title": "Gude Wallace",
+    "source": "Bronson #157",
+    "key": "F",
+    "meter": "6/8",
+    "seconds": 14.4
+   }
+  ],
+  "159": [
+   {
+    "file": "PADWEST",
+    "song": "DURHLOCK",
+    "title": "Paddy West (Tramps and Hawkers, etc.)",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 48.7
+   }
+  ],
+  "161": [
+   {
+    "file": "OTTRBURN",
+    "song": "OTTRBURN",
+    "title": "The Battle of Otterburn",
+    "source": "From Child",
+    "key": "F",
+    "meter": "3/4",
+    "seconds": 14.1
+   }
+  ],
+  "162": [
+   {
+    "file": "CHEVCHAS",
+    "song": "CHEVCHAS",
+    "title": "Chevy Chase",
+    "source": "",
+    "key": "G",
+    "meter": "3/4",
+    "seconds": 14.1
+   }
+  ],
+  "163": [
+   {
+    "file": "BATHARLW",
+    "song": "BATHARLW",
+    "title": "Battle of Harlaw",
+    "source": "",
+    "key": "C",
+    "meter": "6/8",
+    "seconds": 21.6
+   },
+   {
+    "file": "BATHRL2",
+    "song": "BATHRL2",
+    "title": "The Battle of Harlaw",
+    "source": "",
+    "key": "F",
+    "meter": "6/8",
+    "seconds": 21.6
+   }
+  ],
+  "164": [
+   {
+    "file": "HENRYV",
+    "song": "HENRYV",
+    "title": "King Henry Fifth's Conquest of France",
+    "source": "",
+    "key": "D",
+    "meter": "3/4",
+    "seconds": 23.9
+   }
+  ],
+  "167": [
+   {
+    "file": "ANDBART",
+    "song": "ANDBART",
+    "title": "Andrew Barton",
+    "source": "Tune #8 Bronson",
+    "key": "C",
+    "meter": "6/8",
+    "seconds": 17.6
+   }
+  ],
+  "169": [
+   {
+    "file": "JARMSTR1",
+    "song": "JARMSTR1",
+    "title": "Johnnie Armstrong",
+    "source": "From The English and Scottish Popular Ballads",
+    "key": "G",
+    "meter": "3/4",
+    "seconds": 57.6
+   }
+  ],
+  "170": [
+   {
+    "file": "QUENJANE",
+    "song": "QUENJANE",
+    "title": "Death of Queen Jane",
+    "source": "Child #170",
+    "key": "G",
+    "meter": "3/4",
+    "seconds": 22.8
+   },
+   {
+    "file": "QUENJAN2",
+    "song": "QUENJAN2",
+    "title": "Queen Jane",
+    "source": "",
+    "key": "C",
+    "meter": "6/4",
+    "seconds": 28.2
+   }
+  ],
+  "173": [
+   {
+    "file": "MARYHAM3",
+    "song": "MARYHAM3",
+    "title": "The Four Maries",
+    "source": "Grieg-Duncan A",
+    "key": "F",
+    "meter": "6/8",
+    "seconds": 14.4
+   },
+   {
+    "file": "MARYHAM4",
+    "song": "MARYHAM4",
+    "title": "Mary Mild",
+    "source": "Grieg-Duncan C",
+    "key": "E",
+    "meter": "4/4",
+    "seconds": 19.2
+   },
+   {
+    "file": "MARYS4",
+    "song": "MARYHAM1",
+    "title": "Mary Hamilton",
+    "source": "",
+    "key": "A",
+    "meter": "3/4",
+    "seconds": 23.1
+   }
+  ],
+  "178": [
+   {
+    "file": "ADAMGRMN",
+    "song": "ADAMGRMN",
+    "title": "Adam Gorman",
+    "source": "",
+    "key": "F",
+    "meter": "6/4",
+    "seconds": 27.6
+   }
+  ],
+  "181": [
+   {
+    "file": "EARLMURY",
+    "song": "EARLMURY",
+    "title": "The Bonny Earl o' Murray",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 38.4
+   },
+   {
+    "file": "EARLMURY_2",
+    "song": "EARLMUR2",
+    "title": "The Bonny Earl of Murray",
+    "source": "From Johnson's Musical Museum",
+    "key": "G",
+    "meter": "3/4",
+    "seconds": 21.6
+   }
+  ],
+  "182": [
+   {
+    "file": "LARLOGIE",
+    "song": "LARLOGIE",
+    "title": "The Laird O Logie",
+    "source": "Bronson",
+    "key": "G",
+    "meter": "3/4",
+    "seconds": 28.8
+   }
+  ],
+  "183": [
+   {
+    "file": "BURNAUCH",
+    "song": "BURNAUCH",
+    "title": "The Burning od Auchindoon",
+    "source": "",
+    "key": "D",
+    "meter": "4/4",
+    "seconds": 59.7
+   }
+  ],
+  "187": [
+   {
+    "file": "BOLDARCH",
+    "song": "BOLDARCH",
+    "title": "Bold Archie",
+    "source": "Child #188",
+    "key": "G",
+    "meter": "6/8",
+    "seconds": 14.4
+   },
+   {
+    "file": "JOHNWEBB",
+    "song": "JOHNWEBB",
+    "title": "The Escape of Old John Webb",
+    "source": "",
+    "key": "F",
+    "meter": "4/4",
+    "seconds": 72.0
+   }
+  ],
+  "188": [
+   {
+    "file": "BOLDARC2",
+    "song": "BOLDARC2",
+    "title": "Bold Archer",
+    "source": "Bold Archie: Bronson B",
+    "key": "D",
+    "meter": "6/8",
+    "seconds": 14.4
+   },
+   {
+    "file": "BOLDARCH",
+    "song": "BOLDARCH",
+    "title": "Bold Archie",
+    "source": "Child #188",
+    "key": "G",
+    "meter": "6/8",
+    "seconds": 14.4
+   },
+   {
+    "file": "JOHNWEBB",
+    "song": "JOHNWEBB",
+    "title": "The Escape of Old John Webb",
+    "source": "",
+    "key": "F",
+    "meter": "4/4",
+    "seconds": 72.0
+   }
+  ],
+  "191": [
+   {
+    "file": "HUGRAME2",
+    "song": "HUGRAME2",
+    "title": "",
+    "source": "Tune: Hughie Graham (342)",
+    "key": "Bb",
+    "meter": "3/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "HUGRAME",
+    "song": "HUGRAME",
+    "title": "Hughie Grame",
+    "source": "",
+    "key": "G",
+    "meter": "4/4",
+    "seconds": 32.4
+   }
+  ],
+  "193": [
+   {
+    "file": "PRCYREED",
+    "song": "PRCYREED",
+    "title": "The Death of Parcy Reed",
+    "source": "Bronson. tune: Hey Sae Sweet the Rashes Grow",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 19.2
+   }
+  ],
+  "196": [
+   {
+    "file": "FRNDRGT",
+    "song": "FRNDRGT",
+    "title": "The Fire of Frendraught",
+    "source": "Bronson tune 1",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 14.1
+   }
+  ],
+  "199": [
+   {
+    "file": "BONAIRLI",
+    "song": "BONAIRLI",
+    "title": "The Bonnie Hoose O' Airlie",
+    "source": "",
+    "key": "F",
+    "meter": "4/4",
+    "seconds": 25.2
+   }
+  ],
+  "200": [
+   {
+    "file": "BGGARLAD",
+    "song": "BGGARLAD",
+    "title": "The Beggar Laddie",
+    "source": "",
+    "key": "E",
+    "meter": "3/4",
+    "seconds": 18.3
+   },
+   {
+    "file": "GYPBLJK",
+    "song": "GYPBLJK",
+    "title": "Black Jack Davy",
+    "source": "Putnam String County Band version",
+    "key": "C",
+    "meter": "2/4",
+    "seconds": 13.2
+   },
+   {
+    "file": "BLCKJCK2",
+    "song": "BLCKJCK2",
+    "title": "Black-Jack Gypsy (2)",
+    "source": "",
+    "key": "G",
+    "meter": "4/4",
+    "seconds": 24.0
+   },
+   {
+    "file": "GYPDAVY",
+    "song": "GYPDAVY",
+    "title": "Gypsy Davy",
+    "source": "",
+    "key": "D",
+    "meter": "2/4",
+    "seconds": 12.0
+   },
+   {
+    "file": "GYPLADD2",
+    "song": "GYPLADD2",
+    "title": "The Gypsy Laddie",
+    "source": "",
+    "key": "D",
+    "meter": "4/4",
+    "seconds": 19.2
+   },
+   {
+    "file": "GYPLADD4",
+    "song": "GYPLADD4",
+    "title": "The Gypsy Laddie",
+    "source": "",
+    "key": "c",
+    "meter": "2/2",
+    "seconds": 28.2
+   },
+   {
+    "file": "GYPSYRVR",
+    "song": "GYPSYRVR",
+    "title": "Gypsy Rover",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 19.2
+   },
+   {
+    "file": "GYPLADY",
+    "song": "GYPLADY",
+    "title": "The Lady and the Gypsy",
+    "source": "",
+    "key": "Bb",
+    "meter": "4/4",
+    "seconds": 24.0
+   },
+   {
+    "file": "BLCKJACK",
+    "song": "BLCKJACK",
+    "title": "Seven Gypsies on Yon Hill",
+    "source": "",
+    "key": "F",
+    "meter": "4/4",
+    "seconds": 18.6
+   },
+   {
+    "file": "WRAGYPSY",
+    "song": "WRAGYPSY",
+    "title": "The Wraggle-taggle Gypsies",
+    "source": "",
+    "key": "G",
+    "meter": "4/4",
+    "seconds": 19.2
+   },
+   {
+    "file": "YANKDOOD",
+    "song": "GYPHARBR",
+    "title": "Yankee Doodle",
+    "source": "",
+    "key": "G",
+    "meter": "2/4",
+    "seconds": 18.9
+   }
+  ],
+  "201": [
+   {
+    "file": "BESSBELL",
+    "song": "BESSBELL",
+    "title": "Bessy Bell",
+    "source": "Bronson A",
+    "key": "F",
+    "meter": "6/8",
+    "seconds": 28.8
+   }
+  ],
+  "203": [
+   {
+    "file": "BRNBRKLY",
+    "song": "BRNBRKLY",
+    "title": "The Baron O' Brackley",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 34.2
+   }
+  ],
+  "208": [
+   {
+    "file": "DRWNTFRW",
+    "song": "DRWNTFRW",
+    "title": "Derwentwater's Farewell",
+    "source": "",
+    "key": "G",
+    "meter": "3/4",
+    "seconds": 28.8
+   }
+  ],
+  "209": [
+   {
+    "file": "GEORDI2",
+    "song": "GEORDI2",
+    "title": "Geordie (2)",
+    "source": "",
+    "key": "Bb",
+    "meter": "4/4",
+    "seconds": 19.2
+   },
+   {
+    "file": "GEORDI3",
+    "song": "GEORDI3",
+    "title": "Geordie",
+    "source": "",
+    "key": "A",
+    "meter": "2/4",
+    "seconds": 22.8
+   },
+   {
+    "file": "GEORDI4",
+    "song": "GEORDI4",
+    "title": "Gight's Ladye",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 19.2
+   }
+  ],
+  "210": [
+   {
+    "file": "GEORCMP2",
+    "song": "GEORCMP2",
+    "title": "James Campbell",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 19.2
+   }
+  ],
+  "211": [
+   {
+    "file": "LOCHNGR2",
+    "song": "LOCHNGR2",
+    "title": "Katharine Jaffray",
+    "source": "",
+    "key": "F",
+    "meter": "2/4",
+    "seconds": 26.7
+   }
+  ],
+  "212": [
+   {
+    "file": "DUKATHOL",
+    "song": "DUKATHOL",
+    "title": "The Duke of Athole's Nurse",
+    "source": "Bronson no. 9",
+    "key": "G",
+    "meter": "4/4",
+    "seconds": 19.2
+   }
+  ],
+  "213": [
+   {
+    "file": "JAMEROSE",
+    "song": "JAMEROSE",
+    "title": "Sir James, the Rose",
+    "source": "",
+    "key": "G",
+    "meter": "4/4",
+    "seconds": 37.8
+   }
+  ],
+  "214": [
+   {
+    "file": "YARROW1",
+    "song": "YARROW1",
+    "title": "The Dowie Dens O Yarrow",
+    "source": "",
+    "key": "F",
+    "meter": "4/4",
+    "seconds": 40.8
+   },
+   {
+    "file": "YARROW2",
+    "song": "YARROW2",
+    "title": "The Dowie Dens o' Yarrow",
+    "source": "Bronson A28",
+    "key": "C",
+    "meter": "3/2",
+    "seconds": 28.2
+   }
+  ],
+  "215": [
+   {
+    "file": "YARROW2A",
+    "song": "YARROW4",
+    "title": "Willy's Rare",
+    "source": "from Sedley, Seeds of Love",
+    "key": "D",
+    "meter": "3/4",
+    "seconds": 14.4
+   },
+   {
+    "file": "YARROW3",
+    "song": "YARROW3",
+    "title": "Willie Drowned in Ero",
+    "source": "",
+    "key": "E",
+    "meter": "6/4",
+    "seconds": 51.6
+   }
+  ],
+  "216": [
+   {
+    "file": "CLYDWATR",
+    "song": "CLYDWATR",
+    "title": "Clyde's Water",
+    "source": "from Bronson",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 28.2
+   }
+  ],
+  "217": [
+   {
+    "file": "COWDENKN",
+    "song": "COWDENK2",
+    "title": "Broom O'er the Cowdenknowes",
+    "source": "",
+    "key": "G",
+    "meter": "2/2",
+    "seconds": 22.5
+   }
+  ],
+  "218": [
+   {
+    "file": "BONLOVE",
+    "song": "BONLOVE",
+    "title": "False Lover Won Back or Bonnie Love",
+    "source": "Child #218",
+    "key": "D",
+    "meter": "4/4",
+    "seconds": 25.2
+   }
+  ],
+  "219": [
+   {
+    "file": "GRDNRCHD",
+    "song": "GRDNRCHD",
+    "title": "Gairdener Child",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 30.6
+   }
+  ],
+  "220": [
+   {
+    "file": "ANGLELAS",
+    "song": "ANGLELAS",
+    "title": "The Bonny Lass of Anglesey",
+    "source": "",
+    "key": "D",
+    "meter": "4/4",
+    "seconds": 18.2
+   }
+  ],
+  "221": [
+   {
+    "file": "LOCHNGAR",
+    "song": "LOCHNGAR",
+    "title": "Katherine Jaffray (Lochnagar)",
+    "source": "",
+    "key": "F",
+    "meter": "4/4",
+    "seconds": 18.0
+   }
+  ],
+  "222": [
+   {
+    "file": "BABLIVST",
+    "song": "BABLIVST",
+    "title": "Bonny Baby Livingston",
+    "source": "From Bronson, Child #222",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 14.4
+   }
+  ],
+  "223": [
+   {
+    "file": "EPPMORR",
+    "song": "EPPMORR",
+    "title": "Eppie Morrie",
+    "source": "",
+    "key": "G",
+    "meter": "4/4",
+    "seconds": 24.0
+   }
+  ],
+  "226": [
+   {
+    "file": "LIZLIND",
+    "song": "LIZLIND",
+    "title": "Lizzy Lindsay",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 29.4
+   }
+  ],
+  "227": [
+   {
+    "file": "LIZBAILI",
+    "song": "LIZBAILI",
+    "title": "Bonny Lizie Bailie",
+    "source": "Bronson",
+    "key": "F",
+    "meter": "4/4",
+    "seconds": 18.9
+   }
+  ],
+  "228": [
+   {
+    "file": "GLASGPG2",
+    "song": "GLASGPG2",
+    "title": "Glasgow Peggy 2",
+    "source": "",
+    "key": "D",
+    "meter": "4/4",
+    "seconds": 19.2
+   },
+   {
+    "file": "GLASGPEG",
+    "song": "GLASGPEG",
+    "title": "Glasgow Peggie (Hielan' Lads)",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 19.2
+   }
+  ],
+  "229": [
+   {
+    "file": "CRAWFRD",
+    "song": "CRAWFRD",
+    "title": "Earl Crawford",
+    "source": "Bronson #229 2",
+    "key": "G",
+    "meter": "3/4",
+    "seconds": 21.6
+   }
+  ],
+  "231": [
+   {
+    "file": "EARLERRL",
+    "song": "EARLERRL",
+    "title": "The Earl of Errol",
+    "source": "",
+    "key": "G",
+    "meter": "4/4",
+    "seconds": 38.4
+   }
+  ],
+  "232": [
+   {
+    "file": "RICHILAD",
+    "song": "RICHILAD",
+    "title": "Richie's Lady",
+    "source": "Bronson 3 a1",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 18.9
+   }
+  ],
+  "233": [
+   {
+    "file": "MILTIFTY",
+    "song": "MILTIFTY",
+    "title": "Mill o' Tifty's Annie",
+    "source": "Child #233",
+    "key": "G",
+    "meter": "3/2",
+    "seconds": 27.0
+   }
+  ],
+  "236": [
+   {
+    "file": "LAIRDDRM",
+    "song": "LAIRDDRM",
+    "title": "The Laird O' Drum",
+    "source": "",
+    "key": "C",
+    "meter": "C",
+    "seconds": 19.2
+   }
+  ],
+  "237": [
+   {
+    "file": "DUKGORD",
+    "song": "DUKGORD",
+    "title": "The Duke of Gordon's Daughter",
+    "source": "Bronson #237 #7",
+    "key": "F",
+    "meter": "2/4",
+    "seconds": 15.0
+   }
+  ],
+  "238": [
+   {
+    "file": "GLENLOG",
+    "song": "GLENLOG",
+    "title": "Glenlogie",
+    "source": "",
+    "key": "Bb",
+    "meter": "3/4",
+    "seconds": 43.2
+   },
+   {
+    "file": "GLENLOG2",
+    "song": "GLENLOG2",
+    "title": "Glenlogie",
+    "source": "",
+    "key": "G",
+    "meter": "6/8",
+    "seconds": 7.5
+   }
+  ],
+  "239": [
+   {
+    "file": "ANGORDON",
+    "song": "ANGORDON",
+    "title": "Annachie Gordon",
+    "source": "Child #239",
+    "key": "D",
+    "meter": "4/4",
+    "seconds": 76.2
+   }
+  ],
+  "240": [
+   {
+    "file": "RANTNLAD",
+    "song": "RANTNLAD",
+    "title": "The Rantin' Laddie",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 11.7
+   }
+  ],
+  "243": [
+   {
+    "file": "HOUSCRP3",
+    "song": "HOUSCRP3",
+    "title": "The Demon Lover",
+    "source": "",
+    "key": "F",
+    "meter": "4/4",
+    "seconds": 18.6
+   },
+   {
+    "file": "HOUSCARP",
+    "song": "HOUSCARP",
+    "title": "House Carpenter or Demon Lover",
+    "source": "tune from Sedley, Seeds of Love",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 19.2
+   },
+   {
+    "file": "HOUSCRP2",
+    "song": "HOUSCRP2",
+    "title": "The House Carpenter",
+    "source": "",
+    "key": "E",
+    "meter": "4/4",
+    "seconds": 21.0
+   }
+  ],
+  "245": [
+   {
+    "file": "YNGALAN2",
+    "song": "YNGALAN2",
+    "title": "Young Allan",
+    "source": "Bronson two",
+    "key": "C",
+    "meter": "6/8",
+    "seconds": 14.4
+   }
+  ],
+  "247": [
+   {
+    "file": "CROPPIE2",
+    "song": "LADYFRAN",
+    "title": "Croppy Boy (II)",
+    "source": "",
+    "key": "F",
+    "meter": "3/4",
+    "seconds": 24.8
+   }
+  ],
+  "248": [
+   {
+    "file": "GREYCOCK",
+    "song": "GREYCOCK",
+    "title": "The Lover's Ghost",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 18.3
+   }
+  ],
+  "250": [
+   {
+    "file": "HENRMRT3",
+    "song": "HENRMRT3",
+    "title": "Andy Bardeen",
+    "source": "Bronson #250 8",
+    "key": "C",
+    "meter": "6/8",
+    "seconds": 14.4
+   },
+   {
+    "file": "HENRMART",
+    "song": "HENRMART",
+    "title": "Henry Martin",
+    "source": "",
+    "key": "F",
+    "meter": "3/4",
+    "seconds": 34.8
+   },
+   {
+    "file": "HENRMRT4",
+    "song": "HENRMRT4",
+    "title": "Andrew Bordeen",
+    "source": "",
+    "key": "Bb",
+    "meter": "6/8",
+    "seconds": 15.0
+   }
+  ],
+  "257": [
+   {
+    "file": "BURGUNDN",
+    "song": "BURGUNDN",
+    "title": "Burgundian Carol",
+    "source": "",
+    "key": "F",
+    "meter": "3/4",
+    "seconds": 60.6
+   }
+  ],
+  "267": [
+   {
+    "file": "LAIRDLIN",
+    "song": "LAIRDLIN",
+    "title": "",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 18.6
+   }
+  ],
+  "269": [
+   {
+    "file": "LADYDIAM",
+    "song": "LADYDIAM",
+    "title": "Lady Diamond",
+    "source": "",
+    "key": "C",
+    "meter": "2/2",
+    "seconds": 21.6
+   }
+  ],
+  "272": [
+   {
+    "file": "SUFFMRC3",
+    "song": "SUFFMRC4",
+    "title": "The Holland Handkerchief",
+    "source": "",
+    "key": "F",
+    "meter": "3/2",
+    "seconds": 30.0
+   },
+   {
+    "file": "SUFFMRC2",
+    "song": "SUFFMRC2",
+    "title": "The Suffolk Miracle",
+    "source": "Bronson 1a",
+    "key": "C",
+    "meter": "3/2",
+    "seconds": 28.8
+   },
+   {
+    "file": "SUFFMRCL",
+    "song": "SUFFMRCL",
+    "title": "The Suffolk Miracle 2",
+    "source": "",
+    "key": "D",
+    "meter": "3/2",
+    "seconds": 25.8
+   }
+  ],
+  "274": [
+   {
+    "file": "GOODMAN2",
+    "song": "GOODMAN2",
+    "title": "Shickered as He Could Be",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 28.2
+   }
+  ],
+  "275": [
+   {
+    "file": "BARDOOR",
+    "song": "BARDOOR",
+    "title": "The Barring O' the Door",
+    "source": "",
+    "key": "G",
+    "meter": "6/8",
+    "seconds": 28.8
+   },
+   {
+    "file": "BARDOOR4",
+    "song": "BARDOOR4",
+    "title": "Get Up and Bar the Door",
+    "source": "",
+    "key": "F",
+    "meter": "2/4",
+    "seconds": 11.2
+   }
+  ],
+  "276": [
+   {
+    "file": "FRIARWEL",
+    "song": "FRIARWEL",
+    "title": "The Friar in the Well",
+    "source": "Tune from Playford 1651",
+    "key": "F",
+    "meter": "6/8",
+    "seconds": 28.8
+   },
+   {
+    "file": "FRIARWL2",
+    "song": "FRIARWL2",
+    "title": "The Friar in the Well",
+    "source": "Bronson B",
+    "key": "G",
+    "meter": "6/8",
+    "seconds": 28.8
+   }
+  ],
+  "277": [
+   {
+    "file": "WETHSKIN",
+    "song": "WETHSKIN",
+    "title": "The Wife Wrapt in Wether's Skin",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 29.1
+   },
+   {
+    "file": "DANNDOO",
+    "song": "DANNDOO",
+    "title": "Dan Doo",
+    "source": "",
+    "key": "F",
+    "meter": "2/4",
+    "seconds": 19.8
+   },
+   {
+    "file": "RISSROSS",
+    "song": "RISSROSS",
+    "title": "Risselty Rosselty",
+    "source": "",
+    "key": "C",
+    "meter": "6/8",
+    "seconds": 21.6
+   },
+   {
+    "file": "COOPFIFE",
+    "song": "COOPFIFE",
+    "title": "Wee Cooper O' Fife",
+    "source": "",
+    "key": "F",
+    "meter": "6/8",
+    "seconds": 15.0
+   }
+  ],
+  "278": [
+   {
+    "file": "DEVLWIF2",
+    "song": "DEVLWIF2",
+    "title": "Devil and the Farmer's Wife",
+    "source": "",
+    "key": "C",
+    "meter": "6/8",
+    "seconds": 23.1
+   },
+   {
+    "file": "DEVLWIF4",
+    "song": "DEVLWIF4",
+    "title": "Kellyburnbraes",
+    "source": "From Oxford book of Ballads, Kinsley",
+    "key": "Eb",
+    "meter": "6/8",
+    "seconds": 21.6
+   },
+   {
+    "file": "DEVLWIF3",
+    "song": "DEVLWIF3",
+    "title": "Tee Roo",
+    "source": "",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 21.4
+   }
+  ],
+  "279": [
+   {
+    "file": "BEGGR4",
+    "song": "BEGGR4",
+    "title": "The Beggar Man",
+    "source": "",
+    "key": "F",
+    "meter": "4/4",
+    "seconds": 25.8
+   },
+   {
+    "file": "BEGGAR3",
+    "song": "BEGGAR3",
+    "title": "The Beggarman",
+    "source": "",
+    "key": "C",
+    "meter": "6/8",
+    "seconds": 17.6
+   },
+   {
+    "file": "BEGGARDH",
+    "song": "BEGGARDH",
+    "title": "Johnny Dhu",
+    "source": "",
+    "key": "Ab",
+    "meter": "6/8",
+    "seconds": 36.2
+   },
+   {
+    "file": "BEGGAR1",
+    "song": "BEGGAR1",
+    "title": "The Jolly Beggar",
+    "source": "",
+    "key": "Bb",
+    "meter": "4/4",
+    "seconds": 51.5
+   }
+  ],
+  "281": [
+   {
+    "file": "KEACHCRL",
+    "song": "KEACHCRL",
+    "title": "The Keach in the Creel",
+    "source": "",
+    "key": "G",
+    "meter": "2/4",
+    "seconds": 21.9
+   },
+   {
+    "file": "KEACHCR3",
+    "song": "KEACHCR3",
+    "title": "The Little Scotch Girl",
+    "source": "",
+    "key": "C",
+    "meter": "2/2",
+    "seconds": 24.0
+   }
+  ],
+  "282": [
+   {
+    "file": "JOCKLEG",
+    "song": "JOCKLEG",
+    "title": "Jock the Leg",
+    "source": "Bronson #282 A2",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 28.2
+   }
+  ],
+  "283": [
+   {
+    "file": "CRFTFARM",
+    "song": "CRFTFARM",
+    "title": "The Crafty Farmer",
+    "source": "",
+    "key": "C",
+    "meter": "6/8",
+    "seconds": 27.0
+   }
+  ],
+  "284": [
+   {
+    "file": "JOHNDORY",
+    "song": "JOHNDORY",
+    "title": "John Dory",
+    "source": "Bronson #284 a1",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 27.3
+   }
+  ],
+  "286": [
+   {
+    "file": "VANTYGL8",
+    "song": "VANTYGL8",
+    "title": "The Bold Trellitee",
+    "source": "Tune (in Folk Somgs of the Catskills) has B natural",
+    "key": "F",
+    "meter": "4/4",
+    "seconds": 28.8
+   },
+   {
+    "file": "VANTYGL1",
+    "song": "VANTYGL1",
+    "title": "The Golden Vanity",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 25.2
+   },
+   {
+    "file": "VANTYGL3",
+    "song": "VANTYGL3",
+    "title": "The Golden Vanity",
+    "source": "",
+    "key": "C",
+    "meter": "2/4",
+    "seconds": 26.2
+   },
+   {
+    "file": "VANTYGL6",
+    "song": "VANTYGL6",
+    "title": "Golden Vanity",
+    "source": "",
+    "key": "C",
+    "meter": "2/4",
+    "seconds": 20.4
+   },
+   {
+    "file": "VANTYGL2",
+    "song": "VANTYGL2",
+    "title": "The Green Willow Tree",
+    "source": "",
+    "key": "D",
+    "meter": "4/4",
+    "seconds": 30.9
+   },
+   {
+    "file": "VANTYGL4",
+    "song": "VANTYGL4",
+    "title": "The Low-Down Lonesome Low",
+    "source": "",
+    "key": "C",
+    "meter": "2/4",
+    "seconds": 261.9
+   },
+   {
+    "file": "VANTYGL7",
+    "song": "VANTYGL7",
+    "title": "The Lowlands Low (7)",
+    "source": "From Ozark Folksongs, Randolph",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 31.2
+   },
+   {
+    "file": "VANTYGL5",
+    "song": "VANTYGL5",
+    "title": "The Sweet Kumadee",
+    "source": "",
+    "key": "C",
+    "meter": "6/8",
+    "seconds": 26.6
+   }
+  ],
+  "287": [
+   {
+    "file": "WRDNBW2",
+    "song": "WRDNBW2",
+    "title": "Captain Ward",
+    "source": "",
+    "key": "D",
+    "meter": "6/8",
+    "seconds": 14.4
+   },
+   {
+    "file": "WRDRNBOW",
+    "song": "WRDRNBOW",
+    "title": "Captain Ward and the Rainbow",
+    "source": "",
+    "key": "G",
+    "meter": "6/8",
+    "seconds": 28.2
+   }
+  ],
+  "289": [
+   {
+    "file": "MERMDFRI",
+    "song": "MERMDFRI",
+    "title": "The Mermaid",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 45.0
+   },
+   {
+    "file": "MERMAID3",
+    "song": "MERMAID3",
+    "title": "",
+    "source": "",
+    "key": "Bb",
+    "meter": "4/4",
+    "seconds": 21.0
+   },
+   {
+    "file": "MERMAID5",
+    "song": "MERMAID5",
+    "title": "The Mermaid (5)",
+    "source": "",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 19.8
+   },
+   {
+    "file": "WAVESSEA",
+    "song": "WAVESSEA",
+    "title": "Waves on the Sea",
+    "source": "",
+    "key": "A",
+    "meter": "4/4",
+    "seconds": 39.6
+   }
+  ],
+  "291": [
+   {
+    "file": "CHDOWLET",
+    "song": "CHDOWLET",
+    "title": "Chyld Owlet",
+    "source": "Transcribed by AS from singing of Ewan MacColl",
+    "key": "G",
+    "meter": "4/4",
+    "seconds": 18.6
+   }
+  ],
+  "293": [
+   {
+    "file": "JOCKHZLD",
+    "song": "JOCKHZLD",
+    "title": "Jock o' Hazeldine",
+    "source": "",
+    "key": "G",
+    "meter": "2/4",
+    "seconds": 20.1
+   },
+   {
+    "file": "JOCKHZL2",
+    "song": "JOCKHZL2",
+    "title": "Young Johnny of Hazelgreen",
+    "source": "",
+    "key": "G",
+    "meter": "6/8",
+    "seconds": 29.1
+   }
+  ],
+  "295": [
+   {
+    "file": "AMIDOCTR",
+    "song": "AMIDOCTR",
+    "title": "Am I the Doctor?",
+    "source": "Henry, p.374",
+    "key": "Eb",
+    "meter": "4/4",
+    "seconds": 21.6
+   },
+   {
+    "file": "BRNGIRL2",
+    "song": "BRNGIRL2",
+    "title": "Brown Girl",
+    "source": "From Bronson",
+    "key": "C",
+    "meter": "4/4",
+    "seconds": 19.5
+   },
+   {
+    "file": "BRNGIRL",
+    "song": "BRNGIRL",
+    "title": "Brown Girl (Child #295)",
+    "source": "From Sharp, English Folk Songs from Southern Appalachians",
+    "key": "C",
+    "meter": "3/4",
+    "seconds": 30.6
+   }
+  ],
+  "299": [
+   {
+    "file": "TROOPRMD",
+    "song": "TROOPRMD",
+    "title": "The Trooper and the Maid",
+    "source": "this melody from The Scottish Folksinger, Buchan & Hall",
+    "key": "F",
+    "meter": "2/4",
+    "seconds": 10.5
+   }
+  ]
+ },
+ "youtube": {
+  "1": {
+   "id": "yS8NjrzEvEE",
+   "title": "Riddles Wisely Expounded",
+   "channel": "Jean Redpath - Topic"
+  },
+  "2": {
+   "id": "94fR6zdjEfc",
+   "title": "The Elfin Knight",
+   "channel": "Ewan Maccoll - Topic"
+  },
+  "3": {
+   "id": "ZFFQXwndmP0",
+   "title": "False Knight On the Road",
+   "channel": "Tim Hart & Maddy Prior - Topic"
+  },
+  "4": {
+   "id": "pxsW6H6i4AM",
+   "title": "Lady Isabel and the Elf Knight",
+   "channel": "Joe Hickerson - Topic"
+  },
+  "5": {
+   "id": "u9ELP7dnShQ",
+   "title": "Child Ballad #005 - Gil Brenton",
+   "channel": "Daniel Kelly Folk Music"
+  },
+  "6": {
+   "id": "pVeq-pcCZzY",
+   "title": "Willie's Lady",
+   "channel": "MARTIN CARTHY - Topic"
+  },
+  "7": {
+   "id": "igGkel5yLY8",
+   "title": "Earl Brand (Child No. 7)",
+   "channel": "Custer LaRue - Topic"
+  },
+  "8": {
+   "id": "tZlp4laMz8Q",
+   "title": "Erlington [ Child Ballad No. 8 ]",
+   "channel": "Daniel Kelly Folk Music"
+  },
+  "9": {
+   "id": "FEBluY2YgB0",
+   "title": "Fair Flower of Northumberland",
+   "channel": "Ed Trickett - Topic"
+  },
+  "10": {
+   "id": "xGctakKMUgc",
+   "title": "The Twa Sisters (The Two Sisters)",
+   "channel": "Paul Clayton - Topic"
+  },
+  "11": {
+   "id": "nCGO_cl_Uuc",
+   "title": "The Cruel Brother",
+   "channel": "Archie Fisher - Topic"
+  },
+  "12": {
+   "id": "KGa-lfz5Vbw",
+   "title": "Martin Carthy - Lord Randall",
+   "channel": "Robert Lee"
+  },
+  "13": {
+   "id": "4TYRYjfj8B0",
+   "title": "Edward (Child Ballad #13)",
+   "channel": "Daniel Kelly Folk Music"
+  },
+  "14": {
+   "id": "7sGdOGkVNYI",
+   "title": "The Bonnie Banks O' Fordie",
+   "channel": "Old Blind Dogs - Topic"
+  },
+  "15": {
+   "id": "Xm3fuLk6EQo",
+   "title": "Leesome Brand [ Child Ballad No. 15 ]",
+   "channel": "Daniel Kelly Folk Music"
+  },
+  "16": {
+   "id": "z0-HpdKlxLQ",
+   "title": "Sheath & Knife",
+   "channel": "Maddy Prior - Topic"
+  },
+  "17": {
+   "id": "fvT7btg6kxY",
+   "title": "Hind Horn",
+   "channel": "Maddy Prior - Topic"
+  },
+  "18": {
+   "id": "cJpY_Fk_IYk",
+   "title": "Sir Lionel (Child 18)",
+   "channel": "Buna Hicks - Topic"
+  },
+  "19": {
+   "id": "s4JZp4jQtvo",
+   "title": "King Orfeo",
+   "channel": "Carol Wood - Topic"
+  },
+  "20": {
+   "id": "876ixId2UdI",
+   "title": "The Cruel Mother (Bonus Track)",
+   "channel": "Anne Briggs - Topic"
+  },
+  "21": {
+   "id": "5ddCQEGLvuU",
+   "title": "The Maid and The Palmer",
+   "channel": "Steeleye Span - Topic"
+  },
+  "22": {
+   "id": "T5_-M1ZcSH0",
+   "title": "St Stephen and Herod [ Child Ballad No. 22 ]",
+   "channel": "Daniel Kelly Folk Music"
+  },
+  "23": {
+   "id": "aWxpKtU8rJc",
+   "title": "Judas [ Child Ballad No. 23 ]",
+   "channel": "Daniel Kelly Folk Music"
+  },
+  "24": {
+   "id": "Ick0uvA2M8M",
+   "title": "Bonnie Annie (Child 24)",
+   "channel": "Ewan Maccoll - Topic"
+  },
+  "25": {
+   "id": "CUC4_L32Lmo",
+   "title": "Willie's Lyke-Wake",
+   "channel": "Ewan Maccoll - Topic"
+  },
+  "26": {
+   "id": "elRDBUKdyP8",
+   "title": "Three Ravens (Live Version)",
+   "channel": "Peter, Paul and Mary"
+  },
+  "27": {
+   "id": "Zpib1iVvmTA",
+   "title": "The Whummil Bore [ Child Ballad No. 27 ]",
+   "channel": "Daniel Kelly Folk Music"
+  },
+  "28": {
+   "id": "wEju3j4dKGs",
+   "title": "Burd Ellen and Young Tamlane [ Child Ballad No. 28 ]",
+   "channel": "Daniel Kelly Folk Music"
+  },
+  "29": {
+   "id": "2YysSM03qek",
+   "title": "Allan Taylor - The Boy and The Mantle",
+   "channel": "60sMentality"
+  },
+  "30": {
+   "id": "Iotl9Kqn5fE",
+   "title": "1866. King Arthur and King Cornwall (Child #30) - (Traditional English)",
+   "channel": "raymondcrooke"
+  },
+  "31": {
+   "id": "I6x1WqGRjus",
+   "title": "The Wife of Bath's Tale: the Marriage of Sir Gawain",
+   "channel": "Lisa Theriot - Topic"
+  },
+  "32": {
+   "id": "QMqPhPSmcPk",
+   "title": "King Henry (2009 Remaster)",
+   "channel": "Steeleye Span - Topic"
+  },
+  "33": {
+   "id": "gK8a52C71EQ",
+   "title": "Kempy Kate",
+   "channel": "Jock Tamson's Bairns - Topic"
+  },
+  "34": {
+   "id": "dAjqaxag94g",
+   "title": "Kemp Owen",
+   "channel": "Fay Hield"
+  },
+  "35": {
+   "id": "Sgc0noZzD-E",
+   "title": "Alison Gross (2009 Remaster)",
+   "channel": "Steeleye Span - Topic"
+  },
+  "36": {
+   "id": "NRoYkcw8XOA",
+   "title": "The Laily Worm and the Machrel of the Sea (F.F.S. No. 4)",
+   "channel": "Andy Faint - Topic"
+  },
+  "37": {
+   "id": "qvbQXk-B0oU",
+   "title": "Thomas the Rhymer",
+   "channel": "Archie Fisher - Topic"
+  },
+  "38": {
+   "id": "03EI5HD4Ev4",
+   "title": "The Wee Wee Man (2009 Remaster)",
+   "channel": "Steeleye Span - Topic"
+  },
+  "39": {
+   "id": "47z5n7p9B3I",
+   "title": "Tam Lin",
+   "channel": "Fairport Convention - Topic"
+  },
+  "40": {
+   "id": "dw0gfjrNhog",
+   "title": "The Queen of Elfan's Nourice",
+   "channel": "Release - Topic"
+  },
+  "41": {
+   "id": "dCA2p_4tDgk",
+   "title": "1916. Hind Etin (Child #41) - (Traditional Scottish)",
+   "channel": "raymondcrooke"
+  },
+  "42": {
+   "id": "YLPzNklkWxQ",
+   "title": "Clerk Colven",
+   "channel": "Frankie Armstrong - Topic"
+  },
+  "43": {
+   "id": "ksMPkOzExeQ",
+   "title": "The Broomfield Hill",
+   "channel": "MARTIN CARTHY - Topic"
+  },
+  "44": {
+   "id": "lMgCR5fi6xM",
+   "title": "The Two Magicians",
+   "channel": "MARTIN CARTHY - Topic"
+  },
+  "45": {
+   "id": "Zkqgt-BgOyU",
+   "title": "King John and the Abbot of Canterbury / Jump at the Sun",
+   "channel": "Chris Foster - Topic"
+  },
+  "46": {
+   "id": "xnrzOX8Uz24",
+   "title": "Capt. Wedderburn's Courtship",
+   "channel": "Tim Hart & Maddy Prior - Topic"
+  },
+  "47": {
+   "id": "ESiLxX0czWc",
+   "title": "1336. Proud Lady Margaret (Child 47) - (Traditional Scottish)",
+   "channel": "raymondcrooke"
+  },
+  "48": {
+   "id": "GcwjMIjHy4M",
+   "title": "Death of Young Andrew",
+   "channel": "MARTIN CARTHY - Topic"
+  },
+  "49": {
+   "id": "rHTHQ6Zk1iQ",
+   "title": "The Twa Brithers",
+   "channel": "Silly Wizard - Topic"
+  },
+  "50": {
+   "id": "YOQXIO6gtgc",
+   "title": "The Bonny Hind",
+   "channel": "MARTIN CARTHY - Topic"
+  },
+  "51": {
+   "id": "4Z3xezNmEqM",
+   "title": "Lucy Wan",
+   "channel": "MARTIN CARTHY - Topic"
+  },
+  "52": {
+   "id": "C7A-6QV2nx8",
+   "title": "King's Daughter Jane",
+   "channel": "Hedy West - Topic"
+  },
+  "53": {
+   "id": "8OqSslwzwbo",
+   "title": "Young Beichan - Child 53",
+   "channel": "Ewan Maccoll - Topic"
+  },
+  "54": {
+   "id": "C31BZ0vXAVY",
+   "title": "The Cherry Tree Carol (2017 Remaster)",
+   "channel": "Pentangle"
+  },
+  "55": {
+   "id": "SIKQcV6bagc",
+   "title": "The Carnal and the Crane",
+   "channel": "Peter Bellamy - Topic"
+  },
+  "56": {
+   "id": "ZIh0cRfIUFY",
+   "title": "Dives & Lazarus",
+   "channel": "Maddy Prior - Topic"
+  },
+  "57": {
+   "id": "XefKl6d2rQs",
+   "title": "Mick Ryan and Jon Burge - Brown Robin's Confession",
+   "channel": "anon anon"
+  },
+  "58": {
+   "id": "ChyPF1iosLI",
+   "title": "Sir Patrick Spens",
+   "channel": "Fairport Convention - Topic"
+  },
+  "59": {
+   "id": "s7BpF7dl30U",
+   "title": "Sir Aldingar",
+   "channel": "Kornog - Topic"
+  },
+  "60": {
+   "id": "1KjpBBxx2Hw",
+   "title": "1946. King Estmere (Child #60) - (Traditional English)",
+   "channel": "raymondcrooke"
+  },
+  "61": {
+   "id": "d7KRnXwLWCo",
+   "title": "1950. Sir Cawline (Child #61) – (Traditional English)",
+   "channel": "raymondcrooke"
+  },
+  "62": {
+   "id": "cU-a-a2bVFE",
+   "title": "Fair Annie",
+   "channel": "Sylvia Barnes - Topic"
+  },
+  "63": {
+   "id": "AbVPId7FTP0",
+   "title": "Child Waters",
+   "channel": "Judy Cook-Listen to the Bones"
+  },
+  "64": {
+   "id": "zHxnXdrQ_MU",
+   "title": "Fair Janet & Young James",
+   "channel": "Jack Rutter - Topic"
+  },
+  "65": {
+   "id": "U3jgyOkrjjk",
+   "title": "Lady Maisry",
+   "channel": "Lady Maisery - Topic"
+  },
+  "66": {
+   "id": "0wOpHmwlmeg",
+   "title": "1963. Lord Ingram and Child Wyet (Child #66)",
+   "channel": "raymondcrooke"
+  },
+  "67": {
+   "id": "E_MOFiI_pXY",
+   "title": "Glasgerion [ Child Ballad No. 67 ]",
+   "channel": "Daniel Kelly Folk Music"
+  },
+  "68": {
+   "id": "cboPSc-GFjg",
+   "title": "Young Hunting",
+   "channel": "Brian Peters - Topic"
+  },
+  "69": {
+   "id": "kNP0ub-pEdM",
+   "title": "Clerk Saunders",
+   "channel": "June Tabor - Topic"
+  },
+  "70": {
+   "id": "vHdTRHZlVW8",
+   "title": "Child Ballad #070 - Willie and Lady Maisry",
+   "channel": "Daniel Kelly Folk Music"
+  },
+  "71": {
+   "id": "_HtRRW9yN9w",
+   "title": "1968. The Bent Sae Broun (Child #71) - Traditional Scottish",
+   "channel": "raymondcrooke"
+  },
+  "72": {
+   "id": "lPUq31yNYnM",
+   "title": "1971. The Clerk's Twa Sons Of Oxenford (Child #72) - Traditional Scottish",
+   "channel": "raymondcrooke"
+  },
+  "73": {
+   "id": "7FVHJ55tUiY",
+   "title": "Lord Thomas and Fair Ellinor",
+   "channel": "Hermes Nye - Topic"
+  },
+  "74": {
+   "id": "p9XXVUzUaXM",
+   "title": "Fair Margaret and Sweet William",
+   "channel": "Pete Seeger - Topic"
+  },
+  "75": {
+   "id": "xYBlJDPRpZs",
+   "title": "Lord Lovel",
+   "channel": "Peggy Seeger - Topic"
+  },
+  "76": {
+   "id": "RQKaQv2kbjw",
+   "title": "The Lass of Roch Royal",
+   "channel": "Tom Paley - Topic"
+  },
+  "77": {
+   "id": "BezT5PI7GZg",
+   "title": "Sweet William's Ghost",
+   "channel": "Bill Shute - Topic"
+  },
+  "78": {
+   "id": "L--qiD1Nzgo",
+   "title": "The Unquiet Grave",
+   "channel": "Gryphon - Topic"
+  },
+  "79": {
+   "id": "WpLNB0sbwlc",
+   "title": "The Wife of Ushers Well (2009 Remaster)",
+   "channel": "Steeleye Span - Topic"
+  },
+  "80": {
+   "id": "uY0_Ec0sa4E",
+   "title": "1976. Old Robin of Portingale (Child #80) - Traditional English",
+   "channel": "raymondcrooke"
+  },
+  "81": {
+   "id": "dtVkYMFueWs",
+   "title": "Matty Groves",
+   "channel": "Fairport Convention - Topic"
+  },
+  "82": {
+   "id": "R-JcUzjpOew",
+   "title": "Bonny Birdy",
+   "channel": "Steeleye Span - Topic"
+  },
+  "83": {
+   "id": "09TeWfDkED8",
+   "title": "Gil Morice (Child 83) (1982) - Ewan MacColl",
+   "channel": "Reynard the Fox"
+  },
+  "84": {
+   "id": "Om5wGY9ty_Y",
+   "title": "Barbara Allen",
+   "channel": "Art Garfunkel - Topic"
+  },
+  "85": {
+   "id": "kP7LJHHsaUY",
+   "title": "Lady Alice",
+   "channel": "Kelsie Nicole - Topic"
+  },
+  "86": {
+   "id": "LlDZOCcP3W4",
+   "title": "Young Benjie",
+   "channel": "Rosaleen Gregory - Topic"
+  },
+  "87": {
+   "id": "gAzf4ljE6VU",
+   "title": "Prince Robert",
+   "channel": "Ewan McLennan - Topic"
+  },
+  "88": {
+   "id": "ZuqLRLygXaM",
+   "title": "Young Johnstone",
+   "channel": "June Tabor - Topic"
+  },
+  "89": {
+   "id": "OwDeUokmlpg",
+   "title": "King O'Luve - Fause Foodrage",
+   "channel": "Hermes Nye - Topic"
+  },
+  "90": {
+   "id": "tM4qIxDKEig",
+   "title": "Jellon Graeme",
+   "channel": "Peggy Seeger - Topic"
+  },
+  "91": {
+   "id": "MLv7rZVcLY0",
+   "title": "The Fair Maid of Wallington (2019 Remaster)",
+   "channel": "June Tabor - Topic"
+  },
+  "92": {
+   "id": "wBZNRvwYVBY",
+   "title": "Child Ballad #092 - Bonny Bee Hom",
+   "channel": "Daniel Kelly Folk Music"
+  },
+  "93": {
+   "id": "NIhfgRKgh-s",
+   "title": "Bo Lamkin",
+   "channel": "Frank Proffitt - Topic"
+  },
+  "94": {
+   "id": "j0bAN3TCsTc",
+   "title": "Young Waters",
+   "channel": "June Tabor - Topic"
+  },
+  "95": {
+   "id": "-nGiDUsiH8s",
+   "title": "The Maid Freed From The Gallows",
+   "channel": "John Jacob Niles - Topic"
+  },
+  "96": {
+   "id": "m_8efQe1gcs",
+   "title": "The Gay Goss Hawk",
+   "channel": "Alison McMorland - Topic"
+  },
+  "97": {
+   "id": "BxHsPR-wZcw",
+   "title": "Child Ballad #097 - Brown Robin",
+   "channel": "Daniel Kelly Folk Music"
+  },
+  "98": {
+   "id": "g5Z7s6bwSo0",
+   "title": "Brown Adam",
+   "channel": "MARTIN CARTHY - Topic"
+  },
+  "99": {
+   "id": "Gw-5uNn9_gY",
+   "title": "Johnny Scott",
+   "channel": "Susan McKeown - Topic"
+  },
+  "100": {
+   "id": "2KnYEuP39us",
+   "title": "Willie O Winsbury (2019 Remaster)",
+   "channel": "Anne Briggs - Topic"
+  },
+  "102": {
+   "id": "V7KYJppfUMQ",
+   "title": "2024. Willie and Earl Richard's Daughter (Child #102) – Traditional English",
+   "channel": "raymondcrooke"
+  },
+  "103": {
+   "id": "DGPJdIA57Rs",
+   "title": "Rose the Red and White Lily",
+   "channel": "Daniel Kelly Folk Music"
+  },
+  "104": {
+   "id": "Z5LG9Le04P8",
+   "title": "Prince Heathen",
+   "channel": "MARTIN CARTHY - Topic"
+  },
+  "105": {
+   "id": "sXJx8eTHyJw",
+   "title": "Bailiff's Daughter of Islington",
+   "channel": "Paul Clayton - Topic"
+  },
+  "106": {
+   "id": "yKDvJdUr92w",
+   "title": "Famous Flower of Serving Men",
+   "channel": "MARTIN CARTHY - Topic"
+  },
+  "107": {
+   "id": "m1sK8l1B4ZU",
+   "title": "2042. Will Stewart and John (Child #107) – Traditional Scottish",
+   "channel": "raymondcrooke"
+  },
+  "108": {
+   "id": "72dDv3H7SwM",
+   "title": "2046. Christopher White (Child #108) Traditional English",
+   "channel": "raymondcrooke"
+  },
+  "109": {
+   "id": "_J7DDJOrqQs",
+   "title": "2049. Tom Potts (Child #109) Traditional English",
+   "channel": "raymondcrooke"
+  },
+  "110": {
+   "id": "Udo9tt8No7M",
+   "title": "The Knight and the Shepherd's Daughter",
+   "channel": "John Roberts & Tony Barrand - Topic"
+  },
+  "111": {
+   "id": "zFZnaY9BfqU",
+   "title": "2056. The Crow and the Pie (Child #111) - Traditional English",
+   "channel": "raymondcrooke"
+  },
+  "112": {
+   "id": "eN3XA_ry9hI",
+   "title": "Blow Away the Morning Dew",
+   "channel": "Lindsay Straw - Topic"
+  },
+  "113": {
+   "id": "D9z2QtqHMvI",
+   "title": "Great Silkie of the Sules Skerry",
+   "channel": "Maddy Prior - Topic"
+  },
+  "114": {
+   "id": "lZ0B_TBuFX0",
+   "title": "Johnnie Cock (Child 114) - Gordeanna McCulloch",
+   "channel": "Reynard the Fox"
+  },
+  "115": {
+   "id": "RtaCL6joSek",
+   "title": "2071. Robyn and Gandeleyn (Child #115) Traditional English",
+   "channel": "raymondcrooke"
+  },
+  "116": {
+   "id": "eDHcSXZp4bQ",
+   "title": "2086. Adam Bell, Clim of the Clough and William of Cloudesly (Child #116) Trad. English",
+   "channel": "raymondcrooke"
+  },
+  "117": {
+   "id": "o_FiUMJZvak",
+   "title": "2083. A Gest of Robyn Hode (Child #117) - Traditional English",
+   "channel": "raymondcrooke"
+  },
+  "118": {
+   "id": "iVHldqJlel4",
+   "title": "2112. Robin Hood and Guy of Gisborne (Child #118) Traditional English",
+   "channel": "raymondcrooke"
+  },
+  "119": {
+   "id": "nfxehytrVr0",
+   "title": "2114. Robin Hood and the Monk (Child #119) Traditional English",
+   "channel": "raymondcrooke"
+  },
+  "120": {
+   "id": "20pJjl9s9IU",
+   "title": "Robin Hood's Death and Burial",
+   "channel": "Wallace House - Topic"
+  },
+  "121": {
+   "id": "KLOkF9DqteA",
+   "title": "2118. Robin Hood and the Potter (Child #121) Traditional English",
+   "channel": "raymondcrooke"
+  },
+  "122": {
+   "id": "rYGuo4MPpzA",
+   "title": "1668. Robin Hood and the Butcher (Child #122)",
+   "channel": "raymondcrooke"
+  },
+  "123": {
+   "id": "alPeX24jpXA",
+   "title": "2120. Robin Hood and the Curtal Friar (Child #123)",
+   "channel": "raymondcrooke"
+  },
+  "124": {
+   "id": "u2JABXBNwO8",
+   "title": "The Jolly Pinder of Wakefield",
+   "channel": "Wallace House - Topic"
+  },
+  "125": {
+   "id": "gVjZ_TqQuD8",
+   "title": "Robin Hood and Little John",
+   "channel": "Wallace House - Topic"
+  },
+  "126": {
+   "id": "GUq35g-M2IU",
+   "title": "Robin Hood & the Tanner",
+   "channel": "Roy Harris - Topic"
+  },
+  "127": {
+   "id": "d6UJE6zjGwY",
+   "title": "2129. Robin Hood and the Tinker (Child #127) Traditional English",
+   "channel": "raymondcrooke"
+  },
+  "128": {
+   "id": "EK-sm6xNM8Y",
+   "title": "2132. Robin Hood and Will Scarlet (Child #128)",
+   "channel": "raymondcrooke"
+  },
+  "129": {
+   "id": "JnrN2KiTsbw",
+   "title": "2134. Robin Hood and the Prince of Aragon (Child #129)",
+   "channel": "raymondcrooke"
+  },
+  "130": {
+   "id": "y6c1itpmBII",
+   "title": "2139. Robin Hood and the Scotchman (Child #130) Traditional English",
+   "channel": "raymondcrooke"
+  },
+  "131": {
+   "id": "-3i3QHF8mQw",
+   "title": "Robin Hood and the Ranger",
+   "channel": "Wallace House - Topic"
+  },
+  "132": {
+   "id": "zpDe__laHTo",
+   "title": "Robin Hood And The Peddlar",
+   "channel": "Barry Dransfield - Topic"
+  },
+  "133": {
+   "id": "cXeCJCR6qFE",
+   "title": "2146. Robin Hood and the Beggar 1 (Child #133)",
+   "channel": "raymondcrooke"
+  },
+  "134": {
+   "id": "OacwcxKsF9w",
+   "title": "2158. Robin Hood and the Beggar 2 (Child #134) Traditional Scottish",
+   "channel": "raymondcrooke"
+  },
+  "135": {
+   "id": "zbOgtjohhrA",
+   "title": "2162. Robin Hood and the Shepherd (Child #135)",
+   "channel": "raymondcrooke"
+  },
+  "136": {
+   "id": "g5ECyrIXseI",
+   "title": "2165. Robin Hood's Delight (Child #136) Traditional English",
+   "channel": "raymondcrooke"
+  },
+  "137": {
+   "id": "pE_BxnGkh7U",
+   "title": "2170. Robin Hood and the Pedlars (Child #137) Traditional English",
+   "channel": "raymondcrooke"
+  },
+  "138": {
+   "id": "mtsSvJiOFZg",
+   "title": "2174. Robin Hood and Allan a Dale (Child #138)",
+   "channel": "raymondcrooke"
+  },
+  "139": {
+   "id": "SBsNpH7FgqE",
+   "title": "Robin Hood's Progress To Nottingham",
+   "channel": "Beda Folk - Topic"
+  },
+  "140": {
+   "id": "GQVPb_vXBmE",
+   "title": "Robin Hood Rescuing the Three Squires",
+   "channel": "John Kirkpatrick - Topic"
+  },
+  "141": {
+   "id": "GYACwhoYl3c",
+   "title": "2154. Robin Hood Rescuing Will Stutly (Child #141)",
+   "channel": "raymondcrooke"
+  },
+  "142": {
+   "id": "-dkKvdQoUis",
+   "title": "2182. Little John A-Begging (Child #142) Traditional English",
+   "channel": "raymondcrooke"
+  },
+  "143": {
+   "id": "eC2IIB_vRis",
+   "title": "2188. Robin Hood and the Bishop (Child #143)",
+   "channel": "raymondcrooke"
+  },
+  "144": {
+   "id": "xhewzmzSbnc",
+   "title": "Robin Hood And The Bishop Of Hereford",
+   "channel": "John Roberts & Tony Barrand - Topic"
+  },
+  "145": {
+   "id": "zlUoj81rTTQ",
+   "title": "2194. Robin Hood and Queen Katherine (Child #145)",
+   "channel": "raymondcrooke"
+  },
+  "146": {
+   "id": "Qy_DSB_W9_s",
+   "title": "2198. Robin Hood's Chase (Child #146)",
+   "channel": "raymondcrooke"
+  },
+  "147": {
+   "id": "setz6gKUP8A",
+   "title": "Robin Hood's Golden Prize",
+   "channel": "Hermes Nye - Topic"
+  },
+  "148": {
+   "id": "U_pdFujRZtw",
+   "title": "2167. The Noble Fisherman  (Child #148)",
+   "channel": "raymondcrooke"
+  },
+  "149": {
+   "id": "91aJ9mSC09w",
+   "title": "2204. Robin Hood's Birth, Breeding, Valour & Marriage (Child #149)",
+   "channel": "raymondcrooke"
+  },
+  "150": {
+   "id": "_3t803zfDcw",
+   "title": "Robin Hood and Maid Marian",
+   "channel": "Estampie - Topic"
+  },
+  "151": {
+   "id": "LmuY60UJhFY",
+   "title": "2208. The King's Disguise & Friendship With Robin Hood (Child #151)",
+   "channel": "raymondcrooke"
+  },
+  "152": {
+   "id": "mMfkBY2MIP0",
+   "title": "2220. Robin Hood and the Golden Arrow (Child #152)",
+   "channel": "raymondcrooke"
+  },
+  "153": {
+   "id": "mkrAup5Zh0k",
+   "title": "2225. Robin Hood and the Valiant Knight (Child #153)",
+   "channel": "raymondcrooke"
+  },
+  "154": {
+   "id": "PNEMQTvBw4o",
+   "title": "True Tale of Robin Hood",
+   "channel": "Wallace House - Topic"
+  },
+  "155": {
+   "id": "BtUelJQpwco",
+   "title": "Kathy & Carol - Sir Hugh Or The Jew's Daughter (Live at Ash Grove Los Angeles, CA 1964)",
+   "channel": "The Mosh Pit - Topic"
+  },
+  "156": {
+   "id": "EG2-WwhHRX0",
+   "title": "Queen Eleanor's Confession",
+   "channel": "Tim Hart & Maddy Prior - Topic"
+  },
+  "157": {
+   "id": "_VJf6m3VF3M",
+   "title": "Gude Wallace",
+   "channel": "Max Dunbar - Topic"
+  },
+  "158": {
+   "id": "9oMQrrl5ZRM",
+   "title": "2232. Hugh Spencer's Feats in France (Child #158) Traditional English",
+   "channel": "raymondcrooke"
+  },
+  "159": {
+   "id": "fBNXTP1Me_g",
+   "title": "2239. Durham Field (Child #159) Traditional English",
+   "channel": "raymondcrooke"
+  },
+  "160": {
+   "id": "lQbdXS_dlcE",
+   "title": "2273. The Knight of Liddesdale (Child #160) Traditional Scottish",
+   "channel": "raymondcrooke"
+  },
+  "161": {
+   "id": "Ktsw0Mtd8PY",
+   "title": "The Battle of Otterburn",
+   "channel": "The Wolfhound - Topic"
+  },
+  "162": {
+   "id": "Tyaoz-7Jnpg",
+   "title": "Chevy Chase",
+   "channel": "Gordeanna McCulloch - Topic"
+  },
+  "163": {
+   "id": "tQjQnfcfmp0",
+   "title": "The Battle of Harlaw",
+   "channel": "Battlefield Band - Topic"
+  },
+  "164": {
+   "id": "q6bvxIQ6KYc",
+   "title": "King Henry V's Conquest of France",
+   "channel": "Richard Thompson"
+  },
+  "165": {
+   "id": "uk3s678NTPw",
+   "title": "2218. Sir John Butler (Child #165) Traditional English",
+   "channel": "raymondcrooke"
+  },
+  "167": {
+   "id": "hHJZEBAeJQc",
+   "title": "Sir Andrew Barton",
+   "channel": "Peter Bellamy - Topic"
+  },
+  "168": {
+   "id": "g8DCEIzRVwY",
+   "title": "Flodden Field",
+   "channel": "Spriguns - Topic"
+  },
+  "169": {
+   "id": "IeU7xkhsgY8",
+   "title": "Johnnie Armstrong",
+   "channel": "Steeleye Span - Topic"
+  },
+  "170": {
+   "id": "zP2-eZbk9Zc",
+   "title": "The Death of Queen Jane",
+   "channel": "파워볼 에이스팀 26"
+  },
+  "171": {
+   "id": "1QXaOnhoEeI",
+   "title": "2264. Thomas Cromwell (Child #171) Traditional English",
+   "channel": "raymondcrooke"
+  },
+  "172": {
+   "id": "wDit4xIIpKg",
+   "title": "2266. Musselborough Field (Child #172) Traditional English",
+   "channel": "raymondcrooke"
+  },
+  "173": {
+   "id": "kA3idKGdOoU",
+   "title": "Mary Hamilton",
+   "channel": "Joan Baez - Official"
+  },
+  "174": {
+   "id": "n209R8OidFU",
+   "title": "2255. Earl Bothwell (Child #174) Traditional English",
+   "channel": "raymondcrooke"
+  },
+  "175": {
+   "id": "QtenvrwLzbA",
+   "title": "2246. The Rising in the North (Child #175) Traditional English",
+   "channel": "raymondcrooke"
+  },
+  "176": {
+   "id": "xN6ZLrswmwA",
+   "title": "2269. Northumberland Betrayed by Douglas (Child #176) (Traditional English)",
+   "channel": "raymondcrooke"
+  },
+  "177": {
+   "id": "8ahMsb9AaOM",
+   "title": "2271. The Earl Of Westmoreland (Child #177) (Traditional English)",
+   "channel": "raymondcrooke"
+  },
+  "178": {
+   "id": "HgYUpKlaA2s",
+   "title": "Edom O'Gordon",
+   "channel": "Folkal Point - Topic"
+  },
+  "179": {
+   "id": "XlDa7t61aHk",
+   "title": "2277. Rookhope Ryde (Child #179) (Traditional English)",
+   "channel": "raymondcrooke"
+  },
+  "180": {
+   "id": "tcE31WrqA0k",
+   "title": "2280. King James and Brown (Child #180)",
+   "channel": "raymondcrooke"
+  },
+  "181": {
+   "id": "0Si2SW8cOqg",
+   "title": "The Bonnie Earl O' Moray",
+   "channel": "Old Blind Dogs - Topic"
+  },
+  "182": {
+   "id": "Ay7rcQM5xnc",
+   "title": "Bandoggs 06 Geordie Laird Logie",
+   "channel": "FolkSongUK"
+  },
+  "183": {
+   "id": "qRopgriyzng",
+   "title": "Willie Macintosh",
+   "channel": "Distant Oaks - Topic"
+  },
+  "184": {
+   "id": "TnTZkyMDWa0",
+   "title": "The Lads O' Wamphray",
+   "channel": "Scocha - Topic"
+  },
+  "185": {
+   "id": "Pbix5okAhS4",
+   "title": "2290. Dick o' the Cow (Child #185) Traditional English",
+   "channel": "raymondcrooke"
+  },
+  "186": {
+   "id": "CybMvsgRusc",
+   "title": "Kinmont Willie",
+   "channel": "Max Dunbar - Topic"
+  },
+  "187": {
+   "id": "bZnycVOIrPk",
+   "title": "2297. Jock o' the Side (Child #187) Traditional Scottish",
+   "channel": "raymondcrooke"
+  },
+  "188": {
+   "id": "Q49RSc3mi8Q",
+   "title": "2299. Archie o' Cawfield (Child #188) Traditional Scottish",
+   "channel": "raymondcrooke"
+  },
+  "189": {
+   "id": "eR_mFmZ9t10",
+   "title": "Hobbie Noble",
+   "channel": "Scocha - Topic"
+  },
+  "190": {
+   "id": "KMHhMqqkieA",
+   "title": "2301. Jamie Telfer o' the Fair Dodhead (Child #190) Traditional Scottish",
+   "channel": "raymondcrooke"
+  },
+  "191": {
+   "id": "iMzsfLoqifs",
+   "title": "Hughie Graeme",
+   "channel": "June Tabor - Topic"
+  },
+  "192": {
+   "id": "AxUFGzt2R-g",
+   "title": "The Lochmaben Harper",
+   "channel": "Jamie McMenemy - Topic"
+  },
+  "193": {
+   "id": "qFf6R1axiB4",
+   "title": "Death of Parcy Reed",
+   "channel": "Andrew Calhoun - Topic"
+  },
+  "194": {
+   "id": "qBBi9nEwd8o",
+   "title": "The Laird O' Warriston",
+   "channel": "Gordeanna McCulloch - Topic"
+  },
+  "195": {
+   "id": "dmlUojUM_dU",
+   "title": "Lord Maxwell's Last Goodnight",
+   "channel": "June Tabor - Topic"
+  },
+  "196": {
+   "id": "54YM2uvVggA",
+   "title": "2313. The Fire of Frendraught (Child #196) Traditional Scottish",
+   "channel": "raymondcrooke"
+  },
+  "197": {
+   "id": "qgSV9cAivSI",
+   "title": "2316. James Grant (Child #197) Traditional Scottish",
+   "channel": "raymondcrooke"
+  },
+  "198": {
+   "id": "0HhWu0bbUIc",
+   "title": "2318. Bonny John Seton (Child #198) Traditional Scottish",
+   "channel": "raymondcrooke"
+  },
+  "199": {
+   "id": "Ttdzrnu7nZo",
+   "title": "Bonnie Hoose O' Airlie, The - Bonnie House O' Airlie, The -",
+   "channel": "Lucy Stewart - Topic"
+  },
+  "200": {
+   "id": "dzUfEXEP7lQ",
+   "title": "The Gypsy Laddie",
+   "channel": "Alastair MacDonald - Topic"
+  },
+  "201": {
+   "id": "sBSRvc7_j1I",
+   "title": "Betsy Bell And Mary Gray",
+   "channel": "Steeleye Span - Topic"
+  },
+  "202": {
+   "id": "qmGHpUb_MzQ",
+   "title": "2322. The Battle of Philiphaugh (Child #202) Traditional Scottish",
+   "channel": "raymondcrooke"
+  },
+  "203": {
+   "id": "5dXrwh8360I",
+   "title": "The Baron of Brackley",
+   "channel": "Pentangle"
+  },
+  "204": {
+   "id": "Avd_emK6y1E",
+   "title": "1052. Jamie Douglas (Child 204) - (Traditional Scottish)",
+   "channel": "raymondcrooke"
+  },
+  "205": {
+   "id": "iORMrRS1jjg",
+   "title": "2331. Loudon Hill (Child #205) Traditional Scottish",
+   "channel": "raymondcrooke"
+  },
+  "206": {
+   "id": "5uX4LAjGQeE",
+   "title": "The Battle of Bothwell Bridge",
+   "channel": "Max Dunbar - Topic"
+  },
+  "207": {
+   "id": "xguy33a4P5Q",
+   "title": "2339. Lord Delamere (Child #207) Traditional English",
+   "channel": "raymondcrooke"
+  },
+  "208": {
+   "id": "5ij4r3IQsDg",
+   "title": "Lord Derwentwater",
+   "channel": "Patti Reid - Topic"
+  },
+  "209": {
+   "id": "nqKPvN1Mapg",
+   "title": "Geordie",
+   "channel": "Maddy Prior - Topic"
+  },
+  "210": {
+   "id": "mDrrL3I5ygE",
+   "title": "Bonnie James Campbell",
+   "channel": "June Tabor - Topic"
+  },
+  "211": {
+   "id": "f9xPtacamqw",
+   "title": "2345. Bewick and Graham (Child #211) Traditional Scottish",
+   "channel": "raymondcrooke"
+  },
+  "212": {
+   "id": "hncvABASDDI",
+   "title": "The Duke of Athole's Nurse",
+   "channel": "June Tabor - Topic"
+  },
+  "213": {
+   "id": "xh1wpgpp0Ps",
+   "title": "Sir James The Rose",
+   "channel": "Steeleye Span - Topic"
+  },
+  "214": {
+   "id": "nlTSkekSbaE",
+   "title": "Dowie Dens O' Yarrow",
+   "channel": "Dick Gaughan - Topic"
+  },
+  "215": {
+   "id": "EVykuXYOj-4",
+   "title": "Willie's Droon'd In Yarrow",
+   "channel": "Gordeanna McCulloch - Topic"
+  },
+  "216": {
+   "id": "_2sLnOF5tto",
+   "title": "Clyde's Water",
+   "channel": "Various Artists - Topic"
+  },
+  "217": {
+   "id": "gIIeLGrvAhY",
+   "title": "Broom o' the Cowdenknowes",
+   "channel": "Silly Wizard - Topic"
+  },
+  "218": {
+   "id": "kNDpf3F9S6s",
+   "title": "Martin Carthy - The False Lover Won Back (1972)",
+   "channel": "tendingthepalebloom"
+  },
+  "219": {
+   "id": "WgP8hw8UZmQ",
+   "title": "The Gardener",
+   "channel": "Tim Hart & Maddy Prior - Topic"
+  },
+  "220": {
+   "id": "1ZWusaoy8vY",
+   "title": "Bonnie Lass Of Anglesey",
+   "channel": "Tempest - Topic"
+  },
+  "221": {
+   "id": "9XrR-Q8AcU8",
+   "title": "Ewan MacColl - Katharine Jaffray",
+   "channel": "The Fat Priest"
+  },
+  "222": {
+   "id": "mdNdfUpXhwY",
+   "title": "2361. Bonny Baby Livingston (Child #222) Traditional Scottish",
+   "channel": "raymondcrooke"
+  },
+  "223": {
+   "id": "EgNAg1YcVJM",
+   "title": "Eppie Morrie",
+   "channel": "Ewan Maccoll - Topic"
+  },
+  "224": {
+   "id": "EnTn5SSqTUA",
+   "title": "Lady of Arngosk (traditional lyrics, music by Andrew Robson)",
+   "channel": "Andrew Robson"
+  },
+  "225": {
+   "id": "ttD2GrJIy3I",
+   "title": "Rob Roy",
+   "channel": "Hermes Nye - Topic"
+  },
+  "226": {
+   "id": "fRgML3G2NOo",
+   "title": "The Corries Leezie Lindsay",
+   "channel": "Iain40"
+  },
+  "227": {
+   "id": "SUyLrjWLlck",
+   "title": "2371. Bonnie Lizie Baillie (Child #227) Traditional Scottish",
+   "channel": "raymondcrooke"
+  },
+  "228": {
+   "id": "4-PbCSMXY40",
+   "title": "Glasgow Peggy",
+   "channel": "Ewan Maccoll - Topic"
+  },
+  "229": {
+   "id": "AKm6zs0TkxI",
+   "title": "2377. Earl Crawford (Child #229) Traditional Scottish",
+   "channel": "raymondcrooke"
+  },
+  "230": {
+   "id": "Dak0eakB4VE",
+   "title": "2375. The Slaughter of the Laird of Mellerstain (Child #230) Traditional Scottish",
+   "channel": "raymondcrooke"
+  },
+  "231": {
+   "id": "40uo3y93zR0",
+   "title": "Earl of Errol",
+   "channel": "Ewan Maccoll - Topic"
+  },
+  "232": {
+   "id": "olFbnyGrPaw",
+   "title": "Richie Story",
+   "channel": "Shirley Collins"
+  },
+  "233": {
+   "id": "SLBMpRMycmc",
+   "title": "Andrew Lammie (Remastered)",
+   "channel": "Martin Simpson - Topic"
+  },
+  "234": {
+   "id": "UZdptTXAK-w",
+   "title": "2248. Charlie MacPherson (Child #234) Traditional Scottish",
+   "channel": "raymondcrooke"
+  },
+  "235": {
+   "id": "bN5zNj0SPQ8",
+   "title": "The Earl of Aboyne",
+   "channel": "June Tabor - Topic"
+  },
+  "236": {
+   "id": "IPkI1TMnYPc",
+   "title": "The Laird O'drum",
+   "channel": "Jock Tamson's Bairns - Topic"
+  },
+  "237": {
+   "id": "yj2whNtZodI",
+   "title": "2387. The Duke of Gordon's Daughter (Child #237) Traditional Scottish",
+   "channel": "raymondcrooke"
+  },
+  "238": {
+   "id": "-XVR49HAJDQ",
+   "title": "Jean O' Bethelnie (Glenlogie)",
+   "channel": "Old Blind Dogs - Topic"
+  },
+  "239": {
+   "id": "kSvMBJcVea0",
+   "title": "Lord Saltoun and Auchanachie",
+   "channel": "Robert Sarazin Blake"
+  },
+  "240": {
+   "id": "P-Fg4CGYVWk",
+   "title": "The Rantin' Laddie",
+   "channel": "Lori Holland - Topic"
+  },
+  "241": {
+   "id": "Vq14so9tKMk",
+   "title": "The Baron O'Leys (Child No. 241)",
+   "channel": "Ewan Maccoll - Topic"
+  },
+  "242": {
+   "id": "ndQ57KoaOn0",
+   "title": "2395. The Coble o Cargill (Child #242) Traditional Scottish",
+   "channel": "raymondcrooke"
+  },
+  "243": {
+   "id": "1fz6UTHvxZo",
+   "title": "The Daemon Lover (The House Carpenter, Child 243)",
+   "channel": "Carl Peterson - Topic"
+  },
+  "244": {
+   "id": "4AdLTuQ4uL0",
+   "title": "James Hatley",
+   "channel": "MARTIN CARTHY - Topic"
+  },
+  "245": {
+   "id": "lLb0PaxLTB0",
+   "title": "Young Allan (Child 245) - June Tabor",
+   "channel": "Reynard the Fox"
+  },
+  "246": {
+   "id": "P6gtXX0CCnk",
+   "title": "Redesdale and Wise William (Child 246) - Chris Coe",
+   "channel": "Reynard the Fox"
+  },
+  "247": {
+   "id": "k8nyc4y9FGg",
+   "title": "Lady Elspat",
+   "channel": "Alison McMorland - Topic"
+  },
+  "248": {
+   "id": "viepsmcLO6k",
+   "title": "Peggy Seeger - The Grey Cock  [HD]",
+   "channel": "Gary Larson"
+  },
+  "249": {
+   "id": "0l0S9zn3qLU",
+   "title": "Old Matron",
+   "channel": "Steeleye Span - Topic"
+  },
+  "250": {
+   "id": "FT0rQxzXU90",
+   "title": "Henry Martyn",
+   "channel": "A. L. Lloyd - Topic"
+  },
+  "251": {
+   "id": "Vf5U4HmLY9g",
+   "title": "Lang Johnnie Moir",
+   "channel": "Battlefield Band - Topic"
+  },
+  "252": {
+   "id": "7BwZd2X-u2s",
+   "title": "2411. Kitchie Boy (Child #252) Traditional Scottish",
+   "channel": "raymondcrooke"
+  },
+  "253": {
+   "id": "JladAWTrfRQ",
+   "title": "2413. Thomas o Yonderdale (Child #253) Traditional Scottish",
+   "channel": "raymondcrooke"
+  },
+  "254": {
+   "id": "PILQWfkx8GI",
+   "title": "2415. Sweet William (Child #254) Traditional Scottish",
+   "channel": "raymondcrooke"
+  },
+  "255": {
+   "id": "A0vEvc7cdgc",
+   "title": "Willie's Fatal Visit (Arr. Fisher)",
+   "channel": "Ray Fisher - Topic"
+  },
+  "256": {
+   "id": "ZICOqPXsLMo",
+   "title": "2420. Alison and Willie (Child #256) Traditional Scottish",
+   "channel": "raymondcrooke"
+  },
+  "257": {
+   "id": "dy2mqqhcGlw",
+   "title": "2422. Burd Isabel and Earl Patrick (Child #257) Traditional Scottish",
+   "channel": "raymondcrooke"
+  },
+  "258": {
+   "id": "BdeCAjnbmc4",
+   "title": "2424. Broughty Wa's (Child #258) Traditional Scottish",
+   "channel": "raymondcrooke"
+  },
+  "259": {
+   "id": "AeOUNiflC6I",
+   "title": "2156. Lord Thomas Stuart (Child #259) Traditional Scottish",
+   "channel": "raymondcrooke"
+  },
+  "260": {
+   "id": "lCbYAcz8c8I",
+   "title": "Cooper & Nelson--Lord Thomas & Lady Margaret",
+   "channel": "Phil Cooper"
+  },
+  "261": {
+   "id": "K7-7zEbovEc",
+   "title": "2428. Lady Isabel (Child #261) Traditional Scottish",
+   "channel": "raymondcrooke"
+  },
+  "262": {
+   "id": "kvvFpm78B4M",
+   "title": "2430. Lord Livingstone (Child #262) Traditional Scottish",
+   "channel": "raymondcrooke"
+  },
+  "263": {
+   "id": "XptBiwsbX-A",
+   "title": "1464. The New Slain Knight (Child #263) (Traditional Scottish)",
+   "channel": "raymondcrooke"
+  },
+  "264": {
+   "id": "CAYlTmRBJLk",
+   "title": "2432. The White Fisher (Child #264) Traditional Scottish",
+   "channel": "raymondcrooke"
+  },
+  "265": {
+   "id": "EBpp9prJ2Fw",
+   "title": "2434. The Knight's Ghost (Child #265) Traditional Scottish",
+   "channel": "raymondcrooke"
+  },
+  "266": {
+   "id": "pm934iZrgNE",
+   "title": "2436. John Thomson and the Turk (Child #266) Traditional Scottish",
+   "channel": "raymondcrooke"
+  },
+  "267": {
+   "id": "lzxsZ3LDJYo",
+   "title": "Heir Of Linne",
+   "channel": "Steeleye Span - Topic"
+  },
+  "268": {
+   "id": "L4uF9JNWlJ0",
+   "title": "2212. The Twa Knights (Child #268) (Traditional Scottish)",
+   "channel": "raymondcrooke"
+  },
+  "269": {
+   "id": "_94bvgssZ7g",
+   "title": "Lady Diamond",
+   "channel": "Steeleye Span - Topic"
+  },
+  "270": {
+   "id": "8QG4_NpYOMc",
+   "title": "2442. The Earl of Mar's Daughter (Child #270) Traditional Scottish",
+   "channel": "raymondcrooke"
+  },
+  "271": {
+   "id": "xVKQZ8Z_cHM",
+   "title": "2444. The Lord of Lorn and the False Steward (Child #271) Trad. Scottish",
+   "channel": "raymondcrooke"
+  },
+  "272": {
+   "id": "Pv-RjVURXig",
+   "title": "2216. The Suffolk Miracle (Child #272) Traditional English",
+   "channel": "raymondcrooke"
+  },
+  "273": {
+   "id": "4yfcTmHRlSc",
+   "title": "2446. King Edward the Fourth and a Tanner of Tamworth (Child #273)",
+   "channel": "raymondcrooke"
+  },
+  "274": {
+   "id": "rQCvyiNhS4w",
+   "title": "Our Goodman",
+   "channel": "Oscar Brand - Topic"
+  },
+  "275": {
+   "id": "CbacJ_ngjeE",
+   "title": "Get Up and Bar the Door",
+   "channel": "Hermes Nye - Topic"
+  },
+  "276": {
+   "id": "U-nr8nW7tn8",
+   "title": "The Friar in the Well",
+   "channel": "MARTIN CARTHY - Topic"
+  },
+  "277": {
+   "id": "QFb_xMF5GTI",
+   "title": "Wee Cooper O' Fife",
+   "channel": "Burl Ives - Topic"
+  },
+  "278": {
+   "id": "ad2b1OYzkTY",
+   "title": "The Farmer's Curst Wife",
+   "channel": "Estil C Ball - Topic"
+  },
+  "279": {
+   "id": "uHils2NqfDs",
+   "title": "The Jolly Beggar (The Gaberlunzie Man, Child 279)",
+   "channel": "Carl Peterson - Topic"
+  },
+  "280": {
+   "id": "rhASUGJICx0",
+   "title": "The Beggar Laddie (Child No. 280)",
+   "channel": "Ewan Maccoll - Topic"
+  },
+  "281": {
+   "id": "IMJ37_XijNI",
+   "title": "The Keach in the Creel (Child #281)",
+   "channel": "Ewan Maccoll - Topic"
+  },
+  "282": {
+   "id": "af06kTudvs0",
+   "title": "2160. Jock the Leg and the Merry Merchant (Child #282) Traditional Scottish",
+   "channel": "raymondcrooke"
+  },
+  "283": {
+   "id": "W5tdNKp3ZQQ",
+   "title": "The Crafty Farmer",
+   "channel": "Ewan Maccoll - Topic"
+  },
+  "284": {
+   "id": "H2Kw3A-SyhQ",
+   "title": "John Dory",
+   "channel": "Alfred Deller - Topic"
+  },
+  "285": {
+   "id": "Chxq2_gGiw0",
+   "title": "2200. George Aloe and the Sweepstake (Child #285) Traditional English",
+   "channel": "raymondcrooke"
+  },
+  "286": {
+   "id": "ga6Hf44IPdM",
+   "title": "The Golden Vanity",
+   "channel": "Jez Lowe - Topic"
+  },
+  "287": {
+   "id": "bmqP50evV8Y",
+   "title": "Captain Ward And The Rainbow",
+   "channel": "Tundra - Topic"
+  },
+  "288": {
+   "id": "gDUhdHXO4jA",
+   "title": "2252. The Young Earl of Essex's Victory (Child #288) Traditional English",
+   "channel": "raymondcrooke"
+  },
+  "289": {
+   "id": "zUeQkTRmqRM",
+   "title": "The Mermaid",
+   "channel": "MARTIN CARTHY - Topic"
+  },
+  "290": {
+   "id": "BABj7c2ZMvM",
+   "title": "2210. The Wylie Wife of the Hie Toun Hie (Child #290)",
+   "channel": "raymondcrooke"
+  },
+  "291": {
+   "id": "rfjhU6kGHnY",
+   "title": "Chyld Owlett",
+   "channel": "Maddy Prior - Topic"
+  },
+  "292": {
+   "id": "h7A4z27sUXM",
+   "title": "2115. The West Country Damosel's Complaint (Child #292) Traditional English",
+   "channel": "raymondcrooke"
+  },
+  "293": {
+   "id": "bZ8vLe-kY0g",
+   "title": "John of Hazelgreen",
+   "channel": "Colin Thompson - Topic"
+  },
+  "294": {
+   "id": "7kjbHLFq6bQ",
+   "title": "2196. Dugall Quin (Child #294) Traditional Scottish",
+   "channel": "raymondcrooke"
+  },
+  "295": {
+   "id": "mybNU730d3A",
+   "title": "2229. The Brown Girl (Child #295)",
+   "channel": "raymondcrooke"
+  },
+  "296": {
+   "id": "5s3RWbRxQeA",
+   "title": "2257. Walter Lesly (Child #296) Traditional Scottish",
+   "channel": "raymondcrooke"
+  },
+  "297": {
+   "id": "s-XuZY8j_WM",
+   "title": "2329. Earl Rothes (Child #297) Traditional Scottish",
+   "channel": "raymondcrooke"
+  },
+  "298": {
+   "id": "cTrG0Awagq8",
+   "title": "Young Peggy",
+   "channel": "Ewan Maccoll - Topic"
+  },
+  "299": {
+   "id": "kOWn8i_Nkdc",
+   "title": "The Trooper And The Maid",
+   "channel": "Ewan Maccoll - Topic"
+  },
+  "300": {
+   "id": "u8ZRa8DvjfU",
+   "title": "Blancheflour and Jellyflorice (Child Ballad #300)",
+   "channel": "Daniel Kelly Folk Music"
+  }
+ }
+}

@@ -53,6 +53,7 @@ HELP_MENU = [
         '`!parallel` — Homer, Virgil, Ovid, Heliand, Plato + more · `!help parallel`',
         "`!blake` — Blake's illuminated books · `!dore` — Doré's engravings · `!help dore`",
         "`!fable` — one of Aesop's Fables, or `!fable fox`, `!fable list` · `!help fable`",
+        "<!-- texts: ballads -->`!ballad` — Child's English and Scottish ballads, with tunes · `!ballad barbara allen` · `!help ballad`",
     ]),
     ('⛪ Catholic', [
         '`!ccc` — Catechism · `!help ccc`',
@@ -1274,6 +1275,24 @@ async def cmd_help(ctx, *, topic: str = ""):
             "`!fable list` — all the titles, a page at a time\n\n"
             "**🎲 Another** draws again from the same kind, and **🖼️ Card** makes an image of the fable, set "
             "justified like a printed book. Also `!aesop`, and `!verse Aesop 12` for the plain text."
+        )
+        await ctx.send(embed=embed)
+        return
+
+    if topic in ("ballad", "ballads", "child"):
+        embed = discord.Embed(title="🎻 !ballad — Child's Ballads", color=discord.Color.dark_gold())
+        embed.description = (
+            "The 305 English and Scottish ballads Francis James Child collected (1882–98): *Barbara Allen*, "
+            "*Lord Randal*, *Tam Lin*, *Matty Groves*… many in several versions, as they were sung in different "
+            "places.\n\n"
+            "`!ballad` — one at random\n"
+            "`!ballad 84` — by Child's number\n"
+            "`!ballad 84B` — another version of it\n"
+            "`!ballad matty groves` — by title, or a name it's sung under now\n"
+            "`!ballad list` — all the titles (🎵 marks those with a tune)\n\n"
+            "**🔀** goes to the next version, **▶️ Play the tune** plays a melody it was sung to, from the "
+            "Digital Tradition folk song database (**Next tune** for the others), and **📺 Recording** opens a "
+            "performance on YouTube. Also `!verse Child 12A:5` for single stanzas."
         )
         await ctx.send(embed=embed)
         return

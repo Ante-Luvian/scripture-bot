@@ -629,7 +629,16 @@ def guild_traditions(guild_id) -> frozenset:
     if guild_id is None:
         return frozenset(TRADITIONS)
     chosen = _load_guild_config().get(str(guild_id), {}).get("traditions")
-    return frozenset(TRADITIONS) if chosen is None else (frozenset(chosen) | {"bible"}) & frozenset(TRADITIONS)
+    if chosen is None:
+        return frozenset(TRADITIONS)
+    chosen = frozenset(chosen) | {"bible"}
+    if chosen >= frozenset(TRADITIONS) - ADDED_TRADITIONS:      # (it ticked them all: it has the new ones too)
+        chosen |= ADDED_TRADITIONS
+    return chosen & frozenset(TRADITIONS)
+
+
+# Traditions added after servers began choosing theirs: a server that chose every one there was gets these too
+ADDED_TRADITIONS = frozenset({"ballads"})
 
 
 def pack_enabled(guild_id, pack: str) -> bool:

@@ -1532,6 +1532,7 @@ TRADITIONS = {
     "norse":     ("🌲 Norse", ("norse",)),
     "finnish":   ("🦢 Finnish", ("finnish",)),
     "celtic":    ("☘️ Celtic", ("celtic",)),
+    "ballads":   ("🎻 Folk ballads", ("ballads",)),
     "neareast":  ("🌙 Ancient Near East", ("ancient_near_east",)),
     "mesoamerican": ("🌽 Mesoamerican", ("mesoamerican",)),
     "bahai":     ("🌍 Baháʼí", ("bahai",)),
@@ -1548,6 +1549,7 @@ TRADITION_ALIASES = {
     "sikhism": "sikh", "jainism": "jain", "jaina": "jain", "japanese": "shinto", "japan": "shinto",
     "zoroastrianism": "zoroastrian", "parsi": "zoroastrian", "avestan": "zoroastrian",
     "maya": "mesoamerican", "mayan": "mesoamerican", "welsh": "celtic", "finland": "finnish",
+    "ballad": "ballads", "folk": "ballads", "child": "ballads", "child ballads": "ballads",
 }
 
 
@@ -1777,6 +1779,7 @@ class ScriptureLookup:
             "mesoamerican": ["popol_vuh.json"],
             "finnish": ["kalevala.json"],
             "celtic": ["mabinogion.json"],
+            "ballads": ["child.json"],           # Child's ballads (scripts/build_child.py)
             "norse": [
                 "poetic_edda.json",
             ],
@@ -2364,6 +2367,7 @@ class ScriptureLookup:
             ("the Babylonian Talmud by page", self._read_talmud, "jewish"),
             ("the Zohar", self._read_zohar, "jewish"),
             ("Delphi 1:N and 2:N", self._read_delphi, None),
+            ("Child's ballads by number and version (Child 12A:5)", self._read_child, "ballads"),
             ("the Shepherd of Hermas by Vision, Mandate or Similitude", self._try_hermas, None),
             ("anything Sefaria has that the parser can't read", self._read_unparseable, "jewish"),
         ]
@@ -2449,6 +2453,40 @@ class ScriptureLookup:
             return {"found": False, "error": f"**{book}** has no entry {num}. (Max: {max_n})", "suggestions": []}
         return {"found": True, "reference": f"Delphi {sub}:{num}", "text": entries[num].get("1", ""),
                 "source": book, "book": book, "chapter": int(num), "verse": 1}
+
+    def _read_child(self, ref):
+        """"Child 12" (version A of Lord Randal), "Child Ballads 12B", "Child 84A:3-5": a ballad by its number,
+        version letter and stanzas. Its versions are chapters "12A", "12B"..., which the general parser can't
+        read (a chapter there is a number)."""
+        m = re.match(r"^(?:child(?:'s)?(?:\s+ballads?)?|ballad)\s*#?\s*(\d{1,3})\s*([A-Za-z]{0,2})"
+                     r"(?:\s*:\s*(\d+)(?:\s*[-–]\s*(\d+))?)?\s*$", ref, re.IGNORECASE)
+        book = self._data.get("ballads", {}).get("Child Ballads")
+        if not m or not book:
+            return None
+        n, letters = int(m.group(1)), m.group(2).upper()
+        versions = sorted((k for k in book if re.fullmatch(rf"{n}[A-Z]*", k)), key=lambda k: (len(k), k))
+        if not versions:
+            return {"found": False, "error": f"Child's ballads are numbered 1 to 305; there's no {n}.",
+                    "suggestions": []}
+        chapter = f"{n}{letters}" if letters else versions[0]
+        if chapter not in book:
+            return {"found": False, "error": f"Child {n} has versions {', '.join(v[len(str(n)):] or '(one)' for v in versions)}"
+                                             f"; there's no {letters}.", "suggestions": []}
+        stanzas = book[chapter]
+        source = self._book_sources.get("Child Ballads", "")
+        if m.group(3) is None:
+            texts = [f"**[{k}]** {t}" for k, t in stanzas.items()]
+            return {"found": True, "reference": f"Child {chapter}", "text": "\n".join(texts), "source": source,
+                    "book": "Child Ballads", "chapter": chapter,
+                    "pages": ["\n".join(texts[i:i + 15]) for i in range(0, len(texts), 15)]}
+        first, last = int(m.group(3)), int(m.group(4) or m.group(3))
+        texts = [f"**[{k}]** {stanzas[str(k)]}" for k in range(first, last + 1) if str(k) in stanzas]
+        if not texts:
+            return {"found": False, "error": f"Child {chapter} has stanzas {min(map(int, stanzas))} to "
+                                             f"{max(map(int, stanzas))}.", "suggestions": []}
+        span = f"{first}" if first == last else f"{first}–{last}"
+        return {"found": True, "reference": f"Child {chapter}:{span}", "text": "\n".join(texts), "source": source,
+                "book": "Child Ballads", "chapter": chapter, "verse": first}
 
     def _read_unparseable(self, ref):
         """A reference the general parser can't read may still be in Sefaria's library

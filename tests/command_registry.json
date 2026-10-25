@@ -11,6 +11,10 @@
    "astroconfig",
    "horoscopesetup"
   ],
+  "ballad": [
+   "ballads",
+   "child"
+  ],
   "bcp": [],
   "blake": [
    "blakeplate",
@@ -392,6 +396,7 @@
  "slash": [
   "Look up verses",
   "angelus",
+  "ballad",
   "bcp",
   "blake",
   "books",

@@ -78,6 +78,8 @@ Abbreviations are fine (`Jn`, `1 Cor`, `Ps`). Bible verses come with the four st
 
 **`!fable`** — one of Aesop's Fables (313 of them, in Townsend's translation): `!fable` at random, `!fable fox` one with the fox in its title, `!fable lion and mouse` by name, `!fable 12` by number, `!fable list` all the titles. **🖼️ Card** makes a picture of the fable you can save or share.
 
+<!-- texts: ballads -->**`!ballad`** — the old ballads of England and Scotland, all 305 that the scholar Francis James Child gathered in the 1800s (*The English and Scottish Popular Ballads*), often in several versions sung in different places: `!ballad` at random, `!ballad 84` by Child's number (*Barbara Allen*), `!ballad 12B` the second version of a ballad, `!ballad matty groves` by title or by a name it's sung under today, `!ballad list` all the titles. **🔀** moves to the next version, **▶️ Play the tune** plays a melody it was sung to (press **Next tune** for others), and **📺 Recording** opens someone singing it on YouTube.
+
 **`!dore`** — Gustave Doré's famous engravings for the Bible (the Apocrypha included), the *Divine Comedy* and *Paradise Lost*, each tied to the verse or line it shows: `!dore Genesis 11` lists that chapter's engravings with the verse of each, `!dore Inferno 3:82` shows Charon's boat, `!dore Paradise Lost 1` Satan's fall; `!dore` alone shows one at random, and `!dore list` what there is.
 
 **`!prefer ESV`** makes a translation your personal default, so plain `!verse` uses it. `!prefer off` goes back to the KJV.
