@@ -72,8 +72,17 @@ FIXES = {
     "buddhist/jataka.json": [(r"\s*<page \w+>(?:\s*-\s*<page \w+>)?", "")],
     "buddhist/lotus_sutra.json": [(r"^(\d+\.) 1 ", r"\1 I ")],               # OCR: "1 see" for "I see"
     "charles/book_of_jubilees.json": [(r"~([^~]+)~", r"\1")],
-    "apostolic_fathers/epistle_of_barnabas.json": [(r"\s*~y\b", "")],
-    "apostolic_fathers/ignatius_romans.json": [(r"\+([^+]+)\+", r"*\1*")],
+    "apostolic_fathers/epistle_of_barnabas.json": [(r"\s*~y\b", ""), (r"\s+Barnabas\Z", "")],
+    "apostolic_fathers/ignatius_romans.json": [(r"\+([^+]+)\+", r"*\1*"), (r"\s*\bCHAPTER \d+\Z", "")],
+    # the source's verse references ("1Clem 25:1") lost their numbers, leaving the
+    # abbreviation on the end of the verse before: "...the parts about Arabia. 1Clem"
+    "apostolic_fathers/1_clement.json": [(r"\s+1Clem\Z", "")],
+    "apostolic_fathers/2_clement.json": [(r"\s+2Clem\Z", "")],
+    "apostolic_fathers/polycarp_philippians.json": [(r"\s+Polycarp\Z", "")],
+    # the next chapter's heading, run onto the end of a chapter ("...abundant greeting. CHAPTER 1")
+    **{f"apostolic_fathers/ignatius_{n}.json": [(r"\s*\bCHAPTER \d+\Z", "")]
+       for n in ("ephesians", "magnesians", "philadelphians", "polycarp", "smyrnaeans", "trallians")},
+    "classical/vivec_sermons.json": [(r"\s*<div\Z", "")],                    # a cut-off HTML tag
     "classical/meditations_long.json": [(r"\+([^+]+)\+", r"*\1*")],
     "patristics/philoxenus_of_hierapolis.json": [(r"^[\w$)(]{1,6}(?: [\w$)(]{1,6}){3,}$", "")],   # Syriac in ASCII
     "ancient_near_east/instruction_of_amenemope.json": [                  # the Egyptian, transliterated: not a translation

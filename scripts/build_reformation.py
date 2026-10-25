@@ -491,7 +491,8 @@ def luther_sermons() -> dict:
     out = {}
     for i, (page, title) in enumerate(pages, 1):
         text = st_page(f"chr/luther/{page}")
-        paras = [tidy(p) for p in re.split(r"\n\s*\n", text) if len(tidy(p)) > 40]
+        paras = [tidy(p) for p in re.split(r"\n\s*\n", text) if len(tidy(p)) > 40
+                 and not re.fullmatch(r"Sacred Texts .* Index", tidy(p))]     # the site's breadcrumb menu
         out[str(i)] = numbered(paras, title)
     return out
 
@@ -508,7 +509,7 @@ def luther():
                "Sermons of Martin Luther": "trans. J. N. Lenker"}
     for b in ("An Open Letter to the Christian Nobility", "The Babylonian Captivity of the Church",
               "A Treatise on Christian Liberty", "The Eight Wittenberg Sermons"):
-        sources[b] = f"Martin Luther, {b} (1520-22), Works of Martin Luther, Philadelphia edition (1915), Project Gutenberg"
+        sources[b] = "Philadelphia edition (1915)"
     for b, ch in books.items():
         print(f"  {b}: {len(ch)} chapters, {sum(map(len, ch.values()))} passages")
     save("luther.json", "Martin Luther", books, sources)
