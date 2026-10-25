@@ -398,9 +398,22 @@ def _sky_brief(day: dt.date) -> str:
     noon = dt.datetime(day.year, day.month, day.day, 12, tzinfo=dt.timezone.utc)
     lines = [f"Date: {day:%A %d %B %Y} (times UTC). Tropical zodiac.", "Positions at noon UTC:"]
     lines += [f"- {name}: {zodiac(lon)}" + (" (retrograde)" if retro else "") for name, _, lon, retro in positions(noon)]
-    lines.append(f"The Moon: {moon_phase(noon)}.")
+    lines.append(f"The Moon at noon: {moon_phase(noon)} (a description of its light, not an exact phase).")
+    # The exact phase next, which may be tomorrow: told only "full, 99% lit", the model called a day-early
+    # Moon in Aries "the Full Moon in your sign" when the full moon fell the next morning, in Taurus
+    from skyfield import almanac
+    ts, eph = sky()
+    times, phases = almanac.find_discrete(ts.from_datetime(noon), ts.from_datetime(noon + dt.timedelta(days=8)),
+                                          almanac.moon_phases(eph))
+    if len(times):
+        at = times[0].utc_datetime()
+        moon_then = float(longitudes(times[0], "moon"))
+        lines.append(f"The next exact lunar phase: {PHASES[int(phases[0])]} on {at:%A %d %B} at {at:%H:%M} UTC, "
+                     f"in {zodiac(moon_then)}.")
     found = day_events(day)
-    lines.append("Today's events:" if found else "Today's events: none (a quiet day).")
+    lines.append("Today's events (the only exact events today; \"enters X (retrograde)\" means a planet already "
+                 "retrograde moving backwards into X, not turning retrograde):" if found
+                 else "Today's events: none (a quiet day).")
     lines += [f"- {e['at']:%H:%M}: {e['text']} (signs: {', '.join(SIGNS[i][0] for i in e['signs'])})" for e in found]
     return "\n".join(lines)
 
@@ -425,7 +438,10 @@ def _ask_claude(prompt: str) -> str:
     key = os.environ.get("ANTHROPIC_API_KEY")
     if not key:
         raise RuntimeError("no ANTHROPIC_API_KEY")
-    body = json.dumps({"model": MODEL, "max_tokens": 2500, "messages": [{"role": "user", "content": prompt}]}).encode()
+    # (thinking kept to a minimum: it spent a 2,500-token allowance thinking and wrote nothing; it still
+    # thinks some, so the allowance leaves room for twelve readings after it)
+    body = json.dumps({"model": MODEL, "max_tokens": 8000, "thinking": {"type": "between_tools"},
+                       "messages": [{"role": "user", "content": prompt}]}).encode()
     req = urllib.request.Request("https://api.anthropic.com/v1/messages", data=body, method="POST", headers={
         "x-api-key": key, "anthropic-version": "2023-06-01", "content-type": "application/json"})
     with urllib.request.urlopen(req, timeout=120) as r:
