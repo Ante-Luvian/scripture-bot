@@ -429,8 +429,9 @@ def _ask_claude(prompt: str) -> str:
     key = os.environ.get("ANTHROPIC_API_KEY")
     if not key:
         raise RuntimeError("no ANTHROPIC_API_KEY")
-    # (thinking kept to a minimum: it spent a 2,500-token allowance thinking and wrote nothing)
-    body = json.dumps({"model": MODEL, "max_tokens": 2000, "thinking": {"type": "between_tools"},
+    # (no "thinking" setting: Sonnet needed {"type": "between_tools"} to stop it spending the allowance on
+    # thinking, but Haiku refuses that setting -- "not supported for this model" -- and needs none)
+    body = json.dumps({"model": MODEL, "max_tokens": 2000,
                        "messages": [{"role": "user", "content": prompt}]}).encode()
     req = urllib.request.Request("https://api.anthropic.com/v1/messages", data=body, method="POST", headers={
         "x-api-key": key, "anthropic-version": "2023-06-01", "content-type": "application/json"})
@@ -491,7 +492,8 @@ async def day_notes(day: dt.date) -> "dict | None":
             prompt = PROMPT.format(**await asyncio.to_thread(_brief, day))
             notes = _notes_from(await asyncio.to_thread(_ask_claude, prompt), found)
         except Exception as e:
-            log.warning(f"The day's horoscope notes couldn't be written: {e}")
+            why = e.read().decode("utf-8", "replace")[:300] if hasattr(e, "read") else ""   # (the API says why)
+            log.warning(f"The day's horoscope notes couldn't be written: {e} {why}")
             return None
         if not notes:
             log.warning("The day's horoscope notes came back in a form I can't use")
