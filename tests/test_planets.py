@@ -52,6 +52,37 @@ def test_aspects_are_exact(planets):
     assert any("Mercury stations retrograde" in t for _, t in planets.events(dt.date(2026, 10, 24)))
 
 
+def test_conjunctions_and_oppositions_are_found(planets):
+    """The unsigned separation minus 0° or 180° only touches zero, never changes sign: measured that way, not
+    one conjunction or opposition was found in all of 2026."""
+    texts = {t: m for m, t in planets.events(dt.date(2026, 1, 8))}
+    meeting = next(m for t, m in texts.items() if t.startswith("♀ Venus ☌ conjunct ♂ Mars"))
+    by = {n: lon for n, _, lon, _ in planets.positions(meeting)}
+    assert abs((by["Venus"] - by["Mars"] + 180) % 360 - 180) < 1 / 60
+    assert any(t.startswith("☉ Sun ☍ opposite ♃ Jupiter") for _, t in planets.events(dt.date(2026, 1, 10)))
+
+
+def test_an_aspect_building_shows_before_its_day(planets):
+    """Mars closing on Jupiter in Leo for three weeks (exact 16 Nov 2026) showed nowhere until the day itself:
+    `!horoscope leo` said nothing (a friend of the owner's noticed). It shows while it builds, for the signs it's in."""
+    day = dt.date(2026, 10, 24)
+    (b,) = planets.building(day)
+    assert b["text"].startswith("♂ Mars ☌ conjunct ♃ Jupiter in ♌ Leo, exact 16 Nov") and b["signs"] == [4]
+    by = {n: lon for n, _, lon, _ in planets.positions(b["at"])}
+    assert abs((by["Mars"] - by["Jupiter"] + 180) % 360 - 180) < 1 / 60
+    leo = planets.horoscope_embed(day, None, 4)
+    assert [f.name for f in leo.fields] == [f"`building` {b['text']}"]
+    assert leo.description == "In ♌ Leo now: ♂ Mars 14°45′, ♃ Jupiter 23°21′"
+    assert b["text"] in [f.name.split("` ", 1)[1] for f in planets.horoscope_embed(day).fields]
+    scorpio = planets.horoscope_embed(day, None, 7)                 # (only for the signs it touches)
+    assert not [f for f in scorpio.fields if "Jupiter" in f.name] and "☿ Mercury 20°59′ ℞" in scorpio.description
+    assert "building" in planets._brief(day)["events"]
+    for month in range(1, 13):                                        # (never a crowd)
+        assert len(planets.building(dt.date(2027, month, 1))) <= planets.BUILDING
+    assert not [e for e in planets.building(dt.date(2026, 11, 16)) if "Jupiter" in e["text"]]   # (on the day, an event)
+    assert any("Mars ☌ conjunct ♃ Jupiter" in e["text"] for e in planets.notable(dt.date(2026, 11, 16)))
+
+
 def test_zodiac_and_dates(planets):
     assert planets.zodiac(211.09355) == "♏ Scorpio 1°06′"
     assert planets.zodiac(359.9999) == "♈ Aries 0°00′"           # never "Pisces 30°00′"
@@ -126,7 +157,7 @@ def test_the_notes_are_asked_for_once_a_day_and_kept(planets, monkeypatch):
     import asyncio
     import json as _json
     today = dt.datetime.now(dt.timezone.utc).date()
-    found = planets.notable(today)
+    found = planets.significant(today)
     if not found:
         pytest.skip("a quiet sky today: nothing to write notes for")
     asked = []

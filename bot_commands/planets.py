@@ -106,6 +106,13 @@ def _bisect(f, a: dt.datetime, b: dt.datetime, fa: float) -> dt.datetime:
     return a + (b - a) / 2
 
 
+def _targets() -> list:
+    """[(angle, word, symbol, target)]: each aspect as the signed differences in longitude (a − b) that make it,
+    a square both +90° and −90°. (Measured as the unsigned separation minus the angle, a conjunction or
+    opposition never changed sign, only touched zero, so none was ever found: not one in all of 2026.)"""
+    return [(angle, word, sym, target) for angle, word, sym in ASPECTS for target in sorted({angle % 360, -angle % 360})]
+
+
 def events(day: dt.date) -> list:
     """[(moment, text)] of the UTC day's events, in order (day_events without the rest)."""
     return [(e["at"], e["text"]) for e in day_events(day)]
@@ -158,12 +165,12 @@ def day_events(day: dt.date) -> list:
     names = [n for n, _, _ in BODIES if n != "Moon"]
     for i, a in enumerate(names):
         for b in names[i + 1:]:
-            sep = [abs(_wrap(lons[a][h] - lons[b][h])) for h in range(25)]
-            for angle, word, sym in ASPECTS:
+            for angle, word, sym, target in _targets():
+                off = [_wrap(lons[a][h] - lons[b][h] - target) for h in range(25)]
                 for h in range(24):
-                    d0, d1 = sep[h] - angle, sep[h + 1] - angle
+                    d0, d1 = off[h], off[h + 1]
                     if (d0 < 0) != (d1 < 0) and abs(d0) < 5 and abs(d1) < 5:
-                        f = lambda m, a=a, b=b, ang=angle: abs(_wrap(lon_at(a, m) - lon_at(b, m))) - ang
+                        f = lambda m, a=a, b=b, tg=target: _wrap(lon_at(a, m) - lon_at(b, m) - tg)
                         moment = _bisect(f, grid[h], grid[h + 1], d0)
                         sa, sb = int(lon_at(a, moment) % 360 // 30), int(lon_at(b, moment) % 360 // 30)
                         found.append({"at": moment, "signs": sorted({sa, sb}),
@@ -357,6 +364,74 @@ def notable(day: dt.date) -> list:
     return sorted(kept, key=lambda e: e["at"])
 
 
+# What's under way, not just what's exact today: Mars and Jupiter closing on each other in Leo for three weeks
+# showed nothing in `!horoscope leo` (a friend of the owner's noticed) because no day of it was exact but the last.
+AHEAD = 30                                                # days to look ahead for an aspect closing
+ORB = {0: 10, 180: 10, 90: 7, 120: 7, 60: 4}              # how near it must be already, in degrees
+BUILDING = 2                                              # closing aspects shown, at most
+
+
+def building(day: dt.date) -> list:
+    """The weightiest aspects closing on exactness after today between Mars and the slow planets (weight 3 and
+    up: two slow planets, or Mars meeting or opposing one), within ORB now and exact inside AHEAD days: [{"at": when
+    it's exact, "signs": the signs the two are in now or then, "lilly", "weight", "text", "building": True}]."""
+    ts, _ = sky()
+    noon = dt.datetime(day.year, day.month, day.day, 12, tzinfo=dt.timezone.utc)
+    grid = [noon + dt.timedelta(days=d) for d in range(AHEAD + 1)]
+    t = ts.from_datetimes(grid)
+    names = ["Mars", *sorted(SLOW, key=[n for n, _, _ in BODIES].index)]   # (the quick ones are over in days)
+    glyph = {n: g for n, g, _ in BODIES}
+    key = {n: k for n, _, k in BODIES}
+    lons = {n: [float(x) for x in longitudes(t, key[n])] for n in names}
+    tomorrow = dt.datetime(day.year, day.month, day.day, tzinfo=dt.timezone.utc) + dt.timedelta(days=1)
+    found = []
+    for i, a in enumerate(names):
+        for b in names[i + 1:]:
+            for angle, word, sym, target in _targets():
+                off = [_wrap(lons[a][d] - lons[b][d] - target) for d in range(AHEAD + 1)]
+                weight = aspect_weight(a, b, angle)
+                if weight < 3 or abs(off[0]) > ORB[angle]:
+                    continue
+                for d in range(AHEAD):
+                    d0, d1 = off[d], off[d + 1]
+                    if abs(d0) > ORB[angle]:
+                        break                             # (drifted apart first: separating, not closing)
+                    if (d0 < 0) != (d1 < 0) and abs(d0) < 5 and abs(d1) < 5:
+                        f = lambda m, a=a, b=b, tg=target: _wrap(float(longitudes(ts.from_datetime(m), key[a]))
+                                                                 - float(longitudes(ts.from_datetime(m), key[b])) - tg)
+                        moment = _bisect(f, grid[d], grid[d + 1], d0)
+                        if moment < tomorrow:
+                            break                         # (exact today: notable() has it)
+                        sa, sb = int(lons[a][d + 1] % 360 // 30), int(lons[b][d + 1] % 360 // 30)
+                        now = {int(lons[a][0] % 360 // 30), int(lons[b][0] % 360 // 30)}
+                        where = (f"{SIGNS[sa][1]} {SIGNS[sa][0]}" if sa == sb else f"{SIGNS[sa][1]} and {SIGNS[sb][1]}")
+                        found.append({"at": moment, "signs": sorted(now | {sa, sb}), "building": True,
+                                      "lilly": (glyph[a], KIND[angle], glyph[b]), "weight": weight,
+                                      "text": f"{glyph[a]} {a} {sym} {word} {glyph[b]} {b} in {where}, exact "
+                                              f"{moment.day} {moment:%b} ({_apart(abs(off[0]))} off today)"})
+                        break
+    return sorted(found, key=lambda e: (-e["weight"], e["at"]))[:BUILDING]
+
+
+def _apart(degrees: float) -> str:
+    """"8°36′"."""
+    minutes = round(degrees * 60)
+    return f"{minutes // 60}°{minutes % 60:02d}′"
+
+
+def significant(day: dt.date) -> list:
+    """What the day's horoscope covers: today's notable events, then the aspects building."""
+    return notable(day) + building(day)
+
+
+def in_sign(day: dt.date, sign: int) -> str:
+    """The planets in a sign at noon ("♂ Mars 14°45′, ♃ Jupiter 23°21′"), the Moon left out (it's in each for
+    two days), or ""."""
+    noon = dt.datetime(day.year, day.month, day.day, 12, tzinfo=dt.timezone.utc)
+    return ", ".join(f"{g} {n} {zodiac(lon).rsplit(' ', 1)[1]}" + (" ℞" if retro else "")
+                     for n, g, lon, retro in positions(noon) if n != "Moon" and int(lon % 360 // 30) == sign)
+
+
 def _touches(signs: list) -> str:
     """The signs an event falls in, plainly ("♏ Scorpio, ♒ Aquarius"): with no note, no stock line in its place."""
     return ", ".join(f"{SIGNS[i][1]} {SIGNS[i][0]}" for i in signs)
@@ -377,18 +452,22 @@ def horoscope_embed(day: dt.date, notes: "dict | None" = None, sign: "int | None
     day's written note (`notes`, by event text), else just the signs it touches. With `sign`, only those touching it."""
     whose = "" if sign is None else f" for {SIGNS[sign][1]} {SIGNS[sign][0]}"
     embed = discord.Embed(title=f"🪐 The sky today{whose} — {day:%A}, {day.day} {day:%B}", color=COLOR)
-    found = [e for e in notable(day) if sign is None or sign in e["signs"]]
+    found = [e for e in significant(day) if sign is None or sign in e["signs"]]
     for e in found:
         old = sepharial_on(e)
         if old:
             note = f"“{old}” — *Sepharial*"
         else:
             note = (notes or {}).get(e["text"]) or _touches(e["signs"])
-        embed.add_field(name=f"`{e['at'] + dt.timedelta(seconds=30):%H:%M}` {e['text']}"[:256], value=note[:1024],
-                        inline=False)
+        when = "building" if e.get("building") else f"{e['at'] + dt.timedelta(seconds=30):%H:%M}"
+        embed.add_field(name=f"`{when}` {e['text']}"[:256], value=note[:1024], inline=False)
+    there = in_sign(day, sign) if sign is not None else ""
+    if there:
+        embed.description = f"In {SIGNS[sign][1]} {SIGNS[sign][0]} now: {there}"
     if not found:
-        embed.description = ("A quiet sky today: nothing significant." if sign is None
-                             else f"Nothing significant touches {SIGNS[sign][0]} today.")
+        quiet = ("A quiet sky today: nothing significant." if sign is None
+                 else f"Nothing significant touches {SIGNS[sign][0]} today.")
+        embed.description = f"{embed.description}\n{quiet}" if there else quiet
     written = notes and any(e["text"] in notes and not sepharial_on(e) for e in found)
     embed.set_footer(text="Times UTC · tropical zodiac · positions from NASA JPL"
                           + (" · notes written by AI (Claude) from the real sky" if written else ""))
@@ -457,8 +536,9 @@ def _brief(day: dt.date) -> dict:
     noon = dt.datetime(day.year, day.month, day.day, 12, tzinfo=dt.timezone.utc)
     return {"positions": "\n".join(f"- {name}: {zodiac(lon)}" + (" (retrograde)" if retro else "")
                                    for name, _, lon, retro in positions(noon)),
-            "events": "\n".join(f"- {e['at']:%H:%M}: {e['text']} (signs: "
-                                f"{', '.join(SIGNS[i][0] for i in e['signs'])})" for e in notable(day))}
+            "events": "\n".join(f"- {'building, not yet exact' if e.get('building') else format(e['at'], '%H:%M')}: "
+                                f"{e['text']} (signs: {', '.join(SIGNS[i][0] for i in e['signs'])})"
+                                for e in significant(day))}
 
 
 def _load_horoscopes() -> dict:
@@ -485,7 +565,7 @@ async def day_notes(day: dt.date) -> "dict | None":
     if _writing is None:
         _writing = asyncio.Lock()
     async with _writing:                                  # (two servers at 06:00 make one request)
-        found = await asyncio.to_thread(notable, day)
+        found = await asyncio.to_thread(significant, day)
         if not found:
             return None
         try:
