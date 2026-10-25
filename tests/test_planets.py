@@ -89,7 +89,8 @@ def test_the_horoscope(planets):
     assert e.title == "🪐 The sky today — Friday, 23 October 2026"
     sun = next(f for f in e.fields if "Sun enters ♏ Scorpio" in f.name)
     assert sun.value.startswith("Felt most by those born under ♏ Scorpio.")
-    assert "*Lilly:* Gives a remarkably square-built" in sun.value and "`!verse Lilly appendix 3:" in sun.value
+    assert "> Gives a remarkably square-built" in sun.value and "— *Appendix 3:" in sun.value
+    assert sum(f.value.count("Lilly") for f in e.fields) == 0 and e.footer.text.count("Lilly") == 2   # (his name once, in the footer, and its !verse)
     assert all(len(f.value) <= 1024 and len(f.name) <= 256 for f in e.fields) and len(e) < 6000
     square = next(f for f in planets.horoscope_embed(dt.date(2026, 10, 26)).fields if "Pluto" in f.name)
     assert square.value == "Felt most by those born under ♏ Scorpio and ♒ Aquarius."

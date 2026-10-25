@@ -304,9 +304,9 @@ def horoscope_embed(day: dt.date) -> discord.Embed:
         if reading:
             ref, text = reading
             quote = re.sub(r"^(\*[^*\n]+\*\n)+", "", text).replace("\n", " ")
-            cite = f"\n— *{ref.replace(LILLY_APPENDIX, 'Lilly, Appendix')}* (`!verse {ref.replace(LILLY_APPENDIX, 'Lilly appendix')}`)"
+            cite = f"\n— *{ref.replace(LILLY_APPENDIX, 'Appendix')}*"           # (the footer says whose)
             if len(lines[0]) + len(quote) + len(cite) + 10 <= 1024:        # (a quotation is never cut)
-                lines.append(f"> *Lilly:* {quote}{cite}")
+                lines.append(f"> {quote}{cite}")
         embed.add_field(name=f"`{e['at'] + dt.timedelta(seconds=30):%H:%M}` {e['text']}"[:256],
                         value="\n".join(lines), inline=False)
     if not found:
@@ -314,8 +314,8 @@ def horoscope_embed(day: dt.date) -> discord.Embed:
     moon = next(lon for name, _, lon, _ in positions(noon) if name == "Moon")
     embed.add_field(name="The Moon", value=f"In {zodiac(moon)}; {moon_phase(noon)[0].lower()}{moon_phase(noon)[1:]}",
                     inline=False)
-    embed.set_footer(text="Times UTC · tropical zodiac · positions from NASA JPL · Lilly's readings from his "
-                          "Introduction to Astrology (1647, ed. Zadkiel) · !planets for where everything is")
+    embed.set_footer(text="Times UTC · tropical zodiac · positions from NASA JPL · readings quoted from William "
+                          "Lilly (1647, ed. Zadkiel): !verse Lilly appendix 3:118 · !planets for where everything is")
     return embed
 
 
