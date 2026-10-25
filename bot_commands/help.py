@@ -84,7 +84,7 @@ HELP_MENU = [
     ('🎲 Divination', [
         '`!oracle` `!delphi` `!homer` `!virgil` `!sortesbiblicae` `!iching` `!hafez` `!rumi` `!tarot` · `!help oracle`',
         "`!planets` — where the Sun, Moon and planets are in the zodiac, and the day's aspects · `!help planets`",
-        "`!horoscope` — the day's sky: each aspect, the signs it touches, the old astrologers' forecasts, a reading for every sign (`!horoscope leo`)",
+        "`!horoscope` — the day's significant events in the sky, and what each means and for whom (`!horoscope leo`)",
         '`!quiz` — guess which book a verse is from (`!quiz hard`, `!quiz buddhist`, `!quiz leaderboard`)',
         '`!whoami` — Who Am I? Guess a Bible figure from clues that get easier · `!help whoami`',
         '`!versle` — the daily verse puzzle: where in the Bible is it? · `!help versle`',
@@ -1252,9 +1252,9 @@ async def cmd_help(ctx, *, topic: str = ""):
             "`!planets` — the sky now, and today\n"
             "`!planets 2026-12-25` — any day from 1900 to 2049\n"
             "`!planets tomorrow` — or `yesterday`\n\n"
-            "`!horoscope` — the day's events as a horoscope: the signs each one touches, what Lilly (1647) or "
-            "Sepharial (1920) forecast of it, and a short reading for each of the twelve signs, written by AI from "
-            "the day's real sky. `!horoscope leo` for just your sign. (Admins: `!astrosetup channel #chan` posts "
+            "`!horoscope` — only the day's significant events (a planet turning retrograde, the slow planets "
+            "meeting, a new or full moon…), each with a short note on what it means and for whom. "
+            "`!horoscope leo` for the ones that touch your sign. (Admins: `!astrosetup channel #chan` posts "
             "`!planets` and `!horoscope` every morning.)\n\n"
             "To read what the old astrologers made of it: `!verse Tetrabiblos 1.4` (Ptolemy on the planets) "
             "or `!verse Lilly 7` (Lilly on Mars)."

@@ -82,71 +82,83 @@ def test_lilly_has_a_reading_for_every_placement_and_every_possible_aspect(plane
     assert planets.lilly_on(("☉", "☐☍", "♇")) is None                 # Lilly never knew of Pluto
 
 
-def test_the_horoscope(planets):
-    """The voice message: "Venus is in conjunction with Mercury. Look out, Leos" -- each event, the signs it
-    falls in, and Lilly on it where he has it."""
-    e = planets.horoscope_embed(dt.date(2026, 10, 23))
-    assert e.title == "🪐 The sky today — Friday, 23 October 2026"
-    sun = next(f for f in e.fields if "Sun enters ♏ Scorpio" in f.name)
-    assert sun.value.startswith("Felt most by those born under ♏ Scorpio.")
-    assert sun.value == "Felt most by those born under ♏ Scorpio."       # (no looks-not-forecast quote)
-    assert e.footer.text.count("Lilly") == 2
-    assert all(len(f.value) <= 1024 and len(f.name) <= 256 for f in e.fields) and len(e) < 6000
-    square = next(f for f in planets.horoscope_embed(dt.date(2026, 10, 26)).fields if "Pluto" in f.name)
-    assert square.value == "Felt most by those born under ♏ Scorpio and ♒ Aquarius."
+def test_only_whats_significant(planets):
+    """The voice message asked for "noteworthy astrological developments": the Moon's sign changes (every two or
+    three days) are left out; stations, the slow planets, new and full moons and the main aspects stay."""
+    assert planets.aspect_weight("Saturn", "Neptune", 0) == 4                  # slow planets meeting: rare
+    assert planets.aspect_weight("Sun", "Pluto", 90) == 2
+    assert planets.aspect_weight("Venus", "Mercury", 0) == 3                   # the voice message's example
+    assert planets.aspect_weight("Mars", "Venus", 60) == 1                     # a sextile of the quick planets
+    oct23 = [e["text"] for e in planets.notable(dt.date(2026, 10, 23))]
+    assert "☉ Sun enters ♏ Scorpio" in oct23 and not [t for t in oct23 if t.startswith("☽ Moon enters")]
+    assert any("Mercury stations retrograde" in e["text"] for e in planets.notable(dt.date(2026, 10, 24)))
+    for day in range(1, 32):
+        assert len(planets.notable(dt.date(2026, 10, day))) <= planets.MOST
+
+
+def test_the_horoscope_is_short(planets):
+    """Each significant event, who should look out, and a short note -- not twelve paragraphs."""
+    e = planets.horoscope_embed(dt.date(2026, 10, 26))
+    assert e.title == "🪐 The sky today — Monday, 26 October"
+    full = next(f for f in e.fields if "Full Moon" in f.name)
+    assert full.value == "♉ Taurus"                       # (no note: just the signs, never a stock "look out" line)
+    square = next(f for f in e.fields if "Pluto" in f.name)
+    assert square.value == "♏ Scorpio, ♒ Aquarius"
+    assert "look out" not in planets.PROMPT.lower().replace('("look out"', '')
+    assert len(e) < 1500 and "AI" not in e.footer.text
+    notes = {f.name.split("` ", 1)[1]: "Taureans: things come to a head." for f in e.fields}
+    with_notes = planets.horoscope_embed(dt.date(2026, 10, 26), notes)
+    assert all(f.value == "Taureans: things come to a head." for f in with_notes.fields)
+    assert "written by AI" in with_notes.footer.text
 
 
 def test_sepharials_forecasts_are_his_words_and_go_to_the_right_conjunctions(planets):
     text = planets._sepharial_text()
     for words in planets.SEPHARIAL.values():
         assert words in text, words
-    assert planets.old_reading({"lilly": ("♂", "☌", "♀")}) == (
-        "Sepharial", "4.2:2", "Mars over the place of Venus will engender passionate love.")
-    assert planets.old_reading({"lilly": ("☿", "☌", "♂")})[2].endswith("quarrels and disputation.")
-    who, where, _ = planets.old_reading({"lilly": ("♄", "☌", "♃")})            # Sepharial hasn't it: Lilly
-    assert who == "Lilly" and where.startswith("Appendix 4:")
-    assert planets.old_reading({"lilly": ("♂", "in", "♏")}) is None           # (looks, not a forecast)
-    assert planets.old_reading({"lilly": None}) is None
+    assert planets.sepharial_on({"lilly": ("♂", "☌", "♀")}) == "Mars over the place of Venus will engender passionate love."
+    assert planets.sepharial_on({"lilly": ("☿", "☌", "♂")}).endswith("quarrels and disputation.")
+    assert planets.sepharial_on({"lilly": ("♄", "☌", "♃")}) is None
+    assert planets.sepharial_on({"lilly": ("♂", "□", "♀")}) is None and planets.sepharial_on({"lilly": None}) is None
 
 
-def test_the_twelve_signs_are_asked_for_once_a_day_and_kept(planets, monkeypatch):
+def test_the_notes_are_asked_for_once_a_day_and_kept(planets, monkeypatch):
     import asyncio
     import json as _json
+    today = dt.datetime.now(dt.timezone.utc).date()
+    found = planets.notable(today)
+    if not found:
+        pytest.skip("a quiet sky today: nothing to write notes for")
     asked = []
-    reply = _json.dumps({name: f"A reading for {name}." for name, _ in planets.SIGNS})
+    reply = _json.dumps([f"Note {i}." for i in range(len(found))])
     monkeypatch.setenv("ANTHROPIC_API_KEY", "test")
     monkeypatch.setattr(planets, "_ask_claude", lambda prompt: asked.append(prompt) or reply)
     monkeypatch.setattr(planets, "_writing", None)
-    today = dt.datetime.now(dt.timezone.utc).date()
-    first = asyncio.run(planets.sign_readings(today))
-    again = asyncio.run(planets.sign_readings(today))
-    assert first == again and first["Leo"] == "A reading for Leo." and len(asked) == 1
-    assert "Today's events" in asked[0] and "Positions at noon UTC" in asked[0]
-    assert asyncio.run(planets.sign_readings(today - dt.timedelta(days=3))) is None     # (today only)
-    e = planets.signs_embed(first)
-    assert len(e.fields) == 12 and "Written by AI" in e.footer.text
-    assert [f.name for f in planets.signs_embed(first, 4).fields] == ["♌ Leo"]
+    first = asyncio.run(planets.day_notes(today))
+    again = asyncio.run(planets.day_notes(today))
+    assert first == again and len(asked) == 1 and first[found[0]["text"]] == "Note 0."
+    assert found[0]["text"] in asked[0] and "one short note" in asked[0]
+    assert asyncio.run(planets.day_notes(today - dt.timedelta(days=3))) is None     # (today only)
 
 
 def test_no_key_no_ai(planets, monkeypatch):
     import asyncio
     monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
     monkeypatch.setattr(planets, "_ask_claude", lambda prompt: (_ for _ in ()).throw(AssertionError("asked")))
-    assert asyncio.run(planets.sign_readings(dt.datetime.now(dt.timezone.utc).date())) is None
+    assert asyncio.run(planets.day_notes(dt.datetime.now(dt.timezone.utc).date())) is None
 
 
-def test_a_reply_that_isnt_twelve_readings_is_refused(planets):
-    import json as _json
-    assert planets._readings_from("not json") is None
-    assert planets._readings_from(_json.dumps({"Leo": "x"})) is None
-    good = {name: "Fine." for name, _ in planets.SIGNS}
-    assert planets._readings_from("Here you are:\n" + _json.dumps(good)) == good
+def test_a_reply_that_doesnt_fit_is_refused(planets):
+    found = [{"text": "a"}, {"text": "b"}]
+    assert planets._notes_from("not json", found) is None
+    assert planets._notes_from('["only one"]', found) is None
+    assert planets._notes_from('Here:\n["One.", "Two."]', found) == {"a": "One.", "b": "Two."}
 
 
 def test_horoscope_for_one_sign(planets):
     assert planets._sign_index("Leo") == 4 and planets._sign_index("scorpios") == 7 and planets._sign_index("♓") == 11
     assert planets._sign_index("2026-10-26") is None
-    e = planets.horoscope_embed(dt.date(2026, 10, 26), True, 7)
+    e = planets.horoscope_embed(dt.date(2026, 10, 26), None, 7)
     assert e.title.startswith("🪐 The sky today for ♏ Scorpio")
     assert [f.name for f in e.fields if "Pluto" in f.name] and not [f for f in e.fields if "Full Moon" in f.name]
 
@@ -175,7 +187,7 @@ def test_the_daily_post_goes_once_a_day(planets):
     assert sky.title == "🪐 The sky on 23 October 2026" and sky.description.count("\n") == 9
     assert [f.name for f in sky.fields] == ["The Moon"]
     assert reading.title.startswith("🪐 The sky today") and "The Moon" not in [f.name for f in reading.fields]
-    assert any("Sun enters ♏ Scorpio" in f.name for f in reading.fields)
+    assert any("Sun enters ♏ Scorpio" in f.name for f in reading.fields) and len(reading) < 1500
 
 
 def test_the_embed_fits(planets):
