@@ -1091,6 +1091,7 @@ BOOKS_TREE = [
         ]),
         ("Astrology", [
             ("William Lilly", ["Lilly's Introduction to Astrology", "Lilly's Introduction to Astrology, Appendix"]),
+            ("Sepharial", ["Sepharial's Astrology"]),
         ]),
         ("Swedenborg", [
             ("The main works", [

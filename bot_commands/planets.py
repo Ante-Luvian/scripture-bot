@@ -295,31 +295,208 @@ def _signs(indexes: list) -> str:
     return named[0] if len(named) == 1 else ", ".join(named[:-1]) + " and " + named[-1]
 
 
-def horoscope_embed(day: dt.date, with_moon: bool = True) -> discord.Embed:
-    """The UTC day's events, each with the signs it falls in and Lilly's reading on it; and the Moon, unless
-    !planets has just shown it (the daily post)."""
+# Sepharial's forecasts for one planet passing over another ("Astrology", 1920, Section IV, Chapter II, "The
+# Effects of Transits"), quoted whole: a sentence that leans on the one before ("Neptune thereover", "Mars over
+# the same planet") is quoted with it. Each is checked against the book when first used.
+SEPHARIAL_REF = "Sepharial's Astrology 4.2:2"
+SEPHARIAL = {
+    frozenset("♅♀"): "So Uranus in transit over the place of Venus will give a love affair, a romantic attachment.",
+    frozenset("♂♀"): "Mars over the place of Venus will engender passionate love.",
+    frozenset("♄♀"): "Saturn over Venus will give disappointment or bereavement; and Neptune thereover will bring "
+                     "entanglements and complications, with danger of being led astray.",
+    frozenset("♆♀"): "Saturn over Venus will give disappointment or bereavement; and Neptune thereover will bring "
+                     "entanglements and complications, with danger of being led astray.",
+    frozenset("♄☿"): "Saturn over Mercury will produce melancholy and many errors of judgment.",
+    frozenset("♂☿"): "Saturn over Mercury will produce melancholy and many errors of judgment. Mars over the same "
+                     "planet will excite the mind and dispose to impulse and unreasoning anger, quarrels and "
+                     "disputation.",
+    frozenset("♅☿"): "Uranus over Mercury will render the mind wayward and headstrong, disposed to erratic courses "
+                     "and egotistic methods.",
+    frozenset("♆☿"): "Neptune passing the place of Mercury produces deceits, treacheries, and apprehension of "
+                     "impending evil, a sense of espionage and ambush.",
+}
+
+
+@functools.lru_cache(maxsize=1)
+def _sepharial_text() -> str:
+    corpus, book = lookup._resolve_exact("Sepharial's Astrology")
+    if not book:
+        return ""
+    return re.sub(r"\s+", " ", lookup._data[corpus][book].get("4.2", {}).get("2", ""))
+
+
+def old_reading(e: dict) -> "tuple | None":
+    """(who, where, the words) of an old astrologer's forecast for an event: Sepharial on one planet passing
+    over another, else Lilly on the aspect. None for a planet entering a sign (Lilly's readings there
+    describe a person's looks, not a day: a friend of the owner's rightly found them no use)."""
+    key = e.get("lilly")
+    if not key or key[1] == "in":
+        return None
+    if key[1] == "☌":
+        words = SEPHARIAL.get(frozenset((key[0], key[2])))
+        if words and words in _sepharial_text():
+            return "Sepharial", "4.2:2", words
+    reading = lilly_on(key)
+    if reading:
+        ref, text = reading
+        return "Lilly", ref.replace(LILLY_APPENDIX, "Appendix"), re.sub(r"^(\*[^*\n]+\*\n)+", "", text).replace("\n", " ")
+    return None
+
+
+def _sign_index(word: str) -> "int | None":
+    w = word.strip().lower().rstrip("s")
+    for i, (name, glyph) in enumerate(SIGNS):
+        if w in (name.lower(), name.lower().rstrip("s"), glyph):
+            return i
+    return None
+
+
+def horoscope_embed(day: dt.date, with_moon: bool = True, sign: "int | None" = None) -> discord.Embed:
+    """The UTC day's events, each with the signs it falls in and an old astrologer's forecast for it; and the
+    Moon, unless !planets has just shown it (the daily post). With `sign`, only the events that touch it."""
     noon = dt.datetime(day.year, day.month, day.day, 12, tzinfo=dt.timezone.utc)
-    embed = discord.Embed(title=f"🪐 The sky today — {day:%A}, {day.day} {day:%B %Y}", color=COLOR)
-    found = day_events(day)
+    whose = "" if sign is None else f" for {SIGNS[sign][1]} {SIGNS[sign][0]}"
+    embed = discord.Embed(title=f"🪐 The sky today{whose} — {day:%A}, {day.day} {day:%B %Y}", color=COLOR)
+    found = [e for e in day_events(day) if sign is None or sign in e["signs"]]
     for e in found[:20]:
         lines = [f"Felt most by those born under {_signs(e['signs'])}."]
-        reading = lilly_on(e["lilly"])
+        reading = old_reading(e)
         if reading:
-            ref, text = reading
-            quote = re.sub(r"^(\*[^*\n]+\*\n)+", "", text).replace("\n", " ")
-            cite = f"\n— *{ref.replace(LILLY_APPENDIX, 'Appendix')}*"           # (the footer says whose)
-            if len(lines[0]) + len(quote) + len(cite) + 10 <= 1024:        # (a quotation is never cut)
-                lines.append(f"> {quote}{cite}")
+            who, where, words = reading
+            quoted = f"> {words}\n— *{who}, {where}*"
+            if len(lines[0]) + len(quoted) + 2 <= 1024:                      # (a quotation is never cut)
+                lines.append(quoted)
         embed.add_field(name=f"`{e['at'] + dt.timedelta(seconds=30):%H:%M}` {e['text']}"[:256],
                         value="\n".join(lines), inline=False)
     if not found:
-        embed.description = "A quiet day: no exact aspects, no planet changing sign or direction."
+        embed.description = ("A quiet day: no exact aspects, no planet changing sign or direction."
+                             if sign is None else f"Nothing in the sky touches {SIGNS[sign][0]} directly today.")
     if with_moon:
         moon = next(lon for name, _, lon, _ in positions(noon) if name == "Moon")
         embed.add_field(name="The Moon", value=f"In {zodiac(moon)}; {moon_phase(noon)[0].lower()}{moon_phase(noon)[1:]}",
                         inline=False)
-    embed.set_footer(text="Times UTC · tropical zodiac · positions from NASA JPL · readings quoted from William "
-                          "Lilly (1647, ed. Zadkiel): !verse Lilly appendix 3:118 · !planets for where everything is")
+    embed.set_footer(text="Times UTC · tropical zodiac · positions from NASA JPL · forecasts quoted from William "
+                          "Lilly (1647, ed. Zadkiel) and Sepharial (1920): !verse Lilly appendix 4:2, !verse "
+                          "Sepharial 4.2:2")
+    return embed
+
+
+# ── the twelve signs, written by AI from the day's real sky ──────────────────────────────────────────
+# The owner wanted "actual horoscopes", a reading for each sign, which no old book gives (the sun-sign
+# column is a 1930s newspaper invention). Once a day the bot sends Claude the day's computed events and asks
+# for one for each sign, from those alone; they're labelled as written by AI. Made for today only (other
+# dates would be a cost anyone could run up), once a day for every server, kept in HOROSCOPE_PATH.
+# Needs ANTHROPIC_API_KEY in .env; without it, or if the call fails, the post goes without them.
+
+HOROSCOPE_PATH = ROOT / "data" / "horoscopes.json"      # {"YYYY-MM-DD": {"Aries": "...", ...}}
+MODEL = "claude-sonnet-5-5"
+_writing = None                                          # (an asyncio.Lock, made on first use)
+
+
+def _sky_brief(day: dt.date) -> str:
+    """The day's sky in words, for the model: positions at noon, the Moon, and the events with their signs."""
+    noon = dt.datetime(day.year, day.month, day.day, 12, tzinfo=dt.timezone.utc)
+    lines = [f"Date: {day:%A %d %B %Y} (times UTC). Tropical zodiac.", "Positions at noon UTC:"]
+    lines += [f"- {name}: {zodiac(lon)}" + (" (retrograde)" if retro else "") for name, _, lon, retro in positions(noon)]
+    lines.append(f"The Moon: {moon_phase(noon)}.")
+    found = day_events(day)
+    lines.append("Today's events:" if found else "Today's events: none (a quiet day).")
+    lines += [f"- {e['at']:%H:%M}: {e['text']} (signs: {', '.join(SIGNS[i][0] for i in e['signs'])})" for e in found]
+    return "\n".join(lines)
+
+
+PROMPT = """You write the daily horoscope for a Discord bot's astrology channel, from the real sky below \
+(computed from NASA's ephemeris; tropical zodiac).
+
+{sky}
+
+Write today's horoscope for each of the twelve signs: two or three sentences each, for someone whose Sun sign it \
+is. Ground every reading in the events and positions above (the planets in or aspecting that sign, the houses \
+they fall in counting that sign as the first, the Moon's sign and phase) and name the planets involved; never \
+invent an event or a position. Use the traditional meanings. Be warm and specific, a little wry, never \
+saccharine; vary your openings; no emoji; no medical, legal or financial instructions; no "you will" certainties.
+
+Reply with only a JSON object whose keys are the twelve signs, Aries to Pisces, and whose values are the readings."""
+
+
+def _ask_claude(prompt: str) -> str:
+    import os
+    import urllib.request
+    key = os.environ.get("ANTHROPIC_API_KEY")
+    if not key:
+        raise RuntimeError("no ANTHROPIC_API_KEY")
+    body = json.dumps({"model": MODEL, "max_tokens": 2500, "messages": [{"role": "user", "content": prompt}]}).encode()
+    req = urllib.request.Request("https://api.anthropic.com/v1/messages", data=body, method="POST", headers={
+        "x-api-key": key, "anthropic-version": "2023-06-01", "content-type": "application/json"})
+    with urllib.request.urlopen(req, timeout=120) as r:
+        reply = json.loads(r.read().decode("utf-8"))
+    return "".join(part.get("text", "") for part in reply.get("content", []))
+
+
+def _readings_from(reply: str) -> "dict | None":
+    m = re.search(r"\{.*\}", reply, re.S)
+    try:
+        data = json.loads(m.group(0)) if m else None
+    except ValueError:
+        return None
+    if not isinstance(data, dict):
+        return None
+    out = {}
+    for name, _ in SIGNS:
+        text = next((v for k, v in data.items() if str(k).strip().lower() == name.lower()), None)
+        if not isinstance(text, str) or not text.strip() or len(text) > 900:
+            return None
+        out[name] = re.sub(r"\s+", " ", text).strip()
+    return out
+
+
+def _load_horoscopes() -> dict:
+    try:
+        return json.loads(HOROSCOPE_PATH.read_text(encoding="utf-8")) if HOROSCOPE_PATH.exists() else {}
+    except ValueError:
+        return {}
+
+
+async def sign_readings(day: dt.date) -> "dict | None":
+    """{sign: reading} for today, written once and kept; None for another day, or when they can't be had."""
+    global _writing
+    import asyncio
+    import os
+    if day != dt.datetime.now(dt.timezone.utc).date():
+        return None
+    kept = _load_horoscopes().get(day.isoformat())
+    if not kept and not os.environ.get("ANTHROPIC_API_KEY"):
+        return None                                       # (no key set: the post goes without, quietly)
+    if kept:
+        return kept
+    if _writing is None:
+        _writing = asyncio.Lock()
+    async with _writing:                                  # (two servers at 06:00 make one request)
+        kept = _load_horoscopes().get(day.isoformat())
+        if kept:
+            return kept
+        try:
+            prompt = PROMPT.format(sky=await asyncio.to_thread(_sky_brief, day))
+            readings = _readings_from(await asyncio.to_thread(_ask_claude, prompt))
+        except Exception as e:
+            log.warning(f"The day's sign readings couldn't be written: {e}")
+            return None
+        if not readings:
+            log.warning("The day's sign readings came back in a form I can't use")
+            return None
+        state = {k: v for k, v in _load_horoscopes().items() if k >= (day - dt.timedelta(days=14)).isoformat()}
+        state[day.isoformat()] = readings
+        _atomic_write_json(HOROSCOPE_PATH, state)
+        return readings
+
+
+def signs_embed(readings: dict, sign: "int | None" = None) -> discord.Embed:
+    embed = discord.Embed(title="🔮 The twelve signs today" if sign is None else
+                          f"🔮 {SIGNS[sign][1]} {SIGNS[sign][0]} today", color=COLOR)
+    for i, (name, glyph) in enumerate(SIGNS):
+        if sign is None or sign == i:
+            embed.add_field(name=f"{glyph} {name}", value=readings[name], inline=False)
+    embed.set_footer(text="Written by AI (Claude) from today's real sky, above · for fun")
     return embed
 
 
@@ -342,8 +519,11 @@ async def post_astroday(guild_id, channel, day: dt.date, force: bool = False) ->
     moment = now if now.date() == day else dt.datetime(day.year, day.month, day.day, 12, tzinfo=dt.timezone.utc)
     sky_now = await asyncio.to_thread(planets_embed, moment, moment is now, False)
     reading = await asyncio.to_thread(horoscope_embed, day, False)
+    signs = await sign_readings(day)
     await channel.send(embed=sky_now)
     await channel.send(embed=reading)
+    if signs:                                                   # (the twelve signs, written by AI, when they can be)
+        await channel.send(embed=signs_embed(signs))
     state.setdefault("posted", {})[str(guild_id)] = day.isoformat()
     _atomic_write_json(ASTRO_PATH, state)
     return True
@@ -380,19 +560,28 @@ async def _before_daily_astro():
 
 @bot.command(name="horoscope", aliases=["horoscopes", "astroday"])
 async def cmd_horoscope(ctx, *, when: str = ""):
-    """The day's sky as a horoscope: each aspect, sign change and station, the signs it falls in, and
-    what William Lilly wrote of it.
+    """The day's sky as a horoscope: each aspect, sign change and station, the signs it falls in, what the
+    old astrologers forecast of it, and (today) a reading for each sign.
     Usage: !horoscope              — today
+           !horoscope leo          — today, for Leo
            !horoscope 2026-12-25   — that day"""
     if sky() is None:
         await ctx.send("⚠️ I can't work out the sky right now: my planetary tables aren't installed.")
         return
+    words = when.split()
+    sign = _sign_index(words[0]) if words else None
+    if sign is not None:
+        when = " ".join(words[1:])
     moment = parse_when(when, dt.datetime.now(dt.timezone.utc))
     if isinstance(moment, str):
-        await ctx.send(moment)
+        await ctx.send(moment if sign is not None or not words else
+                       moment + " Or give a sign: `!horoscope leo`.")
         return
     import asyncio
-    await ctx.send(embed=await asyncio.to_thread(horoscope_embed, moment.date()))
+    await ctx.send(embed=await asyncio.to_thread(horoscope_embed, moment.date(), True, sign))
+    readings = await sign_readings(moment.date())
+    if readings:
+        await ctx.send(embed=signs_embed(readings, sign))
 
 
 @bot.command(name="astrosetup", aliases=["astroconfig", "horoscopesetup"])

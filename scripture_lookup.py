@@ -858,6 +858,7 @@ ALIASES: dict[str, str] = {
     "christian astrology": "Lilly's Introduction to Astrology",
     "introduction to astrology": "Lilly's Introduction to Astrology",
     "lilly appendix": "Lilly's Introduction to Astrology, Appendix",
+    "sepharial": "Sepharial's Astrology", "sepharial astrology": "Sepharial's Astrology",
     # Aesop (Townsend), one chapter a fable
     "aesop": "Aesop's Fables", "aesops fables": "Aesop's Fables", "aesop's fables": "Aesop's Fables",
     "fables": "Aesop's Fables", "fables of aesop": "Aesop's Fables", "aesop fables": "Aesop's Fables",
@@ -1923,6 +1924,7 @@ class ScriptureLookup:
                 "practice_of_presence.json",
                 "swedenborg.json",
                 "lilly_astrology.json",          # Lilly ed. Zadkiel (scripts/build_astrology.py)
+                "sepharial_astrology.json",      # Sepharial, 1920 (scripts/build_sepharial.py)
                 "blake.json",
                 "milton.json",
                 "pilgrims_progress.json",

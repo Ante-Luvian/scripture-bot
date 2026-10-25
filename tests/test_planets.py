@@ -89,11 +89,66 @@ def test_the_horoscope(planets):
     assert e.title == "🪐 The sky today — Friday, 23 October 2026"
     sun = next(f for f in e.fields if "Sun enters ♏ Scorpio" in f.name)
     assert sun.value.startswith("Felt most by those born under ♏ Scorpio.")
-    assert "> Gives a remarkably square-built" in sun.value and "— *Appendix 3:" in sun.value
-    assert sum(f.value.count("Lilly") for f in e.fields) == 0 and e.footer.text.count("Lilly") == 2   # (his name once, in the footer, and its !verse)
+    assert sun.value == "Felt most by those born under ♏ Scorpio."       # (no looks-not-forecast quote)
+    assert e.footer.text.count("Lilly") == 2
     assert all(len(f.value) <= 1024 and len(f.name) <= 256 for f in e.fields) and len(e) < 6000
     square = next(f for f in planets.horoscope_embed(dt.date(2026, 10, 26)).fields if "Pluto" in f.name)
     assert square.value == "Felt most by those born under ♏ Scorpio and ♒ Aquarius."
+
+
+def test_sepharials_forecasts_are_his_words_and_go_to_the_right_conjunctions(planets):
+    text = planets._sepharial_text()
+    for words in planets.SEPHARIAL.values():
+        assert words in text, words
+    assert planets.old_reading({"lilly": ("♂", "☌", "♀")}) == (
+        "Sepharial", "4.2:2", "Mars over the place of Venus will engender passionate love.")
+    assert planets.old_reading({"lilly": ("☿", "☌", "♂")})[2].endswith("quarrels and disputation.")
+    who, where, _ = planets.old_reading({"lilly": ("♄", "☌", "♃")})            # Sepharial hasn't it: Lilly
+    assert who == "Lilly" and where.startswith("Appendix 4:")
+    assert planets.old_reading({"lilly": ("♂", "in", "♏")}) is None           # (looks, not a forecast)
+    assert planets.old_reading({"lilly": None}) is None
+
+
+def test_the_twelve_signs_are_asked_for_once_a_day_and_kept(planets, monkeypatch):
+    import asyncio
+    import json as _json
+    asked = []
+    reply = _json.dumps({name: f"A reading for {name}." for name, _ in planets.SIGNS})
+    monkeypatch.setenv("ANTHROPIC_API_KEY", "test")
+    monkeypatch.setattr(planets, "_ask_claude", lambda prompt: asked.append(prompt) or reply)
+    monkeypatch.setattr(planets, "_writing", None)
+    today = dt.datetime.now(dt.timezone.utc).date()
+    first = asyncio.run(planets.sign_readings(today))
+    again = asyncio.run(planets.sign_readings(today))
+    assert first == again and first["Leo"] == "A reading for Leo." and len(asked) == 1
+    assert "Today's events" in asked[0] and "Positions at noon UTC" in asked[0]
+    assert asyncio.run(planets.sign_readings(today - dt.timedelta(days=3))) is None     # (today only)
+    e = planets.signs_embed(first)
+    assert len(e.fields) == 12 and "Written by AI" in e.footer.text
+    assert [f.name for f in planets.signs_embed(first, 4).fields] == ["♌ Leo"]
+
+
+def test_no_key_no_ai(planets, monkeypatch):
+    import asyncio
+    monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+    monkeypatch.setattr(planets, "_ask_claude", lambda prompt: (_ for _ in ()).throw(AssertionError("asked")))
+    assert asyncio.run(planets.sign_readings(dt.datetime.now(dt.timezone.utc).date())) is None
+
+
+def test_a_reply_that_isnt_twelve_readings_is_refused(planets):
+    import json as _json
+    assert planets._readings_from("not json") is None
+    assert planets._readings_from(_json.dumps({"Leo": "x"})) is None
+    good = {name: "Fine." for name, _ in planets.SIGNS}
+    assert planets._readings_from("Here you are:\n" + _json.dumps(good)) == good
+
+
+def test_horoscope_for_one_sign(planets):
+    assert planets._sign_index("Leo") == 4 and planets._sign_index("scorpios") == 7 and planets._sign_index("♓") == 11
+    assert planets._sign_index("2026-10-26") is None
+    e = planets.horoscope_embed(dt.date(2026, 10, 26), True, 7)
+    assert e.title.startswith("🪐 The sky today for ♏ Scorpio")
+    assert [f.name for f in e.fields if "Pluto" in f.name] and not [f for f in e.fields if "Full Moon" in f.name]
 
 
 def test_the_lilly_references_open(planets, lookup):
