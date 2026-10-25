@@ -128,7 +128,7 @@ HELP_MENU = [
         "`!verslesetup channel #chan` — the day's Versle puzzle (`time`, `test`, `off`)",
         '`!hymndaysetup channel #chan` — the hymn of the day (`time`, `test`, `off`)',
         '`!saintsetup channel #chan` — the saint of the day (`time`, `test`, `off`)',
-        "`!astrosetup channel #chan` — the day's sky, as `!horoscope` shows it (`time`, `test`, `off`)",
+        "`!astrosetup channel #chan` — the day's sky each morning: `!planets`, then `!horoscope` (`time`, `test`, `off`)",
         '`!angelussetup channel #chan` — the Angelus (`time 06:00 12:00 18:00`, `test`, `off`)',
         '`!troparionsetup channel #chan` — the Orthodox troparia of the day (`time`, `test`, `off`)',
         "`!learningsetup channel #chan` — the day's Jewish learning (`time`, `test`, `off`)",
@@ -1253,7 +1253,7 @@ async def cmd_help(ctx, *, topic: str = ""):
             "`!planets 2026-12-25` — any day from 1900 to 2049\n"
             "`!planets tomorrow` — or `yesterday`\n\n"
             "`!horoscope` — the day's events as a horoscope: the signs each one touches, and what William "
-            "Lilly wrote of it (admins: `!astrosetup channel #chan` posts it every morning)\n\n"
+            "Lilly wrote of it (admins: `!astrosetup channel #chan` posts `!planets` and `!horoscope` every morning)\n\n"
             "To read what the old astrologers made of it: `!verse Tetrabiblos 1.4` (Ptolemy on the planets) "
             "or `!verse Lilly 7` (Lilly on Mars)."
         )

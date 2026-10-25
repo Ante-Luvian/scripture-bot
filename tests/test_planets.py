@@ -114,7 +114,13 @@ def test_the_daily_post_goes_once_a_day(planets):
     assert asyncio.run(planets.post_astroday(1, Channel(), day))
     assert not asyncio.run(planets.post_astroday(1, Channel(), day))       # (a restart doesn't post twice)
     assert asyncio.run(planets.post_astroday(1, Channel(), day, force=True))
-    assert len(sent) == 2 and sent[0]["embed"].title.startswith("🪐 The sky today")
+    # each post: !planets (positions and the Moon, not the events), then !horoscope (the events, no Moon)
+    assert len(sent) == 4
+    sky, reading = sent[0]["embed"], sent[1]["embed"]
+    assert sky.title == "🪐 The sky on 23 October 2026" and sky.description.count("\n") == 9
+    assert [f.name for f in sky.fields] == ["The Moon"]
+    assert reading.title.startswith("🪐 The sky today") and "The Moon" not in [f.name for f in reading.fields]
+    assert any("Sun enters ♏ Scorpio" in f.name for f in reading.fields)
 
 
 def test_the_embed_fits(planets):

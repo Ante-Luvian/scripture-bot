@@ -238,20 +238,22 @@ def parse_when(arg: str, now: dt.datetime) -> "dt.datetime | str":
     return when
 
 
-def planets_embed(when: dt.datetime, now: bool) -> discord.Embed:
+def planets_embed(when: dt.datetime, now: bool, with_events: bool = True) -> discord.Embed:
+    """Where everything is; and, unless the day's horoscope follows it (the daily post), the day's events."""
     lines = []
     for name, glyph, lon, retro in positions(when):
         lines.append(f"{glyph} **{name}** — {zodiac(lon)}" + (" ℞" if retro else ""))
     title = "🪐 The sky now" if now else f"🪐 The sky on {when.day} {when:%B %Y}"
     embed = discord.Embed(title=title, description="\n".join(lines), color=COLOR)
     embed.add_field(name="The Moon", value=moon_phase(when), inline=False)
-    day = events(when.date())
-    if day:
-        text = "\n".join(f"`{m + dt.timedelta(seconds=30):%H:%M}` {e}" for m, e in day)   # (to the nearest minute)
-        embed.add_field(name=f"{'Today' if now else 'That day'} (times UTC)", value=text[:1024], inline=False)
-    else:
-        embed.add_field(name=f"{'Today' if now else 'That day'}", value="No exact aspects, ingresses or stations.",
-                        inline=False)
+    if with_events:
+        day = events(when.date())
+        if day:
+            text = "\n".join(f"`{m + dt.timedelta(seconds=30):%H:%M}` {e}" for m, e in day)   # (to the nearest minute)
+            embed.add_field(name=f"{'Today' if now else 'That day'} (times UTC)", value=text[:1024], inline=False)
+        else:
+            embed.add_field(name=f"{'Today' if now else 'That day'}", value="No exact aspects, ingresses or stations.",
+                            inline=False)
     stamp = f"{when:%H:%M} UTC" if now else "noon UTC"
     embed.set_footer(text=f"Tropical zodiac · ℞ retrograde · positions at {stamp}, from NASA JPL (DE421)")
     return embed
@@ -293,8 +295,9 @@ def _signs(indexes: list) -> str:
     return named[0] if len(named) == 1 else ", ".join(named[:-1]) + " and " + named[-1]
 
 
-def horoscope_embed(day: dt.date) -> discord.Embed:
-    """The UTC day's events, each with the signs it falls in and Lilly's reading on it."""
+def horoscope_embed(day: dt.date, with_moon: bool = True) -> discord.Embed:
+    """The UTC day's events, each with the signs it falls in and Lilly's reading on it; and the Moon, unless
+    !planets has just shown it (the daily post)."""
     noon = dt.datetime(day.year, day.month, day.day, 12, tzinfo=dt.timezone.utc)
     embed = discord.Embed(title=f"🪐 The sky today — {day:%A}, {day.day} {day:%B %Y}", color=COLOR)
     found = day_events(day)
@@ -311,9 +314,10 @@ def horoscope_embed(day: dt.date) -> discord.Embed:
                         value="\n".join(lines), inline=False)
     if not found:
         embed.description = "A quiet day: no exact aspects, no planet changing sign or direction."
-    moon = next(lon for name, _, lon, _ in positions(noon) if name == "Moon")
-    embed.add_field(name="The Moon", value=f"In {zodiac(moon)}; {moon_phase(noon)[0].lower()}{moon_phase(noon)[1:]}",
-                    inline=False)
+    if with_moon:
+        moon = next(lon for name, _, lon, _ in positions(noon) if name == "Moon")
+        embed.add_field(name="The Moon", value=f"In {zodiac(moon)}; {moon_phase(noon)[0].lower()}{moon_phase(noon)[1:]}",
+                        inline=False)
     embed.set_footer(text="Times UTC · tropical zodiac · positions from NASA JPL · readings quoted from William "
                           "Lilly (1647, ed. Zadkiel): !verse Lilly appendix 3:118 · !planets for where everything is")
     return embed
@@ -333,8 +337,13 @@ async def post_astroday(guild_id, channel, day: dt.date, force: bool = False) ->
     if sky() is None:
         return False
     import asyncio
-    embed = await asyncio.to_thread(horoscope_embed, day)
-    await channel.send(embed=embed)
+    # !planets (where everything is, as the post goes out), then !horoscope (the day's events, read)
+    now = dt.datetime.now(dt.timezone.utc)
+    moment = now if now.date() == day else dt.datetime(day.year, day.month, day.day, 12, tzinfo=dt.timezone.utc)
+    sky_now = await asyncio.to_thread(planets_embed, moment, moment is now, False)
+    reading = await asyncio.to_thread(horoscope_embed, day, False)
+    await channel.send(embed=sky_now)
+    await channel.send(embed=reading)
     state.setdefault("posted", {})[str(guild_id)] = day.isoformat()
     _atomic_write_json(ASTRO_PATH, state)
     return True
@@ -389,7 +398,7 @@ async def cmd_horoscope(ctx, *, when: str = ""):
 @bot.command(name="astrosetup", aliases=["astroconfig", "horoscopesetup"])
 @commands.has_permissions(administrator=True)
 async def cmd_astrosetup(ctx, action: str = "", *, arg: str = ""):
-    """Post the day's sky (!horoscope) in a channel every day.
+    """Post the day's sky in a channel every day: !planets (where everything is), then !horoscope.
     Usage: !astrosetup                  — show this server's settings
            !astrosetup channel #chan    — post it there each day
            !astrosetup time 06:00       — daily post time (24h UTC)
