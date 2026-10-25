@@ -391,6 +391,13 @@ async def planets_slash(interaction: discord.Interaction, when: str = ""):
     await _command("planets")(ctx, when=when)
 
 
+@bot.tree.command(name="horoscope", description="The day's sky: each aspect, the signs it touches, and what Lilly wrote of it")
+@app_commands.describe(when="A date (2026-12-25), 'tomorrow' or 'yesterday'; empty for today")
+async def horoscope_slash(interaction: discord.Interaction, when: str = ""):
+    ctx = await _slash_ctx(interaction)
+    await _command("horoscope")(ctx, when=when)
+
+
 @bot.tree.command(name="fable", description="One of Aesop's Fables")
 @app_commands.describe(about="An animal or title (fox, lion and mouse), a number (12), 'list', or empty for any")
 async def fable_slash(interaction: discord.Interaction, about: str = ""):
@@ -485,6 +492,8 @@ _daily("quiz", "quizsetup", "The daily quiz question", ("show", "channel", "time
 _daily("versle", "verslesetup", "Each day's Versle puzzle", ("show", "channel", "time", "test", "off"))
 _daily("hymnday", "hymndaysetup", "The hymn of the day", ("show", "channel", "time", "test", "off"))
 _daily("saint", "saintsetup", "The saint of the day", ("show", "channel", "time", "test", "off"))
+_daily("astro", "astrosetup", "The day's sky: aspects, the signs they touch, Lilly's readings",
+       ("show", "channel", "time", "test", "off"))
 _daily("angelus", "angelussetup", "The Angelus at chosen hours", ("show", "channel", "time", "test", "off"),
        "For 'time': one or more HH:MM, UTC (06:00 12:00 18:00)")
 _daily("learning", "learningsetup", "The day's Jewish learning", ("show", "channel", "time", "test", "off"))
@@ -543,6 +552,7 @@ bot.tree.add_command(setup_group)
 # the slash form of each admin command, for the tests and !help
 SETUP_SUBCOMMANDS = {"votdsetup": "votd", "oraclesetup": "oracle", "quizsetup": "quiz", "verslesetup": "versle",
                      "hymndaysetup": "hymnday", "saintsetup": "saint", "angelussetup": "angelus",
+                     "astrosetup": "astro",
                      "learningsetup": "learning", "troparionsetup": "troparion", "features": "features",
                      "changelogsetup": "changelog", "changelogintro": "intro",
                      "serversetup": "traditions", "packs": "packs"}

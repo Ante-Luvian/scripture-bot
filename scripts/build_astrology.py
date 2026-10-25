@@ -38,6 +38,13 @@ CORRECTIONS = {
     # Lilly's own horary chart (Ch. XXVII): "he" is ♃, and his exaltation is ♋ -- Lilly's table of
     # essential dignities (Ch. XVIII), the ♋ row: "Exaltations ... ♃ 15"
     "when he entered ###, his exaltation": "when he entered ♋, his exaltation",
+    # The appendix's headings ("♄ in ♈"...), as every other one is set: !planets' daily post finds Lilly's
+    # readings by them. "pi" stands where ♓ should, the Sun's twelfth sign between ☉ in ♒ and Venus.
+    '<p align="center">♄ <i>in</i> ♏.</p>': '<p align="center">♄ <i>in</i> ♏</p>',
+    '<p align="center">☉ <i>i</i>n ♎</p>': '<p align="center">☉ <i>in</i> ♎</p>',
+    '<p align="center">☉ <i>in</i> pi</p>': '<p align="center">☉ <i>in</i> ♓</p>',
+    '<p align="center">♀ <i>i</i>n ♉</p>': '<p align="center">♀ <i>in</i> ♉</p>',
+    '<p align="center">♄ ✶ or △ ☽</p>': '<p align="center">♄ ✶ <i>or</i> △ ☽</p>',
 }
 
 

@@ -103,6 +103,7 @@ Prefix commands use `!`; most also have a `/` slash-command version.
 | `!saint [name \| day]` | `!saints`, `!saintoftheday` | The saint of the day, or by name/day (`saints.py`, `data/saints/saints.json` from `build_saints.py`): Butler's 1894 abridged Lives, with a 📖 Golden Legend button; Legend-only saints open to the Legend; several of a name give a picker |
 | `!fable [animal \| title \| 12 \| list]` | `!aesop`, `!fables` | One of Aesop's Fables (`fable.py`, Townsend's 313 in `classical/aesop.json`, built by `scripts/build_aesop.py`): random, by title word, by number; 🎲 another of the same kind, 🖼️ a justified card |
 | `!desert [father \| topic \| fathers \| topics \| 1:303 \| words]` | `!apophthegm`, `!apophthegmata`, `!desertfathers`, `!abba` | A saying of the Desert Fathers (`desert.py`, from Budge's Paradise Vol. II in `paradise_of_the_fathers.json`): random, by father, by chapter, by number or by words; ◀ ▶ pages, 🎲 another of the same kind |
+| `!astrosetup` | `!astroconfig`, `!horoscopesetup` | (Admins) Post the day's sky (`!horoscope`) in a channel: `channel #chan`, `time HH:MM` (UTC, default 06:00), `test`, `off`; `astroday.json` stops double posts |
 | `!saintsetup` | `!saintconfig` | (Admins) Post the saint of the day in a channel: `channel #chan`, `time HH:MM` (UTC, default 07:00), `test`, `off`; `saintday.json` stops double posts |
 | `!xref <ref>` | `!crossref` | Cross-references (Treasury of Scripture Knowledge) |
 | `!notes <ref>` | `!netnotes` | The NET Bible's translator's, study, and text-critical notes for a verse (up to 5 verses) |
@@ -162,7 +163,8 @@ Prefix commands use `!`; most also have a `/` slash-command version.
 | `!sortesbiblicae` | `!bibliomancy` | Sortes Biblicae: the Bible opened at random (with the study buttons) |
 | `!hafez [question]` | `!hafiz`, `!fal` | Fāl-e Hāfez: a random poem from the Divan of Hafiz (Bell's 43 ghazals) |
 | `!rumi [question]` | `!masnavi`, `!mathnawi` | A random run of couplets from Rumi's Masnavi (Whinfield), with the story it comes from; also a daily-oracle kind |
-| `!planets [YYYY-MM-DD \| tomorrow \| yesterday]` | `!sky`, `!ephemeris`, `!astrology` | The Sun, Moon and planets in the tropical zodiac (℞ retrograde) and the day's exact aspects, ingresses, stations and lunar quarters (`planets.py`: Skyfield + NASA JPL DE421 in `data/de421.bsp`, not in git; Skyfield must be in the shared site-packages) |
+| `!horoscope [YYYY-MM-DD]` | `!horoscopes`, `!astroday` | The day's events, each with the signs it falls in and William Lilly's reading on it where his appendix has one (planet in a sign; ☌, ✶/△, ☐/☍ between the seven planets), quoted with its reference |
+| `!planets [YYYY-MM-DD \| tomorrow \| yesterday]` | `!sky`, `!ephemeris`, `!astrology`, `!astro` | The Sun, Moon and planets in the tropical zodiac (℞ retrograde) and the day's exact aspects, ingresses, stations and lunar quarters (`planets.py`: Skyfield + NASA JPL DE421 in `data/de421.bsp`, not in git; Skyfield must be in the shared site-packages) |
 | `!iching [question]` | `!yijing`, `!hexagram` | Cast an I Ching hexagram (three coins): Judgment, Image, changing lines, the hexagram it becomes (Legge) |
 | `!oraclesetup` | | (Admins) A daily oracle in a channel: `channel #chan`, `time HH:MM` (UTC), `kind any\|virgil\|…`, `test`, `off` |
 

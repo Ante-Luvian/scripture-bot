@@ -13,11 +13,14 @@ ecliptic and equinox of the date, which is the tropical zodiac. The ephemeris fi
 """
 import datetime as dt
 import functools
+import json
 import re
 
 import discord
 
-from core import ROOT, bot, log
+from discord.ext import commands, tasks
+
+from core import ROOT, _atomic_write_json, _load_guild_config, _update_guild_config, bot, command_enabled, log, lookup
 
 EPHEMERIS = ROOT / "data" / "de421.bsp"
 COLOR = discord.Color.from_rgb(40, 50, 110)
@@ -31,6 +34,9 @@ SIGNS = [("Aries", "♈"), ("Taurus", "♉"), ("Gemini", "♊"), ("Cancer", "♋
 ASPECTS = [(0, "conjunct", "☌"), (60, "sextile", "⚹"), (90, "square", "□"), (120, "trine", "△"),
            (180, "opposite", "☍")]
 PHASES = ["New Moon", "First Quarter", "Full Moon", "Last Quarter"]
+# Lilly groups the aspects as conjunctions, the "good" (✶ sextile, △ trine) and the "evil" (☐ square, ☍ opposition)
+KIND = {0: "☌", 60: "✶△", 120: "✶△", 90: "☐☍", 180: "☐☍"}
+LILLY_APPENDIX = "Lilly's Introduction to Astrology, Appendix"
 FIRST, LAST = dt.datetime(1900, 1, 2, tzinfo=dt.timezone.utc), dt.datetime(2050, 1, 1, tzinfo=dt.timezone.utc)
 
 
@@ -90,8 +96,14 @@ def _bisect(f, a: dt.datetime, b: dt.datetime, fa: float) -> dt.datetime:
 
 
 def events(day: dt.date) -> list:
-    """[(moment, text)] of the UTC day's exact aspects (planets, not the Moon, which makes a dozen a day),
-    ingresses, stations, and the Moon's quarters, in order."""
+    """[(moment, text)] of the UTC day's events, in order (day_events without the rest)."""
+    return [(e["at"], e["text"]) for e in day_events(day)]
+
+
+def day_events(day: dt.date) -> list:
+    """The UTC day's exact aspects (planets, not the Moon, which makes a dozen a day), ingresses, stations,
+    and the Moon's quarters, in order: [{"at", "text", "signs": the signs it falls in, "lilly": the key
+    of Lilly's reading on it, or None}]."""
     ts, eph = sky()
     start = dt.datetime(day.year, day.month, day.day, tzinfo=dt.timezone.utc)
     grid = [start + dt.timedelta(hours=h) for h in range(25)]
@@ -114,8 +126,9 @@ def events(day: dt.date) -> list:
                 f = lambda m, n=name, bd=boundary: _wrap(lon_at(n, m) - bd)
                 moment = _bisect(f, grid[h], grid[h + 1], _wrap(ls[h] - boundary))
                 sign, sglyph = SIGNS[s1]
-                found.append((moment, f"{glyph[name]} {name} enters {sglyph} {sign}"
-                                      + (" (retrograde)" if (s1 - s0) % 12 == 11 else "")))
+                found.append({"at": moment, "signs": [s1], "lilly": (glyph[name], "in", sglyph),
+                              "text": f"{glyph[name]} {name} enters {sglyph} {sign}"
+                                      + (" (retrograde)" if (s1 - s0) % 12 == 11 else "")})
     # stations: a planet's motion along the zodiac changing direction
     for name, _, _ in BODIES[2:]:
         ls = lons[name]
@@ -126,7 +139,9 @@ def events(day: dt.date) -> list:
                 speed = lambda m, n=name: _wrap(lon_at(n, m + dt.timedelta(minutes=30))
                                                 - lon_at(n, m - dt.timedelta(minutes=30)))
                 moment = _bisect(speed, grid[h], grid[h + 2], speed(grid[h]))
-                found.append((moment, f"{glyph[name]} {name} stations {turning} at {zodiac(lon_at(name, moment))}"))
+                where = lon_at(name, moment)
+                found.append({"at": moment, "signs": [int(where % 360 // 30)], "lilly": None,
+                              "text": f"{glyph[name]} {name} stations {turning} at {zodiac(where)}"})
     # exact aspects between the planets (the Sun included)
     names = [n for n, _, _ in BODIES if n != "Moon"]
     for i, a in enumerate(names):
@@ -138,16 +153,54 @@ def events(day: dt.date) -> list:
                     if (d0 < 0) != (d1 < 0) and abs(d0) < 5 and abs(d1) < 5:
                         f = lambda m, a=a, b=b, ang=angle: abs(_wrap(lon_at(a, m) - lon_at(b, m))) - ang
                         moment = _bisect(f, grid[h], grid[h + 1], d0)
-                        found.append((moment, f"{glyph[a]} {a} {sym} {word} {glyph[b]} {b}, in "
-                                              f"{SIGNS[int(lon_at(a, moment) % 360 // 30)][1]} and "
-                                              f"{SIGNS[int(lon_at(b, moment) % 360 // 30)][1]}"))
+                        sa, sb = int(lon_at(a, moment) % 360 // 30), int(lon_at(b, moment) % 360 // 30)
+                        found.append({"at": moment, "signs": sorted({sa, sb}),
+                                      "lilly": (glyph[a], KIND[angle], glyph[b]),
+                                      "text": f"{glyph[a]} {a} {sym} {word} {glyph[b]} {b}, in "
+                                              f"{SIGNS[sa][1]} and {SIGNS[sb][1]}"})
     # the Moon's quarters
     from skyfield import almanac
     times, phases = almanac.find_discrete(t[0], t[-1], almanac.moon_phases(eph))
     for tm, ph in zip(times, phases):
         moment = tm.utc_datetime()
-        found.append((moment, f"☽ {PHASES[int(ph)]} in {zodiac(lon_at('Moon', moment))}"))
-    return sorted((m, text) for m, text in found if start <= m < start + dt.timedelta(days=1))
+        where = lon_at("Moon", moment)
+        found.append({"at": moment, "signs": [int(where % 360 // 30)], "lilly": None,
+                      "text": f"☽ {PHASES[int(ph)]} in {zodiac(where)}"})
+    return sorted((e for e in found if start <= e["at"] < start + dt.timedelta(days=1)), key=lambda e: e["at"])
+
+
+@functools.lru_cache(maxsize=1)
+def lilly_readings() -> dict:
+    """Lilly's readings in his appendix (built by scripts/build_astrology.py), by what they're about:
+    {("♂", "in", "♏"): [(reference, text)], ("♄", "☌", "♃"): [...], ("♀", "✶△", "♂"): [...], ...}.
+    Appendix 3 is a planet in each sign; 4 the conjunctions; 5 the ✶ and △; 6 the ☐ and ☍."""
+    corpus, book = lookup._resolve_exact(LILLY_APPENDIX)
+    if not book:
+        return {}
+    heads = {"☌": "☌", "✶ *or* △": "✶△", "☐ *or* ☍": "☐☍"}
+    out = {}
+    for chapter in ("3", "4", "5", "6"):
+        current = None
+        for verse, text in lookup._data[corpus][book].get(chapter, {}).items():
+            last = text.strip().split("\n")[-1].strip()
+            m = (re.fullmatch(r"([☉☽☿♀♂♃♄]) \*in\* ([♈♉♊♋♌♍♎♏♐♑♒♓])", last)
+                 or re.fullmatch(r"([☉☽☿♀♂♃♄]) (☌|✶ \*or\* △|☐ \*or\* ☍) ([☉☽☿♀♂♃♄])", last))
+            if m and m.lastindex == 2:
+                current = (m.group(1), "in", m.group(2))
+            elif m:
+                current = (m.group(1), heads[m.group(2)], m.group(3))
+            elif current:
+                out.setdefault(current, []).append((f"{book} {chapter}:{verse}", text.strip()))
+    return out
+
+
+def lilly_on(key) -> "tuple | None":
+    """(reference, text) of Lilly's first reading on an event (an aspect either way round), if he has one."""
+    if not key:
+        return None
+    readings = lilly_readings()
+    found = readings.get(key) or (readings.get((key[2], key[1], key[0])) if key[1] != "in" else None)
+    return found[0] if found else None
 
 
 def moon_phase(when: dt.datetime) -> str:
@@ -204,7 +257,7 @@ def planets_embed(when: dt.datetime, now: bool) -> discord.Embed:
     return embed
 
 
-@bot.command(name="planets", aliases=["sky", "ephemeris", "astrology"])
+@bot.command(name="planets", aliases=["sky", "ephemeris", "astrology", "astro"])
 async def cmd_planets(ctx, *, when: str = ""):
     """Where the Sun, Moon and planets are in the zodiac, and the day's aspects.
     Usage: !planets              — now, and today's events
@@ -222,3 +275,163 @@ async def cmd_planets(ctx, *, when: str = ""):
     import asyncio
     embed = await asyncio.to_thread(planets_embed, moment, moment is now)
     await ctx.send(embed=embed)
+
+
+# ── the day's sky, as a horoscope: !horoscope, and the daily post (!astrosetup) ─────────────────
+# A friend of the owner's, by voice message: "daily updates on various noteworthy astrological
+# developments ... 'Venus is in conjunction with Mercury. Look out, Leos' ... a daily horoscope sort of
+# thing." Each event says which signs it falls in, and where Lilly wrote on it, what he said (quoted and
+# referenced, never made up). Settings per server in guild_config.json: astro_channel_id, astro_time
+# ("HH:MM" UTC); what was posted in ASTRO_PATH.
+
+ASTRO_PATH = ROOT / "data" / "astroday.json"       # {"posted": {guild id: "YYYY-MM-DD"}}
+DEFAULT_ASTRO_TIME = "06:00"
+
+
+def _signs(indexes: list) -> str:
+    named = [f"{SIGNS[i][1]} {SIGNS[i][0]}" for i in indexes]
+    return named[0] if len(named) == 1 else ", ".join(named[:-1]) + " and " + named[-1]
+
+
+def horoscope_embed(day: dt.date) -> discord.Embed:
+    """The UTC day's events, each with the signs it falls in and Lilly's reading on it."""
+    noon = dt.datetime(day.year, day.month, day.day, 12, tzinfo=dt.timezone.utc)
+    embed = discord.Embed(title=f"🪐 The sky today — {day:%A}, {day.day} {day:%B %Y}", color=COLOR)
+    found = day_events(day)
+    for e in found[:20]:
+        lines = [f"Felt most by those born under {_signs(e['signs'])}."]
+        reading = lilly_on(e["lilly"])
+        if reading:
+            ref, text = reading
+            quote = re.sub(r"^(\*[^*\n]+\*\n)+", "", text).replace("\n", " ")
+            cite = f"\n— *{ref.replace(LILLY_APPENDIX, 'Lilly, Appendix')}* (`!verse {ref.replace(LILLY_APPENDIX, 'Lilly appendix')}`)"
+            if len(lines[0]) + len(quote) + len(cite) + 10 <= 1024:        # (a quotation is never cut)
+                lines.append(f"> *Lilly:* {quote}{cite}")
+        embed.add_field(name=f"`{e['at'] + dt.timedelta(seconds=30):%H:%M}` {e['text']}"[:256],
+                        value="\n".join(lines), inline=False)
+    if not found:
+        embed.description = "A quiet day: no exact aspects, no planet changing sign or direction."
+    moon = next(lon for name, _, lon, _ in positions(noon) if name == "Moon")
+    embed.add_field(name="The Moon", value=f"In {zodiac(moon)}; {moon_phase(noon)[0].lower()}{moon_phase(noon)[1:]}",
+                    inline=False)
+    embed.set_footer(text="Times UTC · tropical zodiac · positions from NASA JPL · Lilly's readings from his "
+                          "Introduction to Astrology (1647, ed. Zadkiel) · !planets for where everything is")
+    return embed
+
+
+def _load_state() -> dict:
+    try:
+        return json.loads(ASTRO_PATH.read_text(encoding="utf-8")) if ASTRO_PATH.exists() else {}
+    except ValueError:
+        return {}
+
+
+async def post_astroday(guild_id, channel, day: dt.date, force: bool = False) -> bool:
+    state = _load_state()
+    if state.get("posted", {}).get(str(guild_id)) == day.isoformat() and not force:
+        return False                                            # (a restart doesn't post it twice)
+    if sky() is None:
+        return False
+    import asyncio
+    embed = await asyncio.to_thread(horoscope_embed, day)
+    await channel.send(embed=embed)
+    state.setdefault("posted", {})[str(guild_id)] = day.isoformat()
+    _atomic_write_json(ASTRO_PATH, state)
+    return True
+
+
+async def run_daily_astro(client, day: dt.date, current_hm: str) -> int:
+    posted = 0
+    for guild_id, g in _load_guild_config().items():
+        channel_id = g.get("astro_channel_id")
+        if not channel_id or g.get("astro_time", DEFAULT_ASTRO_TIME) != current_hm:
+            continue
+        if not command_enabled(int(guild_id), "planets"):         # the server turned the pack off
+            continue
+        channel = client.get_channel(int(channel_id))
+        if channel is None:
+            continue
+        try:
+            posted += await post_astroday(guild_id, channel, day)
+        except Exception:
+            log.exception(f"Failed to post the day's sky for guild {guild_id}")
+    return posted
+
+
+@tasks.loop(minutes=1)
+async def daily_astro_task():
+    now = dt.datetime.now(dt.timezone.utc)
+    await run_daily_astro(bot, now.date(), f"{now.hour:02d}:{now.minute:02d}")
+
+
+@daily_astro_task.before_loop
+async def _before_daily_astro():
+    await bot.wait_until_ready()
+
+
+@bot.command(name="horoscope", aliases=["horoscopes", "astroday"])
+async def cmd_horoscope(ctx, *, when: str = ""):
+    """The day's sky as a horoscope: each aspect, sign change and station, the signs it falls in, and
+    what William Lilly wrote of it.
+    Usage: !horoscope              — today
+           !horoscope 2026-12-25   — that day"""
+    if sky() is None:
+        await ctx.send("⚠️ I can't work out the sky right now: my planetary tables aren't installed.")
+        return
+    moment = parse_when(when, dt.datetime.now(dt.timezone.utc))
+    if isinstance(moment, str):
+        await ctx.send(moment)
+        return
+    import asyncio
+    await ctx.send(embed=await asyncio.to_thread(horoscope_embed, moment.date()))
+
+
+@bot.command(name="astrosetup", aliases=["astroconfig", "horoscopesetup"])
+@commands.has_permissions(administrator=True)
+async def cmd_astrosetup(ctx, action: str = "", *, arg: str = ""):
+    """Post the day's sky (!horoscope) in a channel every day.
+    Usage: !astrosetup                  — show this server's settings
+           !astrosetup channel #chan    — post it there each day
+           !astrosetup time 06:00       — daily post time (24h UTC)
+           !astrosetup test             — post today's now
+           !astrosetup off              — stop the daily post"""
+    if not ctx.guild:
+        await ctx.send("This command only works in a server.")
+        return
+    g = _load_guild_config().get(str(ctx.guild.id), {})
+    channel_id, time_hm = g.get("astro_channel_id"), g.get("astro_time", DEFAULT_ASTRO_TIME)
+    action = action.strip().lower()
+    if not action:
+        embed = discord.Embed(title=f"🪐 The day's sky — {ctx.guild.name}", color=COLOR)
+        embed.add_field(name="Channel", value=f"<#{channel_id}>" if channel_id else "*not set — no daily post*")
+        embed.add_field(name="Time (UTC)", value=time_hm)
+        embed.set_footer(text="!astrosetup channel #chan · time HH:MM · test · off")
+        await ctx.send(embed=embed)
+    elif action == "off":
+        _update_guild_config(ctx.guild.id, astro_channel_id=None)
+        await ctx.send("The daily sky post is off for this server. (`!horoscope` and `!planets` still work.)")
+    elif action == "channel":
+        channel = ctx.message.channel_mentions[0] if ctx.message.channel_mentions else None
+        if channel is None:
+            await ctx.send("Mention a channel: `!astrosetup channel #astrology`")
+            return
+        _update_guild_config(ctx.guild.id, astro_channel_id=channel.id)
+        m = re.search(r"\btime\s+(\d{1,2}):(\d{2})\b", arg)              # ("channel #chan time 04:00" in one go)
+        if m and 0 <= int(m.group(1)) <= 23 and 0 <= int(m.group(2)) <= 59:
+            time_hm = f"{int(m.group(1)):02d}:{m.group(2)}"
+            _update_guild_config(ctx.guild.id, astro_time=time_hm)
+        await ctx.send(f"The day's sky will be posted in {channel.mention} at {time_hm} UTC.")
+    elif action == "time":
+        m = re.match(r"^(\d{1,2}):(\d{2})$", arg.strip())
+        if not m or not (0 <= int(m.group(1)) <= 23 and 0 <= int(m.group(2)) <= 59):
+            await ctx.send("Use 24-hour UTC time: `!astrosetup time 06:00`")
+            return
+        hm = f"{int(m.group(1)):02d}:{int(m.group(2)):02d}"
+        _update_guild_config(ctx.guild.id, astro_time=hm)
+        await ctx.send(f"Daily sky time set to **{hm} UTC**.")
+    elif action == "test":
+        channel = bot.get_channel(int(channel_id)) if channel_id else ctx.channel
+        if not await post_astroday(ctx.guild.id, channel, dt.datetime.now(dt.timezone.utc).date(), force=True):
+            await ctx.send("⚠️ I can't work out the sky right now: my planetary tables aren't installed.")
+    else:
+        await ctx.send("Unknown option. Use `channel`, `time`, `test`, or `off`.")

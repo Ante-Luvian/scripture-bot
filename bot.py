@@ -59,6 +59,9 @@ from bot_commands.angelus import (
 from bot_commands.saints import (
     daily_saint_task,
 )
+from bot_commands.planets import (
+    daily_astro_task,
+)
 from bot_commands.report import (
     weekly_report_task,
 )
@@ -156,6 +159,7 @@ async def on_ready():
     daily_versle_task.start()
     daily_hymn_task.start()
     daily_saint_task.start()
+    daily_astro_task.start()
     angelus_task.start()
     daily_troparion_task.start()
     daily_learning_task.start()

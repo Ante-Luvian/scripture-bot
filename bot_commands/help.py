@@ -84,6 +84,7 @@ HELP_MENU = [
     ('🎲 Divination', [
         '`!oracle` `!delphi` `!homer` `!virgil` `!sortesbiblicae` `!iching` `!hafez` `!rumi` `!tarot` · `!help oracle`',
         "`!planets` — where the Sun, Moon and planets are in the zodiac, and the day's aspects · `!help planets`",
+        "`!horoscope` — the day's sky: each aspect, the signs it touches, what William Lilly wrote of it",
         '`!quiz` — guess which book a verse is from (`!quiz hard`, `!quiz buddhist`, `!quiz leaderboard`)',
         '`!whoami` — Who Am I? Guess a Bible figure from clues that get easier · `!help whoami`',
         '`!versle` — the daily verse puzzle: where in the Bible is it? · `!help versle`',
@@ -127,6 +128,7 @@ HELP_MENU = [
         "`!verslesetup channel #chan` — the day's Versle puzzle (`time`, `test`, `off`)",
         '`!hymndaysetup channel #chan` — the hymn of the day (`time`, `test`, `off`)',
         '`!saintsetup channel #chan` — the saint of the day (`time`, `test`, `off`)',
+        "`!astrosetup channel #chan` — the day's sky, as `!horoscope` shows it (`time`, `test`, `off`)",
         '`!angelussetup channel #chan` — the Angelus (`time 06:00 12:00 18:00`, `test`, `off`)',
         '`!troparionsetup channel #chan` — the Orthodox troparia of the day (`time`, `test`, `off`)',
         "`!learningsetup channel #chan` — the day's Jewish learning (`time`, `test`, `off`)",
@@ -1239,7 +1241,7 @@ async def cmd_help(ctx, *, topic: str = ""):
         await ctx.send(embed=embed)
         return
 
-    if topic in ("planets", "sky", "astrology", "ephemeris"):
+    if topic in ("planets", "sky", "astrology", "ephemeris", "astro", "horoscope", "astrosetup"):
         embed = discord.Embed(title="🪐 !planets — the sky", color=discord.Color.dark_gold())
         embed.description = (
             "Where the Sun, the Moon and the planets out to Pluto are in the zodiac (the tropical, western "
@@ -1250,6 +1252,8 @@ async def cmd_help(ctx, *, topic: str = ""):
             "`!planets` — the sky now, and today\n"
             "`!planets 2026-12-25` — any day from 1900 to 2049\n"
             "`!planets tomorrow` — or `yesterday`\n\n"
+            "`!horoscope` — the day's events as a horoscope: the signs each one touches, and what William "
+            "Lilly wrote of it (admins: `!astrosetup channel #chan` posts it every morning)\n\n"
             "To read what the old astrologers made of it: `!verse Tetrabiblos 1.4` (Ptolemy on the planets) "
             "or `!verse Lilly 7` (Lilly on Mars)."
         )

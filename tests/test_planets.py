@@ -65,6 +65,57 @@ def test_zodiac_and_dates(planets):
     assert "calendar" in planets.parse_when("2026-02-30", now)
 
 
+def test_lilly_has_a_reading_for_every_placement_and_every_possible_aspect(planets):
+    """84 placements (7 planets x 12 signs); every pair's ☌; the ✶△ and ☐☍ of every pair but those that can't
+    happen (Mercury and Venus never get far enough from the Sun, or Venus from Mercury)."""
+    import itertools
+    r = planets.lilly_readings()
+    seven = "♄♃♂☉♀☿☽"
+    assert all((p, "in", s) in r for p in seven for s in "♈♉♊♋♌♍♎♏♐♑♒♓")
+    impossible = {frozenset("☉♀"), frozenset("☉☿"), frozenset("♀☿")}
+    for a, b in itertools.combinations(seven, 2):
+        assert planets.lilly_on((a, "☌", b)) and planets.lilly_on((b, "☌", a))
+        if frozenset((a, b)) not in impossible:
+            assert planets.lilly_on((a, "☐☍", b)), (a, b)
+            if frozenset((a, b)) - {"☉"} != {"♀"} and frozenset((a, b)) - {"☉"} != {"☿"}:
+                assert planets.lilly_on((a, "✶△", b)), (a, b)
+    assert planets.lilly_on(("☉", "☐☍", "♇")) is None                 # Lilly never knew of Pluto
+
+
+def test_the_horoscope(planets):
+    """The voice message: "Venus is in conjunction with Mercury. Look out, Leos" -- each event, the signs it
+    falls in, and Lilly on it where he has it."""
+    e = planets.horoscope_embed(dt.date(2026, 10, 23))
+    assert e.title == "🪐 The sky today — Friday, 23 October 2026"
+    sun = next(f for f in e.fields if "Sun enters ♏ Scorpio" in f.name)
+    assert sun.value.startswith("Felt most by those born under ♏ Scorpio.")
+    assert "*Lilly:* Gives a remarkably square-built" in sun.value and "`!verse Lilly appendix 3:" in sun.value
+    assert all(len(f.value) <= 1024 and len(f.name) <= 256 for f in e.fields) and len(e) < 6000
+    square = next(f for f in planets.horoscope_embed(dt.date(2026, 10, 26)).fields if "Pluto" in f.name)
+    assert square.value == "Felt most by those born under ♏ Scorpio and ♒ Aquarius."
+
+
+def test_the_lilly_references_open(planets, lookup):
+    for ref, _ in [planets.lilly_on(("♂", "in", "♏")), planets.lilly_on(("♄", "☌", "♃"))]:
+        short = ref.replace(planets.LILLY_APPENDIX, "Lilly appendix")
+        assert lookup.get_verse(short)["found"], short
+
+
+def test_the_daily_post_goes_once_a_day(planets):
+    import asyncio
+    sent = []
+
+    class Channel:
+        async def send(self, **kwargs):
+            sent.append(kwargs)
+
+    day = dt.date(2026, 10, 23)
+    assert asyncio.run(planets.post_astroday(1, Channel(), day))
+    assert not asyncio.run(planets.post_astroday(1, Channel(), day))       # (a restart doesn't post twice)
+    assert asyncio.run(planets.post_astroday(1, Channel(), day, force=True))
+    assert len(sent) == 2 and sent[0]["embed"].title.startswith("🪐 The sky today")
+
+
 def test_the_embed_fits(planets):
     e = planets.planets_embed(dt.datetime(2026, 10, 26, 12, tzinfo=UTC), False)
     assert e.title == "🪐 The sky on 26 October 2026" and len(e) < 6000
