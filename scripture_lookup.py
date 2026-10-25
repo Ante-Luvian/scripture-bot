@@ -862,6 +862,12 @@ ALIASES: dict[str, str] = {
     # Aesop (Townsend), one chapter a fable
     "aesop": "Aesop's Fables", "aesops fables": "Aesop's Fables", "aesop's fables": "Aesop's Fables",
     "fables": "Aesop's Fables", "fables of aesop": "Aesop's Fables", "aesop fables": "Aesop's Fables",
+    # More fables (scripts/build_fables.py), one chapter a fable
+    "fables of phaedrus": "Fables of Phaedrus", "phaedrus fables": "Fables of Phaedrus",   # ("phaedrus": Plato's)
+    "la fontaine": "Fables of La Fontaine", "lafontaine": "Fables of La Fontaine",
+    "fables of la fontaine": "Fables of La Fontaine", "bidpai": "Fables of Bidpai", "pilpay": "Fables of Bidpai",
+    "hitopadesa": "Fables from the Hitopadesa", "krylov": "Fables of Krylov", "krilof": "Fables of Krylov",
+    "yriarte": "Fables of Yriarte", "iriarte": "Fables of Yriarte",
     # The Grimms' Household Tales (Hunt), one chapter a tale
     "grimm": "Grimm's Household Tales", "grimms": "Grimm's Household Tales", "grimm's": "Grimm's Household Tales",
     "grimms fairy tales": "Grimm's Household Tales", "grimm's fairy tales": "Grimm's Household Tales",
@@ -1711,6 +1717,7 @@ class ScriptureLookup:
                 "sallustius.json",
                 "isis_and_osiris.json",          # Plutarch (Babbitt): not in the Perseus Plutarch
                 "aesop.json",                    # Townsend (scripts/build_aesop.py)
+                "phaedrus.json",                 # Riley (scripts/build_fables.py)
                 "tetrabiblos.json",              # Ptolemy, and his Centiloquy (scripts/build_astrology.py)
                 "proclus_theology.json",
                 "hierocles.json",
@@ -1785,7 +1792,9 @@ class ScriptureLookup:
             "finnish": ["kalevala.json"],
             "celtic": ["mabinogion.json"],
             "ballads": ["child.json",             # Child's ballads (scripts/build_child.py)
-                        "grimm.json"],            # the Grimms' tales, Hunt (scripts/build_grimm.py)
+                        "grimm.json",             # the Grimms' tales, Hunt (scripts/build_grimm.py)
+                        "la_fontaine.json",       # Thornbury (scripts/build_fables.py)
+                        "talking_beasts.json"],   # the world's fables, Wiggin and Smith (build_fables.py)
             "norse": [
                 "poetic_edda.json",
             ],

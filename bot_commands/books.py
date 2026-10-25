@@ -508,6 +508,7 @@ BOOKS_TREE = [
         ]),
         ("Fables", [
             ("Aesop", ["Aesop's Fables"]),
+            ("Phaedrus", ["Fables of Phaedrus"]),
         ]),
         ("Astrology", [
             ("Ptolemy", ["Tetrabiblos", "Centiloquy"]),
@@ -757,6 +758,12 @@ BOOKS_TREE = [
     ("🎻 Folk tales & ballads", [
         "Child Ballads",
         "Grimm's Household Tales",
+        "Fables of La Fontaine",
+        ("The Talking Beasts (the world's fables)", [
+            "Fables of Bidpai", "Fables from the Hitopadesa", "Fables from India", "Malayan Fables",
+            "Moorish Fables", "African Fables", "Fables of Krylov", "Fables from the Chinese", "Fables of Yriarte",
+            "Fables of Gay and Cowper",
+        ]),
     ]),
     ("🧿 Gnostic", [
         ("Gospel of Thomas (trans. Lambdin)", [

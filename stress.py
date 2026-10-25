@@ -274,7 +274,9 @@ def text_commands(names=None) -> list:
 SHAPED = {"ballad": ["0", "305", "306", "12B", "12b", "12ZZ", "22A", "117", "child 84", "#84", "84:3", "list",
                      "lord randal my son", "matty groves", "the", "o"],
           "tale": ["0", "200", "201", "210", "211", "#12", "12:3", "list", "sleeping beauty", "the", "or", "wolf fox",
-                   "grimm 12"]}
+                   "grimm 12"],
+          "fable": ["la fontaine", "la fontaine 0", "la fontaine 241", "krylov list", "phaedrus 124", "collections",
+                    "bidpai fox", "la fontaine zzzz", "the", "*|t:fox"]}
 
 
 def sample(command, live: bool = False) -> list:

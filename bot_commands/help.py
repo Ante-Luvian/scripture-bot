@@ -1265,17 +1265,22 @@ async def cmd_help(ctx, *, topic: str = ""):
         return
 
     if topic in ("fable", "fables", "aesop"):
-        embed = discord.Embed(title="🦊 !fable — Aesop's Fables", color=discord.Color.dark_gold())
+        embed = discord.Embed(title="🦊 !fable — the world's fables", color=discord.Color.dark_gold())
         embed.description = (
-            "The 313 fables of George Fyler Townsend's translation (1867): short Greek stories, mostly of "
-            "animals, each with its lesson.\n\n"
-            "`!fable` — a fable at random\n"
+            "Short stories, mostly of animals, each with its lesson: Aesop's 313 (Townsend's translation, 1867), "
+            "the Roman Phaedrus's 124 (Riley, 1887), La Fontaine's 240 in English verse (Thornbury, 1886), and "
+            "*The Talking Beasts* (1911): Bidpai, the Hitopadesa, India, Malaya, the Moors, Africa, Krylov, "
+            "China, Yriarte, Gay and Cowper.\n\n"
+            "`!fable` — a fable at random, from any collection\n"
             "`!fable fox` — one with the fox in its title (or, failing that, one that mentions it)\n"
             "`!fable lion and mouse` — one by its title\n"
-            "`!fable 12` — one by its number\n"
-            "`!fable list` — all the titles, a page at a time\n\n"
-            "**🎲 Another** draws again from the same kind, and **🖼️ Card** makes an image of the fable, set "
-            "justified like a printed book. Also `!aesop`, and `!verse Aesop 12` for the plain text."
+            "`!fable 12` — Aesop's by its number\n"
+            "`!fable la fontaine` — one of his (also `phaedrus`, `bidpai`, `krylov`, `african`…); "
+            "`!fable la fontaine wolf`, `!fable phaedrus 3`\n"
+            "`!fable list` — Aesop's titles (`!fable la fontaine list` for his) · `!fable collections`\n\n"
+            "**🎲 Another** draws again from the same kind, ◀ ▶ turn a long fable's pages, and **🖼️ Card** "
+            "makes an image of a short prose fable, set justified like a printed book. Also `!aesop`, and "
+            "`!verse Aesop 12` or `!verse La Fontaine 1` for the plain text."
         )
         await ctx.send(embed=embed)
         return

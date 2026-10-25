@@ -398,8 +398,8 @@ async def horoscope_slash(interaction: discord.Interaction, when: str = ""):
     await _command("horoscope")(ctx, when=when)
 
 
-@bot.tree.command(name="fable", description="One of Aesop's Fables")
-@app_commands.describe(about="An animal or title (fox, lion and mouse), a number (12), 'list', or empty for any")
+@bot.tree.command(name="fable", description="A fable: Aesop, La Fontaine, Phaedrus, Bidpai, Krylov and more")
+@app_commands.describe(about="An animal or title (fox), a number (12), a collection (la fontaine, krylov), 'list', or empty")
 async def fable_slash(interaction: discord.Interaction, about: str = ""):
     ctx = await _slash_ctx(interaction)
     await _command("fable")(ctx, query=about)
