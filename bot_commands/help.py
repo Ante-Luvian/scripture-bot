@@ -55,6 +55,8 @@ HELP_MENU = [
         "`!fable` — one of Aesop's Fables, or `!fable fox`, `!fable list` · `!help fable`",
         "<!-- texts: ballads -->`!ballad` — Child's English and Scottish ballads, with tunes · `!ballad barbara allen` · `!help ballad`",
         "<!-- texts: ballads -->`!tale` — one of the Grimms' fairy tales, or `!tale rapunzel`, `!tale list` · `!help tale`",
+        "<!-- texts: ballads -->`!reynard` — Reynard the Fox, Caxton's medieval beast epic, a chapter at a time · `!help reynard`",
+        "<!-- texts: christian -->`!physiologus` — the Physiologus: beasts and their Christian meanings · `!physiologus pelican`",
     ]),
     ('⛪ Catholic', [
         '`!ccc` — Catechism · `!help ccc`',
@@ -1281,6 +1283,25 @@ async def cmd_help(ctx, *, topic: str = ""):
             "**🎲 Another** draws again from the same kind, ◀ ▶ turn a long fable's pages, and **🖼️ Card** "
             "makes an image of a short prose fable, set justified like a printed book. Also `!aesop`, and "
             "`!verse Aesop 12` or `!verse La Fontaine 1` for the plain text."
+        )
+        await ctx.send(embed=embed)
+        return
+
+    if topic in ("physiologus", "bestiary", "beast", "reynard", "reynart"):
+        embed = discord.Embed(title="🦁 !physiologus and 🦊 !reynard — medieval beasts", color=discord.Color.dark_gold())
+        embed.description = (
+            "**The Physiologus** is the early Christian book behind every medieval bestiary: what each beast does "
+            "and what it teaches (the lion wakes its cubs on the third day, the pelican revives its young with its "
+            "own blood). Olga Mladenova and Vesselin Stoykov's English, from the Old Bulgarian.\n"
+            "`!physiologus` — a beast at random · `!physiologus pelican` — by the beast · `!physiologus 19` — by "
+            "chapter · `!physiologus list` — the beasts\n\n"
+            "**Reynard the Fox** is the medieval beast epic of the cunning fox at the Lion's court, in William "
+            "Caxton's translation of 1481 (Henry Morley's modern spelling). Each chapter ends with Morley's notes "
+            "on its old words.\n"
+            "`!reynard` — the first chapter · `!reynard 12` — a chapter · `!reynard tybert` — the first chapter "
+            "whose heading names him · `!reynard list` — the chapters\n\n"
+            "◀ ▶ turn a long chapter's pages; ⏮ ⏭ go to Reynard's chapter before or after; 🎲 another beast. "
+            "Also `!verse Physiologus 24` and `!verse Reynard 4:1`."
         )
         await ctx.send(embed=embed)
         return

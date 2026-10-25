@@ -215,6 +215,10 @@
    "sidra",
    "torahportion"
   ],
+  "physiologus": [
+   "beast",
+   "bestiary"
+  ],
   "place": [
    "map",
    "where"
@@ -248,6 +252,10 @@
    "kjvinterlinear",
    "ril",
    "rinterlinear"
+  ],
+  "reynard": [
+   "reynardthefox",
+   "reynart"
   ],
   "root": [
    "cognates"
@@ -451,6 +459,7 @@
   "oracle",
   "parallel",
   "parsha",
+  "physiologus",
   "place",
   "plan",
   "planets",
@@ -460,6 +469,7 @@
   "quiz",
   "quoted",
   "reverseinterlinear",
+  "reynard",
   "root",
   "rosary",
   "rumi",

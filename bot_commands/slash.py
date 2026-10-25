@@ -419,6 +419,20 @@ async def tale_slash(interaction: discord.Interaction, which: str = ""):
     await _command("tale")(ctx, query=which)
 
 
+@bot.tree.command(name="physiologus", description="The Physiologus: the beasts, and what they mean for a Christian")
+@app_commands.describe(beast="A beast (pelican, lion, phoenix), a chapter number, 'list', or empty for any")
+async def physiologus_slash(interaction: discord.Interaction, beast: str = ""):
+    ctx = await _slash_ctx(interaction)
+    await _command("physiologus")(ctx, query=beast)
+
+
+@bot.tree.command(name="reynard", description="Reynard the Fox, in Caxton's translation")
+@app_commands.describe(chapter="A chapter number (12), a name in its heading (tybert), 'list', or empty for the first")
+async def reynard_slash(interaction: discord.Interaction, chapter: str = ""):
+    ctx = await _slash_ctx(interaction)
+    await _command("reynard")(ctx, query=chapter)
+
+
 @bot.tree.command(name="cloud", description="A book's most distinctive words, drawn as a word cloud")
 @app_commands.describe(book="A book, e.g. Ecclesiastes, Revelation, Tao Te Ching")
 async def cloud_slash(interaction: discord.Interaction, book: str):

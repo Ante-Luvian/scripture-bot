@@ -276,7 +276,9 @@ SHAPED = {"ballad": ["0", "305", "306", "12B", "12b", "12ZZ", "22A", "117", "chi
           "tale": ["0", "200", "201", "210", "211", "#12", "12:3", "list", "sleeping beauty", "the", "or", "wolf fox",
                    "grimm 12"],
           "fable": ["la fontaine", "la fontaine 0", "la fontaine 241", "krylov list", "phaedrus 124", "collections",
-                    "bidpai fox", "la fontaine zzzz", "the", "*|t:fox"]}
+                    "bidpai fox", "la fontaine zzzz", "the", "*|t:fox"],
+          "physiologus": ["0", "33", "34", "pelican", "the", "about", "list", "lion king"],
+          "reynard": ["0", "44", "45", "tybert", "list", "how the", "isegrim wolf", "27"]}
 
 
 def sample(command, live: bool = False) -> list:

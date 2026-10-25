@@ -862,6 +862,9 @@ ALIASES: dict[str, str] = {
     # Aesop (Townsend), one chapter a fable
     "aesop": "Aesop's Fables", "aesops fables": "Aesop's Fables", "aesop's fables": "Aesop's Fables",
     "fables": "Aesop's Fables", "fables of aesop": "Aesop's Fables", "aesop fables": "Aesop's Fables",
+    # Two books of beasts (scripts/build_beasts.py)
+    "bestiary": "Physiologus", "the physiologus": "Physiologus",
+    "reynard": "Reynard the Fox", "history of reynard the fox": "Reynard the Fox", "reynart": "Reynard the Fox",
     # More fables (scripts/build_fables.py), one chapter a fable
     "fables of phaedrus": "Fables of Phaedrus", "phaedrus fables": "Fables of Phaedrus",   # ("phaedrus": Plato's)
     "la fontaine": "Fables of La Fontaine", "lafontaine": "Fables of La Fontaine",
@@ -1794,7 +1797,8 @@ class ScriptureLookup:
             "ballads": ["child.json",             # Child's ballads (scripts/build_child.py)
                         "grimm.json",             # the Grimms' tales, Hunt (scripts/build_grimm.py)
                         "la_fontaine.json",       # Thornbury (scripts/build_fables.py)
-                        "talking_beasts.json"],   # the world's fables, Wiggin and Smith (build_fables.py)
+                        "talking_beasts.json",    # the world's fables, Wiggin and Smith (build_fables.py)
+                        "reynard.json"],          # Caxton, ed. Morley (scripts/build_beasts.py)
             "norse": [
                 "poetic_edda.json",
             ],
@@ -1933,6 +1937,7 @@ class ScriptureLookup:
             ],
             "medieval": [
                 "bede.json",
+                "physiologus.json",              # Mladenova & Stoykov (scripts/build_beasts.py)
                 "golden_legend.json",
                 "imitation_of_christ.json",
                 "rule_of_benedict.json",

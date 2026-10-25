@@ -758,6 +758,7 @@ BOOKS_TREE = [
     ("🎻 Folk tales & ballads", [
         "Child Ballads",
         "Grimm's Household Tales",
+        "Reynard the Fox",
         "Fables of La Fontaine",
         ("The Talking Beasts (the world's fables)", [
             "Fables of Bidpai", "Fables from the Hitopadesa", "Fables from India", "Malayan Fables",
@@ -1094,6 +1095,7 @@ BOOKS_TREE = [
             ("St Benedict", ["Rule of Benedict"]),
             ("Thomas à Kempis", ["Imitation of Christ"]),
             ("Dante — The Divine Comedy", ["Inferno", "Purgatorio", "Paradiso"]),
+            ("The Physiologus (beasts and their Christian meanings)", ["Physiologus"]),
         ]),
         ("Christian Mystics", [
             ("Anonymous (14th century)", ["Cloud of Unknowing"]),
