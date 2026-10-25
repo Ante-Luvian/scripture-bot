@@ -63,3 +63,19 @@ def test_finding(beasts):
 def test_the_references(lookup):
     assert lookup.get_verse("Physiologus 24")["text"].startswith("**[1]** *About the Pelican*")
     assert lookup.get_verse("Reynard 27")["found"] and lookup.get_verse("Bestiary 19:1")["found"]
+
+
+def test_tale_opens_them_too_and_neither_has_a_slash_command(beasts):
+    """The owner: own ! commands are fine, but not a slash command each -- /tale reaches them."""
+    from bot_commands import tales
+    from core import bot
+    ctx = Ctx()
+    asyncio.run(tales.send_tale(ctx, "reynard tybert"))
+    assert ctx.sent[-1][1]["embed"].title.startswith("🦊 10.")
+    asyncio.run(tales.send_tale(ctx, "physiologus pelican"))
+    assert ctx.sent[-1][1]["embed"].title == "🦁 The Pelican"
+    asyncio.run(tales.send_tale(ctx, "bestiary"))
+    assert ctx.sent[-1][1]["embed"].title.startswith("🦁 ")
+    assert bot.get_command("beast").name == "physiologus" and bot.get_command("fox").name == "reynard"
+    slash = {c.name for c in bot.tree.get_commands()}
+    assert "tale" in slash and not {"physiologus", "reynard"} & slash

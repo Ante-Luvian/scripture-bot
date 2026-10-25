@@ -412,25 +412,11 @@ async def ballad_slash(interaction: discord.Interaction, which: str = ""):
     await _command("ballad")(ctx, query=which)
 
 
-@bot.tree.command(name="tale", description="One of the Brothers Grimm's fairy tales")
-@app_commands.describe(which="A title or word (rapunzel, wolf, sleeping beauty), a number (12), 'list', or empty for any")
+@bot.tree.command(name="tale", description="A Grimm fairy tale, or Reynard the Fox, or the Physiologus's beasts")
+@app_commands.describe(which="A title or word (rapunzel, wolf), a number (12), 'reynard 4', 'physiologus pelican', 'list'")
 async def tale_slash(interaction: discord.Interaction, which: str = ""):
     ctx = await _slash_ctx(interaction)
     await _command("tale")(ctx, query=which)
-
-
-@bot.tree.command(name="physiologus", description="The Physiologus: the beasts, and what they mean for a Christian")
-@app_commands.describe(beast="A beast (pelican, lion, phoenix), a chapter number, 'list', or empty for any")
-async def physiologus_slash(interaction: discord.Interaction, beast: str = ""):
-    ctx = await _slash_ctx(interaction)
-    await _command("physiologus")(ctx, query=beast)
-
-
-@bot.tree.command(name="reynard", description="Reynard the Fox, in Caxton's translation")
-@app_commands.describe(chapter="A chapter number (12), a name in its heading (tybert), 'list', or empty for the first")
-async def reynard_slash(interaction: discord.Interaction, chapter: str = ""):
-    ctx = await _slash_ctx(interaction)
-    await _command("reynard")(ctx, query=chapter)
 
 
 @bot.tree.command(name="cloud", description="A book's most distinctive words, drawn as a word cloud")

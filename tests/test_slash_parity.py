@@ -6,7 +6,8 @@ import asyncio
 import pytest
 
 # Owner/maintenance tools that stay prefix-only
-PREFIX_ONLY = {"guildactivity", "scanstats", "votdmode"}
+PREFIX_ONLY = {"guildactivity", "scanstats", "votdmode",
+               "physiologus", "reynard"}   # (the owner: no slash command each; /tale reaches them)
 # Admin commands; their slash forms are subcommands of /setup (Discord allows 100 slash commands)
 ADMIN_SLASH = {"votdsetup", "oraclesetup", "quizsetup", "verslesetup", "hymndaysetup", "saintsetup", "astrosetup", "angelussetup", "troparionsetup", "learningsetup", "changelogsetup", "changelogintro", "features", "serversetup", "packs"}
 

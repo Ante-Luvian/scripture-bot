@@ -1287,21 +1287,22 @@ async def cmd_help(ctx, *, topic: str = ""):
         await ctx.send(embed=embed)
         return
 
-    if topic in ("physiologus", "bestiary", "beast", "reynard", "reynart"):
+    if topic in ("physiologus", "bestiary", "beast", "reynard", "reynart", "fox"):
         embed = discord.Embed(title="🦁 !physiologus and 🦊 !reynard — medieval beasts", color=discord.Color.dark_gold())
         embed.description = (
             "**The Physiologus** is the early Christian book behind every medieval bestiary: what each beast does "
             "and what it teaches (the lion wakes its cubs on the third day, the pelican revives its young with its "
             "own blood). Olga Mladenova and Vesselin Stoykov's English, from the Old Bulgarian.\n"
-            "`!physiologus` — a beast at random · `!physiologus pelican` — by the beast · `!physiologus 19` — by "
+            "`!physiologus` (or `!beast`) — a beast at random · `!physiologus pelican` — by the beast · `!physiologus 19` — by "
             "chapter · `!physiologus list` — the beasts\n\n"
             "**Reynard the Fox** is the medieval beast epic of the cunning fox at the Lion's court, in William "
             "Caxton's translation of 1481 (Henry Morley's modern spelling). Each chapter ends with Morley's notes "
             "on its old words.\n"
-            "`!reynard` — the first chapter · `!reynard 12` — a chapter · `!reynard tybert` — the first chapter "
+            "`!reynard` (or `!fox`) — the first chapter · `!reynard 12` — a chapter · `!reynard tybert` — the first chapter "
             "whose heading names him · `!reynard list` — the chapters\n\n"
             "◀ ▶ turn a long chapter's pages; ⏮ ⏭ go to Reynard's chapter before or after; 🎲 another beast. "
-            "Also `!verse Physiologus 24` and `!verse Reynard 4:1`."
+            "Both are in `!tale` too (`!tale reynard 12`, `!tale physiologus pelican`, and `/tale`); also "
+            "`!verse Physiologus 24` and `!verse Reynard 4:1`."
         )
         await ctx.send(embed=embed)
         return
@@ -1318,7 +1319,8 @@ async def cmd_help(ctx, *, topic: str = ""):
             "`!tale 12` — one by its number\n"
             "`!tale list` — all the titles, a page at a time\n\n"
             "◀ ▶ turn a long tale's pages, and **🎲 Another** draws again from the same kind. Also `!grimm`, "
-            "and `!verse Grimm 12:3` for a single paragraph."
+            "and `!verse Grimm 12:3` for a single paragraph. `!tale reynard 4` and `!tale physiologus pelican` "
+            "open the other two story books (`!help reynard`)."
         )
         await ctx.send(embed=embed)
         return

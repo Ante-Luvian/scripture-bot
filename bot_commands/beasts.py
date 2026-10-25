@@ -1,16 +1,17 @@
 """
 Two medieval books of beasts (scripts/build_beasts.py):
 
-!physiologus -- the Physiologus, the early Christian book of what beasts do and what it means (the lion's cubs
-woken on the third day, the pelican's blood), in Mladenova and Stoykov's English (data/medieval/physiologus.json).
-    !physiologus             a beast at random
-    !physiologus pelican     by the beast
-    !physiologus 19          by chapter
-    !physiologus list        the beasts
+read with !tale (bot_commands/tales.py hands these on) or their own !physiologus and !reynard (no slash
+commands of their own: the owner wanted the / menu kept short):
 
-!reynard -- Reynard the Fox, Caxton's translation (1481) in Morley's modern spelling (data/ballads/reynard.json).
-    !reynard                 the first chapter (!reynard 12 another; !reynard list the chapters)
-    !reynard tybert          the first chapter whose heading names him
+the Physiologus, the early Christian book of what beasts do and what it means (the lion's cubs woken on the third
+day, the pelican's blood), in Mladenova and Stoykov's English (data/medieval/physiologus.json).
+    !tale physiologus             a beast at random
+    !tale physiologus pelican     by the beast (19: by chapter; list: the beasts)
+
+Reynard the Fox, Caxton's translation (1481) in Morley's modern spelling (data/ballads/reynard.json).
+    !tale reynard                 the first chapter (!tale reynard 12 another; list the chapters)
+    !tale reynard tybert          the first chapter whose heading names him
 
 ◀ ▶ turn a long chapter's pages; ⏮ ⏭ go to the chapter before or after; 🎲 another beast.
 """
@@ -169,7 +170,7 @@ def list_message(key: str, page: int = 0) -> dict:
     page %= count
     lines = [f"`{n}` {name(key, n) if key == 'ph' else title(key, n)}" for n in ns[page * per:(page + 1) * per]]
     embed = discord.Embed(title=f"{emoji} {book}", description="\n".join(lines)[:4096], color=color)
-    cmd = "!physiologus pelican" if key == "ph" else "!reynard 12"
+    cmd = "!tale physiologus pelican" if key == "ph" else "!tale reynard 12"
     embed.set_footer(text=f"Page {page + 1} of {count} · {cmd} · {source}")
     view = discord.ui.View(timeout=None)
     if count > 1:
@@ -208,7 +209,7 @@ async def send_beast(ctx, key: str, query: str = "") -> None:
     if not found:
         what = "beast" if key == "ph" else "chapter heading naming"
         await ctx.send(f"I found no {what} “{discord.utils.escape_markdown(q)}” in {'the Physiologus' if key == 'ph' else book}. "
-                       f"Try `!{'physiologus' if key == 'ph' else 'reynard'} list`.")
+                       f"Try `!tale {'physiologus' if key == 'ph' else 'reynard'} list`.")
         return
     heading = f"{len(found)} {part}s for “{q}”; this is the first" if len(found) > 1 else ""
     await ctx.send(**message(key, found[0], heading=heading))
@@ -216,7 +217,7 @@ async def send_beast(ctx, key: str, query: str = "") -> None:
 
 @bot.command(name="physiologus", aliases=["bestiary", "beast"])
 async def cmd_physiologus(ctx, *, query: str = ""):
-    """The Physiologus: what the beasts do, and what it means for a Christian.
+    """The Physiologus: what the beasts do, and what it means for a Christian (also !tale physiologus).
     Usage: !physiologus            — a beast at random
            !physiologus pelican    — by the beast
            !physiologus 19         — by chapter
@@ -224,9 +225,9 @@ async def cmd_physiologus(ctx, *, query: str = ""):
     await send_beast(ctx, "ph", query)
 
 
-@bot.command(name="reynard", aliases=["reynart", "reynardthefox"])
+@bot.command(name="reynard", aliases=["reynart", "fox"])
 async def cmd_reynard(ctx, *, query: str = ""):
-    """Reynard the Fox, in Caxton's translation (1481).
+    """Reynard the Fox, in Caxton's translation (1481) (also !tale reynard).
     Usage: !reynard           — the first chapter
            !reynard 12        — a chapter
            !reynard tybert    — the first chapter whose heading names him

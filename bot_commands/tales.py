@@ -184,6 +184,13 @@ def list_message(page: int = 0) -> dict:
 
 
 async def send_tale(ctx, query: str = "") -> None:
+    q = query.strip()
+    other = re.match(r"(?i)\s*(reynard(?: the fox)?|reynart|physiologus|bestiary)\b\s*(.*)", q)
+    if other:                                           # (the other story books: bot_commands/beasts.py, which
+        from bot_commands import beasts                 #  checks their own traditions)
+        key = "ph" if other.group(1).lower() in ("physiologus", "bestiary") else "rf"
+        await beasts.send_beast(ctx, key, other.group(2))
+        return
     if not tales():
         await ctx.send("⚠️ The Grimms' tales aren't loaded.")
         return
@@ -191,7 +198,6 @@ async def send_tale(ctx, query: str = "") -> None:
     if not tradition_enabled(guild.id if guild else None, "ballads"):
         await ctx.send("The folk tales and ballads are turned off on this server.")
         return
-    q = query.strip()
     if _fold(q) in ("list", "all", "titles", "index", "contents"):
         await ctx.send(**list_message(0))
         return
