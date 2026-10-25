@@ -389,7 +389,7 @@ def horoscope_embed(day: dt.date, with_moon: bool = True, sign: "int | None" = N
 # Needs ANTHROPIC_API_KEY in .env; without it, or if the call fails, the post goes without them.
 
 HOROSCOPE_PATH = ROOT / "data" / "horoscopes.json"      # {"YYYY-MM-DD": {"Aries": "...", ...}}
-MODEL = "claude-sonnet-5-5"
+MODEL = "claude-haiku-5-5"                              # (one short request a day: pennies a month)
 _writing = None                                          # (an asyncio.Lock, made on first use)
 
 

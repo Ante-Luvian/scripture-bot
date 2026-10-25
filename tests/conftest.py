@@ -65,6 +65,14 @@ def isolate_runtime_files(tmp_path, monkeypatch):
 
 
 @pytest.fixture(autouse=True)
+def no_paid_api(monkeypatch):
+    """The tests must never call a paid API. The bot loads .env, so the owner's ANTHROPIC_API_KEY was set
+    during tests; with the saved horoscopes isolated, every test or stress run that reached !horoscope bought
+    a real reading (the owner saw 20 cents go). Tests that want the key set their own, with a fake reply."""
+    monkeypatch.delenv("ANTHROPIC_API_KEY", raising=False)
+
+
+@pytest.fixture(autouse=True)
 def fresh_speed_limit():
     """The per-person speed limit (core.over_rate_limit) remembers commands; tests send many as the same
     fake user, so a fast run could trip it and fail whichever test came eleventh."""

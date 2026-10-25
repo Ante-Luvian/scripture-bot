@@ -15,6 +15,7 @@ Runtime state (bookmarks, plans, stats...) is redirected to a temporary folder i
 sweep never writes into the live bot's files.
 """
 import asyncio
+import os
 import re
 import sys
 import tempfile
@@ -187,6 +188,8 @@ def isolate_runtime_files() -> None:
     """Point every runtime-state file at a temporary folder (as tests/conftest.py does)."""
     sys.path.insert(0, str(ROOT / "tests"))
     from conftest import RUNTIME_FILES
+    os.environ.pop("ANTHROPIC_API_KEY", None)        # (no paid API: with the saved readings isolated, each
+                                                     #  !horoscope would buy a fresh one)
     tmp = Path(tempfile.mkdtemp(prefix="stress_"))
     for name, module in list(sys.modules.items()):
         if name in ("core", "bot") or name.startswith("bot_commands."):
