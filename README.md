@@ -103,6 +103,7 @@ Prefix commands use `!`; most also have a `/` slash-command version.
 | `!saint [name \| day]` | `!saints`, `!saintoftheday` | The saint of the day, or by name/day (`saints.py`, `data/saints/saints.json` from `build_saints.py`): Butler's 1894 abridged Lives, with a 📖 Golden Legend button; Legend-only saints open to the Legend; several of a name give a picker |
 | `!fable [animal \| title \| 12 \| list]` | `!aesop`, `!fables` | One of Aesop's Fables (`fable.py`, Townsend's 313 in `classical/aesop.json`, built by `scripts/build_aesop.py`): random, by title word, by number; 🎲 another of the same kind, 🖼️ a justified card |
 | `!ballad [12 \| 12B \| title \| list]` | `!ballads`, `!child` | One of Child's 305 English and Scottish ballads (`ballads.py`, `ballads/child.json` from `scripts/build_child.py`, checked against Gutenberg's proofread edition and the 1882–98 scans): by number, version, title or a name it goes by; ◀ ▶ pages, 🔀 the next version, ▶️ a tune from the Digital Tradition (`ballads/tunes.json` and `audio/` from `scripts/build_child_tunes.py`, not in git), 📺 a YouTube recording, 🎲 another |
+| `!tale [title \| word \| 12 \| list]` | `!grimm`, `!fairytale`, `!tales` | One of the Grimms' Household Tales (`tales.py`, Margaret Hunt's 200 and the ten Children's Legends as 201–210 in `ballads/grimm.json`, from Gutenberg #5314 by `scripts/build_grimm.py`): random, by title word (and the names they go by now: sleeping beauty, red riding hood), by number; ◀ ▶ pages, 🎲 another of the same kind |
 | `!desert [father \| topic \| fathers \| topics \| 1:303 \| words]` | `!apophthegm`, `!apophthegmata`, `!desertfathers`, `!abba` | A saying of the Desert Fathers (`desert.py`, from Budge's Paradise Vol. II in `paradise_of_the_fathers.json`): random, by father, by chapter, by number or by words; ◀ ▶ pages, 🎲 another of the same kind |
 | `!astrosetup` | `!astroconfig`, `!horoscopesetup` | (Admins) Post the day's sky in a channel, `!planets` then `!horoscope`: `channel #chan`, `time HH:MM` (UTC, default 06:00), `test`, `off`; `astroday.json` stops double posts |
 | `!saintsetup` | `!saintconfig` | (Admins) Post the saint of the day in a channel: `channel #chan`, `time HH:MM` (UTC, default 07:00), `test`, `off`; `saintday.json` stops double posts |
@@ -301,6 +302,7 @@ bot_commands/           One module per feature area; each registers its
   desert.py               !desert (the sayings of the Desert Fathers, Budge)
   fable.py                !fable (Aesop's Fables, Townsend)
   ballads.py             !ballad (Child's ballads, their tunes and recordings)
+  tales.py               !tale (the Grimms' Household Tales, Hunt)
   cloud.py                !cloud (word clouds)
   stories.py              !story (one story across traditions; data/stories.json)
   psalter.py              !metrical (the Scottish Metrical Psalter)

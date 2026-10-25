@@ -78,8 +78,6 @@ Abbreviations are fine (`Jn`, `1 Cor`, `Ps`). Bible verses come with the four st
 
 **`!fable`** — one of Aesop's Fables (313 of them, in Townsend's translation): `!fable` at random, `!fable fox` one with the fox in its title, `!fable lion and mouse` by name, `!fable 12` by number, `!fable list` all the titles. **🖼️ Card** makes a picture of the fable you can save or share.
 
-<!-- texts: ballads -->**`!ballad`** — the old ballads of England and Scotland, all 305 that the scholar Francis James Child gathered in the 1800s (*The English and Scottish Popular Ballads*), often in several versions sung in different places: `!ballad` at random, `!ballad 84` by Child's number (*Barbara Allen*), `!ballad 12B` the second version of a ballad, `!ballad matty groves` by title or by a name it's sung under today, `!ballad list` all the titles. **🔀** moves to the next version, **▶️ Play the tune** plays a melody it was sung to (press **Next tune** for others), and **📺 Recording** opens someone singing it on YouTube.
-
 **`!dore`** — Gustave Doré's famous engravings for the Bible (the Apocrypha included), the *Divine Comedy* and *Paradise Lost*, each tied to the verse or line it shows: `!dore Genesis 11` lists that chapter's engravings with the verse of each, `!dore Inferno 3:82` shows Charon's boat, `!dore Paradise Lost 1` Satan's fall; `!dore` alone shows one at random, and `!dore list` what there is.
 
 **`!prefer ESV`** makes a translation your personal default, so plain `!verse` uses it. `!prefer off` goes back to the KJV.
@@ -160,6 +158,12 @@ Abbreviations are fine (`Jn`, `1 Cor`, `Ps`). Bible verses come with the four st
 <!-- pack: church -->• **📖 Read in the KJV** — the same psalm in ordinary prose, to compare.
 <!-- pack: church -->• **Second version** — some psalms (like Psalm 100) have two versions in the Psalter, and this switches between them. Ask for one directly with `!metrical 100b`.
 <!-- pack: church -->Long psalms have buttons to turn the page, or ask for some verses: `!metrical 119:105-112`. Psalm 119 shows its 22 parts under their Hebrew letters (Aleph, Beth, Gimel…), with a menu to jump between them; ask for one by name with `!metrical 119 nun`. You can also search the words (`!metrical shepherd`), list every psalm sung to a tune (`!metrical crimond`), or get a random one with `!metrical`. `!psalm 23 sing` does the same as `!metrical 23`.
+
+## 🎻 Folk tales and ballads
+
+<!-- texts: ballads -->**`!ballad`** — the old ballads of England and Scotland, all 305 that the scholar Francis James Child gathered in the 1800s (*The English and Scottish Popular Ballads*), often in several versions sung in different places: `!ballad` at random, `!ballad 84` by Child's number (*Barbara Allen*), `!ballad 12B` the second version of a ballad, `!ballad matty groves` by title or by a name it's sung under today, `!ballad list` all the titles. **🔀** moves to the next version, **▶️ Play the tune** plays a melody it was sung to (press **Next tune** for others), and **📺 Recording** opens someone singing it on YouTube.
+
+<!-- texts: ballads -->**`!tale`** — one of the fairy tales the Brothers Grimm gathered in Germany in the 1800s, all 200 of them and ten short legends, in Margaret Hunt's well-known translation: `!tale` at random, `!tale wolf` one with the wolf in its title, `!tale rapunzel` by name (the names they're known by today work too: `!tale sleeping beauty` finds *Briar-Rose*), `!tale 12` by number, `!tale list` all the titles. Long tales turn their pages with ◀ ▶.
 
 ## ⛪ Prayer, liturgy & the Church
 **`!today`** — what's happening today across traditions: the Catholic, Anglican and Orthodox calendars (feasts, saints, seasons, Orthodox fasting), the Hebrew date and Jewish holidays, and the Islamic date and holidays. Narrow it down with `!today catholic`, `!today orthodox`, `!today jewish`, `!today islam`; add a date with `!today 12-25`.

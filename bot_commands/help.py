@@ -54,6 +54,7 @@ HELP_MENU = [
         "`!blake` — Blake's illuminated books · `!dore` — Doré's engravings · `!help dore`",
         "`!fable` — one of Aesop's Fables, or `!fable fox`, `!fable list` · `!help fable`",
         "<!-- texts: ballads -->`!ballad` — Child's English and Scottish ballads, with tunes · `!ballad barbara allen` · `!help ballad`",
+        "<!-- texts: ballads -->`!tale` — one of the Grimms' fairy tales, or `!tale rapunzel`, `!tale list` · `!help tale`",
     ]),
     ('⛪ Catholic', [
         '`!ccc` — Catechism · `!help ccc`',
@@ -1275,6 +1276,23 @@ async def cmd_help(ctx, *, topic: str = ""):
             "`!fable list` — all the titles, a page at a time\n\n"
             "**🎲 Another** draws again from the same kind, and **🖼️ Card** makes an image of the fable, set "
             "justified like a printed book. Also `!aesop`, and `!verse Aesop 12` for the plain text."
+        )
+        await ctx.send(embed=embed)
+        return
+
+    if topic in ("tale", "tales", "grimm", "fairytale"):
+        embed = discord.Embed(title="🏰 !tale — Grimm's Household Tales", color=discord.Color.dark_gold())
+        embed.description = (
+            "The fairy tales Jacob and Wilhelm Grimm collected in Germany (1812–57), in Margaret Hunt's "
+            "translation (1884): all 200, and the ten short Children's Legends (201–210).\n\n"
+            "`!tale` — a tale at random\n"
+            "`!tale wolf` — one with the wolf in its title (or, failing that, one that mentions it)\n"
+            "`!tale rapunzel` — one by its title; the names they're known by now work too "
+            "(`!tale sleeping beauty` is her *Briar-Rose*)\n"
+            "`!tale 12` — one by its number\n"
+            "`!tale list` — all the titles, a page at a time\n\n"
+            "◀ ▶ turn a long tale's pages, and **🎲 Another** draws again from the same kind. Also `!grimm`, "
+            "and `!verse Grimm 12:3` for a single paragraph."
         )
         await ctx.send(embed=embed)
         return

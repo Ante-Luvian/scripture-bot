@@ -754,6 +754,10 @@ BOOKS_TREE = [
     ("☘️ Celtic", [
         "Mabinogion",
     ]),
+    ("🎻 Folk tales & ballads", [
+        "Child Ballads",
+        "Grimm's Household Tales",
+    ]),
     ("🧿 Gnostic", [
         ("Gospel of Thomas (trans. Lambdin)", [
             "Gospel of Thomas",
@@ -1328,7 +1332,7 @@ _SUPERGROUP_ORDER = [
     ]),
     ("🌐 Mythology & Classical Traditions", [
         "🏛️ Classical", "🌲 Norse", "🦢 Finnish", "☘️ Celtic", "🌙 Ancient Near East",
-        "🔥 Zoroastrian", "🌽 Mesoamerican",
+        "🔥 Zoroastrian", "🌽 Mesoamerican", "🎻 Folk tales & ballads",
     ]),
 ]
 # ── a server sees only the sections of the traditions it chose ──────────────

@@ -272,7 +272,9 @@ def text_commands(names=None) -> list:
 
 # Inputs shaped for one command, tried as well as the rest (bad numbers, versions, its own words)
 SHAPED = {"ballad": ["0", "305", "306", "12B", "12b", "12ZZ", "22A", "117", "child 84", "#84", "84:3", "list",
-                     "lord randal my son", "matty groves", "the", "o"]}
+                     "lord randal my son", "matty groves", "the", "o"],
+          "tale": ["0", "200", "201", "210", "211", "#12", "12:3", "list", "sleeping beauty", "the", "or", "wolf fox",
+                   "grimm 12"]}
 
 
 def sample(command, live: bool = False) -> list:

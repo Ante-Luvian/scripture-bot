@@ -78,6 +78,7 @@ from bot_commands import (  # noqa: F401
     desert,
     fable,
     ballads,
+    tales,
     planets,
     cloud,
     divine_liturgy,

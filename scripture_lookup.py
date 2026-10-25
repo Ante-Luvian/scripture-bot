@@ -862,6 +862,11 @@ ALIASES: dict[str, str] = {
     # Aesop (Townsend), one chapter a fable
     "aesop": "Aesop's Fables", "aesops fables": "Aesop's Fables", "aesop's fables": "Aesop's Fables",
     "fables": "Aesop's Fables", "fables of aesop": "Aesop's Fables", "aesop fables": "Aesop's Fables",
+    # The Grimms' Household Tales (Hunt), one chapter a tale
+    "grimm": "Grimm's Household Tales", "grimms": "Grimm's Household Tales", "grimm's": "Grimm's Household Tales",
+    "grimms fairy tales": "Grimm's Household Tales", "grimm's fairy tales": "Grimm's Household Tales",
+    "household tales": "Grimm's Household Tales", "grimm's household tales": "Grimm's Household Tales",
+    "grimms household tales": "Grimm's Household Tales", "kinder und hausmarchen": "Grimm's Household Tales",
     # 36 Lessons of Vivec
     "vivec": "Vivec",
     "lessons of vivec": "Vivec",
@@ -1532,7 +1537,7 @@ TRADITIONS = {
     "norse":     ("🌲 Norse", ("norse",)),
     "finnish":   ("🦢 Finnish", ("finnish",)),
     "celtic":    ("☘️ Celtic", ("celtic",)),
-    "ballads":   ("🎻 Folk ballads", ("ballads",)),
+    "ballads":   ("🎻 Folk tales & ballads", ("ballads",)),
     "neareast":  ("🌙 Ancient Near East", ("ancient_near_east",)),
     "mesoamerican": ("🌽 Mesoamerican", ("mesoamerican",)),
     "bahai":     ("🌍 Baháʼí", ("bahai",)),
@@ -1549,7 +1554,7 @@ TRADITION_ALIASES = {
     "sikhism": "sikh", "jainism": "jain", "jaina": "jain", "japanese": "shinto", "japan": "shinto",
     "zoroastrianism": "zoroastrian", "parsi": "zoroastrian", "avestan": "zoroastrian",
     "maya": "mesoamerican", "mayan": "mesoamerican", "welsh": "celtic", "finland": "finnish",
-    "ballad": "ballads", "folk": "ballads", "child": "ballads", "child ballads": "ballads",
+    "ballad": "ballads", "folk": "ballads", "fairy tales": "ballads", "grimm": "ballads", "tales": "ballads", "child": "ballads", "child ballads": "ballads",
 }
 
 
@@ -1604,7 +1609,7 @@ def _tagged(result, key: str):
     return result
 
 
-CORPUS_PRIORITY = ["kjv", "lds", "brenton", "charles", "nt_apocrypha", "apostolic_fathers", "quran", "classical", "jewish", "bahai", "qumran", "gnostic", "dharmic", "buddhist", "chinese", "sufi", "sikh", "jain", "shinto", "zoroastrian", "mesoamerican", "finnish", "celtic", "norse", "ancient_near_east", "patristics", "medieval", "reformation"]
+CORPUS_PRIORITY = ["kjv", "lds", "brenton", "charles", "nt_apocrypha", "apostolic_fathers", "quran", "classical", "jewish", "bahai", "qumran", "gnostic", "dharmic", "buddhist", "chinese", "sufi", "sikh", "jain", "shinto", "zoroastrian", "mesoamerican", "finnish", "celtic", "norse", "ancient_near_east", "patristics", "medieval", "reformation", "ballads"]
 
 
 # Shepherd of Hermas: (first, last) Lightfoot continuous chapter of each
@@ -1779,7 +1784,8 @@ class ScriptureLookup:
             "mesoamerican": ["popol_vuh.json"],
             "finnish": ["kalevala.json"],
             "celtic": ["mabinogion.json"],
-            "ballads": ["child.json"],           # Child's ballads (scripts/build_child.py)
+            "ballads": ["child.json",             # Child's ballads (scripts/build_child.py)
+                        "grimm.json"],            # the Grimms' tales, Hunt (scripts/build_grimm.py)
             "norse": [
                 "poetic_edda.json",
             ],

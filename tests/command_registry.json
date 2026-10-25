@@ -309,6 +309,11 @@
    "st",
    "thomas"
   ],
+  "tale": [
+   "fairytale",
+   "grimm",
+   "tales"
+  ],
   "tarot": [
    "riderwaite",
    "taro"
@@ -471,6 +476,7 @@
   "study",
   "subscribe",
   "summa",
+  "tale",
   "tarot",
   "theme",
   "timeline",
