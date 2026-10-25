@@ -530,7 +530,7 @@ def horoscope_embed(day: dt.date, notes: "dict | None" = None, sign: "int | None
         else:
             note = (notes or {}).get(e["text"]) or ("" if words else _touches(e["signs"]))
         value = "\n".join(x for x in (f"-# {words}" if words else "", note) if x)
-        when = "building" if e.get("building") else f"{e['at'] + dt.timedelta(seconds=30):%H:%M}"
+        when = "Building" if e.get("building") else f"{e['at'] + dt.timedelta(seconds=30):%H:%M}"
         embed.add_field(name=f"`{when}` {e['text']}"[:256], value=value[:1024], inline=False)
     there = in_sign(day, sign) if sign is not None else ""
     if there:

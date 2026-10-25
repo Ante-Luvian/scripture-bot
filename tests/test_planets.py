@@ -72,7 +72,7 @@ def test_an_aspect_building_shows_before_its_day(planets):
     by = {n: lon for n, _, lon, _ in planets.positions(b["at"])}
     assert abs((by["Mars"] - by["Jupiter"] + 180) % 360 - 180) < 1 / 60
     leo = planets.horoscope_embed(day, None, 4)
-    assert [f.name for f in leo.fields] == [f"`building` {b['text']}"]
+    assert [f.name for f in leo.fields] == [f"`Building` {b['text']}"]
     assert leo.description == "In ♌ Leo now: ♂ Mars 14°45′, ♃ Jupiter 23°21′"
     assert b["text"] in [f.name.split("` ", 1)[1] for f in planets.horoscope_embed(day).fields]
     scorpio = planets.horoscope_embed(day, None, 7)                 # (only for the signs it touches)
