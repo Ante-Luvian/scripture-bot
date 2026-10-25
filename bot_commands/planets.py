@@ -447,6 +447,75 @@ def sepharial_on(e: dict) -> "str | None":
     return None
 
 
+# Keywords, a friend of the owner's suggested: "the planet of increase, teaching and law has entered the sign of
+# ...": hooks to read an event by, the same every time, and free. All Sepharial's own words ("Astrology", 1920):
+# the planets' natures (1.1), the signs' elements, constitutions and sex (1.2), and which aspects are good or
+# evil (1.4). Each is checked against the book before it's shown. Pluto has none: he wrote before it was found.
+KEYWORDS_REF = "Sepharial's Astrology 1.1, 1.2, 1.4"
+PLANET_WORDS = {
+    "Sun": ("1.1", ["noble", "proud", "fearless"]),
+    "Moon": ("1.1", ["variableness", "love of change", "romance"]),
+    "Mercury": ("1.1", ["versatile", "business-like", "eager in the pursuit of knowledge"]),
+    "Venus": ("1.1", ["good taste", "fine feeling", "love of pleasure"]),
+    "Mars": ("1.1", ["freedom", "ambition", "scorn of consequence"]),
+    "Jupiter": ("1.1", ["optimism", "bountifulness", "generosity"]),
+    "Saturn": ("1.1", ["steadfastness", "patience", "endurance"]),
+    "Uranus": ("1.1", ["originality", "inventiveness", "instability"]),
+    "Neptune": ("1.1", ["highly-strung", "complications", "double-dealing"]),
+}
+BENEFIC = {"Jupiter", "Venus", "Sun", "Moon"}               # 1.4: Mercury takes the nature of what it's with
+MALEFIC = {"Neptune", "Uranus", "Saturn", "Mars"}
+ELEMENT = ["Fire", "Earth", "Air", "Water"]                 # 1.2, by sign: Aries fire, Taurus earth...
+CONSTITUTION = ["Movable", "Fixed", "Flexed"]
+RULER = ["Mars", "Venus", "Mercury", "Moon", "Sun", "Mercury", "Venus", "Mars", "Jupiter", "Saturn", "Saturn",
+         "Jupiter"]                                         # 1.2:29
+ASPECT_NATURE = {"sextile": "a good aspect", "trine": "a good aspect", "square": "an evil aspect",
+                 "opposition": "an evil aspect"}            # 1.4:2
+
+
+@functools.lru_cache(maxsize=1)
+def _sepharial_book() -> str:
+    corpus, book = lookup._resolve_exact("Sepharial's Astrology")
+    if not book:
+        return ""
+    chapters = lookup._data[corpus][book]
+    return re.sub(r"\s+", " ", " ".join(t for ch in ("1.1", "1.2", "1.4") for t in chapters.get(ch, {}).values()))
+
+
+def keywords(e: dict) -> str:
+    """The event's planets and signs in Sepharial's words: "♂ Mars (freedom, ambition, scorn of consequence)
+    conjunct ♃ Jupiter (optimism, ...): a conjunction acts by the planets' simple natures · ♌ Leo: fixed fire,
+    male, the Sun's sign"; or "" if the book isn't loaded."""
+    book = _sepharial_book().lower()
+    if not book:
+        return ""
+    names = [n for n, _, _ in BODIES if re.search(rf"\b{n}\b", e["text"])]
+    names = sorted(names, key=lambda n: e["text"].index(n))
+    parts = []
+    for n in names:
+        words = [w for w in PLANET_WORDS.get(n, ("", []))[1] if w in book]
+        glyph = next(g for name, g, _ in BODIES if name == n)
+        parts.append(f"{glyph} {n} ({', '.join(words)})" if words else f"{glyph} {n}")
+    aspect = next((w for _, w, _ in ASPECTS if re.search(rf"\b{w}\b", e["text"])), None)
+    line = " · ".join(parts)
+    if aspect and len(names) == 2:
+        line = f"{parts[0]} {aspect} {parts[1]}"
+        if aspect == "conjunct":
+            both = set(names)
+            line += (": a conjunction, good with good planets" if both <= BENEFIC
+                     else ": a conjunction, evil with malefic planets" if both <= MALEFIC
+                     else ": planets in conjunction act according to their simple natures")
+        elif aspect in ASPECT_NATURE:
+            line += f": {ASPECT_NATURE[aspect]}"
+    signs = []
+    for i in e["signs"]:
+        name, glyph = SIGNS[i]
+        signs.append(f"{glyph} {name}: {CONSTITUTION[i % 3].lower()} {ELEMENT[i % 4].lower()}, "
+                     f"{'male' if i % 2 == 0 else 'female'}, "
+                     f"{'the ' if RULER[i] in ('Sun', 'Moon') else ''}{RULER[i]}’s sign")
+    return " · ".join(x for x in [line, *signs] if x)
+
+
 def horoscope_embed(day: dt.date, notes: "dict | None" = None, sign: "int | None" = None) -> discord.Embed:
     """The day's significant events, each with a short note: Sepharial's words where he has some, else the
     day's written note (`notes`, by event text), else just the signs it touches. With `sign`, only those touching it."""
@@ -455,12 +524,14 @@ def horoscope_embed(day: dt.date, notes: "dict | None" = None, sign: "int | None
     found = [e for e in significant(day) if sign is None or sign in e["signs"]]
     for e in found:
         old = sepharial_on(e)
+        words = keywords(e)
         if old:
             note = f"“{old}” — *Sepharial*"
         else:
-            note = (notes or {}).get(e["text"]) or _touches(e["signs"])
+            note = (notes or {}).get(e["text"]) or ("" if words else _touches(e["signs"]))
+        value = "\n".join(x for x in (f"-# {words}" if words else "", note) if x)
         when = "building" if e.get("building") else f"{e['at'] + dt.timedelta(seconds=30):%H:%M}"
-        embed.add_field(name=f"`{when}` {e['text']}"[:256], value=note[:1024], inline=False)
+        embed.add_field(name=f"`{when}` {e['text']}"[:256], value=value[:1024], inline=False)
     there = in_sign(day, sign) if sign is not None else ""
     if there:
         embed.description = f"In {SIGNS[sign][1]} {SIGNS[sign][0]} now: {there}"
@@ -470,6 +541,7 @@ def horoscope_embed(day: dt.date, notes: "dict | None" = None, sign: "int | None
         embed.description = f"{embed.description}\n{quiet}" if there else quiet
     written = notes and any(e["text"] in notes and not sepharial_on(e) for e in found)
     embed.set_footer(text="Times UTC · tropical zodiac · positions from NASA JPL"
+                          + (" · keywords from Sepharial’s Astrology (1920)" if any(keywords(e) for e in found) else "")
                           + (" · notes written by AI (Claude) from the real sky" if written else ""))
     return embed
 

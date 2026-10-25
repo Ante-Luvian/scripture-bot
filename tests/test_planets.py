@@ -2,6 +2,7 @@
 Horizons' (observer ecliptic-of-date longitude, quantity 31), fetched 2026-10-24; the bot agreed to 0.3",
 the Moon in 1969 to 1.3". Skipped where Skyfield or data/de421.bsp isn't installed."""
 import datetime as dt
+import re
 
 import pytest
 
@@ -132,15 +133,38 @@ def test_the_horoscope_is_short(planets):
     e = planets.horoscope_embed(dt.date(2026, 10, 26))
     assert e.title == "🪐 The sky today — Monday, 26 October"
     full = next(f for f in e.fields if "Full Moon" in f.name)
-    assert full.value == "♉ Taurus"                       # (no note: just the signs, never a stock "look out" line)
+    # (no note: the keywords alone, never a stock "look out" line)
+    assert full.value == "-# ☽ Moon (variableness, love of change, romance) · ♉ Taurus: fixed earth, female, Venus’s sign"
     square = next(f for f in e.fields if "Pluto" in f.name)
-    assert square.value == "♏ Scorpio, ♒ Aquarius"
+    assert square.value.startswith("-# ☉ Sun (noble, proud, fearless) square ♇ Pluto: an evil aspect · ♏ Scorpio")
     assert "look out" not in planets.PROMPT.lower().replace('("look out"', '')
-    assert len(e) < 1500 and "AI" not in e.footer.text
+    assert len(e) < 2500 and "AI" not in e.footer.text and "Sepharial" in e.footer.text
     notes = {f.name.split("` ", 1)[1]: "Taureans: things come to a head." for f in e.fields}
     with_notes = planets.horoscope_embed(dt.date(2026, 10, 26), notes)
-    assert all(f.value == "Taureans: things come to a head." for f in with_notes.fields)
+    assert all(f.value.startswith("-# ") and f.value.endswith("\nTaureans: things come to a head.")
+               for f in with_notes.fields)                # (both: the keywords, then the note)
     assert "written by AI" in with_notes.footer.text
+
+
+def test_the_keywords_are_sepharials_words(planets):
+    book = planets._sepharial_book().lower()
+    for chapter, words in planets.PLANET_WORDS.values():
+        for w in words:
+            assert w in book, w
+    for phrase in ("conjunction is good with good planets", "evil with malefic planets",
+                   "planets in conjunction act according to their simple natures", "fixed--taurus, leo, scorpio",
+                   "movable--aries", "flexed--gemini", "fire--aries, leo, sagittarius", "leo is governed by the sun",
+                   "the good aspects are the trine and sextile; the evil being the semisquare, square"):
+        assert phrase in book, phrase
+    leo = planets.keywords({"text": "♂ Mars ☌ conjunct ♃ Jupiter in ♌ Leo", "signs": [4]})
+    assert leo.endswith("♌ Leo: fixed fire, male, the Sun’s sign")
+    assert "♇ Pluto:" not in planets.keywords({"text": "♇ Pluto enters ♓ Pisces", "signs": [11]})   # (none for Pluto)
+    for i, (name, _) in enumerate(planets.SIGNS):        # each sign's element and constitution, as he lists them
+        words = planets.keywords({"text": "", "signs": [i]})
+        element, constitution = planets.ELEMENT[i % 4], planets.CONSTITUTION[i % 3]
+        assert re.search(rf"{element}--[^.]*{name[:6]}", planets._sepharial_book()), (name, element)
+        assert re.search(rf"{constitution}--[^.]*{name[:6]}", planets._sepharial_book()), (name, constitution)
+        assert words.startswith(f"{planets.SIGNS[i][1]} {name}: {constitution.lower()} {element.lower()}")
 
 
 def test_sepharials_forecasts_are_his_words_and_go_to_the_right_conjunctions(planets):
