@@ -847,7 +847,9 @@ async def cmd_shakespeare(ctx, *, question: str = ""):
     view = _card_view("bard", f"{play}|{chap}|{line}")
     ref = f"{play} {chap}:{line}"
     if len(ref) <= 93:                                         # (📜 the passage around the line)
-        view.add_item(PassageButton("x", ref))
+        in_context = PassageButton("x", ref)
+        in_context.item.row = 0                                # (beside Card: !verse's go on a row of their own)
+        view.add_item(in_context)
     await ctx.send(embed=embed, view=view)
 
 
