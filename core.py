@@ -1097,7 +1097,7 @@ def fetch_chapter_result(lookup: "ScriptureLookup", get_hadith_section_fn, book_
     for either a local/Sefaria "verse" reference or a hadith section.
     Dependency-injected -- see chapter_options_for_book() above."""
     if mode != "hadith":
-        return lookup.get_verse(f"{book_name} {chap_label}")
+        return lookup.get_verse(f"{book_name} {chap_label}", whole=True)       # ("Wace 1": all of it)
 
     key = _HADITH_DISPLAY_TO_KEY.get(book_name)
     try:

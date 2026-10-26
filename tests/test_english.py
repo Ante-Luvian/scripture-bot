@@ -61,3 +61,16 @@ def test_cited_by_line(lookup):
                 "Chaucer's Shorter Poems 13:1", "Middle English Lyrics 3:1", "Piers Plowman 460"):
         assert lookup.get_verse(ref)["found"], ref
     assert lookup.get_verse("Pearl 1")["tradition"] == "english"
+
+
+def test_every_one_chapter_book_is_cited_by_verse_alone(lookup):
+    """The owner's rule for all of them, not only the poems: "Jude 3", never "Jude 1:3"."""
+    assert lookup.get_verse("Jude 3")["reference"] == "Jude 3"
+    assert lookup.get_verse("Jude 1:3")["reference"] == "Jude 3"                    # (still read)
+    assert lookup.get_verse("Jude 3-5")["reference"] == "Jude 3–5"
+    assert lookup.get_verse("Philemon 1:10")["reference"] == "Philemon 10"
+    assert lookup.get_verse("Wace 5")["reference"] == "Wace, Roman de Brut 5"
+    assert lookup.get_verse("John 3:16")["reference"] == "John 3:16"               # (more chapters: as before)
+    assert lookup._cite("Jude", "1", "3") == "Jude 3" and lookup._cite("John", "3", "16") == "John 3:16"
+    whole = lookup.get_verse("Wace 1", whole=True)                                  # (the !books browser)
+    assert whole["found"] and whole["reference"] == "Wace, Roman de Brut" and whole.get("pages")

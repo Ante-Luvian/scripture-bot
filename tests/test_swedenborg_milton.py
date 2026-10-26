@@ -36,8 +36,8 @@ def test_swedenborg_is_whole(lookup):
     ("Paradise Lost 12:648", "Paradise Lost 12:648", "Through Eden took thir solitarie way."),
     ("Paradise Lost 1:0", "Paradise Lost 1:0", "The Argument"),
     ("Paradise Regained 1:1", "Paradise Regained 1:1", "I WHO e're while the happy Garden sung"),
-    ("Samson Agonistes 41", "Samson Agonistes 1:41", "Eyeless in Gaza"),
-    ("Samson 1:1758", "Samson Agonistes 1:1758", "And calm of mind all passion spent."),
+    ("Samson Agonistes 41", "Samson Agonistes 41", "Eyeless in Gaza"),
+    ("Samson 1:1758", "Samson Agonistes 1758", "And calm of mind all passion spent."),
 ])
 def test_milton(lookup, ref, reference, snippet):
     r = lookup.get_verse(ref)

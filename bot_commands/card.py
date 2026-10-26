@@ -828,7 +828,7 @@ async def cmd_concordance(ctx, *, arg: str = ""):
 
     order = {b: i for i, b in enumerate(BIBLE_OT + BIBLE_NT)}
     rows = sorted(rows, key=lambda r: (order.get(r[1], 999), r[2], r[3]))
-    refs = [f"{book} {chapter}:{verse}" for _testament, book, chapter, verse in rows]
+    refs = [lookup._cite(book, chapter, verse) for _testament, book, chapter, verse in rows]   # ("Jude 3")
 
     entry = get_local_strongs_definition(number)
     header = number

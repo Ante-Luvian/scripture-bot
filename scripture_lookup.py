@@ -2312,7 +2312,7 @@ class ScriptureLookup:
         verse = rng.choice(list(chapters[chap]))
         text = self._data[corpus][book][chap][verse]
         source = self._book_sources.get(book, book)
-        ref = f"{book} {chap}:{verse}"
+        ref = self._cite(book, chap, verse)
         return {
             "found": True,
             "reference": ref,
@@ -2351,7 +2351,7 @@ class ScriptureLookup:
         source = self._book_sources.get(canon_book, canon_book)
         return {
             "found": True,
-            "reference": f"{canon_book} {chap}:{verse}",
+            "reference": self._cite(canon_book, chap, verse),
             "text": text,
             "source": source,
             "book": canon_book,
@@ -2377,7 +2377,7 @@ class ScriptureLookup:
         source = self._book_sources.get(book_name, book_name)
         return {
             "found": True,
-            "reference": f"{book_name} {chap}:{verse}",
+            "reference": self._cite(book_name, chap, verse),
             "text": text,
             "source": source,
             "book": book_name,
@@ -2458,11 +2458,17 @@ class ScriptureLookup:
                 regrouped[b] = dict(sorted(regrouped[b].items(), key=lambda kv: int(kv[0])))
             self._data[corpus][book] = regrouped
 
-    def _one_part_lines(self, book_raw: str) -> bool:
-        """A poem cited by line that is all one part (Sir Orfeo, Pearl): its numbers are lines, not chapters."""
+    def _cite(self, book: str, chap, verse) -> str:
+        """The reference shown for a passage: a one-chapter book's chapter left out ("Jude 3", "Sir Orfeo 227")."""
+        if str(chap) == "1" and any(list(books.get(book, {})) == ["1"] for books in self._data.values()):
+            return f"{book} {verse}"
+        return f"{book} {chap}:{verse}"
+
+    def _one_chapter(self, book_raw: str) -> bool:
+        """A book that is all one chapter (Sir Orfeo, Wace, Jude): as the owner asked, its numbers are verses (or
+        lines) and its chapter is never named -- "Jude 3", "Sir Orfeo 233-260", not "Jude 1:3"."""
         corpus, book = self._resolve_book(book_raw)
-        return bool(corpus and book in self._LINE_CHUNKED
-                    and list(self._data.get(corpus, {}).get(book, {})) == ["1"])
+        return bool(corpus and list(self._data.get(corpus, {}).get(book, {})) == ["1"])
 
     @staticmethod
     def _line_span(chap_data: dict, start: int, end: int) -> tuple[int, int, list]:
@@ -2523,10 +2529,11 @@ class ScriptureLookup:
         return {"found": False, "error": f"I don't have a book called **{typed}**.",
                 "suggestions": refs, "did_you_mean": refs}
 
-    def get_verse(self, reference: str, _quran_api: bool = True) -> dict:
+    def get_verse(self, reference: str, _quran_api: bool = True, whole: bool = False) -> dict:
         """A passage by reference, tagged with the TRADITIONS key it belongs to ("tradition",
-        None when unsure), so a server that has turned that tradition off can leave it out."""
-        result = self._get_verse(reference, _quran_api)
+        None when unsure), so a server that has turned that tradition off can leave it out. whole: "Wace 1" is
+        the whole of a one-chapter book (the !books browser), not its verse 1."""
+        result = self._get_verse(reference, _quran_api, whole)
         typed = re.match(r"^(.+?)\s+[\d¶]", reference.strip())
         if result.get("found") and typed:
             typed = typed.group(1)
@@ -2602,9 +2609,9 @@ class ScriptureLookup:
         m = re.match(r"^(.+?)\s+(\d+)\.(\d+\s*[-–]\s*\d+)$", ref)
         if m and self._resolve_book(m.group(1))[1] in self._LINE_CHUNKED:
             return f"{m.group(1)} {m.group(2)}:{m.group(3)}"
-        # A one-part poem is cited by line alone: "Sir Orfeo 233" or "Sir Orfeo 233-260" is 1:233(-260)
+        # A one-chapter book is cited by verse alone: "Sir Orfeo 233" or "Jude 3-5" is 1:233, 1:3-5
         m = re.match(r"^(.+?)\s+(\d+)(?:\s*[-–]\s*(\d+))?$", ref)
-        if m and self._one_part_lines(m.group(1)):
+        if m and self._one_chapter(m.group(1)):
             return f"{m.group(1)} 1:{m.group(2)}" + (f"-{m.group(3)}" if m.group(3) else "")
         return ref
 
@@ -2708,12 +2715,12 @@ class ScriptureLookup:
         import sefaria_lookup
         return sefaria_lookup.fetch_sefaria_any(ref)
 
-    def _get_verse(self, reference: str, _quran_api: bool = True) -> dict:
+    def _get_verse(self, reference: str, _quran_api: bool = True, whole: bool = False) -> dict:
         """
         Parse a free-form reference like "John 3:16" or "D&C 76:22-24"
         and return the verse text.
         """
-        ref = self._homer_lines(reference.strip())
+        ref = reference.strip() if whole else self._homer_lines(reference.strip())
         for _name, read, tradition_key in self._readers_before_parsing(_quran_api):
             result = read(ref)
             if result is not None:
@@ -2742,7 +2749,7 @@ class ScriptureLookup:
         # Multi-chapter range sentinel -- in a one-part poem cited by line, a range of lines ("Sir Orfeo 233-260")
         if len(parsed) == 6 and parsed[5] == "chap_range":
             book_raw, c1, _, c2, _, _ = parsed
-            if self._one_part_lines(book_raw):
+            if self._one_chapter(book_raw):
                 parsed = (book_raw, "1", int(c1), int(c2))
             else:
                 return self.get_chapter_range(book_raw, c1, c2)
@@ -2840,8 +2847,9 @@ class ScriptureLookup:
         # Psalms 151-155 are stored as book "Psalm 151", chapter "151" --
         # don't label them "Psalm 151 151:1".
         chap_label = canon_book if canon_book.endswith(f" {chapter}") else f"{canon_book} {chapter}"
-        if canon_book in self._LINE_CHUNKED and list(book_chapters) == ["1"]:
-            chap_label = canon_book                            # (a one-part poem: "Sir Orfeo", not "Sir Orfeo 1")
+        one_chapter = list(book_chapters) == ["1"]
+        if one_chapter:
+            chap_label = canon_book                            # (a one-chapter book: "Jude 3", not "Jude 1:3")
 
         # Whole chapter requested (no verse number given)
         if verse_start is None:
@@ -2893,17 +2901,18 @@ class ScriptureLookup:
                     texts.append(f"**[{v}]** {t}")
 
         if not texts:
-            max_v = max((int(k) for k in chap_data), default=0)
+            max_v = max((int(re.sub(r"\D", "", k) or 0) for k in chap_data), default=0)
+            where = canon_book if one_chapter else f"{canon_book} {chapter}"
             return {
                 "found": False,
-                "error": f'Verse {verse_start} not found in {canon_book} {chapter}. (Max verse: {max_v})',
+                "error": f'Verse {verse_start} not found in {where}. (Max verse: {max_v})',
                 "suggestions": [],
             }
 
         verse_label = f"{verse_start}" if verse_start == verse_end else f"{verse_start}–{verse_end}"
         return {
             "found": True,
-            "reference": f"{chap_label}:{verse_label}",
+            "reference": f"{canon_book} {verse_label}" if one_chapter else f"{chap_label}:{verse_label}",
             "text": "\n".join(texts),
             "source": source,
         }
@@ -2933,7 +2942,7 @@ class ScriptureLookup:
                         else:
                             continue
                         all_hits.append({
-                            "reference": f"{book} {chap}:{verse}",
+                            "reference": self._cite(book, chap, verse),
                             "text": text,
                             "source": self._book_sources.get(book, corpus),
                             "book": book,
@@ -3014,7 +3023,7 @@ class ScriptureLookup:
                         else:
                             continue
                         hits.append({
-                            "reference": f"{book} {chap}:{verse}",
+                            "reference": self._cite(book, chap, verse),
                             "text": text,
                             "source": self._book_sources.get(book, corpus),
                             "book": book,
@@ -3085,7 +3094,7 @@ class ScriptureLookup:
                             hits = sum(len(p.findall(text)) for p in patterns)
                             score = (q in text.lower(), min(hits, 3), round(hits * 100 / len(text), 1))
                             if best is None or score > best[0]:
-                                best = (score, {"reference": f"{book} {chap}:{verse}", "text": text, "book": book})
+                                best = (score, {"reference": self._cite(book, chap, verse), "text": text, "book": book})
             if best:
                 out.append((label, best[1]))
         if len(self._theme_cache) >= 32:

@@ -21,7 +21,7 @@ import pytest
     ("1Ne 3:7",              "1 Nephi 3:7",                      "I, Nephi"),
     ("D&C 76:22",            "Doctrine and Covenants 76:22",     "testimonies"),
     ("Moses 1:39",           "Moses 1:39",                       "my work and my glory"),
-    ("Articles of Faith 1:13", "Articles of Faith 1:13",         "honest, true, chaste"),
+    ("Articles of Faith 1:13", "Articles of Faith 13",           "honest, true, chaste"),
     # Charles
     ("Enoch 1:9",            "Book of Enoch 1:9",                "ten thousands"),
     ("Jubilees 3:4",         "Book of Jubilees 3:4",             "It is not good"),

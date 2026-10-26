@@ -31,7 +31,7 @@ def test_chinese(lookup, ref, reference, starts):
 @pytest.mark.parametrize("ref, reference, starts", [
     ("Bhagavad Gita 2:47", "Bhagavad Gita 2:47", "**[47]** But you have only the right to work"),
     ("Gita 18:78", "Bhagavad Gita 18:78", "**[78]**"),
-    ("Isa Upanishad 1:1", "Isa Upanishad 1:1", "**[1]** All this, whatsoever exists"),
+    ("Isa Upanishad 1:1", "Isa Upanishad 1", "**[1]** All this, whatsoever exists"),
     ("Katha 1:22", "Katha Upanishad 1:22", "**[22]** Nachiketas said: O Death"),
     ("Kena 4:9", "Kena Upanishad 4:9", "**[9]** He who knows this"),
 ])
@@ -74,7 +74,7 @@ def test_dante_ends_each_canto_on_its_last_line(lookup):
     ("Protevangelium 1:1", "The Protevangelium of James 1:1", "**[1]** In the records of the twelve tribes"),
     ("Gospel of Nicodemus 1:1", "Acts of Pilate: First Greek Form 1:1", "**[1]** Having called a council"),
     ("Infancy Gospel of Thomas 1:1", "Gospel of Thomas: First Greek Form 1:1", "**[1]**"),
-    ("Thecla 1:1", "Acts of Paul and Thecla 1:1", "**[1]**"),
+    ("Thecla 1:1", "Acts of Paul and Thecla 1", "**[1]**"),
 ])
 def test_apocrypha(lookup, ref, reference, starts):
     r = lookup.get_verse(ref)
