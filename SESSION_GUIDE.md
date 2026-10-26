@@ -278,6 +278,15 @@ Mental Photographs* (Gutenberg #56851) and a daily line. Adding a tradition is n
 menu holds exactly 25 (a 26th needs the menu split), and `/search` takes traditions by autocomplete
 (`tests/test_slash_limits.py` guards both).
 
+**Illustrations and journeys (added 2026-10-26, live, changelog not yet asked for):** the owner wanted the old
+illustrated editions *without a command of their own*: a 🖌️ button under `!verse`, `!fable`, `!tale` and `!shakespeare`
+(`bot_commands/illustrations.py`, data from `scripts/build_illustrations.py`, its docstring lists the nine sets). Pictures
+from a different translation are tied to the bot's by text overlap *and* title, the doubtful ones read side by side and
+settled in `AESOP_SAME` / `GRIMM_SAME`; Boydell's scene numbers are checked against Folger's by required words. Not done:
+most of Crane's *Faerie Queene* designs (only in Archive scans: page-image work, ask first), Flaxman's Homer, Doré's
+other books, the Ellesmere Chaucer portraits (ideas, not asked for). `!journey` gained `canterbury`, `odyssey`, `aeneid`
+(places in `journeys.PLACES`; legendary places where antiquity put them, ringed, the note saying who).
+
 **How the owner wants checks run (2026-10-26):** proportionate. The 12-minute corpus check only when corpus *text*
 changed (else compare `books` with HEAD); never OCR or proofread scan images without asking first (token cost).
 
