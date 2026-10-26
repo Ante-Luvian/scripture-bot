@@ -1,6 +1,8 @@
 # Scripture Discord Bot — notes for Claude
 
-See README.md for what the bot does, the command list, layout, and data schema.
+See README.md for what the bot does, the command list, layout, and data schema. **Read SESSION_GUIDE.md
+at the start of a session**: the owner's preferences, the practical workflow, the environment's traps, how
+corpora are built (scripts/build_english.py's toolkit, scripts/inspect_corpus.py) and what's unfinished.
 
 ## Workflow (every session)
 
