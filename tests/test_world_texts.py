@@ -51,8 +51,8 @@ def test_hindu(lookup, ref, reference, starts):
     ("Inferno 1.1", "Inferno 1:1–3", "**[1]** Midway upon the journey of our life\nI found myself"),
     ("Inferno 1:5", "Inferno 1:4–6", "**[4]** Ah me!"),                              # the tercet containing line 5
     ("Paradiso 33.145", "Paradiso 33:145", "**[145]** The Love which moves the sun and the other stars."),
-    ("Works and Days 289", "Works and Days 1:285–289", "**[285]** But the generation of the man who swears truly"),
-    ("Shield 140", "Shield of Heracles 1:140–144", "**[140]**"),
+    ("Works and Days 289", "Works and Days 285–289", "**[285]** But the generation of the man who swears truly"),
+    ("Shield 140", "Shield of Heracles 140–144", "**[140]**"),
 ])
 def test_classics(lookup, ref, reference, starts):
     r = lookup.get_verse(ref)

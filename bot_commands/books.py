@@ -768,7 +768,48 @@ BOOKS_TREE = [
             "Sir Gawain and the Green Knight", "Tristan and Iseult", "Lays of Marie de France", "Morien",
             "Sir Libeaus Desconus", "Sir Launfal", "The Adventures of Arthur at the Tarn Wadeling", "Tyolet",
         ]),
+        ("In Middle English", [
+            "Sir Gawayn and the Grene Knyȝt", "Sir Tristrem", "Of Arthour and of Merlin", "Lancelot of the Laik",
+            "Arthur",
+        ]),
         "Le Morte d'Arthur",
+    ]),
+    ("📜 Medieval English poetry", [
+        ("Chaucer", [
+            "The Canterbury Tales", "Troilus and Criseyde", "The Book of the Duchess", "The House of Fame",
+            "The Parliament of Fowls", "Anelida and Arcite", "The Legend of Good Women", "The Romaunt of the Rose",
+            "Chaucer's Shorter Poems",
+        ]),
+        ("Chaucer's followers", [
+            "The Plowman's Tale", "The Letter of Cupid", "The Complaint of the Black Knight",
+            "La Belle Dame sans Mercy", "The Testament of Cresseid", "The Cuckoo and the Nightingale",
+            "The Flower and the Leaf", "The Assembly of Ladies", "The Court of Love", "Chaucerian Shorter Poems",
+        ]),
+        ("The Pearl poet", ["Pearl", "Cleanness", "Patience"]),
+        ("Langland and Gower", ["Piers Plowman", "Pierce the Ploughman's Crede", "Confessio Amantis",
+                                "In Praise of Peace"]),
+        ("Romances", [
+            "Sir Orfeo", "Havelok the Dane", "King Horn", "The Sowdone of Babylone", "Torrent of Portyngale",
+            "The Wright's Chaste Wife",
+        ]),
+        ("The Auchinleck manuscript", [
+            "Sir Beues of Hamtoun", "Guy of Warwick", "Guy of Warwick (the stanzas)", "Reinbroun",
+            "Amis and Amiloun", "Sir Degare", "Lay le Freine", "Floris and Blancheflour", "Horn Childe and Maiden Rimnild",
+            "King Richard", "Kyng Alisaunder", "Otuel a Knight", "Roland and Vernagu", "The King of Tars",
+            "The Seven Sages of Rome", "The Short English Metrical Chronicle", "The Life of Adam and Eve",
+            "The Nativity and Early Life of Mary", "The Assumption of the Blessed Virgin", "The Harrowing of Hell",
+            "Seynt Katerine", "Seynt Mergrete", "The Life of St Mary Magdalene", "The Legend of Pope Gregory",
+            "St Patrick's Purgatory", "The Clerk Who Would See the Virgin", "How Our Lady's Sauter Was First Found",
+            "Speculum Gy de Warewyke", "The Debate of the Body and the Soul", "The Sayings of St Bernard",
+            "The Sayings of the Four Philosophers", "The Four Foes of Mankind", "On the Seven Deadly Sins",
+            "The Paternoster", "Dauid the King", "A Peniworth of Witt", "The Simonie",
+            "The Thrush and the Nightingale", "Alphabetical Praise of Women",
+        ]),
+        ("Scots", ["The Bruce", "Wallace"]),
+        ("Bible stories and plays", ["Genesis and Exodus", "The Dancers of Colbek",
+                                     "The York Play of the Harrowing of Hell", "The Towneley Play of Noah"]),
+        ("Lyrics and political poems", ["Middle English Lyrics", "Political Poems"]),
+        "The Faerie Queene",
     ]),
     ("🎻 Folk tales & ballads", [
         "Child Ballads",
@@ -1356,7 +1397,8 @@ _SUPERGROUP_ORDER = [
     ]),
     ("🌐 Mythology & Classical Traditions", [
         "🏛️ Classical", "🌲 Norse", "🦢 Finnish", "☘️ Celtic", "🌙 Ancient Near East",
-        "🔥 Zoroastrian", "🌽 Mesoamerican", "⚔️ Arthurian legend", "🎻 Folk tales & ballads",
+        "🔥 Zoroastrian", "🌽 Mesoamerican", "⚔️ Arthurian legend", "📜 Medieval English poetry",
+        "🎻 Folk tales & ballads",
     ]),
 ]
 # ── a server sees only the sections of the traditions it chose ──────────────

@@ -916,6 +916,81 @@ ALIASES: dict[str, str] = {
     "launfal": "Sir Launfal",
     "tarn wadeling": "The Adventures of Arthur at the Tarn Wadeling",
     "awntyrs": "The Adventures of Arthur at the Tarn Wadeling",
+    # ...and in Middle English (scripts/build_english.py), cited by line
+    "lancelot of the laik": "Lancelot of the Laik", "laik": "Lancelot of the Laik",
+    "tristrem": "Sir Tristrem", "sir tristrem": "Sir Tristrem",
+    "arthour and merlin": "Of Arthour and of Merlin", "of arthour and merlin": "Of Arthour and of Merlin",
+    "arthour": "Of Arthour and of Merlin",
+    "gawayn": "Sir Gawayn and the Grene Knyȝt", "sir gawayn": "Sir Gawayn and the Grene Knyȝt",
+    "gawayne": "Sir Gawayn and the Grene Knyȝt", "grene knyght": "Sir Gawayn and the Grene Knyȝt",
+    "sir gawayn and the grene knyght": "Sir Gawayn and the Grene Knyȝt",
+    "gawain middle english": "Sir Gawayn and the Grene Knyȝt",
+    # Medieval English poetry (scripts/build_english.py; the Faerie Queene and the Canterbury Tales from
+    # scripts/build_arthurian.py), cited by line ("Sir Orfeo 233", "Troilus 3:1")
+    "canterbury tales": "The Canterbury Tales", "canterbury": "The Canterbury Tales",
+    "chaucer": "The Canterbury Tales",
+    "troilus": "Troilus and Criseyde", "troilus and criseyde": "Troilus and Criseyde",
+    "house of fame": "The House of Fame", "hous of fame": "The House of Fame",
+    "legend of good women": "The Legend of Good Women", "lgw": "The Legend of Good Women",
+    "romaunt of the rose": "The Romaunt of the Rose", "romaunt": "The Romaunt of the Rose",
+    "book of the duchess": "The Book of the Duchess", "book of the duchesse": "The Book of the Duchess",
+    "parliament of fowls": "The Parliament of Fowls", "parlement of foules": "The Parliament of Fowls",
+    "anelida": "Anelida and Arcite",
+    "chaucer's shorter poems": "Chaucer's Shorter Poems", "chaucer shorter poems": "Chaucer's Shorter Poems",
+    "chaucer minor poems": "Chaucer's Shorter Poems", "chaucers shorter poems": "Chaucer's Shorter Poems",
+    "faerie queene": "The Faerie Queene", "faerie queen": "The Faerie Queene", "fairy queen": "The Faerie Queene",
+    "spenser": "The Faerie Queene",
+    "confessio amantis": "Confessio Amantis", "confessio": "Confessio Amantis", "gower": "Confessio Amantis",
+    "in praise of peace": "In Praise of Peace",
+    "piers plowman": "Piers Plowman", "piers ploughman": "Piers Plowman", "langland": "Piers Plowman",
+    "vision of piers plowman": "Piers Plowman",
+    "plowman's crede": "Pierce the Ploughman's Crede", "ploughman's crede": "Pierce the Ploughman's Crede",
+    "creed of piers ploughman": "Pierce the Ploughman's Crede", "plowmans crede": "Pierce the Ploughman's Crede",
+    "the pearl": "Pearl", "purity": "Cleanness",
+    "havelok": "Havelok the Dane", "lay of havelok": "Havelok the Dane",
+    "horn": "King Horn",
+    "sowdone": "The Sowdone of Babylone", "sowdone of babylone": "The Sowdone of Babylone",
+    "sultan of babylon": "The Sowdone of Babylone",
+    "torrent": "Torrent of Portyngale", "torrent of portugal": "Torrent of Portyngale",
+    "wright's chaste wife": "The Wright's Chaste Wife", "wrights chaste wife": "The Wright's Chaste Wife",
+    "chaste wife": "The Wright's Chaste Wife",
+    "orfeo": "Sir Orfeo",
+    "dancers of colbek": "The Dancers of Colbek", "handlyng synne": "The Dancers of Colbek",
+    "york harrowing of hell": "The York Play of the Harrowing of Hell",
+    "york play": "The York Play of the Harrowing of Hell",
+    "towneley noah": "The Towneley Play of Noah", "towneley play": "The Towneley Play of Noah",
+    "wakefield noah": "The Towneley Play of Noah",
+    "minot": "Political Poems",
+    "middle english lyrics": "Middle English Lyrics", "me lyrics": "Middle English Lyrics",
+    "bruce": "The Bruce", "barbour": "The Bruce", "the brus": "The Bruce",
+    "blind hary": "Wallace", "the wallace": "Wallace",
+    "plowman's tale": "The Plowman's Tale", "plowmans tale": "The Plowman's Tale",
+    "letter of cupid": "The Letter of Cupid", "hoccleve": "The Letter of Cupid",
+    "black knight": "The Complaint of the Black Knight", "lydgate": "The Complaint of the Black Knight",
+    "complaint of the black knight": "The Complaint of the Black Knight",
+    "belle dame sans mercy": "La Belle Dame sans Mercy", "la belle dame": "La Belle Dame sans Mercy",
+    "testament of cresseid": "The Testament of Cresseid", "henryson": "The Testament of Cresseid",
+    "cuckoo and the nightingale": "The Cuckoo and the Nightingale", "clanvowe": "The Cuckoo and the Nightingale",
+    "flower and the leaf": "The Flower and the Leaf", "assembly of ladies": "The Assembly of Ladies",
+    "court of love": "The Court of Love", "chaucerian shorter poems": "Chaucerian Shorter Poems",
+    # the Auchinleck manuscript
+    "beues": "Sir Beues of Hamtoun", "bevis": "Sir Beues of Hamtoun", "bevis of hampton": "Sir Beues of Hamtoun",
+    "sir bevis": "Sir Beues of Hamtoun", "guy": "Guy of Warwick", "guy of warwick": "Guy of Warwick",
+    "amis": "Amis and Amiloun", "amis and amiloun": "Amis and Amiloun", "degare": "Sir Degare",
+    "floris": "Floris and Blancheflour", "floris and blancheflour": "Floris and Blancheflour",
+    "le freine": "Lay le Freine", "lai le freine": "Lay le Freine", "freine": "Lay le Freine",
+    "seven sages": "The Seven Sages of Rome", "seven sages of rome": "The Seven Sages of Rome",
+    "king of tars": "The King of Tars", "otuel": "Otuel a Knight", "roland and vernagu": "Roland and Vernagu",
+    "reinbrun": "Reinbroun", "horn childe": "Horn Childe and Maiden Rimnild",
+    "richard coer de lyon": "King Richard", "simonie": "The Simonie",
+    "short metrical chronicle": "The Short English Metrical Chronicle",
+    "speculum gy": "Speculum Gy de Warewyke", "thrush and the nightingale": "The Thrush and the Nightingale",
+    "body and soul": "The Debate of the Body and the Soul",
+    "debate of the body and the soul": "The Debate of the Body and the Soul",
+    "kyng alisaunder": "Kyng Alisaunder", "king alisaunder": "Kyng Alisaunder", "alisaunder": "Kyng Alisaunder",
+    "pope gregory": "The Legend of Pope Gregory", "seynt katerine": "Seynt Katerine",
+    "seynt mergrete": "Seynt Mergrete", "peniworth of witt": "A Peniworth of Witt",
+    "four foes of mankind": "The Four Foes of Mankind", "st patrick's purgatory": "St Patrick's Purgatory",
     # Two books of beasts (scripts/build_beasts.py)
     "bestiary": "Physiologus", "the physiologus": "Physiologus",
     "reynard": "Reynard the Fox", "history of reynard the fox": "Reynard the Fox", "reynart": "Reynard the Fox",
@@ -1602,6 +1677,7 @@ TRADITIONS = {
     "celtic":    ("☘️ Celtic", ("celtic",)),
     "ballads":   ("🎻 Folk tales & ballads", ("ballads",)),
     "arthurian": ("⚔️ Arthurian legend", ("arthurian",)),
+    "english":   ("📜 Medieval English poetry", ("english",)),
     "neareast":  ("🌙 Ancient Near East", ("ancient_near_east",)),
     "mesoamerican": ("🌽 Mesoamerican", ("mesoamerican",)),
     "bahai":     ("🌍 Baháʼí", ("bahai",)),
@@ -1619,6 +1695,8 @@ TRADITION_ALIASES = {
     "zoroastrianism": "zoroastrian", "parsi": "zoroastrian", "avestan": "zoroastrian",
     "maya": "mesoamerican", "mayan": "mesoamerican", "welsh": "celtic", "finland": "finnish",
     "arthur": "arthurian", "arthurian legend": "arthurian", "camelot": "arthurian", "grail": "arthurian",
+    "middle english": "english", "medieval english": "english", "english poetry": "english",
+    "medieval english poetry": "english",
     "ballad": "ballads", "folk": "ballads", "fairy tales": "ballads", "grimm": "ballads", "tales": "ballads", "child": "ballads", "child ballads": "ballads",
 }
 
@@ -1674,7 +1752,7 @@ def _tagged(result, key: str):
     return result
 
 
-CORPUS_PRIORITY = ["kjv", "lds", "brenton", "charles", "nt_apocrypha", "apostolic_fathers", "quran", "classical", "jewish", "bahai", "qumran", "gnostic", "dharmic", "buddhist", "chinese", "sufi", "sikh", "jain", "shinto", "zoroastrian", "mesoamerican", "finnish", "celtic", "norse", "ancient_near_east", "patristics", "medieval", "reformation", "ballads", "arthurian"]
+CORPUS_PRIORITY = ["kjv", "lds", "brenton", "charles", "nt_apocrypha", "apostolic_fathers", "quran", "classical", "jewish", "bahai", "qumran", "gnostic", "dharmic", "buddhist", "chinese", "sufi", "sikh", "jain", "shinto", "zoroastrian", "mesoamerican", "finnish", "celtic", "norse", "ancient_near_east", "patristics", "medieval", "reformation", "ballads", "arthurian", "english"]
 
 
 # Shepherd of Hermas: (first, last) Lightfoot continuous chapter of each
@@ -1868,6 +1946,31 @@ class ScriptureLookup:
                 "launfal.json",
                 "tarn_wadeling.json",
                 "tyolet.json",
+                "middle_english.json",           # Lancelot of the Laik, Arthur, Gawayn (build_english.py)
+                "auchinleck_arthur.json",        # Sir Tristrem, Of Arthour and of Merlin (build_english.py)
+            ],
+            # Medieval English poetry, in its own Middle English (scripts/build_english.py; the Faerie Queene
+            # and the Canterbury Tales from scripts/build_arthurian.py)
+            "english": [
+                "canterbury_tales.json",
+                "troilus.json",
+                "chaucer_minor.json",
+                "chaucer_fame_legend.json",
+                "chaucerian.json",
+                "gower.json",
+                "piers.json",
+                "pearl_poet.json",
+                "sisam.json",
+                "auchinleck.json",
+                "havelok.json",
+                "king_horn.json",
+                "genesis_exodus.json",
+                "sowdone.json",
+                "torrent.json",
+                "wrights_wife.json",
+                "bruce.json",
+                "wallace.json",
+                "faerie_queene.json",
             ],
             "ballads": ["child.json",             # Child's ballads (scripts/build_child.py)
                         "grimm.json",             # the Grimms' tales, Hunt (scripts/build_grimm.py)
@@ -2051,6 +2154,8 @@ class ScriptureLookup:
                 books = self._as_one_work(fname, payload.get("books", {}))
                 self._make_room(corpus, books)
                 self._data[corpus].update(books)
+                if payload.get("line_chunked"):          # (files that mark their books as cited by line)
+                    self._LINE_CHUNKED = tuple(self._LINE_CHUNKED) + tuple(books)
                 # Store per-book source string for footer display
                 file_source = payload.get("source", "")
                 sources = {b: file_source for b in books} if file_source else {}
@@ -2080,7 +2185,7 @@ class ScriptureLookup:
             self._book_sources.update(sources)
             self._corpus_sources.setdefault("classical", {}).update(sources)
         self._aliases_to_renamed()
-        for corpus in ("classical", "medieval", "ancient_near_east"):
+        for corpus in ("classical", "medieval", "ancient_near_east", "english", "arthurian"):
             self._regroup_line_chunks(corpus, self._LINE_CHUNKED)
         # Chapters numbered "I.1" (book I, chapter 1: Aristotle's Physics, Topics...) as "1.1",
         # the way every other work's are -- the reference parser can't read a Roman numeral there
@@ -2353,6 +2458,12 @@ class ScriptureLookup:
                 regrouped[b] = dict(sorted(regrouped[b].items(), key=lambda kv: int(kv[0])))
             self._data[corpus][book] = regrouped
 
+    def _one_part_lines(self, book_raw: str) -> bool:
+        """A poem cited by line that is all one part (Sir Orfeo, Pearl): its numbers are lines, not chapters."""
+        corpus, book = self._resolve_book(book_raw)
+        return bool(corpus and book in self._LINE_CHUNKED
+                    and list(self._data.get(corpus, {}).get(book, {})) == ["1"])
+
     @staticmethod
     def _line_span(chap_data: dict, start: int, end: int) -> tuple[int, int, list]:
         """For a line-chunked book: the passages covering lines start..end,
@@ -2489,6 +2600,10 @@ class ScriptureLookup:
         m = re.match(r"^(.+?)\s+(\d+)\.(\d+\s*[-–]\s*\d+)$", ref)
         if m and self._resolve_book(m.group(1))[1] in self._LINE_CHUNKED:
             return f"{m.group(1)} {m.group(2)}:{m.group(3)}"
+        # A one-part poem is cited by line alone: "Sir Orfeo 233" or "Sir Orfeo 233-260" is 1:233(-260)
+        m = re.match(r"^(.+?)\s+(\d+)(?:\s*[-–]\s*(\d+))?$", ref)
+        if m and self._one_part_lines(m.group(1)):
+            return f"{m.group(1)} 1:{m.group(2)}" + (f"-{m.group(3)}" if m.group(3) else "")
         return ref
 
     def _read_quran(self, ref):
@@ -2622,10 +2737,13 @@ class ScriptureLookup:
             book_raw, c1, v1, c2, v2, _ = parsed
             return self.get_verse_range(book_raw, c1, v1, c2, v2)
 
-        # Multi-chapter range sentinel
+        # Multi-chapter range sentinel -- in a one-part poem cited by line, a range of lines ("Sir Orfeo 233-260")
         if len(parsed) == 6 and parsed[5] == "chap_range":
             book_raw, c1, _, c2, _, _ = parsed
-            return self.get_chapter_range(book_raw, c1, c2)
+            if self._one_part_lines(book_raw):
+                parsed = (book_raw, "1", int(c1), int(c2))
+            else:
+                return self.get_chapter_range(book_raw, c1, c2)
 
         book_raw, chapter, verse_start, verse_end = parsed
         corpus, canon_book = self._resolve_book(book_raw)
@@ -2710,6 +2828,7 @@ class ScriptureLookup:
             "patristics":       "Church Fathers (ANF/NPNF/Pearse)",
             "medieval":         "Medieval (Bede, Golden Legend)",
             "reformation":      "Reformation (Luther, Calvin, the confessions)",
+            "english":          "Medieval English poetry",
             "ancient_near_east":          "Ancient Near Eastern Texts",
         }
 
@@ -2719,6 +2838,8 @@ class ScriptureLookup:
         # Psalms 151-155 are stored as book "Psalm 151", chapter "151" --
         # don't label them "Psalm 151 151:1".
         chap_label = canon_book if canon_book.endswith(f" {chapter}") else f"{canon_book} {chapter}"
+        if canon_book in self._LINE_CHUNKED and list(book_chapters) == ["1"]:
+            chap_label = canon_book                            # (a one-part poem: "Sir Orfeo", not "Sir Orfeo 1")
 
         # Whole chapter requested (no verse number given)
         if verse_start is None:
@@ -2741,11 +2862,14 @@ class ScriptureLookup:
             verse_end = verse_start
 
         if canon_book in self._LINE_CHUNKED and chap_data:
+            # a one-part poem is cited by line alone: "Sir Orfeo 233-260", not "Sir Orfeo 1:233-260"
+            one_part = list(book_chapters) == ["1"]
             final = max(int(k) for k in chap_data)
             if verse_start > final + 4:
+                where = canon_book if one_part else f"{canon_book} {chapter}"
                 return {
                     "found": False,
-                    "error": f"{canon_book} {chapter} has no line {verse_start} (its last passage starts at line {final}).",
+                    "error": f"{where} has no line {verse_start} (its last passage starts at line {final}).",
                     "suggestions": [],
                 }
             first, last, chosen = self._line_span(chap_data, verse_start, verse_end)
@@ -2753,7 +2877,7 @@ class ScriptureLookup:
             span = f"{first}" if first == last else f"{first}–{last}"
             return {
                 "found": True,
-                "reference": f"{chap_label}:{span}",
+                "reference": f"{canon_book} {span}" if one_part else f"{chap_label}:{span}",
                 "text": "\n".join(texts),
                 "source": source,
             }

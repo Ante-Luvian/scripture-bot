@@ -364,6 +364,17 @@ transcriptions (Layamon, the Vulgate Queste, Morien, Libeaus, Launfal, the Tarn 
 Parentheses PDFs are read with PyMuPDF (Mac Roman text, drop capitals as images: `DROP_CAPS`, read on the
 page). Malory's chapters are `book.chapter`, numbered by place (the etext misprints one).
 
+**Medieval English poetry** (`data/english/`, `scripts/build_english.py`, tradition "english"): the poems in
+their own Middle English (and Scots), from the EETS and Oxford editions on Project Gutenberg (Skeat's Chaucer and
+Chaucerian pieces, Macaulay's Gower, Wright's Piers Plowman, Morris's Pearl poems and Gawayne, Havelok, King
+Horn, Barbour, Blind Hary, Sisam's Orfeo, lyrics and plays...) and the National Library of Scotland's
+transcription of the Auchinleck manuscript (auchinleck.nls.uk); the Arthurian ones go to `data/arthurian/`
+(`middle_english.json`, `auchinleck_arthur.json`), and the Faerie Queene and the Canterbury Tales come from
+`build_arthurian.py`. Most are **line-chunked**: a file marked `"line_chunked": true` keys each passage by
+`part.firstline` (`"1.233"`, `"3.1"`), checked against the edition's own numbers, so `!verse Sir Orfeo 233` is
+the passage holding line 233 (a one-part poem is cited by line alone; `1:233` is still read but never shown) and
+`!verse Troilus 3:1` the first of Book III. ȝ, þ and ð are kept as themselves, never a stand-in.
+
 Three reference datasets have their own shape, each rebuilt by a script in `scripts/`:
 
 - `data/people_places/` (`build_people_places.py`): `people_places.json` holds

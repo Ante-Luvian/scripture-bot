@@ -99,13 +99,13 @@ def paras_of(html_part: str, skip=()) -> list:
 END = re.compile(r"(?i)^(?:printed by|the temple press|end of (?:the )?project gutenberg|\[footnote \d+:)")
 
 
-def save(name: str, source: str, books: dict) -> None:
-    OUT.mkdir(parents=True, exist_ok=True)
-    (OUT / f"{name}.json").write_text(json.dumps({"source": source, "books": books}, ensure_ascii=False, indent=1),
+def save(name: str, source: str, books: dict, out: Path = OUT) -> None:
+    out.mkdir(parents=True, exist_ok=True)
+    (out / f"{name}.json").write_text(json.dumps({"source": source, "books": books}, ensure_ascii=False, indent=1),
                                       encoding="utf-8")
     for book, chapters in books.items():
         words = sum(len(v.split()) for c in chapters.values() for v in c.values())
-        print(f"{book}: {len(chapters)} chapters, {words:,} words -> data/arthurian/{name}.json")
+        print(f"{book}: {len(chapters)} chapters, {words:,} words -> {out.relative_to(ROOT).as_posix()}/{name}.json")
 
 
 # ── Malory ─────────────────────────────────────────────────────────────────
@@ -185,7 +185,7 @@ def nennius() -> dict:
         if name.lower().startswith(("the project", "by nennius", "contents", "history of the britons")):
             continue
         body = t[h.end():nxt.start() if nxt else len(t)]
-        paras = [re.sub(r"(?<=[A-Za-z.,;])\s?(?:\(\d+\)|\*)", "", p) for p in paras_of(body, skip=("toc",))]
+        paras = [re.sub(r"(?<=[A-Za-z.,;:\"”])\s?(?:\(\d+\)|\*)", "", p) for p in paras_of(body, skip=("toc",))]
         if paras:                                       # (Giles's note marks: "Columeille(1)", "Elbotus,*")
             n += 1
             out[str(n)] = chapter(title_case(re.sub(r"^[IVX]+\.\s*", "", name).rstrip("*")), paras)
@@ -328,6 +328,99 @@ def geoffrey() -> dict:
     return {"Geoffrey of Monmouth, History of the Kings of Britain": out}
 
 
+# ── Spenser, The Faerie Queene ─────────────────────────────────────────────
+
+ORDINAL = {"FIRST": 1, "SECOND": 2, "THIRD": 3, "FOVRTH": 4, "FOURTH": 4, "FIFTH": 5, "SIXTE": 6, "SIXTH": 6}
+
+
+def faerie_queene() -> dict:
+    """J. C. Smith's text (Oxford, 1909), Gutenberg #70717 and #72698: chapters "book.canto" (1.1 is Book I, Canto
+    i; Book VII the Mutabilitie cantos, vi-viii), a verse a stanza, Spenser's own numbering; each canto's argument
+    leads its first stanza. Smith's textual notes are left out, as are the dedications and the letter to Raleigh."""
+    out = {}
+    for n in (70717, 72698):
+        t = gutenberg(n)
+        t = re.sub(r'(?is)<div class="footnote">.*?</div>', "", t)
+        t = re.sub(r'(?is)<span class="linenum">.*?</span>', "", t)
+        marks = [(m.start(), m.end(), re.sub(r"\s+", " ", clean(m.group(1))))
+                 for m in re.finditer(r'(?is)<p class="ph2"[^>]*>(.*?)</p>', t)]
+        book = None
+        for i, (s, e, name) in enumerate(marks):
+            b = re.search(r"THE (\w+) BOOKE OF THE FAERIE", name.upper())
+            if b:
+                book = ORDINAL.get(b.group(1))
+                continue
+            if "MVTABILITIE" in name.upper() or "MUTABILITIE" in name.upper():
+                book = 7
+                continue
+            c = (re.match(r"Cant(?:o|\.)\s*([IVXL]+)\.?$", name)
+                 or re.match(r"The ([IVXL]+)\. Canto, vnperfite\.$", name))       # Book VII's last, unfinished
+            if not c or not book:
+                continue
+            stop = marks[i + 1][0] if i + 1 < len(marks) else len(t)
+            body = t[e:stop]
+            # (each block read from its opening tag to the next: a stanza's last line ends in two closings)
+            argument = ""
+            cap = re.search(r'(?is)<div class="caption"[^>]*>(.*?)(?=<div class="poetry-container">\s*<div class="poetry">'
+                            r'\s*<div class="stanza">\s*<div class="verse)', body)
+            if cap:
+                argument = "\n".join(x for x in (clean(v) for v in
+                                     re.findall(r'(?is)<div class="verse[^"]*">(.*?)</div>', cap.group(1))) if x)
+                body = body[cap.end():]
+            stanzas = []
+            for st in re.split(r'(?i)<div class="stanza">', body)[1:]:
+                lines = [clean(x) for x in re.findall(r'(?is)<div class="verse[^"]*">(.*?)</div>', st)]
+                lines = [x for x in lines if x]
+                if lines:
+                    # (Smith's <words he supplies> in square brackets, as the other editions print them)
+                    stanzas.append("\n".join(lines).replace("<", "[").replace(">", "]"))
+            if not stanzas:
+                continue
+            canto = roman(c.group(1))
+            # (italics a line at a time: Discord's don't run over a line break)
+            argument = "\n".join(f"*{x}*" for x in argument.split("\n") if x.strip())
+            first = f"{argument}\n\n{stanzas[0]}" if argument else stanzas[0]
+            unfinished = " (unfinished)" if "vnperfite" in name else ""
+            out[f"{book}.{canto}"] = chapter(f"Book {['I','II','III','IV','V','VI','VII'][book - 1]}, Canto {c.group(1)}{unfinished}",
+                                             [first] + stanzas[1:])
+    return {"The Faerie Queene": out}
+
+
+# ── Chaucer, The Canterbury Tales ──────────────────────────────────────────
+
+def canterbury() -> dict:
+    """Skeat's text (Chaucer's Works, vol. IV, 1894), Gutenberg #22120: a chapter a tale, prologue or link, in his
+    order (with The Tale of Gamelyn, which he prints though it isn't Chaucer's); a verse a verse paragraph, or in
+    the prose tales a numbered section. His variant readings, line and page numbers are left out."""
+    t = gutenberg(22120)
+    t = t[t.find("THE CANTERBURY TALES.</h3>"):]
+    t = re.split(r"(?is)<h3[^>]*>\s*NOTES\s*</h3>", t)[0]
+    t = re.sub(r'(?is)<blockquote class="b1s">.*?</blockquote>', "", t)
+    t = re.sub(r'(?is)<div class="linenum">.*?</div>|<span class="(?:inline|pagenumx)">.*?</span>', "", t)
+    heads = [(0, len("THE CANTERBURY TALES.</h3>"), "The General Prologue")]
+    heads += [(m.start(), m.end(), clean(m.group(1))) for m in re.finditer(r"(?is)<h3[^>]*>(.*?)</h3>", t)]
+    out = {}
+    for i, (s, e, name) in enumerate(heads):
+        body = t[e:heads[i + 1][0] if i + 1 < len(heads) else len(t)]
+        verses = []
+        for m in re.finditer(r'(?is)<div class="stanza">(.*?)</div>|<p( class="[^"]*")?>(.*?)</p>', body):
+            if m.group(1) is not None:
+                lines = [clean(x) for x in re.findall(r"(?is)<p[^>]*>(.*?)</p>", m.group(1))]
+                text = "\n".join(x for x in lines if x)
+            elif m.group(2) and "cenhead" in m.group(2):
+                x = clean(m.group(3))
+                text = f"*{x}*" if x and not x.startswith("GROUP") else ""
+            else:
+                text = clean(m.group(3))
+            if re.match(r"\*+\s", text) or re.search(r"(?i)\bsee p\. \d+|Tyrwhitt’s text", text):
+                continue                                                 # (Skeat's notes on the text)
+            if text and not re.fullmatch(r"\[?\d+\]?", text):
+                verses.append(text)
+        if verses:
+            out[str(len(out) + 1)] = chapter(title_case(name.rstrip(".")), verses)
+    return {"The Canterbury Tales": out}
+
+
 # ── In Parentheses (York University) PDFs ──────────────────────────────────
 INPAR = "https://www.yorku.ca/inpar/"
 SKIP_SECTIONS = {"introduction", "preface", "notes", "bibliography", "endnotes", "appendix"}
@@ -447,6 +540,8 @@ def inpar_book(name: str, title: str, verse: bool = False, by_heading: bool = Fa
         return {str(i + 1): chapter(h, p) for i, (h, p) in enumerate(sections)}
     paras = [re.sub(r"^\(\d+\)\s*", "", p) for _, ps in sections for p in ps]   # (Tyolet's "(25)": its lines)
     paras = [p for p in paras if not p.startswith("In Parentheses Publications")]
+    # (the PDF's slips, read on the page: Tarn Wadeling's "most~ Say" is a question; "bright~" is unreadable)
+    paras = [p.replace("most~ Say", "most? Say").replace("~", "") for p in paras]
     return {"1": chapter(title, paras)}
 
 
@@ -474,6 +569,9 @@ def main():
          {"The Adventures of Arthur at the Tarn Wadeling":
           inpar_book("tarn_wadeling_weston.pdf", "The Adventures of Arthur at the Tarn Wadeling", verse=True)})
     save("tyolet", "trans. Ross G. Arthur (In Parentheses)", {"Tyolet": inpar_book("tyolet_arthur.pdf", "Tyolet")})
+    # (not Arthurian: the medieval English poetry, beside scripts/build_english.py's)
+    save("faerie_queene", "ed. J. C. Smith (1909)", faerie_queene(), ROOT / "data" / "english")
+    save("canterbury_tales", "ed. Walter W. Skeat (1894)", canterbury(), ROOT / "data" / "english")
     if MISSING_CAPS:
         print("drop capitals to read on the page:", MISSING_CAPS)
 
