@@ -191,9 +191,14 @@ def _arrow(draw, a: tuple, b: tuple, colour, size: float) -> None:
                   (mx - ux * size + uy * size * 0.6, my - uy * size - ux * size * 0.6)], fill=colour)
 
 
-def render_route(title: str, stops: list, places: list) -> io.BytesIO:
+ROUTE_CREDIT = "places: OpenBible.info / Theographic"
+
+
+def render_route(title: str, stops: list, places: list, locator: tuple = LOCATOR,
+                 credit: str = ROUTE_CREDIT) -> io.BytesIO:
     """A PNG map of a journey: `stops` (place dicts, in order, repeats allowed)
-    joined by a line with arrows, each place numbered by when it is reached."""
+    joined by a line with arrows, each place numbered by when it is reached; the
+    corner map shows `locator` (lon, lat, lon, lat), the Bible world unless told."""
     w, h = W * SCALE, H * SCALE
     img = Image.new("RGB", (w, h), SEA)
     draw = ImageDraw.Draw(img)
@@ -288,9 +293,9 @@ def render_route(title: str, stops: list, places: list) -> io.BytesIO:
     draw.rectangle(title_box, fill=(255, 250, 240))
     draw.text((20 * SCALE, 12 * SCALE), title, font=title_font, fill=INK)
     _draw_scale(draw, proj, w, h)
-    _draw_locator(img, proj, {"lat": lat0, "lon": lon0}, corner)
+    _draw_locator(img, proj, {"lat": lat0, "lon": lon0}, corner, locator)
     note = "Dashed rings: site uncertain · " if any(s.get("approx") for s in stops) else ""
-    text = note + "Map: Natural Earth · places: OpenBible.info / Theographic"
+    text = note + "Map: Natural Earth · " + credit
     cf = _font("georgia.ttf", 13)
     cw = draw.textlength(text, font=cf)
     draw.rectangle((w - cw - 16 * SCALE, h - 24 * SCALE, w, h), fill=(255, 255, 255))
@@ -325,10 +330,10 @@ def LOCATOR_SPOTS(w: int, h: int) -> dict:
             "bl": (0, h - 230 * SCALE, 270 * SCALE, h - 60 * SCALE)}
 
 
-def _draw_locator(img, main, place: dict, corner: str = "tr") -> None:
+def _draw_locator(img, main, place: dict, corner: str = "tr", region: tuple = LOCATOR) -> None:
     """A small map of the whole region in a corner (top right unless told), the main map's area boxed in red."""
     iw, ih = 250 * SCALE, 150 * SCALE
-    lon_a, lat_a, lon_b, lat_b = LOCATOR
+    lon_a, lat_a, lon_b, lat_b = region
     lat0, lon0 = (lat_a + lat_b) / 2, (lon_a + lon_b) / 2
     inset = Image.new("RGB", (iw, ih), SEA)
     d = ImageDraw.Draw(inset)

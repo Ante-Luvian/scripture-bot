@@ -1,13 +1,15 @@
 """
-!journey: the great journeys of the Bible on a map -- Abraham's, the Exodus,
-Paul's three missionary journeys and his voyage to Rome, and more -- each
-stop with what happened there and the verse that names it.
+!journey: great journeys on a map -- Abraham's, the Exodus, Paul's three
+missionary journeys and his voyage to Rome, and more from the Bible; and the
+Canterbury pilgrims' road, Odysseus's wanderings and Aeneas's voyage -- each
+stop with what happened there and the verse or line that names it.
   !journey               the list
   !journey paul 2        one journey: a route map and its stops
 
-Every stop's verse names the place in the KJV (tests/test_journeys.py checks
-it against the local text), as the curated tables elsewhere are checked.
-Places are the !place data (data/people_places/).
+Every stop's verse names the place in the bot's own text (the KJV; Skeat's
+Chaucer, Murray's Odyssey, Dryden's Aeneid): tests/test_journeys.py checks it,
+as the curated tables elsewhere are checked. The Bible's places are the !place
+data (data/people_places/); the others are in PLACES below.
 """
 import asyncio
 import re
@@ -15,12 +17,68 @@ import re
 import discord
 from discord import app_commands
 
-from core import bot, log
+from core import bot, log, lookup, tradition_enabled
 from bot_commands import people
 
 COLOR = discord.Color.from_rgb(150, 50, 40)
 
-# key: (title, also called, what it was, [(place slug, verse, the KJV's spelling, what happened)])
+# The places of the journeys outside the Bible ("@key" in a route), each where the Wikipedia article named says
+# (or its Wikidata entry, where the article gives none). The places of legend are where they were put in
+# antiquity, as Wikipedia's "Geography of the Odyssey" and "Aeaea" report it, and who put them there is said in
+# the stop's note; all are ringed as uncertain. (St Thomas-a-Watering, the pilgrims' first halt, is left out:
+# no coordinates, and two miles from the Tabard.)
+PLACES = {
+    # the road to Canterbury
+    "southwark": ("Southwark", 51.4988, -0.0901, False),                    # (the Tabard stood here)
+    "deptford": ("Deptford", 51.478, -0.0265, False),
+    "greenwich": ("Greenwich", 51.48, 0.0, False),
+    "rochester": ("Rochester", 51.375, 0.5, False),
+    "sittingbourne": ("Sittingbourne", 51.34, 0.74, False),
+    "boughton": ("Boughton under Blean", 51.292, 0.974, False),
+    "harbledown": ("Harbledown", 51.283, 1.054, False),
+    "canterbury": ("Canterbury", 51.2797, 1.0831, False),                   # (the cathedral)
+    # the Odyssey and the Aeneid
+    "troy": ("Troy", 39.9575, 26.2389, False),
+    "ismarus": ("Ismarus", 40.9, 25.5167, True),                            # (Mount Ismaros, by Maroneia)
+    "malea": ("Cape Malea", 36.4381, 23.1986, False),
+    "djerba": ("Djerba", 33.8, 10.8833, True),
+    "etna": ("Mount Etna", 37.755, 14.995, True),
+    "lipari": ("Lipari", 38.4667, 14.95, True),
+    "lentini": ("Lentini", 37.2833, 15.0, True),
+    "circeo": ("Mount Circeo", 41.2333, 13.05, True),
+    "acheron": ("The Acheron", 39.2362, 20.5345, True),                     # (the Necromanteion)
+    "sirenuse": ("The Sirenuse", 40.581, 14.433, True),
+    "messina": ("Strait of Messina", 38.2458, 15.6325, True),
+    "sicily": ("Sicily", 37.5, 14.0, True),
+    "gozo": ("Gozo", 36.05, 14.25, True),
+    "corfu": ("Corfu", 39.6, 19.87, True),
+    "ithaca": ("Ithaca", 38.3667, 20.7167, False),
+    "antandros": ("Antandros", 39.5758, 26.7906, False),
+    "aenus": ("Aenus", 40.7222, 26.0833, True),
+    "delos": ("Delos", 37.3933, 25.2711, False),
+    "crete": ("Crete", 35.21, 24.91, False),
+    "strophades": ("The Strophades", 37.25, 21.0, False),
+    "actium": ("Actium", 38.953, 20.768, False),
+    "buthrotum": ("Buthrotum", 39.7456, 20.0206, False),
+    "castro": ("Castrum Minervae", 40.007, 18.4257, True),
+    "drepanum": ("Drepanum", 38.0175, 12.515, False),
+    "carthage": ("Carthage", 36.8526, 10.3235, False),
+    "eryx": ("Eryx", 38.0369, 12.5864, False),
+    "cumae": ("Cumae", 40.8486, 14.0536, False),
+    "caieta": ("Caieta", 41.2167, 13.5667, False),
+    "aetna": ("Mount Etna", 37.755, 14.995, False),                         # (Virgil's, not a guess at Homer's)
+    "circeii": ("Mount Circeo", 41.2333, 13.05, False),
+    "tiber": ("The Tiber's mouth", 41.7558, 12.2917, False),               # (Ostia)
+}
+
+# how a journey's map is drawn when it isn't the Bible's: the region in the corner, and where the places are from
+MAPS = {
+    "canterbury": {"locator": (-7.0, 49.0, 4.0, 56.5), "credit": "places: Wikipedia"},
+    "odyssey": {"locator": (-12.0, 25.0, 45.0, 55.0), "credit": "places: Wikipedia, and as placed in antiquity"},
+    "aeneid": {"locator": (-12.0, 25.0, 45.0, 55.0), "credit": "places: Wikipedia"},
+}
+
+# key: (title, also called, what it was, [(place slug, verse, the text's spelling, what happened)])
 JOURNEYS = {
     "abraham": ("Abraham's journey", ["abram"],
                 "God calls Abram to leave his country for a land He will show him (Genesis 11–22).", [
@@ -140,7 +198,80 @@ JOURNEYS = {
         ("joppa_652", "Jonah 1:3", "Joppa", "Jonah boards a ship for Tarshish, fleeing from the Lord"),
         ("nineveh_899", "Jonah 3:3", "Nineveh", "After the great fish, he preaches and the city repents"),
     ]),
+    "canterbury": ("The road to Canterbury", ["canterbury tales", "chaucer", "pilgrims", "pilgrimage"],
+                   "Chaucer's pilgrims ride from the Tabard inn in Southwark to the shrine of St Thomas Becket at "
+                   "Canterbury, telling tales on the way. The places are the ones the Tales name as they pass.", [
+        ("@southwark", "The Canterbury Tales 1:3", "Southwerk", "The pilgrims gather at the Tabard inn"),
+        ("@deptford", "The Canterbury Tales 5:5", "Depeford", "“Lo, Depeford! and it is half-way pryme”: the Host "
+         "hurries the Reeve on"),
+        ("@greenwich", "The Canterbury Tales 5:5", "Grenewich", "“Lo, Grenewich, ther many a shrewe is inne”"),
+        ("@rochester", "The Canterbury Tales 19:3", "Rouchestre", "“Lo! Rouchestre stant heer faste by!”: the Monk's "
+         "turn"),
+        ("@sittingbourne", "The Canterbury Tales 28:64", "Sidingborne", "The Summoner promises two or three tales of "
+         "friars before Sittingbourne"),
+        ("@boughton", "The Canterbury Tales 43:2", "Boghton under Blee", "The Canon and his Yeoman ride up to join "
+         "them"),
+        ("@harbledown", "The Canterbury Tales 45:2", "Bob-up-and-doun", "“Bob-up-and-doun, Under the Blee”: the Cook "
+         "is too drunk to tell his tale"),
+        ("@canterbury", "The Canterbury Tales 1:2", "Caunterbury", "“The holy blisful martir for to seke”"),
+    ]),
+    "odyssey": ("The wanderings of Odysseus", ["odysseus", "ulysses", "homer"],
+                "Ten years on the way home from Troy to Ithaca (Odyssey 5–13). Where Homer's places were, nobody "
+                "knows; the map follows where they were put in antiquity, each ringed, and says by whom.", [
+        ("@troy", "Odyssey 9:39", "Ilios", "Odysseus sets sail for home"),
+        ("@ismarus", "Odyssey 9:40", "Ismarus", "He sacks the city of the Cicones, who rally and kill many of his men"),
+        ("@malea", "Odyssey 9:80", "Malea", "Rounding Malea, the north wind drives him off course past Cythera"),
+        ("@djerba", "Odyssey 9:84", "Lotus-eaters", "The Lotus-eaters' food makes men forget their homecoming "
+         "(Djerba, said Polybius and Strabo)"),
+        ("@etna", "Odyssey 9:106", "Cyclopes", "The Cyclops Polyphemus shuts them in his cave; Odysseus blinds him "
+         "(Sicily by Etna, said Euripides, Thucydides and Strabo)"),
+        ("@lipari", "Odyssey 10:1", "Aeolian isle", "Aeolus gives him the winds in a bag; his men open it in sight of "
+         "home (Lipari, said Strabo)"),
+        ("@lentini", "Odyssey 10:81", "Telepylus", "The Laestrygonians destroy every ship but his (Sicily, said "
+         "Thucydides; its south-east, said Strabo)"),
+        ("@circeo", "Odyssey 10:135", "Aeaea", "Circe turns his men into swine; he stays a year (Mount Circeo, said "
+         "the Roman writers)"),
+        ("@acheron", "Odyssey 11:14", "Cimmerians", "At the edge of the world he calls up the dead to question "
+         "Teiresias (the river Acheron, said Pausanias)"),
+        ("@circeo", "Odyssey 12:3", "Aeaean isle", "Back to Circe, who tells him the dangers to come"),
+        ("@sirenuse", "Odyssey 12:167", "Sirens", "Bound to the mast, he hears the Sirens' song (the Sirenuse, one of "
+         "the three places Strabo said)"),
+        ("@messina", "Odyssey 12:235", "Scylla", "Past Charybdis, Scylla snatches six men (the Strait of Messina, said "
+         "Polybius and Strabo)"),
+        ("@sicily", "Odyssey 12:262", "island of the god", "Thrinacia: his men eat the Sun's cattle; the ship is "
+         "wrecked and he alone lives (later taken for Sicily)"),
+        ("@gozo", "Odyssey 12:448", "Ogygia", "Years with the nymph Calypso (Gozo, said Callimachus)"),
+        ("@corfu", "Odyssey 5:280", "Phaeacians", "Wrecked again, he swims to the Phaeacians' land (Corfu, said "
+         "Thucydides)"),
+        ("@ithaca", "Odyssey 13:96", "Ithaca", "The Phaeacians set him down on Ithaca, asleep"),
+    ]),
+    "aeneid": ("The voyage of Aeneas", ["aeneas", "virgil", "vergil"],
+               "From fallen Troy to the mouth of the Tiber, where Rome is to be (Aeneid 1–7). Most of Virgil's places "
+               "are real; Aeneas tells the voyage to Dido at Carthage.", [
+        ("@troy", "Aeneid 3:3", "Troy", "Troy falls to the Greeks"),
+        ("@antandros", "Aeneid 3:7", "Antandros", "Under Mount Ida the exiles build their fleet"),
+        ("@aenus", "Aeneid 3:72", "Thracia", "In Thrace a bleeding myrtle tells of murdered Polydorus; they flee "
+         "(Aenus: Virgil has Aeneas found it)"),
+        ("@delos", "Aeneid 3:108", "Delian", "Apollo's oracle bids them seek their ancient mother"),
+        ("@crete", "Aeneid 3:181", "Cretan", "They settle in Crete, until a plague drives them on"),
+        ("@strophades", "Aeneid 3:274", "Strophades", "The Harpies foul their feast and curse them"),
+        ("@actium", "Aeneid 3:363", "Actian", "Trojan games on the shore at Actium"),
+        ("@buthrotum", "Aeneid 3:379", "Buthrotus", "Helenus, Priam's son, reigns here with Hector's widow Andromache, "
+         "and foretells the way"),
+        ("@castro", "Aeneid 3:696", "Minerva's temple", "First sight of Italy: Minerva's temple on the heights "
+         "(Castrum Minervae, now Castro)"),
+        ("@aetna", "Aeneid 3:727", "Aetna", "Under Etna they take aboard Achaemenides, left behind by Ulysses, and flee "
+         "the Cyclopes"),
+        ("@drepanum", "Aeneid 3:931", "Drepanum", "Anchises, Aeneas's father, dies"),
+        ("@carthage", "Aeneid 1:468", "Carthage", "A storm drives them to Africa: Dido's Carthage (books 1–4)"),
+        ("@eryx", "Aeneid 5:991", "Eryx", "Back in Sicily: games for Anchises, and a temple to Venus on Eryx"),
+        ("@cumae", "Aeneid 6:2", "Cumaean", "The Sibyl leads him down to the underworld"),
+        ("@caieta", "Aeneid 7:3", "Cajeta", "His old nurse Caieta dies and gives the place her name"),
+        ("@circeii", "Aeneid 7:12", "Circe", "They sail by night past Circe's shore"),
+        ("@tiber", "Aeneid 7:42", "Tiber", "Into the mouth of the Tiber: Latium, the promised land"),
+    ]),
 }
+BIBLE = [k for k in JOURNEYS if k not in MAPS]
 
 
 def find_journey(query: str) -> "str | None":
@@ -161,9 +292,26 @@ def find_journey(query: str) -> "str | None":
                  if q and (q in title.lower() or any(q in a for a in also))), None)
 
 
+def place(slug: str) -> dict:
+    """A stop's place: the !place record for the Bible's, or one of PLACES ("@troy")."""
+    if slug.startswith("@"):
+        name, lat, lon, approx = PLACES[slug[1:]]
+        return {"name": name, "lat": lat, "lon": lon, "approx": approx}
+    return people.data()["places"][slug]
+
+
 def stops(key: str) -> list:
-    places = people.data()["places"]
-    return [(places[slug], ref, note) for slug, ref, _, note in JOURNEYS[key][3]]
+    return [(place(slug), ref, note) for slug, ref, _, note in JOURNEYS[key][3]]
+
+
+def tradition_of(key: str) -> "str | None":
+    """The tradition of the text a journey is told in (the Bible's, the classics, medieval English poetry)."""
+    return lookup.get_verse(JOURNEYS[key][3][0][1]).get("tradition")
+
+
+def allowed(guild_id) -> list:
+    """The journeys whose texts this server has turned on."""
+    return [k for k in JOURNEYS if tradition_enabled(guild_id, tradition_of(k))]
 
 
 def journey_embed(key: str) -> discord.Embed:
@@ -173,23 +321,35 @@ def journey_embed(key: str) -> discord.Embed:
     text = about + "\n\n" + "\n".join(lines)
     embed = discord.Embed(title=f"🧭 {title}", description=text[:4000], color=COLOR)
     embed.set_image(url="attachment://journey.png")
-    embed.set_footer(text="Read a stop with !verse <reference> · see a place with !place <name> · "
-                          "places: OpenBible.info / Theographic")
+    if key in MAPS:
+        embed.set_footer(text=f"Read a stop with !verse <reference> · {MAPS[key]['credit']}")
+    else:
+        embed.set_footer(text="Read a stop with !verse <reference> · see a place with !place <name> · "
+                              "places: OpenBible.info / Theographic")
     return embed
 
 
-def list_embed() -> discord.Embed:
-    lines = [f"**{title}** — `!journey {key}` · {len(route)} stops" for key, (title, _, _, route) in JOURNEYS.items()]
-    embed = discord.Embed(title="🧭 Journeys of the Bible", description="\n".join(lines), color=COLOR)
+def list_embed(keys: "list | None" = None) -> discord.Embed:
+    keys = list(JOURNEYS) if keys is None else keys
+
+    def line(key):
+        return f"**{JOURNEYS[key][0]}** — `!journey {key}` · {len(JOURNEYS[key][3])} stops"
+    parts = []
+    if any(k in BIBLE for k in keys):
+        parts.append("\n".join(line(k) for k in keys if k in BIBLE))
+    if any(k in MAPS for k in keys):
+        parts.append("**From other books**\n" + "\n".join(line(k) for k in keys if k in MAPS))
+    embed = discord.Embed(title="🧭 Journeys", description="\n\n".join(parts) or "None on this server.", color=COLOR)
     embed.set_footer(text="Each one is a map of the route with what happened at every stop")
     return embed
 
 
 async def map_file(key: str) -> "discord.File | None":
     import bible_map
+    style = {"locator": MAPS[key]["locator"], "credit": MAPS[key]["credit"]} if key in MAPS else {}
     try:
         buf = await asyncio.to_thread(bible_map.render_route, JOURNEYS[key][0],
-                                      [p for p, _, _ in stops(key)], people.located_places())
+                                      [p for p, _, _ in stops(key)], people.located_places(), **style)
     except Exception:
         log.exception(f"Couldn't draw the journey {key}")
         return None
@@ -197,10 +357,11 @@ async def map_file(key: str) -> "discord.File | None":
 
 
 class JourneyMenu(discord.ui.View):
-    def __init__(self):
+    def __init__(self, keys: "list | None" = None):
         super().__init__(timeout=600)
-        options = [discord.SelectOption(label=title[:100], value=key, description=f"{len(route)} stops")
-                   for key, (title, _, _, route) in JOURNEYS.items()]
+        self.keys = list(JOURNEYS) if keys is None else keys
+        options = [discord.SelectOption(label=JOURNEYS[key][0][:100], value=key,
+                                        description=f"{len(JOURNEYS[key][3])} stops") for key in self.keys]
         select = discord.ui.Select(placeholder="Another journey…", options=options)
         select.callback = self._chosen
         self.add_item(select)
@@ -213,36 +374,41 @@ class JourneyMenu(discord.ui.View):
         embed = journey_embed(key)
         if file is None:
             embed.set_image(url=None)
-        await interaction.followup.send(embed=embed, view=JourneyMenu(), **({"file": file} if file else {}))
+        await interaction.followup.send(embed=embed, view=JourneyMenu(self.keys), **({"file": file} if file else {}))
 
 
 async def send_journey(ctx, query: str) -> None:
     query = query.strip()
+    guild = getattr(ctx, "guild", None)
+    keys = allowed(guild.id if guild else None)
     if not query:
-        await ctx.send(embed=list_embed(), view=JourneyMenu())
+        await ctx.send(embed=list_embed(keys), view=JourneyMenu(keys))
         return
     key = find_journey(query)
-    if key is None:
-        await ctx.send(f"I don't have a journey called **{query}**.", embed=list_embed(), view=JourneyMenu())
+    if key is None or key not in keys:
+        await ctx.send(f"I don't have a journey called **{discord.utils.escape_markdown(query[:100])}**.",
+                       embed=list_embed(keys), view=JourneyMenu(keys))
         return
     file = await map_file(key)
     embed = journey_embed(key)
     if file is None:
         embed.set_image(url=None)
-    await ctx.send(embed=embed, view=JourneyMenu(), **({"file": file} if file else {}))
+    await ctx.send(embed=embed, view=JourneyMenu(keys), **({"file": file} if file else {}))
 
 
 @bot.command(name="journey", aliases=["journeys", "route"])
 async def cmd_journey(ctx, *, query: str = ""):
-    """A journey from the Bible on a map, with what happened at each stop.
+    """A journey on a map, with what happened at each stop: the Bible's, Chaucer's pilgrims', Odysseus's, Aeneas's.
     Usage: !journey             — the list
            !journey paul 2      — Paul's second missionary journey
-           !journey exodus      — also abraham, paul 1, paul 3, rome, egypt, jonah"""
+           !journey exodus      — also abraham, paul 1, paul 3, rome, egypt, jonah
+           !journey canterbury  — also odyssey, aeneid"""
     async with ctx.typing():
         await send_journey(ctx, query)
 
 
-@bot.tree.command(name="journey", description="A journey from the Bible on a map, with what happened at each stop")
+@bot.tree.command(name="journey", description="A journey on a map (the Bible, Chaucer, the Odyssey, the Aeneid), "
+                                               "with what happened at each stop")
 @app_commands.describe(journey="Which journey; empty for the list")
 @app_commands.choices(journey=[app_commands.Choice(name=title, value=key)
                                for key, (title, _, _, _) in JOURNEYS.items()])

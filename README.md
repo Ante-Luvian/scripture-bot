@@ -127,7 +127,7 @@ Prefix commands use `!`; most also have a `/` slash-command version.
 | `!tree <name> [to <name>]` | `!familytree`, `!lineage`, `!genealogy` | A family-tree picture (grandparents to children, paternal line), or a chart of every generation between two people (`family_tree.py`) |
 | `!place <name>` | `!where`, `!map` | A place on a drawn map card (nearby places, locator inset, scale; uncertain sites ringed), with its verses |
 | `!harmony [words \| verse \| n]` | `!gospels`, `!synoptic` | An event in the life of Christ as each Gospel tells it, side by side (Robertson's Harmony, 185 sections, `data/harmony.json` from `build_harmony.py`); buttons read each account and step through the events |
-| `!journey [name]` | `!journeys`, `!route` | A journey on a route map (`bible_map.render_route`) with its stops and verses: Abraham, Exodus, Paul 1–3, Rome, Egypt, Jonah. Every stop's verse is checked against the KJV by a test |
+| `!journey [name]` | `!journeys`, `!route` | A journey on a route map (`bible_map.render_route`) with its stops and verses: Abraham, Exodus, Paul 1–3, Rome, Egypt, Jonah; and Chaucer's pilgrims (`canterbury`), Odysseus (`odyssey`), Aeneas (`aeneid`), their places in `journeys.PLACES` (Wikipedia's coordinates; Homer's legendary places where antiquity put them, ringed, the note naming who). Every stop's verse or line is checked against the bot's own text by a test; a journey follows its text's tradition switch |
 | `!hymn [title \| words \| topic \| passage]` | `!hymns`, `!hymnal` | A public-domain hymn: words, author, tune, Bible passages; ▶️ plays the tune (an organ .ogg) |
 | `!midi [title \| words \| topic \| passage]` | `!tune` | Just a hymn's tune, posted straight away without the words |
 | `!psalm <n> chant [organ]` | `!chant psalm <n>` | A psalm chanted in Latin to a psalm tone (or on the organ), with the Latin and Douay-Rheims |
@@ -212,6 +212,15 @@ answer, and every answer has a 🖼️ Card button that renders it as an image.
 
 Plus `!stats`, and owner/admin tools `!guildactivity`, `!scanstats`, `!errors [days]`
 (recent errors, grouped) and `!weeklyreport` (preview of the Monday DM report).
+Pictures from the old illustrated editions have no command: a 🖌️ button (`bot_commands/illustrations.py`) appears
+under `!verse`, `!fable`, `!tale` and `!shakespeare` wherever the passage has one. `scripts/build_illustrations.py`
+builds `data/illustrations/<set>.json`, each picture tied to its book and chapter (and line, where it quotes one):
+Doré's *La Fontaine* (the 1886 edition the bot's Thornbury comes from), Rackham's, Crane's and Milo Winter's
+Aesop and Crane's Grimm from Gutenberg, matched to Townsend's and Hunt's tales by text and title (the doubtful ones
+read and settled by hand in the script); Rackham's Grimm (Gutenberg and Commons), Beardsley's Malory, Crane's
+*Faerie Queene* and the Boydell Shakespeare Gallery from Commons, Boydell's scene numbers checked against Folger's.
+Gutenberg's pictures are kept in `data/illustrations/<set>/` (not in git; the script rebuilds them); Commons' are
+shown from Commons.
 Secret (kept out of !help, INTRODUCTION and the changelog on purpose): mods saying "+5 deluge
 points @someone" are quietly tallied; mods get a random excerpt with `!delugepoints` (`bot_commands/deluge.py`).
 Right-clicking a message → Apps → **Look up verses** shows the references in it, privately.
@@ -313,6 +322,7 @@ bot_commands/           One module per feature area; each registers its
   psalter.py              !metrical (the Scottish Metrical Psalter)
   games.py                !whoami, !versle
   journeys.py             !journey (route maps: bible_map.py)
+  illustrations.py        the 🖌️ pictures under passages (data/illustrations/)
   harmony.py              !harmony (data/harmony.json)
   measures.py             !measure (weights, measures, money; Easton's figures)
   kings.py                !kings (the kings of Israel and Judah, chart)
