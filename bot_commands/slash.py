@@ -288,10 +288,17 @@ async def virgil_slash(interaction: discord.Interaction, question: str = ""):
 @bot.tree.command(name="search", description="Search the library for a word or phrase")
 @app_commands.describe(query="e.g. shepherd, or shepherd ESV for another translation",
                        tradition="Only search one tradition")
-@app_commands.choices(tradition=[app_commands.Choice(name=label.split(" ", 1)[1], value=key)
-                                 for key, (label, _) in TRADITIONS.items()])
 async def search_slash(interaction: discord.Interaction, query: str, tradition: str = ""):
     await _command("search")(await _slash_ctx(interaction), query=f"{query} in:{tradition}" if tradition else query)
+
+
+@search_slash.autocomplete("tradition")
+async def _search_traditions(interaction: discord.Interaction, current: str):
+    """The traditions as you type (Discord allows a fixed list of only 25, and there are more)."""
+    current = current.lower()
+    return [app_commands.Choice(name=label.split(" ", 1)[1], value=key)
+            for key, (label, _) in TRADITIONS.items()
+            if current in label.lower() or current in key][:25]
 
 
 @bot.tree.command(name="theme", description="One passage on a theme from each tradition, side by side")
