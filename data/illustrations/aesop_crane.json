@@ -1,0 +1,438 @@
+{
+ "code": "ac",
+ "artist": "Walter Crane",
+ "work": "The Baby's Own Aesop (1887)",
+ "credit": "Project Gutenberg",
+ "pictures": [
+  {
+   "title": "The Fox and the Grapes",
+   "book": "Aesop's Fables",
+   "chapter": "196",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_crane/009.jpg",
+   "page": "https://www.gutenberg.org/ebooks/25433",
+   "n": "1"
+  },
+  {
+   "title": "The Cock and the Jewel",
+   "book": "Aesop's Fables",
+   "chapter": "7",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_crane/010.jpg",
+   "page": "https://www.gutenberg.org/ebooks/25433",
+   "n": "2"
+  },
+  {
+   "title": "The North Wind and the Sun",
+   "book": "Aesop's Fables",
+   "chapter": "243",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_crane/011.jpg",
+   "page": "https://www.gutenberg.org/ebooks/25433",
+   "n": "3"
+  },
+  {
+   "title": "The Frogs Asking for a King",
+   "book": "Aesop's Fables",
+   "chapter": "48",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_crane/012.jpg",
+   "page": "https://www.gutenberg.org/ebooks/25433",
+   "n": "4"
+  },
+  {
+   "title": "The Lion and the Mouse",
+   "book": "Aesop's Fables",
+   "chapter": "1",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_crane/014.jpg",
+   "page": "https://www.gutenberg.org/ebooks/25433",
+   "n": "5"
+  },
+  {
+   "title": "Hercules and the Wagoner",
+   "book": "Aesop's Fables",
+   "chapter": "17",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_crane/015.jpg",
+   "page": "https://www.gutenberg.org/ebooks/25433",
+   "n": "6"
+  },
+  {
+   "title": "The Widow and her Little Maidens",
+   "book": "Aesop's Fables",
+   "chapter": "77",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_crane/016.jpg",
+   "page": "https://www.gutenberg.org/ebooks/25433",
+   "n": "7"
+  },
+  {
+   "title": "The Viper and the File",
+   "book": "Aesop's Fables",
+   "chapter": "296",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_crane/017.jpg",
+   "page": "https://www.gutenberg.org/ebooks/25433",
+   "n": "8"
+  },
+  {
+   "title": "The Dog in the Manger",
+   "book": "Aesop's Fables",
+   "chapter": "34",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_crane/018.jpg",
+   "page": "https://www.gutenberg.org/ebooks/25433",
+   "n": "9"
+  },
+  {
+   "title": "The Fox and the Crane",
+   "book": "Aesop's Fables",
+   "chapter": "245",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_crane/019.jpg",
+   "page": "https://www.gutenberg.org/ebooks/25433",
+   "n": "10"
+  },
+  {
+   "title": "The Horse and the Stag",
+   "book": "Aesop's Fables",
+   "chapter": "200",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_crane/020.jpg",
+   "page": "https://www.gutenberg.org/ebooks/25433",
+   "n": "11"
+  },
+  {
+   "title": "The Fox and the Hedgehog",
+   "book": "Aesop's Fables",
+   "chapter": "179",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_crane/021.jpg",
+   "page": "https://www.gutenberg.org/ebooks/25433",
+   "n": "12"
+  },
+  {
+   "title": "The Miser",
+   "book": "Aesop's Fables",
+   "chapter": "45",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_crane/022.jpg",
+   "page": "https://www.gutenberg.org/ebooks/25433",
+   "n": "13"
+  },
+  {
+   "title": "The Miller, his Son, and their Ass",
+   "book": "Aesop's Fables",
+   "chapter": "144",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_crane/023.jpg",
+   "page": "https://www.gutenberg.org/ebooks/25433",
+   "n": "14"
+  },
+  {
+   "title": "The Oak and the Reeds",
+   "book": "Aesop's Fables",
+   "chapter": "129",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_crane/024.jpg",
+   "page": "https://www.gutenberg.org/ebooks/25433",
+   "n": "15"
+  },
+  {
+   "title": "The Trees and the Axe",
+   "book": "Aesop's Fables",
+   "chapter": "172",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_crane/025.jpg",
+   "page": "https://www.gutenberg.org/ebooks/25433",
+   "n": "16"
+  },
+  {
+   "title": "The Hart and the Vine",
+   "book": "Aesop's Fables",
+   "chapter": "194",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_crane/026.jpg",
+   "page": "https://www.gutenberg.org/ebooks/25433",
+   "n": "17"
+  },
+  {
+   "title": "The Fox and the Mask",
+   "book": "Aesop's Fables",
+   "chapter": "221",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_crane/028.jpg",
+   "page": "https://www.gutenberg.org/ebooks/25433",
+   "n": "18"
+  },
+  {
+   "title": "The Ass in the Lion’s Skin",
+   "book": "Aesop's Fables",
+   "chapter": "252",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_crane/029.jpg",
+   "page": "https://www.gutenberg.org/ebooks/25433",
+   "n": "19"
+  },
+  {
+   "title": "The Man and the Lion",
+   "book": "Aesop's Fables",
+   "chapter": "25",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_crane/030.jpg",
+   "page": "https://www.gutenberg.org/ebooks/25433",
+   "n": "20"
+  },
+  {
+   "title": "The Boasting Traveler",
+   "book": "Aesop's Fables",
+   "chapter": "43",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_crane/031.jpg",
+   "page": "https://www.gutenberg.org/ebooks/25433",
+   "n": "21"
+  },
+  {
+   "title": "The Vain Jackdaw",
+   "book": "Aesop's Fables",
+   "chapter": "66",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_crane/032.jpg",
+   "page": "https://www.gutenberg.org/ebooks/25433",
+   "n": "22"
+  },
+  {
+   "title": "The Peacock and Juno",
+   "book": "Aesop's Fables",
+   "chapter": "210",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_crane/033.jpg",
+   "page": "https://www.gutenberg.org/ebooks/25433",
+   "n": "23"
+  },
+  {
+   "title": "The Two Pots",
+   "book": "Aesop's Fables",
+   "chapter": "83",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_crane/034.jpg",
+   "page": "https://www.gutenberg.org/ebooks/25433",
+   "n": "24"
+  },
+  {
+   "title": "The Brother and the Sister",
+   "book": "Aesop's Fables",
+   "chapter": "232",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_crane/035.jpg",
+   "page": "https://www.gutenberg.org/ebooks/25433",
+   "n": "25"
+  },
+  {
+   "title": "The Fox who Had Lost his Tail",
+   "book": "Aesop's Fables",
+   "chapter": "39",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_crane/036.jpg",
+   "page": "https://www.gutenberg.org/ebooks/25433",
+   "n": "26"
+  },
+  {
+   "title": "The Dog and the Shadow",
+   "book": "Aesop's Fables",
+   "chapter": "16",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_crane/037.jpg",
+   "page": "https://www.gutenberg.org/ebooks/25433",
+   "n": "27"
+  },
+  {
+   "title": "The Crow and the Pitcher",
+   "book": "Aesop's Fables",
+   "chapter": "192",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_crane/038.jpg",
+   "page": "https://www.gutenberg.org/ebooks/25433",
+   "n": "28"
+  },
+  {
+   "title": "The One-Eyed Doe",
+   "book": "Aesop's Fables",
+   "chapter": "108",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_crane/039.jpg",
+   "page": "https://www.gutenberg.org/ebooks/25433",
+   "n": "29"
+  },
+  {
+   "title": "The Geese and the Cranes",
+   "book": "Aesop's Fables",
+   "chapter": "217",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_crane/040.jpg",
+   "page": "https://www.gutenberg.org/ebooks/25433",
+   "n": "30"
+  },
+  {
+   "title": "The Trumpeter Taken Prisoner",
+   "book": "Aesop's Fables",
+   "chapter": "249",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_crane/041.jpg",
+   "page": "https://www.gutenberg.org/ebooks/25433",
+   "n": "31"
+  },
+  {
+   "title": "The Man and the Satyr",
+   "book": "Aesop's Fables",
+   "chapter": "257",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_crane/042.jpg",
+   "page": "https://www.gutenberg.org/ebooks/25433",
+   "n": "32"
+  },
+  {
+   "title": "The Birds, the Beasts, and the Bat",
+   "book": "Aesop's Fables",
+   "chapter": "247",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_crane/043.jpg",
+   "page": "https://www.gutenberg.org/ebooks/25433",
+   "n": "33"
+  },
+  {
+   "title": "The Stag in the Ox-Stall",
+   "book": "Aesop's Fables",
+   "chapter": "100",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_crane/044.jpg",
+   "page": "https://www.gutenberg.org/ebooks/25433",
+   "n": "34"
+  },
+  {
+   "title": "The Lion in Love",
+   "book": "Aesop's Fables",
+   "chapter": "44",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_crane/045.jpg",
+   "page": "https://www.gutenberg.org/ebooks/25433",
+   "n": "35"
+  },
+  {
+   "title": "The Cat and Venus",
+   "book": "Aesop's Fables",
+   "chapter": "303",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_crane/046.jpg",
+   "page": "https://www.gutenberg.org/ebooks/25433",
+   "n": "36"
+  },
+  {
+   "title": "The Hare and the Tortoise",
+   "book": "Aesop's Fables",
+   "chapter": "12",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_crane/048.jpg",
+   "page": "https://www.gutenberg.org/ebooks/25433",
+   "n": "37"
+  },
+  {
+   "title": "The Father and his Sons",
+   "book": "Aesop's Fables",
+   "chapter": "5",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_crane/050.jpg",
+   "page": "https://www.gutenberg.org/ebooks/25433",
+   "n": "38"
+  },
+  {
+   "title": "The Farmer and his Sons",
+   "book": "Aesop's Fables",
+   "chapter": "70",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_crane/051.jpg",
+   "page": "https://www.gutenberg.org/ebooks/25433",
+   "n": "39"
+  },
+  {
+   "title": "The Ass, the Cock, and the Lion",
+   "book": "Aesop's Fables",
+   "chapter": "111",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_crane/052.jpg",
+   "page": "https://www.gutenberg.org/ebooks/25433",
+   "n": "40"
+  },
+  {
+   "title": "The Traveler and Fortune",
+   "book": "Aesop's Fables",
+   "chapter": "151",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_crane/053.jpg",
+   "page": "https://www.gutenberg.org/ebooks/25433",
+   "n": "41"
+  },
+  {
+   "title": "The Wolf and the Crane",
+   "book": "Aesop's Fables",
+   "chapter": "4",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_crane/054.jpg",
+   "page": "https://www.gutenberg.org/ebooks/25433",
+   "n": "42"
+  },
+  {
+   "title": "The Herdsman and the Lost Bull",
+   "book": "Aesop's Fables",
+   "chapter": "19",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_crane/055.jpg",
+   "page": "https://www.gutenberg.org/ebooks/25433",
+   "n": "43"
+  }
+ ]
+}

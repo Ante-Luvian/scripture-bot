@@ -16,6 +16,7 @@ from bot_commands.church import (
     cmd_catena,
 )
 from bot_commands.dore import ArtButton, art_buttons
+from bot_commands.illustrations import PictureButton
 from bot_commands.reference import (
     cmd_notes,
     cmd_xref,
@@ -147,6 +148,9 @@ def _study_view_from_message(message, pressed_custom_id: str) -> discord.ui.View
             d = ArtButton.__discord_ui_compiled_template__.fullmatch(getattr(component, "custom_id", None) or "")
             if d:                                       # (the Doré and Blake buttons stay: they can be pressed again)
                 view.add_item(ArtButton(d["artist"], d["keys"].split(",")))
+            pics = PictureButton.__discord_ui_compiled_template__.fullmatch(getattr(component, "custom_id", None) or "")
+            if pics:                                    # (and the other illustrators')
+                view.add_item(PictureButton(pics["keys"].split(","), row=2))
             p = PassageButton.__discord_ui_compiled_template__.fullmatch(getattr(component, "custom_id", None) or "")
             if p:                                       # (and ◀ Previous · Next ▶ · 📖 Whole chapter)
                 view.add_item(PassageButton(p["kind"], p["ref"]))

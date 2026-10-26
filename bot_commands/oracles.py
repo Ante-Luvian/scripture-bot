@@ -6,6 +6,7 @@ import discord
 import random
 import re
 from scripture_lookup import BIBLE_NT, BIBLE_OT
+from bot_commands import illustrations
 from bot_commands.card import (
     _render_verse_card,
 )
@@ -850,6 +851,8 @@ async def cmd_shakespeare(ctx, *, question: str = ""):
         in_context = PassageButton("x", ref)
         in_context.item.row = 0                                # (beside Card: !verse's go on a row of their own)
         view.add_item(in_context)
+    for b in illustrations.buttons(illustrations.for_passage(play, chap, int(line)), row=0):
+        view.add_item(b)                                       # (🖌️ Boydell: a picture of the scene, at this line)
     await ctx.send(embed=embed, view=view)
 
 

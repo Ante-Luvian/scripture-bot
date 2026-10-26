@@ -62,7 +62,8 @@ def test_old_buttons_still_mean_aesop(fable):
 def test_message_and_buttons(fable):
     m = fable.message(1)
     assert m["embed"].title.endswith("The Lion and the Mouse") and m["embed"].description == fable.body(1)
-    assert [c.item.label for c in m["view"].children] == ["Another", "Card"]
+    labels = [c.item.label for c in m["view"].children]
+    assert labels[:2] == ["Another", "Card"] and labels[2:] in ([], ["Pictures"])   # (Crane's and Winter's)
     assert all(len(c.custom_id) <= 100 for c in fable.message(1, spec="w:" + "x" * 60)["view"].children)
     pages = fable.list_message(0)
     assert pages["embed"].description.startswith("`1` The Lion and the Mouse")

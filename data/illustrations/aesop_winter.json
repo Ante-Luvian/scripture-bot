@@ -1,0 +1,898 @@
+{
+ "code": "aw",
+ "artist": "Milo Winter",
+ "work": "The Aesop for Children (1919)",
+ "credit": "Project Gutenberg",
+ "pictures": [
+  {
+   "title": "The Crab and its Mother",
+   "book": "Aesop's Fables",
+   "chapter": "85",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i003_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "1"
+  },
+  {
+   "title": "The Ox and the Frog",
+   "book": "Aesop's Fables",
+   "chapter": "69",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i004_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "2"
+  },
+  {
+   "title": "The Dog, the Cock, and the Fox",
+   "book": "Aesop's Fables",
+   "chapter": "216",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i005_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "3"
+  },
+  {
+   "title": "The Mice in Council",
+   "book": "Aesop's Fables",
+   "chapter": "107",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i006_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "4"
+  },
+  {
+   "title": "The Eagle and the Jackdaw",
+   "book": "Aesop's Fables",
+   "chapter": "259",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i007_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "5"
+  },
+  {
+   "title": "The Kid and the Wolf",
+   "book": "Aesop's Fables",
+   "chapter": "67",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i008_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "6"
+  },
+  {
+   "title": "The Town Mouse and the Country Mouse",
+   "book": "Aesop's Fables",
+   "chapter": "229",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i009_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "7"
+  },
+  {
+   "title": "The Town Mouse and the Country Mouse",
+   "book": "Aesop's Fables",
+   "chapter": "229",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i010.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "8"
+  },
+  {
+   "title": "The Fox and the Grapes",
+   "book": "Aesop's Fables",
+   "chapter": "196",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i011_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "9"
+  },
+  {
+   "title": "The Wolf and the Crane",
+   "book": "Aesop's Fables",
+   "chapter": "4",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i012_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "10"
+  },
+  {
+   "title": "The Ass and his Driver",
+   "book": "Aesop's Fables",
+   "chapter": "279",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i013_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "11"
+  },
+  {
+   "title": "The Lion and the Mouse",
+   "book": "Aesop's Fables",
+   "chapter": "1",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i014_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "12"
+  },
+  {
+   "title": "The Shepherd’s Boy and the Wolf",
+   "book": "Aesop's Fables",
+   "chapter": "55",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i015_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "13"
+  },
+  {
+   "title": "The Gnat and the Bull",
+   "book": "Aesop's Fables",
+   "chapter": "265",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i016_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "14"
+  },
+  {
+   "title": "The Travelers and the Plane-Tree",
+   "book": "Aesop's Fables",
+   "chapter": "284",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i017_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "15"
+  },
+  {
+   "title": "The Farmer and the Stork",
+   "book": "Aesop's Fables",
+   "chapter": "27",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i018_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "16"
+  },
+  {
+   "title": "The Frogs Asking for a King",
+   "book": "Aesop's Fables",
+   "chapter": "48",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i021_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "17"
+  },
+  {
+   "title": "The Grasshopper and the Owl",
+   "book": "Aesop's Fables",
+   "chapter": "222",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i022_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "18"
+  },
+  {
+   "title": "The Grasshopper and the Owl",
+   "book": "Aesop's Fables",
+   "chapter": "222",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i023_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "19"
+  },
+  {
+   "title": "The Wolf and the Lion",
+   "book": "Aesop's Fables",
+   "chapter": "246",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i024_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "20"
+  },
+  {
+   "title": "The Oak and the Reeds",
+   "book": "Aesop's Fables",
+   "chapter": "129",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i025_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "21"
+  },
+  {
+   "title": "The Boys and the Frogs",
+   "book": "Aesop's Fables",
+   "chapter": "56",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i026_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "22"
+  },
+  {
+   "title": "The Crow and the Pitcher",
+   "book": "Aesop's Fables",
+   "chapter": "192",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i027_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "23"
+  },
+  {
+   "title": "The Ants and the Grasshopper",
+   "book": "Aesop's Fables",
+   "chapter": "11",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i028_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "24"
+  },
+  {
+   "title": "The Raven and the Swan",
+   "book": "Aesop's Fables",
+   "chapter": "32",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i029_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "25"
+  },
+  {
+   "title": "The Gnat and the Lion",
+   "book": "Aesop's Fables",
+   "chapter": "195",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i032_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "26"
+  },
+  {
+   "title": "The Monkey and the Camel",
+   "book": "Aesop's Fables",
+   "chapter": "266",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i033_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "27"
+  },
+  {
+   "title": "The Wild Boar and the Fox",
+   "book": "Aesop's Fables",
+   "chapter": "113",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i034_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "28"
+  },
+  {
+   "title": "The Lion, the Bear, and the Fox",
+   "book": "Aesop's Fables",
+   "chapter": "153",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i035_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "29"
+  },
+  {
+   "title": "The Wolf and the Lamb",
+   "book": "Aesop's Fables",
+   "chapter": "2",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i036_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "30"
+  },
+  {
+   "title": "The Hares and the Frogs",
+   "book": "Aesop's Fables",
+   "chapter": "134",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i037_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "31"
+  },
+  {
+   "title": "The Fox and the Crane",
+   "book": "Aesop's Fables",
+   "chapter": "245",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i038_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "32"
+  },
+  {
+   "title": "The Fox and the Crane",
+   "book": "Aesop's Fables",
+   "chapter": "245",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i039_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "33"
+  },
+  {
+   "title": "The Wolf and the Lion",
+   "book": "Aesop's Fables",
+   "chapter": "131",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i040_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "34"
+  },
+  {
+   "title": "The Stag at the Pool",
+   "book": "Aesop's Fables",
+   "chapter": "263",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i041_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "35"
+  },
+  {
+   "title": "The Mice and the Weasels",
+   "book": "Aesop's Fables",
+   "chapter": "109",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i043_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "36"
+  },
+  {
+   "title": "The Fox and the Lion",
+   "book": "Aesop's Fables",
+   "chapter": "207",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i044_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "37"
+  },
+  {
+   "title": "The Vain Jackdaw",
+   "book": "Aesop's Fables",
+   "chapter": "66",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i046_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "38"
+  },
+  {
+   "title": "The Vain Jackdaw",
+   "book": "Aesop's Fables",
+   "chapter": "66",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i047_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "39"
+  },
+  {
+   "title": "The Monkey and the Dolphin",
+   "book": "Aesop's Fables",
+   "chapter": "199",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i048_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "40"
+  },
+  {
+   "title": "The Ass and the Wolf",
+   "book": "Aesop's Fables",
+   "chapter": "218",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i049_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "41"
+  },
+  {
+   "title": "The Dogs and the Hides",
+   "book": "Aesop's Fables",
+   "chapter": "267",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i051_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "42"
+  },
+  {
+   "title": "The Fox and the Leopard",
+   "book": "Aesop's Fables",
+   "chapter": "156",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i053.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "43"
+  },
+  {
+   "title": "The Dog in the Manger",
+   "book": "Aesop's Fables",
+   "chapter": "34",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i055_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "44"
+  },
+  {
+   "title": "The Wolf and the Goat",
+   "book": "Aesop's Fables",
+   "chapter": "226",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i056_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "45"
+  },
+  {
+   "title": "The Fox and the Goat",
+   "book": "Aesop's Fables",
+   "chapter": "31",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i057_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "46"
+  },
+  {
+   "title": "The Wolf and the Shepherd",
+   "book": "Aesop's Fables",
+   "chapter": "211",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i059_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "47"
+  },
+  {
+   "title": "The Peacock and the Crane",
+   "book": "Aesop's Fables",
+   "chapter": "168",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i060_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "48"
+  },
+  {
+   "title": "The Farmer and his Sons",
+   "book": "Aesop's Fables",
+   "chapter": "70",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i061_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "49"
+  },
+  {
+   "title": "The Two Pots",
+   "book": "Aesop's Fables",
+   "chapter": "83",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i062_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "50"
+  },
+  {
+   "title": "The Hen and the Golden Eggs",
+   "book": "Aesop's Fables",
+   "chapter": "169",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i063.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "51"
+  },
+  {
+   "title": "The Goatherd and the Wild Goats",
+   "book": "Aesop's Fables",
+   "chapter": "59",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i065_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "52"
+  },
+  {
+   "title": "The Spendthrift and the Swallow",
+   "book": "Aesop's Fables",
+   "chapter": "248",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i066_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "53"
+  },
+  {
+   "title": "The Astronomer",
+   "book": "Aesop's Fables",
+   "chapter": "63",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i067_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "54"
+  },
+  {
+   "title": "The Lion and the Three Bulls",
+   "book": "Aesop's Fables",
+   "chapter": "225",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i068_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "55"
+  },
+  {
+   "title": "Mercury and the Workmen",
+   "book": "Aesop's Fables",
+   "chapter": "269",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i069_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "56"
+  },
+  {
+   "title": "The Mouse, the Frog, and the Hawk",
+   "book": "Aesop's Fables",
+   "chapter": "91",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i070_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "57"
+  },
+  {
+   "title": "The Wolf in Sheep’s Clothing",
+   "book": "Aesop's Fables",
+   "chapter": "41",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i071_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "58"
+  },
+  {
+   "title": "The Bull and the Goat",
+   "book": "Aesop's Fables",
+   "chapter": "160",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i072_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "59"
+  },
+  {
+   "title": "The Eagle and the Beetle",
+   "book": "Aesop's Fables",
+   "chapter": "304",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i073.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "60"
+  },
+  {
+   "title": "The Sick Lion",
+   "book": "Aesop's Fables",
+   "chapter": "37",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i074_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "61"
+  },
+  {
+   "title": "The Ass and the Lapdog",
+   "book": "Aesop's Fables",
+   "chapter": "53",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i075_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "62"
+  },
+  {
+   "title": "The Milk-Woman and her Pail",
+   "book": "Aesop's Fables",
+   "chapter": "114",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i076_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "63"
+  },
+  {
+   "title": "The Miser",
+   "book": "Aesop's Fables",
+   "chapter": "45",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i077_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "64"
+  },
+  {
+   "title": "The Wolf and the Housedog",
+   "book": "Aesop's Fables",
+   "chapter": "116",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i078_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "65"
+  },
+  {
+   "title": "The Fox and the Hedgehog",
+   "book": "Aesop's Fables",
+   "chapter": "179",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i079_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "66"
+  },
+  {
+   "title": "The Bat and the Weasels",
+   "book": "Aesop's Fables",
+   "chapter": "6",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i080_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "67"
+  },
+  {
+   "title": "The Fox who Had Lost his Tail",
+   "book": "Aesop's Fables",
+   "chapter": "39",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i081_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "68"
+  },
+  {
+   "title": "The Mischievous Dog",
+   "book": "Aesop's Fables",
+   "chapter": "58",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i082_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "69"
+  },
+  {
+   "title": "The Bear and the Two Travelers",
+   "book": "Aesop's Fables",
+   "chapter": "38",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i086_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "70"
+  },
+  {
+   "title": "The Fox and the Monkey",
+   "book": "Aesop's Fables",
+   "chapter": "74",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i087_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "71"
+  },
+  {
+   "title": "The Mother and the Wolf",
+   "book": "Aesop's Fables",
+   "chapter": "281",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i088_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "72"
+  },
+  {
+   "title": "The Stag, the Wolf, and the Sheep",
+   "book": "Aesop's Fables",
+   "chapter": "185",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i089_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "73"
+  },
+  {
+   "title": "The Dog and the Shadow",
+   "book": "Aesop's Fables",
+   "chapter": "16",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i092_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "74"
+  },
+  {
+   "title": "The Hare and the Tortoise",
+   "book": "Aesop's Fables",
+   "chapter": "12",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i093.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "75"
+  },
+  {
+   "title": "The Lark and her Young Ones",
+   "book": "Aesop's Fables",
+   "chapter": "215",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i095_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "76"
+  },
+  {
+   "title": "The Cat and the Mice",
+   "book": "Aesop's Fables",
+   "chapter": "145",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i096_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "77"
+  },
+  {
+   "title": "The Fox and the Crow",
+   "book": "Aesop's Fables",
+   "chapter": "97",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i097_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "78"
+  },
+  {
+   "title": "The Ass and his Shadow",
+   "book": "Aesop's Fables",
+   "chapter": "125",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i098_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "79"
+  },
+  {
+   "title": "The Miller, his Son, and their Ass",
+   "book": "Aesop's Fables",
+   "chapter": "144",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i099_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "80"
+  },
+  {
+   "title": "The Miller, his Son, and their Ass",
+   "book": "Aesop's Fables",
+   "chapter": "144",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i100_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "81"
+  },
+  {
+   "title": "The Ant and the Dove",
+   "book": "Aesop's Fables",
+   "chapter": "133",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i101_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "82"
+  },
+  {
+   "title": "The Man and the Satyr",
+   "book": "Aesop's Fables",
+   "chapter": "257",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i102.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "83"
+  },
+  {
+   "title": "The Lion, the Fox, and the Ass",
+   "book": "Aesop's Fables",
+   "chapter": "159",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i104_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "84"
+  },
+  {
+   "title": "The North Wind and the Sun",
+   "book": "Aesop's Fables",
+   "chapter": "243",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i106_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "85"
+  },
+  {
+   "title": "The North Wind and the Sun",
+   "book": "Aesop's Fables",
+   "chapter": "243",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i107_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "86"
+  },
+  {
+   "title": "The Ass in the Lion’s Skin",
+   "book": "Aesop's Fables",
+   "chapter": "252",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i109_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "87"
+  },
+  {
+   "title": "The Fisherman and the Little Fish",
+   "book": "Aesop's Fables",
+   "chapter": "138",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i110_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "88"
+  },
+  {
+   "title": "The Fighting Cocks and the Eagle",
+   "book": "Aesop's Fables",
+   "chapter": "72",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_winter/i111_th.jpg",
+   "page": "https://www.gutenberg.org/ebooks/19994",
+   "n": "89"
+  }
+ ]
+}

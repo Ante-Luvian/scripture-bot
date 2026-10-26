@@ -23,7 +23,7 @@ import unicodedata
 
 import discord
 
-from bot_commands import card
+from bot_commands import card, illustrations
 from core import bot, log, lookup, tradition_enabled
 from scripture_lookup import CORPUS_TRADITION
 
@@ -264,6 +264,8 @@ def message(n: int, spec: str = "", heading: str = "", code: str = "", page: int
     view.add_item(FableButton("again", _key(code, n), spec, label="Another", emoji="🎲"))
     if _cardable(n, code):
         view.add_item(FableButton("card", _key(code, n), spec, label="Card", emoji="🖼️"))
+    for b in illustrations.buttons(illustrations.for_passage(COLLECTIONS[code][0], str(n))):
+        view.add_item(b)                                # (🖌️ Doré, Rackham...: the fable's pictures)
     return {"embed": embed, "view": view}
 
 

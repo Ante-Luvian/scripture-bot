@@ -16,6 +16,7 @@ import re
 
 import discord
 
+from bot_commands import illustrations
 from core import ROOT, bot, lookup
 
 PLATES_PATH = ROOT / "data" / "dore" / "plates.json"
@@ -211,13 +212,14 @@ DoreButton = ArtButton                                   # (its first name)
 
 
 def art_buttons(result: dict) -> list:
-    """The 🖼️ Doré and 🎨 Blake buttons for a passage that has their pictures."""
+    """The 🖼️ Doré and 🎨 Blake buttons for a passage that has their pictures, and the 🖌️ button for the
+    other illustrated editions' (bot_commands/illustrations.py)."""
     out = []
     for artist, prefix in (("dore", "dore"), ("blake", "blakeart")):
         found = for_result(result, artist)
         if found:
             out.append(ArtButton(prefix, [p["key"] for p in found]))
-    return out
+    return out + illustrations.picture_buttons(result)
 
 
 def search(query: str, artist: str = "dore") -> list:

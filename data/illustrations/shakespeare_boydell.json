@@ -1,0 +1,759 @@
+{
+ "code": "sb",
+ "artist": "The Boydell Shakespeare Gallery",
+ "label": "Boydell",
+ "work": "paintings and prints, 1789–1805",
+ "credit": "Wikimedia Commons",
+ "pictures": [
+  {
+   "title": "The shipwreck, Prospero and Miranda on the shore",
+   "book": "The Tempest",
+   "chapter": "1.2",
+   "start": null,
+   "end": null,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/George_Romney_-_William_Shakespeare_-_The_Tempest_Act_I%2C_Scene_1.jpg/1280px-George_Romney_-_William_Shakespeare_-_The_Tempest_Act_I%2C_Scene_1.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:George_Romney_-_William_Shakespeare_-_The_Tempest_Act_I,_Scene_1.jpg",
+   "n": "1"
+  },
+  {
+   "title": "The enchanted island, before Prospero's cell: Prospero, Miranda, Caliban and Ariel",
+   "book": "The Tempest",
+   "chapter": "1.2",
+   "start": null,
+   "end": null,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2e/The_Enchanted_Island%2C_Before_the_Cell_of_Prospero_-_Prospero_and_Miranda_%28Shakespeare%2C_The_Tempest%2C_Act_1%2C_Scene_1%29_MET_DP109509.jpg/1280px-The_Enchanted_Island%2C_Before_the_Cell_of_Prospero_-_Prospero_and_Miranda_%28Shakespeare%2C_The_Tempest%2C_Act_1%2C_Scene_1%29_MET_DP109509.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:The_Enchanted_Island,_Before_the_Cell_of_Prospero_-_Prospero_and_Miranda_(Shakespeare,_The_Tempest,_Act_1,_Scene_1)_MET_DP109509.jpg",
+   "n": "2"
+  },
+  {
+   "title": "Anne Page, Slender and Shallow",
+   "book": "The Merry Wives of Windsor",
+   "chapter": "1.1",
+   "start": null,
+   "end": null,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/be/Anne_Page%2C_Slender_and_Shallow_%28Shakespeare%2C_Merry_Wives_of_Windsor%2C_Act_1%2C_Scene_1%29_MET_DP859579.jpg/1280px-Anne_Page%2C_Slender_and_Shallow_%28Shakespeare%2C_Merry_Wives_of_Windsor%2C_Act_1%2C_Scene_1%29_MET_DP859579.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Anne_Page,_Slender_and_Shallow_(Shakespeare,_Merry_Wives_of_Windsor,_Act_1,_Scene_1)_MET_DP859579.jpg",
+   "n": "3"
+  },
+  {
+   "title": "Mistress Ford and Mistress Page with Falstaff's letters",
+   "book": "The Merry Wives of Windsor",
+   "chapter": "2.1",
+   "start": null,
+   "end": null,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/21/Mrs._Ford_and_Mrs_Page_%28Shakespeare%2C_Merry_Wives_of_Windsor%2C_Act_2%2C_Scene_1%29_MET_DP859583.jpg/1280px-Mrs._Ford_and_Mrs_Page_%28Shakespeare%2C_Merry_Wives_of_Windsor%2C_Act_2%2C_Scene_1%29_MET_DP859583.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Mrs._Ford_and_Mrs_Page_(Shakespeare,_Merry_Wives_of_Windsor,_Act_2,_Scene_1)_MET_DP859583.jpg",
+   "n": "4"
+  },
+  {
+   "title": "Falstaff in the buck-basket",
+   "book": "The Merry Wives of Windsor",
+   "chapter": "3.3",
+   "start": null,
+   "end": null,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c2/Falstaff_in_the_Buck_Basket_%28Shakespeare%2C_Merry_Wives_of_Windsor%2C_Act_3%2C_Scene_3%29_MET_DP859563.jpg/1280px-Falstaff_in_the_Buck_Basket_%28Shakespeare%2C_Merry_Wives_of_Windsor%2C_Act_3%2C_Scene_3%29_MET_DP859563.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Falstaff_in_the_Buck_Basket_(Shakespeare,_Merry_Wives_of_Windsor,_Act_3,_Scene_3)_MET_DP859563.jpg",
+   "n": "5"
+  },
+  {
+   "title": "Escalus, Elbow, Froth and the Clown",
+   "book": "Measure for Measure",
+   "chapter": "2.1",
+   "start": null,
+   "end": null,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/28/Angelo%27s_House%E2%80%93Escalus%2C_a_Justice%2C_Elbow%2C_Froth%2C_Clown%2C_Officers%2C_etc._%28Shakespeare%2C_Measure_for_Measure%2C_Act_2%2C_Scene_1%29_MET_DP109517.jpg/1280px-Angelo%27s_House%E2%80%93Escalus%2C_a_Justice%2C_Elbow%2C_Froth%2C_Clown%2C_Officers%2C_etc._%28Shakespeare%2C_Measure_for_Measure%2C_Act_2%2C_Scene_1%29_MET_DP109517.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Angelo%27s_House%E2%80%93Escalus,_a_Justice,_Elbow,_Froth,_Clown,_Officers,_etc._(Shakespeare,_Measure_for_Measure,_Act_2,_Scene_1)_MET_DP109517.jpg",
+   "n": "6"
+  },
+  {
+   "title": "The rescue of Aemilia from the shipwreck",
+   "book": "The Comedy of Errors",
+   "chapter": "1.1",
+   "start": null,
+   "end": null,
+   "image": "https://upload.wikimedia.org/wikipedia/commons/4/46/Francis_Wheatley_%281747-1801%29_-_%27The_Comedy_of_Errors%27%2C_Act_I%2C_Scene_1%2C_the_Rescue_of_Aemilia_from_the_Shipwreck_%28from_the_Boydell_series%29_-_STRPG-A%2C_1993.116_-_Royal_Shakespeare_Theatre.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Francis_Wheatley_(1747-1801)_-_%27The_Comedy_of_Errors%27,_Act_I,_Scene_1,_the_Rescue_of_Aemilia_from_the_Shipwreck_(from_the_Boydell_series)_-_STRPG-A,_1993.116_-_Royal_Shakespeare_Theatre.jpg",
+   "n": "7"
+  },
+  {
+   "title": "Hero, Ursula and Beatrice in the garden",
+   "book": "Much Ado About Nothing",
+   "chapter": "3.1",
+   "start": null,
+   "end": null,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/94/Hero%2C_Ursula_and_Beatrice_%28Shakespeare%2C_Much_Ado_About_Nothing%2C_Act_3%2C_Scene_1%29_MET_DP859567.jpg/1280px-Hero%2C_Ursula_and_Beatrice_%28Shakespeare%2C_Much_Ado_About_Nothing%2C_Act_3%2C_Scene_1%29_MET_DP859567.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Hero,_Ursula_and_Beatrice_(Shakespeare,_Much_Ado_About_Nothing,_Act_3,_Scene_1)_MET_DP859567.jpg",
+   "n": "8"
+  },
+  {
+   "title": "Hero fainting in the church",
+   "book": "Much Ado About Nothing",
+   "chapter": "4.1",
+   "start": null,
+   "end": null,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/aa/Hero_Fainting_in_Church_%28Shakespeare%2C_Much_Ado_About_Nothing%2C_Act_4%2C_Scene_1%29_MET_DP859565.jpg/1280px-Hero_Fainting_in_Church_%28Shakespeare%2C_Much_Ado_About_Nothing%2C_Act_4%2C_Scene_1%29_MET_DP859565.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Hero_Fainting_in_Church_(Shakespeare,_Much_Ado_About_Nothing,_Act_4,_Scene_1)_MET_DP859565.jpg",
+   "n": "9"
+  },
+  {
+   "title": "The Examination of Conrade and Borachio",
+   "book": "Much Ado About Nothing",
+   "chapter": "4.2",
+   "start": null,
+   "end": null,
+   "image": "https://upload.wikimedia.org/wikipedia/commons/d/d6/%27Much_Ado_About_Nothing%27%2C_Act_IV%2C_Scene_2%2C_the_Examination_of_Conrade_and_Borachio_%28from_the_Boydell_series%29_Robert_Smirke_%281753%E2%80%931845%29_Royal_Shakespeare_Theatre.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:%27Much_Ado_About_Nothing%27,_Act_IV,_Scene_2,_the_Examination_of_Conrade_and_Borachio_(from_the_Boydell_series)_Robert_Smirke_(1753%E2%80%931845)_Royal_Shakespeare_Theatre.jpg",
+   "n": "10"
+  },
+  {
+   "title": "The Princess, Rosaline and the forester",
+   "book": "Love's Labor's Lost",
+   "chapter": "4.1",
+   "start": null,
+   "end": null,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c0/The_Princess%2C_Rosaline%2C_etc._%28Shakespeare%2C_Love%27s_Labour_Lost%2C_Act_4%2C_Scene_1%29_MET_DP859573.jpg/1280px-The_Princess%2C_Rosaline%2C_etc._%28Shakespeare%2C_Love%27s_Labour_Lost%2C_Act_4%2C_Scene_1%29_MET_DP859573.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:The_Princess,_Rosaline,_etc._(Shakespeare,_Love%27s_Labour_Lost,_Act_4,_Scene_1)_MET_DP859573.jpg",
+   "n": "11"
+  },
+  {
+   "title": "Shylock, Jessica and Lancelet",
+   "book": "The Merchant of Venice",
+   "chapter": "2.5",
+   "start": null,
+   "end": null,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/82/Shylock%27s_House%E2%80%93Shylock%2C_Jessica_and_Launcelot_%28Shakespeare%2C_Merchant_of_Venice%2C_Act_2%2C_Scene_5%29_MET_DP859580.jpg/1280px-Shylock%27s_House%E2%80%93Shylock%2C_Jessica_and_Launcelot_%28Shakespeare%2C_Merchant_of_Venice%2C_Act_2%2C_Scene_5%29_MET_DP859580.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Shylock%27s_House%E2%80%93Shylock,_Jessica_and_Launcelot_(Shakespeare,_Merchant_of_Venice,_Act_2,_Scene_5)_MET_DP859580.jpg",
+   "n": "12"
+  },
+  {
+   "title": "Shylock rebuffing Antonio",
+   "book": "The Merchant of Venice",
+   "chapter": "3.3",
+   "start": null,
+   "end": null,
+   "image": "https://upload.wikimedia.org/wikipedia/commons/8/81/Shylock_rebuffing_Antonio_%28Westall%2C_1795%29.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Shylock_rebuffing_Antonio_(Westall,_1795).jpg",
+   "n": "13"
+  },
+  {
+   "title": "Rosalind, Celia, Orlando and the Duke: the wrestling",
+   "book": "As You Like It",
+   "chapter": "1.2",
+   "start": null,
+   "end": null,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bd/Before_the_Duke%27s_Palace%E2%80%93Rosalind%2C_Celia%2C_Orlando%2C_the_Duke_%26_Attendants_%28Shakespeare%2C_As_You_Like_It%2C_Act_1%2C_Scene_2%29_MET_DP859571.jpg/1280px-Before_the_Duke%27s_Palace%E2%80%93Rosalind%2C_Celia%2C_Orlando%2C_the_Duke_%26_Attendants_%28Shakespeare%2C_As_You_Like_It%2C_Act_1%2C_Scene_2%29_MET_DP859571.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Before_the_Duke%27s_Palace%E2%80%93Rosalind,_Celia,_Orlando,_the_Duke_%26_Attendants_(Shakespeare,_As_You_Like_It,_Act_1,_Scene_2)_MET_DP859571.jpg",
+   "n": "14"
+  },
+  {
+   "title": "The seven ages: the fifth age, the justice",
+   "book": "As You Like It",
+   "chapter": "2.7",
+   "start": 160,
+   "end": 160,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/44/The_Seven_Ages%2C_Fifth_Age-_The_Justice_%28Shakespeare%2C_As_You_Like_It%2C_Act_2%2C_Scene_7%29_MET_DP109508.jpg/1280px-The_Seven_Ages%2C_Fifth_Age-_The_Justice_%28Shakespeare%2C_As_You_Like_It%2C_Act_2%2C_Scene_7%29_MET_DP109508.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:The_Seven_Ages,_Fifth_Age-_The_Justice_(Shakespeare,_As_You_Like_It,_Act_2,_Scene_7)_MET_DP109508.jpg",
+   "n": "15"
+  },
+  {
+   "title": "Rosalind restored to her father",
+   "book": "As You Like It",
+   "chapter": "5.4",
+   "start": null,
+   "end": null,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4d/As_You_Like_It%2C_Act_5%2C_Scene_4_%28Shakespeare%29_MET_DP859576.jpg/1280px-As_You_Like_It%2C_Act_5%2C_Scene_4_%28Shakespeare%29_MET_DP859576.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:As_You_Like_It,_Act_5,_Scene_4_(Shakespeare)_MET_DP859576.jpg",
+   "n": "16"
+  },
+  {
+   "title": "Helena and Count Bertram before the King of France",
+   "book": "All's Well That Ends Well",
+   "chapter": "2.3",
+   "start": null,
+   "end": null,
+   "image": "https://upload.wikimedia.org/wikipedia/commons/a/a2/Helena_and_Count_Bertram_before_the_King_of_France_%28Wheatley%2C_1793%29.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Helena_and_Count_Bertram_before_the_King_of_France_(Wheatley,_1793).jpg",
+   "n": "17"
+  },
+  {
+   "title": "Olivia, Maria and Malvolio cross-gartered",
+   "book": "Twelfth Night",
+   "chapter": "3.4",
+   "start": null,
+   "end": null,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d1/Olivia%27s_House_-_Olivia%2C_Maria_and_Malvolio_%28Shakespeare%2C_Twelfth_Night%2C_Act_3%2C_Scene_4%29_MET_DP109510.jpg/1280px-Olivia%27s_House_-_Olivia%2C_Maria_and_Malvolio_%28Shakespeare%2C_Twelfth_Night%2C_Act_3%2C_Scene_4%29_MET_DP109510.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Olivia%27s_House_-_Olivia,_Maria_and_Malvolio_(Shakespeare,_Twelfth_Night,_Act_3,_Scene_4)_MET_DP109510.jpg",
+   "n": "18"
+  },
+  {
+   "title": "Olivia's proposal",
+   "book": "Twelfth Night",
+   "chapter": "4.3",
+   "start": null,
+   "end": null,
+   "image": "https://upload.wikimedia.org/wikipedia/commons/2/22/Olivia%27s_proposal_%28Hamilton%2C_c.1796%29.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Olivia%27s_proposal_(Hamilton,_c.1796).jpg",
+   "n": "19"
+  },
+  {
+   "title": "Leontes, Paulina and the infant Perdita",
+   "book": "The Winter's Tale",
+   "chapter": "2.3",
+   "start": null,
+   "end": null,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/09/John_Opie_-_Winter%27s_Tale%2C_Act_II._Scene_III.jpg/1280px-John_Opie_-_Winter%27s_Tale%2C_Act_II._Scene_III.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:John_Opie_-_Winter%27s_Tale,_Act_II._Scene_III.jpg",
+   "n": "20"
+  },
+  {
+   "title": "Antigonus in the storm",
+   "book": "The Winter's Tale",
+   "chapter": "3.3",
+   "start": null,
+   "end": null,
+   "image": "https://upload.wikimedia.org/wikipedia/commons/3/39/Antigonus_in_the_Storm_%28Act_III%2C_scene_iii%2C_from_Shakespeare%27s_%22The_Winter%27s_Tale%22%29%29.png",
+   "page": "https://commons.wikimedia.org/wiki/File:Antigonus_in_the_Storm_(Act_III,_scene_iii,_from_Shakespeare%27s_%22The_Winter%27s_Tale%22)).png",
+   "n": "21"
+  },
+  {
+   "title": "Florizel, Perdita and the rest at the shepherd's cottage",
+   "book": "The Winter's Tale",
+   "chapter": "4.4",
+   "start": null,
+   "end": null,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/51/Florizel%2C_Perdita%2C_etc._in_the_Shepherd%27s_Cot_%28Shakespeare%2C_Winter%27s_Tale%2C_Act_4%2C_Scene_3%29_MET_DP859561.jpg/1280px-Florizel%2C_Perdita%2C_etc._in_the_Shepherd%27s_Cot_%28Shakespeare%2C_Winter%27s_Tale%2C_Act_4%2C_Scene_3%29_MET_DP859561.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Florizel,_Perdita,_etc._in_the_Shepherd%27s_Cot_(Shakespeare,_Winter%27s_Tale,_Act_4,_Scene_3)_MET_DP859561.jpg",
+   "n": "22"
+  },
+  {
+   "title": "Hubert and Arthur",
+   "book": "King John",
+   "chapter": "4.1",
+   "start": null,
+   "end": null,
+   "image": "https://upload.wikimedia.org/wikipedia/commons/1/17/George_Henry_Harlow_%281787-1819%29_-_%27King_John%27%2C_Act_IV%2C_Scene_1%2C_Hubert_and_Arthur_%28from_the_Boydell_series%29_-_STRPG-A%2C_1993.56_-_Royal_Shakespeare_Theatre.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:George_Henry_Harlow_(1787-1819)_-_%27King_John%27,_Act_IV,_Scene_1,_Hubert_and_Arthur_(from_the_Boydell_series)_-_STRPG-A,_1993.56_-_Royal_Shakespeare_Theatre.jpg",
+   "n": "23"
+  },
+  {
+   "title": "The Duke of York discovering his son Aumerle's treachery",
+   "book": "Richard II",
+   "chapter": "5.2",
+   "start": null,
+   "end": null,
+   "image": "https://upload.wikimedia.org/wikipedia/commons/e/ef/The_Duke_of_York_discovering_his_son_Aumerle%27s_treachery_%28Hamilton%2C_late_1790s%29.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:The_Duke_of_York_discovering_his_son_Aumerle%27s_treachery_(Hamilton,_late_1790s).jpg",
+   "n": "24"
+  },
+  {
+   "title": "The entry of Richard and Bolingbroke into London",
+   "book": "Richard II",
+   "chapter": "5.2",
+   "start": null,
+   "end": null,
+   "image": "https://upload.wikimedia.org/wikipedia/commons/a/a7/The_Entry_of_Richard_and_Bolingbroke_into_London_%28from_William_Shakespeare%27s_%27Richard_II%27%2C_Act_V%2C_Scene_2%29_James_Northcote_%281746%E2%80%931831%29_Royal_Albert_Memorial_Museum.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:The_Entry_of_Richard_and_Bolingbroke_into_London_(from_William_Shakespeare%27s_%27Richard_II%27,_Act_V,_Scene_2)_James_Northcote_(1746%E2%80%931831)_Royal_Albert_Memorial_Museum.jpg",
+   "n": "25"
+  },
+  {
+   "title": "The inn yard at Rochester: Gadshill and the carriers",
+   "book": "Henry IV, Part 1",
+   "chapter": "2.1",
+   "start": null,
+   "end": null,
+   "image": "https://upload.wikimedia.org/wikipedia/commons/c/ca/Robert_Smirke_%281753-1845%29_-_%27Henry_IV%27%2C_Part_I%2C_Act_II%2C_Scene_1%2C_the_Inn_Yard_with_Gadshill_and_the_Carriers_%28supplement_to_the_Boydell_series%29_-_STRPG-A%2C_1993.97_-_Royal_Shakespeare_Theatre.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Robert_Smirke_(1753-1845)_-_%27Henry_IV%27,_Part_I,_Act_II,_Scene_1,_the_Inn_Yard_with_Gadshill_and_the_Carriers_(supplement_to_the_Boydell_series)_-_STRPG-A,_1993.97_-_Royal_Shakespeare_Theatre.jpg",
+   "n": "26"
+  },
+  {
+   "title": "Falstaff, Prince Henry and Poins at the Boar's Head",
+   "book": "Henry IV, Part 1",
+   "chapter": "2.4",
+   "start": null,
+   "end": null,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/fa/Falstaff%2C_Prince_Henry_and_Poins_at_the_Boar%27s_Head_Tavern_%28Shakespeare%2C_King_Henry_the_Fourth%2C_Part_1%2C_Act_2%2C_Scene_4%29_MET_DP859560.jpg/1280px-Falstaff%2C_Prince_Henry_and_Poins_at_the_Boar%27s_Head_Tavern_%28Shakespeare%2C_King_Henry_the_Fourth%2C_Part_1%2C_Act_2%2C_Scene_4%29_MET_DP859560.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Falstaff,_Prince_Henry_and_Poins_at_the_Boar%27s_Head_Tavern_(Shakespeare,_King_Henry_the_Fourth,_Part_1,_Act_2,_Scene_4)_MET_DP859560.jpg",
+   "n": "27"
+  },
+  {
+   "title": "Falstaff rising slowly",
+   "book": "Henry IV, Part 1",
+   "chapter": "5.4",
+   "start": null,
+   "end": null,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/45/Falstaff_Rising_Slowly_%28Shakespeare%2C_First_Part_of_King_Henry_IV%2C_Act_5%2C_Scene_4%29_MET_DP870199.jpg/1280px-Falstaff_Rising_Slowly_%28Shakespeare%2C_First_Part_of_King_Henry_IV%2C_Act_5%2C_Scene_4%29_MET_DP870199.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Falstaff_Rising_Slowly_(Shakespeare,_First_Part_of_King_Henry_IV,_Act_5,_Scene_4)_MET_DP870199.jpg",
+   "n": "28"
+  },
+  {
+   "title": "Prince Henry, Hotspur and Falstaff",
+   "book": "Henry IV, Part 1",
+   "chapter": "5.4",
+   "start": null,
+   "end": null,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/1e/Prince_Henry%2C_Hotspur_and_Falstaff_%28Shakespeare%2C_King_Henry_IV%2C_Part_1%2C_Act_5%2C_Scene_4%29_MET_DP859566.jpg/1280px-Prince_Henry%2C_Hotspur_and_Falstaff_%28Shakespeare%2C_King_Henry_IV%2C_Part_1%2C_Act_5%2C_Scene_4%29_MET_DP859566.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Prince_Henry,_Hotspur_and_Falstaff_(Shakespeare,_King_Henry_IV,_Part_1,_Act_5,_Scene_4)_MET_DP859566.jpg",
+   "n": "29"
+  },
+  {
+   "title": "Doll Tearsheet, Falstaff, Prince Henry and Poins",
+   "book": "Henry IV, Part 2",
+   "chapter": "2.4",
+   "start": null,
+   "end": null,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/bc/Doll_Tearsheet%2C_Falstaff%2C_Henry_and_Poins_%28Shakespeare%2C_King_Henry_IV%2C_Part_2%2C_Act_2%2C_Scene_4%29_MET_DP859578.jpg/1280px-Doll_Tearsheet%2C_Falstaff%2C_Henry_and_Poins_%28Shakespeare%2C_King_Henry_IV%2C_Part_2%2C_Act_2%2C_Scene_4%29_MET_DP859578.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Doll_Tearsheet,_Falstaff,_Henry_and_Poins_(Shakespeare,_King_Henry_IV,_Part_2,_Act_2,_Scene_4)_MET_DP859578.jpg",
+   "n": "30"
+  },
+  {
+   "title": "King Henry and the Prince of Wales: the crown",
+   "book": "Henry IV, Part 2",
+   "chapter": "4.3",
+   "start": null,
+   "end": null,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b3/The_Palace_at_Westminster-_King_Henry_and_the_Prince_of_Wales_%28Shakespeare%2C_King_Henry_IV%2C_Part_2%2C_Act_4%2C_Scene_4%29_MET_DP859574.jpg/1280px-The_Palace_at_Westminster-_King_Henry_and_the_Prince_of_Wales_%28Shakespeare%2C_King_Henry_IV%2C_Part_2%2C_Act_4%2C_Scene_4%29_MET_DP859574.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:The_Palace_at_Westminster-_King_Henry_and_the_Prince_of_Wales_(Shakespeare,_King_Henry_IV,_Part_2,_Act_4,_Scene_4)_MET_DP859574.jpg",
+   "n": "31"
+  },
+  {
+   "title": "Falstaff rebuked",
+   "book": "Henry IV, Part 2",
+   "chapter": "5.5",
+   "start": 47,
+   "end": 47,
+   "image": "https://upload.wikimedia.org/wikipedia/commons/5/51/Falstaff_rebuked_%28Smirke%2C_c._1795%29.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Falstaff_rebuked_(Smirke,_c._1795).jpg",
+   "n": "32"
+  },
+  {
+   "title": "Henry V discovering the conspirators",
+   "book": "Henry V",
+   "chapter": "2.2",
+   "start": null,
+   "end": null,
+   "image": "https://upload.wikimedia.org/wikipedia/commons/6/61/Henry_Fuseli_%281741-1825%29_-_%27Henry_V%27%2C_Act_II%2C_Scene_2%2C_Henry_V_Discovering_the_Conspirators_%28from_the_Boydell_series%29_-_STRPG-A%2C_1993.50_-_Royal_Shakespeare_Theatre.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Henry_Fuseli_(1741-1825)_-_%27Henry_V%27,_Act_II,_Scene_2,_Henry_V_Discovering_the_Conspirators_(from_the_Boydell_series)_-_STRPG-A,_1993.50_-_Royal_Shakespeare_Theatre.jpg",
+   "n": "33"
+  },
+  {
+   "title": "The picking of the red and white roses",
+   "book": "Henry VI, Part 1",
+   "chapter": "2.4",
+   "start": null,
+   "end": null,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/82/Picking_of_the_Red_and_White_Roses_%28Shakespeare%2C_King_Henry_the_Sixth%2C_Part_1%2C_Act_2%2C_Scene_4%29_MET_DP859575.jpg/1280px-Picking_of_the_Red_and_White_Roses_%28Shakespeare%2C_King_Henry_the_Sixth%2C_Part_1%2C_Act_2%2C_Scene_4%29_MET_DP859575.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Picking_of_the_Red_and_White_Roses_(Shakespeare,_King_Henry_the_Sixth,_Part_1,_Act_2,_Scene_4)_MET_DP859575.jpg",
+   "n": "34"
+  },
+  {
+   "title": "The death of Cardinal Beaufort",
+   "book": "Henry VI, Part 2",
+   "chapter": "3.3",
+   "start": null,
+   "end": null,
+   "image": "https://upload.wikimedia.org/wikipedia/commons/8/8b/Joshua_Reynolds_%281723-1792%29_%28studio_of%29_-_%27Henry_VI%27%2C_Part_II%2C_Act_III%2C_Scene_3%2C_the_Death_of_Cardinal_Beaufort_%28from_the_Boydell_series%29_-_STRPG-A%2C_1993.89_-_Royal_Shakespeare_Theatre.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Joshua_Reynolds_(1723-1792)_(studio_of)_-_%27Henry_VI%27,_Part_II,_Act_III,_Scene_3,_the_Death_of_Cardinal_Beaufort_(from_the_Boydell_series)_-_STRPG-A,_1993.89_-_Royal_Shakespeare_Theatre.jpg",
+   "n": "35"
+  },
+  {
+   "title": "The meeting of Gloucester and the princes",
+   "book": "Richard III",
+   "chapter": "3.1",
+   "start": null,
+   "end": null,
+   "image": "https://upload.wikimedia.org/wikipedia/commons/c/c7/Northcote-Princes-Act3.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Northcote-Princes-Act3.jpg",
+   "n": "36"
+  },
+  {
+   "title": "The murder of the princes in the Tower",
+   "book": "Richard III",
+   "chapter": "4.3",
+   "start": null,
+   "end": null,
+   "image": "https://upload.wikimedia.org/wikipedia/commons/6/6e/Northcote-MurderPrinces.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Northcote-MurderPrinces.jpg",
+   "n": "37"
+  },
+  {
+   "title": "Henry's first sight of Anne Boleyn",
+   "book": "Henry VIII",
+   "chapter": "1.4",
+   "start": null,
+   "end": null,
+   "image": "https://upload.wikimedia.org/wikipedia/commons/a/a7/Stothard-HenryAnne.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Stothard-HenryAnne.jpg",
+   "n": "38"
+  },
+  {
+   "title": "Queen Katherine, Cardinal Wolsey and Cardinal Campeius",
+   "book": "Henry VIII",
+   "chapter": "3.1",
+   "start": null,
+   "end": null,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/09/Queen_Catherine%2C_Cardinal_Wolsey_and_Cardinal_Campeius_%28Shakespeare%2C_King_Henry_VIII%2C_Act_3%2C_Scene_1%29_MET_DP859568.jpg/1280px-Queen_Catherine%2C_Cardinal_Wolsey_and_Cardinal_Campeius_%28Shakespeare%2C_King_Henry_VIII%2C_Act_3%2C_Scene_1%29_MET_DP859568.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Queen_Catherine,_Cardinal_Wolsey_and_Cardinal_Campeius_(Shakespeare,_King_Henry_VIII,_Act_3,_Scene_1)_MET_DP859568.jpg",
+   "n": "39"
+  },
+  {
+   "title": "Wolsey resigns the seals",
+   "book": "Henry VIII",
+   "chapter": "3.2",
+   "start": null,
+   "end": null,
+   "image": "https://upload.wikimedia.org/wikipedia/commons/a/a0/Westall-WolseyResigns.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Westall-WolseyResigns.jpg",
+   "n": "40"
+  },
+  {
+   "title": "Wolsey received by the Abbot of Leicester",
+   "book": "Henry VIII",
+   "chapter": "4.2",
+   "start": null,
+   "end": null,
+   "image": "https://upload.wikimedia.org/wikipedia/commons/1/19/Abbot_of_leicester_and_wolsey_westall.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Abbot_of_leicester_and_wolsey_westall.jpg",
+   "n": "41"
+  },
+  {
+   "title": "Queen Katherine's last illness",
+   "book": "Henry VIII",
+   "chapter": "4.2",
+   "start": null,
+   "end": null,
+   "image": "https://upload.wikimedia.org/wikipedia/commons/8/88/Westall-Katherine.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Westall-Katherine.jpg",
+   "n": "42"
+  },
+  {
+   "title": "Cressida, with Pandarus, viewing the Trojan chiefs",
+   "book": "Troilus and Cressida",
+   "chapter": "1.2",
+   "start": null,
+   "end": null,
+   "image": "https://upload.wikimedia.org/wikipedia/commons/4/4d/Kirk-TroilusCressidaAct1.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Kirk-TroilusCressidaAct1.jpg",
+   "n": "43"
+  },
+  {
+   "title": "Cassandra raving",
+   "book": "Troilus and Cressida",
+   "chapter": "2.2",
+   "start": null,
+   "end": null,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/07/Cassandra_Raving_%28Shakespeare%2C_Troilus_and_Cressida%2C_Act_2%2C_Scene_2%29_MET_DP859559.jpg/1280px-Cassandra_Raving_%28Shakespeare%2C_Troilus_and_Cressida%2C_Act_2%2C_Scene_2%29_MET_DP859559.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Cassandra_Raving_(Shakespeare,_Troilus_and_Cressida,_Act_2,_Scene_2)_MET_DP859559.jpg",
+   "n": "44"
+  },
+  {
+   "title": "Troilus sees Cressida with Diomed",
+   "book": "Troilus and Cressida",
+   "chapter": "5.2",
+   "start": null,
+   "end": null,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/04/A_Scene_from_Troilus_and_Cressida_-_Angelica_Kauffmann.jpg/1280px-A_Scene_from_Troilus_and_Cressida_-_Angelica_Kauffmann.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:A_Scene_from_Troilus_and_Cressida_-_Angelica_Kauffmann.jpg",
+   "n": "45"
+  },
+  {
+   "title": "Hector dissuaded from battle",
+   "book": "Troilus and Cressida",
+   "chapter": "5.3",
+   "start": null,
+   "end": null,
+   "image": "https://upload.wikimedia.org/wikipedia/commons/6/68/Kirk-TroilusCressidaAct5.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Kirk-TroilusCressidaAct5.jpg",
+   "n": "46"
+  },
+  {
+   "title": "Volumnia, Virgilia and Valeria",
+   "book": "Coriolanus",
+   "chapter": "1.3",
+   "start": null,
+   "end": null,
+   "image": "https://upload.wikimedia.org/wikipedia/commons/0/08/Porter-CoriolanusAct1.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Porter-CoriolanusAct1.jpg",
+   "n": "47"
+  },
+  {
+   "title": "Coriolanus at the house of Aufidius",
+   "book": "Coriolanus",
+   "chapter": "4.5",
+   "start": null,
+   "end": null,
+   "image": "https://upload.wikimedia.org/wikipedia/commons/0/0f/Porter-CoriolanusAct4.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Porter-CoriolanusAct4.jpg",
+   "n": "48"
+  },
+  {
+   "title": "Tamora, Lavinia, Demetrius and Chiron",
+   "book": "Titus Andronicus",
+   "chapter": "2.3",
+   "start": null,
+   "end": null,
+   "image": "https://upload.wikimedia.org/wikipedia/commons/2/29/Woodforde-TitusAct2.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Woodforde-TitusAct2.jpg",
+   "n": "49"
+  },
+  {
+   "title": "Titus's garden: young Lucius pursued by Lavinia",
+   "book": "Titus Andronicus",
+   "chapter": "4.1",
+   "start": null,
+   "end": null,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/ca/Rome%2C_Titus%27s_Garden%E2%80%93Lucius_Pursued_by_Lavinia_%28Shakespeare%2C_Titus_Andronicus%2C_Act_4%2C_Scene_1%29_MET_DP859577.jpg/1280px-Rome%2C_Titus%27s_Garden%E2%80%93Lucius_Pursued_by_Lavinia_%28Shakespeare%2C_Titus_Andronicus%2C_Act_4%2C_Scene_1%29_MET_DP859577.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Rome,_Titus%27s_Garden%E2%80%93Lucius_Pursued_by_Lavinia_(Shakespeare,_Titus_Andronicus,_Act_4,_Scene_1)_MET_DP859577.jpg",
+   "n": "50"
+  },
+  {
+   "title": "Aaron protects his infant son",
+   "book": "Titus Andronicus",
+   "chapter": "4.2",
+   "start": null,
+   "end": null,
+   "image": "https://upload.wikimedia.org/wikipedia/commons/c/c2/Kirk-TitusAct4ProtectSon.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Kirk-TitusAct4ProtectSon.jpg",
+   "n": "51"
+  },
+  {
+   "title": "Romeo's first meeting with Juliet",
+   "book": "Romeo and Juliet",
+   "chapter": "1.5",
+   "start": null,
+   "end": null,
+   "image": "https://upload.wikimedia.org/wikipedia/commons/e/e5/Miller-RomeoJulietAct1.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Miller-RomeoJulietAct1.jpg",
+   "n": "52"
+  },
+  {
+   "title": "Juliet entreating her nurse",
+   "book": "Romeo and Juliet",
+   "chapter": "2.5",
+   "start": null,
+   "end": null,
+   "image": "https://upload.wikimedia.org/wikipedia/commons/e/e1/Smirke-JulietNurse.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Smirke-JulietNurse.jpg",
+   "n": "53"
+  },
+  {
+   "title": "Romeo takes leave of Juliet",
+   "book": "Romeo and Juliet",
+   "chapter": "3.5",
+   "start": null,
+   "end": null,
+   "image": "https://upload.wikimedia.org/wikipedia/commons/6/6a/Rigaud-RomeoJuliet.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Rigaud-RomeoJuliet.jpg",
+   "n": "54"
+  },
+  {
+   "title": "Juliet's supposed death",
+   "book": "Romeo and Juliet",
+   "chapter": "4.5",
+   "start": null,
+   "end": null,
+   "image": "https://upload.wikimedia.org/wikipedia/commons/3/30/Opie-JulietsDeath.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Opie-JulietsDeath.jpg",
+   "n": "55"
+  },
+  {
+   "title": "Juliet awakes, and finds Romeo dead",
+   "book": "Romeo and Juliet",
+   "chapter": "5.3",
+   "start": null,
+   "end": null,
+   "image": "https://upload.wikimedia.org/wikipedia/commons/d/d4/Northcote-JulietAwakes.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Northcote-JulietAwakes.jpg",
+   "n": "56"
+  },
+  {
+   "title": "Timon's prodigality",
+   "book": "Timon of Athens",
+   "chapter": "1.2",
+   "start": null,
+   "end": null,
+   "image": "https://upload.wikimedia.org/wikipedia/commons/9/98/Howard-TimonAct1.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Howard-TimonAct1.jpg",
+   "n": "57"
+  },
+  {
+   "title": "Timon renounces society",
+   "book": "Timon of Athens",
+   "chapter": "4.1",
+   "start": null,
+   "end": null,
+   "image": "https://upload.wikimedia.org/wikipedia/commons/1/1a/Howard-TimonAct4.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Howard-TimonAct4.jpg",
+   "n": "58"
+  },
+  {
+   "title": "Brutus and the Ghost of Caesar",
+   "book": "Shakespeare: Julius Caesar",
+   "chapter": "4.3",
+   "start": null,
+   "end": null,
+   "image": "https://upload.wikimedia.org/wikipedia/commons/f/fd/Brutus_and_the_Ghost_of_Caesar_1802.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Brutus_and_the_Ghost_of_Caesar_1802.jpg",
+   "n": "59"
+  },
+  {
+   "title": "Macbeth, Banquo and the Witches",
+   "book": "Macbeth",
+   "chapter": "1.3",
+   "start": null,
+   "end": null,
+   "image": "https://upload.wikimedia.org/wikipedia/commons/7/72/FuseliMacbethBoydell.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:FuseliMacbethBoydell.jpg",
+   "n": "60"
+  },
+  {
+   "title": "Lady Macbeth reading the letter",
+   "book": "Macbeth",
+   "chapter": "1.5",
+   "start": null,
+   "end": null,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ec/Lady_Macbeth_%28Shakespeare%2C_Macbeth%2C_Act_1%2C_Scene_5%29_MET_DP859570.jpg/1280px-Lady_Macbeth_%28Shakespeare%2C_Macbeth%2C_Act_1%2C_Scene_5%29_MET_DP859570.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Lady_Macbeth_(Shakespeare,_Macbeth,_Act_1,_Scene_5)_MET_DP859570.jpg",
+   "n": "61"
+  },
+  {
+   "title": "Macbeth consulting the vision of the armed head",
+   "book": "Macbeth",
+   "chapter": "4.1",
+   "start": null,
+   "end": null,
+   "image": "https://upload.wikimedia.org/wikipedia/commons/2/24/Macbeth_consulting_the_Vision_of_the_Armed_Head.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Macbeth_consulting_the_Vision_of_the_Armed_Head.jpg",
+   "n": "62"
+  },
+  {
+   "title": "Hamlet, Horatio, Marcellus and the Ghost",
+   "book": "Hamlet",
+   "chapter": "1.4",
+   "start": null,
+   "end": null,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/02/Hamlet%2C_Horatio%2C_Marcellus_and_the_Ghost_%28Shakespeare%2C_Hamlet%2C_Act_1%2C_Scene_4%29_MET_DP109516.jpg/1280px-Hamlet%2C_Horatio%2C_Marcellus_and_the_Ghost_%28Shakespeare%2C_Hamlet%2C_Act_1%2C_Scene_4%29_MET_DP109516.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Hamlet,_Horatio,_Marcellus_and_the_Ghost_(Shakespeare,_Hamlet,_Act_1,_Scene_4)_MET_DP109516.jpg",
+   "n": "63"
+  },
+  {
+   "title": "King Lear casting out his daughter Cordelia",
+   "book": "King Lear",
+   "chapter": "1.1",
+   "start": null,
+   "end": null,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/King_Lear_Casting_Out_His_Daughter_Cordelia_%28Shakespeare%2C_King_Lear%2C_Act_1%2C_Scene_1%29_MET_DP109513.jpg/1280px-King_Lear_Casting_Out_His_Daughter_Cordelia_%28Shakespeare%2C_King_Lear%2C_Act_1%2C_Scene_1%29_MET_DP109513.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:King_Lear_Casting_Out_His_Daughter_Cordelia_(Shakespeare,_King_Lear,_Act_1,_Scene_1)_MET_DP109513.jpg",
+   "n": "64"
+  },
+  {
+   "title": "“Off, off, you lendings—come, unbutton here”",
+   "book": "King Lear",
+   "chapter": "3.4",
+   "start": 115,
+   "end": 115,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f9/%22Off%2C_off%2C_you_lendings%E2%80%93Come_unbutton_here%22_%28Shakespeare%2C_King_Lear%2C_Act_3%2C_Scene_4%29_MET_DR155.jpg/1280px-%22Off%2C_off%2C_you_lendings%E2%80%93Come_unbutton_here%22_%28Shakespeare%2C_King_Lear%2C_Act_3%2C_Scene_4%29_MET_DR155.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:%22Off,_off,_you_lendings%E2%80%93Come_unbutton_here%22_(Shakespeare,_King_Lear,_Act_3,_Scene_4)_MET_DR155.jpg",
+   "n": "65"
+  },
+  {
+   "title": "The awakening of King Lear",
+   "book": "King Lear",
+   "chapter": "4.7",
+   "start": null,
+   "end": null,
+   "image": "https://upload.wikimedia.org/wikipedia/commons/6/68/The_Awakening_of_King_Lear_%28Smirke%2C_c._1792%29.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:The_Awakening_of_King_Lear_(Smirke,_c._1792).jpg",
+   "n": "66"
+  },
+  {
+   "title": "King Lear weeping over the body of Cordelia",
+   "book": "King Lear",
+   "chapter": "5.3",
+   "start": 308,
+   "end": 308,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4a/King_Lear_Weeping_Over_the_Body_of_Cordelia_%28Shakespeare%2C_King_Lear%2C_Act_5%2C_Scene_3%29_MET_DP859562.jpg/1280px-King_Lear_Weeping_Over_the_Body_of_Cordelia_%28Shakespeare%2C_King_Lear%2C_Act_5%2C_Scene_3%29_MET_DP859562.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:King_Lear_Weeping_Over_the_Body_of_Cordelia_(Shakespeare,_King_Lear,_Act_5,_Scene_3)_MET_DP859562.jpg",
+   "n": "67"
+  },
+  {
+   "title": "The return of Othello to Cyprus",
+   "book": "Othello",
+   "chapter": "2.1",
+   "start": null,
+   "end": null,
+   "image": "https://upload.wikimedia.org/wikipedia/commons/8/86/Thomas_Stothard_%281755-1834%29_-_%27Othello%27%2C_Act_II%2C_Scene_1%2C_the_Return_of_Othello_%28from_the_Boydell_series%29_-_STRPG-A%2C_1993.109_-_Royal_Shakespeare_Theatre.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Thomas_Stothard_(1755-1834)_-_%27Othello%27,_Act_II,_Scene_1,_the_Return_of_Othello_(from_the_Boydell_series)_-_STRPG-A,_1993.109_-_Royal_Shakespeare_Theatre.jpg",
+   "n": "68"
+  },
+  {
+   "title": "A bedchamber: Desdemona in bed asleep",
+   "book": "Othello",
+   "chapter": "5.2",
+   "start": null,
+   "end": null,
+   "image": "https://upload.wikimedia.org/wikipedia/commons/2/2e/John_Graham_A_bedchamber_Desdemona_in_Bed_asleep_-_Othello_Act_V_scene_2.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:John_Graham_A_bedchamber_Desdemona_in_Bed_asleep_-_Othello_Act_V_scene_2.jpg",
+   "n": "69"
+  },
+  {
+   "title": "Antony prepares for battle",
+   "book": "Antony and Cleopatra",
+   "chapter": "4.4",
+   "start": null,
+   "end": null,
+   "image": "https://upload.wikimedia.org/wikipedia/commons/7/70/Tresham-AntonyCleopatra.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Tresham-AntonyCleopatra.jpg",
+   "n": "70"
+  },
+  {
+   "title": "Cleopatra's death",
+   "book": "Antony and Cleopatra",
+   "chapter": "5.2",
+   "start": null,
+   "end": null,
+   "image": "https://upload.wikimedia.org/wikipedia/commons/c/c6/Tresham-DeathCleopatra.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Tresham-DeathCleopatra.jpg",
+   "n": "71"
+  },
+  {
+   "title": "Imogen in bed: Iachimo comes out of the trunk",
+   "book": "Cymbeline",
+   "chapter": "2.2",
+   "start": null,
+   "end": null,
+   "image": "https://upload.wikimedia.org/wikipedia/commons/0/0e/Westall-ImogenInBed.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Westall-ImogenInBed.jpg",
+   "n": "72"
+  },
+  {
+   "title": "Iachimo claims his wager",
+   "book": "Cymbeline",
+   "chapter": "2.4",
+   "start": null,
+   "end": null,
+   "image": "https://upload.wikimedia.org/wikipedia/commons/8/84/Westall-IachimoWager.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Westall-IachimoWager.jpg",
+   "n": "73"
+  },
+  {
+   "title": "Pisanio and Imogen",
+   "book": "Cymbeline",
+   "chapter": "3.4",
+   "start": null,
+   "end": null,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6c/Pisano_and_Imogen_%28Shakespeare%2C_Cymbeline%2C_Act_3%2C_Scene_4%29_MET_DP859564.jpg/1280px-Pisano_and_Imogen_%28Shakespeare%2C_Cymbeline%2C_Act_3%2C_Scene_4%29_MET_DP859564.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Pisano_and_Imogen_(Shakespeare,_Cymbeline,_Act_3,_Scene_4)_MET_DP859564.jpg",
+   "n": "74"
+  },
+  {
+   "title": "Imogen, disguised, at Belarius' cave",
+   "book": "Cymbeline",
+   "chapter": "3.6",
+   "start": null,
+   "end": null,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/92/Imogen_%28Shakespeare%2C_Cymbeline%2C_Act_3%2C_Scene_6%29_MET_DP859581.jpg/1280px-Imogen_%28Shakespeare%2C_Cymbeline%2C_Act_3%2C_Scene_6%29_MET_DP859581.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:Imogen_(Shakespeare,_Cymbeline,_Act_3,_Scene_6)_MET_DP859581.jpg",
+   "n": "75"
+  }
+ ]
+}

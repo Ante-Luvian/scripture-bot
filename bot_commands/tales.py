@@ -17,6 +17,7 @@ import unicodedata
 
 import discord
 
+from bot_commands import illustrations
 from core import bot, log, lookup, tradition_enabled
 
 BOOK = "Grimm's Household Tales"
@@ -155,6 +156,8 @@ def message(n: int, spec: str = "", heading: str = "", page: int = 0) -> dict:
         view.add_item(TaleButton("back", n, (page - 1) % len(texts), spec, emoji="◀"))
         view.add_item(TaleButton("next", n, (page + 1) % len(texts), spec, emoji="▶"))
     view.add_item(TaleButton("again", n, 0, spec, label="Another", emoji="🎲"))
+    for b in illustrations.buttons(illustrations.for_passage(BOOK, str(n))):
+        view.add_item(b)                                # (🖌️ Crane, Rackham: the tale's pictures)
     return {"embed": embed, "view": view}
 
 

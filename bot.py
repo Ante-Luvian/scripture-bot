@@ -92,6 +92,7 @@ from bot_commands import (  # noqa: F401
     hymnday,
     hymns,
     icons,
+    illustrations,
     jewish_learning,
     journeys,
     kings,

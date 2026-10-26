@@ -1,0 +1,738 @@
+{
+ "code": "ar",
+ "artist": "Arthur Rackham",
+ "work": "Aesop's Fables (1912)",
+ "credit": "Project Gutenberg",
+ "pictures": [
+  {
+   "title": "The Fox and the Grapes",
+   "book": "Aesop's Fables",
+   "chapter": "196",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/030-1.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "1"
+  },
+  {
+   "title": "The Fox and the Grapes",
+   "book": "Aesop's Fables",
+   "chapter": "196",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/030-2.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "2"
+  },
+  {
+   "title": "The Fox and the Crow",
+   "book": "Aesop's Fables",
+   "chapter": "97",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/036.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "3"
+  },
+  {
+   "title": "The Cat and the Birds",
+   "book": "Aesop's Fables",
+   "chapter": "65",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/040.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "4"
+  },
+  {
+   "title": "The Crow and the Pitcher",
+   "book": "Aesop's Fables",
+   "chapter": "192",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/046.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "5"
+  },
+  {
+   "title": "The North Wind and the Sun",
+   "book": "Aesop's Fables",
+   "chapter": "243",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/048.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "6"
+  },
+  {
+   "title": "The Fox and the Crane",
+   "book": "Aesop's Fables",
+   "chapter": "245",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/052-1.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "7"
+  },
+  {
+   "title": "The Fox and the Crane",
+   "book": "Aesop's Fables",
+   "chapter": "245",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/052-2.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "8"
+  },
+  {
+   "title": "The Fir-Tree and the Bramble",
+   "book": "Aesop's Fables",
+   "chapter": "89",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/03fir.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "9"
+  },
+  {
+   "title": "The Gnat and the Bull",
+   "book": "Aesop's Fables",
+   "chapter": "265",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/059.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "10"
+  },
+  {
+   "title": "The Flea and the Man",
+   "book": "Aesop's Fables",
+   "chapter": "294",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/062.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "11"
+  },
+  {
+   "title": "The Oak and the Reeds",
+   "book": "Aesop's Fables",
+   "chapter": "129",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/066.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "12"
+  },
+  {
+   "title": "The Crab and its Mother",
+   "book": "Aesop's Fables",
+   "chapter": "85",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/04crab.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "13"
+  },
+  {
+   "title": "The Thieves and the Cock",
+   "book": "Aesop's Fables",
+   "chapter": "148",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/076.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "14"
+  },
+  {
+   "title": "The Owl and the Birds",
+   "book": "Aesop's Fables",
+   "chapter": "250",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/080.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "15"
+  },
+  {
+   "title": "The Ass in the Lion’s Skin",
+   "book": "Aesop's Fables",
+   "chapter": "252",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/082.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "16"
+  },
+  {
+   "title": "The Boy Bathing",
+   "book": "Aesop's Fables",
+   "chapter": "209",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/084.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "17"
+  },
+  {
+   "title": "The Quack Frog",
+   "book": "Aesop's Fables",
+   "chapter": "240",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/05quack.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "18"
+  },
+  {
+   "title": "The Dog in the Manger",
+   "book": "Aesop's Fables",
+   "chapter": "34",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/089.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "19"
+  },
+  {
+   "title": "The Frogs Asking for a King",
+   "book": "Aesop's Fables",
+   "chapter": "48",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/092.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "20"
+  },
+  {
+   "title": "The Frogs Asking for a King",
+   "book": "Aesop's Fables",
+   "chapter": "48",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/091.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "21"
+  },
+  {
+   "title": "The Fox who Had Lost his Tail",
+   "book": "Aesop's Fables",
+   "chapter": "39",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/097.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "22"
+  },
+  {
+   "title": "The Shipwrecked Man and the Sea",
+   "book": "Aesop's Fables",
+   "chapter": "307",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/06ship.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "23"
+  },
+  {
+   "title": "The Fox and the Lion",
+   "book": "Aesop's Fables",
+   "chapter": "207",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/101-1.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "24"
+  },
+  {
+   "title": "The Fox and the Lion",
+   "book": "Aesop's Fables",
+   "chapter": "207",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/101-2.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "25"
+  },
+  {
+   "title": "The Dog and the Shadow",
+   "book": "Aesop's Fables",
+   "chapter": "16",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/104.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "26"
+  },
+  {
+   "title": "The Bear and the Fox",
+   "book": "Aesop's Fables",
+   "chapter": "29",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/108.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "27"
+  },
+  {
+   "title": "The Ox and the Frog",
+   "book": "Aesop's Fables",
+   "chapter": "69",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/110.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "28"
+  },
+  {
+   "title": "The Man and the Satyr",
+   "book": "Aesop's Fables",
+   "chapter": "257",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/115.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "29"
+  },
+  {
+   "title": "The Man and the Satyr",
+   "book": "Aesop's Fables",
+   "chapter": "257",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/116.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "30"
+  },
+  {
+   "title": "The Old Woman and the Wine-Jar",
+   "book": "Aesop's Fables",
+   "chapter": "94",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/119.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "31"
+  },
+  {
+   "title": "The Cat and the Cock",
+   "book": "Aesop's Fables",
+   "chapter": "40",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/122.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "32"
+  },
+  {
+   "title": "The Hare and the Tortoise",
+   "book": "Aesop's Fables",
+   "chapter": "12",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/01hare.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "33"
+  },
+  {
+   "title": "The Stag, the Wolf, and the Sheep",
+   "book": "Aesop's Fables",
+   "chapter": "185",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/126-1.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "34"
+  },
+  {
+   "title": "The Stag, the Wolf, and the Sheep",
+   "book": "Aesop's Fables",
+   "chapter": "185",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/126-2.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "35"
+  },
+  {
+   "title": "The Stag, the Wolf, and the Sheep",
+   "book": "Aesop's Fables",
+   "chapter": "185",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/126-3.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "36"
+  },
+  {
+   "title": "The Vine and the Goat",
+   "book": "Aesop's Fables",
+   "chapter": "78",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/128.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "37"
+  },
+  {
+   "title": "The Two Pots",
+   "book": "Aesop's Fables",
+   "chapter": "83",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/082pots.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "38"
+  },
+  {
+   "title": "The Dog and the Hare",
+   "book": "Aesop's Fables",
+   "chapter": "182",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/133.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "39"
+  },
+  {
+   "title": "The Wolf and the Crane",
+   "book": "Aesop's Fables",
+   "chapter": "4",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/136.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "40"
+  },
+  {
+   "title": "The Town Mouse and the Country Mouse",
+   "book": "Aesop's Fables",
+   "chapter": "229",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/141.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "41"
+  },
+  {
+   "title": "The Wolf, the Fox, and the Ape",
+   "book": "Aesop's Fables",
+   "chapter": "230",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/144.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "42"
+  },
+  {
+   "title": "The Cock and the Jewel",
+   "book": "Aesop's Fables",
+   "chapter": "7",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/150.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "43"
+  },
+  {
+   "title": "The Bald Man and the Fly",
+   "book": "Aesop's Fables",
+   "chapter": "306",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/158-1.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "44"
+  },
+  {
+   "title": "The Bald Man and the Fly",
+   "book": "Aesop's Fables",
+   "chapter": "306",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/158-2.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "45"
+  },
+  {
+   "title": "The Monkey and the Camel",
+   "book": "Aesop's Fables",
+   "chapter": "266",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/160.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "46"
+  },
+  {
+   "title": "The Travelers and the Plane-Tree",
+   "book": "Aesop's Fables",
+   "chapter": "284",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/10trav.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "47"
+  },
+  {
+   "title": "The Miller, his Son, and their Ass",
+   "book": "Aesop's Fables",
+   "chapter": "144",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/165-1.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "48"
+  },
+  {
+   "title": "The Miller, his Son, and their Ass",
+   "book": "Aesop's Fables",
+   "chapter": "144",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/165-2.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "49"
+  },
+  {
+   "title": "The Miller, his Son, and their Ass",
+   "book": "Aesop's Fables",
+   "chapter": "144",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/165-3.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "50"
+  },
+  {
+   "title": "The Miller, his Son, and their Ass",
+   "book": "Aesop's Fables",
+   "chapter": "144",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/166-1.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "51"
+  },
+  {
+   "title": "The Miller, his Son, and their Ass",
+   "book": "Aesop's Fables",
+   "chapter": "144",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/166-3.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "52"
+  },
+  {
+   "title": "The Hart and the Vine",
+   "book": "Aesop's Fables",
+   "chapter": "194",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/167.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "53"
+  },
+  {
+   "title": "The Wolf and the Goat",
+   "book": "Aesop's Fables",
+   "chapter": "226",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/170.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "54"
+  },
+  {
+   "title": "The Kingdom of the Lion",
+   "book": "Aesop's Fables",
+   "chapter": "9",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/174.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "55"
+  },
+  {
+   "title": "The Trees and the Axe",
+   "book": "Aesop's Fables",
+   "chapter": "172",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/11trees.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "56"
+  },
+  {
+   "title": "The Kid and the Wolf",
+   "book": "Aesop's Fables",
+   "chapter": "198",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/180.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "57"
+  },
+  {
+   "title": "The Mule",
+   "book": "Aesop's Fables",
+   "chapter": "188",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/183-1.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "58"
+  },
+  {
+   "title": "The Two Frogs",
+   "book": "Aesop's Fables",
+   "chapter": "141",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/190.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "59"
+  },
+  {
+   "title": "The Goat and the Goatherd",
+   "book": "Aesop's Fables",
+   "chapter": "42",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/196.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "60"
+  },
+  {
+   "title": "The Lion, Jupiter, and the Elephant",
+   "book": "Aesop's Fables",
+   "chapter": "289",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/12lion.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "61"
+  },
+  {
+   "title": "The Wolf and the Horse",
+   "book": "Aesop's Fables",
+   "chapter": "236",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/204.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "62"
+  },
+  {
+   "title": "The Fisherman Piping",
+   "book": "Aesop's Fables",
+   "chapter": "15",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/210.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "63"
+  },
+  {
+   "title": "The Monkey and the Dolphin",
+   "book": "Aesop's Fables",
+   "chapter": "199",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/213.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "64"
+  },
+  {
+   "title": "The Monkey and the Dolphin",
+   "book": "Aesop's Fables",
+   "chapter": "199",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/214.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "65"
+  },
+  {
+   "title": "The Wolf and the Lion",
+   "book": "Aesop's Fables",
+   "chapter": "246",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/220.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "66"
+  },
+  {
+   "title": "The Lion, the Fox, and the Ass",
+   "book": "Aesop's Fables",
+   "chapter": "159",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/225.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "67"
+  },
+  {
+   "title": "The Gnat and the Lion",
+   "book": "Aesop's Fables",
+   "chapter": "195",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/227.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "68"
+  },
+  {
+   "title": "The Gnat and the Lion",
+   "book": "Aesop's Fables",
+   "chapter": "195",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/13gnat.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "69"
+  },
+  {
+   "title": "The Fox and the Leopard",
+   "book": "Aesop's Fables",
+   "chapter": "156",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/234.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "70"
+  },
+  {
+   "title": "The Miser",
+   "book": "Aesop's Fables",
+   "chapter": "45",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/238.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "71"
+  },
+  {
+   "title": "The Hunter and the Woodman",
+   "book": "Aesop's Fables",
+   "chapter": "139",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/245.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "72"
+  },
+  {
+   "title": "The Horse and the Ass",
+   "book": "Aesop's Fables",
+   "chapter": "224",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/aesop_rackham/247.jpg",
+   "page": "https://www.gutenberg.org/ebooks/11339",
+   "n": "73"
+  }
+ ]
+}

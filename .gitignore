@@ -59,6 +59,8 @@ scripts/score/node_modules/
 
 # Doré's Dante plates cut out of their page scans (~40 MB; rebuilt by scripts/build_dore.py)
 data/dore/dante/
+# The illustrated editions' pictures (Doré's La Fontaine, Rackham, Crane...; rebuilt by scripts/build_illustrations.py)
+data/illustrations/*/
 
 # texts the owner supplied for scripts/build_reformation.py (the built data/reformation files are committed)
 scripts/sources/
