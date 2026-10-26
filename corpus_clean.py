@@ -83,6 +83,11 @@ FIXES = {
     **{f"apostolic_fathers/ignatius_{n}.json": [(r"\s*\bCHAPTER \d+\Z", "")]
        for n in ("ephesians", "magnesians", "philadelphians", "polycarp", "smyrnaeans", "trallians")},
     "classical/vivec_sermons.json": [(r"\s*<div\Z", "")],                    # a cut-off HTML tag
+    "classical/porphyry.json": [(r"\s*\|\d+(?=\s|$)", "")],                # the printed edition's page numbers: "|41"
+    # the Oration upon the Sovereign Sun lost its opening clause (King's text, as tertullian.org has it)
+    "classical/julian.json": [(r"\Aall that are endowed with existence, with a rational soul",
+                               "It is my opinion that the present subject interests all: “Whatever breathes, and moves "
+                               "upon the earth,” all that are endowed with existence, with a rational soul")],
     "classical/meditations_long.json": [(r"\+([^+]+)\+", r"*\1*")],
     "patristics/philoxenus_of_hierapolis.json": [(r"^[\w$)(]{1,6}(?: [\w$)(]{1,6}){3,}$", "")],   # Syriac in ASCII
     "ancient_near_east/instruction_of_amenemope.json": [                  # the Egyptian, transliterated: not a translation
@@ -92,7 +97,12 @@ FIXES = {
 
 # where a book's real text stops (everything after goes): file -> [(book, chapter, verse, cut-at pattern)]
 ENDS = {
-    "classical/iamblichus.json": [("On the Mysteries", "150", "4", r"\s*-{10,}.*")],   # then a publisher's catalogue, the Gutenberg licence
+    # Thomas Taylor's translations end with his notes, which were run on as though they were the text: Iamblichus
+    # closes with his prayer for "an immutable guard of true conceptions" (104:6), Proclus's fifth book at 184:25,
+    # Porphyry's Cave of the Nymphs with "the present Cave of the Nymphs", before "(1) This Cronius..."
+    "classical/iamblichus.json": [("On the Mysteries", "104", "6", r"$^")],
+    "classical/proclus_theology.json": [("Theology of Plato", "184", "25", r"$^")],
+    "classical/porphyry.json": [("On the Cave of the Nymphs", "18_1", "1", r"\s*\(1\) This Cronius.*")],
     "classical/julian.json": [("Hymn to King Helios", "30", "7", r"$^")],                   # chapters 31-56 are the translator's notes
     "jain/jaina_sutras.json": [("Sutrakritanga", "2.7", "40", r"\s*INDEX OF NAMES AND SUBJECTS.*")],
 }

@@ -616,7 +616,6 @@ BOOKS_TREE = [
                 "Hymn to King Helios",
                 "Hymn to the Mother of Gods",
                 "Against the Galilaeans",
-                "The Caesars",
             ]),
             ("Sallustius", ["On the Gods and the World"]),
             ("Proclus", [

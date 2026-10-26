@@ -804,9 +804,6 @@ ALIASES: dict[str, str] = {
     "against the galilaeans": "Against the Galilaeans",
     "against the galileans": "Against the Galilaeans",
     "against the christians": "Against the Galilaeans",
-    "the caesars": "The Caesars",
-    "caesars": "The Caesars",
-    "symposium of the caesars": "The Caesars",
     # ── Sallustius ─────────────────────────────────────────────────────────────
     "sallustius": "On the Gods and the World",
     "sallust": "On the Gods and the World",
@@ -2249,6 +2246,7 @@ class ScriptureLookup:
             sources.update(payload.get("book_sources", {}))
             self._book_sources.update(sources)
             self._corpus_sources.setdefault("classical", {}).update(sources)
+        self._separate_corpora()
         self._aliases_to_renamed()
         for corpus in ("classical", "medieval", "ancient_near_east", "english", "arthurian"):
             self._regroup_line_chunks(corpus, self._LINE_CHUNKED)
@@ -2309,6 +2307,38 @@ class ScriptureLookup:
             if title in self._corpus_sources.get(corpus, {}):
                 self._corpus_sources[corpus][name] = self._corpus_sources[corpus][title]
             self._renamed.setdefault(title, []).append(name)
+
+    # The same title in two collections: Plato's "Apology" and Rufinus's, Aristotle's "On the Soul" and
+    # Tertullian's, Iamblichus's "On the Mysteries" and Ambrose's. Only the first collection's could be found,
+    # and it was credited to whichever file loaded last (Aristotle to Tertullian's translator). The book in the
+    # collection looked in first keeps the title, so no citation changes, with its own credit; the other is
+    # named with its author, as within a collection. A book that's the same text in both (Dionysius's works,
+    # among the Apostolic Fathers and the Neoplatonists) stays as it is.
+    _CROSS_NAMES = {("patristics", "Epistle of Barnabas"): "Epistle of Barnabas (Roberts and Donaldson)"}
+
+    def _separate_corpora(self) -> None:
+        order = CORPUS_PRIORITY + [c for c in self._data if c not in CORPUS_PRIORITY]
+        first = {}
+        for corpus in order:
+            for title in list(self._data.get(corpus, {})):
+                if title not in first:
+                    first[title] = corpus
+                    if title in self._corpus_sources.get(corpus, {}):
+                        self._book_sources[title] = self._corpus_sources[corpus][title]
+                    continue
+                stored = self._data[corpus]
+                if stored[title] == self._data[first[title]][title]:
+                    continue
+                earlier = self._book_file.get((corpus, title))
+                name = self._CROSS_NAMES.get((corpus, title)) or (f"{title} ({self._author_of(earlier)})" if earlier else None)
+                if not name or name in stored:
+                    continue
+                stored[name] = stored.pop(title)
+                self._book_file[(corpus, name)] = earlier
+                credit = self._corpus_sources.get(corpus, {}).get(title)
+                if credit is not None:
+                    self._book_sources[name] = self._corpus_sources[corpus][name] = credit
+                self._renamed.setdefault(title, []).append(name)
 
     def _aliases_to_renamed(self) -> None:
         """"ecclesiastical history socrates" -> "Ecclesiastical History (Socrates Scholasticus)"."""
