@@ -278,7 +278,12 @@ SHAPED = {"ballad": ["0", "305", "306", "12B", "12b", "12ZZ", "22A", "117", "chi
           "fable": ["la fontaine", "la fontaine 0", "la fontaine 241", "krylov list", "phaedrus 124", "collections",
                     "bidpai fox", "la fontaine zzzz", "the", "*|t:fox"],
           "physiologus": ["0", "33", "34", "pelican", "the", "about", "list", "lion king"],
-          "reynard": ["0", "44", "45", "tybert", "list", "how the", "isegrim wolf", "27"]}
+          "reynard": ["0", "44", "45", "tybert", "list", "how the", "isegrim wolf", "27"],
+          # poems cited by line (a one-part poem by line alone, one in books by book:line)
+          "verse": ["Sir Orfeo 233", "Sir Orfeo 233-260", "orfeo 1:233", "Sir Orfeo 0", "Sir Orfeo 99999",
+                    "Sir Orfeo 260-233", "Pearl 1", "Troilus 3:1", "Troilus 9:1", "Confessio Amantis 0:1",
+                    "Gawayn 2525", "Bruce 20:1-30", "Piers Plowman 460", "Beues 4419", "Canterbury Tales 1:1",
+                    "Faerie Queene 7.8:2", "Middle English Lyrics 3:1"]}
 
 
 def sample(command, live: bool = False) -> list:

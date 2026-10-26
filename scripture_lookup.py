@@ -2469,7 +2469,9 @@ class ScriptureLookup:
         """For a line-chunked book: the passages covering lines start..end,
         as (first line, last line, [passage starts])."""
         starts = sorted(int(k) for k in chap_data)
+        start, end = min(start, end), max(start, end)                  # (260-233 is 233-260)
         first = max((s for s in starts if s <= start), default=starts[0])
+        end = max(end, first)                                          # (line 0: the first passage)
         chosen = [s for s in starts if first <= s <= end]
         nxt = [s for s in starts if s > chosen[-1]]
         # (the book's last passage: its length isn't recorded, so claim no more than was asked)
