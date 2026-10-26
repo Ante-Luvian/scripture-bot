@@ -1834,6 +1834,7 @@ class ScriptureLookup:
         self._book_index: dict[str, tuple[str, str]] = {}
         # canonical book_name → source string for footer display
         self._book_sources: dict[str, str] = {}
+        self._last_lines: dict[tuple, int] = {}     # (book, chapter) -> its last line, where a file gives it
         self._corpus_sources: dict[str, dict[str, str]] = {}
         self._book_file: dict[tuple, str] = {}           # (corpus, book) -> the data file it came from
         self._renamed: dict[str, list] = {}               # a shared title -> the "Title (Author)" names given
@@ -2215,6 +2216,11 @@ class ScriptureLookup:
                 self._data[corpus].update(books)
                 if payload.get("line_chunked"):          # (files that mark their books as cited by line)
                     self._LINE_CHUNKED = tuple(self._LINE_CHUNKED) + tuple(books)
+                # ...and, where a file says, each chapter's last line, so a line in its last passage is found
+                # ("Hamlet 5.2.400": that passage starts at 380, and its end isn't otherwise recorded)
+                for book, chapters in payload.get("last_lines", {}).items():
+                    for chap, last in chapters.items():
+                        self._last_lines[(book, chap)] = last
                 # Store per-book source string for footer display
                 file_source = payload.get("source", "")
                 sources = {b: file_source for b in books} if file_source else {}
@@ -2947,14 +2953,18 @@ class ScriptureLookup:
             # a one-part poem is cited by line alone: "Sir Orfeo 233-260", not "Sir Orfeo 1:233-260"
             one_part = list(book_chapters) == ["1"]
             final = max(int(k) for k in chap_data)
-            if verse_start > final + 4:
+            known_last = self._last_lines.get((canon_book, chap_key))
+            if verse_start > (known_last or final + 4):
                 where = canon_book if one_part else f"{canon_book} {chapter}"
                 return {
                     "found": False,
-                    "error": f"{where} has no line {verse_start} (its last passage starts at line {final}).",
+                    "error": (f"{where} has no line {verse_start} (it ends at line {known_last})." if known_last
+                              else f"{where} has no line {verse_start} (its last passage starts at line {final})."),
                     "suggestions": [],
                 }
             first, last, chosen = self._line_span(chap_data, verse_start, verse_end)
+            if known_last and chosen[-1] == final:                 # (the last passage: its end is known)
+                last = known_last
             texts = [f"**[{s}]** {chap_data[str(s)]}" for s in chosen]
             span = f"{first}" if first == last else f"{first}–{last}"
             return {

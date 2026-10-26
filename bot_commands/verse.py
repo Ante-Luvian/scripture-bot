@@ -155,11 +155,12 @@ def _study_view_from_message(message, pressed_custom_id: str) -> discord.ui.View
 
 # ── ◀ Previous · Next ▶ · 📖 Whole chapter, under a passage from any text held here ──
 
-class PassageButton(discord.ui.DynamicItem[discord.ui.Button], template=r"pnav:(?P<kind>[pnc]):(?P<ref>.{1,93})"):
-    """Steps to the passage before or after, or opens the whole chapter (lookup.neighbours). The message
-    becomes the new passage, so reading on doesn't fill the channel; a whole chapter longer than a page
-    comes as its own message, with ◀ ▶ through its pages."""
-    LOOK = {"p": ("Previous", "◀"), "n": ("Next", "▶"), "c": ("Whole chapter", "📖")}
+class PassageButton(discord.ui.DynamicItem[discord.ui.Button], template=r"pnav:(?P<kind>[pncx]):(?P<ref>.{1,93})"):
+    """Steps to the passage before or after, or opens the whole chapter (lookup.neighbours), or (x) opens
+    the passage around a line an oracle drew (!shakespeare). The message becomes the new passage, so reading
+    on doesn't fill the channel; a whole chapter longer than a page comes as its own message, with ◀ ▶
+    through its pages."""
+    LOOK = {"p": ("Previous", "◀"), "n": ("Next", "▶"), "c": ("Whole chapter", "📖"), "x": ("In context", "📜")}
 
     def __init__(self, kind: str, ref: str):
         label, emoji = self.LOOK[kind]

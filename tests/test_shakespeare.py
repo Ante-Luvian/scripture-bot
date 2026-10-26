@@ -46,17 +46,25 @@ def test_cited_by_act_scene_line(lookup):
     assert lookup.get_verse("Macbeth 5.5.19")["tradition"] == "shakespeare"
 
 
-def test_shakespeare_draws_a_passage_of_a_play(lookup):
-    """!shakespeare: a passage with someone speaking, its scene named, and a card of its opening speeches."""
+def test_shakespeare_casts_lots_like_virgil(lookup):
+    """!shakespeare: dice for the play (First Folio order), the act, the scene and the line; the line drawn,
+    with its speaker, is in the play at that place."""
     import random
     from bot_commands import oracles
+    order = oracles._play_lines()["order"]
+    assert len(order) == 38 and order[0] == "The Tempest" and order[35] == "Cymbeline"      # (the Folio's 36)
+    assert order[36:] == ["Pericles, Prince of Tyre", "The Two Noble Kinsmen"]
+    assert oracles._play_lines()["lines"]["Hamlet"]["3.1"]["64"] == [["HAMLET", "To be or not to be—that is the question:"]]
     rng = random.Random(1)
-    for _ in range(50):
-        book, chap, line = oracles.shakespeare_passage(rng)
-        assert book not in (oracles.SONNETS, "Venus and Adonis", "Lucrece", "The Phoenix and Turtle")
-        assert "**" in oracles._play_text(book, chap, line)
-        title, text, _ = oracles._oracle_card_content("bard", f"{book}|{chap}|{line}")
-        assert title.startswith(book) and text and "*" not in text and len(text) < 2000   # (a long speech whole)
+    for _ in range(200):
+        n, play, act, scene, line = oracles.shakespeare_lot(rng)
+        assert order[n - 1] == play and 1 <= int(act) <= 5
+        text = oracles._lot_text(play, f"{act}.{scene}", line)
+        assert text.startswith("*") and "—" in text
+        found = lookup.get_verse(f"{play} {act}.{scene}.{line}")                    # (📜 In context)
+        assert found["found"]
+        title, card, _ = oracles._oracle_card_content("bard", f"{play}|{act}.{scene}|{line}")
+        assert title == f"{play} {act}.{scene}.{line}" and card and "*" not in card
     assert oracles._scene_name("0") == "Prologue" and oracles._scene_name("6") == "Epilogue"
     assert oracles._scene_name("2.0") == "Act 2, Chorus" and oracles._scene_name("3.1") == "Act 3, Scene 1"
 

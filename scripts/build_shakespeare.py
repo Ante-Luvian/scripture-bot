@@ -229,7 +229,25 @@ def play(path: Path) -> dict:
     out = {}
     for chap, speeches in chapters.items():
         out[chap] = passages(chap, speeches, heading(chap, has_induction), path.stem)
+        # each line by its number, with who speaks it ([speaker, text] each, two for a line two people share)
+        for sp in speeches:
+            for it in sp["items"]:
+                text = spaced(it[2]) if it[0] == "line" else ""
+                if text and it[1] is not None:
+                    LINES.setdefault(TITLES[path.stem], {}).setdefault(chap, {}).setdefault(
+                        str(it[1]), []).append([sp["speaker"] or "", text])
     return out
+
+
+# !shakespeare's dice (bot_commands/oracles.py): every line of the plays -> data/shakespeare/lines.json,
+# {play: {scene: {line: [[speaker, text], ...]}}}
+LINES = {}
+# the plays in the First Folio's order (1623), then the two it left out, Pericles as the Third Folio added it
+# (1664) and the Two Noble Kinsmen
+FOLIO = ["Tmp", "TGV", "Wiv", "MM", "Err", "Ado", "LLL", "MND", "MV", "AYL", "Shr", "AWW", "TN", "WT",
+         "Jn", "R2", "1H4", "2H4", "H5", "1H6", "2H6", "3H6", "R3", "H8",
+         "Tro", "Cor", "Tit", "Rom", "Tim", "JC", "Mac", "Ham", "Lr", "Oth", "Ant", "Cym",
+         "Per", "TNK"]
 
 
 def speech_text(sp: dict, items: list) -> str:
@@ -407,11 +425,19 @@ def main():
         if key not in src:
             raise SystemExit(f"missing {key}.xml")
         books[title] = poem(src[key]) if key in POEMS else play(src[key])
-        lines = sum(len(re.findall(r"\n", v)) + 1 for c in books[title].values() for v in c.values())
         print(f"{title}: {len(books[title])} chapters, {sum(len(c) for c in books[title].values())} passages")
     OUT.mkdir(parents=True, exist_ok=True)
-    payload = {"source": SOURCE, "line_chunked": True, "books": books}
+    # (each scene's last line, so the lookup finds a line in a scene's last passage)
+    last_lines = {play: {scene: max(map(int, lines)) for scene, lines in scenes.items()}
+                  for play, scenes in LINES.items()}
+    payload = {"source": SOURCE, "line_chunked": True, "last_lines": last_lines, "books": books}
     (OUT / "shakespeare.json").write_text(json.dumps(payload, ensure_ascii=False, indent=1), encoding="utf-8")
+    assert sorted(FOLIO) == sorted(k for k in TITLES if k not in POEMS)
+    order = [TITLES[k] for k in FOLIO]
+    (OUT / "lines.json").write_text(json.dumps({"source": SOURCE, "order": order,
+                                                "lines": {t: LINES[t] for t in order}},
+                                               ensure_ascii=False, separators=(",", ":")), encoding="utf-8")
+    print(f"lines.json: {sum(len(s) for p in LINES.values() for s in p.values()):,} lines")
 
 
 if __name__ == "__main__":

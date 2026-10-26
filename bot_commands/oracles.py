@@ -10,8 +10,8 @@ from bot_commands.card import (
     _render_verse_card,
 )
 from bot_commands.verse import (
+    PassageButton,
     _study_buttons,
-    passage_buttons,
 )
 from discord.ext import commands, tasks
 from core import (
@@ -95,15 +95,13 @@ def _oracle_card_content(kind: str, key: str) -> "tuple[str, str, str] | None":
         parts = [texts["1"].removeprefix("The Judgment: ")] + [texts[str(int(m) + 2)] for m in moving]
         h = _iching_meta()[n]
         return (f"I Ching — {n}. {h['name']} ({h['english']})", "\n\n".join(parts), ICHING_SOURCE)
-    if kind == "bard":                         # key "Hamlet|3.1|64": a sonnet whole, a play's first speech
+    if kind == "bard":                         # key "Hamlet|3.1|64": a play's line, a sonnet or poem passage
         book, chap, line = (key.split("|") + ["", ""])[:3]
+        if book in _play_lines().get("lines", {}):
+            text = _lot_text(book, chap, line, markdown=False)
+            return (f"{book} {chap}.{line}", text, SHAKESPEARE_SOURCE) if text else None
         text = _shakespeare().get(book, {}).get(chap, {}).get(line)
-        if not text:
-            return None
-        if book == SONNETS or chap == "1" and set(_shakespeare()[book]) == {"1"}:
-            return (_sonnet_title(book, chap, line), _plain(text), SHAKESPEARE_SOURCE)
-        return (f"{book} — {_scene_name(chap)}", _plain(_first_speech(_play_text(book, chap, line))),
-                SHAKESPEARE_SOURCE)
+        return (_sonnet_title(book, chap, line), _plain(text), SHAKESPEARE_SOURCE) if text else None
     if kind == "delphi":                       # key: maxim number
         book, num = "Delphic Maxims", key
     elif kind == "oracle" and "|" in key:      # key "Chaldaean Oracles|12"
@@ -717,10 +715,10 @@ async def cmd_rumi(ctx, *, question: str = ""):
 
 
 # ── !shakespeare, !sonnet ─────────────────────────────────────────────────────
-# Shakespeare opened at random (data/shakespeare): a passage of a play, read as an answer to a question if one
-# is asked, as people have opened the Bible or Virgil (there's no old custom of it for Shakespeare: this is the
-# bot's own); and a sonnet, or a run of stanzas from his other poems. Both follow the server's Shakespeare
-# tradition switch, as !ballad does the ballads'.
+# Shakespeare by lot, as !virgil draws Virgil (there's no old custom of it for Shakespeare: this is the bot's
+# own): four dice, for the play (numbered in the First Folio's order, data/shakespeare/lines.json), the act,
+# the scene and the line, and the line drawn is the answer. And a sonnet, or a run of stanzas from his other
+# poems. Both follow the server's Shakespeare tradition switch, as !ballad does the ballads'.
 
 SHAKESPEARE_SOURCE = "ed. Barbara Mowat and Paul Werstine (Folger Shakespeare)"
 SONNETS = "Shakespeare's Sonnets"
@@ -744,59 +742,71 @@ def _scene_name(chap: str) -> str:
     return f"Act {act}, Chorus" if scene == "0" else f"Act {act}, Scene {scene}"
 
 
-def shakespeare_passage(rng=random) -> "tuple[str, str, str] | None":
-    """(play, scene, first line) of a passage of a play, at random -- one with someone speaking in it."""
-    books = _shakespeare()
-    picks = [(b, c, v) for b, chs in books.items() if b != SONNETS and not set(chs) <= {"1"}
-             for c, vs in chs.items() for v, t in vs.items() if "**" in t]
-    return rng.choice(picks) if picks else None
+_SHAKESPEARE_LINES = None
 
 
-def _play_text(book: str, chap: str, line: str) -> str:
-    """A passage without its scene's heading (the embed's title names the scene)."""
-    text = _shakespeare().get(book, {}).get(chap, {}).get(line, "")
-    return re.sub(r"^\*(?:Act \d+, (?:Scene|Chorus)[^*]*|Prologue|Epilogue|Induction[^*]*)\*\n", "", text)
+def _play_lines() -> dict:
+    """{"order": [the 38 plays, First Folio order], "lines": {play: {scene: {line: [[speaker, text], ...]}}}}"""
+    global _SHAKESPEARE_LINES
+    if _SHAKESPEARE_LINES is None:
+        import json
+        path = ROOT / "data" / "shakespeare" / "lines.json"
+        _SHAKESPEARE_LINES = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+    return _SHAKESPEARE_LINES
+
+
+def shakespeare_lot(rng=random) -> "tuple[int, str, str, str, str] | None":
+    """The four dice: (the play's number, the play, act, scene, line). A die for each, as !virgil rolls one for
+    the book and one for the line: an act of the five, a scene of that act's (its Chorus is one), a line of the
+    scene's. (The Prologues, Inductions and Epilogues stand outside the acts, so don't come up.)"""
+    data = _play_lines()
+    if not data.get("order"):
+        return None
+    n = rng.randint(1, len(data["order"]))
+    play = data["order"][n - 1]
+    scenes = [s for s in data["lines"][play] if re.fullmatch(r"[1-5]\.\d+", s)]
+    act = rng.choice(sorted({s.split(".")[0] for s in scenes}, key=int))
+    scene = rng.choice(sorted((s.split(".")[1] for s in scenes if s.split(".")[0] == act), key=int))
+    line = rng.choice(sorted(data["lines"][play][f"{act}.{scene}"], key=int))
+    return n, play, act, scene, line
+
+
+def _lot_text(play: str, chap: str, line: str, markdown: bool = True) -> str:
+    """The line drawn, with who speaks it (two speakers when they share it)."""
+    parts = _play_lines().get("lines", {}).get(play, {}).get(chap, {}).get(line, [])
+    if markdown:
+        return "\n".join(f"*{text}*\n— {who.title()}" if who else f"*{text}*" for who, text in parts)
+    return "\n".join(f"{who.title()}: {text}" if who else text for who, text in parts)
 
 
 def _plain(text: str) -> str:
-    """For a card (all in italics): a stage direction in square brackets, the rest without markup."""
-    text = re.sub(r"(?m)^\*([^*\n]+)\*$", r"[\1]", text)
     return re.sub(r"\*+", "", text)
-
-
-def _first_speech(text: str) -> str:
-    """A passage's opening speeches, enough for a card (four lines or so; a whole passage is too long for one)."""
-    taken = []
-    for speech in (s for s in text.split("\n\n") if "**" in s):
-        if taken and sum(len(s) for s in taken) + len(speech) > 700:
-            break
-        taken.append(re.sub(r"^\*\*([^*]+)\*\*", r"\1:", speech))
-        if sum(s.count("\n") + 1 for s in taken) >= 4 or sum(len(s) for s in taken) > 250:
-            break
-    return "\n\n".join(taken) or text.split("\n\n")[0]
 
 
 @bot.command(name="shakespeare", aliases=["bard", "sortesshakespeare"])
 async def cmd_shakespeare(ctx, *, question: str = ""):
-    """Shakespeare opened at random: a passage of one of his plays. Usage: !shakespeare [optional question]"""
+    """Shakespeare by lot: dice for the play, act, scene and line. Usage: !shakespeare [optional question]"""
     if not tradition_enabled(ctx.guild.id if ctx.guild else None, "shakespeare"):
         await ctx.send("Shakespeare is turned off on this server.")
         return
-    pick = shakespeare_passage()
-    if pick is None:
+    lot = shakespeare_lot()
+    if lot is None:
         await ctx.send("⚠️ Shakespeare isn't loaded.")
         return
-    book, chap, line = pick
-    log.info(f"RNG  shakespeare            → {book} {chap}:{line} (user: {ctx.author})")
-    result = lookup.get_verse(f"{book} {chap}:{line}")
-    embed = discord.Embed(title=f"🎭 {book} — {_scene_name(chap)}", description=_play_text(book, chap, line)[:4096],
-                          color=discord.Color.dark_gold())
-    embed.set_footer(text=f"{SHAKESPEARE_SOURCE} · !verse {result.get('reference', f'{book} {chap}:{line}')}")
+    n, play, act, scene, line = lot
+    chap = f"{act}.{scene}"
+    log.info(f"RNG  shakespeare            → {n} {play} {chap}.{line} (user: {ctx.author})")
+    # Visual, as !virgil's: 🎭 {play} 📜 {act} 🎬 {scene} 🕯️ {line} 👈
+    display = f"🎭 {n}  📜 {act}  🎬 {'Chorus' if scene == '0' else scene}  🕯️ {line}  👈"
+    embed = discord.Embed(title=f"🎭 {play}, {_scene_name(chap)}",
+                          description=f"{display}\n\n{_lot_text(play, chap, line)}", color=discord.Color.dark_gold())
+    embed.set_footer(text=f"{play} {chap}.{line} · {SHAKESPEARE_SOURCE}")
     _ask(embed, question)
-    _record(ctx, "shakespeare", f"{book} {chap}:{line}")
-    view = _card_view("bard", f"{book}|{chap}|{line}")
-    for button in passage_buttons(result):                     # (◀ Previous · Next ▶ · 📖 the whole scene)
-        view.add_item(button)
+    _record(ctx, "shakespeare", f"{play} {chap}.{line}")
+    view = _card_view("bard", f"{play}|{chap}|{line}")
+    ref = f"{play} {chap}:{line}"
+    if len(ref) <= 93:                                         # (📜 the passage around the line)
+        view.add_item(PassageButton("x", ref))
     await ctx.send(embed=embed, view=view)
 
 
