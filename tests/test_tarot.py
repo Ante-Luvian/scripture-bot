@@ -52,8 +52,19 @@ def test_spreads(ta, fake_ctx):
     assert len(sent["embeds"]) == 10 and len(sent["files"]) == 10
     assert len({e.title.split(" — ")[1].removesuffix(" (reversed)") for e in sent["embeds"]}) == 10   # no card twice
     assert sum(len(e) for e in sent["embeds"]) <= 6000
-    asyncio.run(ta.send_tarot(fake_ctx, "three"))
-    assert [e.title.split(" — ")[0] for e in fake_ctx.sent[-1]["embeds"]] == ta.THREE
+    for query in ("three", "3", "three cards"):
+        asyncio.run(ta.send_tarot(fake_ctx, query))
+        sent = fake_ctx.sent[-1]                         # one picture of the three, laid side by side
+        assert sent["file"].filename == "spread.jpg" and sent["embed"].image.url == "attachment://spread.jpg"
+        assert [f.name.split(":")[0] for f in sent["embed"].fields] == ta.THREE
+        assert len({f.name.split(": ")[1].removesuffix(" (reversed)") for f in sent["embed"].fields}) == 3
+
+
+def test_the_spread_picture(ta):
+    from PIL import Image
+    drawn = ta.draw(3)
+    img = Image.open(ta.render_three([(drawn[0][0], False), (drawn[1][0], True), drawn[2]]))
+    assert img.size == (ta.MARGIN * 2 + ta.CARD_W * 3 + ta.GAP * 2, ta.TOP + ta.CARD_H + ta.BOTTOM)
 
 
 def test_draw_and_errors(ta, fake_ctx):

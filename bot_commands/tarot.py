@@ -117,6 +117,63 @@ def list_embed() -> discord.Embed:
     return embed
 
 
+CLOTH = (52, 30, 62)                                     # (the table the cards are laid on)
+CLOTH_EDGE = (88, 60, 100)
+LABEL = (236, 222, 190)
+CARD_W, CARD_H, GAP, MARGIN, TOP, BOTTOM = 360, 620, 44, 50, 70, 80
+
+
+def _font(name: str, size: int):
+    from PIL import ImageFont
+    try:
+        return ImageFont.truetype(f"C:/Windows/Fonts/{name}", size)
+    except OSError:
+        return ImageFont.load_default()
+
+
+def render_three(drawn: list, positions: list = THREE) -> io.BytesIO:
+    """The three cards laid side by side, as on a table: each card's place above it, its name below
+    (a reversed card upside down, as it fell)."""
+    from PIL import ImageDraw
+    w = MARGIN * 2 + CARD_W * 3 + GAP * 2
+    h = TOP + CARD_H + BOTTOM
+    img = Image.new("RGB", (w, h), CLOTH)
+    draw_ = ImageDraw.Draw(img)
+    draw_.rectangle((8, 8, w - 9, h - 9), outline=CLOTH_EDGE, width=3)
+    place, name_font = _font("georgiab.ttf", 30), _font("georgiai.ttf", 26)
+    for i, ((card, rev), position) in enumerate(zip(drawn, positions)):
+        x = MARGIN + i * (CARD_W + GAP)
+        face = Image.open(TAROT_DIR / card["file"]).convert("RGB").resize((CARD_W, CARD_H), Image.LANCZOS)
+        if rev:
+            face = face.rotate(180)
+        img.paste(Image.new("RGB", (CARD_W, CARD_H), (20, 10, 25)), (x + 6, TOP + 8))     # (a shadow)
+        img.paste(face, (x, TOP))
+        draw_.text((x + CARD_W / 2, TOP / 2), position, font=place, fill=LABEL, anchor="mm")
+        label = card["name"] + (" (reversed)" if rev else "")
+        while draw_.textlength(label, font=name_font) > CARD_W + GAP - 8 and name_font.size > 16:
+            name_font = _font("georgiai.ttf", name_font.size - 2)
+        draw_.text((x + CARD_W / 2, TOP + CARD_H + BOTTOM / 2), label, font=name_font, fill=LABEL, anchor="mm")
+        name_font = _font("georgiai.ttf", 26)
+    buf = io.BytesIO()
+    img.save(buf, "JPEG", quality=88)
+    buf.seek(0)
+    return buf
+
+
+def three_message(drawn: list, question: str = "") -> dict:
+    """One message: the spread as a picture, and what each card means in its place."""
+    embed = discord.Embed(title="🃏 Three cards: the past, the present and the future", color=COLOR)
+    if question:
+        embed.description = f"*{discord.utils.escape_markdown(question[:300])}*"
+    for (card, rev), position in zip(drawn, THREE):
+        meaning = (card["reversed"] or NO_REVERSED) if rev else card["upright"]
+        embed.add_field(name=f"{position}: {card['name']}" + (" (reversed)" if rev else ""),
+                        value=_short(meaning, 300) or "—", inline=False)
+    embed.set_image(url="attachment://spread.jpg")
+    embed.set_footer(text=f"!tarot <card> for any card in full · {SOURCE}")
+    return {"embed": embed, "file": discord.File(render_three(drawn), filename="spread.jpg")}
+
+
 async def send_spread(ctx, positions: list, intro: str) -> None:
     drawn = draw(len(positions))
     embeds, files = [], []
@@ -135,8 +192,8 @@ async def send_tarot(ctx, query: str = "") -> None:
     q = query.strip().lower()
     if q in ("list", "all", "cards", "deck"):
         await ctx.send(embed=list_embed())
-    elif q in ("three", "3", "spread", "past present future"):
-        await send_spread(ctx, THREE, "🃏 **Three cards: the past, the present and the future.**")
+    elif q in ("three", "3", "spread", "past present future", "three cards", "3 cards", "3 card", "three card"):
+        await ctx.send(**three_message(draw(3)))
     elif q in ("celtic", "celtic cross", "ten", "10"):
         await send_spread(ctx, CELTIC, "🃏 **The Celtic Cross**, as Waite lays it in *The Pictorial Key to the Tarot*: "
                                        "the first card covers the question, the second crosses it, and the rest "
