@@ -232,12 +232,16 @@ lyrics/political poems/York and Towneley plays, the Faerie Queene, and (second b
 Skelton, Hawes, Eyre-Todd's Scots poets, Lydgate's Disguising, Cocke Lorelles Bote. Changelog entries
 for the Arthurian books and the first medieval batch were posted 2026-10-25.
 
-**Open questions for the owner:**
-- A changelog entry for the second medieval batch (N-Town, Skelton, Hawes, the Scots poets)?
-- **Everyman** and the eight miracle plays in Rhys's volume (Gutenberg #19481) are in *modernized
-  spelling* (no original-spelling Everyman on Gutenberg). Include them (on a "modern spelling" shelf)?
+**Closed (owner, 2026-10-26): the Middle English corpus is finished.** "We're good for middle english":
+don't add more medieval English texts unless the owner asks. The second batch's changelog entry was posted
+2026-10-26; Everyman and Rhys's modernized miracle plays were left out by the owner's decision; the Owl and
+the Nightingale (the Oxford Text Archive's transcription of Atkins 1922, found on llds.phon.ox.ac.uk) was
+left out after a costly proofread against the scans, which the owner did not want (ask before any such
+work). The retry found nothing for Ywain or the Alliterative Morte Arthure (Augustana still 503, and its
+archived pages never had them; Virginia's text wasn't archived; the OTA's Morte is academic-login only).
+The list below is kept as a record only.
 
-**Not done, and why:**
+**Not done, and why (record only):**
 - *Ywain and Gawain*, the Alliterative *Morte Arthure*, *The Owl and the Nightingale*, the Stanzaic
   *Morte Arthur*, Lovelich's *History of the Holy Grail* and *Merlin*, the Prose Merlin: only online at
   sites that were blocked or down (Augustana 503, Wayback 429, CME Cloudflare, TEAMS/METS 403). Retry
