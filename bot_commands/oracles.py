@@ -771,12 +771,53 @@ def shakespeare_lot(rng=random) -> "tuple[int, str, str, str, str] | None":
     return n, play, act, scene, line
 
 
+_SENTENCE_END = re.compile(r"[.!?][’”'\")\]]*(?=\s|$)")
+
+
+def _lot_sentence(play: str, chap: str, line: str) -> "tuple[str, list] | None":
+    """The line drawn as part of its sentence: (speaker, [(text, is the line drawn, prose)]), from the start of the
+    sentence the line begins in to the end of the one it ends in, inside the one speech. A printed line, prose's
+    above all, so often stops mid-sentence ("safety. But the composition that your valor and")."""
+    scene = _play_lines().get("lines", {}).get(play, {}).get(chap, {})
+    parts = scene.get(line)
+    if not parts:
+        return None
+    who, _, _, speech = max(parts, key=lambda p: len(p[1]))        # (a shared line: the longer share)
+    rows = sorted((int(n), p[1], p[2]) for n, ps in scene.items() for p in ps if p[3] == speech)
+    text, spans = "", []
+    for n, t, prose in rows:
+        spans.append((n, len(text), len(text) + len(t), prose))
+        text += t + "\n"
+    _, ds, de, _ = next(s for s in spans if s[0] == int(line))
+    ends = [m.end() for m in _SENTENCE_END.finditer(text)]
+    start = max((e for e in ends if e <= ds), default=0)
+    stop = min((e for e in ends if e >= de - 1), default=len(text))
+    pieces = []
+    for n, a, b, prose in spans:
+        piece = text[max(a, start):min(b, stop)].strip()
+        if piece:
+            pieces.append((piece, n == int(line), prose))
+    return who, pieces
+
+
 def _lot_text(play: str, chap: str, line: str, markdown: bool = True) -> str:
-    """The line drawn, with who speaks it (two speakers when they share it)."""
-    parts = _play_lines().get("lines", {}).get(play, {}).get(chap, {}).get(line, [])
-    if markdown:
-        return "\n".join(f"*{text}*\n— {who.title()}" if who else f"*{text}*" for who, text in parts)
-    return "\n".join(f"{who.title()}: {text}" if who else text for who, text in parts)
+    """The sentence(s) the line drawn is in, verse a line a line and prose run on, the line drawn in bold, and
+    who speaks it."""
+    found = _lot_sentence(play, chap, line)
+    if not found:
+        return ""
+    who, pieces = found
+    rows = []
+    for i, (piece, drawn, prose) in enumerate(pieces):
+        shown = (f"***{piece}***" if drawn else f"*{piece}*") if markdown else piece
+        if i and prose and pieces[i - 1][2]:
+            rows[-1] += " " + shown                                    # (prose: one paragraph)
+        else:
+            rows.append(shown)
+    body = "\n".join(rows)
+    if not who:
+        return body
+    return f"{body}\n— {who.title()}" if markdown else f"{who.title()}: {body}"
 
 
 def _plain(text: str) -> str:

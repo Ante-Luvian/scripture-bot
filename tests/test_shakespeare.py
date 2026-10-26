@@ -54,7 +54,12 @@ def test_shakespeare_casts_lots_like_virgil(lookup):
     order = oracles._play_lines()["order"]
     assert len(order) == 38 and order[0] == "The Tempest" and order[35] == "Cymbeline"      # (the Folio's 36)
     assert order[36:] == ["Pericles, Prince of Tyre", "The Two Noble Kinsmen"]
-    assert oracles._play_lines()["lines"]["Hamlet"]["3.1"]["64"] == [["HAMLET", "To be or not to be—that is the question:"]]
+    assert oracles._play_lines()["lines"]["Hamlet"]["3.1"]["64"][0][:3] == [
+        "HAMLET", "To be or not to be—that is the question:", 0]
+    # a line is shown in its whole sentence, the line itself in bold (the owner: a cut line reads badly)
+    helen = oracles._lot_text("All's Well That Ends Well", "1.1", "209")
+    assert helen.startswith("*So is running away") and "***safety. But the composition" in helen
+    assert "a good wing" in helen and helen.endswith("— Helen")
     rng = random.Random(1)
     for _ in range(200):
         n, play, act, scene, line = oracles.shakespeare_lot(rng)

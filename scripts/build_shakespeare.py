@@ -229,18 +229,19 @@ def play(path: Path) -> dict:
     out = {}
     for chap, speeches in chapters.items():
         out[chap] = passages(chap, speeches, heading(chap, has_induction), path.stem)
-        # each line by its number, with who speaks it ([speaker, text] each, two for a line two people share)
-        for sp in speeches:
+        # each line by its number, with who speaks it and whether it's prose ([speaker, text, 1 if prose, the
+        # speech's number in the scene] each; two for a line two people share)
+        for k, sp in enumerate(speeches):
             for it in sp["items"]:
                 text = spaced(it[2]) if it[0] == "line" else ""
                 if text and it[1] is not None:
                     LINES.setdefault(TITLES[path.stem], {}).setdefault(chap, {}).setdefault(
-                        str(it[1]), []).append([sp["speaker"] or "", text])
+                        str(it[1]), []).append([sp["speaker"] or "", text, int(bool(it[3])), k])
     return out
 
 
 # !shakespeare's dice (bot_commands/oracles.py): every line of the plays -> data/shakespeare/lines.json,
-# {play: {scene: {line: [[speaker, text], ...]}}}
+# {play: {scene: {line: [[speaker, text, prose, speech], ...]}}}
 LINES = {}
 # the plays in the First Folio's order (1623), then the two it left out, Pericles as the Third Folio added it
 # (1664) and the Two Noble Kinsmen
