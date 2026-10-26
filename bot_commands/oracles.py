@@ -720,7 +720,7 @@ async def cmd_rumi(ctx, *, question: str = ""):
 # the scene and the line, and the line drawn is the answer. And a sonnet, or a run of stanzas from his other
 # poems. Both follow the server's Shakespeare tradition switch, as !ballad does the ballads'.
 
-SHAKESPEARE_SOURCE = "ed. Barbara Mowat and Paul Werstine (Folger Shakespeare)"
+SHAKESPEARE_SOURCE = "Folger edition"
 SONNETS = "Shakespeare's Sonnets"
 POEMS = {"venus": "Venus and Adonis", "adonis": "Venus and Adonis", "lucrece": "Lucrece",
          "phoenix": "The Phoenix and Turtle", "turtle": "The Phoenix and Turtle"}

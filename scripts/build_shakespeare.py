@@ -30,7 +30,7 @@ CACHE = ROOT / "scripts" / ".cache" / "shakespeare"
 OUT = ROOT / "data" / "shakespeare"
 URL = "https://flgr.sh/txtfssAllxml"
 UA = {"User-Agent": "ScriptureBot corpus builder (personal Discord bot)"}
-SOURCE = "ed. Barbara Mowat and Paul Werstine (Folger Shakespeare)"
+SOURCE = "Folger edition"                 # (the owner: no more credit than that)
 
 # Folger's file -> the book's name here (a title another work already has takes the author's name, as
 # "Sophocles: Electra" does: Suetonius's Julius Caesar; Plutarch's Pericles keeps "Pericles")

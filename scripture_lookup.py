@@ -2915,7 +2915,7 @@ class ScriptureLookup:
             "medieval":         "Medieval (Bede, Golden Legend)",
             "reformation":      "Reformation (Luther, Calvin, the confessions)",
             "english":          "Medieval English poetry",
-            "shakespeare":      "Shakespeare (Folger)",
+            "shakespeare":      "Folger edition",
             "ancient_near_east":          "Ancient Near Eastern Texts",
         }
 
