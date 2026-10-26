@@ -1,7 +1,8 @@
 # Session guide: how to work on ScriptureBot
 
 A handoff for a new Claude session, written at the end of a long one (2026-10-25, the Arthurian
-legend and the Middle English corpus). Read it with CLAUDE.md (the rules, loaded automatically) and
+legend and the Middle English corpus) and brought up to date on 2026-10-26 (the Middle English work closed;
+Shakespeare, `!shakespeare` and `!sonnet` added: see §6). Read it with CLAUDE.md (the rules, loaded automatically) and
 README.md (what the bot does, the layout, the data schema). This file is the *how* and the *why*:
 what the owner expects, how the library is built, the traps that cost time, and what's unfinished.
 
