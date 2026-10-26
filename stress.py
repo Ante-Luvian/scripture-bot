@@ -283,7 +283,13 @@ SHAPED = {"ballad": ["0", "305", "306", "12B", "12b", "12ZZ", "22A", "117", "chi
           "verse": ["Sir Orfeo 233", "Sir Orfeo 233-260", "orfeo 1:233", "Sir Orfeo 0", "Sir Orfeo 99999",
                     "Sir Orfeo 260-233", "Pearl 1", "Troilus 3:1", "Troilus 9:1", "Confessio Amantis 0:1",
                     "Gawayn 2525", "Bruce 20:1-30", "Piers Plowman 460", "Beues 4419", "Canterbury Tales 1:1",
-                    "Faerie Queene 7.8:2", "Middle English Lyrics 3:1"]}
+                    "Faerie Queene 7.8:2", "Middle English Lyrics 3:1",
+                    # Shakespeare, by act.scene.line, and his prologues and epilogues by name
+                    "Hamlet 3.1.64", "Hamlet 3.1:64-70", "Hamlet 3.1.90-56", "Hamlet 3.1", "Hamlet 3.1.0",
+                    "Hamlet 9.9.9", "Hamlet 3.1.99999", "Hamlet 0", "Hamlet epilogue", "Henry V epilogue 3",
+                    "Romeo and Juliet prologue", "shrew induction", "JC 3.2.82", "Julius Caesar 3.2.82",
+                    "Sonnets 18", "Sonnets 155", "Sonnet 18:99", "Venus and Adonis 0", "Lucrece 1855",
+                    "Phoenix and the Turtle 53", "macbeth 5.5"]}
 
 
 def sample(command, live: bool = False) -> list:

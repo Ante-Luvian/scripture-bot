@@ -49,6 +49,7 @@ TRADITION_CHOICES = {
     "celtic": ("Celtic", "☘️", "The Mabinogion"),
     "arthurian": ("Arthurian legend", "⚔️", "Malory, Chrétien, Parzival, the Grail romances, Geoffrey of Monmouth"),
     "english": ("Medieval English poetry", "📜", "Chaucer, Piers Plowman, Pearl, Gower, the romances, in Middle English"),
+    "shakespeare": ("Shakespeare", "🎭", "All 38 plays, the Sonnets and the poems"),
     "ballads": ("Folk tales & ballads", "🎻", "Grimm's fairy tales, and Child's ballads with their tunes"),
     "neareast": ("Ancient Near East", "🌙", "Gilgamesh, Enuma Elish, the Book of the Dead"),
     "mesoamerican": ("Mesoamerican", "🌽", "The Popol Vuh"),

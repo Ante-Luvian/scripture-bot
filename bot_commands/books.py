@@ -819,6 +819,25 @@ BOOKS_TREE = [
         ("Lyrics and political poems", ["Middle English Lyrics", "Political Poems"]),
         "The Faerie Queene",
     ]),
+    ("🎭 Shakespeare", [
+        ("Comedies", [
+            "All's Well That Ends Well", "As You Like It", "The Comedy of Errors", "Love's Labor's Lost",
+            "Measure for Measure", "The Merchant of Venice", "The Merry Wives of Windsor",
+            "A Midsummer Night's Dream", "Much Ado About Nothing", "The Taming of the Shrew", "Twelfth Night",
+            "The Two Gentlemen of Verona",
+        ]),
+        ("Histories", [
+            "King John", "Richard II", "Henry IV, Part 1", "Henry IV, Part 2", "Henry V", "Henry VI, Part 1",
+            "Henry VI, Part 2", "Henry VI, Part 3", "Richard III", "Henry VIII",
+        ]),
+        ("Tragedies", [
+            "Antony and Cleopatra", "Coriolanus", "Hamlet", "Shakespeare: Julius Caesar", "King Lear", "Macbeth",
+            "Othello", "Romeo and Juliet", "Timon of Athens", "Titus Andronicus", "Troilus and Cressida",
+        ]),
+        ("Romances", ["Pericles, Prince of Tyre", "Cymbeline", "The Winter's Tale", "The Tempest",
+                      "The Two Noble Kinsmen"]),
+        ("Poems", ["Shakespeare's Sonnets", "Venus and Adonis", "Lucrece", "The Phoenix and Turtle"]),
+    ]),
     ("🎻 Folk tales & ballads", [
         "Child Ballads",
         "Grimm's Household Tales",
@@ -1406,7 +1425,7 @@ _SUPERGROUP_ORDER = [
     ("🌐 Mythology & Classical Traditions", [
         "🏛️ Classical", "🌲 Norse", "🦢 Finnish", "☘️ Celtic", "🌙 Ancient Near East",
         "🔥 Zoroastrian", "🌽 Mesoamerican", "⚔️ Arthurian legend", "📜 Medieval English poetry",
-        "🎻 Folk tales & ballads",
+        "🎭 Shakespeare", "🎻 Folk tales & ballads",
     ]),
 ]
 # ── a server sees only the sections of the traditions it chose ──────────────

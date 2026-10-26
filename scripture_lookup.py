@@ -996,6 +996,32 @@ ALIASES: dict[str, str] = {
     "peblis to the play": "Poems of King James V", "christis kirk": "Poems of King James V",
     "maitland": "Maitland's Poems", "alexander scott": "Alexander Scott's Poems",
     "montgomerie": "Montgomerie's Poems", "cherrie and the slae": "Montgomerie's Poems",
+    # Shakespeare (scripts/build_shakespeare.py); his Julius Caesar is named for him, as Suetonius has the title
+    "julius caesar shakespeare": "Shakespeare: Julius Caesar", "shakespeare julius caesar": "Shakespeare: Julius Caesar",
+    "shakespeare's julius caesar": "Shakespeare: Julius Caesar", "jc": "Shakespeare: Julius Caesar",
+    "pericles prince of tyre": "Pericles, Prince of Tyre", "pericles, prince of tyre": "Pericles, Prince of Tyre",
+    "lear": "King Lear", "r&j": "Romeo and Juliet", "romeo": "Romeo and Juliet", "romeo & juliet": "Romeo and Juliet",
+    "antony & cleopatra": "Antony and Cleopatra", "tempest": "The Tempest", "midsummer": "A Midsummer Night's Dream",
+    "midsummer night's dream": "A Midsummer Night's Dream", "a midsummer nights dream": "A Midsummer Night's Dream",
+    "midsummer nights dream": "A Midsummer Night's Dream", "mnd": "A Midsummer Night's Dream",
+    "merchant of venice": "The Merchant of Venice", "merry wives": "The Merry Wives of Windsor",
+    "merry wives of windsor": "The Merry Wives of Windsor", "taming of the shrew": "The Taming of the Shrew",
+    "the shrew": "The Taming of the Shrew", "comedy of errors": "The Comedy of Errors",
+    "two gentlemen of verona": "The Two Gentlemen of Verona", "two noble kinsmen": "The Two Noble Kinsmen",
+    "winter's tale": "The Winter's Tale", "winters tale": "The Winter's Tale", "the winters tale": "The Winter's Tale",
+    "much ado": "Much Ado About Nothing", "alls well that ends well": "All's Well That Ends Well",
+    "all's well": "All's Well That Ends Well", "loves labors lost": "Love's Labor's Lost",
+    "love's labour's lost": "Love's Labor's Lost", "loves labours lost": "Love's Labor's Lost",
+    "1 henry iv": "Henry IV, Part 1", "2 henry iv": "Henry IV, Part 2", "henry iv part 1": "Henry IV, Part 1",
+    "henry iv part 2": "Henry IV, Part 2", "1 henry vi": "Henry VI, Part 1", "2 henry vi": "Henry VI, Part 2",
+    "3 henry vi": "Henry VI, Part 3", "henry vi part 1": "Henry VI, Part 1", "henry vi part 2": "Henry VI, Part 2",
+    "henry vi part 3": "Henry VI, Part 3", "henry 5": "Henry V", "henry 8": "Henry VIII", "richard 2": "Richard II",
+    "richard 3": "Richard III", "timon of athens": "Timon of Athens",
+    "troilus and cressida": "Troilus and Cressida", "sonnets": "Shakespeare's Sonnets",
+    "shakespeare's sonnets": "Shakespeare's Sonnets", "shakespeares sonnets": "Shakespeare's Sonnets",
+    "sonnet": "Shakespeare's Sonnets", "rape of lucrece": "Lucrece", "the rape of lucrece": "Lucrece",
+    "phoenix and the turtle": "The Phoenix and Turtle", "the phoenix and the turtle": "The Phoenix and Turtle",
+    "phoenix and turtle": "The Phoenix and Turtle",
     # the Auchinleck manuscript
     "beues": "Sir Beues of Hamtoun", "bevis": "Sir Beues of Hamtoun", "bevis of hampton": "Sir Beues of Hamtoun",
     "sir bevis": "Sir Beues of Hamtoun", "guy": "Guy of Warwick", "guy of warwick": "Guy of Warwick",
@@ -1701,6 +1727,7 @@ TRADITIONS = {
     "ballads":   ("🎻 Folk tales & ballads", ("ballads",)),
     "arthurian": ("⚔️ Arthurian legend", ("arthurian",)),
     "english":   ("📜 Medieval English poetry", ("english",)),
+    "shakespeare": ("🎭 Shakespeare", ("shakespeare",)),
     "neareast":  ("🌙 Ancient Near East", ("ancient_near_east",)),
     "mesoamerican": ("🌽 Mesoamerican", ("mesoamerican",)),
     "bahai":     ("🌍 Baháʼí", ("bahai",)),
@@ -1720,6 +1747,7 @@ TRADITION_ALIASES = {
     "arthur": "arthurian", "arthurian legend": "arthurian", "camelot": "arthurian", "grail": "arthurian",
     "middle english": "english", "medieval english": "english", "english poetry": "english",
     "medieval english poetry": "english",
+    "the bard": "shakespeare", "plays": "shakespeare", "sonnets": "shakespeare",
     "ballad": "ballads", "folk": "ballads", "fairy tales": "ballads", "grimm": "ballads", "tales": "ballads", "child": "ballads", "child ballads": "ballads",
 }
 
@@ -1775,7 +1803,7 @@ def _tagged(result, key: str):
     return result
 
 
-CORPUS_PRIORITY = ["kjv", "lds", "brenton", "charles", "nt_apocrypha", "apostolic_fathers", "quran", "classical", "jewish", "bahai", "qumran", "gnostic", "dharmic", "buddhist", "chinese", "sufi", "sikh", "jain", "shinto", "zoroastrian", "mesoamerican", "finnish", "celtic", "norse", "ancient_near_east", "patristics", "medieval", "reformation", "ballads", "arthurian", "english"]
+CORPUS_PRIORITY = ["kjv", "lds", "brenton", "charles", "nt_apocrypha", "apostolic_fathers", "quran", "classical", "jewish", "bahai", "qumran", "gnostic", "dharmic", "buddhist", "chinese", "sufi", "sikh", "jain", "shinto", "zoroastrian", "mesoamerican", "finnish", "celtic", "norse", "ancient_near_east", "patristics", "medieval", "reformation", "ballads", "arthurian", "english", "shakespeare"]
 
 
 # Shepherd of Hermas: (first, last) Lightfoot continuous chapter of each
@@ -2001,7 +2029,9 @@ class ScriptureLookup:
                 "cocke_lorell.json",
                 "faerie_queene.json",
             ],
-            "ballads": ["child.json",             # Child's ballads (scripts/build_child.py)
+            # the plays and poems, the Folger text, cited by act.scene.line (scripts/build_shakespeare.py)
+            "shakespeare": ["shakespeare.json"],
+            "ballads": ["child.json",            # Child's ballads (scripts/build_child.py)
                         "grimm.json",             # the Grimms' tales, Hunt (scripts/build_grimm.py)
                         "la_fontaine.json",       # Thornbury (scripts/build_fables.py)
                         "talking_beasts.json",    # the world's fables, Wiggin and Smith (build_fables.py)
@@ -2638,6 +2668,18 @@ class ScriptureLookup:
         m = re.match(r"^(.+?)\s+(\d+)\.(\d+\s*[-–]\s*\d+)$", ref)
         if m and self._resolve_book(m.group(1))[1] in self._LINE_CHUNKED:
             return f"{m.group(1)} {m.group(2)}:{m.group(3)}"
+        # Shakespeare, act.scene.line: "Hamlet 3.1.56-90" is scene 3.1, lines 56-90
+        m = re.match(r"^(.+?)\s+(\d+\.\d+)\.(\d+\s*[-–]\s*\d+)$", ref)
+        if m and self._resolve_book(m.group(1))[1] in self._LINE_CHUNKED:
+            return f"{m.group(1)} {m.group(2)}:{m.group(3)}"
+        # ...and his prologues, inductions ("0") and epilogues ("6"), by name: "Henry V epilogue 3"
+        m = re.match(r"^(.+?)\s+(prologue|induction|epilogue)(?:\s+(\d+)(?:\s*[-–]\s*(\d+))?)?$", ref, re.I)
+        if m and self._resolve_book(m.group(1))[0] == "shakespeare":
+            chap = "6" if m.group(2).lower() == "epilogue" else "0"
+            if chap not in self._data["shakespeare"].get(self._resolve_book(m.group(1))[1], {}):
+                chap += ".1"                                       # (the Shrew's Induction is two scenes)
+            return f"{m.group(1)} {chap}" + (f":{m.group(3)}" if m.group(3) else "") + \
+                (f"-{m.group(4)}" if m.group(4) else "")
         # A one-chapter book is cited by verse alone: "Sir Orfeo 233" or "Jude 3-5" is 1:233, 1:3-5
         m = re.match(r"^(.+?)\s+(\d+)(?:\s*[-–]\s*(\d+))?$", ref)
         if m and self._one_chapter(m.group(1)):
@@ -2867,6 +2909,7 @@ class ScriptureLookup:
             "medieval":         "Medieval (Bede, Golden Legend)",
             "reformation":      "Reformation (Luther, Calvin, the confessions)",
             "english":          "Medieval English poetry",
+            "shakespeare":      "Shakespeare (Folger)",
             "ancient_near_east":          "Ancient Near Eastern Texts",
         }
 
@@ -3030,6 +3073,7 @@ class ScriptureLookup:
             "patristics":       "⛪ Church Fathers",
             "medieval":         "📜 Medieval",
             "reformation":      "✝️ Reformation",
+            "shakespeare":      "🎭 Shakespeare",
         }
 
         by_corpus: dict[str, list[dict]] = {}

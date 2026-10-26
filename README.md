@@ -375,6 +375,15 @@ transcription of the Auchinleck manuscript (auchinleck.nls.uk); the Arthurian on
 the passage holding line 233 (a one-part poem is cited by line alone; `1:233` is still read but never shown) and
 `!verse Troilus 3:1` the first of Book III. ȝ, þ and ð are kept as themselves, never a stand-in.
 
+**Shakespeare** (`data/shakespeare/`, `scripts/build_shakespeare.py`, tradition "shakespeare"): the 38 plays, the
+Sonnets, *Venus and Adonis*, *Lucrece* and *The Phoenix and Turtle* in the Folger Shakespeare (ed. Mowat and
+Werstine), from the Folger Shakespeare Library's TEI downloads. A play's chapter is a scene, `act.scene` (`3.1`; the
+Prologue or Induction `0`, a chorus before an act `2.0`, the Epilogue `6`), its passages runs of speeches keyed by
+Folger's own line numbers and marked line-chunked, so `!verse Hamlet 3.1.64` (or `3.1:64`) is the passage holding
+line 64 and `Hamlet prologue` / `Henry V epilogue` are read by name. The Sonnets are a chapter each; the other poems
+are cited by line, their dedication at line 0. *Julius Caesar* is "Shakespeare: Julius Caesar" (`JC`), since
+Suetonius has the title; *Pericles* takes its full title.
+
 Three reference datasets have their own shape, each rebuilt by a script in `scripts/`:
 
 - `data/people_places/` (`build_people_places.py`): `people_places.json` holds
