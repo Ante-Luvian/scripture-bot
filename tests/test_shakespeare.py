@@ -46,6 +46,35 @@ def test_cited_by_act_scene_line(lookup):
     assert lookup.get_verse("Macbeth 5.5.19")["tradition"] == "shakespeare"
 
 
+def test_shakespeare_draws_a_passage_of_a_play(lookup):
+    """!shakespeare: a passage with someone speaking, its scene named, and a card of its opening speeches."""
+    import random
+    from bot_commands import oracles
+    rng = random.Random(1)
+    for _ in range(50):
+        book, chap, line = oracles.shakespeare_passage(rng)
+        assert book not in (oracles.SONNETS, "Venus and Adonis", "Lucrece", "The Phoenix and Turtle")
+        assert "**" in oracles._play_text(book, chap, line)
+        title, text, _ = oracles._oracle_card_content("bard", f"{book}|{chap}|{line}")
+        assert title.startswith(book) and text and "*" not in text and len(text) < 2000   # (a long speech whole)
+    assert oracles._scene_name("0") == "Prologue" and oracles._scene_name("6") == "Epilogue"
+    assert oracles._scene_name("2.0") == "Act 2, Chorus" and oracles._scene_name("3.1") == "Act 3, Scene 1"
+
+
+def test_sonnet_picks(lookup):
+    import random
+    from bot_commands import oracles
+    rng = random.Random(1)
+    assert oracles._sonnet_pick("18", rng) == (oracles.SONNETS, "18", "1")
+    assert isinstance(oracles._sonnet_pick("155", rng), str) and isinstance(oracles._sonnet_pick("0", rng), str)
+    assert oracles._sonnet_pick("venus", rng)[0] == "Venus and Adonis"
+    assert oracles._sonnet_pick("lucrece", rng)[2] != "0"                       # (not the dedication)
+    drawn = {oracles._sonnet_pick("", rng)[0] for _ in range(300)}
+    assert oracles.SONNETS in drawn and "Lucrece" in drawn                      # (all his poems in the draw)
+    assert oracles._sonnet_title(oracles.SONNETS, "18", "1") == "Sonnet 18"
+    assert oracles._sonnet_title("Lucrece", "1", "1").startswith("Lucrece, lines 1–")
+
+
 def test_shared_titles_keep_their_old_books(lookup):
     """Suetonius's Julius Caesar, Plutarch's Pericles and Chaucer's Troilus are where they were."""
     assert lookup.get_verse("Julius Caesar 1:1")["tradition"] != "shakespeare"

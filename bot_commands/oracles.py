@@ -11,6 +11,7 @@ from bot_commands.card import (
 )
 from bot_commands.verse import (
     _study_buttons,
+    passage_buttons,
 )
 from discord.ext import commands, tasks
 from core import (
@@ -21,6 +22,7 @@ from core import (
     log,
     lookup,
     record_special_stat,
+    tradition_enabled,
 )
 from core import ROOT
 
@@ -93,6 +95,15 @@ def _oracle_card_content(kind: str, key: str) -> "tuple[str, str, str] | None":
         parts = [texts["1"].removeprefix("The Judgment: ")] + [texts[str(int(m) + 2)] for m in moving]
         h = _iching_meta()[n]
         return (f"I Ching — {n}. {h['name']} ({h['english']})", "\n\n".join(parts), ICHING_SOURCE)
+    if kind == "bard":                         # key "Hamlet|3.1|64": a sonnet whole, a play's first speech
+        book, chap, line = (key.split("|") + ["", ""])[:3]
+        text = _shakespeare().get(book, {}).get(chap, {}).get(line)
+        if not text:
+            return None
+        if book == SONNETS or chap == "1" and set(_shakespeare()[book]) == {"1"}:
+            return (_sonnet_title(book, chap, line), _plain(text), SHAKESPEARE_SOURCE)
+        return (f"{book} — {_scene_name(chap)}", _plain(_first_speech(_play_text(book, chap, line))),
+                SHAKESPEARE_SOURCE)
     if kind == "delphi":                       # key: maxim number
         book, num = "Delphic Maxims", key
     elif kind == "oracle" and "|" in key:      # key "Chaldaean Oracles|12"
@@ -108,7 +119,7 @@ def _oracle_card_content(kind: str, key: str) -> "tuple[str, str, str] | None":
 
 
 class OracleCardButton(discord.ui.DynamicItem[discord.ui.Button],
-                       template=r"ocard:(?P<kind>virgil|homer|delphi|oracle|iching|hafez|rumi):(?P<key>.+)"):
+                       template=r"ocard:(?P<kind>virgil|homer|delphi|oracle|iching|hafez|rumi|bard):(?P<key>.+)"):
     """Renders an oracle answer as a !card-style image. Like the study
     buttons, its custom_id carries what it needs, so it keeps working after a
     restart; only ever sent in timeout=None views (see verse.StudyButton)."""
@@ -703,6 +714,145 @@ async def cmd_rumi(ctx, *, question: str = ""):
     _ask(embed, question)
     _record(ctx, "rumi", f"Masnavi {key}")
     await ctx.send(embed=embed, view=_card_view("rumi", key))
+
+
+# ── !shakespeare, !sonnet ─────────────────────────────────────────────────────
+# Shakespeare opened at random (data/shakespeare): a passage of a play, read as an answer to a question if one
+# is asked, as people have opened the Bible or Virgil (there's no old custom of it for Shakespeare: this is the
+# bot's own); and a sonnet, or a run of stanzas from his other poems. Both follow the server's Shakespeare
+# tradition switch, as !ballad does the ballads'.
+
+SHAKESPEARE_SOURCE = "ed. Barbara Mowat and Paul Werstine (Folger Shakespeare)"
+SONNETS = "Shakespeare's Sonnets"
+POEMS = {"venus": "Venus and Adonis", "adonis": "Venus and Adonis", "lucrece": "Lucrece",
+         "phoenix": "The Phoenix and Turtle", "turtle": "The Phoenix and Turtle"}
+
+
+def _shakespeare() -> dict:
+    return lookup._data.get("shakespeare", {})
+
+
+def _scene_name(chap: str) -> str:
+    """"3.1" -> "Act 3, Scene 1"; "0" the Prologue (or Induction), "2.0" a chorus, "6" the Epilogue."""
+    if chap == "0":
+        return "Prologue"
+    if chap == "6":
+        return "Epilogue"
+    act, _, scene = chap.partition(".")
+    if act == "0":
+        return f"Induction, Scene {scene}"
+    return f"Act {act}, Chorus" if scene == "0" else f"Act {act}, Scene {scene}"
+
+
+def shakespeare_passage(rng=random) -> "tuple[str, str, str] | None":
+    """(play, scene, first line) of a passage of a play, at random -- one with someone speaking in it."""
+    books = _shakespeare()
+    picks = [(b, c, v) for b, chs in books.items() if b != SONNETS and not set(chs) <= {"1"}
+             for c, vs in chs.items() for v, t in vs.items() if "**" in t]
+    return rng.choice(picks) if picks else None
+
+
+def _play_text(book: str, chap: str, line: str) -> str:
+    """A passage without its scene's heading (the embed's title names the scene)."""
+    text = _shakespeare().get(book, {}).get(chap, {}).get(line, "")
+    return re.sub(r"^\*(?:Act \d+, (?:Scene|Chorus)[^*]*|Prologue|Epilogue|Induction[^*]*)\*\n", "", text)
+
+
+def _plain(text: str) -> str:
+    """For a card (all in italics): a stage direction in square brackets, the rest without markup."""
+    text = re.sub(r"(?m)^\*([^*\n]+)\*$", r"[\1]", text)
+    return re.sub(r"\*+", "", text)
+
+
+def _first_speech(text: str) -> str:
+    """A passage's opening speeches, enough for a card (four lines or so; a whole passage is too long for one)."""
+    taken = []
+    for speech in (s for s in text.split("\n\n") if "**" in s):
+        if taken and sum(len(s) for s in taken) + len(speech) > 700:
+            break
+        taken.append(re.sub(r"^\*\*([^*]+)\*\*", r"\1:", speech))
+        if sum(s.count("\n") + 1 for s in taken) >= 4 or sum(len(s) for s in taken) > 250:
+            break
+    return "\n\n".join(taken) or text.split("\n\n")[0]
+
+
+@bot.command(name="shakespeare", aliases=["bard", "sortesshakespeare"])
+async def cmd_shakespeare(ctx, *, question: str = ""):
+    """Shakespeare opened at random: a passage of one of his plays. Usage: !shakespeare [optional question]"""
+    if not tradition_enabled(ctx.guild.id if ctx.guild else None, "shakespeare"):
+        await ctx.send("Shakespeare is turned off on this server.")
+        return
+    pick = shakespeare_passage()
+    if pick is None:
+        await ctx.send("⚠️ Shakespeare isn't loaded.")
+        return
+    book, chap, line = pick
+    log.info(f"RNG  shakespeare            → {book} {chap}:{line} (user: {ctx.author})")
+    result = lookup.get_verse(f"{book} {chap}:{line}")
+    embed = discord.Embed(title=f"🎭 {book} — {_scene_name(chap)}", description=_play_text(book, chap, line)[:4096],
+                          color=discord.Color.dark_gold())
+    embed.set_footer(text=f"{SHAKESPEARE_SOURCE} · !verse {result.get('reference', f'{book} {chap}:{line}')}")
+    _ask(embed, question)
+    _record(ctx, "shakespeare", f"{book} {chap}:{line}")
+    view = _card_view("bard", f"{book}|{chap}|{line}")
+    for button in passage_buttons(result):                     # (◀ Previous · Next ▶ · 📖 the whole scene)
+        view.add_item(button)
+    await ctx.send(embed=embed, view=view)
+
+
+def _sonnet_pick(query: str, rng=random) -> "tuple[str, str, str] | str":
+    """(book, chapter, first line) for !sonnet's query -- a number, a poem's name, or anything else (a question)
+    for one at random from the Sonnets and the poems -- or the reply when there's no such sonnet."""
+    books = _shakespeare()
+    q = query.strip().lower()
+    num = re.fullmatch(r"#?(\d{1,6})", q)
+    if num:
+        n = num.group(1).lstrip("0") or "0"
+        if n not in books.get(SONNETS, {}):
+            return "There are 154 sonnets: try a number from 1 to 154."
+        return SONNETS, n, "1"
+    poem = next((name for word, name in POEMS.items() if word in q.split()), None)
+    pool = ([(SONNETS, c, "1") for c in books.get(SONNETS, {})] if not poem else [])
+    for name in ([poem] if poem else set(POEMS.values())):
+        pool += [(name, "1", v) for v in books.get(name, {}).get("1", {}) if v != "0"]   # (not the dedication)
+    return rng.choice(pool)
+
+
+def _sonnet_title(book: str, chap: str, line: str) -> str:
+    if book == SONNETS:
+        return f"Sonnet {chap}"
+    lines = list(_shakespeare().get(book, {}).get("1", {}))
+    later = [int(v) for v in lines if int(v) > int(line)]
+    end = f"–{later[0] - 1}" if later else ""
+    return f"{book}, lines {line}{end}" if later else f"{book}, from line {line}"
+
+
+@bot.command(name="sonnet", aliases=["sonnets"])
+async def cmd_sonnet(ctx, *, query: str = ""):
+    """One of Shakespeare's sonnets, or stanzas of his other poems. Usage: !sonnet · !sonnet 18 · !sonnet venus
+    (or lucrece, phoenix) · !sonnet [a question]"""
+    if not tradition_enabled(ctx.guild.id if ctx.guild else None, "shakespeare"):
+        await ctx.send("Shakespeare is turned off on this server.")
+        return
+    if not _shakespeare().get(SONNETS):
+        await ctx.send("⚠️ Shakespeare isn't loaded.")
+        return
+    pick = _sonnet_pick(query)
+    if isinstance(pick, str):
+        await ctx.send(pick)
+        return
+    book, chap, line = pick
+    question = query if not re.fullmatch(r"#?\d+", query.strip()) and not any(
+        w in POEMS for w in query.lower().split()) else ""
+    log.info(f"RNG  sonnet                 → {book} {chap}:{line} (user: {ctx.author})")
+    text = _shakespeare()[book][chap][line]
+    ref = f"Sonnets {chap}" if book == SONNETS else f"{book} {line}"
+    embed = discord.Embed(title=f"🎭 {_sonnet_title(book, chap, line)}", description=text[:4096],
+                          color=discord.Color.dark_gold())
+    embed.set_footer(text=f"{SHAKESPEARE_SOURCE} · !verse {ref}")
+    _ask(embed, question)
+    _record(ctx, "sonnet", ref)
+    await ctx.send(embed=embed, view=_card_view("bard", f"{book}|{chap}|{line}"))
 
 
 # ── Daily oracle (!oraclesetup) ───────────────────────────────────────────────

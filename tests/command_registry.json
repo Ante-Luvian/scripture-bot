@@ -295,6 +295,13 @@
   "serversetup": [
    "onboard"
   ],
+  "shakespeare": [
+   "bard",
+   "sortesshakespeare"
+  ],
+  "sonnet": [
+   "sonnets"
+  ],
   "sortesbiblicae": [
    "biblicae",
    "bibliomancy"
@@ -477,6 +484,8 @@
   "saved",
   "search",
   "setup",
+  "shakespeare",
+  "sonnet",
   "sortesbiblicae",
   "stats",
   "story",

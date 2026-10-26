@@ -279,6 +279,9 @@ SHAPED = {"ballad": ["0", "305", "306", "12B", "12b", "12ZZ", "22A", "117", "chi
                     "bidpai fox", "la fontaine zzzz", "the", "*|t:fox"],
           "physiologus": ["0", "33", "34", "pelican", "the", "about", "list", "lion king"],
           "reynard": ["0", "44", "45", "tybert", "list", "how the", "isegrim wolf", "27"],
+          "sonnet": ["0", "1", "154", "155", "#18", "18:5", "-3", "99999999999", "venus", "LUCRECE", "phoenix",
+                     "venus lucrece", "the", "will I find love?"],
+          "shakespeare": ["will it rain?", "", "hamlet"],
           # poems cited by line (a one-part poem by line alone, one in books by book:line)
           "verse": ["Sir Orfeo 233", "Sir Orfeo 233-260", "orfeo 1:233", "Sir Orfeo 0", "Sir Orfeo 99999",
                     "Sir Orfeo 260-233", "Pearl 1", "Troilus 3:1", "Troilus 9:1", "Confessio Amantis 0:1",

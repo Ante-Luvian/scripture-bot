@@ -28,6 +28,8 @@ from bot_commands.oracles import (
     cmd_iching,
     cmd_oracle,
     cmd_rumi,
+    cmd_shakespeare,
+    cmd_sonnet,
 )
 from bot_commands.prayers import PRAYERS
 from bot_commands.personal import (
@@ -190,6 +192,22 @@ async def rumi_slash(interaction: discord.Interaction, question: str = ""):
     await interaction.response.defer()
     ctx = await bot.get_context(interaction)
     await cmd_rumi(ctx, question=question)
+
+
+@bot.tree.command(name="shakespeare", description="Open Shakespeare at random: a passage of one of his plays")
+@app_commands.describe(question="Optional question or wish to hold in mind")
+async def shakespeare_slash(interaction: discord.Interaction, question: str = ""):
+    await interaction.response.defer()
+    ctx = await bot.get_context(interaction)
+    await cmd_shakespeare(ctx, question=question)
+
+
+@bot.tree.command(name="sonnet", description="One of Shakespeare's sonnets, or stanzas of his other poems")
+@app_commands.describe(which="A sonnet's number (1-154), or venus, lucrece or phoenix; empty for one at random")
+async def sonnet_slash(interaction: discord.Interaction, which: str = ""):
+    await interaction.response.defer()
+    ctx = await bot.get_context(interaction)
+    await cmd_sonnet(ctx, query=which)
 
 
 @bot.tree.command(name="books", description="List available scripture collections")
