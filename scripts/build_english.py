@@ -26,11 +26,14 @@ AUCH = ROOT / "scripts" / ".cache" / "auchinleck"
 UA = {"User-Agent": "Mozilla/5.0 (ScriptureBot corpus builder, personal Discord bot)"}
 
 
-def save(name: str, source: str, books: dict, out=OUT, book_sources=None) -> None:
-    """Every book here is cited by line ("line_chunked": the bot reads "Sir Orfeo 233" as line 233); a source is
-    short, editor and date (tests/test_citations.py), and book_sources gives each book its own in a mixed file."""
+def save(name: str, source: str, books: dict, out=OUT, book_sources=None, line_chunked=True) -> None:
+    """A book here is cited by line ("line_chunked": the bot reads "Sir Orfeo 233" as line 233) unless its edition
+    has no line numbers; a source is short, editor and date (tests/test_citations.py), and book_sources gives each
+    book its own in a mixed file."""
     out.mkdir(parents=True, exist_ok=True)
-    payload = {"source": source, "line_chunked": True, "books": books}
+    payload = {"source": source, "books": books}
+    if line_chunked:
+        payload["line_chunked"] = True
     if book_sources:
         payload["book_sources"] = book_sources
     (out / f"{name}.json").write_text(json.dumps(payload, ensure_ascii=False, indent=1), encoding="utf-8")
@@ -515,10 +518,258 @@ def verse_divs(body: str, junk: str = "sidenote|pagenum|footnote") -> list:
     for cls in junk.split("|"):
         body = drop(body, "div", cls)
     out = []
-    for st in keep_each(body, "div", "stanza|stanzabreak"):
+    # (a play's lines may stand straight in the poetry div, with no stanzas: Magnyfycence)
+    blocks = keep_each(body, "div", "stanza|stanzabreak") or keep_each(body, "div", "poetry|drama")
+    for st in blocks:
         out.append('<p class="stanza"></p>' + "".join(
-            f"<p>{x}</p>" for x in re.findall(r'(?is)<div class="verse[^"]*">(.*?)</div>', st)))
+            f"<p>{x}</p>" for x in re.findall(r'(?is)<div class="(?:verse|line|speaker)\b[^"]*">(.*?)</div>', st)))
     return numbered_poem("".join(out))
+
+
+# the commonest words of Middle (and Modern) English: a poem with few of them is in Latin (or French)
+ENGLISH = set("the and of to that is he his with ye for be as not þe þat and i my me thou thy you your hym him "
+              "hir her they them was were hath haue have shall shal wyll will by this all al so but or what".split())
+
+
+def mostly_latin(lines: list) -> bool:
+    words = re.findall(r"[a-zþ]+", " ".join(lines).lower())
+    return bool(words) and sum(w in ENGLISH for w in words) / len(words) < 0.10
+
+
+# Skelton (Dyce): a title's words -> the book's name in the bot; the other poems in English are the parts of
+# "Skelton's Shorter Poems", in Dyce's order
+SKELTON = [("BOWGE OF COURTE", "The Bowge of Courte"), ("PHYLLYP SPAROWE", "Phyllyp Sparowe"),
+           ("ELYNOUR RUMMYNGE", "Elynour Rummynge"), ("WARE THE HAUKE", "Ware the Hauke"),
+           ("MAGNYFYCENCE", "Magnyfycence"), ("COLYN CLOUTE", "Colyn Cloute"),
+           ("GARLANDE OR CHAPELET", "The Garlande of Laurell"), ("SPEKE, PARROT", "Speke, Parrot"),
+           ("LYTELL BOKE", "Why Come Ye Nat to Courte"), ("REPLYCACION", "A Replycacion"),
+           ("DUKE OF ALBANY", "How the Douty Duke of Albany Ran Away")]
+
+
+def skelton() -> dict:
+    """Dyce's Poetical Works of John Skelton (1843), Gutenberg #59997-8, each poem numbered as he numbers it:
+    the long ones as books, the rest as "Skelton's Shorter Poems"; his Latin poems, notes and the poems only
+    attributed to Skelton left out."""
+    out, shorter = {}, {}
+    for n in (59997, 59998):
+        t = ba.gutenberg(n)
+        start = re.search(r"(?is)<h1[^>]*>(?:THE\s+)?POETICAL(?:\s|<[^>]+>)+WORKS", t).start()
+        end = re.search(r"(?is)<h2[^>]*>\s*(?:<a[^>]*>\s*(?:</a>\s*)?)?(?:NOTES TO VOLUME|POEMS ATTRIBUTED)", t[start:])
+        t = t[start:end.start() + start if end else len(t)]                    # (vol. I has no notes)
+        heads = list(re.finditer(r"(?is)<h2[^>]*>(.*?)</h2>", t))
+        for i, h in enumerate(heads):
+            title = re.sub(r"\[\d+\]|\[U\]", "", text(drop(h.group(1), "a", "fnanchor"))).strip()
+            part = t[h.end():heads[i + 1].start() if i + 1 < len(heads) else len(t)]
+            paras = verse_divs(drop(part, "div", "footnotes"))
+            lines = [x for _, ls in paras for _, x in ls]
+            if not lines or mostly_latin(lines):
+                continue                                                  # (Latin, or no verse)
+            book = next((b for k, b in SKELTON if k in title.upper()), None)
+            if book:
+                out[book] = line_chunked(book, paras)
+            else:
+                k = len(shorter and {x.split(".")[0] for x in shorter}) + 1
+                # (his titles, half in capitals: each capitalized word recased, as heading_case would)
+                words = [w.capitalize() if w.isupper() and len(w) > 1 else w for w in title.rstrip(".").split()]
+                name = " ".join(words[:1] + [w.lower() if w.lower() in ba.SMALL else w for w in words[1:]])
+                name = re.sub(r"(?i)\b(?=\w\w)L?X{0,3}(?:IX|IV|V?I{0,3})\b", lambda m: m.group(0).upper(), name)
+                name = name[:90].rstrip(" ,;")
+                # (a heading over several poems, each numbered from 1 -- the Poems against Garnesche: a part each,
+                # cut where Dyce's numbers start again)
+                html_runs, last = [[]], 0
+                for st in re.split(r'(?i)(?=<div class="stanza)', drop(part, "div", "footnotes")):
+                    nums = [int(x) for x in re.findall(r'<span class="linenum">\s*(\d+)', st)]
+                    if nums and nums[0] < last:
+                        html_runs.append([])
+                    html_runs[-1].append(st)
+                    last = nums[-1] if nums else last
+                runs = [verse_divs("".join(r)) for r in html_runs]
+                runs = [r for r in runs if r]
+                for j, run in enumerate(runs):
+                    k = len({x.split(".")[0] for x in shorter}) + 1
+                    label = name if len(runs) == 1 else f"{name} ({ROMAN_NUMS[j].lower()})"
+                    heading = f"Skelton's Shorter Poems — {k}. {label}" if k == 1 else f"{k}. {label}"
+                    shorter.update(line_chunked("Skelton's Shorter Poems", run, part=k, heading=heading))
+    out["Skelton's Shorter Poems"] = shorter
+    return out
+
+
+def ludus() -> dict:
+    """Halliwell's Ludus Coventriae (Shakespeare Society, 1841), Gutenberg #70646: the N-Town plays, the
+    Prologue as chapter 0 and the 42 plays as 1-42, a verse a stanza (he doesn't number the lines); the speakers
+    kept, his notes left out."""
+    t = ba.gutenberg(70646)
+    start = t.index("COVENTRY MYSTERIES.</h1>")
+    t = until_heading(t, start, r"NOTES\.")
+    heads = list(re.finditer(r"(?is)<h2[^>]*>\s*(?:(?P<n>[IVXL]+)\.\s*(?P<name>.*?)|PROLOGUE\.)\s*</h2>", t))
+    out = {}
+    for i, h in enumerate(heads):
+        part = t[h.end():heads[i + 1].start() if i + 1 < len(heads) else len(t)]
+        n = 0 if not h.group("n") else len(out)                  # (by place: the etext has "XVIII" for XXVIII)
+        stanzas = ["\n".join(x for _, x in lines) for _, lines in verse_divs(part)]
+        title = "Prologue" if n == 0 else heading_case(text(h.group("name")).rstrip("."))
+        if stanzas:
+            out[str(n)] = ba.chapter(title, stanzas)
+    return {"Ludus Coventriae": out}
+
+
+def printers_marks(s: str) -> str:
+    """An early printed book's superscript abbreviations: the y that is a thorn as þ (y^e þe, y^t þat, y^u þou,
+    y^s þis), w^t as with; any other superscript letter run in."""
+    s = re.sub(r"(?i)\b([yY])<sup>e</sup>", lambda m: "Þe" if m.group(1) == "Y" else "þe", s)
+    s = re.sub(r"(?i)\b([yY])<sup>t</sup>", lambda m: "Þat" if m.group(1) == "Y" else "þat", s)
+    s = re.sub(r"(?i)\b([yY])<sup>u</sup>", lambda m: "Þou" if m.group(1) == "Y" else "þou", s)
+    s = re.sub(r"(?i)\b([yY])<sup>s</sup>", lambda m: "Þis" if m.group(1) == "Y" else "þis", s)
+    s = re.sub(r"\b([wW])<sup>t</sup>", lambda m: m.group(1) + "ith", s)
+    s = re.sub(r"(?is)<sup>(\w+)</sup>", r"\1", s)
+    # a tilde over a vowel for a left-out n or m (sentẽce, ĩ, groũded): written out, as the editors do
+    return re.sub("[ãẽĩõũ]", lambda m: "aeiou"["ãẽĩõũ".index(m.group(0))] + (
+        "m" if s[m.end():m.end() + 1] in ("b", "p") else "n"), s)
+
+
+def printers_letters(s: str) -> str:
+    """printers_marks for a text that sets them as Unicode letters: yᵉ yᵗ yᵘ wᵗ, and a macron or tilde on a vowel
+    (mā, sentẽce) for a left-out n or m."""
+    s = re.sub(r"\b([yY])ᵉ", lambda m: "Þe" if m.group(1) == "Y" else "þe", s)
+    s = re.sub(r"\b([yY])ᵗ", lambda m: "Þat" if m.group(1) == "Y" else "þat", s)
+    s = re.sub(r"\b([yY])ᵘ", lambda m: "Þou" if m.group(1) == "Y" else "þou", s)
+    s = re.sub(r"\b([wW])ᵗ", lambda m: m.group(1) + "ith", s)
+    marked = "āēīōūãẽĩõũ"
+    return re.sub(f"[{marked}]", lambda m: "aeiou"[marked.index(m.group(0)) % 5] + (
+        "m" if s[m.end():m.end() + 1] in ("b", "p") else "n"), s)
+
+
+def p_stanzas(body: str) -> list:
+    """[stanza] of a printing set as <p class="stanza">first line</p><p>line</p>...: its headings and page
+    numbers left out."""
+    body = printers_marks(drop(drop(drop(body, "span", "pagenum"), "p", "heading|pagenum|center|mynote"), "div",
+                               "pb|mynote"))
+    # the Conversion of Swearers' shaped verses, three short lines beside a bracketed word: a stanza each
+    body = re.sub(r'(?is)<table class="trio"[^>]*>.*?<td class="para">(.*?)</td>\s*<td[^>]*>(.*?)</td>.*?</table>',
+                  lambda m: '<p class="stanza">' + "</p><p>".join(
+                      [x for x in re.split(r"(?i)<br\s*/?>", m.group(1)) if x.strip()] + [m.group(2)]) + "</p>", body)
+    out = []
+    for st in re.split(r'(?i)<p class="stanza[^"]*">', body)[1:]:
+        lines = [text(x) for x in re.findall(r"(?is)(?:^|<p\b[^>]*>)(.*?)</p>", st)]
+        lines = [re.sub(r"^([A-Z])([A-Z])(?=[a-z])", lambda k: k.group(1) + k.group(2).lower(), x)   # ("THe")
+                 for x in lines if x]
+        lines = [re.sub(r"\*{3,}", LACUNA, x) for x in lines]       # (words cropped off the page: *******)
+        if lines:
+            out.append("\n".join(lines))
+    return out
+
+
+def hawes() -> dict:
+    """Stephen Hawes: the Pastime of Pleasure (ed. Wright, Percy Society 1845, from the 1555 print), Gutenberg
+    #58037, by chapter and stanza (a CAP. each, and the Excusation as 46); the Example of Vertu (#22415, the
+    Prologue as 0) and three shorter poems (#22261, #22289, #22326) from facsimile transcriptions of the first
+    prints, by stanza. None has line numbers."""
+    t = ba.gutenberg(58037)
+    start = re.search(r"(?is)<h2[^>]*>(?:\s|<[^>]+>)*CAP\.\s*I\.", t).start()
+    heads = list(re.finditer(r"(?is)<h2[^>]*>(.*?)</h2>", t[start:]))
+    pastime = {}
+    for i, h in enumerate(heads):
+        name = text(h.group(1))
+        if name.startswith("Transcriber"):
+            break
+        part = t[start + h.end():start + (heads[i + 1].start() if i + 1 < len(heads) else len(t) - start)]
+        stanzas = ["\n".join(LACUNA if re.fullmatch(r"[\s.*…]+", text(x)) else text(x)       # (his * * * gaps)
+                             for x in re.findall(r"(?is)<p\b[^>]*>(.*?)</p>", st) if text(x))
+                   for st in keep_each(part, "div", "verse")]
+        stanzas = [s for s in stanzas if s]
+        if stanzas:
+            title = heading_case(re.sub(r"^CAP\.\s*[IVXL]+\.\s*", "", name).rstrip("."))
+            pastime[str(len(pastime) + 1)] = ba.chapter(title, stanzas)      # (by place: two are misnumbered)
+    t = ba.gutenberg(22415)
+    heads = list(re.finditer(r"(?is)<h2[^>]*>(.*?)</h2>", t))
+    example = {}
+    for i, h in enumerate(heads):
+        name = text(h.group(1))
+        if not re.match(r"(?i)¶?\s*(?:the prologe|capitulum)", name):
+            continue
+        part = t[h.end():heads[i + 1].start() if i + 1 < len(heads) else len(t)]
+        stanzas = p_stanzas(part)
+        if stanzas:
+            n = 0 if "prologe" in name.lower() else len(example) + (0 if "0" in example else 1)
+            example[str(n)] = ba.chapter("The Prologue" if n == 0 else f"Chapter {n}", stanzas)
+    shorter = {}
+    for n, title in ((22261, "A Joyful Meditation to All England of the Coronation of King Henry the Eighth"),
+                     (22289, "The Conversion of Swearers"), (22326, "The Comfort of Lovers")):
+        body = re.split(r'(?i)<p><b>Damaged Lines|Transcriber[’\']s Note|end div maintext|<div class="endnote"',
+                        ba.gutenberg(n))[0]                                    # (the transcribers' notes)
+        shorter[str(len(shorter) + 1)] = ba.chapter(title, p_stanzas(body))
+    return {"The Pastime of Pleasure": pastime, "The Example of Vertu": example, "Hawes's Shorter Poems": shorter}
+
+
+def in_twenties(lines: list) -> list:
+    """A stanza's lines as one verse, or a long run of couplets (no stanzas) as verses of about 20 lines each."""
+    if len(lines) <= 40:
+        return ["\n".join(lines)]
+    pieces = -(-len(lines) // 20)
+    size = -(-len(lines) // pieces)
+    size += size % 2
+    return ["\n".join(lines[i:i + size]) for i in range(0, len(lines), size)]
+
+
+def disguising() -> dict:
+    """Lydgate's Disguising at Hertford (about 1430), Gutenberg #2878: a mumming, the husbands' complaint of their
+    wives and the wives' answer; its preformatted lines numbered every tenth, a paragraph a block between blank
+    lines. The editor's heading-rubric before it and notes after it left out."""
+    t = ba.gutenberg(2878)
+    t = t[t.index("THE DISGUISING AT HERTFORD\n    </h2>") if "THE DISGUISING AT HERTFORD\n    </h2>" in t
+          else re.search(r"THE DISGUISING AT HERTFORD\s*</h2>", t).end():]
+    t = re.split(r"(?i)GLOSSARY, STAGE DIRECTIONS|<h2[^>]*>\s*GLOSSARY", t)[0]
+    items = []
+    for pre in re.findall(r"(?is)<pre>(.*?)</pre>", t):
+        for raw in html.unescape(re.sub(r"<[^>]+>", "", pre)).split("\n"):
+            if not raw.strip():
+                items.append(("break",))
+                continue
+            m = re.match(r"^(.*?\S)\s{3,}(\d+)\s*$", raw)
+            line, mark = (m.group(1), int(m.group(2))) if m else (raw, None)
+            line = re.sub(r"\s+", " ", line).strip()                       # (the MS's pointing, " :", kept)
+            items.append(("line", line, mark))
+    return {"The Disguising at Hertford": line_chunked("The Disguising at Hertford", group_lines(items))}
+
+
+def cocke_lorell() -> dict:
+    """Cocke Lorelles Bote (about 1510, Wynkyn de Worde's print), Gutenberg #60158, numbered as its editor
+    numbers it: a ship of fools, the rogues of London setting sail."""
+    t = ba.gutenberg(60158)
+    start = re.search(r"(?is)<h2[^>]*>\s*(?:<a[^>]*>\s*</a>)?\s*COCKE LORELLES BOTE\.", t).end()
+    t = t[start:].replace('class="lne"', 'class="linenum"')
+    paras = gutenberg_poem(t, junk="sidenote|pagenum|footnote|fnanchor|chead")
+    paras = [(s, [(n, printers_letters(x)) for n, x in lines]) for s, lines in paras]
+    return {"Cocke Lorelles Bote": line_chunked("Cocke Lorelles Bote", paras)}
+
+
+SCOTS_POETS = {"SIR DAVID LYNDSAY": "Lyndsay's Poems", "JOHN BELLENDEN": "Bellenden's Poems",
+               "KING JAMES THE FIFTH": "Poems of King James V", "SIR RICHARD MAITLAND": "Maitland's Poems",
+               "ALEXANDER SCOT": "Alexander Scott's Poems", "ALEXANDER MONTGOMERIE": "Montgomerie's Poems"}
+
+
+def scots_poets() -> dict:
+    """Eyre-Todd's Scottish Poetry of the Sixteenth Century (1892), Gutenberg #49790: a book a poet, a chapter a
+    poem, a verse a stanza (he doesn't number the lines); his glosses (footnotes) left out."""
+    t = ba.gutenberg(49790)
+    t = drop(drop(t, "a", "fnanchor"), "div", "footnotes")
+    heads = list(re.finditer(r"(?is)<h([23])[^>]*>(.*?)</h\1>", t))
+    out, poet = {}, None
+    for i, h in enumerate(heads):
+        name = re.sub(r"\[\d+\]", "", text(h.group(2))).strip().rstrip(".")
+        if h.group(1) == "2":
+            poet = SCOTS_POETS.get(name.upper())
+            if name.upper().startswith(("ADVERTISEMENTS", "FOOTNOTES")):
+                break
+            continue
+        if not poet:
+            continue
+        part = t[h.end():heads[i + 1].start() if i + 1 < len(heads) else len(t)]
+        stanzas = [x for _, lines in verse_divs(part) for x in in_twenties([x for _, x in lines])]
+        if stanzas:
+            book = out.setdefault(poet, {})
+            book[str(len(book) + 1)] = ba.chapter(heading_case(name), stanzas)
+    return out
 
 
 WALLACE_BOOKS = ["FYRST", "SECUND", "THRYD", "FEYRD", "FYFTE", "SEXT", "SEWYND", "AUCHT", "NYNTE", "TEND",
@@ -946,6 +1197,14 @@ BUILDS = {
                                "Sir Gawayn and the Grene Knyȝt": "ed. Richard Morris (EETS 4, 1864)"}),
     "chaucerian": lambda: save("chaucerian", "ed. Walter W. Skeat, Chaucerian and Other Pieces (Oxford, 1897)",
                                chaucerian()),
+    # (its transcriber printed the manuscript's þ as th, so it has none)
+    "lydgate": lambda: save("lydgate_disguising", "from Trinity College, Cambridge, MS R.3.20", disguising()),
+    "cocke": lambda: save("cocke_lorell", "ed. J. P. Edmond (1884), from Wynkyn de Worde's print", cocke_lorell()),
+    "scots": lambda: save("scots_poets", "ed. George Eyre-Todd (1892)", scots_poets(), line_chunked=False),
+    "hawes": lambda: save("hawes", "Stephen Hawes, ed. Thomas Wright (1845) and from the first prints", hawes(),
+                          line_chunked=False),
+    "skelton": lambda: save("skelton", "ed. Alexander Dyce (1843)", skelton()),
+    "ludus": lambda: save("ludus_coventriae", "ed. J. O. Halliwell (1841)", ludus(), line_chunked=False),
     "wallace": lambda: save("wallace", "Blind Hary, Wallace, ed. John Jamieson (1820; 1869)", wallace()),
     "bruce": lambda: save("bruce", "John Barbour, The Bruce, ed. W. M. Mackenzie (London, 1909)", bruce()),
     "sisam": lambda: save("sisam", "ed. Kenneth Sisam, Fourteenth Century Verse & Prose (Oxford, 1921)", sisam()),

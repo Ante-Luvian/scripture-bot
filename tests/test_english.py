@@ -30,6 +30,11 @@ def test_every_poem_is_there(books):
         assert len(books[book]) == parts, book
     assert len(books["The Faerie Queene"]) == 75 and "7.8" in books["The Faerie Queene"]   # (the unfinished canto)
     assert len(books["The Canterbury Tales"]) >= 45
+    assert len(books["Ludus Coventriae"]) == 43                                     # (the Prologue and 42 plays)
+    assert len(books["The Pastime of Pleasure"]) == 46 and len(books["Lyndsay's Poems"]) == 8
+    assert max(int(k) for k in books["Magnyfycence"]["1"]) >= 2500                  # (the play, its 2567 lines)
+    skelton = "\n".join(_text(books[b]) for b in books if "Skelton" in b)
+    assert "Lamentatio" not in skelton and "Tetrastichon" not in skelton            # (his Latin poems: left out)
 
 
 def test_clean(books):
