@@ -264,6 +264,22 @@ extracts from longer works; two Auchinleck fragments (a list of Norman names; a 
 Auchinleck Orfeo (Sisam's is the same text with its lost opening). Lydgate's Disguising has no þ: its
 transcriber printed th.
 
+**Shakespeare (added 2026-10-26, live, changelog posted):** `scripts/build_shakespeare.py` → `data/shakespeare/`
+(the Folger TEI downloads; the owner chose Folger's modern spelling over the First Folio). A scene is a chapter
+(`Hamlet 3.1`; Prologue/Induction `0`, a chorus `2.0`, Epilogue `6`), passages keyed by Folger's line numbers,
+line-chunked; `last_lines` in the file lets the lookup reach a scene's last lines. `lines.json` holds every line
+(speaker, text, prose flag, speech number) for `!shakespeare` (oracles.py): dice for play (First Folio order, then
+Pericles 37, Two Noble Kinsmen 38), act, scene, line, the line shown bold inside its whole sentence (the owner
+disliked lines cut mid-sentence), 🖼️ Card and 📜 In context on one row. `!sonnet` gives a sonnet or a stanza run of
+the other poems. Credit is just "Folger edition" (the owner found the editors' names excessive). "Julius Caesar" is
+Suetonius, so the play is `Shakespeare: Julius Caesar` / `JC`. Not built, by choice: the 1866 game *Shakspeare's
+Mental Photographs* (Gutenberg #56851) and a daily line. Adding a tradition is now at Discord's limits: the setup
+menu holds exactly 25 (a 26th needs the menu split), and `/search` takes traditions by autocomplete
+(`tests/test_slash_limits.py` guards both).
+
+**How the owner wants checks run (2026-10-26):** proportionate. The 12-minute corpus check only when corpus *text*
+changed (else compare `books` with HEAD); never OCR or proofread scan images without asking first (token cost).
+
 ---
 
 ## 7. Where things are
