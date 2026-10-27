@@ -46,6 +46,20 @@ def test_citations_it_wasnt_given_are_taken_out(ask):
     assert cited == ["Enneads 1.8:3", "Phaedo 67e:1"]
 
 
+def test_a_citation_without_brackets_still_counts(ask):
+    """The second live answer wrote "In *Enneads* 1.8:1, evil is..." and its sources footer came out empty."""
+    passages = [{"reference": "Enneads 1.8:1", "text": "..."}, {"reference": "Enneads 1.8:7", "text": "..."},
+                {"reference": "Enneads 1.7:3", "text": "..."}]
+    _, cited = ask.checked("In *Enneads* 1.8:7, the Kosmos is a blend. In *Enneads* 1.8:1, evil is absence.",
+                           passages)
+    assert cited == ["Enneads 1.8:7", "Enneads 1.8:1"]                     # (in the order the answer gives them)
+
+
+def test_a_named_author_gets_only_their_passages(ask, small_index):
+    found = ask.find_passages("What does the Epistle of Barnabas say about the two ways?", index=small_index)
+    assert found and all(p["reference"].startswith("Epistle of Barnabas") for p in found)
+
+
 def test_an_answer_is_one_request_with_the_passages(ask, small_index, monkeypatch):
     sent = []
 

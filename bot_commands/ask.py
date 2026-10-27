@@ -163,11 +163,15 @@ def find_passages(question: str, guild_id=None, index=None, limit: int = PASSAGE
             continue
         seen.add(same)
         per_book[book] += 1
-        out.append({"reference": lookup._cite(book, chap, verse),
+        out.append({"reference": lookup._cite(book, chap, verse), "named": named[book],
                     "text": _excerpt(text, terms, PASSAGE_CHARS[min(len(out), len(PASSAGE_CHARS) - 1)])})
         if len(out) == limit:
             break
-    return out
+    # a question about an author or a book, with enough of them found, gets only them: told to ignore passages that
+    # merely share a word, the model still reports on them ("the Sozomen passage mentions Plotinus only...")
+    if sum(p["named"] for p in out) >= 3:
+        out = [p for p in out if p["named"]]
+    return [{"reference": p["reference"], "text": p["text"]} for p in out]
 
 
 # ── the answer ─────────────────────────────────────────────────────────────
@@ -211,7 +215,9 @@ def _messages(question: str, passages: list, history: list) -> list:
     for q, a in history[-HISTORY:]:
         msgs += [{"role": "user", "content": q}, {"role": "assistant", "content": a}]
     shown = "\n\n".join(f"[{p['reference']}]\n{p['text']}" for p in passages)
-    msgs.append({"role": "user", "content": f"Passages from the library:\n\n{shown}\n\nQuestion: {question}"})
+    msgs.append({"role": "user", "content": f"Passages from the library:\n\n{shown}\n\nQuestion: {question}\n\n"
+                 "(Cite each claim in square brackets, like [Enneads 1.8:3]. Leave out any passage that doesn't "
+                 "bear on the question: don't mention it at all.)"})
     return msgs
 
 
@@ -228,6 +234,11 @@ def checked(answer: str, passages: list) -> tuple:
             return f"[{ref}]"
         return ""
     answer = re.sub(r"\[([^\[\]]{3,80})\]", keep, answer)
+    plain = answer.replace("*", "")
+    for ref in given:                                        # (a citation written without brackets: "In Enneads 1.8:1")
+        if ref not in cited and re.search(rf"(?<![\w.:]){re.escape(ref)}(?![\w:]|\.\d)", plain):
+            cited.append(ref)
+    cited.sort(key=lambda r: plain.find(r) if r in plain else len(plain))
     return re.sub(r"[ \t]+([,.;:])", r"\1", answer).strip(), cited
 
 
