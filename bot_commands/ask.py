@@ -285,7 +285,10 @@ below. Answer from those passages only.
 leave the others out entirely: don't mention them or say that they don't help.
 - A passage that starts or ends with "…" is an excerpt from a longer one. Don't remark on that; answer from what \
 is there.
-- If none of the passages answer the question, say so plainly in a sentence.
+- Write as someone who knows these texts, about the subject, not about your sources: never mention "the \
+passages", "the library", "the excerpts" or what they don't say, and don't end with a caveat or disclaimer of any \
+kind (what you can't say, how others might read it). The citations show where everything comes from.
+- Only if none of the passages answer the question, say in one sentence that you found nothing on it.
 - Where the authors disagree, say so; don't harmonise them. Explain the ideas plainly for someone who hasn't read \
 them; give the author's view, not your own, and don't preach.
 - At most 220 words. Discord markdown: *italics* for titles, no headings, no tables."""
@@ -315,7 +318,8 @@ def _messages(question: str, passages: list, history: list) -> list:
     shown = "\n\n".join(f"[{p['reference']}]\n{p['text']}" for p in passages)
     msgs.append({"role": "user", "content": f"Passages from the library:\n\n{shown}\n\nQuestion: {question}\n\n"
                  "(Cite each claim in square brackets, like [Enneads 1.8:3]. Leave out any passage that doesn't "
-                 "bear on the question: don't mention it at all.)"})
+                 "bear on the question: don't mention it at all. Don't mention the passages or the library "
+                 "themselves, and end on the substance, with no caveat.)"})
     return msgs
 
 
