@@ -338,6 +338,52 @@ BOOKS_TREE = [
             ]),
         ]),
     ]),
+    ("🏛️ Hellenistic Judaism", [
+        ("Philo of Alexandria", [
+            "On the Creation",
+            "Allegorical Interpretation I",
+            "Allegorical Interpretation II",
+            "Allegorical Interpretation III",
+            "On the Cherubim",
+            "On the Birth of Abel",
+            "Worse Attacks the Better",
+            "On the Posterity of Cain",
+            "On the Giants",
+            "On the Unchangeableness of God",
+            "On Husbandry",
+            "On Noah's Work as a Planter",
+            "On Drunkenness",
+            "On Sobriety",
+            "On the Confusion of Tongues",
+            "On the Migration of Abraham",
+            "Who is the Heir of Divine Things",
+            "On Mating",
+            "On Flight and Finding",
+            "On the Change of Names",
+            "On Abraham",
+            "On Joseph",
+            "On the Life of Moses I",
+            "On the Life of Moses II",
+            "The Decalogue",
+            "The Special Laws I",
+            "The Special Laws II",
+            "The Special Laws III",
+            "The Special Laws IV",
+            "On the Virtues",
+            "On Rewards and Punishments",
+            "Every Good Man is Free",
+            "On the Contemplative Life",
+            "On the Eternity of the World",
+            "Flaccus",
+            "On the Embassy to Gaius",
+            "Questions on Genesis I",
+            "Questions on Genesis II",
+            "Questions on Genesis III",
+        ]),
+        ("Josephus", [
+            "Jewish Antiquities","Jewish War","Against Apion","Life",
+        ]),
+    ]),
     ("☪️ Islamic", [
         ("Quran", [
             ("Juz 1–2: Al-Faatiha through Al-Baqara", [
@@ -556,47 +602,6 @@ BOOKS_TREE = [
                 "Cleitophon", "Republic", "Timaeus", "Critias", "Minos",
                 "Laws", "Epinomis", "Letters",
                 "Axiochus", "Eryxias",
-            ]),
-            ("Philo of Alexandria", [
-                "On the Creation",
-                "Allegorical Interpretation I",
-                "Allegorical Interpretation II",
-                "Allegorical Interpretation III",
-                "On the Cherubim",
-                "On the Birth of Abel",
-                "Worse Attacks the Better",
-                "On the Posterity of Cain",
-                "On the Giants",
-                "On the Unchangeableness of God",
-                "On Husbandry",
-                "On Noah's Work as a Planter",
-                "On Drunkenness",
-                "On Sobriety",
-                "On the Confusion of Tongues",
-                "On the Migration of Abraham",
-                "Who is the Heir of Divine Things",
-                "On Mating",
-                "On Flight and Finding",
-                "On the Change of Names",
-                "On Abraham",
-                "On Joseph",
-                "On the Life of Moses I",
-                "On the Life of Moses II",
-                "The Decalogue",
-                "The Special Laws I",
-                "The Special Laws II",
-                "The Special Laws III",
-                "The Special Laws IV",
-                "On the Virtues",
-                "On Rewards and Punishments",
-                "Every Good Man is Free",
-                "On the Contemplative Life",
-                "On the Eternity of the World",
-                "Flaccus",
-                "On the Embassy to Gaius",
-                "Questions on Genesis I",
-                "Questions on Genesis II",
-                "Questions on Genesis III",
             ]),
             # his Platonist and religious essays; all of him (the Lives too) is on his own shelf
             ("Plutarch", [
@@ -890,9 +895,11 @@ BOOKS_TREE = [
                       "The Two Noble Kinsmen"]),
         ("Poems", ["Shakespeare's Sonnets", "Venus and Adonis", "Lucrece", "The Phoenix and Turtle"]),
     ]),
-    ("🎻 Folk tales & ballads", [
-        "Child Ballads",
+    ("🧚 Fairy tales", [
         "Grimm's Household Tales",
+    ]),
+    ("🎻 Ballads & fables", [
+        "Child Ballads",
         "Reynard the Fox",
         "Fables of La Fontaine",
         ("The Talking Beasts (the world's fables)", [
@@ -1212,9 +1219,6 @@ BOOKS_TREE = [
             ]),
         ]),
         ("Church History", [
-            ("Josephus", [
-                "Jewish Antiquities","Jewish War","Against Apion","Life",
-            ]),
             ("Eusebius of Caesarea", [
                 "Church History","Life of Constantine","Oration in Praise of Constantine",
                 "Demonstratio Evangelica","Praeparatio Evangelica","Theophania",
@@ -1466,18 +1470,21 @@ _ADDED_TO_TREE = _complete_tree(BOOKS_TREE, lookup)
 # classical-philosophical corpora. Reuses the same nested lists/tuples from
 # BOOKS_TREE by reference, so drilling further down is unaffected.
 _SUPERGROUP_ORDER = [
-    ("📖 Abrahamic Scripture & Commentary", [
-        "📖 The Bible", "👼 Apocrypha / Pseudepigrapha", "✡️ Rabbinic & Kabbalistic",
-        "☪️ Islamic", "🧿 Gnostic", "📯 LDS", "🌍 Bahá'í", "🏺 Dead Sea Scrolls",
-        "⛪ Patristics & Church History",
+    ("✝️ Christianity", [
+        "📖 The Bible", "👼 Apocrypha / Pseudepigrapha", "⛪ Patristics & Church History", "📯 LDS",
     ]),
-    ("🪷 Eastern Traditions", [
-        "☸️ Dharmic", "🪯 Sikh", "🤚 Jain", "☸️ Buddhist", "☯️ Chinese Classics", "⛩️ Shinto",
+    ("✡️ Judaism", [
+        "✡️ Rabbinic & Kabbalistic", "🏛️ Hellenistic Judaism", "🏺 Dead Sea Scrolls",
     ]),
-    ("🌐 Mythology & Classical Traditions", [
-        "🏛️ Classical", "🌲 Norse", "🦢 Finnish", "☘️ Celtic", "🌙 Ancient Near East",
-        "🔥 Zoroastrian", "🌽 Mesoamerican", "⚔️ Arthurian legend", "📜 Medieval English poetry",
-        "🎭 Shakespeare", "🎻 Folk tales & ballads",
+    ("☪️ Islam & Bahá'í", ["☪️ Islamic", "🌍 Bahá'í"]),
+    ("🧿 Near East & Gnostic", ["🧿 Gnostic", "🌙 Ancient Near East", "🔥 Zoroastrian"]),
+    ("🏛️ Classical", ["🏛️ Classical"]),
+    ("🪷 Dharmic & Asian", [
+        "☸️ Dharmic", "☸️ Buddhist", "🤚 Jain", "🪯 Sikh", "☯️ Chinese Classics", "⛩️ Shinto",
+    ]),
+    ("🌍 Folk Myth & Fairy Stories", ["🌲 Norse", "☘️ Celtic", "🦢 Finnish", "🌽 Mesoamerican", "🧚 Fairy tales"]),
+    ("📜 English Literature", [
+        "⚔️ Arthurian legend", "📜 Medieval English poetry", "🎭 Shakespeare", "🎻 Ballads & fables",
     ]),
 ]
 # ── a server sees only the sections of the traditions it chose ──────────────
@@ -1510,8 +1517,13 @@ def tree_for(guild_id) -> tuple:
     if len(sections) == len(BOOKS_TREE):
         return ROOT_BOOKS_TREE, BOOKS_TREE
     names = {n for n, _ in sections}
-    root = [(group, [(n, c) for n, c in subs if n in names]) for group, subs in ROOT_BOOKS_TREE]
-    return [(group, subs) for group, subs in root if subs], sections
+    root = [(group, [(n, c) for n, c in subs if n in names]) for group, subs in _ROOT_GROUPS]
+    return _open_lone([(group, subs) for group, subs in root if subs]), sections
+
+
+def _open_lone(root: list) -> list:
+    """A group holding just one shelf of its own name (🏛️ Classical) opens that shelf, not a list of one."""
+    return [subs[0] if len(subs) == 1 and subs[0][0] == group else (group, subs) for group, subs in root]
 
 
 def _hidden_book(guild_id, name) -> bool:
@@ -1522,10 +1534,11 @@ def _hidden_book(guild_id, name) -> bool:
 
 
 _books_tree_by_name = {name: contents for name, contents in BOOKS_TREE}
-ROOT_BOOKS_TREE = [
+_ROOT_GROUPS = [
     (group_label, [(name, _books_tree_by_name[name]) for name in names])
     for group_label, names in _SUPERGROUP_ORDER
 ]
+ROOT_BOOKS_TREE = _open_lone(_ROOT_GROUPS)
 
 
 def _count_leaves(node) -> int:
