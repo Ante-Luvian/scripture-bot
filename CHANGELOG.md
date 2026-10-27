@@ -14,6 +14,27 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-10-27 · Pythagoras, Plato's heirs and the Orphic mysteries: about 20 new texts
+The library's shelf of Greek and Roman religious philosophy (the Pythagoreans, the followers of Plato, the Orphic mystery religion) now holds nearly everything that exists in a good, out-of-copyright English translation. Browse it with `!books`, under 🏛️ Classical → Platonic.
+- 🔺 **The Pythagoreans in their own words.** Pythagoras left nothing written, but his followers did, and their surviving fragments are here. There's Philolaus on number and harmony, and the mathematician Archytas, Plato's friend. There's *Timaeus Locrus*, a short account of how the world was made, and Ocellus Lucanus on why the universe never began. And there are dozens of short pieces on how to live, run a household or rule a city, several of them by Pythagorean women such as Perictyone and Phintys. Try `!verse Fragments of Philolaus 1` or `!verse Timaeus Locrus on the Soul of the World 1`.
+- 🔥 **The philosophers before Socrates.** John Burnet's translations of the surviving sayings of Heraclitus ("Nature loves to hide"), Parmenides's poem about a journey to a goddess, and Empedocles, who claimed to be a god walking among men. Also Xenophanes, Anaxagoras, Zeno, Melissus and Diogenes of Apollonia. Try `!verse Fragments of Heraclitus 1`.
+- 🪙 **The Orphic gold tablets.** These are thin sheets of gold buried with followers of the Orphic mysteries, giving the dead directions for the underworld: avoid one spring, drink from the Lake of Memory, and say "I am a child of Earth and of Starry Heaven". Try `!verse Orphic Gold Tablets 1`.
+- 🏛️ **The Platonists between Plato and Plotinus** (the "Middle Platonists"):
+  - Alcinous's handbook summing up Plato's teaching, and all 41 talks of Maximus of Tyre ("What God is according to Plato").
+  - Apuleius: his speech defending himself against a charge of magic, his collection of short speeches, and *The Golden Ass*, the novel whose last book is a moving account of being initiated into the mysteries of Isis.
+  - Cicero's *Dream of Scipio*, a vision of the heavens and of the soul's home among the stars.
+  - Celsus's arguments against the Christians.
+  
+  Try `!verse The Golden Ass 47` or `!verse Dissertations of Maximus of Tyre 1`.
+- 🌟 **Much more Neoplatonism.**
+  - Proclus's great *Theology of Plato* is now complete (the bot had only its first five books), along with three of his shorter works on providence, fate and the nature of evil, and his commentary on the Chaldaean Oracles.
+  - Porphyry's *Letter to Anebo* (the letter Iamblichus answers in *On the Mysteries*) and his *Against the Christians*, a book the Church burned. What survives is the 96 passages its Christian opponents quoted, each shown under the writer who quotes it.
+  - Eunapius's *Lives of the Philosophers*, about the pagan teachers of the 300s, and Boethius's *Consolation of Philosophy*.
+  
+  Try `!verse Letter to Anebo 1` or `!verse On Providence and Fate 1`.
+- 👑 **The rest of the Emperor Julian.** Julian ruled the Roman Empire in the 360s and tried to bring back the old gods. The bot already had his two hymns and his attack on the Christians. Now it has the rest of what he wrote, translated by W. C. Wright: his speeches, his satire *The Caesars* (in which the dead Roman emperors compete before the gods), *Misopogon* ("Beard-Hater", his reply to the people of Antioch who mocked him), and 83 of his letters. Also the speech his friend Libanius gave at his death, and Libanius's plea to a later emperor to spare the temples. Try `!verse The Caesars 1` or `!verse Letters of Julian 8`.
+- 🔢 **The *Theology of Plato* is now cited by book and chapter**, the way the printed book numbers it: `!verse Theology of Plato 1.1` is Book 1, Chapter 1. The old numbers (1 to 184) don't work any more. In Book 3 the oldest Greek copies never marked where chapters 3–6 and 8 begin, so the bot can't open those. If you ask for one, it explains this and tells you which chapter holds its words.
+
 ## 2026-10-26 · A three-card tarot spread, and the Neoplatonists cleaned up
 - 🃏 **`!tarot three` now lays your three cards side by side in one picture**, like a real spread on a table: the past, the present and the future, each card's place written above it and its name below (a card that falls reversed lies upside down), with what each one means, in A. E. Waite's own words, listed underneath. `!tarot 3` works too.
 - 📜 **Iamblichus no longer answers questions nobody asked.** In *On the Mysteries* Iamblichus replies, point by point, to a letter from the philosopher Porphyry, and the English translation (Thomas Taylor's, 1821) prints Porphyry's questions in italics. Those italics had been lost, so dozens of answers began 'you say, “.”' and went on to reply to a blank. All of them are back: `!verse On the Mysteries 8:11` now reads 'you say, “*it must be granted that there are Gods*.”'. The same repair was made to Iamblichus's *Life of Pythagoras*.
