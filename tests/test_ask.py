@@ -22,9 +22,15 @@ def test_it_finds_passages_that_open(ask, small_index, lookup):
     assert found and len(found) <= ask.PASSAGES
     for p in found:
         assert lookup.get_verse(p["reference"])["found"], p["reference"]      # (each one !verse can open)
-        assert len(p["text"]) <= ask.PASSAGE_CHARS + 2
+        assert len(p["text"]) <= max(ask.PASSAGE_CHARS) + 2
     books = [p["reference"].rsplit(" ", 1)[0] for p in found]
-    assert all(books.count(b) <= 2 for b in books)                           # (not one book's eight verses)
+    assert all(books.count(b) <= ask.PER_BOOK for b in books)               # (not one book's eight verses)
+
+
+def test_a_book_or_author_named_may_give_more(ask):
+    assert ask._named("Enneads", ["Classical", "Platonic", "Plotinus"], "What does Plotinus say evil is?")
+    assert ask._named("Epistle of Barnabas", ["Apostolic Fathers"], "what does the epistle of barnabas say")
+    assert not ask._named("Enneads", ["Classical", "Platonic", "Plotinus"], "what is evil?")
 
 
 def test_nothing_to_search_for(ask, small_index):

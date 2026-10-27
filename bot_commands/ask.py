@@ -29,10 +29,14 @@ from core import ROOT, _load_guild_config, _update_guild_config, bot, bot_is_own
 
 ASK_USAGE_PATH = ROOT / "data" / "ask_usage.json"          # {"day": "YYYY-MM-DD", "count": n, "cap": n}
 MODEL = "claude-haiku-5-5"
-ASK_DEFAULT_CAP = 50              # (about half a cent an answer with a page of passages: ~25 cents a day at most)
+ASK_DEFAULT_CAP = 50              # (about a cent an answer, its thinking included: ~50 cents a day at most)
 ASK_COOLDOWN = 30                 # seconds between one person's questions
 PASSAGES = 8                      # passages sent with a question
-PASSAGE_CHARS = 1200              # the most of one passage sent (a long verse is cut around the words asked about)
+# the most of one passage sent, by its rank (a long one is cut around the words asked about): the best three
+# whole enough to follow an argument, the rest a glimpse (about 10,000 characters in all, as 8 x 1,200 was)
+PASSAGE_CHARS = (2400, 2400, 2400, 700, 700, 700, 700, 700)
+PER_BOOK = 2                      # passages from one book, unless the question names its author or the book
+PER_NAMED_BOOK = 5
 HISTORY = 3                       # earlier exchanges of a conversation sent with a follow-up
 
 # the libraries it reads: the Classical shelf and the Christian ones
@@ -54,7 +58,8 @@ _building = None                             # (an asyncio.Lock, made on first u
 # ── the index ──────────────────────────────────────────────────────────────
 
 def _shelves() -> dict:
-    """{book: the shelves above it in !books ("Classical Platonic Plotinus")}: so "Plotinus" finds the Enneads."""
+    """{book: the shelves above it in !books (["Classical", "Platonic", "Plotinus"])}: so "Plotinus" finds the
+    Enneads."""
     from bot_commands.books import BOOKS_TREE
     out = {}
 
@@ -63,9 +68,16 @@ def _shelves() -> dict:
             if isinstance(item, tuple):
                 walk(item[1], path + [re.sub(r"[^\w\s'-]", "", item[0]).strip()])
             else:
-                out.setdefault(item, " ".join(path))
+                out.setdefault(item, path)
     walk(BOOKS_TREE, [])
     return out
+
+
+def _named(book: str, shelves: list, question: str) -> bool:
+    """Whether the question names the book, or the author whose shelf it's on ("what does Plotinus say...")."""
+    q = question.lower()
+    names = [book] + shelves[-1:]                    # (the nearest shelf is the author's: "Plotinus", "Origen")
+    return any(len(n) >= 4 and re.search(rf"\b{re.escape(n.lower())}\b", q) for n in names)
 
 
 class Index:
@@ -73,7 +85,7 @@ class Index:
     words, not a second copy of the texts: row n is self.where[n], read back from the lookup."""
 
     def __init__(self, corpora=CORPORA):
-        shelves = _shelves()
+        self.shelves = shelves = _shelves()
         self.db = sqlite3.connect(":memory:", check_same_thread=False)
         self.db.execute("CREATE VIRTUAL TABLE passages USING fts5(text, book, shelf, content='', "
                         "tokenize='porter unicode61 remove_diacritics 2')")
@@ -85,7 +97,7 @@ class Index:
                     for verse, text in verses.items():
                         if isinstance(text, str) and len(text) > 40:
                             self.where.append((corpus, book, chap, verse))
-                            rows.append((len(self.where), text, book, shelves.get(book, "")))
+                            rows.append((len(self.where), text, book, " ".join(shelves.get(book, []))))
                 self.db.executemany("INSERT INTO passages (rowid, text, book, shelf) VALUES (?, ?, ?, ?)", rows)
         self.db.commit()
 
@@ -104,20 +116,21 @@ def _terms(question: str) -> list:
     return list(dict.fromkeys(w for w in words if w not in _STOP))
 
 
-def _excerpt(text: str, terms: list) -> str:
-    """A long passage cut to PASSAGE_CHARS around the first of the words asked about."""
-    if len(text) <= PASSAGE_CHARS:
+def _excerpt(text: str, terms: list, room: int) -> str:
+    """A long passage cut to `room` characters around the first of the words asked about."""
+    if len(text) <= room:
         return text
     low = text.lower()
     at = min((i for i in (low.find(t[:6]) for t in terms) if i >= 0), default=0)
-    start = max(0, min(at - PASSAGE_CHARS // 3, len(text) - PASSAGE_CHARS))
-    piece = text[start:start + PASSAGE_CHARS]
-    return ("…" if start else "") + piece + ("…" if start + PASSAGE_CHARS < len(text) else "")
+    start = max(0, min(at - room // 4, len(text) - room))
+    piece = text[start:start + room]
+    return ("…" if start else "") + piece + ("…" if start + room < len(text) else "")
 
 
 def find_passages(question: str, guild_id=None, index=None, limit: int = PASSAGES) -> list:
-    """[{"reference", "text"}] of the passages that best answer the question: no more than two from one book,
-    and only from the traditions the server has."""
+    """[{"reference", "text"}] of the passages that best answer the question, best first: no more than PER_BOOK
+    from one book (PER_NAMED_BOOK from a book the question names, or its author), and only from the traditions
+    the server has."""
     from scripture_lookup import CORPUS_TRADITION
     index = index or _index
     terms = _terms(question)
@@ -130,8 +143,19 @@ def find_passages(question: str, guild_id=None, index=None, limit: int = PASSAGE
         if len(rows) >= limit * 3 or len(terms) == 1:
             break
     out, per_book, seen = [], collections.Counter(), set()
+    def worth(row) -> int:
+        """0 a passage of substance, 1 a short one (a line of a letter's farewell), 2 a list of contents."""
+        text = lookup._data[row[0]][row[1]][row[2]][row[3]]
+        if len(re.findall(r"(?:^|\s)\d{1,3}\.\s", text)) >= 4:
+            return 2
+        return 0 if len(text) >= 200 else 1
+    rows = [r for r in sorted(rows, key=worth) if worth(r) < 2]     # (sorted() keeps the ranking within each)
+    named = {}
     for corpus, book, chap, verse in rows:
-        if per_book[book] >= 2 or not tradition_enabled(guild_id, CORPUS_TRADITION.get(corpus)):
+        if book not in named:
+            named[book] = _named(book, index.shelves.get(book, []), question)
+        if per_book[book] >= (PER_NAMED_BOOK if named[book] else PER_BOOK) \
+                or not tradition_enabled(guild_id, CORPUS_TRADITION.get(corpus)):
             continue
         text = lookup._data[corpus][book][chap][verse]
         same = re.sub(r"\W", "", text.lower())[:200]           # (a text the library holds twice, under two titles)
@@ -139,7 +163,8 @@ def find_passages(question: str, guild_id=None, index=None, limit: int = PASSAGE
             continue
         seen.add(same)
         per_book[book] += 1
-        out.append({"reference": lookup._cite(book, chap, verse), "text": _excerpt(text, terms)})
+        out.append({"reference": lookup._cite(book, chap, verse),
+                    "text": _excerpt(text, terms, PASSAGE_CHARS[min(len(out), len(PASSAGE_CHARS) - 1)])})
         if len(out) == limit:
             break
     return out
@@ -154,7 +179,11 @@ below. Answer from those passages only.
 
 - Cite every claim with the passage's reference in square brackets, exactly as given: [Enneads 1.8:3].
 - Quote only words that are in the passages. Never invent a quotation, a reference, or what an author "also said".
-- If the passages don't answer the question, say so plainly in a sentence, and say what they do touch on.
+- The search finds some passages that only share a word with the question. Use the ones that bear on it and \
+leave the others out entirely: don't mention them or say that they don't help.
+- A passage that starts or ends with "…" is an excerpt from a longer one. Don't remark on that; answer from what \
+is there.
+- If none of the passages answer the question, say so plainly in a sentence.
 - Where the authors disagree, say so; don't harmonise them. Explain the ideas plainly for someone who hasn't read \
 them; give the author's view, not your own, and don't preach.
 - At most 220 words. Discord markdown: *italics* for titles, no headings, no tables."""
