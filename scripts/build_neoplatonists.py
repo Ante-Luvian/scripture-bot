@@ -406,8 +406,94 @@ def life_of_plotinus() -> None:
     print(f"  Life of Plotinus: {len(chapters)} chapters, {sum(len(c) for c in chapters.values())} paragraphs")
 
 
+# ── The Orphic Hymns, Taylor's (1792) ──────────────────────────────────────
+# The first build (deprecated/build_data.py, from theoi.com) dropped the hymns' titles, three hymns (38, 42, 70),
+# the address To Musaeus, and the fumigation line of some. Rebuilt from the same pages: a hymn a chapter (To
+# Musaeus as 0), its title and fumigation in italics as verse 1, then a line a verse, as before. theoi.com's
+# bracketed Greek names ("Night [Nyx]", "Venus [Kypris]") are kept: Taylor gives the gods their Latin names.
+
+def orphic_hymns() -> None:
+    hymns = {}
+    for n in (1, 2):
+        page = fetch(f"https://www.theoi.com/Text/OrphicHymns{n}.html", f"OrphicHymns{n}.html")
+        for m in re.finditer(r"(?is)<h3>(.*?)</h3>(.*?)(?=<h3>|<h2|<div class=\"(?:footer|nav)|</body>)", page):
+            head = html.unescape(re.sub(r"<[^>]+>", "", m.group(1))).strip()
+            num = re.match(r"\[(\d+)\]", head)
+            if not num and not head.upper().startswith("TO MUS"):
+                continue
+            key = num.group(1) if num else "0"
+            title = re.sub(r"^\[\d+\]\s*(?:[IVXLC]+(?:\.\s*|\s+))?", "", head).strip()   # ("XLII TO", "LXX.TO")
+            title = re.sub(r"^O CORYBAS", "TO CORYBAS", title)                     # (theoi's slip: Taylor's "To Corybas")
+            small = {"of", "the", "to", "and", "or", "in", "a"}
+            words = [w.lower() for w in title.split()]
+            title = " ".join(w if i and w in small else re.sub(r"[a-zæœ]", lambda c: c.group(0).upper(), w, count=1)
+                             for i, w in enumerate(words))                  # ("TO NIGHT [NYX]" -> "To Night [Nyx]")
+            body = re.sub(r"(?is)<(em|i)>(.*?)</\1>", lambda i: f"*{html.unescape(re.sub(r'<[^>]+>', '', i.group(2))).strip()}*", m.group(2))
+            body = re.sub(r"(?is)<br\s*/?>|</p>", "\n", body)
+            lines = [re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", "", line))).strip() for line in body.split("\n")]
+            lines = [line for line in lines if line and line != "THE END"]
+            for i in range(len(lines) - 1, 0, -1):                           # ("Love's delightful / flow'r:")
+                if lines[i][:1].islower() and len(lines[i].split()) <= 3:
+                    lines[i - 1] += " " + lines.pop(i)
+            # the fumigation, or another italic line under the title ("*A Hymn*"), goes with the title
+            fumigation = lines.pop(0) if lines and re.fullmatch(r"\*[^*]+\*\.?", lines[0]) else ""   # ("*...Aromatics*.")
+            first = f"*{title}*" + (f"\n{fumigation}" if fumigation else "")
+            hymns[key] = {"1": first, **{str(i + 2): line for i, line in enumerate(lines)}}
+    expect(sorted(map(int, hymns)) == list(range(0, 87)), f"hymns {sorted(map(int, hymns))}")
+    payload = load("classical/orphic_hymns.json")
+    payload["books"]["Orphic Hymns"] = dict(sorted(hymns.items(), key=lambda kv: int(kv[0])))
+    save("classical/orphic_hymns.json", payload)
+    print(f"  Orphic Hymns: {len(hymns)} hymns, {sum(len(h) for h in hymns.values())} verses")
+
+
+# ── The Chaldaean Oracles, Westcott's (1895) ───────────────────────────────
+# The first build (from esotericarchives.com) split the page at every "N. ", so a source's number ("Pletho, 106.")
+# could stand in for an oracle's: 106 and 153 were lost, 73 (printed without its number) went last, and some
+# were cut short. Read again by sequence -- oracle n is the "n. " after oracle n-1 that isn't a citation's -- and
+# repaired where the bot's text is short of Westcott's; elsewhere the bot's text stays, being better than the
+# page's today (which has "in the middle lace courses the Sun"). Kept short on purpose: 3 (the rest is Westcott's
+# note on Cory), 97 ("(reincarnates)" is not his), 183.
+CHALDAEAN_FROM_PAGE = {"52", "86", "91", "96", "106", "153", "186"}
+
+
+def _oracles_by_sequence() -> dict:
+    page = fetch("https://www.esotericarchives.com/oracle/oraclez.htm", "oraclez.htm")
+    plain = re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", "\n", page)))
+    at, n, found = plain.find("1. But God is He"), 1, {}
+    while True:
+        m = re.compile(rf"(?<![\d.]){n}\.\s").search(plain, at)
+        if not m:
+            break
+        if re.match(r"Z\.? or T|Z\.\s|T\.\s", plain[m.end():m.end() + 12]):     # (a citation's number)
+            at = m.end()
+            continue
+        found[n], at = m, m.end()
+        n = 74 if n == 72 else n + 1                                          # (73 is printed unnumbered)
+    keys, out = sorted(found), {}
+    for i, k in enumerate(keys):
+        seg = plain[found[k].end():found[keys[i + 1]].start() if i + 1 < len(keys) else len(plain)]
+        seg = re.split(r"\s+-\s+(?=[A-Z])", seg)[0]                          # (its sources: "- Psell., 37; Pletho, 4")
+        seg = re.sub(r"\s*\[\d+\]", "", seg)
+        out[str(k)] = re.sub(r"\s+(?:Z|T|Z\.? or T)\.?\s*$", "", seg.strip()).replace(" -- ", " — ")
+    return out
+
+
+def chaldaean_oracles() -> None:
+    page = _oracles_by_sequence()
+    payload = load("classical/chaldaean_oracles.json")
+    book = payload["books"]["Chaldaean Oracles"]
+    for k in CHALDAEAN_FROM_PAGE:
+        text = re.sub(r"(?<=[a-z]) (?=The Oracles, too)", ". ", page[k])            # (91: two sentences run together)
+        expect(k not in book or subsequence(key(book[k]["1"]), key(text)), f"oracle {k}: the page's isn't the bot's and more")
+        book[k] = {"1": text}
+    book["192"]["1"] = re.sub(r"\s+-\s+Pic\. Concl\.$", "", book["192"]["1"])  # (a source left on the end)
+    payload["books"]["Chaldaean Oracles"] = dict(sorted(book.items(), key=lambda kv: int(kv[0])))
+    save("classical/chaldaean_oracles.json", payload)
+    print(f"  Chaldaean Oracles: {len(book)} oracles, {sorted(CHALDAEAN_FROM_PAGE, key=int)} from the page")
+
+
 BUILDS = {"iamblichus_gaps": iamblichus_gaps, "porphyry": porphyry, "marinus": marinus, "julian": julian,
-          "life_of_plotinus": life_of_plotinus}
+          "life_of_plotinus": life_of_plotinus, "orphic_hymns": orphic_hymns, "chaldaean_oracles": chaldaean_oracles}
 
 
 def main(names: list) -> None:

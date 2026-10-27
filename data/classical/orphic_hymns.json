@@ -2,8 +2,53 @@
   "source": "trans. Thomas Taylor (1792)",
   "books": {
     "Orphic Hymns": {
+      "0": {
+        "1": "*To Musæus*",
+        "2": "Attend Musæus to my sacred song,",
+        "3": "and learn what rites to sacrifice belong.",
+        "4": "Jove [Zeus] I invoke, the Earth [Gaia], and Solar Light [Helios],",
+        "5": "the Moon's [Mene] pure splendor, and the Stars of night;",
+        "6": "Thee Neptune [Poseidon], ruler of the sea profound, dark-hair'd, whose waves begirt the solid ground;",
+        "7": "Ceres [Demeter] abundant, and of lovely mien,",
+        "8": "and Proserpine [Phersephone] infernal Pluto's [Haides] queen",
+        "9": "The huntress Dian [Artemis], and bright Phœbus rays, far-darting God, the theme of Delphic praise;",
+        "10": "And Bacchus [Dionysos], honour'd by the heav'nly choir,",
+        "11": "and raging Mars [Ares], and Vulcan [Hephaistos] god of fire;",
+        "12": "The mighty pow'r who rose from foam to light, and Pluto potent in the realms of night;",
+        "13": "With Hebe young, and Hercules the strong, and you to whom the cares of births [Eileithyia] belong:",
+        "14": "Justice [Dikaisune] and Piety [Eusebia] august I call, and much-fam'd nymphs, and Pan the god of all.",
+        "15": "To Juno [Hera] sacred, and to Mem'ry [Mnemosyne] fair, and the chaste Muses I address my pray'r;",
+        "16": "The various year, the Graces [Kharites], and the Hours [Horai],",
+        "17": "fair-hair'd Latona [Leto], and Dione's pow'rs;",
+        "18": "Armed Curetes, household Gods [Korybantes, Kouretes, Kabeiroi] I call,",
+        "19": "with those [Soteroi] who spring from Jove [Zeus] the king of all:",
+        "20": "Th' Idæan Gods, the angel of the skies, and righteous Themis, with sagacious eyes;",
+        "21": "With ancient Night [Nyx], and Day-light [Hemara] I implore,",
+        "22": "and Faith [Pistis], and Justice [Dike] dealing right adore;",
+        "23": "Saturn [Kronos] and Rhea, and great Thetis too, hid in a veil of bright celestial blue:",
+        "24": "I call great Ocean [Okeanos], and the beauteous train of nymphs, who dwell in chambers of the main;",
+        "25": "Atlas the strong, and ever in its prime, vig'rous Eternity [Aion], and endless Time [Khronos];",
+        "26": "The Stygian pool [Styx], and placid Gods [Meilikhoi] beside,",
+        "27": "and various Genii [Daimones], that o'er men preside;",
+        "28": "Illustrious Providence [Pronoia], the noble train of dæmon forms, who fill th' ætherial plain;",
+        "29": "Or live in air, in water, earth, or fire, or deep beneath the solid ground retire.",
+        "30": "Bacchus [Dionysos] and Semele the friends of all, and white Leucothea of the sea I call;",
+        "31": "Palæmon bounteous, and Adrastria great, and sweet-tongu'd Victory [Nike], with success elate;",
+        "32": "Great Esculapius [Asklepios], skill'd to cure disease,",
+        "33": "and dread Minerva [Athene], whom fierce battles please;",
+        "34": "Thunders [Brontoi] and Winds [Anemoi] in mighty columns pent,",
+        "35": "with dreadful roaring struggling hard for vent;",
+        "36": "Attis, the mother of the pow'rs on high, and fair Adonis, never doom'd to die,",
+        "37": "End and beginning he is all to all, these with propitious aid I gently call;",
+        "38": "And to my holy sacrifice invite, the pow'r who reigns in deepest hell and night;",
+        "39": "I call Einodian Hecate, lovely dame, of earthly, wat'ry, and celestial frame,",
+        "40": "Sepulchral, in a saffron veil array'd, leas'd with dark ghosts that wander thro' the shade;",
+        "41": "Persian, unconquerable huntress hail! The world's key-bearer never doom'd to fail",
+        "42": "On the rough rock to wander thee delights, leader and nurse be present to our rites",
+        "43": "Propitious grant our just desires success, accept our homage, and the incense bless."
+      },
       "1": {
-        "1": "The Fumigation from Storax.",
+        "1": "*To the Goddess Prothyræa*\n*The Fumigation from Storax.*",
         "2": "O venerable goddess, hear my pray'r, for labour pains are thy peculiar care;",
         "3": "In thee, when stretch'd upon the bed of grief, the sex as in a mirror view relief.",
         "4": "Guard of the race, endued with gentle mind, to helpless youth, benevolent and kind;",
@@ -17,7 +62,7 @@
         "12": "Hear, blessed Dian [Artemis], and accept my pray'r, and make the infant race thy constant care."
       },
       "2": {
-        "1": "The Fumigation with Torches.",
+        "1": "*To Night [Nyx]*\n*The Fumigation with Torches.*",
         "2": "Night [Nyx], parent goddess, source of sweet repose, from whom at first both Gods and men arose,",
         "3": "Hear, blessed Venus [Kypris], deck'd with starry light, in sleep's deep silence dwelling Ebon night!",
         "4": "Dreams and soft case attend thy dusky train, pleas'd with the length'ned gloom and feaftful strain.",
@@ -29,7 +74,7 @@
         "10": "Blessed, benevolent, with friendly aid dispell the fears of Twilight's dreadful shade."
       },
       "3": {
-        "1": "The Fumigation from Frankincense.",
+        "1": "*To Heaven [Ouranos]*\n*The Fumigation from Frankincense.*",
         "2": "Great Heav'n [Ouranos], whose mighty frame no respite knows, father of all, from whom the world arose:",
         "3": "Hear, bounteous parent, source and end of all, forever whirling round this earthly ball;",
         "4": "Abode of Gods, whose guardian pow'r surrounds th' eternal World with ever during bounds;",
@@ -39,7 +84,7 @@
         "8": "Propitious on a novel mystic shine, and crown his wishes with a life divine."
       },
       "4": {
-        "1": "The Fumigation from Saffron.",
+        "1": "*To Fire [Aither]*\n*The Fumigation from Saffron.*",
         "2": "O Ever untam'd Fire [Aither], who reign'st on high in Jove's [Zeus'] dominions ruler of the sky;",
         "3": "The glorious sun with dazzling lustre bright, and moon and stars from thee derive their light;",
         "4": "All taming pow'r, ætherial shining fire, whose vivid blasts the heat of life inspire:",
@@ -47,7 +92,7 @@
         "6": "O hear my suppliant pray'r, and may thy frame be ever innocent, serene, and tame."
       },
       "5": {
-        "1": "The Fumigation from Myrrh.",
+        "1": "*To Protogonus, or the First-born*\n*The Fumigation from Myrrh.*",
         "2": "O Mighty first-begotten [Protogonos], hear my pray'r, two-fold, egg-born, and wand'ring thro' the air,",
         "3": "Bull-roarer, glorying in thy golden wings, from whom the race of Gods and mortals springs.",
         "4": "Ericapæus [Erikapaios], celebrated pow'r, ineffable, occult, all shining flow'r.",
@@ -57,7 +102,7 @@
         "8": "With joyful aspect on our rights divine and holy sacrifice propitious shine."
       },
       "6": {
-        "1": "The Fumigation from Aromatics.",
+        "1": "*To the Stars [Astron]*\n*The Fumigation from Aromatics.*",
         "2": "With holy voice I call the stars [Astron] on high, pure sacred lights and genii of the sky.",
         "3": "Celestial stars, the progeny of Night [Nyx], in whirling circles beaming far your light,",
         "4": "Refulgent rays around the heav'ns ye throw, eternal fires, the source of all below.",
@@ -68,7 +113,7 @@
         "9": "These sacred rites regard with conscious rays, and end our works devoted to your praise."
       },
       "7": {
-        "1": "The Fumigation from Frankinsence and Manna.",
+        "1": "*To the Sun [Helios]*\n*The Fumigation from Frankinsence and Manna.*",
         "2": "Hear golden Titan, whose eternal eye with broad survey, illumines all the sky.",
         "3": "Self-born, unwearied in diffusing light, and to all eyes the mirrour of delight:",
         "4": "Lord of the seasons, with thy fiery car and leaping coursers, beaming light from far:",
@@ -86,7 +131,7 @@
         "16": "Propitious on these mystic labours shine, and bless thy suppliants with a life divine."
       },
       "8": {
-        "1": "The Fumigation from Aromatics.",
+        "1": "*To the Moon [Selene]*\n*The Fumigation from Aromatics.*",
         "2": "Hear, Goddess queen, diffusing silver light, bull-horn'd and wand'ring thro' the gloom of Night.",
         "3": "With stars surrounded, and with circuit wide Night's torch extending, thro' the heav'ns you ride:",
         "4": "Female and Male with borrow'd rays you shine, and now full-orb'd, now tending to decline.",
@@ -99,7 +144,7 @@
         "11": "Shine on these sacred rites with prosp'rous rays, and pleas'd accept thy suppliant's mystic praise."
       },
       "9": {
-        "1": "The Fumigation from Aromatics.",
+        "1": "*To Nature [Phusis]*\n*The Fumigation from Aromatics.*",
         "2": "Nature [Phusis], all parent, ancient, and divine, O Much-mechanic mother, art is thine;",
         "3": "Heav'nly, abundant, venerable queen, in ev'ry part of thy dominions seen.",
         "4": "Untam'd, all-taming, ever splendid light, all ruling, honor'd, and supremly bright.",
@@ -126,7 +171,7 @@
         "25": "Give plenteous seasons, and sufficient wealth, and crown my days with lasting, peace and health."
       },
       "10": {
-        "1": "The Fumigation from Various Odors.",
+        "1": "*To Pan*\n*The Fumigation from Various Odors.*",
         "2": "I Call strong Pan, the substance of the whole, etherial, marine, earthly, general soul,",
         "3": "Immortal fire; for all the world is thine, and all are parts of thee, O pow'r divine.",
         "4": "Come, blessed Pan, whom rural haunts delight, come, leaping, agile, wand'ring, starry light;",
@@ -152,7 +197,7 @@
         "24": "Drive panic Fury too, wherever found, from human kind, to earth's remotest bound."
       },
       "11": {
-        "1": "The Fumigation from Frankincense.",
+        "1": "*To Hercules [Herakles]*\n*The Fumigation from Frankincense.*",
         "2": "Hear, pow'rful, Hercules [Herakles] untam'd and strong, to whom vast hands, and mighty works belong,",
         "3": "Almighty Titan, prudent and benign, of various forms, eternal and divine,",
         "4": "Father of Time [khronos], the theme of gen'ral praise, ineffable, ador'd in various ways.",
@@ -169,7 +214,7 @@
         "15": "Come, shake the branch with thy almighty arm, dismiss thy darts and noxious fate disarm."
       },
       "12": {
-        "1": "The Fumigation from Storax.",
+        "1": "*To Saturn [Kronos]*\n*The Fumigation from Storax.*",
         "2": "Etherial father, mighty Titan, hear, great fire of Gods and men, whom all revere:",
         "3": "Endu'd with various council, pure and strong, to whom perfection and decrease belong.",
         "4": "Consum'd by thee all forms that hourly die, by thee restor'd, their former place supply;",
@@ -182,7 +227,7 @@
         "11": "The sacred rites benevolent attend, and grant a blameless life, a blessed end."
       },
       "13": {
-        "1": "The Fumigation from Aromatics .",
+        "1": "*To Rhea*\n*The Fumigation from Aromatics*.",
         "2": "Daughter of great Protogonus, divine, illustrious Rhea, to my pray'r incline,",
         "3": "Who driv'st thy holy car with speed along, drawn by fierce lions, terrible and strong.",
         "4": "Mother of Jove [Zeus], whose mighty arm can wield th' avenging bolt, and shake the dreadful shield.",
@@ -195,7 +240,7 @@
         "11": "Bring rich abundance, and wherever found drive dire disease, to earth's remotest bound."
       },
       "14": {
-        "1": "The Fumigation from Storax.",
+        "1": "*To Jupiter [Zeus]*\n*The Fumigation from Storax.*",
         "2": "O Jove much-honor'd, Jove [Zeus] supremely great, to thee our holy rites we consecrate,",
         "3": "Our pray'rs and expiations, king divine, for all things round thy head exalted shine.",
         "4": "The earth is thine, and mountains swelling high, the sea profound, and all within the sky.",
@@ -206,7 +251,7 @@
         "9": "Propitious hear my pray'r, give blameless health, with peace divine, and necessary wealth."
       },
       "15": {
-        "1": "The Fumigation from Aromatics.",
+        "1": "*To Juno [Hera]*\n*The Fumigation from Aromatics.*",
         "2": "O Royal Juno [Hera] of majestic mien, aerial-form'd, divine, Jove's [Zeus'] blessed queen,",
         "3": "Thron'd in the bosom of cærulean air, the race of mortals is thy constant care.",
         "4": "The cooling gales thy pow'r alone inspires, which nourish life, which ev'ry life desires.",
@@ -216,7 +261,7 @@
         "8": "Come, blessed Goddess, fam'd almighty queen, with aspect kind, rejoicing and serene."
       },
       "16": {
-        "1": "The Fumigation from Myrrh",
+        "1": "*To Neptune [Poseidon]*\n*The Fumigation from Myrrh*",
         "2": "Hear, Neptune [Poseidon], ruler of the sea profound, whose liquid grasp begirts the solid ground;",
         "3": "Who, at the bottom of the stormy main, dark and deep-bosom'd, hold'st thy wat'ry reign;",
         "4": "Thy awful hand the brazen trident bears, and ocean's utmost bound, thy will reveres:",
@@ -229,26 +274,27 @@
         "11": "Add gentle Peace, and fair-hair'd Health beside, and pour abundance in a blameless tide."
       },
       "17": {
-        "1": "Pluto [Plouton], magnanimous, whose realms profound are fix'd beneath the firm and solid ground,",
-        "2": "In the Tartarian plains remote from fight, and wrapt forever in the depths of night;",
-        "3": "Terrestrial Jove [Zeus Khthonios], thy sacred ear incline, and, pleas'd, accept thy mystic's hymn divine.",
-        "4": "Earth's keys to thee, illustrious king belong, its secret gates unlocking, deep and strong.",
-        "5": "'Tis thine, abundant annual fruits to bear, for needy mortals are thy constant care.",
-        "6": "To thee, great king, Avernus is assign'd, the seat of Gods, and basis of mankind.",
-        "7": "Thy throne is fix'd in Hade's dismal plains, distant, unknown to rest, where darkness reigns;",
-        "8": "Where, destitute of breath, pale spectres dwell, in endless, dire, inexorable hell;",
-        "9": "And in dread Acheron, whose depths obscure, earth's stable roots eternally secure.",
-        "10": "O mighty dæmon, whose decision dread, the future fate determines of the dead,",
-        "11": "With captive Proserpine [Kore], thro' grassy plains, drawn in a four-yok'd car with loosen'd reins,",
-        "12": "Rapt o'er the deep, impell'd by love, you flew 'till Eleusina's city rose to view;",
-        "13": "There, in a wond'rous cave obscure and deep, the sacred maid secure from search you keep,",
-        "14": "The cave of Atthis, whose wide gates display an entrance to the kingdoms void of day.",
-        "15": "Of unapparent works, thou art alone the dispensator, visible and known.",
-        "16": "O pow'r all-ruling, holy, honor'd light, thee sacred poets and their hymns delight:",
-        "17": "Propitious to thy mystic's works incline, rejoicing come, for holy rites are thine."
+        "1": "*To Pluto [Plouton]*",
+        "2": "Pluto [Plouton], magnanimous, whose realms profound are fix'd beneath the firm and solid ground,",
+        "3": "In the Tartarian plains remote from fight, and wrapt forever in the depths of night;",
+        "4": "Terrestrial Jove [Zeus Khthonios], thy sacred ear incline, and, pleas'd, accept thy mystic's hymn divine.",
+        "5": "Earth's keys to thee, illustrious king belong, its secret gates unlocking, deep and strong.",
+        "6": "'Tis thine, abundant annual fruits to bear, for needy mortals are thy constant care.",
+        "7": "To thee, great king, Avernus is assign'd, the seat of Gods, and basis of mankind.",
+        "8": "Thy throne is fix'd in Hade's dismal plains, distant, unknown to rest, where darkness reigns;",
+        "9": "Where, destitute of breath, pale spectres dwell, in endless, dire, inexorable hell;",
+        "10": "And in dread Acheron, whose depths obscure, earth's stable roots eternally secure.",
+        "11": "O mighty dæmon, whose decision dread, the future fate determines of the dead,",
+        "12": "With captive Proserpine [Kore], thro' grassy plains, drawn in a four-yok'd car with loosen'd reins,",
+        "13": "Rapt o'er the deep, impell'd by love, you flew 'till Eleusina's city rose to view;",
+        "14": "There, in a wond'rous cave obscure and deep, the sacred maid secure from search you keep,",
+        "15": "The cave of Atthis, whose wide gates display an entrance to the kingdoms void of day.",
+        "16": "Of unapparent works, thou art alone the dispensator, visible and known.",
+        "17": "O pow'r all-ruling, holy, honor'd light, thee sacred poets and their hymns delight:",
+        "18": "Propitious to thy mystic's works incline, rejoicing come, for holy rites are thine."
       },
       "18": {
-        "1": "The Fumigation from Storax.",
+        "1": "*To Thundring Jove [Zeus Keraunos]*\n*The Fumigation from Storax.*",
         "2": "O Father Jove [Zeus], who shak'st with fiery light the world deep-sounding from thy lofty height:",
         "3": "From thee, proceeds th' ætherial lightning's blaze, flashing around intolerable rays.",
         "4": "Thy sacred thunders shake the blest abodes, the shining regions of th' immortal Gods:",
@@ -268,14 +314,14 @@
         "18": "Add royal health, and gentle peace beside, with equal reason, for my constant guide."
       },
       "19": {
-        "1": "The Fumigation from Frankincense and Manna.",
+        "1": "*To Jove, As the Author of Lightning [Zeus Astrapaios]*\n*The Fumigation from Frankincense and Manna.*",
         "2": "I Call the mighty, holy, splendid light, aerial, dreadful-sounding, fiery-bright;",
         "3": "Flaming, aerial-light, with angry voice, lightning thro' lucid clouds with horrid noise.",
         "4": "Untam'd, to whom resentments dire belong, pure, holy pow'r, all-parent, great and strong:",
         "5": "Come, and benevolent these rites attend, and grant my days a peaceful, blessed end."
       },
       "20": {
-        "1": "The Fumigation from Myrrh.",
+        "1": "*To the Clouds [Nephelai]*\n*The Fumigation from Myrrh.*",
         "2": "Ærial clouds, thro' heav'n's resplendent plains who wander, parents of prolific rains;",
         "3": "Who nourish fruits, whose water'y frames are hurl'd, by winds impetuous, round the mighty world;",
         "4": "All-thund'ring, lion-roaring, flashing fire, in Air's wide bosom, bearing thunders dire",
@@ -283,7 +329,7 @@
         "6": "With blowing winds your wat'ry frames I call, on mother Earth with fruitful show'rs to fall."
       },
       "21": {
-        "1": "The Fumigation from Frankincense and Manna.",
+        "1": "*To the Sea [Thalassa], or Tethys*\n*The Fumigation from Frankincense and Manna.*",
         "2": "Tethys I call, with eyes cærulean bright, hid in a veil obscure from human sight;",
         "3": "Great Ocean's empress, wand'ring thro' the deep, and pleas'd with gentle gales, the earth to sweep;",
         "4": "Whose blessed waves in swift succession go, and lash the rocky shore with endless flow:",
@@ -293,7 +339,7 @@
         "8": "Send, blessed queen, to ships a prosp'rous breeze, and waft them safely o'er the stormy seas."
       },
       "22": {
-        "1": "The Fumigation from Myrrh.",
+        "1": "*To Nereus*\n*The Fumigation from Myrrh.*",
         "2": "O Thou, who doff the roots of Ocean [pontos] keep in seats cærulean, dæmon of the deep,",
         "3": "With fifty nymphs (attending in thy train, fair virgin artists) glorying thro' the main:",
         "4": "The dark foundation of the rolling sea and Earth's wide bounds, belong much-fam'd to thee;",
@@ -303,7 +349,7 @@
         "8": "Send on our sacred rites abundant health, with peace divine and necessary wealth."
       },
       "23": {
-        "1": "The Fumigation from Aromatics.",
+        "1": "*To the Nereids*\n*The Fumigation from Aromatics.*",
         "2": "Daughters of Nereus, resident in caves merg'd deep in Ocean, sporting thro' the waves;",
         "3": "Fanatic fifty nymphs [Nymphai Einalioi], who thro' the main delight to follow in the Triton's train,",
         "4": "Rejoicing close behind their cars to keep; whose forms half wild, are nourish'd by the deep,",
@@ -314,7 +360,7 @@
         "9": "Of fair Calliope from whom I spring, and of Apollo bright, the Muse's king."
       },
       "24": {
-        "1": "The Fumigation from Storax.",
+        "1": "*To Proteus*\n*The Fumigation from Storax.*",
         "2": "Proteus I call, whom Fate decrees, to keep the keys which lock the chambers of the deep;",
         "3": "First-born, by whose illustrious pow'r alone all Nature's principles are clearly shewn:",
         "4": "Matter to change with various forms is thine, matter unform'd, capacious, and divine.",
@@ -324,7 +370,7 @@
         "8": "Come, blessed father, to our rites attend, and grant our happy lives a prosp'rous end."
       },
       "25": {
-        "1": "The Fumigation from every kind of Seed, except Beans and Aromatics.",
+        "1": "*To the Earth [Gaia]*\n*The Fumigation from every kind of Seed, except Beans and Aromatics.*",
         "2": "O Goddess, Earth, of Gods and men the source, endu'd with fertile, all destroying force;",
         "3": "All-parent, bounding, whose prolific pow'rs, produce a store of beauteous fruits and flow'rs,",
         "4": "All-various maid, th' eternal world's strong base immortal, blessed, crown'd with ev'ry grace;",
@@ -336,7 +382,7 @@
         "10": "With fertile Seasons [Horai] in thy train, draw near, and with propitious mind thy suppliant hear."
       },
       "26": {
-        "1": "The Fumigation from a Variety of Odoriferous Substances.",
+        "1": "*To the Mother of the Gods [Meter Theon]*\n*The Fumigation from a Variety of Odoriferous Substances.*",
         "2": "Mother of Gods [Meter Theon], great nurse of all, draw near, divinely honor'd, and regard my pray'r:",
         "3": "Thron'd on a car, by lions drawn along, by bull-destroying lions, swift and strong,",
         "4": "Thou sway'st the sceptre of the pole divine, and the world's middle seat, much-fam'd, is thine.",
@@ -349,7 +395,7 @@
         "11": "With joyful aspect on our incense shine, and, pleas'd, accept the sacrifice divine."
       },
       "27": {
-        "1": "The Fumigation from Frankincense.",
+        "1": "*To Mercury [Hermes]*\n*The Fumigation from Frankincense.*",
         "2": "Hermes, draw near, and to my pray'r incline, angel of Jove [Zeus], and Maia's son divine;",
         "3": "Studious of contests, ruler of mankind, with heart almighty, and a prudent mind.",
         "4": "Celestial messenger, of various skill, whose pow'rful arts could watchful Argus kill:",
@@ -362,25 +408,26 @@
         "11": "Assist my works, conclude my life with peace, give graceful speech, and me memory's increase."
       },
       "28": {
-        "1": "Daughter of Jove [Zeus], almighty and divine, come, blessed queen, and to these rites incline:",
-        "2": "Only-begotten, Pluto's [Plouton's] honor'd wife, O venerable Goddess, source of life:",
-        "3": "'Tis thine in earth's profundities to dwell, fast by the wide and dismal gates of hell:",
-        "4": "Jove's [Zeus'] holy offspring, of a beauteous mien, fatal [Praxidike], with lovely locks, infernal queen:",
-        "5": "Source of the furies [Eumenides], whose blest frame proceeds from Jove's [Zeus'] ineffable and secret seeds:",
-        "6": "Mother of Bacchus [Eubouleos], Sonorous, divine, and many-form'd, the parent of the vine:",
-        "7": "The dancing Hours [Horai] attend thee, essence bright, all-ruling virgin, bearing heav'nly light:",
-        "8": "Illustrious, horned, of a bounteous mind, alone desir'd by those of mortal kind.",
-        "9": "O, vernal queen, whom grassy plains delight, sweet to the smell, and pleasing to the sight:",
-        "10": "Whose holy form in budding fruits we view, Earth's vig'rous offspring of a various hue:",
-        "11": "Espous'd in Autumn: life and death alone to wretched mortals from thy power is known:",
-        "12": "For thine the task according to thy will, life to produce, and all that lives to kill.",
-        "13": "Hear, blessed Goddess, send a rich increase of various fruits from earth, with lovely Peace;",
-        "14": "Send Health with gentle hand, and crown my life with blest abundance, free from noisy strife;",
-        "15": "Last in extreme old age the prey of Death, dismiss we willing to the realms beneath,",
-        "16": "To thy fair palace, and the blissful plains where happy spirits dwell, and Pluto [Plouton] reigns."
+        "1": "*To Proserpine [Phersephone]*\n*A Hymn.*",
+        "2": "Daughter of Jove [Zeus], almighty and divine, come, blessed queen, and to these rites incline:",
+        "3": "Only-begotten, Pluto's [Plouton's] honor'd wife, O venerable Goddess, source of life:",
+        "4": "'Tis thine in earth's profundities to dwell, fast by the wide and dismal gates of hell:",
+        "5": "Jove's [Zeus'] holy offspring, of a beauteous mien, fatal [Praxidike], with lovely locks, infernal queen:",
+        "6": "Source of the furies [Eumenides], whose blest frame proceeds from Jove's [Zeus'] ineffable and secret seeds:",
+        "7": "Mother of Bacchus [Eubouleos], Sonorous, divine, and many-form'd, the parent of the vine:",
+        "8": "The dancing Hours [Horai] attend thee, essence bright, all-ruling virgin, bearing heav'nly light:",
+        "9": "Illustrious, horned, of a bounteous mind, alone desir'd by those of mortal kind.",
+        "10": "O, vernal queen, whom grassy plains delight, sweet to the smell, and pleasing to the sight:",
+        "11": "Whose holy form in budding fruits we view, Earth's vig'rous offspring of a various hue:",
+        "12": "Espous'd in Autumn: life and death alone to wretched mortals from thy power is known:",
+        "13": "For thine the task according to thy will, life to produce, and all that lives to kill.",
+        "14": "Hear, blessed Goddess, send a rich increase of various fruits from earth, with lovely Peace;",
+        "15": "Send Health with gentle hand, and crown my life with blest abundance, free from noisy strife;",
+        "16": "Last in extreme old age the prey of Death, dismiss we willing to the realms beneath,",
+        "17": "To thy fair palace, and the blissful plains where happy spirits dwell, and Pluto [Plouton] reigns."
       },
       "29": {
-        "1": "The Fumigation from Storax.",
+        "1": "*To Bacchus [Dionysos]*\n*The Fumigation from Storax.*",
         "2": "Bacchus [Dionysos] I call, loud-sounding and divine, fanatic God, a two-fold shape is thine:",
         "3": "Thy various names and attributes I sing, O, first-born, thrice begotten, Bacchic king:",
         "4": "Rural, ineffable, two-form'd, obscure, two-horn'd, with ivy crown'd, euion, pure.",
@@ -390,28 +437,30 @@
         "8": "And listen gracious to my mystic pray'r, surrounded with thy choir of nurses fair."
       },
       "30": {
-        "1": "Leaping Curetes, who with dancing feet and circling measures, armed footsteps beat:",
-        "2": "Whose bosom's mad, fanatic transports fire, who move in rythm to the founding lyre:",
-        "3": "Who traces deaf when lightly leaping tread, arm bearers, strong defenders, rulers dread:",
-        "4": "Propitious omens, guards of Proserpine [Persephone] preserving rites, mysterious and divine",
-        "5": "Come, and benevolent my words attend, (in herds rejoicing), and my life defend."
+        "1": "*To the Curetes [Kouretes]*\n*A Hymn.*",
+        "2": "Leaping Curetes, who with dancing feet and circling measures, armed footsteps beat:",
+        "3": "Whose bosom's mad, fanatic transports fire, who move in rythm to the founding lyre:",
+        "4": "Who traces deaf when lightly leaping tread, arm bearers, strong defenders, rulers dread:",
+        "5": "Propitious omens, guards of Proserpine [Persephone] preserving rites, mysterious and divine",
+        "6": "Come, and benevolent my words attend, (in herds rejoicing), and my life defend."
       },
       "31": {
-        "1": "Only-Begotten, noble race of Jove, blessed and fierce, who joy'st in caves to rove:",
-        "2": "O, warlike Pallas, whose illustrious kind, ineffable and effable we find:",
-        "3": "Magnanimous and fam'd, the rocky height, and groves, and shady mountains thee delight:",
-        "4": "In arms rejoicing, who with Furies dire and wild, the souls of mortals dost inspire.",
-        "5": "Gymnastic virgin of terrific mind, dire Gorgons bane, unmarried, blessed, kind:",
-        "6": "Mother of arts, imperious; understood, rage to the wicked., wisdom to the good:",
-        "7": "Female and male, the arts of war are thine, fanatic, much-form'd dragoness [Drakaina], divine:",
-        "8": "O'er the Phlegrean giants rous'd to ire, thy coursers driving, with destruction dire.",
-        "9": "Sprung from the head of Jove [Tritogeneia], of splendid mien, purger of evils, all-victorious queen.",
-        "10": "Hear me, O Goddess, when to thee I pray, with supplicating voice both night and day,",
-        "11": "And in my latest hour, peace and health, propitious times, and necessary wealth,",
-        "12": "And, ever present, be thy vot'ries aid, O, much implor'd, art's parent, blue eyed maid."
+        "1": "*To Pallas [Athene]*\n*A Hymn.*",
+        "2": "Only-Begotten, noble race of Jove, blessed and fierce, who joy'st in caves to rove:",
+        "3": "O, warlike Pallas, whose illustrious kind, ineffable and effable we find:",
+        "4": "Magnanimous and fam'd, the rocky height, and groves, and shady mountains thee delight:",
+        "5": "In arms rejoicing, who with Furies dire and wild, the souls of mortals dost inspire.",
+        "6": "Gymnastic virgin of terrific mind, dire Gorgons bane, unmarried, blessed, kind:",
+        "7": "Mother of arts, imperious; understood, rage to the wicked., wisdom to the good:",
+        "8": "Female and male, the arts of war are thine, fanatic, much-form'd dragoness [Drakaina], divine:",
+        "9": "O'er the Phlegrean giants rous'd to ire, thy coursers driving, with destruction dire.",
+        "10": "Sprung from the head of Jove [Tritogeneia], of splendid mien, purger of evils, all-victorious queen.",
+        "11": "Hear me, O Goddess, when to thee I pray, with supplicating voice both night and day,",
+        "12": "And in my latest hour, peace and health, propitious times, and necessary wealth,",
+        "13": "And, ever present, be thy vot'ries aid, O, much implor'd, art's parent, blue eyed maid."
       },
       "32": {
-        "1": "The Fumigation from Manna.",
+        "1": "*To Victory [Nike]*\n*The Fumigation from Manna.*",
         "2": "O Powerful Victory [Nike], by men desir'd, with adverse breasts to dreadful fury fir'd,",
         "3": "Thee I invoke, whose might alone can quell contending rage, and molestation fell:",
         "4": "'Tis thine in battle to confer the crown, the victor's prize, the mark of sweet renown;",
@@ -420,7 +469,7 @@
         "7": "May deeds illustrious thy protection claim, and find, led on by thee immortal Fame."
       },
       "33": {
-        "1": "The Fumigation from Manna.",
+        "1": "*To Apollo [Apollon]*\n*The Fumigation from Manna.*",
         "2": "Blest Pæan, come, propitious to my pray'r, illustrious pow'r, whom Memphian tribes revere,",
         "3": "Slayer of Tityus, and the God of health, Lycorian Phœbus, fruitful source of wealth .",
         "4": "Spermatic, golden-lyr'd, the field from thee receives it's constant, rich fertility.",
@@ -445,7 +494,7 @@
         "23": "Hear me, blest pow'r, and in these rites rejoice, and save thy mystics with a suppliant voice."
       },
       "34": {
-        "1": "The Fumigation from Myrrh.",
+        "1": "*To Latona [Leto]*\n*The Fumigation from Myrrh.*",
         "2": "Dark veil'd Latona [Leto], much invoked queen, twin-bearing Goddess, of a noble mien;",
         "3": "Cæantis [Koiantis] great, a mighty mind is thine, offspring prolific, blest of Jove [Zeus] divine:",
         "4": "Phœbus proceeds from thee, the God of light, and Dian [Artemis] fair, whom winged darts delight;",
@@ -453,7 +502,7 @@
         "6": "Hear me, O Goddess, with propitious mind, and end these holy rites, with aspect kind."
       },
       "35": {
-        "1": "The Fumigation from Manna.",
+        "1": "*To Diana [Artemis]*\n*The Fumigation from Manna.*",
         "2": "Hear me, Jove's [Zeus'] daughter, celebrated queen, Bacchian [Bromia] and Titan, of a noble mien:",
         "3": "In darts rejoicing and on all to shine, torch-bearing Goddess, Dictynna divine;",
         "4": "O'er births presiding, and thyself a maid, to labour-pangs imparting ready aid:",
@@ -468,7 +517,7 @@
         "13": "And to the mountains drive Disease and Care."
       },
       "36": {
-        "1": "The Fumigation from Frankincense.",
+        "1": "*To the Titans*\n*The Fumigation from Frankincense.*",
         "2": "O Mighty Titans, who from heav'n [Ouranos] and earth [Gaia] derive your noble and illustrious birth,",
         "3": "Our fathers fires, in Tartarus profound who dwell, deep merg'd beneath the solid ground:",
         "4": "Fountains and principles, from whom began th' afflicted, miserable, race of man:",
@@ -477,7 +526,7 @@
         "7": "Avert your rage, if from th' infernal seats one of your tribe should visit our retreats."
       },
       "37": {
-        "1": "The Fumigation from Frankincense.",
+        "1": "*To the Curetes [Kouretes]*\n*The Fumigation from Frankincense.*",
         "2": "Brass-beating Salians, ministers of Mars [Ares], who guard his arms the instruments of wars",
         "3": "Whose blessed frames, heav'n, earth, and sea compose, and from whose breath all animals arose:",
         "4": "Who dwell in Samothracia's sacred ground, defending mortals thro' the sea profound.",
@@ -495,17 +544,19 @@
         "16": "Curetes, Corybantes, ruling kings, whose praise the land of Samothracia sings:",
         "17": "From Jove [Zeus] descended; whose immortal breath sustains the soul, and wafts her back from death;",
         "18": "Aerial-form'd, much-fam'd, in heav'n ye shine two-fold, in heav'n all-lucid and divine:",
-        "19": "Blowing, serene, from whom abundance springs, nurses of seasons, fruit-producing kings.",
-        "20": "The Fumigation from Frankincense.",
-        "21": "The mighty ruler of this earthly ball, for ever flowing, to these rites I call;",
-        "22": "Martial and blest, unseen by mortal sight, preventing fears, and pleas'd with gloomy night:",
-        "23": "Hence, fancy's terrors are by thee allay'd, all-various king, who lov'st the desart shade:",
-        "24": "Each of thy brothers killing, blood is thine, two-fold Curete [Kourete], many-form'd, divine.",
-        "25": "By thee transmuted Ceres' [Deo's] body pure, became a dragon's savage and obscure:",
-        "26": "Avert thy anger, hear me when I pray, and by fix'd fate, drive fancy's fears away."
+        "19": "Blowing, serene, from whom abundance springs, nurses of seasons, fruit-producing kings."
+      },
+      "38": {
+        "1": "*To Corybas [Korybas]*\n*The Fumigation from Frankincense.*",
+        "2": "The mighty ruler of this earthly ball, for ever flowing, to these rites I call;",
+        "3": "Martial and blest, unseen by mortal sight, preventing fears, and pleas'd with gloomy night:",
+        "4": "Hence, fancy's terrors are by thee allay'd, all-various king, who lov'st the desart shade:",
+        "5": "Each of thy brothers killing, blood is thine, two-fold Curete [Kourete], many-form'd, divine.",
+        "6": "By thee transmuted Ceres' [Deo's] body pure, became a dragon's savage and obscure:",
+        "7": "Avert thy anger, hear me when I pray, and by fix'd fate, drive fancy's fears away."
       },
       "39": {
-        "1": "The Fumigation from Storax.",
+        "1": "*To Ceres [Demeter Eleusinia]*\n*The Fumigation from Storax.*",
         "2": "O Universal mother, Ceres [Deo] fam'd august, the source of wealth, and various nam'd:",
         "3": "Great nurse, all-bounteous, blessed and divine, who joy'st in peace, to nourish corn is thine:",
         "4": "Goddess of seed, of fruits abundant, fair, harvest and threshing, are thy constant care;",
@@ -521,7 +572,7 @@
         "14": "Come, with fair Concord and imperial Health, and join with these a needful store of wealth."
       },
       "40": {
-        "1": "The Fumigation from Aromatics.",
+        "1": "*To the Ceralian Mother [Meter Antaia]*\n*The Fumigation from Aromatics.*",
         "2": "Ceralian [Antaia] queen, of celebrated name, from whom both men, and Gods immortal came;",
         "3": "Who widely wand'ring once, oppress'd with grief, in Eleusina's valley found'st relief,",
         "4": "Discovering Proserpine [Persephone] thy daughter pure in dread Avernus [Aides], dismal and obscure;",
@@ -530,7 +581,7 @@
         "7": "Come, much invok'd, and to these rites inclin'd, thy mystic suppliant bless, with fav'ring mind."
       },
       "41": {
-        "1": "The Fumigation from Storax.",
+        "1": "*To Mises [Misa]*\n*The Fumigation from Storax.*",
         "2": "Call Thesmophorus, spermatic God [Dionysos], of various names, who bears the leafy rod:",
         "3": "Mises [Misa], ineffable, pure, sacred queen, two-fold Iacchus, male and female seen:",
         "4": "Illustr'ous, whether to rejoice is thine in incense offer'd, in the fane divine;",
@@ -538,21 +589,23 @@
         "6": "Or if the land of Cyprus is thy care, well pleas'd to dwell with Cytherea [Kythereia] fair;",
         "7": "Or if exulting in the fertile plains with thy dark mother Isis, where she reigns,",
         "8": "With nurses pure attended, near the flood of sacred Egypt, thy divine abode:",
-        "9": "Wherever resident, blest pow'r attend, and with benignant mind these labours end.",
-        "10": "The Fumigation from Aromatics.",
-        "11": "Daughters of Jove [Zeus] and Themis, seasons bright,",
-        "12": "Justice [Dike], and blessed Peace [Eirene], and lawful Right [Eunomia],",
-        "13": "Vernal and grassy, vivid, holy pow'rs, whose balmy breath exhales in lovely flow'rs",
-        "14": "All-colour'd seasons, rich increase your care, circling, for ever flourishing and fair:",
-        "15": "Invested with a veil of shining dew, a flow'ry veil delightful to the view:",
-        "16": "Attending Proserpine [Persephone], when back from night,",
-        "17": "the Fates [Moirai] and Graces [Kharites] Lead her up to light;",
-        "18": "When in a band-harmonious they advance, and joyful round her, form the solemn dance:",
-        "19": "With Ceres [Meter] triumphing, and Jove [Zeus] divine; propitious come, and on our incense shine;",
-        "20": "Give earth a blameless store of fruits to bear, and make a novel mystic's life your care."
+        "9": "Wherever resident, blest pow'r attend, and with benignant mind these labours end."
+      },
+      "42": {
+        "1": "*To the Seasons [Horai]*\n*The Fumigation from Aromatics.*",
+        "2": "Daughters of Jove [Zeus] and Themis, seasons bright,",
+        "3": "Justice [Dike], and blessed Peace [Eirene], and lawful Right [Eunomia],",
+        "4": "Vernal and grassy, vivid, holy pow'rs, whose balmy breath exhales in lovely flow'rs",
+        "5": "All-colour'd seasons, rich increase your care, circling, for ever flourishing and fair:",
+        "6": "Invested with a veil of shining dew, a flow'ry veil delightful to the view:",
+        "7": "Attending Proserpine [Persephone], when back from night,",
+        "8": "the Fates [Moirai] and Graces [Kharites] Lead her up to light;",
+        "9": "When in a band-harmonious they advance, and joyful round her, form the solemn dance:",
+        "10": "With Ceres [Meter] triumphing, and Jove [Zeus] divine; propitious come, and on our incense shine;",
+        "11": "Give earth a blameless store of fruits to bear, and make a novel mystic's life your care."
       },
       "43": {
-        "1": "The Fumigation from Storax.",
+        "1": "*To Semele*\n*The Fumigation from Storax.*",
         "2": "Cadmean Goddess, universal queen, thee, Semele I call, of beauteous mien;",
         "3": "Deep-bosom'd, lovely flowing locks are thine, mother of Bacchus [Dionysos], joyful and divine,",
         "4": "The mighty offspring, whom love's thunder bright, forc'd immature, and fright'ned into light:",
@@ -563,14 +616,15 @@
         "9": "Now I invoke thee, great Cadmean queen, to bless these rites with countenance serene."
       },
       "44": {
-        "1": "Come, blessed Dionysius [Dionysos], various nam'd, bull-fac'd,",
-        "2": "begot from Thunder, Bacchus [Bakkhos] fam'd.",
-        "3": "Bassarian God, of universal might, whom swords, and blood, and sacred rage delight:",
-        "4": "In heav'n rejoicing, mad, loud-sounding God, furious inspirer, bearer of the rod:",
-        "5": "By Gods rever'd, who dwell'st with human kind, propitious come, with much-rejoicing mind."
+        "1": "*To Dionysius Bassareus Triennalis*\n*A Hymn*",
+        "2": "Come, blessed Dionysius [Dionysos], various nam'd, bull-fac'd,",
+        "3": "begot from Thunder, Bacchus [Bakkhos] fam'd.",
+        "4": "Bassarian God, of universal might, whom swords, and blood, and sacred rage delight:",
+        "5": "In heav'n rejoicing, mad, loud-sounding God, furious inspirer, bearer of the rod:",
+        "6": "By Gods rever'd, who dwell'st with human kind, propitious come, with much-rejoicing mind."
       },
       "45": {
-        "1": "The Fumigation from Manna.",
+        "1": "*To Liknitus Bacchus [Liknitos Dionysos]*\n*The Fumigation from Manna.*",
         "2": "Liknitan Bacchus [Liknitos Dionysos], bearer of the vine, thee I invoke to bless these rites divine:",
         "3": "Florid and gay, of nymphs the blossom bright, and of fair Venus [Aphrodite], Goddess of delight,",
         "4": "'Tis thine mad footsteps with mad nymphs to beat, dancing thro' groves with lightly leaping feet:",
@@ -579,7 +633,7 @@
         "7": "Come, blessed pow'r, regard thy suppliant's voice, propitious come, and in these rites rejoice."
       },
       "46": {
-        "1": "The Fumigation from Aromatics.",
+        "1": "*To Bacchus Pericionius [Dionysos Perikionios]*\n*The Fumigation from Aromatics.*",
         "2": "Bacchus Pericionius [Dionysos Perikionios], hear my pray'r,",
         "3": "who mad'st the house of Cadmus once thy care,",
         "4": "With matchless force, his pillars twining round, (when burning thunders shook the solid ground,",
@@ -587,7 +641,7 @@
         "6": "Come mighty Bacchus to these rites inclin'd, and bless thy suppliants with rejoicing mind."
       },
       "47": {
-        "1": "The Fumigation from Aromatics.",
+        "1": "*To Sabasius [Zabazios]*\n*The Fumigation from Aromatics.*",
         "2": "Hear me, illustrious father, dæmon fam'd.",
         "3": "Great Saturn's [Kronos'] offspring, and Sabasius [Zabazios] nam'd;",
         "4": "Inserting Bacchus, bearer of the vine, and founding God, within thy thigh divine,",
@@ -596,24 +650,25 @@
         "7": "Come blessed Phrygian God, the king of all, and aid thy mystics, when on thee they call."
       },
       "48": {
-        "1": "The Fumigation from Storax.",
+        "1": "*To Ippa*\n*The Fumigation from Storax.*",
         "2": "Great nurse of Bacchus [Bakkhos], to my pray'r incline, for holy Sabus' secret rites are thine,",
         "3": "The mystic rites of Bacchus' nightly choirs, compos'd of sacred, loud-resounding fires:",
         "4": "Hear me, terrestrial mother, mighty queen, whether on Phyrgia's holy mountain seen,",
         "5": "Or if to dwell in Tmolus thee delights, with holy aspect come, and bless these rites."
       },
       "49": {
-        "1": "Hear me, Jove's [Zeus'] son, blest Bacchus, God of wine, born of two mothers, honor'd and divine;",
-        "2": "Lysian, Euion Bacchus, various-nam'd, of Gods the offspring secret, holy, fam'd:",
-        "3": "Fertile and nourishing whose liberal care earth's fruits increases, flourishing and fair;",
-        "4": "Sounding, magnanimous, Lenæan pow'r, O various form'd, medic'nal, holy flow'r:",
-        "5": "Mortals in thee, repose from labour find, delightful charm, desir'd by all mankind:",
-        "6": "Fair-hair'd Euion, Bromian, joyful God, Lysian, invested with the leafy rod.",
-        "7": "To these our rites, benignant pow'r incline, when fav'ring men, or when on Gods you shine;",
-        "8": "Be present to thy mystic's suppliant pray'r, rejoicing come, and fruits abundant bear."
+        "1": "*To Lysius Lenæus [Lysios Lenaios]*\n*A Hymn.*",
+        "2": "Hear me, Jove's [Zeus'] son, blest Bacchus, God of wine, born of two mothers, honor'd and divine;",
+        "3": "Lysian, Euion Bacchus, various-nam'd, of Gods the offspring secret, holy, fam'd:",
+        "4": "Fertile and nourishing whose liberal care earth's fruits increases, flourishing and fair;",
+        "5": "Sounding, magnanimous, Lenæan pow'r, O various form'd, medic'nal, holy flow'r:",
+        "6": "Mortals in thee, repose from labour find, delightful charm, desir'd by all mankind:",
+        "7": "Fair-hair'd Euion, Bromian, joyful God, Lysian, invested with the leafy rod.",
+        "8": "To these our rites, benignant pow'r incline, when fav'ring men, or when on Gods you shine;",
+        "9": "Be present to thy mystic's suppliant pray'r, rejoicing come, and fruits abundant bear."
       },
       "50": {
-        "1": "The Fumigation from Aromatics.",
+        "1": "*To the Nymphs [Nymphai]*\n*The Fumigation from Aromatics.*",
         "2": "Nymphs, who from Ocean's [Okeanos'] stream derive your birth, who dwell in liquid caverns of the earth",
         "3": "Nurses of Bacchus [Bakkhos] secret-coursing pow'r, who fruits sustain, and nourish ev'ry flow'r:",
         "4": "Earthly, rejoicing, who in meadows dwell, and caves and dens, whose depths extend to hell:",
@@ -629,7 +684,7 @@
         "14": "Give plenteous Seasons, and sufficient wealth, and pour; in lasting streams, continued Health."
       },
       "51": {
-        "1": "The Fumigation from Aromatics.",
+        "1": "*To Trietericus [Trieterikos]*\n*The Fumigation from Aromatics.*",
         "2": "Bacchus fanatic, much-nam'd, blest, divine, bull-fac'd Lenæan, bearer of the vine;",
         "3": "From fire descended, raging, Nysian king, from whom initial ceremonies spring:",
         "4": "Liknitan Bacchus, pure and fiery bright, prudent [Eubouleos], crown-bearer, wandering in the night;",
@@ -643,7 +698,7 @@
         "12": "Come blessed pow'r, regard thy mystics voice, propitious come, and in these rites rejoice."
       },
       "52": {
-        "1": "The Fumigation from every Aromatic except Frankincense.",
+        "1": "*To Amphietus Bacchus [Amphietos Bakkhos]*\n*The Fumigation from every Aromatic except Frankincense.*",
         "2": "Terrestrial Dionysius [Dionysos Khthonios], hear my pray'r, awak'ned rise with nymphs of lovely hair:",
         "3": "Great Amphietus Bacchus, annual God, who laid asleep in Proserpine's [Persephone's] abode,",
         "4": "Did'st lull to drowsy and oblivious rest, the rites triennial, and the sacred feast;",
@@ -653,7 +708,7 @@
         "8": "Accept the general incense and the pray'r, and make prolific holy fruits thy care."
       },
       "53": {
-        "1": "The Fumigation from Manna.",
+        "1": "*To Silenus, Satyrus, and the Priestesses of Bacchus*\n*The Fumigation from Manna.*",
         "2": "Great nurse of Bacchus [Bakkhos], to my pray'r incline, Silenus, honor'd by the pow'rs divine",
         "3": "And by mankind at the triennial feast illustrious dæmon, reverenc'd as the best:",
         "4": "Holy, august, the source of lawful rites, rejoicing pow'r, whom vigilance delights",
@@ -664,41 +719,42 @@
         "9": "Our orgies shining thro' the night inspire, and bless triumphant pow'r the sacred choir."
       },
       "54": {
-        "1": "Heav'nly [Ourania], illustrious, laughter-loving queen, sea-born, night-loving, of an awful mien;",
-        "2": "Crafty, from whom necessity [Ananke] first came, producing, nightly, all-connecting dame:",
-        "3": "'Tis thine the world with harmony to join, for all things spring from thee, O pow'r divine.",
-        "4": "The triple Fates [Moirai] are rul'd by thy decree, and all productions yield alike to thee:",
-        "5": "Whate'er the heav'ns, encircling all contain, earth fruit-producing, and the stormy main,",
-        "6": "Thy sway confesses, and obeys thy nod, awful attendant of the brumal God [Bakkhos]:",
-        "7": "Goddess of marriage, charming to the sight, mother of Loves [Eortes], whom banquetings delight;",
-        "8": "Source of persuasion [Peitho], secret, fav'ring queen, illustrious born, apparent and unseen:",
-        "9": "Spousal, lupercal, and to men inclin'd, prolific, most-desir'd, life-giving., kind:",
-        "10": "Great sceptre-bearer of the Gods, 'tis thine, mortals in necessary bands to join;",
-        "11": "And ev'ry tribe of savage monsters dire in magic chains to bind, thro' mad desire.",
-        "12": "Come, Cyprus-born, and to my pray'r incline, whether exalted in the heav'ns you shine,",
-        "13": "Or pleas'd in Syria's temple to preside, or o'er th' Egyptian plains thy car to guide,",
-        "14": "Fashion'd of gold; and near its sacred flood, fertile and fam'd to fix thy blest abode;",
-        "15": "Or if rejoicing in the azure shores, near where the sea with foaming billows roars,",
-        "16": "The circling choirs of mortals, thy delight, or beauteous nymphs, with eyes cerulean bright,",
-        "17": "Pleas'd by the dusty banks renown'd of old, to drive thy rapid, two-yok'd car of gold;",
-        "18": "Or if in Cyprus with thy mother fair, where married females praise thee ev'ry year,",
-        "19": "And beauteous virgins in the chorus join, Adonis pure to sing and thee divine;",
-        "20": "Come, all-attractive to my pray'r inclin'd, for thee, I call, with holy, reverent mind."
+        "1": "*To Venus [Aphrodite]*\n*A Hymn.*",
+        "2": "Heav'nly [Ourania], illustrious, laughter-loving queen, sea-born, night-loving, of an awful mien;",
+        "3": "Crafty, from whom necessity [Ananke] first came, producing, nightly, all-connecting dame:",
+        "4": "'Tis thine the world with harmony to join, for all things spring from thee, O pow'r divine.",
+        "5": "The triple Fates [Moirai] are rul'd by thy decree, and all productions yield alike to thee:",
+        "6": "Whate'er the heav'ns, encircling all contain, earth fruit-producing, and the stormy main,",
+        "7": "Thy sway confesses, and obeys thy nod, awful attendant of the brumal God [Bakkhos]:",
+        "8": "Goddess of marriage, charming to the sight, mother of Loves [Eortes], whom banquetings delight;",
+        "9": "Source of persuasion [Peitho], secret, fav'ring queen, illustrious born, apparent and unseen:",
+        "10": "Spousal, lupercal, and to men inclin'd, prolific, most-desir'd, life-giving., kind:",
+        "11": "Great sceptre-bearer of the Gods, 'tis thine, mortals in necessary bands to join;",
+        "12": "And ev'ry tribe of savage monsters dire in magic chains to bind, thro' mad desire.",
+        "13": "Come, Cyprus-born, and to my pray'r incline, whether exalted in the heav'ns you shine,",
+        "14": "Or pleas'd in Syria's temple to preside, or o'er th' Egyptian plains thy car to guide,",
+        "15": "Fashion'd of gold; and near its sacred flood, fertile and fam'd to fix thy blest abode;",
+        "16": "Or if rejoicing in the azure shores, near where the sea with foaming billows roars,",
+        "17": "The circling choirs of mortals, thy delight, or beauteous nymphs, with eyes cerulean bright,",
+        "18": "Pleas'd by the dusty banks renown'd of old, to drive thy rapid, two-yok'd car of gold;",
+        "19": "Or if in Cyprus with thy mother fair, where married females praise thee ev'ry year,",
+        "20": "And beauteous virgins in the chorus join, Adonis pure to sing and thee divine;",
+        "21": "Come, all-attractive to my pray'r inclin'd, for thee, I call, with holy, reverent mind."
       },
       "55": {
-        "1": "The Fumigation from Aromatics.",
+        "1": "*To Adonis*\n*The Fumigation from Aromatics.*",
         "2": "Much-nam'd, and best of dæmons, hear my pray'r, the desart-loving, deck'd with tender hair;",
         "3": "Joy to diffuse, by all desir'd is thine, much form'd, Eubulus [Eubouleos]; aliment divine",
         "4": "Female and Male, all charming to the sight, Adonis ever flourishing and bright;",
         "5": "At stated periods doom'd to set and rise, with splendid lamp, the glory of the skies.",
         "6": "Two-horn'd and lovely, reverenc'd with tears, of beauteous form, adorn'd with copious hairs.",
-        "7": "Rejoicing in the chace, all-graceful pow'r, sweet plant of Venus [Aphrodite], Love's [Eors'] delightful",
+        "7": "Rejoicing in the chace, all-graceful pow'r, sweet plant of Venus [Aphrodite], Love's [Eors'] delightful flow'r:",
         "8": "Descended from the secret bed divine, of lovely-hair'd, infernal Proserpine [Persephone].",
         "9": "'Tis thine to fink in Tartarus profound, and shine again thro' heav'ns illustrious round,",
         "10": "With beauteous temp'ral orb restor'd to sight; come, with earth's fruits, and in these flames delight."
       },
       "56": {
-        "1": "The Fumigation from Storax.",
+        "1": "*To the Terrestrial Hermes [Hermes Khthonios]*\n*The Fumigation from Storax.*",
         "2": "Hermes I call, whom Fate decrees to dwell in the dire path which leads to deepest hell",
         "3": "O Bacchic [Bakkheios] Hermes, progeny divine of Dionysius [Dionysos], parent of the vine,",
         "4": "And of celestial Venus [Aphrodite] Paphian queen, dark eye-lash'd Goddess of a lovely mien:",
@@ -710,7 +766,7 @@
         "10": "Come, blessed pow'r the sacrifice attend, and grant our mystic works a happy end."
       },
       "57": {
-        "1": "The Fumigation from Aromatics.",
+        "1": "*To Cupid, or Love [Eros]*\n*The Fumigation from Aromatics.*",
         "2": "I Call great Cupid [Eros], source of sweet delight, holy and pure, and lovely to the sight;",
         "3": "Darting, and wing'd, impetuous fierce desire, with Gods and mortals playing, wand'ring fire:",
         "4": "Cautious, and two-fold, keeper of the keys of heav'n and earth, the air, and spreading seas;",
@@ -720,7 +776,7 @@
         "8": "Come, blessed pow'r, regard these mystic fires, and far avert, unlawful mad desires."
       },
       "58": {
-        "1": "The Fumigation from Aromatics.",
+        "1": "*To the Fates [Moirai]*\n*The Fumigation from Aromatics.*",
         "2": "Daughters of darkling Night [Nyx], much-nam'd, draw near infinite Fates [Moirai], and listen to my pray'r;",
         "3": "Who in the heav'nly lake (where waters white burst from a fountain hid in depths of night,",
         "4": "And thro' a dark and stony cavern glide, a cave profound, invisible) abide;",
@@ -738,7 +794,7 @@
         "16": "Propitious listen to these rites inclin'd, and far avert distress with placid mind."
       },
       "59": {
-        "1": "The Fumigation from Storax.",
+        "1": "*To the Graces [Kharites]*\n*The Fumigation from Storax.*",
         "2": "Hear me, illustrious Graces [Kharites], mighty nam'd, from Jove descended and Eunomia fam'd;",
         "3": "Thalia, and Aglaia fair and bright, and blest Euphrosyne whom joys delight:",
         "4": "Mothers of mirth, all lovely to the view, pleasure abundant pure belongs to you:",
@@ -746,19 +802,20 @@
         "6": "Circling, dark-ey'd, delightful to mankind, come, and your mystics bless with bounteous mind."
       },
       "60": {
-        "1": "Thee, Nemesis I call, almighty queen, by whom the deeds of mortal life are seen:",
-        "2": "Eternal, much rever'd, of boundless sight, alone rejoicing in the just and right:",
-        "3": "Changing the counsels of the human breast for ever various, rolling without rest.",
-        "4": "To every mortal is thy influence known, and men beneath thy righteous bondage groan;",
-        "5": "For ev'ry thought within the mind conceal'd is to thy fight perspicuously reveal'd.",
-        "6": "The soul unwilling reason to obey by lawless passion rul'd, thy eyes survey.",
-        "7": "All to see, hear, and rule, O pow'r divine whose nature Equity contains, is thine.",
-        "8": "Come, blessed, holy Goddess, hear my pray'r, and make thy mystic's life, thy constant care:",
-        "9": "Give aid benignant in the needful hour, and strength abundant to the reas'ning pow'r;",
-        "10": "And far avert the dire, unfriendly race of counsels impious, arrogant, and base."
+        "1": "*To Nemesis*\n*A Hymn.*",
+        "2": "Thee, Nemesis I call, almighty queen, by whom the deeds of mortal life are seen:",
+        "3": "Eternal, much rever'd, of boundless sight, alone rejoicing in the just and right:",
+        "4": "Changing the counsels of the human breast for ever various, rolling without rest.",
+        "5": "To every mortal is thy influence known, and men beneath thy righteous bondage groan;",
+        "6": "For ev'ry thought within the mind conceal'd is to thy fight perspicuously reveal'd.",
+        "7": "The soul unwilling reason to obey by lawless passion rul'd, thy eyes survey.",
+        "8": "All to see, hear, and rule, O pow'r divine whose nature Equity contains, is thine.",
+        "9": "Come, blessed, holy Goddess, hear my pray'r, and make thy mystic's life, thy constant care:",
+        "10": "Give aid benignant in the needful hour, and strength abundant to the reas'ning pow'r;",
+        "11": "And far avert the dire, unfriendly race of counsels impious, arrogant, and base."
       },
       "61": {
-        "1": "The Fumigation from Frankincense.",
+        "1": "*To Justice [Dike]*\n*The Fumigation from Frankincense.*",
         "2": "The piercing eye of Justice [Dike] bright, I sing, plac'd by the throne of heav'n's almighty king [Zeus],",
         "3": "Perceiving thence, with vision unconfin'd, the life and conduct of the human kind",
         "4": "To thee, revenge and punishment belong, chastising ev'ry deed, unjust and wrong;",
@@ -769,7 +826,7 @@
         "9": "Come, all-propitious, and thy suppliant hear, when Fate's predestin'd, final hour draws near."
       },
       "62": {
-        "1": "The Fumigation from Frankincense.",
+        "1": "*To Equity [Dikaiosune]*\n*The Fumigation from Frankincense.*",
         "2": "O Blessed Equity [Dikaiosune], mankind's delight, th' eternal friend of conduct just and right:",
         "3": "Abundant, venerable, honor'd maid, to judgments pure, dispensing constant aid,",
         "4": "A stable conscience, and an upright mind; for men unjust, by thee are undermin'd,",
@@ -782,20 +839,21 @@
         "11": "Or in her kindly fertile bosom found, or in the depths of Marine Jove [Zeus] profound."
       },
       "63": {
-        "1": "The holy king of Gods and men I call, celestial Law [Nomos], the righteous seal of all;",
-        "2": "The seal which stamps whate'er the earth contains, Nature's firm basis, and the liquid plains:",
-        "3": "Stable, and starry, of harmonious frame, preserving laws eternally the same:",
-        "4": "Thy all-composing pow'r in heaven appears, connects its frame, and props the starry spheres;",
-        "5": "And shakes weak Envy with tremendous sound, toss'd by thy arm in giddy whirls around.",
-        "6": "'Tis thine, the life of mortals to defend, and crown existence with a blessed end;",
-        "7": "For thy command and alone, of all that lives order and rule to ev'ry dwelling gives:",
-        "8": "Ever observant of the upright mind, and of just actions the companion kind;",
-        "9": "Foe to the lawless, with avenging ire, their steps involving in destruction dire.",
-        "10": "Come, bless, abundant pow'r, whom all revere, by all desir'd, with favr'ing mind draw near;",
-        "11": "Give me thro' life, on thee to fix my fight, and ne'er forsake the equal paths of right."
+        "1": "*To Law [Nomos]*\n*A Hymn.*",
+        "2": "The holy king of Gods and men I call, celestial Law [Nomos], the righteous seal of all;",
+        "3": "The seal which stamps whate'er the earth contains, Nature's firm basis, and the liquid plains:",
+        "4": "Stable, and starry, of harmonious frame, preserving laws eternally the same:",
+        "5": "Thy all-composing pow'r in heaven appears, connects its frame, and props the starry spheres;",
+        "6": "And shakes weak Envy with tremendous sound, toss'd by thy arm in giddy whirls around.",
+        "7": "'Tis thine, the life of mortals to defend, and crown existence with a blessed end;",
+        "8": "For thy command and alone, of all that lives order and rule to ev'ry dwelling gives:",
+        "9": "Ever observant of the upright mind, and of just actions the companion kind;",
+        "10": "Foe to the lawless, with avenging ire, their steps involving in destruction dire.",
+        "11": "Come, bless, abundant pow'r, whom all revere, by all desir'd, with favr'ing mind draw near;",
+        "12": "Give me thro' life, on thee to fix my fight, and ne'er forsake the equal paths of right."
       },
       "64": {
-        "1": "The Fumigation from Frankincense.",
+        "1": "*To Mars [Ares]*\n*The Fumigation from Frankincense.*",
         "2": "Magnanimous, unconquer'd, boistrous Mars, in darts rejoicing, and in bloody wars",
         "3": "Fierce and untam'd, whose mighty pow'r can make the strongest walls from their foundations shake:",
         "4": "Mortal destroying king, defil'd with gore, pleas'd with war's dreadful and tumultuous roar:",
@@ -805,7 +863,7 @@
         "8": "Encourage peace, to gentle works inclin'd, and give abundance, with benignant mind."
       },
       "65": {
-        "1": "The Fumigation from Frankincense and Manna.",
+        "1": "*To Vulcan [Hephaistos]*\n*The Fumigation from Frankincense and Manna.*",
         "2": "Strong, mighty Vulcan [Hephaistos], bearing splendid light, unweary'd fire, with flaming torrents bright:",
         "3": "Strong-handed, deathless, and of art divine, pure element, a portion of the world is thine:",
         "4": "All-taming artist, all-diffusive pow'r, 'tis thine supreme, all substance to devour:",
@@ -815,7 +873,7 @@
         "8": "Suppress the rage of fires unweary'd frame, and still preserve our nature's vital flame."
       },
       "66": {
-        "1": "The Fumigation from Manna.",
+        "1": "*To Esculapius [Asklepios]*\n*The Fumigation from Manna.*",
         "2": "Great Esculapius [Asklepios], skill'd to heal mankind, all-ruling Pæan, and physician kind;",
         "3": "Whose arts medic'nal, can alone assuage diseases dire, and stop their dreadful rage:",
         "4": "Strong lenient God, regard my suppliant pray'r, bring gentle Health, adorn'd with lovely hair;",
@@ -825,7 +883,7 @@
         "8": "Come, blessed saviour, and my health defend, and to my life afford a prosp'rous end."
       },
       "67": {
-        "1": "The Fumigation from Manna.",
+        "1": "*To Health [Hygeia]*\n*The Fumigation from Manna.*",
         "2": "O Much-desir'd, prolific, gen'ral queen, hear me, life-bearing, Health [Hygeia], of beauteous mien,",
         "3": "Mother of all; by thee diseases dire, of bliss destructive, from our life retire;",
         "4": "And ev'ry house is flourishing and fair, if with rejoicing aspect thou art there:",
@@ -838,7 +896,7 @@
         "11": "Assist thy mystics with propitious mind, and far avert disease of ev'ry kind."
       },
       "68": {
-        "1": "The Fumigation from Aromatics.",
+        "1": "*To the Furies [Erinyes]*\n*The Fumigation from Aromatics.*",
         "2": "Vociferous Bacchanalian Furies [Erinyes], hear! Ye, I invoke, dread pow'rs, whom all revere;",
         "3": "Nightly, profound, in secret who retire, Tisiphone, Alecto, and Megara dire:",
         "4": "Deep in a cavern merg'd, involv'd in night, near where Styx flows impervious to the sight;",
@@ -853,7 +911,7 @@
         "13": "Come, snaky-hair'd, Fates [Moirai] many-form'd, divine, suppress your rage, and to our rites incline."
       },
       "69": {
-        "1": "The Fumigation from Aromatics.",
+        "1": "*To the Furies [Eumenides]*\n*The Fumigation from Aromatics.*",
         "2": "Hear me, illustrious Furies [Eumenides], mighty nam'd, terrific pow'rs, for prudent counsel fam'd;",
         "3": "Holy and pure, from Jove terrestrial [Zeus Khthonios] born",
         "4": "and Proserpine [Phersephone], whom lovely locks adorn:",
@@ -862,20 +920,22 @@
         "7": "Dark-colour'd queens, whose glittering eyes, are bright with dreadful, radiant, life-destroying, light:",
         "8": "Eternal rulers, terrible and strong, to whom revenge, and tortures dire belong;",
         "9": "Fatal and horrid to the human sight, with snaky tresses wand'ring in the night;",
-        "10": "Either approach, and in these rites rejoice, for ye, I call, with holy, suppliant voice.",
-        "11": "The Fumigation from Aromatics.",
-        "12": "Call Melinoe, saffron-veil'd, terrene, who from infernal Pluto's sacred queen [Phersephone],",
-        "13": "Mixt with Saturnian Jupiter [Kronion Zeus], arose, near where Cocytus' mournful river flows;",
-        "14": "When under Pluto's [Plouton's] semblance,",
-        "15": "Jove [Zeus] divine deceiv'd with guileful arts dark Proserpine [Phersephone].",
-        "16": "Hence, partly black thy limbs and partly white, from Pluto [Plouton] dark, from Jove [Zeus] etherial, bright",
-        "17": "Thy colour'd members, men by night inspire when seen in specter'd forms with terrors dire;",
-        "18": "Now darkly visible, involv'd in night, perspicuous now they meet the fearful fight.",
-        "19": "Terrestrial queen expel wherever found the soul's mad fears to earth's remotest bound;",
-        "20": "With holy aspect on our incense shrine, and bless thy mystics, and the rites divine."
+        "10": "Either approach, and in these rites rejoice, for ye, I call, with holy, suppliant voice."
+      },
+      "70": {
+        "1": "*To Melinoe*\n*The Fumigation from Aromatics.*",
+        "2": "Call Melinoe, saffron-veil'd, terrene, who from infernal Pluto's sacred queen [Phersephone],",
+        "3": "Mixt with Saturnian Jupiter [Kronion Zeus], arose, near where Cocytus' mournful river flows;",
+        "4": "When under Pluto's [Plouton's] semblance,",
+        "5": "Jove [Zeus] divine deceiv'd with guileful arts dark Proserpine [Phersephone].",
+        "6": "Hence, partly black thy limbs and partly white, from Pluto [Plouton] dark, from Jove [Zeus] etherial, bright",
+        "7": "Thy colour'd members, men by night inspire when seen in specter'd forms with terrors dire;",
+        "8": "Now darkly visible, involv'd in night, perspicuous now they meet the fearful fight.",
+        "9": "Terrestrial queen expel wherever found the soul's mad fears to earth's remotest bound;",
+        "10": "With holy aspect on our incense shrine, and bless thy mystics, and the rites divine."
       },
       "71": {
-        "1": "The Fumigation from Frankincense.",
+        "1": "*To Fortune [Tykhe]*\n*The Fumigation from Frankincense.*",
         "2": "Approach strong Fortune [Tykhe], with propitious mind and rich abundance, to my pray'r inclin'd",
         "3": "Placid, and gentle Trivia, mighty nam'd, imperial Dian [Artemis], born of Pluto [Eubouleos] fam'd;",
         "4": "Mankind's unconquer'd, endless praise is thine, sepulch'ral, widely-wand'ring pow'r divine!",
@@ -884,7 +944,7 @@
         "7": "Be present, Goddess, to thy vot'ry kind, and give abundance with benignant mind."
       },
       "72": {
-        "1": "The Fumigation from Frankincense.",
+        "1": "*To the Dæmon, or Genius*\n*The Fumigation from Frankincense.*",
         "2": "Thee, mighty-ruling, Dæmon dread, I call, mild Jove [Zeus], life-giving, and the source of all:",
         "3": "Great Jove [Zeus], much-wand'ring, terrible and strong, to whom revenge and tortures dire belong.",
         "4": "Mankind from thee, in plenteous wealth abound, when in their dwellings joyful thou art found;",
@@ -894,7 +954,7 @@
         "8": "With fav'ring mind the sacred rites attend, and grant my days a glorious, blessed end."
       },
       "73": {
-        "1": "The Fumigation from Aromatics.",
+        "1": "*To Leucothea*\n*The Fumigation from Aromatics.*",
         "2": "I Call Leucothea, of great Cadmus born, and Bacchus' [Dionysos'] nurse, whom ivy leaves adorn.",
         "3": "Hear, pow'rful Goddess, in the mighty deep wide and profound, thy Ration doom'd to keep:",
         "4": "In waves rejoicing, guardian of mankind; for ships from thee alone deliv'rance find",
@@ -905,7 +965,7 @@
         "9": "Thy mystics thro' the stormy sea defend, and safe conduct them to their destin'd end."
       },
       "74": {
-        "1": "The Fumigation from Manna.",
+        "1": "*To Palæmon*\n*The Fumigation from Manna.*",
         "2": "O Nurs'd with Dionysius [Dionysos], doom'd to keep thy dwelling in the widely-spreading deep:",
         "3": "With joyful aspect to my pray'r incline, propitious come, and bless the rites divine:",
         "4": "Thro' earth and sea thy ministers attend, and from old Ocean's stormy waves defend:",
@@ -913,7 +973,7 @@
         "6": "Come, guardian pow'r, whom mortal tribes desire, and far avert the deep's destructive ire."
       },
       "75": {
-        "1": "The Fumigation from Frankincense.",
+        "1": "*To the Muses*\n*The Fumigation from Frankincense.*",
         "2": "Daughters of Jove [Zeus and Mnemosyne], dire-sounding and divine,",
         "3": "renown'd Pierian, sweetly speaking Nine;",
         "4": "To those whose breasts your sacred furies fire much-form'd, the objects of supreme desire:",
@@ -928,7 +988,7 @@
         "13": "Bring glorious, ardent, lovely, fam'd desire, and warm my bosom with your sacred fire."
       },
       "76": {
-        "1": "The Fumigation from Frankincense.",
+        "1": "*To Mnemosyne, or the Goddess of Memory*\n*The Fumigation from Frankincense.*",
         "2": "The consort I invoke of Jove [Zeus] divine, source of the holy, sweetly-speaking Nine;",
         "3": "Free from th' oblivion of the fallen mind, by whom the soul with intellect is join'd:",
         "4": "Reason's increase, and thought to thee belong, all-powerful, pleasant, vigilant, and strong:",
@@ -937,7 +997,7 @@
         "7": "Come, blessed power, thy mystic's mem'ry wake to holy rites, and Lethe's fetters break."
       },
       "77": {
-        "1": "The Fumigation from Manna.",
+        "1": "*To Aurora [Eos]*\n*The Fumigation from Manna.*",
         "2": "Hear me, O Goddess! whose emerging ray leads on the broad refulgence of the day;",
         "3": "Blushing Aurora [Eos], whose celestial light beams on the world with red'ning splendours bright:",
         "4": "Angel of Titan, whom with constant round, thy orient beams recall from night profound:",
@@ -949,7 +1009,7 @@
         "10": "Thy holy light increase, and unconfin'd diffuse its radiance on thy mystic's mind."
       },
       "78": {
-        "1": "The Fumigation from Frankincense.",
+        "1": "*To Themis*\n*The Fumigation from Frankincense.*",
         "2": "Illustrious Themis, of celestial birth, thee I invoke, young blossom of the earth;",
         "3": "Beauteous-eyed virgin; first from thee alone, prophetic oracles to men were known,",
         "4": "Giv'n from the deep recesses of the fane in sacred Pytho, where renown'd you reign;",
@@ -960,28 +1020,28 @@
         "9": "Be present, Goddess, to my pray'r inclin'd, and bless the mystic rites with fav'ring mind."
       },
       "79": {
-        "1": "The Fumigation from Frankincense.",
+        "1": "*To the North Wind [Boreas]*\n*The Fumigation from Frankincense.*",
         "2": "Boreas, whose wint'ry blasts, terrific, tear the bosom of the deep surrounding air;",
         "3": "Cold icy pow'r, approach, and fav'ring blow, and Thrace a while desert expos'd to snow:",
         "4": "The misty station of the air dissolve, with pregnant clouds, whose frames in show'rs resolve:",
         "5": "Serenely temper all within the sky, and wipe from moisture, Æther's beauteous eye."
       },
       "80": {
-        "1": "The Fumigation from Frankincense.",
+        "1": "*To the West Wind [Zephyros]*\n*The Fumigation from Frankincense.*",
         "2": "Sea-born, aerial, blowing from the west, sweet gales [Aurai], who give to weary'd labour rest:",
         "3": "Vernal and grassy, and of gentle found, to ships delightful, thro' the sea profound;",
         "4": "For these, impell'd by you with gentle force, pursue with prosp'rous Fate their destin'd course.",
         "5": "With blameless gales regard my suppliant pray'r, Zephyrs unseen, light-wing'd, and form'd from air."
       },
       "81": {
-        "1": "The Fumigation from Frankincense.",
+        "1": "*To the South Wind [Notos]*\n*The Fumigation from Frankincense.*",
         "2": "Wide coursing gales, whose lightly leaping feet with rapid wings the air's wet bosom beat,",
         "3": "Approach benevolent, swift-whirling pow'rs, with humid clouds the principles of flow'rs:",
         "4": "For flow'ry clouds are portion'd to your care, to send on earth from all surrounding air.",
         "5": "Bear, blessed pow'rs, these holy rites attend, and fruitful rains on earth all-parent send."
       },
       "82": {
-        "1": "The Fumigation from Aromatics.",
+        "1": "*To Ocean [Okeanos]*\n*The Fumigation from Aromatics.*",
         "2": "Ocean I call, whose nature ever flows, from whom at first both Gods and men arose;",
         "3": "Sire incorruptible, whose waves surround, and earth's concluding mighty circle bound:",
         "4": "Hence every river, hence the spreading sea, and earth's pure bubbling fountains spring from thee:",
@@ -990,7 +1050,7 @@
         "7": "Approach benevolent, with placid mind, and be for ever to thy mystics kind."
       },
       "83": {
-        "1": "The Fumigation from Aromatics.",
+        "1": "*To Vesta [Hestia]*\n*The Fumigation from Aromatics.*",
         "2": "Daughter of Saturn [Kronos], venerable dame, the seat containing of unweary'd flame;",
         "3": "In sacred rites these ministers are thine, Mystics much-blessed, holy and divine",
         "4": "In thee, the Gods have fix'd place, strong, stable, basis of the mortal race:",
@@ -998,7 +1058,7 @@
         "6": "Accept these rites, accord each just desire, and gentle health, and needful good inspire."
       },
       "84": {
-        "1": "The Fumigation from a Poppy.",
+        "1": "*To Sleep [Hypnos]*\n*The Fumigation from a Poppy.*",
         "2": "Sleep [Hypnos], king of Gods, and men of mortal birth, sov'reign of all sustain'd by mother Earth;",
         "3": "For thy dominion is supreme alone, o'er all extended, and by all things known.",
         "4": "'Tis thine all bodies with benignant mind in other bands than those of brass to bind:",
@@ -1008,7 +1068,7 @@
         "8": "With fav'ring aspect to my pray'r incline, and save thy mystics in their works divine."
       },
       "85": {
-        "1": "The Fumigation from Aromatics.",
+        "1": "*To the Divinity of Dreams [Oneiroi]*\n*The Fumigation from Aromatics.*",
         "2": "Thee I invoke, blest pow'r of dreams [Oneiroi] divine, angel of future fates, swift wings are thine:",
         "3": "Great source of oracles to human kind, when stealing soft, and whisp'ring to the mind,",
         "4": "Thro' sleep's sweet silence and the gloom of night, thy pow'r awakes th' intellectual fight;",
@@ -1024,7 +1084,7 @@
         "14": "Signs only present to the worthy mind, nor omens ill disclose of monst'rous kind."
       },
       "86": {
-        "1": "The Fumigation from Manna.",
+        "1": "*To Death [Thanatos]*\n*The Fumigation from Manna.*",
         "2": "Hear me, O Death [Thanatos], whose empire unconfin'd, extends to mortal tribes of ev'ry kind.",
         "3": "On thee, the portion of our time depends, whose absence lengthens life, whose presence ends.",
         "4": "Thy sleep perpetual bursts the vivid folds, by which the soul, attracting body holds:",

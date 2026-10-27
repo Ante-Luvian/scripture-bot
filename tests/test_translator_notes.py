@@ -60,6 +60,23 @@ def test_the_life_of_plotinus_is_whole(lookup):
     assert lookup._book_sources["Life of Pythagoras"] != lookup._book_sources["On Abstinence"]
 
 
+def test_the_orphic_hymns_whole(lookup):
+    """All 86 and To Musaeus, each with its title: three had run into the hymn before (38 into 37...)."""
+    hymns = lookup._data["classical"]["Orphic Hymns"]
+    assert sorted(map(int, hymns)) == list(range(0, 87))
+    assert hymns["2"]["1"].startswith("*To Night [Nyx]*\n*The Fumigation with Torches.*")
+    assert hymns["38"]["1"].startswith("*To Corybas") and hymns["42"]["1"].startswith("*To the Seasons")
+    assert any("Love's [Eors'] delightful flow'r:" in v for v in hymns["55"].values())
+
+
+def test_the_chaldaean_oracles_whole(lookup):
+    oracles = lookup._data["classical"]["Chaldaean Oracles"]
+    assert list(oracles) == [str(n) for n in range(1, 200)]                 # (106 and 153 were lost, 73 last)
+    assert oracles["153"]["1"] == "Enlarge not thy Destiny."
+    assert oracles["86"]["1"].endswith("under the strong necessity of Mithus.")   # (was cut at "as many as")
+    assert "Lobeck" not in oracles["3"]["1"] and "Pic. Concl." not in oracles["192"]["1"]
+
+
 def test_no_page_numbers_in_the_pythagoreans(lookup):
     for book in ("Golden Verses of Pythagoras", "Golden Sentences of Democrates"):
         assert not re.search(r"\bp\. \d+", _text(lookup, book)), book
