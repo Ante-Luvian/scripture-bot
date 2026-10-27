@@ -7,6 +7,8 @@
   "angelussetup": [
    "angelusconfig"
   ],
+  "askcap": [],
+  "asksetup": [],
   "astrosetup": [
    "astroconfig",
    "horoscopesetup"

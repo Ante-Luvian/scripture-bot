@@ -9,7 +9,7 @@ import pytest
 PREFIX_ONLY = {"guildactivity", "scanstats", "votdmode",
                "physiologus", "reynard"}   # (the owner: no slash command each; /tale reaches them)
 # Admin commands; their slash forms are subcommands of /setup (Discord allows 100 slash commands)
-ADMIN_SLASH = {"votdsetup", "oraclesetup", "quizsetup", "verslesetup", "hymndaysetup", "saintsetup", "astrosetup", "angelussetup", "troparionsetup", "learningsetup", "changelogsetup", "changelogintro", "features", "serversetup", "packs"}
+ADMIN_SLASH = {"votdsetup", "oraclesetup", "quizsetup", "verslesetup", "hymndaysetup", "saintsetup", "astrosetup", "angelussetup", "troparionsetup", "learningsetup", "changelogsetup", "changelogintro", "asksetup", "features", "serversetup", "packs"}
 
 
 def test_every_command_has_a_slash_version(bot_module):

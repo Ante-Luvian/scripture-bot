@@ -127,6 +127,7 @@ HELP_MENU = [
         '`!features` — optional extras · `!help features`',
         '`!changelogsetup #channel` — where I post my updates · `!changelog` — recent updates',
         '`!changelogintro` — post my introduction there (`fresh` clears my old posts first)',
+        '`!asksetup #channel` — let people ask the library questions there by mentioning me (again to turn off)',
         '`!oraclesetup channel #chan` — a daily oracle post (`time`, `kind`, `test`, `off`)',
         '`!quizsetup channel #chan` — a daily quiz question (`time`, `kind bible|hard`, `test`, `off`)',
         "`!verslesetup channel #chan` — the day's Versle puzzle (`time`, `test`, `off`)",

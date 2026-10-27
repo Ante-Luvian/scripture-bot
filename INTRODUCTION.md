@@ -138,6 +138,9 @@ A **🖌️** button shows the pictures of the old illustrated editions wherever
 
 **`!harmony feeding five thousand`** — one event in the life of Jesus as each Gospel tells it, side by side, so you can see at a glance what Matthew, Mark, Luke and John each include or leave out. It follows a classic *harmony of the Gospels* (A. T. Robertson's, 1922), which puts the whole story in order in 185 events, from the birth of John the Baptist to the Ascension. Find an event by words from it, by a verse (`!harmony Mark 6:41`) or by its number (`!harmony 72`). Buttons read each Gospel's account in full and step to the event before or after, so you can walk through the whole life of Christ. `!harmony` alone picks an event at random.
 
+## 💬 Ask the library
+In a channel your server has opened to it (`!asksetup`), mention me with a question, like *@ScriptureBot what does Plotinus say evil is?* I search the Classical and Christian books for the passages that bear on it and answer from them, citing each one, so you can open it with `!verse` and read it for yourself. Reply to my answer to ask a follow-up. An AI model (Claude) writes the answer, from the passages I found and nothing else, and I can answer only so many questions a day.
+
 ## 🗺️ People and places
 **`!who Ruth`** — who someone in the Bible was: a short description, their family (parents, husband or wife, children, brothers and sisters), their tribe, where they were born and died, and every verse that names them. When several people share a name — there are seven Marys and a dozen Johns — I'll list them so you can pick the one you mean (`!who Mary`). The menu under the card opens any of their relatives, so you can follow a family tree: Ruth → her son Obed → his son Jesse → his son David.
 
@@ -274,6 +277,7 @@ These need the server's Administrator permission.
 • `!oraclesetup channel #channel` — a daily oracle; `!oraclesetup time 12:00`, `!oraclesetup kind virgil` (or `homer`, `delphi`, `oracle`, `iching`, `hafez`, `rumi`, `any`), `!oraclesetup test` to try one now, `!oraclesetup off`
 • `!quizsetup channel #channel` — a daily quiz question that everyone can answer all day; the answer is revealed when the next one is posted. `!quizsetup time 18:00`, `!quizsetup kind hard` (or `bible`, or a tradition like `buddhist`), `!quizsetup test` to post one now, `!quizsetup off`
 • `!verslesetup channel #channel` — post each day's Versle puzzle in a channel, with yesterday's answer and how many people solved it. `!verslesetup time 07:00`, `!verslesetup test`, `!verslesetup off`
+• `!asksetup #channel` — let people ask the library questions there by mentioning me (see *Study tools*); the same again turns it off, and `!asksetup` alone shows where it's on
 • `!changelogsetup #channel` — where I announce my updates (like this channel); `!changelogsetup off` to stop
 • `!changelogintro` — post this introduction, followed by the latest updates, in the updates channel (`!changelogintro fresh` first clears my earlier messages there)
 • `!serversetup` (or `/setup traditions`) — tell me what this server is for: which traditions (Christianity, Judaism, Islam, Buddhism…), which church (and for Anglicans, how high church), and whether you'd like oracles and divination. I put away the commands and texts you won't use, so they stop cluttering `!help`, the `/` menu and searches; nothing is deleted, and you can change your mind any time

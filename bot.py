@@ -68,6 +68,7 @@ from bot_commands.report import (
 # Importing a feature module registers its commands.
 from bot_commands import (  # noqa: F401
     angelus,
+    ask,
     autodetect,
     blake,
     books,

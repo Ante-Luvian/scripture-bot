@@ -234,6 +234,7 @@ keeping 14 days (`bot_commands/backup.py`).
 |---|---|
 | `!changelog` | Recent updates (also `!whatsnew`) |
 | `!changelogsetup #channel` | (Admins) Where the bot announces new updates; `off` to stop |
+| `!asksetup #channel` | (Admins) Open a channel to questions: there, mentioning the bot with a question gets an answer from the Classical and Christian libraries (`bot_commands/ask.py`: an in-memory SQLite FTS5 index finds ~8 passages, Claude Haiku answers from them only, and citations it wasn't given are removed). Replies to an answer continue it. Capped: `!askcap` (owner) sets the answers a day across all servers (default 50, `ask_usage.json`), 30 s per person; the index (~20 s) is built at start only if some server has a channel open |
 | `!changelogintro [fresh]` | (Admins) Post the full introduction ([`INTRODUCTION.md`](INTRODUCTION.md)) and the two latest updates in that channel; `fresh` first deletes the bot's own earlier messages there |
 
 Updates come from [`CHANGELOG.md`](CHANGELOG.md): when the bot starts after an

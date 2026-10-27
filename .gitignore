@@ -74,3 +74,6 @@ data/de421.bsp
 # Child ballads' tunes: rebuilt by scripts/build_child_tunes.py from the Digital Tradition, not kept in git
 data/ballads/midi/
 data/ballads/audio/
+
+# !ask: the day's count of answers
+data/ask_usage.json

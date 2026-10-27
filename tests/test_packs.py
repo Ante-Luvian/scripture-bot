@@ -129,7 +129,8 @@ def test_help_and_the_introduction_leave_out_what_a_server_turned_off(bot_module
     protestant(packs)
     ctx = ctx_in(GUILD)
     asyncio.run(bot_module.bot.get_command("help").callback(ctx))
-    menu = str([(f.name, f.value) for f in ctx.sent[-1]["embed"].fields]) + ctx.sent[-1]["embed"].footer.text
+    menu = "".join(str([(f.name, f.value) for f in m["embed"].fields]) + (m["embed"].footer.text or "")
+                   for m in ctx.sent if m.get("embed"))                   # (every page: !help can run to two)
     assert "!vov" in menu and "!verse" in menu and "!hymn" in menu
     for gone in ("!rosary", "!ccc", "!iching", "!tarot", "!parsha", "!salah", "!help gita", "!icon", "!story"):
         assert gone not in menu, gone
