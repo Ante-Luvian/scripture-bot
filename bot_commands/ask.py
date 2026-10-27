@@ -25,7 +25,7 @@ import urllib.request
 import discord
 from discord.ext import commands
 
-from core import ROOT, _load_guild_config, _update_guild_config, bot, bot_is_owner, lookup, tradition_enabled
+from core import ROOT, _load_guild_config, _update_guild_config, bot, bot_is_owner, log, lookup, tradition_enabled
 
 ASK_USAGE_PATH = ROOT / "data" / "ask_usage.json"          # {"day": "YYYY-MM-DD", "count": n, "cap": n}
 MODEL = "claude-haiku-5-5"
@@ -164,12 +164,17 @@ def _ask_claude(system: str, messages: list) -> str:
     key = os.environ.get("ANTHROPIC_API_KEY")
     if not key:
         raise RuntimeError("no ANTHROPIC_API_KEY")
-    body = json.dumps({"model": MODEL, "max_tokens": 700, "system": system, "messages": messages}).encode()
+    body = json.dumps({"model": MODEL, "max_tokens": 2000, "system": system, "messages": messages}).encode()
     req = urllib.request.Request("https://api.anthropic.com/v1/messages", data=body, method="POST", headers={
         "x-api-key": key, "anthropic-version": "2023-06-01", "content-type": "application/json"})
     with urllib.request.urlopen(req, timeout=60) as r:
         reply = json.loads(r.read().decode("utf-8"))
-    return "".join(part.get("text", "") for part in reply.get("content", []))
+    text = "".join(part.get("text", "") for part in reply.get("content", []) if part.get("type") == "text")
+    log.info(f"ASK  reply: stop {reply.get('stop_reason')}, usage {reply.get('usage')}, "
+             f"blocks {[p.get('type') for p in reply.get('content', [])]}, {len(text)} chars")
+    if not text.strip():
+        raise RuntimeError(f"no text in the reply (stop: {reply.get('stop_reason')})")
+    return text
 
 
 def _messages(question: str, passages: list, history: list) -> list:
@@ -235,7 +240,7 @@ async def _ensure_index() -> bool:
         if _index is None:
             started = time.monotonic()
             _index = await asyncio.to_thread(Index)
-            print(f"[ask] library index built: {len(_index.where):,} passages in {time.monotonic() - started:.0f}s")
+            log.info(f"ASK  library index built: {len(_index.where):,} passages in {time.monotonic() - started:.0f}s")
     return True
 
 
@@ -296,9 +301,11 @@ async def ask_the_library(message: discord.Message):
             if not await _ensure_index():
                 raise RuntimeError("the index isn't ready")
             text, cited = await answer(question, message.guild.id, history)
+            if not text.strip():
+                raise RuntimeError("the answer was empty")
         except Exception as e:
             why = e.read().decode("utf-8", "replace")[:300] if hasattr(e, "read") else str(e)
-            print(f"[ask] failed: {type(e).__name__}: {why}")
+            log.warning(f"ASK  failed: {type(e).__name__}: {why}")
             await message.reply("Sorry, I couldn't answer that just now. Try again in a little while.",
                                 mention_author=False)
             return
