@@ -1913,6 +1913,23 @@ class ScriptureLookup:
                 "mystical_theology.json",
                 "on_the_heavenly_hierarchy.json",
                 "on_the_ecclesiastical_hierarchy.json",
+                # the rest of the Pythagorean and Platonic shelf (scripts/build_platonists.py)
+                "pythagorean_fragments.json",    # Taylor's Political Fragments, Hierocles's Ethical Fragments
+                "pythagoras_source_book.json",   # Guthrie: Philolaus, Archytas, Timaeus Locrus...
+                "ocellus.json",                  # Taylor: Ocellus, Taurus, Firmicus, Proclus
+                "presocratics.json",             # Burnet's fragments
+                "orphic_tablets.json",           # Murray's, in Harrison
+                "alcinous.json",
+                "maximus_tyrius.json",
+                "apuleius.json",
+                "scipios_dream.json",
+                "porphyry_more.json",
+                "proclus_minor.json",
+                "julian_wright.json",
+                "libanius.json",
+                "eunapius.json",
+                "celsus.json",
+                "boethius.json",
             ],
             "jewish": [
                 "josephus.json",

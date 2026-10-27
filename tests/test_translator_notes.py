@@ -106,4 +106,20 @@ def test_julian(lookup):
     assert lookup.get_verse("Hymn to King Helios 1:1")["text"].lower().count("it is my opinion that the present subject")
     assert lookup._book_sources["Hymn to King Helios"] == "trans. C. W. King (1888)"
     assert lookup._book_sources["Against the Galilaeans"] == "trans. Wilmer Cave Wright (1923)"
-    assert "The Caesars" not in lookup._data["classical"]
+    # (the real Caesars came back with the rest of Wright's Julian, scripts/build_platonists.py)
+    assert lookup._book_sources["The Caesars"].startswith("trans. Wilmer Cave Wright")
+    assert "season of the Kronia" in lookup.get_verse("The Caesars 1")["text"]
+
+
+def test_the_platonist_shelf_filled_out(lookup):
+    """2026-10-26: the rest of the Pythagorean, Platonic, Orphic and Neoplatonic texts in clean English."""
+    theology = lookup._data["classical"]["Theology of Plato"]
+    assert list(theology)[0] == "1.1" and list(theology)[-1].startswith("6.")      # (all six books, not the first five)
+    for book in ("Political Fragments of the Pythagoreans", "Fragments of Philolaus", "Fragments of Archytas",
+                 "Ocellus Lucanus on the Universe", "Fragments of Heraclitus", "Orphic Gold Tablets",
+                 "The Doctrine of Plato (Alcinous)", "Dissertations of Maximus of Tyre", "Apologia of Apuleius",
+                 "The Golden Ass", "Scipio's Dream", "Letter to Anebo", "Porphyry Against the Christians",
+                 "Commentary on the Chaldaean Oracles", "Letters of Julian", "Lives of the Philosophers and Sophists",
+                 "Celsus Against the Christians", "Consolation of Philosophy", "On Providence and Fate"):
+        assert book in lookup._data["classical"], book
+    assert "Lake of Memory" in lookup.get_verse("Orphic Gold Tablets 1:1")["text"]

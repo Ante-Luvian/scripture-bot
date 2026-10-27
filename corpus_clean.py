@@ -106,10 +106,10 @@ FIXES = {
 # where a book's real text stops (everything after goes): file -> [(book, chapter, verse, cut-at pattern)]
 ENDS = {
     # Thomas Taylor's translations end with his notes, which were run on as though they were the text: Iamblichus
-    # closes with his prayer for "an immutable guard of true conceptions" (104:6), Proclus's fifth book at 184:25,
-    # Porphyry's Cave of the Nymphs with "the present Cave of the Nymphs", before "(1) This Cronius..."
+    # closes with his prayer for "an immutable guard of true conceptions" (104:6), Porphyry's Cave of the Nymphs
+    # with "the present Cave of the Nymphs", before "(1) This Cronius..." (His Theology of Plato is rebuilt whole,
+    # without the notes, by scripts/build_platonists.py.)
     "classical/iamblichus.json": [("On the Mysteries", "104", "6", r"$^")],
-    "classical/proclus_theology.json": [("Theology of Plato", "184", "25", r"$^")],
     "classical/porphyry.json": [("On the Cave of the Nymphs", "18_1", "1", r"\s*\(1\) This Cronius.*")],
     "classical/julian.json": [("Hymn to King Helios", "30", "7", r"$^")],                   # chapters 31-56 are the translator's notes
     # Parker's Divine Names ends "October, 1896.": then his note on Ignatius
