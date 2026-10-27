@@ -118,6 +118,10 @@ def test_the_platonist_shelf_filled_out(lookup):
     # (book III: Portus's Greek marks only I, II, VII, IX...; Taylor printed VII as "III")
     assert [k for k in theology if k.startswith("3.")][:4] == ["3.1", "3.2", "3.7", "3.9"]
     assert theology["3.7"]["1"].startswith("Again therefore, the mystic doctrine concerning *the one*")
+    for ref in ("Theology of Plato 3.4", "Theology of Plato 3.8", "Theology of Plato 3.5:2"):    # (says why, and where)
+        r = lookup.get_verse(ref)
+        assert not r["found"] and "isn't marked" in r["error"] and "!verse Theology of Plato 3." in r["error"], ref
+    assert "has no chapter" in lookup.get_verse("Theology of Plato 3.40")["error"]
     for book in ("Political Fragments of the Pythagoreans", "Fragments of Philolaus", "Fragments of Archytas",
                  "Ocellus Lucanus on the Universe", "Fragments of Heraclitus", "Orphic Gold Tablets",
                  "The Doctrine of Plato (Alcinous)", "Dissertations of Maximus of Tyre", "Apologia of Apuleius",

@@ -2600,6 +2600,16 @@ class ScriptureLookup:
     # that number alone ("Dhammapada 183"), though stored by chapter.
     _VERSE_NUMBERED = ("Dhammapada", "Sutta Nipata")
 
+    # Chapters a work's contents name but its text never marks, so a citation of them finds nothing: say why.
+    _THEOLOGY_III = {"3": "1", "4": "2", "5": "2", "6": "2", "8": "7"}     # (where each one's subject is found)
+    _UNMARKED_CHAPTERS = {
+        ("Theology of Plato", f"3.{n}"): (
+            f"**Theology of Plato** 3.{n} isn't marked in the text. The Greek manuscripts never divided this part "
+            f"of the third book: the 1618 Greek edition notes that chapters III–VI aren't marked, and VIII isn't "
+            f"either, so no one knows exactly where they begin. Its words are all there, inside chapter 3.{where} "
+            f"— try `!verse Theology of Plato 3.{where}`.")
+        for n, where in _THEOLOGY_III.items()}
+
     def _locate_numbered_verse(self, book: str, chap_key: str, verse_start, verse_end):
         """A bare number beyond the last chapter is a verse number; a verse
         given with the wrong chapter is found in the right one."""
@@ -2907,7 +2917,8 @@ class ScriptureLookup:
         # Christ 3.5, Rig Veda 10.121): "3.5" with no verse is that chapter
         book_chapters = self._data[corpus].get(canon_book, {}) if corpus else {}
         if (verse_start is not None and verse_end is None and chap_key not in book_chapters
-                and f"{chap_key}.{verse_start}" in book_chapters):
+                and (f"{chap_key}.{verse_start}" in book_chapters
+                     or (canon_book, f"{chap_key}.{verse_start}") in self._UNMARKED_CHAPTERS)):
             chap_key, chapter, verse_start = f"{chap_key}.{verse_start}", f"{chap_key}.{verse_start}", None
         # A one-part poem cited by line alone ("Works and Days 289")
         if (list(book_chapters) == ["1"] and verse_start is None          # ("Samson Agonistes 41" too)
@@ -2919,6 +2930,8 @@ class ScriptureLookup:
                 canon_book, chap_key, verse_start, verse_end)
             chapter = chap_key
         chap_data = self._data[corpus].get(canon_book, {}).get(chap_key)
+        if chap_data is None and (canon_book, chap_key) in self._UNMARKED_CHAPTERS:
+            return {"found": False, "error": self._UNMARKED_CHAPTERS[(canon_book, chap_key)], "suggestions": []}
         if chap_data is None:
             def _chap_sort(k):
                 try: return [int(x) for x in k.split('.')]
