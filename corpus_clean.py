@@ -84,10 +84,18 @@ FIXES = {
        for n in ("ephesians", "magnesians", "philadelphians", "polycarp", "smyrnaeans", "trallians")},
     "classical/vivec_sermons.json": [(r"\s*<div\Z", "")],                    # a cut-off HTML tag
     "classical/porphyry.json": [(r"\s*\|\d+(?=\s|$)", "")],                # the printed edition's page numbers: "|41"
-    # the Oration upon the Sovereign Sun lost its opening clause (King's text, as tertullian.org has it)
-    "classical/julian.json": [(r"\Aall that are endowed with existence, with a rational soul",
-                               "It is my opinion that the present subject interests all: “Whatever breathes, and moves "
-                               "upon the earth,” all that are endowed with existence, with a rational soul")],
+    # the printed pages ("p. 20") and footnote marks ("self-sufficiency, 1 like") of sacred-texts' copies
+    "classical/golden_verses.json": [(r"\s*\bp\. \d+\b", "")],
+    "classical/pythagorean_sentences.json": [(r"\s*\bp\. \d+\b", ""), (r"(?<=self-sufficiency,) 1(?= like)", ""),
+                                             (r"(?<=itself,) 1(?= so)", "")],
+    "classical/corpus_hermeticum.json": [(r"\s*\bp\. \d+\b", ""), (r"(?<=mystic-ly,) 1(?= as)", ""),
+                                         (r"(?<=If,) 1(?= then)", ""), (r"(?<=made) 1(?= that)", "")],
+    "classical/isis_and_osiris.json": [(r"(?<=[a-z][.,;:!?’”)])\d{1,3}(?=\s|$)", ""),      # "time.5": the note numbers
+                                       (r"(?<=[a-z])\d{1,3}(?=\s)", "")],                 # "Pythagoras118 and"
+    "classical/plotinus.json": [(r"\nAll matter shown in brackets is added by the translator[^\n]*S\.M\.", "")],
+    # Dionysius (the same text in both collections): note numbers on the words ("being5 simplified")
+    **{f"{c}/{f}.json": [(r"(?<=[a-z])\d{1,3}(?=[\s,.;:)]|$)", "")]
+       for c in ("classical", "apostolic_fathers") for f in ("divine_names", "mystical_theology")},
     "classical/meditations_long.json": [(r"\+([^+]+)\+", r"*\1*")],
     "patristics/philoxenus_of_hierapolis.json": [(r"^[\w$)(]{1,6}(?: [\w$)(]{1,6}){3,}$", "")],   # Syriac in ASCII
     "ancient_near_east/instruction_of_amenemope.json": [                  # the Egyptian, transliterated: not a translation
@@ -104,6 +112,9 @@ ENDS = {
     "classical/proclus_theology.json": [("Theology of Plato", "184", "25", r"$^")],
     "classical/porphyry.json": [("On the Cave of the Nymphs", "18_1", "1", r"\s*\(1\) This Cronius.*")],
     "classical/julian.json": [("Hymn to King Helios", "30", "7", r"$^")],                   # chapters 31-56 are the translator's notes
+    # Parker's Divine Names ends "October, 1896.": then his note on Ignatius
+    **{f"{c}/divine_names.json": [("Divine Names", "13", "4", r"\s*Note ### NOTE\..*")]
+       for c in ("classical", "apostolic_fathers")},
     "jain/jaina_sutras.json": [("Sutrakritanga", "2.7", "40", r"\s*INDEX OF NAMES AND SUBJECTS.*")],
 }
 INDEX_HEAD = re.compile(r"^(?:INDEX(?: OF [A-Z ]+)?\.?|\*\*\* This Index contains.*)$")
