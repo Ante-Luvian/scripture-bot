@@ -115,6 +115,9 @@ def test_the_platonist_shelf_filled_out(lookup):
     """2026-10-26: the rest of the Pythagorean, Platonic, Orphic and Neoplatonic texts in clean English."""
     theology = lookup._data["classical"]["Theology of Plato"]
     assert list(theology)[0] == "1.1" and list(theology)[-1].startswith("6.")      # (all six books, not the first five)
+    # (book III: Portus's Greek marks only I, II, VII, IX...; Taylor printed VII as "III")
+    assert [k for k in theology if k.startswith("3.")][:4] == ["3.1", "3.2", "3.7", "3.9"]
+    assert theology["3.7"]["1"].startswith("Again therefore, the mystic doctrine concerning *the one*")
     for book in ("Political Fragments of the Pythagoreans", "Fragments of Philolaus", "Fragments of Archytas",
                  "Ocellus Lucanus on the Universe", "Fragments of Heraclitus", "Orphic Gold Tablets",
                  "The Doctrine of Plato (Alcinous)", "Dissertations of Maximus of Tyre", "Apologia of Apuleius",

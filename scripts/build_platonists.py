@@ -285,10 +285,13 @@ def theology() -> None:
         n = roman(label.split()[1].rstrip("."))
         start = src.find(">", src.find("</", m.end())) + 1                  # (past the heading's end)
         theology_chapters.setdefault(book, {})[n] = blocks(src[start:end])
+    # The third book: Taylor's printing heads chapters I, II, III, IX... though his contents list all 28. His source,
+    # Portus's Greek (1618), heads that "III" CAPUT VII, noting "Sex præcedentia capita non sunt notata in Græco
+    # textu": the manuscripts don't mark where III-VI (or VIII) begin, so no one can. Taylor's "III" is a misprint
+    # for VII and is put right; the unmarked chapters stay unmarked, inside I, II and VII as the editions have them.
+    theology_chapters[3] = {7 if n == 3 else n: paras for n, paras in theology_chapters[3].items()}
     for b, chs in theology_chapters.items():
-        # (Taylor's printing goes from chapter III of the third book to IX, though its contents list IV-VIII:
-        # the text is whole, the headings were left out. His numbers are kept, for citations from his book.)
-        want = [1, 2, 3] + list(range(9, 9 + len(chs) - 3)) if b == 3 else list(range(1, len(chs) + 1))
+        want = [1, 2, 7] + list(range(9, 9 + len(chs) - 3)) if b == 3 else list(range(1, len(chs) + 1))
         expect(list(chs) == want, f"Theology book {b}: chapters {list(chs)}")
     expect(list(theology_chapters) == [1, 2, 3, 4, 5, 6], f"books {list(theology_chapters)}")
     books["Theology of Plato"] = {f"{b}.{n}": chapter("", paras) for b, chs in theology_chapters.items()
