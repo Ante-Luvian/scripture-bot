@@ -41,6 +41,8 @@ HISTORY = 3                       # earlier exchanges of a conversation sent wit
 
 # the libraries it reads: the Classical shelf and the Christian ones
 CORPORA = ("classical", "kjv", "nt_apocrypha", "apostolic_fathers", "patristics", "charles", "medieval", "reformation")
+SCRIPTURE = {"kjv"}
+PLANNED = 5                       # passages the plan names that are fetched first (the search fills the rest)
 
 _STOP = set("""a about above after again against all am an and any are as at be because been before being below
 between both but by can could did do does doing down during each few for from further had has have having he her
@@ -90,21 +92,30 @@ class Index:
         self.db.execute("CREATE VIRTUAL TABLE passages USING fts5(text, book, shelf, content='', "
                         "tokenize='porter unicode61 remove_diacritics 2')")
         self.where = []                                     # rowid - 1 -> (corpus, book, chapter, verse)
+        self.span = {}                                      # corpus -> (first rowid, last rowid): each is a run
         for corpus in corpora:
+            first = len(self.where) + 1
             for book, chapters in lookup._data.get(corpus, {}).items():
                 rows = []
                 for chap, verses in chapters.items():
                     for verse, text in verses.items():
-                        if isinstance(text, str) and len(text) > 40:
+                        if isinstance(text, str) and len(text.strip()) > 8:     # ("I and my Father are one.")
                             self.where.append((corpus, book, chap, verse))
                             rows.append((len(self.where), text, book, " ".join(shelves.get(book, []))))
                 self.db.executemany("INSERT INTO passages (rowid, text, book, shelf) VALUES (?, ?, ?, ?)", rows)
+            self.span[corpus] = (first, len(self.where))
         self.db.commit()
 
-    def search(self, query: str, n: int = 200) -> list:
-        """[(corpus, book, chapter, verse)], best first."""
-        rows = self.db.execute("SELECT rowid FROM passages WHERE passages MATCH ? "
-                               "ORDER BY bm25(passages, 1.0, 6.0, 4.0) LIMIT ?", (query, n)).fetchall()
+    def search(self, query: str, n: int = 200, corpora=None) -> list:
+        """[(corpus, book, chapter, verse)], best first, from `corpora` only (in the search itself: the best 200
+        of the whole library can hold no Bible verse at all)."""
+        spans = [self.span[c] for c in (corpora or self.span) if c in self.span]
+        if not spans:
+            return []
+        where = " OR ".join("rowid BETWEEN ? AND ?" for _ in spans)
+        rows = self.db.execute(f"SELECT rowid FROM passages WHERE passages MATCH ? AND ({where}) "
+                               "ORDER BY bm25(passages, 1.0, 6.0, 4.0) LIMIT ?",
+                               (query, *[x for s in spans for x in s], n)).fetchall()
         return [self.where[r - 1] for (r,) in rows]
 
 
@@ -127,29 +138,36 @@ def _excerpt(text: str, terms: list, room: int) -> str:
     return ("…" if start else "") + piece + ("…" if start + room < len(text) else "")
 
 
-def find_passages(question: str, guild_id=None, index=None, limit: int = PASSAGES) -> list:
+def find_passages(question: str, guild_id=None, index=None, limit: int = PASSAGES, corpora=CORPORA,
+                  phrase: bool = False) -> list:
     """[{"reference", "text"}] of the passages that best answer the question, best first: no more than PER_BOOK
     from one book (PER_NAMED_BOOK from a book the question names, or its author), and only from the traditions
     the server has."""
     from scripture_lookup import CORPUS_TRADITION
     index = index or _index
     terms = _terms(question)
-    if not terms or index is None:
+    if index is None:
         return []
     rows = []
+    if phrase:                                      # (a planned search, "I am": the words together, common or not)
+        words = re.findall(r"[A-Za-zÀ-ÿ']+", question)
+        if words:
+            rows += index.search('"' + " ".join(w.replace("'", " ") for w in words) + '"', corpora=corpora)
     # passages with all the words first; then, if they're few, those with any (common words alone are noise)
-    for joiner in (" AND ", " OR "):
-        rows += [r for r in index.search(joiner.join(f'"{t}"' for t in terms)) if r not in rows]
+    for joiner in ((" AND ", " OR ") if terms else ()):
+        rows += [r for r in index.search(joiner.join(f'"{t}"' for t in terms), corpora=corpora) if r not in rows]
         if len(rows) >= limit * 3 or len(terms) == 1:
             break
+    if not rows:
+        return []
     out, per_book, seen = [], collections.Counter(), set()
     def worth(row) -> int:
         """0 a passage of substance, 1 a short one (a line of a letter's farewell), 2 a list of contents."""
         text = lookup._data[row[0]][row[1]][row[2]][row[3]]
         if len(re.findall(r"(?:^|\s)\d{1,3}\.\s", text)) >= 4:
             return 2
-        return 0 if len(text) >= 200 else 1
-    rows = [r for r in sorted(rows, key=worth) if worth(r) < 2]     # (sorted() keeps the ranking within each)
+        return 0 if len(text) >= 200 or row[0] in SCRIPTURE else 1     # (a Bible verse is short by nature)
+    rows = [r for r in sorted(rows, key=worth) if worth(r) < 2 and r[0] in corpora]   # (sorted keeps the ranking)
     named = {}
     for corpus, book, chap, verse in rows:
         if book not in named:
@@ -174,6 +192,86 @@ def find_passages(question: str, guild_id=None, index=None, limit: int = PASSAGE
     return [{"reference": p["reference"], "text": p["text"]} for p in out]
 
 
+# ── the plan: what a scholar would look up ─────────────────────────────────
+# A search for the question's own words misses the answer when the texts don't use them: "does Christ claim to be
+# God?" found Hilary, not John 8:58 ("Before Abraham was, I am") or 10:30. So a first, small request asks for the
+# passages to check and for searches in the texts' own wording. Those are only where to look: what the answer may
+# use is still what the bot finds in its library, and a reference the library hasn't is dropped.
+
+PLAN = """A Discord bot answers questions from its library: the King James Bible, the Church Fathers (Ante-Nicene, \
+Nicene and Post-Nicene, in the standard 19th-century translations), Christian mystics, and Greek and Roman \
+philosophy and religion (Plato, Aristotle, Plotinus, Porphyry, Iamblichus, Proclus, the Hermetica, the Stoics). \
+Plan its search for the question below. Reply with only a JSON object:
+{"shelves": [which of "bible", "apocrypha", "fathers", "later_christian", "classical" to search. A question about \
+what someone said, claimed or taught is answered from their own words: what Christ or an apostle says -> ["bible"]; \
+what Plotinus or Plato says -> ["classical"]; what Augustine says -> ["fathers"]. Add "fathers" only for what the \
+Church or its teachers taught or how they read a text, "later_christian" for the medieval and Reformation writers \
+and mystics],
+ "references": [up to 6 passages that most directly answer it, as "Book chapter:verse" (Bible books by their KJV \
+names, e.g. "John 10:30", "Philippians 2:5-8"), the most important first; for other works only when you are sure \
+of the exact book, chapter and section, else leave them out],
+ "searches": [up to 3 short searches, in the words the texts themselves would use (the KJV's English for the Bible: \
+"I am", "equal with God")]}
+Give both sides where the question is disputed."""
+
+
+SHELVES = {"bible": ("kjv",), "apocrypha": ("nt_apocrypha", "charles"), "fathers": ("apostolic_fathers", "patristics"),
+           "later_christian": ("medieval", "reformation"), "classical": ("classical",)}
+
+
+def _plan(question: str, history: list) -> dict:
+    """{"corpora": (...), "references": [...], "searches": [...]}: everywhere and nothing named if the plan can't
+    be had."""
+    earlier = "".join(f"(Earlier question: {q})\n" for q, _ in history[-HISTORY:])
+    try:
+        reply = _ask_claude(PLAN, [{"role": "user", "content": f"{earlier}Question: {question}"}], max_tokens=1200)
+        data = json.loads(re.search(r"\{.*\}", reply, re.S).group(0))
+    except Exception as e:
+        log.warning(f"ASK  no plan: {type(e).__name__}: {e}")
+        return {"corpora": CORPORA, "references": [], "searches": []}
+    clean = lambda v, n: [s.strip() for s in v if isinstance(s, str) and 0 < len(s.strip()) <= 80][:n] \
+        if isinstance(v, list) else []
+    corpora = tuple(c for s in clean(data.get("shelves"), 5) for c in SHELVES.get(s.lower(), ()))
+    plan = {"corpora": corpora or CORPORA, "references": clean(data.get("references"), 6),
+            "searches": clean(data.get("searches"), 3)}
+    log.info(f"ASK  plan: {plan}")
+    return plan
+
+
+def gather(question: str, guild_id, plan: dict, index=None) -> list:
+    """The passages to answer from, from the plan's shelves only: those it names that the library has (up to
+    PLANNED), then the best the searches find."""
+    from scripture_lookup import CORPUS_TRADITION
+    corpora = plan.get("corpora") or CORPORA
+    out, refs = [], set()
+    for ref in plan.get("references", []):
+        if len(out) == PLANNED:
+            break
+        try:
+            r = lookup.get_verse(ref)
+        except Exception:
+            continue
+        if not r.get("found") or not r.get("text"):
+            continue
+        corpus = lookup._resolve_book(r["reference"].rsplit(" ", 1)[0])[0]
+        if corpus not in corpora or not tradition_enabled(guild_id, CORPUS_TRADITION.get(corpus)):
+            continue
+        text = re.sub(r"\*\*\[(\d+)\]\*\*\s*", r"(\1) ", r["text"]).strip()     # ("**[30]**" -> "(30)")
+        out.append({"reference": r["reference"], "text": _excerpt(text, _terms(question), max(PASSAGE_CHARS))})
+        refs.add(r["reference"])
+    want = PASSAGES + min(len(out), 3)              # (room for the search's finds beside the planned ones)
+    searches = [(s, True) for s in plan.get("searches", [])] + [(question, False)]
+    for search, phrase in searches:                 # (the plan's searches first: the question's own words may
+        for p in find_passages(search, guild_id, index=index, corpora=corpora, phrase=phrase,   # not be the texts')
+                               limit=3 if phrase else PASSAGES):
+            if len(out) >= want:
+                return out
+            if p["reference"] not in refs:
+                out.append(p)
+                refs.add(p["reference"])
+    return out
+
+
 # ── the answer ─────────────────────────────────────────────────────────────
 
 SYSTEM = """You are the reading-room voice of ScriptureBot, a Discord bot that holds a large library of Classical \
@@ -193,11 +291,11 @@ them; give the author's view, not your own, and don't preach.
 - At most 220 words. Discord markdown: *italics* for titles, no headings, no tables."""
 
 
-def _ask_claude(system: str, messages: list) -> str:
+def _ask_claude(system: str, messages: list, max_tokens: int = 2000) -> str:
     key = os.environ.get("ANTHROPIC_API_KEY")
     if not key:
         raise RuntimeError("no ANTHROPIC_API_KEY")
-    body = json.dumps({"model": MODEL, "max_tokens": 2000, "system": system, "messages": messages}).encode()
+    body = json.dumps({"model": MODEL, "max_tokens": max_tokens, "system": system, "messages": messages}).encode()
     req = urllib.request.Request("https://api.anthropic.com/v1/messages", data=body, method="POST", headers={
         "x-api-key": key, "anthropic-version": "2023-06-01", "content-type": "application/json"})
     with urllib.request.urlopen(req, timeout=60) as r:
@@ -293,8 +391,9 @@ async def _build_index_at_start():
 
 async def answer(question: str, guild_id, history: list) -> tuple:
     """(the reply's text, the references it cites); raises when it can't be had."""
+    plan = await asyncio.to_thread(_plan, question, history)
     search_for = " ".join([q for q, _ in history[-HISTORY:]] + [question])
-    passages = await asyncio.to_thread(find_passages, search_for, guild_id)
+    passages = await asyncio.to_thread(gather, search_for, guild_id, plan)
     if not passages:
         return ("I couldn't find anything in the library on that. Try asking with the names or words the "
                 "authors would use (*the soul*, *Plotinus*, *grace*…).", [])

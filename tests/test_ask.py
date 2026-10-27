@@ -60,17 +60,35 @@ def test_a_named_author_gets_only_their_passages(ask, small_index):
     assert found and all(p["reference"].startswith("Epistle of Barnabas") for p in found)
 
 
-def test_an_answer_is_one_request_with_the_passages(ask, small_index, monkeypatch):
+def test_an_answer_is_a_plan_then_one_request_with_the_passages(ask, small_index, monkeypatch):
     sent = []
 
-    def fake(system, messages):
-        sent.append(messages)
+    def fake(system, messages, max_tokens=2000):
+        sent.append((system, messages))
+        if system == ask.PLAN:
+            return '{"shelves": ["fathers"], "references": ["Nowhere 99:99"], "searches": ["way of light"]}'
         return "Barnabas sets out two ways [Epistle of Barnabas 18:1] and a made-up one [Nowhere 1:1]."
     monkeypatch.setattr(ask, "_index", small_index)
     monkeypatch.setattr(ask, "_ask_claude", fake)
     text, cited = asyncio.run(ask.answer("the two ways of light and darkness", None, []))
-    assert len(sent) == 1 and "Passages from the library" in sent[0][-1]["content"]
-    assert "Nowhere" not in text
+    assert len(sent) == 2 and "Passages from the library" in sent[1][1][-1]["content"]
+    assert "Nowhere" not in text and "Nowhere" not in sent[1][1][-1]["content"]   # (a reference the library hasn't)
+
+
+def test_a_question_about_christs_words_keeps_to_the_bible(ask, small_index):
+    """"Does Christ claim to be God?" was answered from Hilary: the search had found no Gospel verse, and the
+    Fathers' commentary shouldn't have been opened for what Christ himself said."""
+    plan = {"corpora": ask.SHELVES["bible"], "references": ["John 10:30", "John 8:58", "Didache 1:1"],
+            "searches": ["I and my Father"]}
+    found = ask.gather("does christ claim to be god", None, plan, index=small_index)
+    refs = [p["reference"] for p in found]
+    assert refs[:2] == ["John 10:30", "John 8:58"] and "Didache 1:1" not in refs     # (not the Fathers' shelf)
+    assert "I and my Father are one" in found[0]["text"] and "**[" not in found[0]["text"]
+
+
+def test_a_plan_that_cant_be_had_searches_everywhere(ask, monkeypatch):
+    monkeypatch.setattr(ask, "_ask_claude", lambda *a, **k: "not json")
+    assert ask._plan("anything", []) == {"corpora": ask.CORPORA, "references": [], "searches": []}
 
 
 def test_without_a_key_it_cannot_reach_the_api(ask):
