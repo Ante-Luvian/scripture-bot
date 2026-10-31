@@ -39,9 +39,17 @@ PER_BOOK = 2                      # passages from one book, unless the question 
 PER_NAMED_BOOK = 5
 HISTORY = 3                       # earlier exchanges of a conversation sent with a follow-up
 
-# the libraries it reads: the Classical shelf and the Christian ones
-CORPORA = ("classical", "kjv", "nt_apocrypha", "apostolic_fathers", "patristics", "charles", "medieval", "reformation")
-SCRIPTURE = {"kjv"}
+# the libraries it reads: the Classical shelf, the Christian ones, the Quran and the hadith (downloaded by
+# scripts/fetch_hadith.py), and the Jewish shelf through Sefaria's own search ("sefaria": nothing of it is indexed)
+CORPORA = ("classical", "kjv", "nt_apocrypha", "apostolic_fathers", "patristics", "charles", "medieval", "reformation",
+           "quran", "hadith", "sefaria")
+SCRIPTURE = {"kjv", "quran"}
+SEFARIA_SEARCH = "https://www.sefaria.org/api/search/text/_search"
+# the Sefaria categories of the bot's Jewish shelf (not modern commentary, sermons or reference works)
+SEFARIA_PATHS = ("Mishnah/", "Tosefta/", "Talmud/Bavli/", "Talmud/Yerushalmi/", "Tanakh/Targum/", "Midrash/",
+                 "Halakhah/Mishneh Torah/", "Kabbalah/")
+SEFARIA_TIMEOUT = 6               # seconds: past it, the answer goes without the Jewish shelf
+SEFARIA_PASSAGES = 5
 PLANNED = 5                       # passages the plan names that are fetched first (the search fills the rest)
 
 _STOP = set("""a about above after again against all am an and any are as at be because been before being below
@@ -82,12 +90,25 @@ def _named(book: str, shelves: list, question: str) -> bool:
     return any(len(n) >= 4 and re.search(rf"\b{re.escape(n.lower())}\b", q) for n in names)
 
 
+def _tradition(corpus: str):
+    from scripture_lookup import CORPUS_TRADITION
+    return {"hadith": CORPUS_TRADITION.get("quran"), "sefaria": "jewish"}.get(corpus) or CORPUS_TRADITION.get(corpus)
+
+
+def _hadith_books() -> dict:
+    """{a collection's name ("Sahih al-Bukhari"): {number: text}} of those downloaded."""
+    import hadith_lookup
+    return {name: found for key, name in hadith_lookup.COLLECTION_DISPLAY.items()
+            if (found := hadith_lookup.local_collection(key))}
+
+
 class Index:
     """A full-text index (SQLite FTS5, in memory, ranked by BM25) of every passage in `corpora`. It holds only the
-    words, not a second copy of the texts: row n is self.where[n], read back from the lookup."""
+    words, not a second copy of the texts: row n is self.where[n], read back from the lookup (or the hadith files)."""
 
     def __init__(self, corpora=CORPORA):
         self.shelves = shelves = _shelves()
+        self.hadith = _hadith_books() if "hadith" in corpora else {}
         self.db = sqlite3.connect(":memory:", check_same_thread=False)
         self.db.execute("CREATE VIRTUAL TABLE passages USING fts5(text, book, shelf, content='', "
                         "tokenize='porter unicode61 remove_diacritics 2')")
@@ -95,16 +116,29 @@ class Index:
         self.span = {}                                      # corpus -> (first rowid, last rowid): each is a run
         for corpus in corpora:
             first = len(self.where) + 1
-            for book, chapters in lookup._data.get(corpus, {}).items():
+            books = {b: {"1": {str(n): t for n, t in h.items()}} for b, h in self.hadith.items()} \
+                if corpus == "hadith" else lookup._data.get(corpus, {})
+            for book, chapters in books.items():
                 rows = []
+                shelf = "Islamic Hadith" if corpus == "hadith" else " ".join(shelves.get(book, []))
                 for chap, verses in chapters.items():
                     for verse, text in verses.items():
                         if isinstance(text, str) and len(text.strip()) > 8:     # ("I and my Father are one.")
                             self.where.append((corpus, book, chap, verse))
-                            rows.append((len(self.where), text, book, " ".join(shelves.get(book, []))))
+                            rows.append((len(self.where), text, book, shelf))
                 self.db.executemany("INSERT INTO passages (rowid, text, book, shelf) VALUES (?, ?, ?, ?)", rows)
             self.span[corpus] = (first, len(self.where))
         self.db.commit()
+
+    def text(self, row: tuple) -> str:
+        corpus, book, chap, verse = row
+        return self.hadith[book][int(verse)] if corpus == "hadith" else lookup._data[corpus][book][chap][verse]
+
+    @staticmethod
+    def ref(row: tuple) -> str:
+        """The reference !verse opens: "Sahih al-Bukhari 2" for a hadith."""
+        corpus, book, chap, verse = row
+        return f"{book} {verse}" if corpus == "hadith" else lookup._cite(book, chap, verse)
 
     def search(self, query: str, n: int = 200, corpora=None) -> list:
         """[(corpus, book, chapter, verse)], best first, from `corpora` only (in the search itself: the best 200
@@ -143,7 +177,6 @@ def find_passages(question: str, guild_id=None, index=None, limit: int = PASSAGE
     """[{"reference", "text"}] of the passages that best answer the question, best first: no more than PER_BOOK
     from one book (PER_NAMED_BOOK from a book the question names, or its author), and only from the traditions
     the server has."""
-    from scripture_lookup import CORPUS_TRADITION
     index = index or _index
     terms = _terms(question)
     if index is None:
@@ -163,7 +196,7 @@ def find_passages(question: str, guild_id=None, index=None, limit: int = PASSAGE
     out, per_book, seen = [], collections.Counter(), set()
     def worth(row) -> int:
         """0 a passage of substance, 1 a short one (a line of a letter's farewell), 2 a list of contents."""
-        text = lookup._data[row[0]][row[1]][row[2]][row[3]]
+        text = index.text(row)
         if len(re.findall(r"(?:^|\s)\d{1,3}\.\s", text)) >= 4:
             return 2
         return 0 if len(text) >= 200 or row[0] in SCRIPTURE else 1     # (a Bible verse is short by nature)
@@ -173,15 +206,15 @@ def find_passages(question: str, guild_id=None, index=None, limit: int = PASSAGE
         if book not in named:
             named[book] = _named(book, index.shelves.get(book, []), question)
         if per_book[book] >= (PER_NAMED_BOOK if named[book] else PER_BOOK) \
-                or not tradition_enabled(guild_id, CORPUS_TRADITION.get(corpus)):
+                or not tradition_enabled(guild_id, _tradition(corpus)):
             continue
-        text = lookup._data[corpus][book][chap][verse]
+        text = index.text((corpus, book, chap, verse))
         same = re.sub(r"\W", "", text.lower())[:200]           # (a text the library holds twice, under two titles)
         if same in seen:
             continue
         seen.add(same)
         per_book[book] += 1
-        out.append({"reference": lookup._cite(book, chap, verse), "named": named[book],
+        out.append({"reference": index.ref((corpus, book, chap, verse)), "named": named[book],
                     "text": _excerpt(text, terms, PASSAGE_CHARS[min(len(out), len(PASSAGE_CHARS) - 1)])})
         if len(out) == limit:
             break
@@ -199,24 +232,74 @@ def find_passages(question: str, guild_id=None, index=None, limit: int = PASSAGE
 # use is still what the bot finds in its library, and a reference the library hasn't is dropped.
 
 PLAN = """A Discord bot answers questions from its library: the King James Bible, the Church Fathers (Ante-Nicene, \
-Nicene and Post-Nicene, in the standard 19th-century translations), Christian mystics, and Greek and Roman \
-philosophy and religion (Plato, Aristotle, Plotinus, Porphyry, Iamblichus, Proclus, the Hermetica, the Stoics). \
-Plan its search for the question below. Reply with only a JSON object:
-{"shelves": [which of "bible", "apocrypha", "fathers", "later_christian", "classical" to search. A question about \
-what someone said, claimed or taught is answered from their own words: what Christ or an apostle says -> ["bible"]; \
-what Plotinus or Plato says -> ["classical"]; what Augustine says -> ["fathers"]. Add "fathers" only for what the \
-Church or its teachers taught or how they read a text, "later_christian" for the medieval and Reformation writers \
-and mystics],
- "references": [up to 6 passages that most directly answer it, as "Book chapter:verse" (Bible books by their KJV \
-names, e.g. "John 10:30", "Philippians 2:5-8"), the most important first; for other works only when you are sure \
-of the exact book, chapter and section, else leave them out],
+Nicene and Post-Nicene, in the standard 19th-century translations), Christian mystics, Greek and Roman philosophy \
+and religion (Plato, Aristotle, Plotinus, Porphyry, Iamblichus, Proclus, the Hermetica, the Stoics), the Quran, the \
+hadith collections, and the rabbinic library (Mishnah, Tosefta, both Talmuds, Midrash, Targumim, Maimonides's \
+Mishneh Torah, the Zohar). Plan its search for the question below. Reply with only a JSON object:
+{"shelves": [which of "bible", "apocrypha", "fathers", "later_christian", "classical", "quran", "hadith", "jewish" \
+to search. A question about what someone or a book said, claimed or taught is answered from that source's own \
+words: what Christ or an apostle says -> ["bible"]; what Plotinus says -> ["classical"]; what Augustine says -> \
+["fathers"]; what the Quran says -> ["quran"]; what the Prophet said -> ["hadith"]; what the rabbis or the Talmud \
+teach -> ["jewish"]. Add "fathers" only for what the Church or its teachers taught or how they read a text, \
+"later_christian" for the medieval and Reformation writers and mystics],
+ "references": [up to 6 passages that most directly answer it, the most important first: Bible books by their KJV \
+names ("John 10:30", "Philippians 2:5-8"), the Quran as "Quran 5:116", hadith as "Sahih al-Bukhari 7", rabbinic \
+texts as Sefaria writes them ("Berakhot 5a", "Pirkei Avot 4:1", "Bereshit Rabbah 1:1", "Mishneh Torah, \
+Repentance 3:4"); for other works only when you are sure of the exact place, else leave them out],
  "searches": [up to 3 short searches, in the words the texts themselves would use (the KJV's English for the Bible: \
 "I am", "equal with God")]}
 Give both sides where the question is disputed."""
 
 
 SHELVES = {"bible": ("kjv",), "apocrypha": ("nt_apocrypha", "charles"), "fathers": ("apostolic_fathers", "patristics"),
-           "later_christian": ("medieval", "reformation"), "classical": ("classical",)}
+           "later_christian": ("medieval", "reformation"), "classical": ("classical",), "quran": ("quran",),
+           "hadith": ("hadith",), "jewish": ("sefaria",)}
+
+
+def sefaria_passages(searches: list, guild_id) -> list:
+    """The best of the bot's Jewish shelf for the searches, by Sefaria's own search (a passage once, though Sefaria
+    has it in several translations), each read through the lookup as !verse would show it; [] if Sefaria is slow
+    or down, or the server hasn't the Jewish shelf."""
+    from concurrent.futures import ThreadPoolExecutor
+    if not searches or not tradition_enabled(guild_id, "jewish"):
+        return []
+    body = {"size": 30, "_source": ["ref"],
+            "query": {"bool": {"must": {"match": {"exact": {"query": " ".join(searches)}}},
+                               "filter": [{"term": {"lang": "en"}},
+                                          {"bool": {"should": [{"prefix": {"path": p}} for p in SEFARIA_PATHS]}}]}}}
+    started = time.monotonic()
+    try:
+        req = urllib.request.Request(SEFARIA_SEARCH, data=json.dumps(body).encode(), method="POST",
+                                     headers={"Content-Type": "application/json", "User-Agent": "ScriptureBot/1.0"})
+        with urllib.request.urlopen(req, timeout=SEFARIA_TIMEOUT) as r:
+            hits = json.loads(r.read().decode("utf-8"))["hits"]["hits"]
+    except Exception as e:
+        log.warning(f"ASK  Sefaria search failed: {type(e).__name__}: {e}")
+        return []
+    refs = list(dict.fromkeys(h["_source"]["ref"] for h in hits if h.get("_source", {}).get("ref")))
+    refs = refs[:SEFARIA_PASSAGES + 3]                       # (a few spare, for any the lookup can't open)
+
+    def read(ref):
+        try:
+            return lookup.get_verse(ref)
+        except Exception:
+            return {}
+    with ThreadPoolExecutor(max_workers=8) as pool:
+        found = [r for r in pool.map(read, refs) if r.get("found") and r.get("text")]
+    log.info(f"ASK  Sefaria: {len(hits)} hits, {len(found)} passages in {time.monotonic() - started:.1f}s")
+    return [{"reference": r["reference"], "text": _clean(r["text"])} for r in found][:SEFARIA_PASSAGES]
+
+
+def _clean(text: str) -> str:
+    return re.sub(r"\*\*\[(\d+)\]\*\*\s*", r"(\1) ", text).strip()        # ("**[30]**" -> "(30)")
+
+
+def _corpus_of(result: dict):
+    """Which of CORPORA a passage !verse found belongs to: a local book's corpus; a hadith; Sefaria's."""
+    corpus = lookup._resolve_book(result["reference"].rsplit(" ", 1)[0])[0]
+    if corpus:
+        return corpus
+    return {"islamic": "hadith", "jewish": "sefaria"}.get(result.get("tradition"))
 
 
 def _plan(question: str, history: list) -> dict:
@@ -241,7 +324,6 @@ def _plan(question: str, history: list) -> dict:
 def gather(question: str, guild_id, plan: dict, index=None) -> list:
     """The passages to answer from, from the plan's shelves only: those it names that the library has (up to
     PLANNED), then the best the searches find."""
-    from scripture_lookup import CORPUS_TRADITION
     corpora = plan.get("corpora") or CORPORA
     out, refs = [], set()
     for ref in plan.get("references", []):
@@ -253,12 +335,17 @@ def gather(question: str, guild_id, plan: dict, index=None) -> list:
             continue
         if not r.get("found") or not r.get("text"):
             continue
-        corpus = lookup._resolve_book(r["reference"].rsplit(" ", 1)[0])[0]
-        if corpus not in corpora or not tradition_enabled(guild_id, CORPUS_TRADITION.get(corpus)):
+        corpus = _corpus_of(r)
+        if corpus not in corpora or not tradition_enabled(guild_id, _tradition(corpus)):
             continue
-        text = re.sub(r"\*\*\[(\d+)\]\*\*\s*", r"(\1) ", r["text"]).strip()     # ("**[30]**" -> "(30)")
-        out.append({"reference": r["reference"], "text": _excerpt(text, _terms(question), max(PASSAGE_CHARS))})
+        out.append({"reference": r["reference"], "text": _excerpt(_clean(r["text"]), _terms(question),
+                                                                  max(PASSAGE_CHARS))})
         refs.add(r["reference"])
+    if "sefaria" in corpora:                        # (the Jewish shelf: searched on Sefaria, not in the index)
+        for p in sefaria_passages(plan.get("searches") or [question], guild_id):
+            if p["reference"] not in refs:
+                out.append({"reference": p["reference"], "text": _excerpt(p["text"], _terms(question), 1500)})
+                refs.add(p["reference"])
     want = PASSAGES + min(len(out), 3)              # (room for the search's finds beside the planned ones)
     searches = [(s, True) for s in plan.get("searches", [])] + [(question, False)]
     for search, phrase in searches:                 # (the plan's searches first: the question's own words may
@@ -275,8 +362,8 @@ def gather(question: str, guild_id, plan: dict, index=None) -> list:
 # ── the answer ─────────────────────────────────────────────────────────────
 
 SYSTEM = """You are the reading-room voice of ScriptureBot, a Discord bot that holds a large library of Classical \
-(Greek and Roman: Plato, Aristotle, the Neoplatonists, the Hermetica...) and Christian texts (the Bible, the Church \
-Fathers, the mystics). Someone has asked a question; the bot has searched its library and gives you the passages \
+(Greek and Roman: Plato, Aristotle, the Neoplatonists, the Hermetica...), Christian (the Bible, the Church Fathers, \
+the mystics), Islamic (the Quran, the hadith) and Jewish texts (the Mishnah, the Talmuds, Midrash). Someone has asked a question; the bot has searched its library and gives you the passages \
 below. Answer from those passages only.
 
 - Cite every claim with the passage's reference in square brackets, exactly as given: [Enneads 1.8:3].

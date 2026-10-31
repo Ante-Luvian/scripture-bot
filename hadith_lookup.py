@@ -29,9 +29,29 @@ import time
 import urllib.request
 import urllib.parse
 from difflib import get_close_matches
+from pathlib import Path
 
 HADITH_CDN  = "https://cdn.jsdelivr.net/gh/fawazahmed0/hadith-api@1/editions/"
 FETCH_DELAY = 0.3   # seconds between requests
+LOCAL_DIR   = Path(__file__).resolve().parent / "data" / "hadith"   # (scripts/fetch_hadith.py; read first)
+_LOCAL: dict = {}                                                    # collection key -> {number: text}
+
+
+def local_collection(collection_key: str) -> dict:
+    """{hadith number: text} from the downloaded collection, or {} if it isn't there."""
+    if collection_key not in _LOCAL:
+        path = LOCAL_DIR / f"eng-{collection_key}.json"
+        found = {}
+        if path.exists():
+            try:
+                for h in json.loads(path.read_text(encoding="utf-8")).get("hadiths", []):
+                    text = re.sub(r"<[^>]+>", "", str(h.get("text") or "")).strip()
+                    if text and isinstance(h.get("hadithnumber"), (int, float)):
+                        found.setdefault(int(h["hadithnumber"]), text)
+            except (ValueError, OSError):
+                found = {}
+        _LOCAL[collection_key] = found
+    return _LOCAL[collection_key]
 
 # In-memory cache: section files keyed as "collection:sec:N" → list of hadith dicts
 _COLLECTION_CACHE: dict[str, list] = {}
@@ -191,6 +211,11 @@ def fetch_hadith(collection_key: str, number: int) -> dict:
     returns the full collection (empty text fields) instead.
     """
     display_name = COLLECTION_DISPLAY.get(collection_key, collection_key.title())
+
+    # ── The downloaded collection, if it's there ─────────────────────────────
+    text = local_collection(collection_key).get(number)
+    if text:
+        return {"found": True, "reference": f"{display_name} {number}", "text": text, "source": display_name}
 
     # ── Strategy 1: per-hadith file ──────────────────────────────────────────
     # e.g. eng-bukhari/1.json → {"hadithnumber":1,"text":"Narrated..."}

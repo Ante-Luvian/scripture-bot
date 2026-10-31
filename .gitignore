@@ -77,3 +77,6 @@ data/ballads/audio/
 
 # !ask: the day's count of answers
 data/ask_usage.json
+
+# the hadith collections, downloaded (scripts/fetch_hadith.py)
+data/hadith/

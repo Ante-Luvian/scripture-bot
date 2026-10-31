@@ -86,6 +86,50 @@ def test_a_question_about_christs_words_keeps_to_the_bible(ask, small_index):
     assert "I and my Father are one" in found[0]["text"] and "**[" not in found[0]["text"]
 
 
+class _Reply:
+    def __init__(self, data):
+        self.data = data
+
+    def read(self):
+        return __import__("json").dumps(self.data).encode()
+
+    def __enter__(self):
+        return self
+
+    def __exit__(self, *a):
+        return False
+
+
+def test_the_jewish_shelf_is_searched_on_sefaria(ask, lookup, monkeypatch):
+    """Its texts are online, not indexed: Sefaria's search finds them, each read as !verse would show it, once."""
+    hits = {"hits": {"hits": [{"_source": {"ref": r}} for r in ("Pirkei Avot 4:1", "Pirkei Avot 4:1", "Nowhere 1:1")]}}
+    asked = []
+    monkeypatch.setattr(ask.urllib.request, "urlopen", lambda req, timeout=0: asked.append(req) or _Reply(hits))
+    monkeypatch.setattr(lookup, "get_verse", lambda ref: {"found": ref != "Nowhere 1:1", "reference": ref,
+                                                          "text": "**[1]** Ben Zoma says: Who is wise?",
+                                                          "tradition": "jewish"})
+    found = ask.sefaria_passages(["who is wise"], None)
+    assert [p["reference"] for p in found] == ["Pirkei Avot 4:1"] and found[0]["text"].startswith("(1) Ben Zoma")
+    assert b"Talmud/Bavli/" in asked[0].data                                  # (the bot's shelf only)
+
+
+def test_sefaria_down_means_an_answer_without_it(ask, monkeypatch):
+    def down(*a, **k):
+        raise OSError("no route")
+    monkeypatch.setattr(ask.urllib.request, "urlopen", down)
+    assert ask.sefaria_passages(["who is wise"], None) == []
+
+
+def test_hadith_and_quran_are_in_the_index(ask, lookup):
+    index = ask.Index(corpora=("quran", "hadith"))
+    if not index.hadith:
+        pytest.skip("hadith not downloaded here (python scripts/fetch_hadith.py)")
+    found = ask.find_passages("the deeds are judged by intentions", index=index, corpora=("hadith",))
+    assert found and found[0]["reference"].split(" ")[-1].isdigit()
+    assert lookup.get_verse(found[0]["reference"])["found"]                   # (one !verse opens)
+    assert ask.find_passages("Jesus son of Mary", index=index, corpora=("quran",))
+
+
 def test_a_plan_that_cant_be_had_searches_everywhere(ask, monkeypatch):
     monkeypatch.setattr(ask, "_ask_claude", lambda *a, **k: "not json")
     assert ask._plan("anything", []) == {"corpora": ask.CORPORA, "references": [], "searches": []}
