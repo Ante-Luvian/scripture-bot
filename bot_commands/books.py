@@ -962,6 +962,29 @@ BOOKS_TREE = [
         ("Grimoires", ["Arbatel of Magic", "Heptameron", "The Book of Abramelin", "Sepher Raziel",
                            "The Sword of Moses", "Pseudomonarchia Daemonum"]),
         ("John Dee", ["De Heptarchia Mystica", "The Hieroglyphic Monad", "A Letter Apologeticall"]),
+        # (moved from the Christian shelves, 2026-11-01, at the owner's word)
+        ("Astrology", [
+            ("William Lilly", ["Lilly's Introduction to Astrology", "Lilly's Introduction to Astrology, Appendix"]),
+            ("Sepharial", ["Sepharial's Astrology"]),
+        ]),
+        ("Swedenborg", [
+            ("Main Works", [
+                "Heaven and Hell", "Arcana Coelestia", "Divine Love and Wisdom", "Divine Providence",
+                "True Christian Religion", "Conjugial Love", "Apocalypse Revealed", "Apocalypse Explained",
+                "Earths in the Universe", "The New Jerusalem and its Heavenly Doctrine",
+            ]),
+            ("Shorter Works", [
+                "The Last Judgment", "The Last Judgment Continued", "The White Horse", "Doctrine of the Lord",
+                "Doctrine of the Sacred Scripture", "Doctrine of Life", "Doctrine of Faith",
+                "Brief Exposition of the Doctrine of the New Church", "Interaction of the Soul and Body",
+                "Coronis", "Invitation to the New Church",
+            ]),
+            ("Published After His Death", [
+                "Spiritual Diary", "The Last Judgment (Posthumous)", "On the Athanasian Creed", "De Domino",
+                "Prophets and Psalms", "De Verbo", "Divine Love", "Divine Wisdom", "Doctrine of Charity",
+                "De Conjugio", "God the Saviour", "Canons of the New Church",
+            ]),
+        ]),
     ]),
     ("🌲 Norse", [
         ("Poetic Edda", [
@@ -1258,28 +1281,6 @@ BOOKS_TREE = [
             ("Anonymous (14th Century)", ["Cloud of Unknowing"]),
             ("Julian of Norwich", ["Revelations of Divine Love"]),
             ("Brother Lawrence", ["Practice of the Presence of God"]),
-        ]),
-        ("Astrology", [
-            ("William Lilly", ["Lilly's Introduction to Astrology", "Lilly's Introduction to Astrology, Appendix"]),
-            ("Sepharial", ["Sepharial's Astrology"]),
-        ]),
-        ("Swedenborg", [
-            ("Main Works", [
-                "Heaven and Hell", "Arcana Coelestia", "Divine Love and Wisdom", "Divine Providence",
-                "True Christian Religion", "Conjugial Love", "Apocalypse Revealed", "Apocalypse Explained",
-                "Earths in the Universe", "The New Jerusalem and its Heavenly Doctrine",
-            ]),
-            ("Shorter Works", [
-                "The Last Judgment", "The Last Judgment Continued", "The White Horse", "Doctrine of the Lord",
-                "Doctrine of the Sacred Scripture", "Doctrine of Life", "Doctrine of Faith",
-                "Brief Exposition of the Doctrine of the New Church", "Interaction of the Soul and Body",
-                "Coronis", "Invitation to the New Church",
-            ]),
-            ("Published After His Death", [
-                "Spiritual Diary", "The Last Judgment (Posthumous)", "On the Athanasian Creed", "De Domino",
-                "Prophets and Psalms", "De Verbo", "Divine Love", "Divine Wisdom", "Doctrine of Charity",
-                "De Conjugio", "God the Saviour", "Canons of the New Church",
-            ]),
         ]),
         ("John Bunyan", [
             ("John Bunyan", ["Pilgrim's Progress", "Pilgrim's Progress, Part Two"]),

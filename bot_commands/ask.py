@@ -42,7 +42,7 @@ HISTORY = 3                       # earlier exchanges of a conversation sent wit
 # the libraries it reads: the Classical shelf, the Christian ones, the Quran and the hadith (downloaded by
 # scripts/fetch_hadith.py), and the Jewish shelf through Sefaria's own search ("sefaria": nothing of it is indexed)
 CORPORA = ("classical", "kjv", "nt_apocrypha", "apostolic_fathers", "patristics", "charles", "medieval", "reformation",
-           "quran", "hadith", "sefaria")
+           "quran", "hadith", "sefaria", "gnostic", "esoteric", "catholic")
 SCRIPTURE = {"kjv", "quran"}
 SEFARIA_SEARCH = "https://www.sefaria.org/api/search/text/_search"
 # the Sefaria categories of the bot's Jewish shelf (not modern commentary, sermons or reference works)
@@ -92,7 +92,47 @@ def _named(book: str, shelves: list, question: str) -> bool:
 
 def _tradition(corpus: str):
     from scripture_lookup import CORPUS_TRADITION
-    return {"hadith": CORPUS_TRADITION.get("quran"), "sefaria": "jewish"}.get(corpus) or CORPUS_TRADITION.get(corpus)
+    return {"hadith": CORPUS_TRADITION.get("quran"), "sefaria": "jewish", "catholic": "christian"}.get(corpus) \
+        or CORPUS_TRADITION.get(corpus)
+
+
+# the Catholic shelf: the Catechism and the Code of Canon Law (data/catechism.json, canon.json, which !ccc and
+# !canon read) and Aquinas's Summa (data/summa.json, downloaded by scripts/fetch_summa.py: !summa reads newadvent)
+CATHOLIC_CITE = {"Catechism of the Catholic Church": "CCC {}", "Code of Canon Law": "Canon {}",
+                 "Summa Theologica": "{}"}
+CATHOLIC_COMMAND = {"CCC": "!ccc", "Canon": "!canon", "ST": "!summa"}
+
+
+def _catholic_books() -> dict:
+    """{book: {number or "ST I.2.3": text}} of those the bot has."""
+    from bot_commands.church import _load_canon, _load_ccc
+    out = {}
+    if ccc := _load_ccc():
+        out["Catechism of the Catholic Church"] = {str(k): v for k, v in ccc.items()}
+    if canon := _load_canon():
+        out["Code of Canon Law"] = {str(k): v for k, v in canon.items()}
+    path = ROOT / "data" / "summa.json"
+    if path.exists():
+        out["Summa Theologica"] = json.loads(path.read_text(encoding="utf-8"))
+    return out
+
+
+def catholic_passage(ref: str, books: dict = None):
+    """{"reference", "text"} of "CCC 2185", "Canon 1247" or "ST II-II.122.4" (a plan's reference), or None."""
+    books = books if books is not None else _catholic_books()
+    m = re.fullmatch(r"\s*(?:CCC|Catechism(?: of the Catholic Church)?)\s*§?\s*(\d+)\s*", ref, re.I)
+    if m and m.group(1) in books.get("Catechism of the Catholic Church", {}):
+        return {"reference": f"CCC {m.group(1)}", "text": books["Catechism of the Catholic Church"][m.group(1)]}
+    m = re.fullmatch(r"\s*(?:Canon|CIC|Can\.)\s*(\d+)\s*", ref, re.I)
+    if m and m.group(1) in books.get("Code of Canon Law", {}):
+        return {"reference": f"Canon {m.group(1)}", "text": books["Code of Canon Law"][m.group(1)]}
+    import summa_lookup
+    parsed = summa_lookup.parse_summa_ref(ref)
+    if parsed and parsed[2]:
+        key = f"ST {summa_lookup.PART_DISPLAY[parsed[0]]}.{parsed[1]}.{parsed[2]}"
+        if key in books.get("Summa Theologica", {}):
+            return {"reference": key, "text": books["Summa Theologica"][key]}
+    return None
 
 
 def _hadith_books() -> dict:
@@ -109,6 +149,7 @@ class Index:
     def __init__(self, corpora=CORPORA):
         self.shelves = shelves = _shelves()
         self.hadith = _hadith_books() if "hadith" in corpora else {}
+        self.catholic = _catholic_books() if "catholic" in corpora else {}
         self.db = sqlite3.connect(":memory:", check_same_thread=False)
         self.db.execute("CREATE VIRTUAL TABLE passages USING fts5(text, book, shelf, content='', "
                         "tokenize='porter unicode61 remove_diacritics 2')")
@@ -116,11 +157,16 @@ class Index:
         self.span = {}                                      # corpus -> (first rowid, last rowid): each is a run
         for corpus in corpora:
             first = len(self.where) + 1
-            books = {b: {"1": {str(n): t for n, t in h.items()}} for b, h in self.hadith.items()} \
-                if corpus == "hadith" else lookup._data.get(corpus, {})
+            if corpus == "hadith":
+                books = {b: {"1": {str(n): t for n, t in h.items()}} for b, h in self.hadith.items()}
+            elif corpus == "catholic":
+                books = {b: {"1": h} for b, h in self.catholic.items()}
+            else:
+                books = lookup._data.get(corpus, {})
             for book, chapters in books.items():
                 rows = []
-                shelf = "Islamic Hadith" if corpus == "hadith" else " ".join(shelves.get(book, []))
+                shelf = {"hadith": "Islamic Hadith", "catholic": "Catholic Teaching Magisterium"}.get(corpus) \
+                    or " ".join(shelves.get(book, []))
                 for chap, verses in chapters.items():
                     for verse, text in verses.items():
                         if isinstance(text, str) and len(text.strip()) > 8:     # ("I and my Father are one.")
@@ -132,13 +178,22 @@ class Index:
 
     def text(self, row: tuple) -> str:
         corpus, book, chap, verse = row
-        return self.hadith[book][int(verse)] if corpus == "hadith" else lookup._data[corpus][book][chap][verse]
+        if corpus == "hadith":
+            return self.hadith[book][int(verse)]
+        if corpus == "catholic":
+            return self.catholic[book][verse]
+        return lookup._data[corpus][book][chap][verse]
 
     @staticmethod
     def ref(row: tuple) -> str:
-        """The reference !verse opens: "Sahih al-Bukhari 2" for a hadith."""
+        """The reference !verse opens: "Sahih al-Bukhari 2" for a hadith; "CCC 2185" (!ccc), "Canon 1247"
+        (!canon), "ST I.2.3" (!summa) for the Catholic shelf."""
         corpus, book, chap, verse = row
-        return f"{book} {verse}" if corpus == "hadith" else lookup._cite(book, chap, verse)
+        if corpus == "hadith":
+            return f"{book} {verse}"
+        if corpus == "catholic":
+            return CATHOLIC_CITE[book].format(verse)
+        return lookup._cite(book, chap, verse)
 
     def search(self, query: str, n: int = 200, corpora=None) -> list:
         """[(corpus, book, chapter, verse)], best first, from `corpora` only (in the search itself: the best 200
@@ -235,29 +290,46 @@ PLAN = """A Discord bot answers questions from its library: the King James Bible
 Nicene and Post-Nicene, in the standard 19th-century translations), Christian mystics, Greek and Roman philosophy \
 and religion (Plato, Aristotle, Plotinus, Porphyry, Iamblichus, Proclus, the Hermetica, the Stoics), the Quran, the \
 hadith collections, and the rabbinic library (Mishnah, Tosefta, both Talmuds, Midrash, Targumim, Maimonides's \
-Mishneh Torah, the Zohar). Plan its search for the question below. Reply with only a JSON object:
+Mishneh Torah, the Zohar), the Gnostic texts (Nag Hammadi, Pistis Sophia), and the books of Western magic and \
+esotericism (Agrippa's Occult Philosophy, the Key of Solomon, the Goetia and the rest of the Lemegeton, the \
+Testament of Solomon, Abramelin, the Arbatel, the Heptameron, Sepher Raziel, the Sword of Moses, Weyer's catalogue \
+of demons, John Dee, Lilly's and Sepharial's astrology, Swedenborg). Plan its search for the question below. Reply \
+with only a JSON object:
 {"asking": "the precise point the question asks, in one sentence: the asker's question made exact, nothing added \
 (no alternatives, readings or answers). Read it closely: a question about how one text portrays or describes \
 something (\"does the Quran say Mary is part of the Christian Trinity?\") asks about that portrayal (whether the \
 Quran depicts the Trinity as including Mary), not about the thing itself",
- "shelves": [which of "bible", "apocrypha", "fathers", "later_christian", "classical", "quran", "hadith", "jewish" \
-to search. A question about what someone or a book said, claimed or taught is answered from that source's own \
-words: what Christ or an apostle says -> ["bible"]; what Plotinus says -> ["classical"]; what Augustine says -> \
-["fathers"]; what the Quran says -> ["quran"]; what the Prophet said -> ["hadith"]; what the rabbis or the Talmud \
-teach -> ["jewish"]. Add "fathers" only for what the Church or its teachers taught or how they read a text, \
-"later_christian" for the medieval and Reformation writers and mystics],
+ "shelves": [which of "bible", "apocrypha", "fathers", "medieval", "reformation", "classical", "quran", "hadith", \
+"jewish", "gnostic", "esoteric", "catholic" to search ("catholic": the Catholic Church's own teaching, the \
+Catechism of the Catholic Church, the Code of Canon Law and Aquinas's Summa Theologica; "medieval": Bede, the Golden Legend, the Rule of Benedict, the \
+Imitation of Christ, Dante, the mystics, and also Milton, Bunyan and Blake; "reformation": the Protestant \
+reformers and confessions, Luther, Calvin, the Book of Concord, the Westminster standards, Wesley). A question \
+about one church's teaching ("according to the Catholic Church", "the magisterium", "Lutheran doctrine") is \
+answered from that church's own writers only: never a Protestant confession for Catholic teaching, nor the \
+reverse: the Catholic Church's teaching or magisterium -> ["catholic"] (with "fathers" for the Fathers it \
+cites). If the asker names where to look ("in the grimoires", "according to the esoteric \
+books", "from the Church Fathers", "what does Agrippa say"), search only there. A question about what someone or a \
+book said, claimed or taught is answered from that source's own words: what Christ or an apostle says -> ["bible"]; \
+what Plotinus says -> ["classical"]; what Augustine says -> ["fathers"]; what the Quran says -> ["quran"]; what the \
+Prophet said -> ["hadith"]; what the rabbis or the Talmud teach -> ["jewish"]; what the Gnostics taught -> \
+["gnostic"]. A question about magic itself (how a ritual, conjuration, spirit, angel, demon, talisman, pentacle, \
+seal or horoscope works, or what the magicians taught) -> ["esoteric"]: answer it from the magical books, not from \
+what the Bible or the Church says against magic, unless the question asks for that. Add "fathers" only for what the \
+Church or its teachers taught or how they read a text, "medieval" or "reformation" for the later writers],
  "references": [up to 6 passages that most directly answer it, the most important first: Bible books by their KJV \
 names ("John 10:30", "Philippians 2:5-8"), the Quran as "Quran 5:116", hadith as "Sahih al-Bukhari 7", rabbinic \
 texts as Sefaria writes them ("Berakhot 5a", "Pirkei Avot 4:1", "Bereshit Rabbah 1:1", "Mishneh Torah, \
-Repentance 3:4"); for other works only when you are sure of the exact place, else leave them out],
+Repentance 3:4"), the Catechism as "CCC 2185", canon law as "Canon 1247", the Summa as "ST II-II.122.4"; for other \
+works only when you are sure of the exact place, else leave them out],
  "searches": [up to 3 short searches, in the words the texts themselves would use (the KJV's English for the Bible: \
 "I am", "equal with God")]}
 Give both sides where the question is disputed."""
 
 
 SHELVES = {"bible": ("kjv",), "apocrypha": ("nt_apocrypha", "charles"), "fathers": ("apostolic_fathers", "patristics"),
-           "later_christian": ("medieval", "reformation"), "classical": ("classical",), "quran": ("quran",),
-           "hadith": ("hadith",), "jewish": ("sefaria",)}
+           "later_christian": ("medieval", "reformation"), "medieval": ("medieval",), "reformation": ("reformation",), "classical": ("classical",), "quran": ("quran",),
+           "hadith": ("hadith",), "jewish": ("sefaria",), "gnostic": ("gnostic",), "esoteric": ("esoteric",),
+           "catholic": ("catholic",)}
 
 
 def sefaria_passages(searches: list, guild_id) -> list:
@@ -306,6 +378,25 @@ def _corpus_of(result: dict):
     return {"islamic": "hadith", "jewish": "sefaria"}.get(result.get("tradition"))
 
 
+# A question that says where to look is searched there, whatever the plan says ("how do I make a pentacle, according
+# to the grimoires?"): a friend of the owner's asked about magic and was answered from Deuteronomy.
+# (the shelf's own name, not the subject: "is magic forbidden?" names none, nor do Pharaoh's "magicians")
+NAMED_SHELVES = (
+    (r"\b(?:grimoires?|esoteric (?:books|texts|shelf|writers|literature)|occult (?:books|texts|writers)|"
+     r"magic(?:al)? (?:books|texts|writers|literature)|solomonic (?:books|literature))\b", ("esoteric",)),
+    (r"\b(?:gnostic (?:texts|books|gospels|shelf|writings|scriptures)|the gnostics)\b", ("gnostic",)),
+    # (the Catholic Church's own teaching, and the Fathers it cites: never Westminster or Luther for it)
+    (r"\b(?:magisterium|catholic (?:church|teaching|doctrine|catechism)|catechism of the catholic church|"
+     r"canon law|the summa|summa theologica|aquinas)\b", ("catholic", "apostolic_fathers", "patristics")),
+)
+
+
+def named_shelves(question: str) -> tuple:
+    """The corpora a question says to search ("in the grimoires"), or ()."""
+    found = tuple(c for pattern, corpora in NAMED_SHELVES if re.search(pattern, question, re.I) for c in corpora)
+    return tuple(dict.fromkeys(found))
+
+
 def _plan(question: str, history: list) -> dict:
     """{"corpora": (...), "references": [...], "searches": [...]}: everywhere and nothing named if the plan can't
     be had."""
@@ -315,11 +406,11 @@ def _plan(question: str, history: list) -> dict:
         data = json.loads(re.search(r"\{.*\}", reply, re.S).group(0))
     except Exception as e:
         log.warning(f"ASK  no plan: {type(e).__name__}: {e}")
-        return {"corpora": CORPORA, "references": [], "searches": []}
+        return {"corpora": named_shelves(question) or CORPORA, "references": [], "searches": []}
     clean = lambda v, n: [s.strip() for s in v if isinstance(s, str) and 0 < len(s.strip()) <= 80][:n] \
         if isinstance(v, list) else []
     corpora = tuple(c for s in clean(data.get("shelves"), 8) for c in SHELVES.get(s.lower(), ()))
-    plan = {"corpora": corpora or CORPORA, "references": clean(data.get("references"), 6),
+    plan = {"corpora": named_shelves(question) or corpora or CORPORA, "references": clean(data.get("references"), 6),
             "searches": clean(data.get("searches"), 3)}
     asking = data.get("asking")
     if isinstance(asking, str) and 0 < len(asking.strip()) <= 400:
@@ -333,9 +424,16 @@ def gather(question: str, guild_id, plan: dict, index=None) -> list:
     PLANNED), then the best the searches find."""
     corpora = plan.get("corpora") or CORPORA
     out, refs = [], set()
+    catholic = _catholic_books() if "catholic" in corpora and tradition_enabled(guild_id, "christian") else {}
     for ref in plan.get("references", []):
         if len(out) == PLANNED:
             break
+        if catholic and (c := catholic_passage(ref, catholic)):           # ("CCC 2185", "ST II-II.122.4")
+            if c["reference"] not in refs:
+                out.append({"reference": c["reference"], "text": _excerpt(c["text"], _terms(question),
+                                                                          max(PASSAGE_CHARS))})
+                refs.add(c["reference"])
+            continue
         try:
             r = lookup.get_verse(ref)
         except Exception:
@@ -579,8 +677,10 @@ async def ask_the_library(message: discord.Message):
     _save_usage(usage)
     embed = discord.Embed(description=text[:4000], color=discord.Color.dark_gold())
     if cited:
-        embed.set_footer(text=("📚 " + " · ".join(cited))[:2000] + "\nOpen any with !verse <reference> · "
-                              "reply to this to ask more")
+        commands = ["!verse"] * any(r.split(" ")[0] not in CATHOLIC_COMMAND for r in cited) + \
+            [c for p, c in CATHOLIC_COMMAND.items() if any(r.split(" ")[0] == p for r in cited)]
+        embed.set_footer(text=("📚 " + " · ".join(cited))[:2000] + f"\nOpen any with {' / '.join(commands)} "
+                              "<reference> · reply to this to ask more")
     else:
         embed.set_footer(text="Reply to this to ask more")
     sent = await message.reply(embed=embed, mention_author=False,

@@ -1,6 +1,6 @@
 """
 Sepharial (Walter Gorn Old), "Astrology: How to Make and Read Your Own Horoscope" (1920), from Project
-Gutenberg #46963 -> data/medieval/sepharial_astrology.json: "Sepharial's Astrology", by section.chapter
+Gutenberg #46963 -> data/esoteric/sepharial_astrology.json: "Sepharial's Astrology", by section.chapter
 (4.2 = Section IV, Chapter II, "The Effects of Transits"), one paragraph a verse, each chapter led by its
 title in italics. !horoscope quotes his transits (Mars over Venus "will engender passionate love").
 
@@ -16,7 +16,7 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
 CACHE = ROOT / "scripts" / ".cache" / "sepharial_pg46963.txt"
-OUT = ROOT / "data" / "medieval" / "sepharial_astrology.json"
+OUT = ROOT / "data" / "esoteric" / "sepharial_astrology.json"
 URL = "https://www.gutenberg.org/cache/epub/46963/pg46963.txt"
 BOOK = "Sepharial's Astrology"
 ROMAN = {"I": 1, "II": 2, "III": 3, "IV": 4, "V": 5, "VI": 6, "VII": 7, "VIII": 8, "IX": 9, "X": 10, "XI": 11,

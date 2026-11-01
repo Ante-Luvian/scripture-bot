@@ -3,7 +3,7 @@ The astrologers' own books, from archive.sacred-texts.com:
 
   * Ptolemy's Tetrabiblos, trans. J. M. Ashmand (1822)   -> data/classical/tetrabiblos.json
       "Tetrabiblos" by book.chapter (3.18 = Book III, Chapter XVIII), and his "Centiloquy" (100 aphorisms)
-  * William Lilly, An Introduction to Astrology, ed. Zadkiel (1852)  -> data/medieval/lilly_astrology.json
+  * William Lilly, An Introduction to Astrology, ed. Zadkiel (1852)  -> data/esoteric/lilly_astrology.json
       Lilly's Christian Astrology (1647), abridged and modernised by "Zadkiel" (R. J. Morrison): its
       chapters I-XXXV, and the appendix (Zadkiel's aphorisms; persons by sign; the aspects' effects...)
 
@@ -301,7 +301,7 @@ def main():
     if "--fetch" in sys.argv:
         return
     write(ROOT / "data" / "classical" / "tetrabiblos.json", "trans. J. M. Ashmand (1822)", tetrabiblos())
-    write(ROOT / "data" / "medieval" / "lilly_astrology.json", "William Lilly (1647), ed. Zadkiel (1852)", lilly())
+    write(ROOT / "data" / "esoteric" / "lilly_astrology.json", "William Lilly (1647), ed. Zadkiel (1852)", lilly())
 
 
 if __name__ == "__main__":

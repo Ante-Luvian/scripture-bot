@@ -2088,7 +2088,11 @@ class ScriptureLookup:
             "shakespeare": ["shakespeare.json"],
             # magic and esotericism: Peterson's transcriptions (scripts/build_esoteric.py); an opt-in tradition
             "esoteric": ["agrippa.json", "arbatel.json", "heptameron.json", "abramelin.json", "keyofsolomon.json",
-                         "lemegeton.json", "testament.json", "sword.json", "weyer.json", "raziel.json", "dee.json"],
+                         "lemegeton.json", "testament.json", "sword.json", "weyer.json", "raziel.json", "dee.json",
+                         # (moved from the medieval shelf, 2026-11-01: the owner wants them with the esoteric books)
+                         "swedenborg.json",
+                         "lilly_astrology.json",       # Lilly ed. Zadkiel (scripts/build_astrology.py)
+                         "sepharial_astrology.json"],  # Sepharial, 1920 (scripts/build_sepharial.py)
             "ballads": ["child.json",            # Child's ballads (scripts/build_child.py)
                         "grimm.json",             # the Grimms' tales, Hunt (scripts/build_grimm.py)
                         "la_fontaine.json",       # Thornbury (scripts/build_fables.py)
@@ -2240,9 +2244,6 @@ class ScriptureLookup:
                 "cloud_of_unknowing.json",
                 "julian_revelations.json",
                 "practice_of_presence.json",
-                "swedenborg.json",
-                "lilly_astrology.json",          # Lilly ed. Zadkiel (scripts/build_astrology.py)
-                "sepharial_astrology.json",      # Sepharial, 1920 (scripts/build_sepharial.py)
                 "blake.json",
                 "milton.json",
                 "pilgrims_progress.json",

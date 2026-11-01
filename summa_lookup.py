@@ -40,7 +40,7 @@ PART_DISPLAY: dict[int, str] = {
     2: "I-II",
     3: "II-II",
     4: "III",
-    5: "Supp.",
+    5: "Supp",
 }
 
 PART_LONG: dict[int, str] = {
@@ -146,14 +146,17 @@ def _parse_question_page(html: str, question: int) -> Optional[dict]:
 
     # Article titles from the ordered list at the top of the page
     # They appear as <li><a href="#articleN">title</a></li>
+    # newadvent's pages no longer list them at the top (2026): the articles' own headings,
+    # <h2 id="article3">Article 3. Whether God exists?</h2>, are the list (links to "#article97" are
+    # cross-references to other questions)
     articles = []
-    for m in re.finditer(
-        r'<a\s+href="#article(\d+)"[^>]*>(.*?)</a>',
-        html, re.IGNORECASE | re.DOTALL
-    ):
-        n = int(m.group(1))
-        title = _html_to_text(m.group(2)).strip()
-        articles.append((n, title))
+    for m in re.finditer(r'<h2[^>]*id="article(\d+)"[^>]*>(.*?)</h2>', html, re.IGNORECASE | re.DOTALL):
+        title = re.sub(r"^Article\s+\d+\.\s*", "", _html_to_text(m.group(2)).strip())
+        articles.append((int(m.group(1)), title))
+    if not articles:
+        for m in re.finditer(r'<a\s+href="#article(\d+)"[^>]*>(.*?)</a>', html, re.IGNORECASE | re.DOTALL):
+            articles.append((int(m.group(1)), _html_to_text(m.group(2)).strip()))
+    articles = list(dict.fromkeys(articles))
 
     return {"title": q_title, "articles": articles}
 
@@ -191,6 +194,8 @@ def _parse_article(html: str, article_num: int) -> Optional[dict]:
         return None
 
     text = _html_to_text(target_section)
+    # the last article runs on into the page's footer (its imprimatur, New Advent's copyright)
+    text = re.split(r"About this page|APA citation\.|Copyright ©|Nihil Obstat\.|Imprimatur\.|The Summa Theolog\w+ of St\. Thomas Aquinas\s+Second", text)[0].strip()
 
     # Extract title (first line up to first bold marker)
     title_m = re.match(r"(Article\s+\d+\.[^\n]+)", text)
@@ -198,7 +203,9 @@ def _parse_article(html: str, article_num: int) -> Optional[dict]:
 
     # Extract objections
     objections = []
-    for om in re.finditer(r"Objection\s+(\d+)\.\s+(.*?)(?=Objection\s+\d+\.|On the contrary|I answer that|Reply to|$)",
+    # (not the "Objection 1" of "Reply to Objection 1": that made every reply an objection too)
+    for om in re.finditer(r"(?<!Reply to )Objection\s+(\d+)\.\s+(.*?)"
+                          r"(?=Objection\s+\d+\.|On the contrary|I answer that|Reply to|$)",
                           text, re.DOTALL | re.IGNORECASE):
         objections.append(f"**Objection {om.group(1)}.** {om.group(2).strip()}")
 

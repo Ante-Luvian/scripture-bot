@@ -132,6 +132,48 @@ def test_hadith_and_quran_are_in_the_index(ask, lookup):
     assert ask.find_passages("Jesus son of Mary", index=index, corpora=("quran",))
 
 
+def test_the_magic_books_are_searched(ask, lookup):
+    """A friend of the owner's asked about magic and was answered from Deuteronomy: the esoteric and Gnostic
+    shelves weren't searched at all."""
+    assert {"esoteric", "gnostic"} <= set(ask.CORPORA) and ask.SHELVES["esoteric"] == ("esoteric",)
+    index = ask.Index(corpora=("esoteric",))
+    found = ask.find_passages("how to make the pentacles of Saturn", index=index, corpora=("esoteric",))
+    assert found and all(lookup._resolve_book(p["reference"].rsplit(" ", 1)[0])[0] == "esoteric" for p in found)
+
+
+@pytest.mark.parametrize("question, shelves", [
+    ("How do I call a spirit, according to the grimoires?", ("esoteric",)),
+    ("what do the magical books say about the planetary hours", ("esoteric",)),
+    ("search the esoteric books for the angel of Saturn", ("esoteric",)),
+    ("In the Gnostic texts, who is Sophia?", ("gnostic",)),
+    ("Is magic forbidden?", ()),                                       # (a question about magic names no shelf)
+])
+def test_a_question_that_says_where_to_look(ask, monkeypatch, question, shelves):
+    assert ask.named_shelves(question) == shelves
+    reply = '{"shelves": ["bible"], "references": [], "searches": []}'
+    monkeypatch.setattr(ask, "_ask_claude", lambda *a, **k: reply)
+    assert ask._plan(question, [])["corpora"] == (shelves or ("kjv",))
+
+
+def test_the_catholic_shelf(ask):
+    """'According to the Catholic magisterium' was answered from Luther's catechism and Westminster: the
+    Catechism, canon law and the Summa weren't searchable at all."""
+    assert ask.named_shelves("according to the catholic magisterium, may I juggle on feast days?")[0] == "catholic"
+    books = ask._catholic_books()
+    assert "Catechism of the Catholic Church" in books and "Code of Canon Law" in books
+    assert ask.catholic_passage("CCC 2185", books)["text"].startswith("On Sundays")
+    assert ask.catholic_passage("Canon 1247", books)["reference"] == "Canon 1247"
+    index = ask.Index(corpora=("catholic",))
+    found = ask.find_passages("Sunday rest from work and recreation", index=index, corpora=("catholic",))
+    assert found and all(p["reference"].split(" ")[0] in ask.CATHOLIC_COMMAND for p in found)
+    if "Summa Theologica" not in books:
+        pytest.skip("the Summa isn't downloaded here (python scripts/fetch_summa.py)")
+    st = ask.catholic_passage("ST I.2.3", books)
+    assert st["text"].startswith("Article 3. Whether God exists?")
+    assert st["text"].count("Objection 1.") == 1 and "\nReply 1." in st["text"]   # (a reply isn't an objection)
+    assert not any(w in st["text"] for w in ("Copyright", "Imprimatur", "New Advent"))
+
+
 def test_a_plan_that_cant_be_had_searches_everywhere(ask, monkeypatch):
     monkeypatch.setattr(ask, "_ask_claude", lambda *a, **k: "not json")
     assert ask._plan("anything", []) == {"corpora": ask.CORPORA, "references": [], "searches": []}

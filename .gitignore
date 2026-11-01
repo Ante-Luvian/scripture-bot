@@ -80,3 +80,6 @@ data/ask_usage.json
 
 # the hadith collections, downloaded (scripts/fetch_hadith.py)
 data/hadith/
+
+# Aquinas's Summa, downloaded for asking the library (scripts/fetch_summa.py rebuilds it)
+data/summa.json

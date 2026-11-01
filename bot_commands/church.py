@@ -322,6 +322,7 @@ def _load_canon():
 @bot.command(name="ccc")
 async def cmd_ccc(ctx, *, args: str = ""):
     """Look up a paragraph of the Catechism of the Catholic Church. Usage: !ccc 1"""
+    args = re.sub(r"(?i)^\s*(?:ccc|catechism)\s*§?\s*", "", args)       # ("!ccc CCC 2185", as an answer cites it)
     try:
         number = int(args.strip())
     except ValueError:
@@ -354,6 +355,7 @@ async def cmd_ccc(ctx, *, args: str = ""):
 @bot.command(name="canon")
 async def cmd_canon(ctx, *, args: str = ""):
     """Look up a canon of the Code of Canon Law. Usage: !canon 1"""
+    args = re.sub(r"(?i)^\s*(?:canon|can\.|cic)\s*", "", args)          # ("!canon Canon 1247", as an answer cites it)
     try:
         number = int(args.strip())
     except ValueError:

@@ -1846,7 +1846,7 @@ def swedenborg():
         books[title] = book
         sources[title] = f"trans. {translator}" if translator else "Emanuel Swedenborg"
         print(f"  {title}: {len(book)} sections, {sum(len(v) for v in book.values())} paragraphs ({translator})")
-    path = DATA / "medieval" / "swedenborg.json"
+    path = DATA / "esoteric" / "swedenborg.json"
     path.write_text(json.dumps({"source": "Emanuel Swedenborg",
                                 "book_sources": sources, "books": books}, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"wrote {path.relative_to(ROOT)}: {len(books)} works, {path.stat().st_size // 1_000_000} MB")

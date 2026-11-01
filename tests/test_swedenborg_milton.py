@@ -20,8 +20,8 @@ def test_swedenborg(lookup, ref, reference, snippet):
 def test_swedenborg_is_whole(lookup):
     """Every work starts at section 1 (a page whose only heading is its footnotes' once lost
     Heaven and Hell 1-50); the few gaps left are gaps in the sacred-texts edition itself."""
-    books = {b: c for b, c in lookup._data["medieval"].items()
-             if lookup._book_file.get(("medieval", b)) == "swedenborg.json"}
+    books = {b: c for b, c in lookup._data["esoteric"].items()      # (with the esoteric books since 2026-11-01)
+             if lookup._book_file.get(("esoteric", b)) == "swedenborg.json"}
     assert len(books) == 33
     for name, sections in books.items():
         if name != "Spiritual Diary":                    # (sacred-texts' translation begins at 1539)
