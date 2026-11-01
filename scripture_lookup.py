@@ -895,6 +895,24 @@ ALIASES: dict[str, str] = {
     "de hominis dignitate": "Oration on the Dignity of Man",
     "mithraic ritual": "A Mithraic Ritual", "a mithraic ritual": "A Mithraic Ritual",
     "mithras liturgy": "A Mithraic Ritual", "mithraic liturgy": "A Mithraic Ritual", "mithriac ritual": "A Mithraic Ritual",
+    # the alchemists (data/esoteric/alchemy.json)
+    "turba": "Turba Philosophorum", "turba philosophorum": "Turba Philosophorum",
+    "triumphal chariot": "The Triumphal Chariot of Antimony", "chariot of antimony": "The Triumphal Chariot of Antimony",
+    "golden chain of homer": "The Golden Chain of Homer", "aurea catena homeri": "The Golden Chain of Homer",
+    "coelum": "Coelum Philosophorum", "coelum philosophorum": "Coelum Philosophorum",
+    "aurora of the philosophers": "The Aurora of the Philosophers", "tincture of the philosophers":
+    "The Tincture of the Philosophers", "treasure of treasures": "The Treasure of Treasures for Alchemists",
+    "sophic hydrolith": "The Sophic Hydrolith", "lambspring": "The Book of Lambspring",
+    "book of lambspring": "The Book of Lambspring", "golden tripod": "The Golden Tripod",
+    "twelve keys": "The Golden Tripod", "ordinal of alchemy": "The Ordinal of Alchemy",
+    "new chemical light": "The New Chemical Light", "open entrance": "An Open Entrance to the Closed Palace of the King",
+    "glory of the world": "The Glory of the World", "golden tractate": "The Golden Tractate of Hermes Trismegistus",
+    "six keys of eudoxus": "The Six Keys of Eudoxus", "hermetic arcanum": "The Hermetic Arcanum",
+    "mirror of alchemy": "The Mirror of Alchemy", "bosom book": "The Bosom Book of Sir George Ripley",
+    "alkahest": "The Secret of the Immortal Liquor Called Alkahest", "golden calf": "Helvetius' Golden Calf",
+    "kelly's stone": "The Stone of the Philosophers", "alchemical mass": "An Alchemical Mass",
+    "celestial ruby": "A Brief Guide to the Celestial Ruby", "fount of chemical truth": "The Fount of Chemical Truth",
+    "metamorphosis of metals": "The Metamorphosis of Metals", "all-wise doorkeeper": "The All-Wise Doorkeeper",
     # the author's name alone, in any of its forms, is his main work here
     "ptolemy": "Tetrabiblos", "claudius ptolemy": "Tetrabiblos", "claudius ptolemaeus": "Tetrabiblos",
     "ptolemaeus": "Tetrabiblos", "claudius ptolemy tetrabiblos": "Tetrabiblos",
@@ -2103,6 +2121,7 @@ class ScriptureLookup:
                          "papyri.json",                # the Demotic Magical Papyrus (scripts/build_papyri.py)
                          "pico.json",                  # Pico's Oration (scripts/build_pico.py)
                          "mithraic.json",              # Mead's Mithraic Ritual (scripts/build_mithraic.py)
+                         "alchemy.json",               # the alchemists (scripts/build_alchemy.py)
                          # (moved from the medieval shelf, 2026-11-01: the owner wants them with the esoteric books)
                          "swedenborg.json",
                          "lilly_astrology.json",       # Lilly ed. Zadkiel (scripts/build_astrology.py)

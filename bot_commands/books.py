@@ -964,6 +964,27 @@ BOOKS_TREE = [
                            "The Sword of Moses", "Pseudomonarchia Daemonum"]),
         ("John Dee", ["De Heptarchia Mystica", "The Hieroglyphic Monad", "A Letter Apologeticall"]),
         ("Magical Papyri", ["The Demotic Magical Papyrus", "The Demotic Magical Papyrus, Verso", "A Mithraic Ritual"]),
+        ("Alchemy: Paracelsus", ["The Treasure of Treasures for Alchemists", "The Tincture of the Philosophers",
+                                 "The Aurora of the Philosophers", "Coelum Philosophorum"]),
+        ("Alchemy: The Hermetic Museum", [
+            "The Golden Tract", "The Golden Age Restored", "The Sophic Hydrolith", "A Demonstration of Nature",
+            "Flamel's Short Tract", "The Only True Way", "The Glory of the World", "A Tract of Great Price",
+            "The Book of Alze", "The Book of Lambspring", "The Golden Tripod", "The Ordinal of Alchemy",
+            "The Testament of Cremer", "The New Chemical Light", "An Open Entrance to the Closed Palace of the King",
+            "A Subtle Allegory Concerning the Secrets of Alchemy", "The Metamorphosis of Metals",
+            "A Brief Guide to the Celestial Ruby", "The Fount of Chemical Truth", "Helvetius' Golden Calf",
+            "The All-Wise Doorkeeper"]),
+        ("Alchemy: Collectanea Chemica", [
+            "The Secret of the Immortal Liquor Called Alkahest", "Aurum Potabile", "The Oil of Sulphur",
+            "The Stone of the Philosophers and the First Matter", "The Bosom Book of Sir George Ripley",
+            "Preparations of the Sophic Mercury"]),
+        ("Alchemy: Classic Tracts", [
+            "Turba Philosophorum", "The Golden Tractate of Hermes Trismegistus",
+            "Hortulanus' Commentary on the Emerald Tablet", "The Practice of Mary the Prophetess",
+            "The Mirror of Alchemy", "Tract on the Tincture and Oil of Antimony", "The Triumphal Chariot of Antimony",
+            "The Stone of the Philosophers", "The Golden Chain of Homer", "The Six Keys of Eudoxus",
+            "The Hermetic Arcanum", "On the Philadelphian Gold", "Freher's Process in the Philosophical Work",
+            "An Alchemical Mass", "Alchemical Catechism"]),
         # (moved from the Christian shelves, 2026-11-01, at the owner's word)
         ("Astrology", [
             ("William Lilly", ["Lilly's Introduction to Astrology", "Lilly's Introduction to Astrology, Appendix"]),

@@ -83,3 +83,16 @@ def test_meads_mithraic_ritual(lookup):
     corpus, name = lookup._resolve_book("A Mithraic Ritual")
     assert list(lookup._data[corpus][name]) == [str(i) for i in range(14)]
     assert not re.search(r"\{\d+\}|pt'>|Father'S|\*\s+\*", str(lookup._data[corpus][name]))
+
+
+def test_the_alchemists(lookup):
+    """scripts/build_alchemy.py, from sacred-texts' mirror: each treatise a book, no page furniture."""
+    for ref, words in (("turba 2", "Iximidrus"), ("coelum 3", "Mercury"), ("triumphal chariot 2", "GOD"),
+                       ("aurora of the philosophers 1", "ADAM was the first inventor of arts")):
+        r = lookup.get_verse(ref)
+        assert r["found"] and words in r["text"], ref
+    corpus, _ = lookup._resolve_book("Turba Philosophorum")
+    text = str({b: lookup._data[corpus][b] for b in lookup._data[corpus] if lookup._book_file.get((corpus, b)) ==
+                "alchemy.json"})
+    assert len(text) > 2_000_000 and not re.search(r"Sacred Texts \||Next:|Click to enlarge|fn_\d", text)
+    assert len(lookup._data[corpus]["Turba Philosophorum"]) == 73
