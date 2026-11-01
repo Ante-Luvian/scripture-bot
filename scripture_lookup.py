@@ -890,6 +890,9 @@ ALIASES: dict[str, str] = {
     "demotic papyrus verso": "The Demotic Magical Papyrus, Verso",
     "demotic magical papyrus verso": "The Demotic Magical Papyrus, Verso",
     "magical papyrus verso": "The Demotic Magical Papyrus, Verso",
+    "oration on the dignity of man": "Oration on the Dignity of Man", "dignity of man": "Oration on the Dignity of Man",
+    "pico": "Oration on the Dignity of Man", "pico della mirandola": "Oration on the Dignity of Man",
+    "de hominis dignitate": "Oration on the Dignity of Man",
     # the author's name alone, in any of its forms, is his main work here
     "ptolemy": "Tetrabiblos", "claudius ptolemy": "Tetrabiblos", "claudius ptolemaeus": "Tetrabiblos",
     "ptolemaeus": "Tetrabiblos", "claudius ptolemy tetrabiblos": "Tetrabiblos",
@@ -2096,6 +2099,7 @@ class ScriptureLookup:
             "esoteric": ["agrippa.json", "arbatel.json", "heptameron.json", "abramelin.json", "keyofsolomon.json",
                          "lemegeton.json", "testament.json", "sword.json", "weyer.json", "raziel.json", "dee.json",
                          "papyri.json",                # the Demotic Magical Papyrus (scripts/build_papyri.py)
+                         "pico.json",                  # Pico's Oration (scripts/build_pico.py)
                          # (moved from the medieval shelf, 2026-11-01: the owner wants them with the esoteric books)
                          "swedenborg.json",
                          "lilly_astrology.json",       # Lilly ed. Zadkiel (scripts/build_astrology.py)

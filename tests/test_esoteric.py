@@ -67,3 +67,11 @@ def test_the_demotic_magical_papyrus(lookup):
     assert lookup.get_verse("magical papyrus verso 33:1")["found"]
     corpus, name = lookup._resolve_book("The Demotic Magical Papyrus")
     assert len(lookup._data[corpus][name]) == 29 and "p. 26" not in str(lookup._data[corpus][name])
+
+
+def test_picos_oration(lookup):
+    r = lookup.get_verse("pico 1")
+    assert r["found"] and "Abdala the Saracen" in r["text"]
+    corpus, name = lookup._resolve_book("Oration on the Dignity of Man")
+    last = list(lookup._data[corpus][name].values())[-1]
+    assert next(iter(last.values())).endswith("join battle.") and "---" not in str(lookup._data[corpus][name])
