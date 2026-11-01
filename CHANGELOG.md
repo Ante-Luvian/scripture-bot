@@ -14,14 +14,9 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
-## 2026-11-01 · Asking the library: better answers, the Catholic shelf, and cleaner texts
-- 🧠 **Asking the library now uses a stronger AI model.** (That's the feature where you mention the bot with a question in a channel an admin opened with `!asksetup`, and it answers from the library's own texts.) The answers are more careful and keep closer to the question.
-- 🔮 **It now searches the magic and Gnostic books.** Before, it only looked in the Bible, the Christian writers, the Greek and Roman classics, the Quran, the hadith and the Jewish texts. So a question about magic could only be answered with what the Bible says against it (Deuteronomy). Now a question about how a ritual, spell, spirit or horoscope works is answered from the magical books themselves.
-- 🗂️ **You can tell it where to look.** Say so in the question: "according to the grimoires…", "what do the magical books say about…", "in the Gnostic texts…". It searches only there.
-- ⛪ **Catholic questions get Catholic answers.** Ask about "the Catholic Church" or "the magisterium" and it now searches the Catechism of the Catholic Church, the Code of Canon Law and all of Aquinas's *Summa Theologica* (the great 13th-century summary of Catholic theology), along with the Church Fathers. Before, it quoted Protestant documents (Luther's catechism, the Westminster catechism) as if they were Catholic teaching. Questions about one church's teaching now keep to that church's own writers.
-- 📎 **The answer's footer tells you how to open each source:** `!ccc` for the Catechism, `!canon` for canon law, `!summa` for the Summa, `!verse` for everything else. `!ccc CCC 2185` and `!canon Canon 1247` now work, typed just as an answer cites them.
+## 2026-11-01 · Fixes: !summa, canon law, and cleaner texts
 - 🛠️ **`!summa` fixed.** The website it reads from changed, and three things broke. `!summa random` failed. Every reply to an objection was shown a second time as an extra objection. And the last article of each question ran on into the website's copyright notice. All fixed. Supplement articles are now cited "ST Supp.12.2", not "ST Supp..12.2".
-- ⚖️ **Canon law reads properly.** Words with "ff" or "fi" in them came out garbled ("works and aVairs" for *works and affairs*, "ofWce" for *office*), and every section sign showed as "Â§". Fixed throughout.
+- ⚖️ **Canon law reads properly.** Words with "ff" or "fi" in them came out garbled ("works and aVairs" for *works and affairs*, "ofWce" for *office*), and every section sign showed as "Â§". Fixed throughout. `!ccc CCC 2185` and `!canon Canon 1247` also work now, with the prefix typed in.
 - 🧹 **Cleaner texts across the library.** Around 5,000 passages, mostly in the Church Fathers, lost leftovers from the websites and scans they came from:
   - stray page numbers ("the rich man and the |20 beggar");
   - footnote numbers ("his covenant in my mouth 6 .");
