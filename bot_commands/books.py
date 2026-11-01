@@ -953,7 +953,12 @@ BOOKS_TREE = [
     ]),
     ("🔮 Magic & Esotericism", [
         ("Agrippa", ["Three Books of Occult Philosophy", "Fourth Book of Occult Philosophy"]),
-        ("The grimoires", ["Arbatel of Magic", "Heptameron", "The Book of Abramelin"]),
+        ("The Solomonic books", ["The Key of Solomon", "Testament of Solomon"]),
+        ("The Lesser Key of Solomon (Lemegeton)", ["Goetia", "Theurgia Goetia", "Ars Paulina", "Ars Almadel",
+                                                   "Ars Notoria"]),
+        ("The grimoires", ["Arbatel of Magic", "Heptameron", "The Book of Abramelin", "Sepher Raziel",
+                           "The Sword of Moses", "Pseudomonarchia Daemonum"]),
+        ("John Dee", ["De Heptarchia Mystica", "The Hieroglyphic Monad", "A Letter Apologeticall"]),
     ]),
     ("🌲 Norse", [
         ("Poetic Edda", [

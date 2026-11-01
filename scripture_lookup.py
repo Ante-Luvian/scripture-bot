@@ -868,6 +868,20 @@ ALIASES: dict[str, str] = {
     "abramelin": "The Book of Abramelin", "book of abramelin": "The Book of Abramelin",
     "sacred magic of abramelin": "The Book of Abramelin", "abra-melin": "The Book of Abramelin",
     "heptameron": "Heptameron", "magical elements": "Heptameron", "peter de abano": "Heptameron",
+    "key of solomon": "The Key of Solomon", "greater key of solomon": "The Key of Solomon",
+    "clavicula salomonis": "The Key of Solomon", "clavicle of solomon": "The Key of Solomon",
+    "goetia": "Goetia", "ars goetia": "Goetia", "lemegeton": "Goetia", "lesser key of solomon": "Goetia",
+    "theurgia": "Theurgia Goetia", "theurgia-goetia": "Theurgia Goetia", "paulina": "Ars Paulina",
+    "art pauline": "Ars Paulina", "almadel": "Ars Almadel", "notoria": "Ars Notoria",
+    "notory art": "Ars Notoria", "notory art of solomon": "Ars Notoria",
+    "testament of solomon": "Testament of Solomon", "sword of moses": "The Sword of Moses",
+    "pseudomonarchia": "Pseudomonarchia Daemonum", "pseudomonarchia daemonum": "Pseudomonarchia Daemonum",
+    "weyer": "Pseudomonarchia Daemonum", "wier": "Pseudomonarchia Daemonum",
+    "raziel": "Sepher Raziel", "sefer raziel": "Sepher Raziel", "book of raziel": "Sepher Raziel",
+    "heptarchia": "De Heptarchia Mystica", "heptarchia mystica": "De Heptarchia Mystica",
+    "monad": "The Hieroglyphic Monad", "hieroglyphic monad": "The Hieroglyphic Monad",
+    "monas hieroglyphica": "The Hieroglyphic Monad", "dee's letter": "A Letter Apologeticall",
+    "letter apologeticall": "A Letter Apologeticall",
     # the author's name alone, in any of its forms, is his main work here
     "ptolemy": "Tetrabiblos", "claudius ptolemy": "Tetrabiblos", "claudius ptolemaeus": "Tetrabiblos",
     "ptolemaeus": "Tetrabiblos", "claudius ptolemy tetrabiblos": "Tetrabiblos",
@@ -2072,7 +2086,8 @@ class ScriptureLookup:
             # the plays and poems, the Folger text, cited by act.scene.line (scripts/build_shakespeare.py)
             "shakespeare": ["shakespeare.json"],
             # magic and esotericism: Peterson's transcriptions (scripts/build_esoteric.py); an opt-in tradition
-            "esoteric": ["agrippa.json", "arbatel.json", "heptameron.json", "abramelin.json"],
+            "esoteric": ["agrippa.json", "arbatel.json", "heptameron.json", "abramelin.json", "keyofsolomon.json",
+                         "lemegeton.json", "testament.json", "sword.json", "weyer.json", "raziel.json", "dee.json"],
             "ballads": ["child.json",            # Child's ballads (scripts/build_child.py)
                         "grimm.json",             # the Grimms' tales, Hunt (scripts/build_grimm.py)
                         "la_fontaine.json",       # Thornbury (scripts/build_fables.py)

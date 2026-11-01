@@ -7,9 +7,19 @@ second column of their tables) is left out, and so are Peterson's introductions 
               Left out: the chapters of his Vanity of Arts and Sciences the 1651 edition added after Book III.
   arbatel     Arbatel of Magic (Turner, 1655)
   heptameron  Peter of Abano's Heptameron (Turner, 1655)
+  abramelin   The Book of Abramelin (Mathers, 1898)
+  testament   The Testament of Solomon (Conybeare, 1898)
+  keyofsolomon  The Key of Solomon, Books I-II (Mathers, 1889)
+  lemegeton   The Lesser Key: Goetia, Theurgia Goetia, Ars Paulina, Ars Almadel (Sloane 3825) and Ars Notoria
+              (Turner, 1657)
+  sword       The Sword of Moses (Gaster, 1896)
+  weyer       Weyer's Pseudomonarchia Daemonum in Reginald Scot's English (1584)
+  raziel      Sepher Raziel: Liber Salomonis (Sloane 3846)
+  dee         John Dee: De Heptarchia Mystica, The Hieroglyphic Monad (Hamilton-Jones), A Letter (1599)
 
     python scripts/build_esoteric.py [step ...]
 """
+import difflib
 import html
 import json
 import re
@@ -34,6 +44,30 @@ def expect(condition: bool, message: str) -> None:
         raise SystemExit(f"unexpected: {message}")
 
 
+def drop_note_cells(t: str) -> str:
+    """Peterson's notes' cells (<TD CLASS=NOTE>), to the next cell, row or table end of their own table: a note
+    with a table inside it (the SATOR square in the Key of Solomon) runs on past that table's cells."""
+    out, pos = [], 0
+    for m in re.finditer(r'(?i)<td[^>]*class=["\']?note["\']?[^>]*>', t):
+        if m.start() < pos:
+            continue
+        out.append(t[pos:m.start()])
+        depth, end = 0, len(t)
+        for tag in re.finditer(r"(?i)<(/?)(table|td|tr)\b", t[m.end():]):
+            closing, name = tag.group(1), tag.group(2).lower()
+            if name == "table":
+                if closing and depth == 0:
+                    end = m.end() + tag.start()
+                    break
+                depth += -1 if closing else 1
+            elif depth == 0:
+                end = m.end() + tag.start()
+                break
+        out.append(" ")
+        pos = end
+    return "".join(out) + t[pos:]
+
+
 def page(name: str, english_column: bool = False) -> str:
     """A page of the archive, without its head, scripts, comments (Peterson's page markers) or notes' cells; with
     english_column, a bilingual page's tables keep only their first cell in each row (the English)."""
@@ -45,19 +79,89 @@ def page(name: str, english_column: bool = False) -> str:
     raw = path.read_bytes()
     t = raw.decode("utf-8", "replace") if b"charset=utf-8" in raw[:3000].lower() else raw.decode("cp1252", "replace")
     t = re.sub(r"(?is)<head.*?</head>|<script.*?</script>|<style.*?</style>|<!--.*?-->|<pre>.*?</pre>", " ", t)
-    t = re.sub(r'(?is)<td[^>]*class=["\']?note["\']?[^>]*>.*?(?=<td|</tr>|</table>)', " ", t)
-    if english_column:
-        def first_cell(row):
-            cells = re.split(r"(?i)<td\b", row.group(0))
-            return cells[0] + ("<td" + cells[1] if len(cells) > 1 else "")
-        t = re.sub(r"(?is)<tr\b.*?(?=<tr\b|</table>)", first_cell, t)
-    return t
+    t = drop_note_cells(re.sub(r'(?is)<div id="menu">.*?</div>', " ", t))
+    if english_column is True:
+        return first_cells(t)
+    return first_cells(t, english_column) if english_column else t
+
+
+def first_cells(t: str, column: int = 0) -> str:
+    """A bilingual page: in each row of the outermost tables only the English cell (the first; Weyer's the second);
+    a table inside a kept cell (the Heptameron's "The Sun | The Moon") stays whole, one inside a dropped cell goes
+    with it."""
+    out, pos, depth, cell, keep = [], 0, 0, -1, True
+    for m in re.finditer(r"(?i)<(/?)(table|tr|td|th)\b[^>]*>", t):
+        if keep:
+            out.append(t[pos:m.start()])
+        pos = m.end()
+        closing, name = m.group(1), m.group(2).lower()
+        if name == "table":
+            depth += -1 if closing else 1
+            if depth == 0:
+                cell, keep = -1, True
+        elif depth == 1:
+            if name == "tr" and not closing:
+                cell, keep = -1, True
+            elif name in ("td", "th") and not closing:
+                cell += 1
+                keep = cell == column
+        if keep:
+            out.append(m.group(0))
+    if keep:
+        out.append(t[pos:])
+    return "".join(out)
+
+
+SUPERSCRIPT = dict(zip("abcdefghijklmnoprstuvwxyz", "ᵃᵇᶜᵈᵉᶠᵍʰⁱʲᵏˡᵐⁿᵒᵖʳˢᵗᵘᵛʷˣʸᶻ"))
+PLANETS = {"sol": "☉", "lun": "☽", "ven": "♀", "jup": "♃", "sat": "♄", "mer": "☿", "mar": "♂",
+           "ari": "♈", "tau": "♉", "gem": "♊", "can": "♋", "leo": "♌", "vir": "♍", "lib": "♎", "sco": "♏",
+           "sag": "♐", "cap": "♑", "aqu": "♒", "pis": "♓", "cnj": "☌", "opp": "☍", "qua": "□", "tri": "△",
+           "sex": "⚹"}
+SUPPLIED = {"keep": False}      # (the Lemegeton: Peterson's [words] supplied from other manuscripts are text)
+
+
+def superscript(m) -> str:
+    """A scribe's raised letters ("y<SUP>e</SUP>", "w<SUP>ch</SUP>", "4<SUP>th</SUP>") stay raised; a footnote
+    number goes."""
+    inner = re.sub(r"<[^>]+>", "", m.group(1)).strip()
+    if re.fullmatch(r"[a-pr-z]{1,3}", inner):
+        return "".join(SUPERSCRIPT[c] for c in inner)
+    return ""
+
+
+def supplied(m) -> str:
+    """A [bracket] in the Lemegeton: words Peterson supplied ("into [a] deep lake") stay, as words; a modern or
+    variant spelling of the words before it ("vesall [vessel]", "Bileth [Beleth]", "the other [others]") goes."""
+    before, gap, inner = m.group(1) or "", m.group(2), m.group(3).strip()
+    if re.fullmatch(r"[\d\s.,§-]+", inner):            # (his section numbers: "[1]")
+        return before
+    n = len(inner.split())
+    prev = " ".join(re.sub(r"[^\w\s]", "", before).split()[-n:]).lower()
+    if prev and difflib.SequenceMatcher(None, prev, inner.lower()).ratio() >= 0.5:
+        return before
+    return f"{before}{gap or ' ' if before else ''}{inner}"
 
 
 def clean(fragment: str) -> str:
-    s = re.sub(r'(?is)<img[^>]*\balt=["\']?([A-Za-z]{1,2})["\']?[^>]*>', r"\1", fragment)   # (a drop capital)
-    s = re.sub(r"(?is)<sup>.*?</sup>|<a[^>]*href=[\"']?#(?:fn|note|n)\w*[^>]*>.*?</a>", "", s)
-    s = re.sub(r"(?is)<(i|em)>(.*?)</\1>", lambda m: f"*{m.group(2).strip()}*" if m.group(2).strip() else " ", s)
+    s = re.sub(r'(?is)<img[^>]*\bsrc=["\']?(?:[^"\'>]*/)?(' + "|".join(PLANETS) + r')\.gif[^>]*>',
+               lambda m: PLANETS[m.group(1).lower()], fragment)                # (the planets' and signs' symbols)
+    s = re.sub(r'(?is)<img[^>]*\balt=(["\']?)([A-Za-z]{1,2})\1(?=[\s>/])[^>]*>', r"\2", s)   # (a drop capital)
+    # (a big capital: "<FONT SIZE=5>H</FONT><I>Ely Scemath" is "*Hely Scemath*"; "<FONT SIZE=6>I</FONT> <I>Apollonius"
+    # a word of its own)
+    s = re.sub(r"(?is)<font size=[\"']?[4-7][\"']?>\s*([A-Z])\s*</font>(<i>|<em>)?([A-Z])(?=[a-z])",
+               lambda m: f"{m.group(2) or ''}{m.group(1)}{m.group(3).lower()}", s)
+    s = re.sub(r"(?is)<font size=[\"']?[4-7][\"']?>\s*([A-Z])\s*</font>(<i>|<em>)?(?=[A-Za-z])",
+               lambda m: f"{m.group(2) or ''}{m.group(1)}", s)
+    s = re.sub(r"(?is)\s*\^\s*<sup>(.*?)</sup>", r" \1", s)          # (a word the scribe wrote above: "^in order")
+    s = re.sub(r"(?is)<sup>(.*?)</sup>", superscript, s)
+    s = re.sub(r"(?is)<a[^>]*href=[\"']?#(?:fn|note|n)\w*[^>]*>.*?</a>", "", s)
+    s = re.sub(r"\[\+\s*([^\[\]]+?)\s*\]", r"\1", s)                  # ("they are [+not] ignorant": his addition)
+    s = re.sub(r"(?<=[A-Za-z])\[([a-z]{1,8})\]", r"\1", s)            # ("Mich[ael]": the rest of a word)
+    if SUPPLIED["keep"]:
+        # (not a note of another manuscript's reading: "[Sl.2731: Chomiel]", "[P adds: ...]")
+        s = re.sub(r"(\S+(?:\s+\S+){0,3})?(\s*)\[(?![*=+?!]|sic\b)([^\[\]:]{1,40})\]", supplied, s)
+    s = re.sub(r"(?is)<(i|em)>(\s*)(.*?)(\s*)</\1>",                   # ("<I>see Figure </I>61": the space stays)
+               lambda m: f"{m.group(2)}*{m.group(3)}*{m.group(4)}" if m.group(3) else " ", s)
     s = html.unescape(re.sub(r"<[^>]+>", " ", s)).replace("\xa0", " ")
     s = re.sub(r"\s*\[\*?[^\[\]\s]*(\s[^\[\]\s]*){0,4}\]", "", s)     # (Peterson's short glosses first: "[*seat]")
     # (Turner prints a conjuration in Latin, then his English of it in brackets: the English is the text)
@@ -71,22 +175,24 @@ def clean(fragment: str) -> str:
     s = re.sub(r"\s*\[[^\[\]]{0,150}\]|\s*\{[^{}]*\}", "", s)
     s = re.sub(r"<([^<>]*)>", r"\1", s)
     s = re.sub(r"\s+", " ", s).strip()
-    # (a drop capital set apart: "T Hey", "M usical"; but "A simple point" is a word)
-    s = re.sub(r"^([B-HJ-NP-Z]) (?=[A-Za-z])|^([AIO]) (?=[A-Z][a-z])", lambda m: m.group(1) or m.group(2), s)
+    # (a drop capital set apart: "T Hey", "M usical"; but "A simple point", "O Holy Father" and "I Invocate" are words)
+    s = re.sub(r"^([B-HJ-NP-Z]) (?=[A-Za-z])", r"\1", s)
     s = re.sub(r"^([A-Z])([A-Z])(?=[a-z])", lambda m: m.group(1) + m.group(2).lower(), s)        # ("THey")
     s = re.sub(r"\*\s*\*", " ", s)
     if s.count("*") % 2:
         s = s.replace("*", "")                                              # (an italic across a paragraph break)
+    s = re.sub(r",\s*,", ",", s)                                            # (a gloss gone from between commas)
     return re.sub(r"\s+([,.;:])", r"\1", s).strip()
 
 
 LATIN = set("et est sunt ad cum non qui quae quod de ex per autem enim vel sed ut nec aut eius sicut hoc haec "
             "ipse quam atque ac etiam tamen sive seu super sub inter apud ab cuius quibus omnes omnia vero ita "
-            "sit esse erit deus dei domini nomine nomen spiritus angeli".split())
+            "sit esse erit deus dei domini nomine nomen spiritus angeli mihi tibi nobis vobis meis tuis estote "
+            "vos tu ego".split())
 
 
 def latin_words(s: str) -> int:
-    return sum(w in LATIN or re.search(r"(orum|arum|ibus|ione|atur|itur|untur)$", w) is not None
+    return sum(w in LATIN or re.search(r"(orum|orvm|arum|arvm|ibus|ione|atur|itur|untur)$", w) is not None
                for w in re.findall(r"[a-z]+", s.lower()))
 
 
@@ -120,7 +226,19 @@ def paras(fragment: str) -> list:
     fragment = re.sub(r"(?is)<tr\b[^>]*>(.*?)(?=<tr\b|</table>)", row, fragment)
     parts = re.split(r"(?is)<p\b[^>]*>|<br\s*/?>\s*<br\s*/?>|</?td\b[^>]*>|</?div\b[^>]*>|</?center>|<h\d[^>]*>.*?</h\d>"
                      r"|</?table[^>]*>|</?tr[^>]*>|<hr[^>]*>", fragment)
-    return [p for p in (clean(x) for x in parts) if p and english(p)]
+    out = []
+    for x in parts:
+        p = clean(x)
+        if not p:
+            continue
+        bare = re.sub(r"(?is)<sup>.*?</sup>|<[^>]+>", "", x).strip()
+        # (Turner's English of the Latin before it, a paragraph of its own in brackets: the Latin goes)
+        if out and bare.startswith("[") and bare.endswith("]") and len(bare.split()) > 12 \
+                and latin_words(out[-1]) >= 2:
+            out.pop()
+        if english(p):
+            out.append(p)
+    return out
 
 
 def sections(t: str, keep=lambda title: True, levels: str = "1-5") -> list:
@@ -187,10 +305,28 @@ def footnote_free(verse: str) -> str:
     return re.sub(r"(?m)^(\*[^\n*]*[a-z][.)]?)\d{1,2}\*", r"\1*", verse)
 
 
+def latin_quotes_out(verse: str) -> str:
+    """A Latin incipit quoted in italics before the English ("*Dixit Angelus adæ fac thymiamata &c.* The Angell
+    said to Adam..."): gone, when it's plainly Latin."""
+    def quote(m):
+        inner = m.group(1)
+        incipit = re.search(r"&c\.?\s*$", inner) or m.group(2)
+        lat = latin_words(inner)
+        if incipit:                                    # ("*In nomini dei potentis vivi & veri &c.*")
+            common = sum(w in COMMON for w in re.findall(r"[a-z]+", inner.lower()))
+            return "" if lat >= 1 and lat >= common else m.group(0)
+        return "" if lat >= 2 and not english(inner) else m.group(0)
+    # (only one that opens a line: a Latin phrase inside an English sentence stays, or the sentence breaks)
+    out = re.sub(r"(?m)^\*([^*\n]{8,})\*[ \t]*(&c\.?[ \t]*)?", quote, verse)
+    out = re.sub(r"\n{2,}", "\n", out).strip()
+    return out or verse
+
+
 def save(name: str, books: dict, sources: dict) -> None:
     OUT.mkdir(parents=True, exist_ok=True)
-    books = {b: {c: {v: footnote_free(english_of(t)) for v, t in vs.items()} for c, vs in chs.items()}
-             for b, chs in books.items()}
+    books = {b: {c: {v: latin_quotes_out(footnote_free(english_of(t))) for v, t in vs.items()}
+                 for c, vs in chs.items()} for b, chs in books.items()}
+    books = {b: {c: {v: t for v, t in vs.items() if t.strip()} for c, vs in chs.items()} for b, chs in books.items()}
     payload = {"source": next(iter(sources.values())), "books": books, "book_sources": sources}
     clean_corpus(payload, f"esoteric/{name}.json")       # (the library's own cleaner: nothing left for it to do later)
     (OUT / f"{name}.json").write_text(json.dumps(payload, ensure_ascii=False, indent=1), encoding="utf-8")
@@ -375,7 +511,389 @@ def abramelin() -> None:
     save("abramelin", {"The Book of Abramelin": out}, {"The Book of Abramelin": "trans. S. L. MacGregor Mathers (1898)"})
 
 
-BUILDS = {"agrippa": agrippa, "arbatel": arbatel, "heptameron": heptameron, "abramelin": abramelin}
+# ── The Testament of Solomon (Conybeare, 1898) ─────────────────────────────
+# His 130 numbered paragraphs, a chapter each. His own square brackets (words he supplied: "[He brought me] a little
+# ring") stay; Peterson's footnotes are in the notes cells, which page() drops.
+
+def testament() -> None:
+    t = page("solomon/testamen.htm")
+    t = re.sub(r"(?is)<em class=pg[^>]*>.*?</em>", " ", t)
+    t = t[t.find("<H1>The Testament of Solomon"):t.rfind('<div id="menu"')]
+    t = t.replace("[", "⟦").replace("]", "⟧")       # (out of reach of clean()'s gloss-stripping)
+    chapters, current = {}, None
+    for p in paras(t):
+        p = p.replace("⟦", "[").replace("⟧", "]")
+        p = re.sub(r"\s*\[\?[^\]]*\]", "", p)                    # (Peterson's guesses: "[?shabtai/Saturn?]")
+        m = re.match(r"\*?(\d+)\.\s+(.*)", p, re.S)
+        if m:
+            current = m.group(1)
+            expect(current not in chapters and int(current) == len(chapters) + 1, f"Testament paragraph {current}")
+            body = m.group(2)
+            if p.startswith("*"):
+                body = "*" + body
+            chapters[current] = [body]
+        elif current:
+            chapters[current].append(p)
+    expect(len(chapters) == 130, f"Testament: {len(chapters)} paragraphs")
+    save("testament", {"Testament of Solomon": {c: chapter("", ps) for c, ps in chapters.items()}},
+         {"Testament of Solomon": "trans. F. C. Conybeare (1898)"})
+
+
+# ── The Key of Solomon (Mathers, 1889) ─────────────────────────────────────
+# Chapter "0" Solomon's introduction (to Roboam); "1.1"-"1.18" Book I, the descriptions of the pentacles staying in
+# 1.18 where Mathers put them; "2.1"-"2.23" Book II. Left out: Mathers's preface and notes, the planetary tables
+# he compiled, his appendices (the "Ancient Fragment" and "Qabalistical Invocation" from Lévi), Peterson's
+# introduction and the captions of the figures (pictures), and the French "Books 3 and 4" (another work).
+
+FIGURE = re.compile(r"(?i)^\[|^(figures?|circle|magic circle|ritual implements|sacred names|seal|sigil|"
+                    r"symbols?|the hebrew lettering|pentacle from|plate)\b"
+                    r"|\b(from|in) (ad|add|sl|sloane|coxe|vsg|ghent|gg|aub|aub24|bnf|lans|harl|or|m276|mich)\b\.?\s*\d"
+                    r"|\bsymbols from\b")
+
+
+def merged(ps: list) -> dict:
+    out = []
+    for p in ps:                                       # (a heading line leads the paragraph after it)
+        if out and re.fullmatch(r"\*[^*]+\*", out[-1]):
+            out[-1] += "\n" + p
+        else:
+            out.append(p)
+    return {str(i + 1): p for i, p in enumerate(out)}
+
+
+def key_of_solomon() -> None:
+    chapters = {}
+
+    def book(name, n, start, stop=None):
+        t = page(name)
+        at = t.find(start)
+        expect(at > 0, f"{name}: {start}")
+        t = t[t.rfind("<H", 0, at):t.find(stop) if stop else len(t)]
+        state = {"chap": "0" if n == 0 else None, "skip": False}
+        if n == 0:
+            chapters["0"] = []
+
+        def on(level, raw, ps):
+            title = re.sub(r"(?<=[A-Za-z.])\d+$", "", raw).strip()
+            m = re.match(r"(?i)CHAPTER ([IVXL]+)$", title)
+            if m and n:
+                state.update(chap=f"{n}.{roman(m.group(1))}", skip=False)
+                chapters[state["chap"]] = list(ps)
+                return
+            if re.match(r"(?i)table of|note by editor", title):
+                state["skip"] = True
+                return
+            if state["chap"] is None or state["skip"]:
+                return
+            if FIGURE.search(title):                   # (a picture's caption: the text after it goes on)
+                chapters[state["chap"]].extend(ps)
+                return
+            if re.match(r"(?i)book i+$|introduction\.?$", title):
+                chapters[state["chap"]].extend(ps)
+                return
+            label = re.sub(r"(?<=[A-Za-z,])\d+\b", "", clean(title)).strip("[]. ").replace("*", "")   # ("Of1")
+            label = label.capitalize() if label.isupper() else label
+            chapters[state["chap"]].extend([f"*{label}*"] + list(ps))
+        walk(t, on)
+
+    book("solomon/ksol.htm", 0, ">INTRODUCTION.</A>", "BOOK I</")
+    if chapters["0"] and chapters["0"][0].startswith("*From Add. MSS"):
+        chapters["0"].pop(0)                           # (Mathers's note of his manuscript)
+    book("solomon/ksol.htm", 1, "BOOK I</")
+    book("solomon/ksol2.htm", 2, "PREFATORY NOTE", "ANCIENT FRAGMENT OF THE KEY")
+    for b, last in ((1, 18), (2, 23)):
+        found = sorted(int(c.split(".")[1]) for c in chapters if c.startswith(f"{b}."))
+        expect(found == list(range(1, last + 1)), f"Key of Solomon book {b}: {found}")
+    chapters["1.18"] = [p for p in chapters["1.18"] if not p.startswith("This is the end of the holy pentacles")]
+    save("keyofsolomon", {"The Key of Solomon": {c: merged(ps) for c, ps in chapters.items() if ps}},
+         {"The Key of Solomon": "ed. and trans. S. L. MacGregor Mathers (1889)"})
+
+
+# ── The Lemegeton, or Lesser Key of Solomon (Sloane 3825, ed. Peterson) ────
+# A book for each of its five parts. Goetia: "0" the definition of magic and the Lemegeton's own opening (its five
+# parts), "1"-"72" a spirit each, then the observations, figures and conjurations a section each. Theurgia
+# Goetia: "0" its opening, then each of the 31 emperors, kings and princes with his dukes and conjuration, then the
+# closing conjurations. Ars Paulina and Ars Almadel: a section each. The manuscript's spellings and its raised
+# letters ("yᵉ", "wᶜʰ") are kept; Peterson's words supplied from other manuscripts are text, his modern
+# spellings go.
+
+def lemegeton_sections(t: str, first: list = None) -> list:
+    """[[paragraphs]] at each <H3>; <H4>s inside one are italic headings; the captions of figures are dropped."""
+    out = [list(first)] if first else []
+    h = re.search(r"(?i)<h[1-5]\b", t)
+    lead = paras(t[:h.start()] if h else t)                 # (the text before the first heading)
+    if lead:
+        out = out or [[]]
+        out[-1].extend(lead)
+    if not h:
+        return [s for s in out if s]
+
+    def on(level, raw, ps):
+        title = re.sub(r"(?<=[A-Za-z.\]])\d+[a-z]?$", "", raw).strip()
+        if FIGURE.search(title) and not re.match(r"(?i)\[(the|of|other|oration|concerning)", title) \
+                or re.match(r"(?i)\[?(sloane|harl|abbreviations|contents)", title):
+            if out:
+                out[-1].extend(ps)
+            return
+        label = clean(re.sub(r"^\[(.*)\]\.?$", r"\1", title)).replace("*", "").strip(" .:-")
+        if level <= 3 or not out:
+            out.append([f"*{label}*"] + list(ps) if label else list(ps))
+        else:
+            out[-1].extend([f"*{label}*"] + list(ps) if label else list(ps))
+    walk(t, on)
+    return [s for s in out if s]
+
+
+def goetia() -> dict:
+    pre = page("solomon/lemegeton.htm")
+    pre = pre[pre.rfind("<H", 0, pre.find("The definition of Magic")):pre.find("APPENDIX - Other")]
+    pre = pre[:pre.rfind("<H2")]
+    chapters = {"0": [p for s in lemegeton_sections(pre) for p in s]}
+    t = page("solomon/goetia.htm")
+    cat = t.find("seventy-two infernal spirits")
+    head_end = t.find("</H2>", cat) + 5
+    obs = t.find("These be the seventy two")
+    spirits = paras(t[head_end:obs])
+    n = 0
+    for p in spirits:
+        if re.match(r"(?i)the (first|second|third|\d+\S*) (principall )?spirit\b", p):
+            n += 1
+            chapters[str(n)] = [p]
+        elif n:
+            chapters[str(n)].append(p)
+    expect(n == 72, f"Goetia: {n} spirits")
+    rest = t[t.rfind("<P", 0, obs):t.find("The End of the First Part")]
+    rest = rest[:rest.rfind("<H")] if rest.rfind("<H3") > rest.rfind("</H3>") else rest
+    for s in lemegeton_sections("<H3>[The seventy-two kings]</H3>" + rest):
+        chapters[str(len(chapters))] = s
+    return chapters
+
+
+def theurgia() -> dict:
+    t = page("solomon/theurgia.htm")
+    t = t[t.find("Here beginneth the second Part"):t.find("And so ends the second Book")]
+    t = t[t.find("</H3>", t.find("of Kinge Salomon")) + 5:]
+    chapters, current = {"0": []}, "0"
+    # (each emperor, king or prince begins a paragraph: "<STRONG>Caspiel</STRONG> is the...", or "...is called
+    # <STRONG>Padiel</STRONG>")
+    starts = (r"<P>(?=\s*(?:<em class=pg[^>]*>[^<]*</em>\s*(?:<P>)?\s*)?(?:<STRONG>[^<]+</STRONG>\s*(?:\[[^\]]*\]\s*)?is\b"
+              r"|(?:(?!<P|<H|</?T[DR]|<BLOCKQUOTE).){0,250}?called\s*<STRONG>))")
+    pieces = re.split(f"(?is)({starts})", t)
+    princes = sum(bool(re.fullmatch(r"(?i)<P>", p)) for p in pieces)
+    for piece in pieces:
+        if re.fullmatch(r"(?i)<P>", piece):
+            princes -= 1
+            if chapters[current]:                      # (a page mark between two <P>s splits twice)
+                current = str(len(chapters))
+                chapters[current] = []
+            continue
+        sections = lemegeton_sections(piece)
+        for i, s in enumerate(sections):
+            if i and not princes:                      # (after the last prince: the closing conjurations)
+                current = str(len(chapters))
+                chapters[current] = []
+            chapters[current].extend(s)
+    expect(len(chapters) >= 32, f"Theurgia Goetia: {len(chapters) - 1} princes")
+    return chapters
+
+
+def by_sections(name: str, start: str, stop: str) -> dict:
+    t = page(name)
+    at = t.find(start)
+    expect(at > 0 and t.find(stop) > at, f"{name}: {start} / {stop}")
+    t = t[t.rfind("<H", 0, at):t.find(stop)]
+    t = t[:t.rfind("<H")] if t.rfind("<H") > t.rfind("</H") else t
+    out, held = [], []
+    for s in lemegeton_sections(t):                    # (a section that is only a heading leads the next)
+        if all(re.fullmatch(r"\*[^*]+\*", p) for p in s):
+            held.extend(s)
+            continue
+        out.append(held + s)
+        held = []
+    return {str(i + 1): s for i, s in enumerate(out)}
+
+
+def notoria() -> dict:
+    """Ars Notoria in Robert Turner's English (1657), the left column of Peterson's page: a section at each of
+    Turner's headings, from the first treatise to the end (his dedication and Peterson's introduction left out)."""
+    t = page("notoria/notoria.htm", english_column=True)
+    t = t[t.rfind("<H", 0, t.find("Here beginneth the first Treatise")):t.find("[Finis.]")]
+    t = t[:t.rfind("<H")]
+    out, held = [], []
+
+    def on(level, raw, ps):
+        nonlocal held
+        title = re.sub(r"(?<=[A-Za-z.])\d+$", "", raw).strip()
+        if re.fullmatch(r"\[[^\]]*\]", title):        # (Peterson's headings: "[Some excerpts from Ars Brevis]")
+            title = ""
+        label = clean(title).replace("*", "").strip()
+        lines = ([f"*{label}*"] if label else []) + list(ps)
+        if not ps:                                     # (a heading with nothing under it leads the next)
+            held += lines
+            return
+        out.append(held + lines)
+        held = []
+    walk(t, on)
+    return {str(i + 1): s for i, s in enumerate(out)}
+
+
+def lemegeton() -> None:
+    SUPPLIED["keep"] = True
+    try:
+        books = {"Goetia": goetia(), "Theurgia Goetia": theurgia(),
+                 "Ars Paulina": by_sections("solomon/paulina.htm", "Here Beginneth", "So Endeth the second Part"),
+                 "Ars Almadel": by_sections("solomon/almadel.htm", "Here beginneth the fourth part",
+                                            "So endeth the Booke Almadel")}
+    finally:
+        SUPPLIED["keep"] = False
+    sources = {b: "Lemegeton (Sloane 3825), ed. Joseph H. Peterson" for b in books}
+    books["Ars Notoria"] = notoria()                   # (Turner's printed English: his brackets are glosses)
+    sources["Ars Notoria"] = "trans. Robert Turner (1657)"
+    save("lemegeton", {b: {c: merged(ps) for c, ps in chs.items() if ps} for b, chs in books.items()}, sources)
+
+
+def chapters_at(t: str, starts, first: str = None, skip=lambda title: False) -> dict:
+    """A chapter at each heading `starts` accepts (it may return the chapter's own name, else they're numbered); the
+    other headings are italic lines inside the chapter. Text before the first such heading goes in chapter `first`,
+    or is left out."""
+    chapters = {first: []} if first is not None else {}
+    state = {"chap": first}
+    h = re.search(r"(?i)<h[1-5]\b", t)
+    if first is not None and h:
+        chapters[first].extend(paras(t[:h.start()]))
+
+    def on(level, raw, ps):
+        title = re.sub(r"(?<=[A-Za-z.:\]])\d+$", "", raw).strip()
+        name = starts(title)
+        if name:
+            state["chap"] = name if isinstance(name, str) else str(len([c for c in chapters if c != first]) + 1)
+            expect(state["chap"] not in chapters, f"chapter {state['chap']} twice")
+            chapters[state["chap"]] = []
+        if state["chap"] is None:
+            return
+        label = "" if skip(title) or FIGURE.search(title) else \
+            clean(re.sub(r"^\[(.*)\]\.?$", r"\1", title)).replace("*", "").strip(" .:-")
+        if label and len(label.split()) >= 3 and not english(label):     # (not "THEOREM IX", "APPENDIX I")
+            label = ""
+        chapters[state["chap"]].extend(([f"*{label}*"] if label else []) + list(ps))
+    walk(t, on)
+    return {c: ps for c, ps in chapters.items() if ps}
+
+
+def between(name: str, start: str, stop: str = None, column=False) -> str:
+    t = page(name, column)
+    at = t.find(start)
+    expect(at >= 0, f"{name}: {start!r}")
+    end = t.find(stop, at) if stop else len(t)
+    expect(end > at, f"{name}: {stop!r}")
+    return t[t.rfind("<H", 0, at) if t.rfind("<H", 0, at) > t.rfind(">", 0, at) - 400 else at:end]
+
+
+# ── The Sword of Moses (Gaster, 1896) ──────────────────────────────────────
+# Gaster's translation: its three parts and his two appendices (fragments of the same kind), a chapter each. Where
+# Gaster printed a name in Hebrew letters Peterson writes "X [ABDUHU]": the name, transliterated, is the text.
+
+def sword() -> None:
+    t = between("solomon/sword.htm", "I. The Sword of Moses.")
+    t = re.sub(r"(?is)<em class=pg[^>]*>.*?</em>", " ", t)
+    t = re.sub(r"\bX(?:<SUP>\w+</SUP>)?\s*\[([^\[\]]{1,80})\]", r"\1", t)
+    t = t[:t.rfind('<div id="menu"')] if '<div id="menu"' in t else t
+    chapters = chapters_at(t, lambda title: bool(re.match(r"(?i)(I{1,3}\.|APPENDIX I{1,2}\.)", title)))
+    expect(len(chapters) == 5, f"Sword of Moses: {len(chapters)} parts")
+    save("sword", {"The Sword of Moses": {c: merged(ps) for c, ps in chapters.items()}},
+         {"The Sword of Moses": "trans. Moses Gaster (1896)"})
+
+
+# ── Weyer's Pseudomonarchia Daemonum, in Reginald Scot's English (1584) ─────
+# The right-hand column (the left is Weyer's Latin). "0" Scot's opening, then a spirit a chapter (each entry begins
+# with the spirit's name), then the closing chapters on binding and calling them.
+
+def weyer() -> None:
+    t = between("solomon/weyer.htm", "Salomons notes of conjuration", column=1)
+    t = re.sub(r"(?is)<P>\s*\[(\d+)\]", r"<P>§§\1§§ ", t)          # (Peterson numbers the entries as Weyer does)
+    # (passages Scot left out, which Peterson translated himself, in brackets: not Scot's)
+    t = re.sub(r"(?s)(<P>\s*(?:§§\d+§§\s*)?)\[(?:[^\[\]<]|<[^>]*>|\[[^\[\]]*\])*\](?:\s*<SUP>[^<]*</SUP>)?"
+               r"(?=\s*(?:<|$))", r"\1", t)
+    sections = []
+    walk(t, lambda level, raw, body: sections.append((re.sub(r"(?<=[A-Za-z.\]])\d+$", "", raw).strip(), body)))
+    chapters, current, catalogue = {"0": []}, "0", True
+    for title, body in sections:
+        label = clean(re.sub(r"^\[(.*)\]\.?$", r"\1", title)).replace("*", "").strip(" .:")
+        if re.match(r"(?i)chapter", label):            # (after the catalogue: a chapter at each of Scot's)
+            catalogue = False                          # (numbered on from the last entry)
+            current = str(max(int(c) for c in chapters) + 1)
+            chapters[current] = []
+        if label and english(label) and not re.match(r"(?i)salomons notes|chapter", label):
+            chapters[current].append(f"*{label.capitalize() if label.isupper() else label}*")
+        for p in body:
+            m = re.match(r"§§(\d+)§§\s*(.*)", p, re.S)
+            if m and catalogue:                        # (a spirit's entry)
+                current = m.group(1)
+                expect(current not in chapters, f"Weyer entry {current} twice")
+                chapters[current] = []
+                p = m.group(2)
+            elif m:
+                p = m.group(2)
+            if p:
+                chapters[current].append(p)
+    if "1" not in chapters:                            # (Baëll's entry carries no number: it follows the title)
+        chapters = {"1": chapters.pop("0"), **chapters}
+    entries = [int(c) for c in chapters if c != "0"]
+    expect(len(entries) >= 68, f"Weyer: {len(entries)} entries")
+    save("weyer", {"Pseudomonarchia Daemonum": {c: merged(ps) for c, ps in chapters.items() if ps}},
+         {"Pseudomonarchia Daemonum": "Johann Weyer, trans. Reginald Scot (1584)"})
+
+
+# ── Sepher Raziel: Liber Salomonis (Sloane 3846, ed. Peterson) ─────────────
+# Elizabethan English; its seven books ("treatises"), a chapter each. Its Latin headings with Peterson's English
+# ("De tertia Ala. [The third wing.]") keep the English.
+
+def raziel() -> None:
+    t = between("raziel/raziel.htm", "Liber Salomonis</H1>", "Here beginneth names that be necessary")
+    books = {"first": "1", "secundus": "2", "tertius": "3", "4 booke": "4", "5 booke": "5", "6. booke": "6",
+             "7th booke": "7"}
+
+    def starts(title):
+        if re.match(r"(?i)liber salomonis", title):
+            return "1"
+        for key, n in books.items():
+            if re.search(rf"(?i)\b{re.escape(key)}\b", title) and n != "1" and \
+                    re.match(r"(?i)(liber|here beginneth|heere beginneth)", title):
+                return n
+        return None
+    chapters = chapters_at(t, starts, skip=lambda title: bool(re.match(r"(?i)\[?contents|\[?liber temporum|liber salomonis", title)))
+    expect(list(chapters) == [str(n) for n in range(1, 8)], f"Raziel: {list(chapters)}")
+    SUPPLIED["keep"] = False
+    save("raziel", {"Sepher Raziel": {c: merged(ps) for c, ps in chapters.items()}},
+         {"Sepher Raziel": "Liber Salomonis (Sloane 3846), ed. Joseph H. Peterson"})
+
+
+# ── John Dee ───────────────────────────────────────────────────────────────
+# His English works on the archive: De Heptarchia Mystica (Sloane 3191, his own hand; a chapter at each "Cap."), the
+# Hieroglyphic Monad (Hamilton-Jones's English, 1947; a theorem a chapter) and his Letter... Apologeticall (1599;
+# the letter, then its list of his books and the closing sections). Left out: the Latin works (Tuba Veneris, the
+# invocations), the two earlier drafts of the Heptarchia, and the excerpts from Casaubon's True and Faithful Relation.
+
+def dee() -> None:
+    hm = between("dee/hm.htm", "Liber primus.</H1>")
+    hm = chapters_at(hm, lambda title: (m := re.match(r"(?i)cap(?:ut)?\.?\s*(\d+)", title)) and m.group(1))
+    expect(list(hm) == [str(n) for n in range(1, 8)], f"Heptarchia: {list(hm)}")
+    monad = between("dee/monad.htm", "by Dr. JOHN DEE")
+    monad = chapters_at(monad, lambda title: (m := re.match(r"THEOREM ([IVXL]+)$", title)) and str(roman(m.group(1))))
+    expect(list(monad) == [str(n) for n in range(1, 25)], f"Monad: {list(monad)}")
+    letter = between("dee/aletter.htm", "A LETTER,</H1>")
+    letter = chapters_at(letter, lambda title: not re.match(r"(?i)some, perfectly|iohn dee", title),
+                         skip=lambda title: bool(re.match(r"(?i)a letter,?$", title)))
+    save("dee", {b: {c: merged(ps) for c, ps in chs.items()} for b, chs in
+                 (("De Heptarchia Mystica", hm), ("The Hieroglyphic Monad", monad), ("A Letter Apologeticall", letter))},
+         {"De Heptarchia Mystica": "John Dee (Sloane 3191), ed. Joseph H. Peterson",
+          "The Hieroglyphic Monad": "John Dee, trans. J. W. Hamilton-Jones (1947)",
+          "A Letter Apologeticall": "John Dee (1599)"})
+
+
+BUILDS = {"agrippa": agrippa, "arbatel": arbatel, "heptameron": heptameron, "abramelin": abramelin,
+          "testament": testament, "keyofsolomon": key_of_solomon, "lemegeton": lemegeton, "sword": sword,
+          "weyer": weyer, "raziel": raziel, "dee": dee}
 
 
 def main(names: list) -> None:
