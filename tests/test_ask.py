@@ -137,6 +137,13 @@ def test_a_plan_that_cant_be_had_searches_everywhere(ask, monkeypatch):
     assert ask._plan("anything", []) == {"corpora": ask.CORPORA, "references": [], "searches": []}
 
 
+def test_an_answer_that_ran_out_of_room_ends_on_a_whole_sentence(ask):
+    cut = ("He is a failed student [Sotah 47a].\n\nThe Jerusalem Talmud also tells of healing in his name. "
+           "A grandson of R. Joshua ben Levi")
+    assert ask._to_last_sentence(cut).endswith("healing in his name.")
+    assert ask._to_last_sentence("One [Sotah 47a].\n\nA grandson of") == "One [Sotah 47a]."
+
+
 def test_without_a_key_it_cannot_reach_the_api(ask):
     with pytest.raises(RuntimeError):
         ask._ask_claude(ask.SYSTEM, [{"role": "user", "content": "hello"}])

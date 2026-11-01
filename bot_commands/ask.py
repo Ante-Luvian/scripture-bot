@@ -393,7 +393,9 @@ them; give the author's view, not your own, and don't preach.
 - At most 220 words. Discord markdown: *italics* for titles, no headings, no tables."""
 
 
-def _ask_claude(system: str, messages: list, max_tokens: int = 2000) -> str:
+def _ask_claude(system: str, messages: list, max_tokens: int = 3500) -> str:
+    """The reply's text. (Room for its thinking as well: on the Talmud and Jesus it thought for 1,602 tokens of 2,000
+    and stopped mid-sentence. Only what's used is paid for.)"""
     key = os.environ.get("ANTHROPIC_API_KEY")
     if not key:
         raise RuntimeError("no ANTHROPIC_API_KEY")
@@ -407,7 +409,21 @@ def _ask_claude(system: str, messages: list, max_tokens: int = 2000) -> str:
              f"blocks {[p.get('type') for p in reply.get('content', [])]}, {len(text)} chars")
     if not text.strip():
         raise RuntimeError(f"no text in the reply (stop: {reply.get('stop_reason')})")
+    if reply.get("stop_reason") == "max_tokens":
+        text = _to_last_sentence(text)
     return text
+
+
+def _to_last_sentence(text: str) -> str:
+    """A reply that ran out of room, cut back to its last whole sentence (not "A grandson of R. Joshua ben Levi")."""
+    paragraphs = text.rstrip().split("\n")
+    last = paragraphs[-1]
+    ends = list(re.finditer(r"(?<=[a-z0-9\])\"'”’])[.!?][\"'”’)\]]*(?=\s|$)", last))   # (not "R." or "St.")
+    if ends:
+        paragraphs[-1] = last[:ends[-1].end()]
+    else:
+        paragraphs.pop()                                     # (no sentence finished in it: the paragraph goes)
+    return "\n".join(paragraphs).rstrip()
 
 
 def _messages(question: str, passages: list, history: list, asking: str = "") -> list:
