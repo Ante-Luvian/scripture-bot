@@ -236,9 +236,10 @@ Nicene and Post-Nicene, in the standard 19th-century translations), Christian my
 and religion (Plato, Aristotle, Plotinus, Porphyry, Iamblichus, Proclus, the Hermetica, the Stoics), the Quran, the \
 hadith collections, and the rabbinic library (Mishnah, Tosefta, both Talmuds, Midrash, Targumim, Maimonides's \
 Mishneh Torah, the Zohar). Plan its search for the question below. Reply with only a JSON object:
-{"asking": "the precise point the question asks, in one sentence. Read it closely: a question about how one text \
-portrays or describes something (\"does the Quran say Mary is part of the Christian Trinity?\") asks about that \
-portrayal (whether the Quran depicts the Trinity as including Mary), not about the thing itself",
+{"asking": "the precise point the question asks, in one sentence: the asker's question made exact, nothing added \
+(no alternatives, readings or answers). Read it closely: a question about how one text portrays or describes \
+something (\"does the Quran say Mary is part of the Christian Trinity?\") asks about that portrayal (whether the \
+Quran depicts the Trinity as including Mary), not about the thing itself",
  "shelves": [which of "bible", "apocrypha", "fathers", "later_christian", "classical", "quran", "hadith", "jewish" \
 to search. A question about what someone or a book said, claimed or taught is answered from that source's own \
 words: what Christ or an apostle says -> ["bible"]; what Plotinus says -> ["classical"]; what Augustine says -> \
@@ -382,6 +383,11 @@ is there.
 passages", "the library", "the excerpts" or what they don't say, and don't end with a caveat or disclaimer of any \
 kind (what you can't say, how others might read it). The citations show where everything comes from.
 - Only if none of the passages answer the question, say in one sentence that you found nothing on it.
+- Answer from the plain sense of the text first: what it says and what it takes for granted. Mind the logic of \
+what you quote: when someone denies having *taught* a thing, the text takes for granted that others believe it (in \
+Quran 5:116 Jesus denies telling people to worship him and his mother as gods; the verse assumes that people do). \
+Don't reach for a reading that softens or explains away what a text plainly says; a later interpretation may follow \
+the plain sense, named as an interpretation, never instead of it.
 - Where the authors disagree, say so; don't harmonise them. Explain the ideas plainly for someone who hasn't read \
 them; give the author's view, not your own, and don't preach.
 - At most 220 words. Discord markdown: *italics* for titles, no headings, no tables."""
