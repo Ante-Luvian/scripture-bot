@@ -37,6 +37,12 @@ LOCAL_DIR   = Path(__file__).resolve().parent / "data" / "hadith"   # (scripts/f
 _LOCAL: dict = {}                                                    # collection key -> {number: text}
 
 
+def _tidy(raw) -> str:
+    """A hadith's text without its markup, and words the source ran together split ("asYou blessed", "theWorlds")."""
+    from corpus_clean import split_joined
+    return split_joined(re.sub(r"<[^>]+>", "", str(raw or "")).strip(), frozenset())
+
+
 def local_collection(collection_key: str) -> dict:
     """{hadith number: text} from the downloaded collection, or {} if it isn't there."""
     if collection_key not in _LOCAL:
@@ -45,7 +51,7 @@ def local_collection(collection_key: str) -> dict:
         if path.exists():
             try:
                 for h in json.loads(path.read_text(encoding="utf-8")).get("hadiths", []):
-                    text = re.sub(r"<[^>]+>", "", str(h.get("text") or "")).strip()
+                    text = _tidy(h.get("text") or "")
                     if text and isinstance(h.get("hadithnumber"), (int, float)):
                         found.setdefault(int(h["hadithnumber"]), text)
             except (ValueError, OSError):
@@ -242,7 +248,7 @@ def fetch_hadith(collection_key: str, number: int) -> dict:
 
     cached_text = _COLLECTION_CACHE.get(per_hadith_key)
     if cached_text:
-        text = re.sub(r"<[^>]+>", "", str(cached_text)).strip()
+        text = _tidy(cached_text)
         if text:
             return {
                 "found": True,
@@ -286,7 +292,7 @@ def fetch_hadith(collection_key: str, number: int) -> dict:
 
         entry = next((h for h in hadiths if h.get("hadithnumber") == number), None)
         if entry:
-            text = re.sub(r"<[^>]+>", "", str(entry.get("text") or "")).strip()
+            text = _tidy(entry.get("text") or "")
             if text:
                 return {
                     "found": True,
@@ -334,7 +340,7 @@ def get_hadith_section(collection_key: str, section: int) -> dict | None:
     section_name = (meta.get("section") or {}).get(str(section), "")
     items = []
     for h in hadiths:
-        text = re.sub(r"<[^>]+>", "", str(h.get("text") or "")).strip()
+        text = _tidy(h.get("text") or "")
         if text:
             items.append((h.get("hadithnumber"), text))
     if not items:

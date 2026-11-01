@@ -168,6 +168,46 @@ def greek_from_tertullian(text: str) -> str:
     return _TERT_TOKEN.sub(swap, text)
 
 
+# Two words run together where a line break was lost ("theWorlds", "ofPetavium", "draughtThose"): split where one
+# side is one of the commonest English words, so a transliteration ("arRahman", "rahmatAllahi") or Old English
+# ("petRes") is left as it is. Not in the files that spell another script in capitals and small letters.
+_COMMON = ("the of and to in that as from for be by with is was his her their all which this they them he she it "
+           "we you your our my thy thee thou unto upon not but or so are were had have has who whom when where what "
+           "then than there these those said also only into among one two three let shall will would may might can "
+           "could do did no nor now how why its an at on if").split()
+_JOINED_LEFT = re.compile(r"(?<![\w'’\-])(" + "|".join(_COMMON) + r")([A-Z][a-z]{2,})\b")
+_JOINED_RIGHT = re.compile(r"(?<![\w'’\-])([a-z]{3,})(" + "|".join(w.capitalize() for w in _COMMON) + r")\b")
+JOINED_EXEMPT = re.compile(r"^(ancient_near_east/leiden_hymns\.json|english/.*|arthurian/middle_english\.json|"
+                           r"oe\.json|.*/New folder/.*)$")
+_VOCAB = {"words": frozenset()}         # (the words of the file being cleaned: clean_corpus sets it)
+
+
+def split_joined(text: str, vocab=None) -> str:
+    """ "theWorlds" -> "the Worlds"; but "ofFering", "beAuteous" (a capital the OCR put inside one word, where the
+    book has "offering", "beauteous" elsewhere) -> the word."""
+    vocab = _VOCAB["words"] if vocab is None else vocab
+
+    def one(m):
+        whole = m.group(1) + m.group(2)
+        if len(m.group(2)) == 2 and m.group(1) in _COMMON:    # ("Pater te theOn te": Greek, not "the On")
+            return whole
+        return whole.lower() if whole.lower() in vocab else f"{m.group(1)} {m.group(2)}"
+    return _JOINED_RIGHT.sub(one, _JOINED_LEFT.sub(one, text))
+
+
+def _words_of(payload: dict) -> frozenset:
+    out = set()
+
+    def walk(node):
+        if isinstance(node, str):
+            out.update(re.findall(r"(?<![\w'’])[a-z]{4,}\b", node))
+        elif isinstance(node, dict):
+            for v in node.values():
+                walk(v)
+    walk(payload.get("books", {}))
+    return frozenset(out)
+
+
 def clean_text(text: str, rel: str) -> str:
     before = None
     while before != text:                               # "&amp;gt;" -> "&gt;" -> ">"
@@ -188,6 +228,8 @@ def clean_text(text: str, rel: str) -> str:
     text = re.sub(r"(\w)~ (\w)", r"\1\2", text)          # a broken hyphenation: "recog~ nised"
     text = re.sub(r"[ \t]*\}\}-->[ \t]*", " ", text).strip()    # the end of an HTML comment (NewAdvent)
     text = re.sub(r"\[\[([^\[\]\n]*)\]\]", r"[\1]", text)        # "[[Greek: aktines]]"
+    if not JOINED_EXEMPT.match(rel):
+        text = split_joined(text)
     return _unpaired_stars(text)
 
 
@@ -213,6 +255,7 @@ def clean_corpus(payload: dict, rel: str) -> int:
     """Clean one loaded corpus file in place; returns how many verses changed or went."""
     rel = rel.replace("\\", "/")
     changed = 0
+    _VOCAB["words"] = _words_of(payload)
     for book, chapters in payload.get("books", {}).items():
         for (b, ch, v, cut) in ENDS.get(rel, []):
             if b != book or ch not in chapters:

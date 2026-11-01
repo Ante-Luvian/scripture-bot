@@ -18,6 +18,7 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT))
 import summa_lookup as sl  # noqa: E402
+from corpus_clean import split_joined  # noqa: E402
 
 CACHE = ROOT / "scripts" / ".cache" / "summa"
 OUT = ROOT / "data" / "summa.json"
@@ -50,7 +51,7 @@ def article_text(art: dict) -> str:
         parts.append("I answer that, " + art["i_answer_that"])
     parts += art["replies"]
     text = "\n\n".join(re.sub(r"\s+", " ", p.replace("**", "")).strip() for p in parts if p.strip())
-    return text
+    return split_joined(text, frozenset())                  # ("toYou", "theWorlds": words run together)
 
 
 def main() -> None:

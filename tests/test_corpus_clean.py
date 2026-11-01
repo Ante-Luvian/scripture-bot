@@ -173,3 +173,18 @@ def test_a_number_is_not_a_theme(lookup):
 def test_a_theme_word_finds_its_forms_not_every_word_it_starts(lookup, word, finds, skips):
     pattern = re.compile(lookup.word_regex(word), re.IGNORECASE)
     assert all(pattern.fullmatch(w) for w in finds) and not any(pattern.fullmatch(w) for w in skips)
+
+
+@pytest.mark.parametrize("before, after", [
+    ("the name ofDesperation;", "the name of Desperation;"),          # (a word run into a name)
+    ("drink the Soma draughtThose, Indra,", "drink the Soma draught Those, Indra,"),
+    ("as related in theAlambusa Birth", "as related in the Alambusa Birth"),
+    ("devout and ofFering precious gifts", "devout and offering precious gifts"),   # (one word, an OCR capital)
+    ("Pater te theOn te.", "Pater te theOn te."),                     # (Greek in Latin letters: not "the On")
+    ("wa barik 'alaMuhammad", "wa barik 'alaMuhammad"),               # (a transliteration)
+    ("from Yahya ibn Said and Rabia ibn Abi Abd arRahman", "from Yahya ibn Said and Rabia ibn Abi Abd arRahman"),
+    ("petRes", "petRes"),
+])
+def test_words_run_together_are_split(before, after):
+    import corpus_clean
+    assert corpus_clean.split_joined(before, frozenset({"offering"})) == after
