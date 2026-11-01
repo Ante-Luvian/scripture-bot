@@ -860,6 +860,14 @@ ALIASES: dict[str, str] = {
     "catonis disticha": "Distichs of Cato",
     "varro": "On Farming", "de re rustica": "On Farming", "res rusticae": "On Farming",
     "rerum rusticarum": "On Farming", "varro on farming": "On Farming",
+    # magic and esotericism (data/esoteric)
+    "agrippa": "Three Books of Occult Philosophy", "occult philosophy": "Three Books of Occult Philosophy",
+    "de occulta philosophia": "Three Books of Occult Philosophy", "three books": "Three Books of Occult Philosophy",
+    "fourth book": "Fourth Book of Occult Philosophy", "agrippa's fourth book": "Fourth Book of Occult Philosophy",
+    "arbatel": "Arbatel of Magic", "arbatel de magia veterum": "Arbatel of Magic",
+    "abramelin": "The Book of Abramelin", "book of abramelin": "The Book of Abramelin",
+    "sacred magic of abramelin": "The Book of Abramelin", "abra-melin": "The Book of Abramelin",
+    "heptameron": "Heptameron", "magical elements": "Heptameron", "peter de abano": "Heptameron",
     # the author's name alone, in any of its forms, is his main work here
     "ptolemy": "Tetrabiblos", "claudius ptolemy": "Tetrabiblos", "claudius ptolemaeus": "Tetrabiblos",
     "ptolemaeus": "Tetrabiblos", "claudius ptolemy tetrabiblos": "Tetrabiblos",
@@ -1741,8 +1749,12 @@ TRADITIONS = {
     "mesoamerican": ("🌽 Mesoamerican", ("mesoamerican",)),
     "bahai":     ("🌍 Baháʼí", ("bahai",)),
     "lds":       ("📯 Latter-day Saint", ("lds",)),
+    # opt-in: a server has it only once it switches it on (core.OPT_IN_TRADITIONS)
+    "esoteric":  ("🔮 Magic & Esotericism", ("esoteric",)),
 }
 TRADITION_ALIASES = {
+    "magic": "esoteric", "occult": "esoteric", "grimoires": "esoteric", "grimoire": "esoteric",
+    "esotericism": "esoteric", "hermeticism": "esoteric", "renaissance magic": "esoteric",
     "christianity": "christian", "church": "christian", "fathers": "christian", "patristic": "christian",
     "judaism": "jewish", "islam": "islamic", "muslim": "islamic", "quran": "islamic",
     "hinduism": "hindu", "dharmic": "hindu", "vedic": "hindu", "buddhism": "buddhist",
@@ -1812,7 +1824,7 @@ def _tagged(result, key: str):
     return result
 
 
-CORPUS_PRIORITY = ["kjv", "lds", "brenton", "charles", "nt_apocrypha", "apostolic_fathers", "quran", "classical", "jewish", "bahai", "qumran", "gnostic", "dharmic", "buddhist", "chinese", "sufi", "sikh", "jain", "shinto", "zoroastrian", "mesoamerican", "finnish", "celtic", "norse", "ancient_near_east", "patristics", "medieval", "reformation", "ballads", "arthurian", "english", "shakespeare"]
+CORPUS_PRIORITY = ["kjv", "lds", "brenton", "charles", "nt_apocrypha", "apostolic_fathers", "quran", "classical", "jewish", "bahai", "qumran", "gnostic", "dharmic", "buddhist", "chinese", "sufi", "sikh", "jain", "shinto", "zoroastrian", "mesoamerican", "finnish", "celtic", "norse", "ancient_near_east", "patristics", "medieval", "reformation", "ballads", "arthurian", "english", "shakespeare", "esoteric"]
 
 
 # Shepherd of Hermas: (first, last) Lightfoot continuous chapter of each
@@ -2059,6 +2071,8 @@ class ScriptureLookup:
             ],
             # the plays and poems, the Folger text, cited by act.scene.line (scripts/build_shakespeare.py)
             "shakespeare": ["shakespeare.json"],
+            # magic and esotericism: Peterson's transcriptions (scripts/build_esoteric.py); an opt-in tradition
+            "esoteric": ["agrippa.json", "arbatel.json", "heptameron.json", "abramelin.json"],
             "ballads": ["child.json",            # Child's ballads (scripts/build_child.py)
                         "grimm.json",             # the Grimms' tales, Hunt (scripts/build_grimm.py)
                         "la_fontaine.json",       # Thornbury (scripts/build_fables.py)
@@ -2990,6 +3004,7 @@ class ScriptureLookup:
             "english":          "Medieval English poetry",
             "shakespeare":      "Folger edition",
             "ancient_near_east":          "Ancient Near Eastern Texts",
+            "esoteric":         "Magic & Esotericism",
         }
 
         # Determine source string — prefer per-book source, fall back to corpus map
@@ -3157,6 +3172,7 @@ class ScriptureLookup:
             "medieval":         "📜 Medieval",
             "reformation":      "✝️ Reformation",
             "shakespeare":      "🎭 Shakespeare",
+            "esoteric":         "🔮 Magic & Esotericism",
         }
 
         by_corpus: dict[str, list[dict]] = {}

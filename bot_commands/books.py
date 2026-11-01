@@ -951,6 +951,10 @@ BOOKS_TREE = [
             "Manichaean Psalms (Separate)",
         ]),
     ]),
+    ("🔮 Magic & Esotericism", [
+        ("Agrippa", ["Three Books of Occult Philosophy", "Fourth Book of Occult Philosophy"]),
+        ("The grimoires", ["Arbatel of Magic", "Heptameron", "The Book of Abramelin"]),
+    ]),
     ("🌲 Norse", [
         ("Poetic Edda", [
             "Voluspo", "Hovamol", "Vafthruthnismol", "Grimnismol", "Skirnismol",
@@ -1514,8 +1518,8 @@ _SUPERGROUP_ORDER = [
         "✡️ Rabbinic & Kabbalistic", "🏛️ Hellenistic Judaism", "🏺 Dead Sea Scrolls",
     ]),
     ("☪️ Islam & Bahá'í", ["☪️ Islamic", "🌍 Bahá'í"]),
-    ("🧿 Near East & Gnostic", ["🧿 Gnostic", "🌙 Ancient Near East", "🔥 Zoroastrian"]),
-    ("🏛️ Classical", ["🏛️ Classical"]),
+    ("🧿 Gnostic & Esoteric", ["🧿 Gnostic", "🔮 Magic & Esotericism"]),
+    ("🏛️ Classical", ["🏛️ Classical", "🌙 Ancient Near East", "🔥 Zoroastrian"]),
     ("🪷 Dharmic & Asian", [
         "☸️ Dharmic", "☸️ Buddhist", "🤚 Jain", "🪯 Sikh", "☯️ Chinese Classics", "⛩️ Shinto",
     ]),

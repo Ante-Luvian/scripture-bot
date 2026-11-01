@@ -19,6 +19,8 @@ import urllib.request
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
+sys.path.insert(0, str(ROOT))
+from corpus_clean import clean_corpus  # noqa: E402
 CACHE = ROOT / "scripts" / ".cache" / "esoteric"
 OUT = ROOT / "data" / "esoteric"
 BASE = "https://www.esotericarchives.com/"
@@ -178,11 +180,19 @@ def english_of(verse: str) -> str:
     return (head + "\n" if head else "") + m.group(1).strip()
 
 
+def footnote_free(verse: str) -> str:
+    """A footnote number left on an italic heading ("*…reigning on Friday.3*"): gone; and "* Sarabotes *, King"
+    (italics with spaces inside, which the cleaner would unwrap to "Sarabotes , King") closed up."""
+    verse = re.sub(r"(?<!\S)\*[ \t]+([^*\n]+?)[ \t]+\*(?!\w)", r"*\1*", verse)   # (not "*a* and *b*")
+    return re.sub(r"(?m)^(\*[^\n*]*[a-z][.)]?)\d{1,2}\*", r"\1*", verse)
+
+
 def save(name: str, books: dict, sources: dict) -> None:
     OUT.mkdir(parents=True, exist_ok=True)
-    books = {b: {c: {v: english_of(t) for v, t in vs.items()} for c, vs in chs.items()} for b, chs in books.items()}
-    payload = {"source": "esotericarchives.com transcriptions", "books": books, "book_sources": sources}
-    payload["source"] = next(iter(sources.values()))
+    books = {b: {c: {v: footnote_free(english_of(t)) for v, t in vs.items()} for c, vs in chs.items()}
+             for b, chs in books.items()}
+    payload = {"source": next(iter(sources.values())), "books": books, "book_sources": sources}
+    clean_corpus(payload, f"esoteric/{name}.json")       # (the library's own cleaner: nothing left for it to do later)
     (OUT / f"{name}.json").write_text(json.dumps(payload, ensure_ascii=False, indent=1), encoding="utf-8")
     for book, chapters in books.items():
         words = sum(len(v.split()) for c in chapters.values() for v in c.values())

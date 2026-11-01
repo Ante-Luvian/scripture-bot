@@ -51,6 +51,8 @@ Many of my answers come with buttons underneath. Under a Bible verse you'll see 
 
 <!-- pack: comparative -->**Further afield** — eight works of the **Bahá'í** faith, including the Kitáb-i-Aqdas; the Norse **Poetic Edda**; and the **ancient Near East**: the Epic of Gilgamesh, the Babylonian creation epic **Enuma Elish** (`!verse Enuma Elish 4`), the Canaanite Baal Cycle, the Egyptian Book of the Dead and Hymn to the Aten, the Wisdom of Ahikar, and the pre-Islamic Arabic Mu'allaqat poems.
 
+<!-- texts: esoteric -->**Magic & esotericism** — the classic books of Western ritual magic, in their old English translations: **Agrippa**'s *Three Books of Occult Philosophy* (1651), the Renaissance handbook of natural, celestial and ceremonial magic (`!verse agrippa 1.2` asks what magic is), and the *Fourth Book* ascribed to him; ***Arbatel***, 49 aphorisms on angelic magic; the ***Heptameron*** of Peter of Abano, its circles and the angels of each day; and ***The Book of Abramelin***, the year-and-a-half ritual for meeting one's guardian angel. A server that chose its own traditions switches this on with `!packs esoteric on`.
+
 Browse all of it with `!books`, or let me pick something at random with `!discover`.
 
 ## 📜 My library: the Middle Ages
