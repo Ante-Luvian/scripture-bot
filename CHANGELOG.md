@@ -14,6 +14,37 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-11-01 · Asking the library: better answers, the Catholic shelf, and cleaner texts
+- 🧠 **Asking the library now uses a stronger AI model.** (That's the feature where you mention the bot with a question in a channel an admin opened with `!asksetup`, and it answers from the library's own texts.) The answers are more careful and keep closer to the question.
+- 🔮 **It now searches the magic and Gnostic books.** Before, it only looked in the Bible, the Christian writers, the Greek and Roman classics, the Quran, the hadith and the Jewish texts. So a question about magic could only be answered with what the Bible says against it (Deuteronomy). Now a question about how a ritual, spell, spirit or horoscope works is answered from the magical books themselves.
+- 🗂️ **You can tell it where to look.** Say so in the question: "according to the grimoires…", "what do the magical books say about…", "in the Gnostic texts…". It searches only there.
+- ⛪ **Catholic questions get Catholic answers.** Ask about "the Catholic Church" or "the magisterium" and it now searches the Catechism of the Catholic Church, the Code of Canon Law and all of Aquinas's *Summa Theologica* (the great 13th-century summary of Catholic theology), along with the Church Fathers. Before, it quoted Protestant documents (Luther's catechism, the Westminster catechism) as if they were Catholic teaching. Questions about one church's teaching now keep to that church's own writers.
+- 📎 **The answer's footer tells you how to open each source:** `!ccc` for the Catechism, `!canon` for canon law, `!summa` for the Summa, `!verse` for everything else. `!ccc CCC 2185` and `!canon Canon 1247` now work, typed just as an answer cites them.
+- 🛠️ **`!summa` fixed.** The website it reads from changed, and three things broke. `!summa random` failed. Every reply to an objection was shown a second time as an extra objection. And the last article of each question ran on into the website's copyright notice. All fixed. Supplement articles are now cited "ST Supp.12.2", not "ST Supp..12.2".
+- ⚖️ **Canon law reads properly.** Words with "ff" or "fi" in them came out garbled ("works and aVairs" for *works and affairs*, "ofWce" for *office*), and every section sign showed as "Â§". Fixed throughout.
+- 🧹 **Cleaner texts across the library.** Around 5,000 passages, mostly in the Church Fathers, lost leftovers from the websites and scans they came from:
+  - stray page numbers ("the rich man and the |20 beggar");
+  - footnote numbers ("his covenant in my mouth 6 .");
+  - misread letters ("wTere" for *were*, "aIl" for *all*);
+  - words run together ("theWorlds");
+  - footnotes glued into the text.
+  
+  Greek that was stored as old font code in Calvin and the Book of Concord now shows as Greek: "φιλαυτία καὶ φιλονεικία".
+
+## 2026-11-01 · More magic: the Solomonic books, the Goetia, John Dee, an Egyptian papyrus, and Zosimus
+The 🔮 Magic & Esotericism shelf (in `!books`, under 🧿 Gnostic & Esoteric) has grown from 5 books to over 20.
+- ✅ **No switch needed.** The last update said servers that chose their own traditions had to turn this shelf on with `!packs esoteric on`. That's no longer so. These books now come with the Gnostic texts, so every server that shows the Gnostic texts has them too.
+- 👑 **Solomonic Literature: the books said to be King Solomon's.**
+  - ***The Key of Solomon***, the most famous grimoire (a magician's handbook), with its pentacles (magical seals). Try `!verse key of solomon 1.18`.
+  - ***The Lesser Key of Solomon***, in its five parts. The **Goetia** catalogues 72 spirits, one per chapter, so `!verse goetia 1` is Bael, the first. Then come the **Theurgia Goetia** (the spirits of the air), the **Ars Paulina** (angels of the hours), the **Ars Almadel** and the **Ars Notoria** (prayers to gain learning).
+  - The ancient ***Testament of Solomon***, in which Solomon commands demons with a ring given by the archangel Michael. Try `!verse testament of solomon 5`.
+- 📜 **More grimoires.** ***Sepher Raziel***, the book the angel Raziel gave Adam (`!verse raziel 3`). The ***Sword of Moses***, a Hebrew book of divine names (`!verse sword of moses 1`). And Johann Weyer's ***Pseudomonarchia Daemonum***, a 16th-century catalogue of demons, in Reginald Scot's English of 1584 (`!verse pseudomonarchia 2`).
+- 🔭 **John Dee**, Queen Elizabeth I's astrologer, who spent years recording conversations with angels. Here are his ***Heptarchia Mystica*** (his handbook for calling the angels), ***The Hieroglyphic Monad*** (his mysterious symbol, explained in 24 theorems: `!verse monad 1`) and his ***Letter*** defending himself against the charge of conjuring.
+- 🏺 ***The Demotic Magical Papyrus of London and Leiden***: a real Egyptian magician's handbook from the 3rd century AD. It holds spells for seeing visions in a bowl of water or a lamp flame, love spells, and cures, in the English of 1904. It's arranged by column and line of the papyrus, so `!verse demotic papyrus 2:1` is column 2, line 1. The back of the papyrus is a separate book: `!verse demotic papyrus verso 1:1`.
+- 🌌 **Swedenborg and the astrology books have moved here.** Emanuel Swedenborg's visions of heaven, hell and the spirit world, and William Lilly's and Sepharial's astrology, were filed with the Christian writers. They now sit on this shelf (`!verse heaven and hell 1`).
+- 🏛️ **Zosimus's *New History***, under 🏛️ Classical → Late Roman History. A pagan historian's account of the Roman Empire up to the sack of Rome in 410. He blamed its decline on its turn away from the old gods. The English is from 1814: `!verse zosimus 1:1`.
+- 🔤 **Tidier `!books` names.** Groups are now named in title case: "Solomonic Literature", "Grimoires", "Arthurian Legend", "Folk Tales & Ballads".
+
 ## 2026-11-01 · New shelf: Magic & Esotericism (Agrippa and the grimoires)
 The library has a new section for the Renaissance magical tradition. These are the books that learned Europeans of the 1500s and 1600s read on ritual magic, the hidden powers of nature, and calling on angels and spirits. All of them are in their old English translations. Browse them with `!books`, under 🧿 Gnostic & Esoteric → 🔮 Magic & Esotericism.
 - 📚 **Agrippa's *Three Books of Occult Philosophy*** (1533), complete in the English translation of 1651. Heinrich Cornelius Agrippa set out to show that magic, rightly understood, is a branch of philosophy. His first book covers the hidden ("occult") powers in stones, plants and animals. The second covers numbers, the stars and the harmony of the heavens. The third covers religion, angels and the divine names. It is the great reference book of Western magic. Try `!verse agrippa 1.2` (Agrippa's own answer to "What is magic?"). `!verse occult philosophy 2.1` and `!verse agrippa 3.1` work too.
