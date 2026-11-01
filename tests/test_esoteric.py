@@ -75,3 +75,11 @@ def test_picos_oration(lookup):
     corpus, name = lookup._resolve_book("Oration on the Dignity of Man")
     last = list(lookup._data[corpus][name].values())[-1]
     assert next(iter(last.values())).endswith("join battle.") and "---" not in str(lookup._data[corpus][name])
+
+
+def test_meads_mithraic_ritual(lookup):
+    r = lookup.get_verse("mithras liturgy 2:1")
+    assert r["found"] and "O Primal Origin of my origination" in r["text"]
+    corpus, name = lookup._resolve_book("A Mithraic Ritual")
+    assert list(lookup._data[corpus][name]) == [str(i) for i in range(14)]
+    assert not re.search(r"\{\d+\}|pt'>|Father'S|\*\s+\*", str(lookup._data[corpus][name]))

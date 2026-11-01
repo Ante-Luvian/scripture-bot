@@ -963,7 +963,7 @@ BOOKS_TREE = [
         ("Grimoires", ["Arbatel of Magic", "Heptameron", "The Book of Abramelin", "Sepher Raziel",
                            "The Sword of Moses", "Pseudomonarchia Daemonum"]),
         ("John Dee", ["De Heptarchia Mystica", "The Hieroglyphic Monad", "A Letter Apologeticall"]),
-        ("Magical Papyri", ["The Demotic Magical Papyrus", "The Demotic Magical Papyrus, Verso"]),
+        ("Magical Papyri", ["The Demotic Magical Papyrus", "The Demotic Magical Papyrus, Verso", "A Mithraic Ritual"]),
         # (moved from the Christian shelves, 2026-11-01, at the owner's word)
         ("Astrology", [
             ("William Lilly", ["Lilly's Introduction to Astrology", "Lilly's Introduction to Astrology, Appendix"]),
