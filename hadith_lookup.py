@@ -39,8 +39,8 @@ _LOCAL: dict = {}                                                    # collectio
 
 def _tidy(raw) -> str:
     """A hadith's text without its markup, and words the source ran together split ("asYou blessed", "theWorlds")."""
-    from corpus_clean import split_joined
-    return split_joined(re.sub(r"<[^>]+>", "", str(raw or "")).strip(), frozenset())
+    from corpus_clean import ocr_words, split_joined
+    return split_joined(ocr_words(re.sub(r"<[^>]+>", "", str(raw or "")).strip()), frozenset())
 
 
 def local_collection(collection_key: str) -> dict:

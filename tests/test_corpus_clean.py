@@ -106,9 +106,10 @@ def test_the_marker_check_catches_one():
 def test_cleaning_is_already_done():
     """Re-running the cleaner changes nothing (rebuild a corpus? run scripts/clean_corpora.py after)."""
     pytest.importorskip("beta_code")
-    from corpus_clean import clean_corpus
-    dirty = [path.name for path, payload in _corpus_files()
-             if clean_corpus(payload, path.relative_to(ROOT / "data").as_posix())]
+    import sys
+    sys.path.insert(0, str(ROOT / "scripts"))
+    import clean_corpora                                # (in parallel, as the script runs: a quarter the time)
+    dirty = [path.name for path in clean_corpora.clean_all(dry=True)]
     assert not dirty, dirty
 
 
@@ -188,3 +189,48 @@ def test_a_theme_word_finds_its_forms_not_every_word_it_starts(lookup, word, fin
 def test_words_run_together_are_split(before, after):
     import corpus_clean
     assert corpus_clean.split_joined(before, frozenset({"offering"})) == after
+
+
+@pytest.mark.parametrize("before, after", [
+    ("when his men wTere earnestly trying", "when his men were earnestly trying"),
+    ("These motion aIl are stopped", "These motion all are stopped"),
+    ("Like oxen smitten to the groundCollapsing, in a heap", "Like oxen smitten to the ground Collapsing, in a heap"),
+    ("the savage form of lionsIbid., and fashioned", "the savage form of lions, and fashioned"),
+    ("making the stalCthat gives the meath", "making the stalk that gives the meath"),
+    ("parechonti plousiOs panta", "parechonti plousiOs panta"),                 # (a transliteration: left)
+])
+def test_ocr_misreadings(before, after):
+    import corpus_clean
+    assert corpus_clean.ocr_words(before) == after
+
+
+def test_latimers_footnotes_come_off_his_words():
+    import corpus_clean
+    fix = lambda t: corpus_clean.clean_text(t, "reformation/latimer.json")
+    assert fix("Nay, they should as soon have this wesantWind-pipe.").endswith("have this wesant.")
+    assert fix("to sin, to hate his evenFellow-Christian.").endswith("to hate his even Christian.")
+
+
+@pytest.mark.parametrize("rel, before, after", [
+    ("patristics/jerome.json", "is the habit of Holy |130 Scripture to set", "is the habit of Holy Scripture to set"),
+    ("patristics/jerome.json", "he had suffered unmerited punishment. |54", "he had suffered unmerited punishment."),
+    ("patristics/cyril_of_alexandria.json", "Christ, the Holy One of God 9 .", "Christ, the Holy One of God."),
+    ("patristics/severus_of_antioch.json", "art in the way with him» 608 . The", "art in the way with him». The"),
+    ("patristics/chrysostom.json", "Ver. 35 . By this shall", "Ver. 35 . By this shall"),          # (left alone)
+    ("patristics/chrysostom.json", "at the pool John 5 , and they had", "at the pool John 5 , and they had"),
+    ("patristics/augustine.json", "a third day. [ John 11:6, 39 ]", "a third day. [ John 11:6, 39 ]"),
+    ("patristics/gregory_the_great.json", "in the year 553 . After", "in the year 553 . After"),
+    ("reformation/calvin.json", "ambition, filautiva kai; filoneikiva, under", "ambition, φιλαυτία καὶ φιλονεικία, under"),
+    ("reformation/book_of_concord.json", "called ajpievnai pro; tw’n musthrivwn, departing",
+     "called ἀπιέναι πρὸ τῶν μυστηρίων, departing"),
+    ("patristics/photius.json", "as ambassador to Assyria 3 had been confirmed", "as ambassador to Assyria had been confirmed"),
+])
+def test_tertullian_org_leftovers_and_font_greek(rel, before, after):
+    import corpus_clean
+    assert corpus_clean.clean_text(before, rel) == after
+
+
+def test_a_table_keeps_its_pipes():
+    import corpus_clean
+    line = "Sidereal|10 |11 |12 | Ascen.| 2 | 3 |Side"
+    assert corpus_clean.page_marks_out(line) == line
