@@ -884,6 +884,12 @@ ALIASES: dict[str, str] = {
     "monad": "The Hieroglyphic Monad", "hieroglyphic monad": "The Hieroglyphic Monad",
     "monas hieroglyphica": "The Hieroglyphic Monad", "dee's letter": "A Letter Apologeticall",
     "letter apologeticall": "A Letter Apologeticall",
+    "demotic magical papyrus": "The Demotic Magical Papyrus", "demotic papyrus": "The Demotic Magical Papyrus",
+    "magical papyrus": "The Demotic Magical Papyrus", "leiden papyrus": "The Demotic Magical Papyrus",
+    "leyden papyrus": "The Demotic Magical Papyrus", "papyrus of london and leiden": "The Demotic Magical Papyrus",
+    "demotic papyrus verso": "The Demotic Magical Papyrus, Verso",
+    "demotic magical papyrus verso": "The Demotic Magical Papyrus, Verso",
+    "magical papyrus verso": "The Demotic Magical Papyrus, Verso",
     # the author's name alone, in any of its forms, is his main work here
     "ptolemy": "Tetrabiblos", "claudius ptolemy": "Tetrabiblos", "claudius ptolemaeus": "Tetrabiblos",
     "ptolemaeus": "Tetrabiblos", "claudius ptolemy tetrabiblos": "Tetrabiblos",
@@ -2089,6 +2095,7 @@ class ScriptureLookup:
             # magic and esotericism: Peterson's transcriptions (scripts/build_esoteric.py); an opt-in tradition
             "esoteric": ["agrippa.json", "arbatel.json", "heptameron.json", "abramelin.json", "keyofsolomon.json",
                          "lemegeton.json", "testament.json", "sword.json", "weyer.json", "raziel.json", "dee.json",
+                         "papyri.json",                # the Demotic Magical Papyrus (scripts/build_papyri.py)
                          # (moved from the medieval shelf, 2026-11-01: the owner wants them with the esoteric books)
                          "swedenborg.json",
                          "lilly_astrology.json",       # Lilly ed. Zadkiel (scripts/build_astrology.py)

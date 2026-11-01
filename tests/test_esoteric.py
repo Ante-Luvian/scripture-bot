@@ -58,3 +58,12 @@ def test_english_only_and_no_editors_marks(lookup):
         # (picture labels read as drop capitals, the site's menu, his variant notes)
         assert not re.search(r"\bfi\b|Home Contents Prev|\b(?:P|Sl\.\s?\d+) (?:adds|reads):", text), book
     assert "Introduction by S. L." not in _text(lookup, "The Book of Abramelin")
+
+
+def test_the_demotic_magical_papyrus(lookup):
+    """By column and line, as the translators number them (scripts/build_papyri.py)."""
+    r = lookup.get_verse("demotic papyrus 2:5")
+    assert r["found"] and "Pshoi that is in the abyss, bring in the light to me!" in r["text"]
+    assert lookup.get_verse("magical papyrus verso 33:1")["found"]
+    corpus, name = lookup._resolve_book("The Demotic Magical Papyrus")
+    assert len(lookup._data[corpus][name]) == 29 and "p. 26" not in str(lookup._data[corpus][name])
