@@ -236,7 +236,10 @@ Nicene and Post-Nicene, in the standard 19th-century translations), Christian my
 and religion (Plato, Aristotle, Plotinus, Porphyry, Iamblichus, Proclus, the Hermetica, the Stoics), the Quran, the \
 hadith collections, and the rabbinic library (Mishnah, Tosefta, both Talmuds, Midrash, Targumim, Maimonides's \
 Mishneh Torah, the Zohar). Plan its search for the question below. Reply with only a JSON object:
-{"shelves": [which of "bible", "apocrypha", "fathers", "later_christian", "classical", "quran", "hadith", "jewish" \
+{"asking": "the precise point the question asks, in one sentence. Read it closely: a question about how one text \
+portrays or describes something (\"does the Quran say Mary is part of the Christian Trinity?\") asks about that \
+portrayal (whether the Quran depicts the Trinity as including Mary), not about the thing itself",
+ "shelves": [which of "bible", "apocrypha", "fathers", "later_christian", "classical", "quran", "hadith", "jewish" \
 to search. A question about what someone or a book said, claimed or taught is answered from that source's own \
 words: what Christ or an apostle says -> ["bible"]; what Plotinus says -> ["classical"]; what Augustine says -> \
 ["fathers"]; what the Quran says -> ["quran"]; what the Prophet said -> ["hadith"]; what the rabbis or the Talmud \
@@ -314,9 +317,12 @@ def _plan(question: str, history: list) -> dict:
         return {"corpora": CORPORA, "references": [], "searches": []}
     clean = lambda v, n: [s.strip() for s in v if isinstance(s, str) and 0 < len(s.strip()) <= 80][:n] \
         if isinstance(v, list) else []
-    corpora = tuple(c for s in clean(data.get("shelves"), 5) for c in SHELVES.get(s.lower(), ()))
+    corpora = tuple(c for s in clean(data.get("shelves"), 8) for c in SHELVES.get(s.lower(), ()))
     plan = {"corpora": corpora or CORPORA, "references": clean(data.get("references"), 6),
             "searches": clean(data.get("searches"), 3)}
+    asking = data.get("asking")
+    if isinstance(asking, str) and 0 < len(asking.strip()) <= 400:
+        plan["asking"] = asking.strip()
     log.info(f"ASK  plan: {plan}")
     return plan
 
@@ -398,12 +404,16 @@ def _ask_claude(system: str, messages: list, max_tokens: int = 2000) -> str:
     return text
 
 
-def _messages(question: str, passages: list, history: list) -> list:
+def _messages(question: str, passages: list, history: list, asking: str = "") -> list:
     msgs = []
     for q, a in history[-HISTORY:]:
         msgs += [{"role": "user", "content": q}, {"role": "assistant", "content": a}]
     shown = "\n\n".join(f"[{p['reference']}]\n{p['text']}" for p in passages)
-    msgs.append({"role": "user", "content": f"Passages from the library:\n\n{shown}\n\nQuestion: {question}\n\n"
+    # (the plan's reading of the question: "does the Quran say Mary is part of the Christian Trinity?" was answered
+    # as whether the Quran puts her in a Trinity of its own, though 5:116 was there to answer what was asked)
+    point = (f"\nWhat it asks: {asking} Answer that point directly, beginning with yes or no if it is a yes-or-no "
+             "question.") if asking else ""
+    msgs.append({"role": "user", "content": f"Passages from the library:\n\n{shown}\n\nQuestion: {question}{point}\n\n"
                  "(Cite each claim in square brackets, like [Enneads 1.8:3]. Leave out any passage that doesn't "
                  "bear on the question: don't mention it at all. Don't mention the passages or the library "
                  "themselves, and end on the substance, with no caveat.)"})
@@ -488,7 +498,7 @@ async def answer(question: str, guild_id, history: list) -> tuple:
     if not passages:
         return ("I couldn't find anything in the library on that. Try asking with the names or words the "
                 "authors would use (*the soul*, *Plotinus*, *grace*…).", [])
-    reply = await asyncio.to_thread(_ask_claude, SYSTEM, _messages(question, passages, history))
+    reply = await asyncio.to_thread(_ask_claude, SYSTEM, _messages(question, passages, history, plan.get("asking", "")))
     return checked(reply, passages)
 
 

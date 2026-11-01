@@ -66,12 +66,14 @@ def test_an_answer_is_a_plan_then_one_request_with_the_passages(ask, small_index
     def fake(system, messages, max_tokens=2000):
         sent.append((system, messages))
         if system == ask.PLAN:
-            return '{"shelves": ["fathers"], "references": ["Nowhere 99:99"], "searches": ["way of light"]}'
+            return ('{"asking": "what Barnabas teaches of the two ways", "shelves": ["fathers"], '
+                    '"references": ["Nowhere 99:99"], "searches": ["way of light"]}')
         return "Barnabas sets out two ways [Epistle of Barnabas 18:1] and a made-up one [Nowhere 1:1]."
     monkeypatch.setattr(ask, "_index", small_index)
     monkeypatch.setattr(ask, "_ask_claude", fake)
     text, cited = asyncio.run(ask.answer("the two ways of light and darkness", None, []))
     assert len(sent) == 2 and "Passages from the library" in sent[1][1][-1]["content"]
+    assert "What it asks: what Barnabas teaches of the two ways" in sent[1][1][-1]["content"]   # (the plan's reading)
     assert "Nowhere" not in text and "Nowhere" not in sent[1][1][-1]["content"]   # (a reference the library hasn't)
 
 
