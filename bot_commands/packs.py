@@ -15,7 +15,6 @@ from discord.ext import commands
 
 from scripture_lookup import TRADITIONS, tradition
 from core import (
-    OPT_IN_TRADITIONS,
     PACK_OF,
     PACKS,
     _load_guild_config,
@@ -44,7 +43,7 @@ TRADITION_CHOICES = {
     "shinto": ("Shinto", "⛩️", "The Kojiki and Nihongi"),
     "zoroastrian": ("Zoroastrianism", "🔥", "The Avesta"),
     "classical": ("Greek & Roman", "🏛️", "Homer, Plato, the Stoics and 600 more"),
-    "gnostic": ("Gnostic & Hermetic", "🧿", "The Gospel of Thomas, Nag Hammadi, the Hermetica"),
+    "gnostic": ("Gnostic & Esoteric", "🧿", "Nag Hammadi, the Hermetica, Agrippa, the grimoires, John Dee"),
     "norse": ("Norse", "🌲", "The Poetic Edda"),
     "finnish": ("Finnish", "🦢", "The Kalevala"),
     "celtic": ("Celtic", "☘️", "The Mabinogion"),
@@ -56,10 +55,7 @@ TRADITION_CHOICES = {
     "mesoamerican": ("Mesoamerican", "🌽", "The Popol Vuh"),
     "bahai": ("Baháʼí", "🌍", "The writings of Baháʼu'lláh"),
     "lds": ("Latter-day Saint", "📯", "The Book of Mormon and the other LDS scriptures"),
-    "esoteric": ("Magic & Esotericism", "🔮", "Agrippa, Abramelin, Arbatel, the Heptameron and other grimoires"),
 }
-# The setup menu (Discord allows 25 options) leaves out the opt-in traditions: `!packs <name> on` adds them
-MENU_CHOICES = {k: v for k, v in TRADITION_CHOICES.items() if k not in OPT_IN_TRADITIONS}
 CHURCHES = {
     "protestant": ("Protestant / evangelical", {"protestant"}),
     "anglican": ("Anglican", None),                      # asks how high church
@@ -208,14 +204,13 @@ class SetupWizard(discord.ui.View):
     def show_traditions(self) -> None:
         self.clear_items()
         menu = discord.ui.Select(placeholder="Pick any number (or none, for just the Bible)",
-                                 min_values=0, max_values=len(MENU_CHOICES), options=[
+                                 min_values=0, max_values=len(TRADITION_CHOICES), options=[
             discord.SelectOption(label=name, value=key, emoji=emoji, description=description,
                                  default=key in self.traditions)
-            for key, (name, emoji, description) in MENU_CHOICES.items()])
+            for key, (name, emoji, description) in TRADITION_CHOICES.items()])
 
         async def picked(interaction: discord.Interaction):
-            # an opt-in tradition isn't in the menu, so picking from it mustn't switch one off
-            self.traditions = set(menu.values) | (self.traditions & OPT_IN_TRADITIONS)
+            self.traditions = set(menu.values)
             await interaction.response.defer()
         menu.callback = picked
         self.add_item(menu)

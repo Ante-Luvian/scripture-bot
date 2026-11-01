@@ -1751,7 +1751,7 @@ TRADITIONS = {
     "shinto":    ("⛩️ Shinto", ("shinto",)),
     "zoroastrian": ("🔥 Zoroastrian", ("zoroastrian",)),
     "classical": ("🏛️ Greek & Roman", ("classical",)),
-    "gnostic":   ("🧿 Gnostic", ("gnostic",)),
+    "gnostic":   ("🧿 Gnostic & Esoteric", ("gnostic", "esoteric")),   # (the magic books with the Gnostics)
     "norse":     ("🌲 Norse", ("norse",)),
     "finnish":   ("🦢 Finnish", ("finnish",)),
     "celtic":    ("☘️ Celtic", ("celtic",)),
@@ -1763,12 +1763,10 @@ TRADITIONS = {
     "mesoamerican": ("🌽 Mesoamerican", ("mesoamerican",)),
     "bahai":     ("🌍 Baháʼí", ("bahai",)),
     "lds":       ("📯 Latter-day Saint", ("lds",)),
-    # opt-in: a server has it only once it switches it on (core.OPT_IN_TRADITIONS)
-    "esoteric":  ("🔮 Magic & Esotericism", ("esoteric",)),
 }
 TRADITION_ALIASES = {
-    "magic": "esoteric", "occult": "esoteric", "grimoires": "esoteric", "grimoire": "esoteric",
-    "esotericism": "esoteric", "hermeticism": "esoteric", "renaissance magic": "esoteric",
+    "magic": "gnostic", "occult": "gnostic", "grimoires": "gnostic", "grimoire": "gnostic", "esoteric": "gnostic",
+    "esotericism": "gnostic", "hermeticism": "gnostic", "renaissance magic": "gnostic",
     "christianity": "christian", "church": "christian", "fathers": "christian", "patristic": "christian",
     "judaism": "jewish", "islam": "islamic", "muslim": "islamic", "quran": "islamic",
     "hinduism": "hindu", "dharmic": "hindu", "vedic": "hindu", "buddhism": "buddhist",

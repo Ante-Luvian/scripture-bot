@@ -632,16 +632,13 @@ def guild_traditions(guild_id) -> frozenset:
     if chosen is None:
         return frozenset(TRADITIONS)
     chosen = frozenset(chosen) | {"bible"}
-    if chosen >= frozenset(TRADITIONS) - ADDED_TRADITIONS - OPT_IN_TRADITIONS:   # (it ticked them all: it has
-        chosen |= ADDED_TRADITIONS                                                 # the new ones too)
+    if chosen >= frozenset(TRADITIONS) - ADDED_TRADITIONS:   # (it ticked them all: it has the new ones too)
+        chosen |= ADDED_TRADITIONS
     return chosen & frozenset(TRADITIONS)
 
 
 # Traditions added after servers began choosing theirs: a server that chose every one there was gets these too
 ADDED_TRADITIONS = frozenset({"ballads", "arthurian", "english", "shakespeare"})
-# Traditions a server that chose its own has only once it switches them on (!packs esoteric on); a server that
-# never chose has everything, these too
-OPT_IN_TRADITIONS = frozenset({"esoteric"})
 
 
 def pack_enabled(guild_id, pack: str) -> bool:

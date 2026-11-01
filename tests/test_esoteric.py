@@ -9,18 +9,18 @@ def _text(lookup, book):
     return "\n".join(v for ch in lookup._data[corpus][name].values() for v in ch.values())
 
 
-def test_a_server_that_never_chose_has_it_and_one_that_chose_must_switch_it_on(bot_module):
+def test_the_magic_books_come_with_the_gnostic_texts_not_opt_in(bot_module):
+    """They were an opt-in tradition at first, and the owner's own server (which chose its traditions) never saw
+    them in !books; the owner wants them with the Gnostic texts, wherever those are."""
     import core
+    from bot_commands import books
+    assert "esoteric" in core.TRADITIONS["gnostic"][1]
     core._update_guild_config(1, traditions=None)
-    assert "esoteric" in core.guild_traditions(1)                       # (never chose: everything)
-    core._update_guild_config(2, traditions=["christian"])
-    assert "esoteric" not in core.guild_traditions(2)
-    every_old_one = [k for k in core.TRADITIONS if k not in core.ADDED_TRADITIONS | core.OPT_IN_TRADITIONS]
-    core._update_guild_config(3, traditions=every_old_one)
-    got = core.guild_traditions(3)
-    assert core.ADDED_TRADITIONS <= got and "esoteric" not in got       # (ticked them all: still not this one)
-    core._update_guild_config(4, traditions=["christian", "esoteric"])
-    assert "esoteric" in core.guild_traditions(4)
+    core._update_guild_config(2, traditions=["christian", "gnostic"])
+    core._update_guild_config(3, traditions=["christian"])
+    for guild, sees in ((1, True), (2, True), (3, False)):
+        names = [name for name, _ in books.tree_for(guild)[1]]
+        assert ("🔮 Magic & Esotericism" in names) is sees, guild
 
 
 @pytest.mark.parametrize("ref, words", [
