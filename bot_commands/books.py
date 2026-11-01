@@ -793,7 +793,7 @@ BOOKS_TREE = [
     ]),
     ("🔥 Zoroastrian", [
         ("The Avesta", ["Gathas", "Yasna", "Yashts", "Vendidad"]),
-        ("Pahlavi texts", ["Bundahishn"]),
+        ("Pahlavi Texts", ["Bundahishn"]),
     ]),
     ("🪯 Sikh", [
         "Guru Granth Sahib",
@@ -818,8 +818,8 @@ BOOKS_TREE = [
     ("☘️ Celtic", [
         "Mabinogion",
     ]),
-    ("⚔️ Arthurian legend", [
-        ("The chronicles", [
+    ("⚔️ Arthurian Legend", [
+        ("Chronicles", [
             "Nennius, History of the Britons", "Geoffrey of Monmouth, History of the Kings of Britain",
             "Wace, Roman de Brut", "Layamon's Brut",
         ]),
@@ -827,7 +827,7 @@ BOOKS_TREE = [
             "Erec and Enide", "Cligès", "Yvain, the Knight with the Lion", "Lancelot, the Knight of the Cart",
         ]),
         ("The Grail", ["Parzival", "The High History of the Holy Graal", "The Quest of the Holy Grail"]),
-        ("Romances and lays", [
+        ("Romances and Lays", [
             "Sir Gawain and the Green Knight", "Tristan and Iseult", "Lays of Marie de France", "Morien",
             "Sir Libeaus Desconus", "Sir Launfal", "The Adventures of Arthur at the Tarn Wadeling", "Tyolet",
         ]),
@@ -837,32 +837,32 @@ BOOKS_TREE = [
         ]),
         "Le Morte d'Arthur",
     ]),
-    ("📜 Medieval English poetry", [
+    ("📜 Medieval English Poetry", [
         ("Chaucer", [
             "The Canterbury Tales", "Troilus and Criseyde", "The Book of the Duchess", "The House of Fame",
             "The Parliament of Fowls", "Anelida and Arcite", "The Legend of Good Women", "The Romaunt of the Rose",
             "Chaucer's Shorter Poems",
         ]),
-        ("Chaucer's followers", [
+        ("Chaucer's Followers", [
             "The Plowman's Tale", "The Letter of Cupid", "The Complaint of the Black Knight",
             "La Belle Dame sans Mercy", "The Testament of Cresseid", "The Cuckoo and the Nightingale",
             "The Flower and the Leaf", "The Assembly of Ladies", "The Court of Love", "Chaucerian Shorter Poems",
             "The Disguising at Hertford",
         ]),
-        ("The Tudor poets", [
+        ("Tudor Poets", [
             "Magnyfycence", "The Bowge of Courte", "Phyllyp Sparowe", "Elynour Rummynge", "Colyn Cloute",
             "Speke, Parrot", "Why Come Ye Nat to Courte", "The Garlande of Laurell", "Ware the Hauke",
             "A Replycacion", "How the Douty Duke of Albany Ran Away", "Skelton's Shorter Poems",
             "The Pastime of Pleasure", "The Example of Vertu", "Hawes's Shorter Poems", "Cocke Lorelles Bote",
         ]),
-        ("The Pearl poet", ["Pearl", "Cleanness", "Patience"]),
+        ("The Pearl Poet", ["Pearl", "Cleanness", "Patience"]),
         ("Langland and Gower", ["Piers Plowman", "Pierce the Ploughman's Crede", "Confessio Amantis",
                                 "In Praise of Peace"]),
         ("Romances", [
             "Sir Orfeo", "Havelok the Dane", "King Horn", "The Sowdone of Babylone", "Torrent of Portyngale",
             "The Wright's Chaste Wife",
         ]),
-        ("The Auchinleck manuscript", [
+        ("The Auchinleck Manuscript", [
             "Sir Beues of Hamtoun", "Guy of Warwick", "Guy of Warwick (the stanzas)", "Reinbroun",
             "Amis and Amiloun", "Sir Degare", "Lay le Freine", "Floris and Blancheflour", "Horn Childe and Maiden Rimnild",
             "King Richard", "Kyng Alisaunder", "Otuel a Knight", "Roland and Vernagu", "The King of Tars",
@@ -877,9 +877,9 @@ BOOKS_TREE = [
         ]),
         ("Scots", ["The Bruce", "Wallace", "Lyndsay's Poems", "Bellenden's Poems", "Poems of King James V",
                    "Maitland's Poems", "Alexander Scott's Poems", "Montgomerie's Poems"]),
-        ("Bible stories and plays", ["Genesis and Exodus", "The Dancers of Colbek", "Ludus Coventriae",
+        ("Bible Stories and Plays", ["Genesis and Exodus", "The Dancers of Colbek", "Ludus Coventriae",
                                      "The York Play of the Harrowing of Hell", "The Towneley Play of Noah"]),
-        ("Lyrics and political poems", ["Middle English Lyrics", "Political Poems"]),
+        ("Lyrics and Political Poems", ["Middle English Lyrics", "Political Poems"]),
         "The Faerie Queene",
     ]),
     ("🎭 Shakespeare", [
@@ -901,10 +901,10 @@ BOOKS_TREE = [
                       "The Two Noble Kinsmen"]),
         ("Poems", ["Shakespeare's Sonnets", "Venus and Adonis", "Lucrece", "The Phoenix and Turtle"]),
     ]),
-    ("🧚 Fairy tales", [
+    ("🧚 Fairy Tales", [
         "Grimm's Household Tales",
     ]),
-    ("🎻 Ballads & fables", [
+    ("🎻 Ballads & Fables", [
         "Child Ballads",
         "Reynard the Fox",
         "Fables of La Fontaine",
@@ -954,9 +954,9 @@ BOOKS_TREE = [
     ("🔮 Magic & Esotericism", [
         ("Agrippa", ["Three Books of Occult Philosophy", "Fourth Book of Occult Philosophy"]),
         # (the Lesser Key's five parts after the Key: they're Solomonic books too)
-        ("The Solomonic books", ["The Key of Solomon", "Goetia", "Theurgia Goetia", "Ars Paulina", "Ars Almadel",
+        ("Solomonic Literature", ["The Key of Solomon", "Goetia", "Theurgia Goetia", "Ars Paulina", "Ars Almadel",
                                  "Ars Notoria", "Testament of Solomon"]),
-        ("The grimoires", ["Arbatel of Magic", "Heptameron", "The Book of Abramelin", "Sepher Raziel",
+        ("Grimoires", ["Arbatel of Magic", "Heptameron", "The Book of Abramelin", "Sepher Raziel",
                            "The Sword of Moses", "Pseudomonarchia Daemonum"]),
         ("John Dee", ["De Heptarchia Mystica", "The Hieroglyphic Monad", "A Letter Apologeticall"]),
     ]),
@@ -1252,7 +1252,7 @@ BOOKS_TREE = [
             ("The Physiologus (beasts and their Christian meanings)", ["Physiologus"]),
         ]),
         ("Christian Mystics", [
-            ("Anonymous (14th century)", ["Cloud of Unknowing"]),
+            ("Anonymous (14th Century)", ["Cloud of Unknowing"]),
             ("Julian of Norwich", ["Revelations of Divine Love"]),
             ("Brother Lawrence", ["Practice of the Presence of God"]),
         ]),
@@ -1261,18 +1261,18 @@ BOOKS_TREE = [
             ("Sepharial", ["Sepharial's Astrology"]),
         ]),
         ("Swedenborg", [
-            ("The main works", [
+            ("Main Works", [
                 "Heaven and Hell", "Arcana Coelestia", "Divine Love and Wisdom", "Divine Providence",
                 "True Christian Religion", "Conjugial Love", "Apocalypse Revealed", "Apocalypse Explained",
                 "Earths in the Universe", "The New Jerusalem and its Heavenly Doctrine",
             ]),
-            ("The shorter works", [
+            ("Shorter Works", [
                 "The Last Judgment", "The Last Judgment Continued", "The White Horse", "Doctrine of the Lord",
                 "Doctrine of the Sacred Scripture", "Doctrine of Life", "Doctrine of Faith",
                 "Brief Exposition of the Doctrine of the New Church", "Interaction of the Soul and Body",
                 "Coronis", "Invitation to the New Church",
             ]),
-            ("Published after his death", [
+            ("Published After His Death", [
                 "Spiritual Diary", "The Last Judgment (Posthumous)", "On the Athanasian Creed", "De Domino",
                 "Prophets and Psalms", "De Verbo", "Divine Love", "Divine Wisdom", "Doctrine of Charity",
                 "De Conjugio", "God the Saviour", "Canons of the New Church",
@@ -1299,7 +1299,7 @@ BOOKS_TREE = [
             ("Hugh Latimer", ["Sermons of Hugh Latimer"]),
         ]),
         ("The Book of Concord", [
-            ("The Lutheran confessions", [
+            ("Lutheran Confessions", [
                 "Preface to the Book of Concord", "Augsburg Confession", "Apology of the Augsburg Confession",
                 "Smalcald Articles", "Treatise on the Power and Primacy of the Pope", "Small Catechism",
                 "Large Catechism", "Formula of Concord, Epitome", "Formula of Concord, Solid Declaration",
@@ -1528,9 +1528,9 @@ _SUPERGROUP_ORDER = [
     ("🪷 Dharmic & Asian", [
         "☸️ Dharmic", "☸️ Buddhist", "🤚 Jain", "🪯 Sikh", "☯️ Chinese Classics", "⛩️ Shinto",
     ]),
-    ("🌍 Folk Myth & Fairy Stories", ["🌲 Norse", "☘️ Celtic", "🦢 Finnish", "🌽 Mesoamerican", "🧚 Fairy tales"]),
+    ("🌍 Folk Myth & Fairy Stories", ["🌲 Norse", "☘️ Celtic", "🦢 Finnish", "🌽 Mesoamerican", "🧚 Fairy Tales"]),
     ("📜 English Literature", [
-        "⚔️ Arthurian legend", "📜 Medieval English poetry", "🎭 Shakespeare", "🎻 Ballads & fables",
+        "⚔️ Arthurian Legend", "📜 Medieval English Poetry", "🎭 Shakespeare", "🎻 Ballads & Fables",
     ]),
 ]
 # ── a server sees only the sections of the traditions it chose ──────────────
