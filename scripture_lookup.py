@@ -856,6 +856,8 @@ ALIASES: dict[str, str] = {
     "de agricultura": "On Agriculture", "de agri cultura": "On Agriculture", "cato on agriculture": "On Agriculture",
     "cato maior": "On Old Age", "cato major": "On Old Age", "de senectute": "On Old Age",
     "cato maior de senectute": "On Old Age", "cicero on old age": "On Old Age",
+    "zosimus": "New History", "zosimus new history": "New History", "historia nova": "New History",
+    "new history of zosimus": "New History",
     "disticha catonis": "Distichs of Cato", "dicta catonis": "Distichs of Cato", "distichs": "Distichs of Cato",
     "catonis disticha": "Distichs of Cato",
     "varro": "On Farming", "de re rustica": "On Farming", "res rusticae": "On Farming",
@@ -1967,6 +1969,7 @@ class ScriptureLookup:
                 "celsus.json",
                 "boethius.json",
                 "latin.json",                    # Cato, Varro, Cicero's On Old Age (scripts/build_latin.py)
+                "zosimus.json",                  # Zosimus's New History, 1814 (scripts/build_zosimus.py)
             ],
             "jewish": [
                 "josephus.json",

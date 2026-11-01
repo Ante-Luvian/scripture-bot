@@ -739,6 +739,9 @@ BOOKS_TREE = [
             ("Cicero", ["On Old Age"]),
             ("Dionysius Cato", ["Distichs of Cato"]),      # (the name the Middle Ages gave the schoolbook's author)
         ]),
+        ("Late Roman History", [
+            ("Zosimus", ["New History"]),
+        ]),
         ("Stoic", [
             ("Marcus Aurelius", ["Meditations"]),
             ("Epictetus", ["Enchiridion of Epictetus"]),
