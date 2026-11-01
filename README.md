@@ -269,7 +269,17 @@ for `!books` and `aliases.json` for catalogue titles like "Germania"). The last
 citation level is the verse, the rest the chapter (`History of the Peloponnesian War 2.40:1`);
 a work cited by one level is chapter 1 (`Antigone 1:450`); Perseus "card" levels are
 dropped. Works already in the library are skipped; a title shared by two authors
-keeps the author's name (`Sophocles: Electra`).
+keeps the author's name (`Sophocles: Electra`). In `!books` the Perseus authors sit on
+shelves by kind (`PERSEUS_SHELVES` in `bot_commands/books.py`: historians, orators, drama,
+poetry...; Plutarch split into his Lives and Moralia); an author not listed goes under "More".
+
+**The rest of the classical shelf** is built by `scripts/build_platonists.py` (the
+Pythagorean, Platonic and Neoplatonic texts, Julian, Apuleius, Boethius, Burnet's
+Presocratics, the Orphic tablets: from Gutenberg, Wikisource and tertullian.org),
+`scripts/build_neoplatonists.py` (repairs to the older Neoplatonist files) and
+`scripts/build_latin.py` (`latin.json`: Cato's and Varro's farming books from the Loeb on
+LacusCurtius, which `scripts/fetch_lacus.py` downloads first because the site is slow;
+Cicero's *On Old Age* from Gutenberg; the *Distichs of Cato* from Wikisource).
 
 **World texts** (built by `scripts/build_world_texts.py`, mostly from the Sacred
 Books of the East on archive.sacred-texts.com) keep each tradition's own

@@ -851,6 +851,18 @@ ALIASES: dict[str, str] = {
     # Astrology: Ptolemy (by book.chapter) and Lilly
     "tetrabiblos": "Tetrabiblos", "quadripartite": "Tetrabiblos", "ptolemy tetrabiblos": "Tetrabiblos",
     "centiloquy": "Centiloquy", "centiloquium": "Centiloquy", "ptolemy centiloquy": "Centiloquy",
+    # Cato: the elder's farming book, Cicero's dialogue named for him, and the medieval schoolbook under his name
+    "cato the elder": "On Agriculture", "cato the censor": "On Agriculture", "marcus porcius cato": "On Agriculture",
+    "de agricultura": "On Agriculture", "de agri cultura": "On Agriculture", "cato on agriculture": "On Agriculture",
+    "cato maior": "On Old Age", "cato major": "On Old Age", "de senectute": "On Old Age",
+    "cato maior de senectute": "On Old Age", "cicero on old age": "On Old Age",
+    "disticha catonis": "Distichs of Cato", "dicta catonis": "Distichs of Cato", "distichs": "Distichs of Cato",
+    "catonis disticha": "Distichs of Cato",
+    "varro": "On Farming", "de re rustica": "On Farming", "res rusticae": "On Farming",
+    "rerum rusticarum": "On Farming", "varro on farming": "On Farming",
+    # the author's name alone, in any of its forms, is his main work here
+    "ptolemy": "Tetrabiblos", "claudius ptolemy": "Tetrabiblos", "claudius ptolemaeus": "Tetrabiblos",
+    "ptolemaeus": "Tetrabiblos", "claudius ptolemy tetrabiblos": "Tetrabiblos",
     "lilly": "Lilly's Introduction to Astrology", "william lilly": "Lilly's Introduction to Astrology",
     "christian astrology": "Lilly's Introduction to Astrology",
     "introduction to astrology": "Lilly's Introduction to Astrology",
@@ -1930,6 +1942,7 @@ class ScriptureLookup:
                 "eunapius.json",
                 "celsus.json",
                 "boethius.json",
+                "latin.json",                    # Cato, Varro, Cicero's On Old Age (scripts/build_latin.py)
             ],
             "jewish": [
                 "josephus.json",
@@ -4120,8 +4133,21 @@ class ScriptureLookup:
         ]
         talmud_candidates = list(TALMUD_TRACTATES.values())
         hadith_candidates = list(COLLECTION_DISPLAY.values())
-        all_candidates = local_candidates + mishnah_candidates + talmud_candidates + hadith_candidates
-        return get_close_matches(raw, all_candidates, n=3, cutoff=0.4)
+        all_candidates = list(dict.fromkeys(local_candidates + mishnah_candidates + talmud_candidates
+                                            + hadith_candidates))
+        # titles with the very words asked for come first ("Cato" -> "Marcus Cato", not "Crito" and "Categories")
+        named = whole_word_matches(raw, all_candidates)[:3]
+        return named + [c for c in get_close_matches(raw, all_candidates, n=3, cutoff=0.4) if c not in named][:3 - len(named)]
+
+
+def whole_word_matches(query: str, names) -> list:
+    """The names containing every word of the query as a whole word ("cato" -> "Marcus Cato", "Cato the Younger";
+    never "Plato"), shortest first. A spelling-alike guess is only for when nothing does."""
+    words = re.findall(r"\w+", query.lower())
+    if not words:
+        return []
+    pattern = re.compile("".join(rf"(?=.*\b{re.escape(w)}\b)" for w in words))
+    return sorted((n for n in names if pattern.match(n.lower())), key=lambda n: (len(n), n))
 
 
 # ── Douay-Rheims Bible ─────────────────────────────────────────────────────────

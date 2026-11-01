@@ -733,6 +733,12 @@ BOOKS_TREE = [
                 "Metaphysics",
             ]),
         ]),
+        ("Latin Authors", [
+            ("Cato the Elder", ["On Agriculture"]),
+            ("Varro", ["On Farming"]),
+            ("Cicero", ["On Old Age"]),
+            ("Dionysius Cato", ["Distichs of Cato"]),      # (the name the Middle Ages gave the schoolbook's author)
+        ]),
         ("Stoic", [
             ("Marcus Aurelius", ["Meditations"]),
             ("Epictetus", ["Enchiridion of Epictetus"]),
@@ -1363,7 +1369,38 @@ def _perseus_authors() -> list:
         return []
 
 
-dict(BOOKS_TREE)["🏛️ Classical"].append(("The Perseus Library: Greek & Latin authors", _perseus_authors()))
+# The Perseus library on shelves by kind, not one shelf of 61 authors and 600 titles (the owner). An author not
+# listed here goes under "More".
+PERSEUS_SHELVES = {
+    "Historians": ["Herodotus", "Thucydides", "Xenophon", "Polybius", "Appian", "Julius Caesar", "Pseudo-Caesar",
+                   "Sallust", "Livy", "Tacitus", "Suetonius", "Ammianus Marcellinus"],
+    "Orators & Rhetoric": ["Antiphon", "Andocides", "Lysias", "Isocrates", "Isaeus", "Demosthenes", "Aeschines",
+                           "Hyperides", "Dinarchus", "Demades", "Cicero", "Quintilian"],
+    "Drama": ["Aeschylus", "Sophocles", "Euripides", "Aristophanes", "Plautus", "Terence"],
+    "Poetry": ["Pindar", "Bacchylides", "Lucretius", "Catullus", "Virgil", "Horace", "Tibullus", "Ovid", "Lucan",
+               "Claudian"],
+    "Lives, Essays & Satire": ["Plutarch", "Pseudo-Plutarch", "Diogenes Laertius", "Lucian", "Pseudo-Lucian",
+                               "Seneca", "Gellius", "Athenaeus", "Epictetus", "Aristotle"],
+    "Myth & Geography": ["Apollodorus", "Strabo", "Pausanias"],
+    "Science & Medicine": ["Hippocrates", "Galen", "Aretaeus", "Celsus", "Euclid", "Vitruvius Pollio"],
+    "Early Christian": ["Didache", "Martyrium Polycarpi"],
+}
+
+
+def _perseus_shelves(authors: list) -> list:
+    by_name = dict(authors)
+    shelves = [(shelf, [(a, by_name[a]) for a in names if a in by_name]) for shelf, names in PERSEUS_SHELVES.items()]
+    for shelf, items in shelves:                    # (Plutarch's 141 titles: the Lives, then the essays, the Moralia)
+        for i, (author, works) in enumerate(items):
+            cut = next((n for n, w in enumerate(works) if w == "The Education of Children"), None)
+            if author == "Plutarch" and cut:
+                items[i:i + 1] = [("Plutarch: Parallel Lives", works[:cut]), ("Plutarch: Moralia", works[cut:])]
+    placed = {a for names in PERSEUS_SHELVES.values() for a in names}
+    rest = [(a, works) for a, works in by_name.items() if a not in placed]
+    return [(s, items) for s, items in shelves + [("More", rest)] if items]
+
+
+dict(BOOKS_TREE)["🏛️ Classical"].append(("The Perseus Library: Greek & Latin authors", _perseus_shelves(_perseus_authors())))
 
 # Books the tree above shows another way: the Gilgamesh tablets and the Baal Cycle's episodes are
 # listed as "Gilgamesh 1 — ..." / "Baal 1 — ...", which read them by number
@@ -2627,6 +2664,12 @@ class _ChapterJumpModal(discord.ui.Modal, title="Jump to chapter"):
         await _send_result(interaction, result, extra_buttons=nav_btns)
 
 
+# other names an author goes by -> the shelf's name (its own name and words of it are found anyway)
+AUTHOR_NAMES = {"claudius ptolemy": "Ptolemy", "claudius ptolemaeus": "Ptolemy", "ptolemaeus": "Ptolemy",
+                "cato the censor": "Cato the Elder", "marcus porcius cato": "Cato the Elder",
+                "marcus terentius varro": "Varro"}          # ("Cato maior" is Cicero's dialogue: an alias, not a man)
+
+
 def _author_works_node(author_name: str, fuzzy: bool = True) -> tuple | None:
     """
     Search loaded patristics data for an author by name (fuzzy).
@@ -2653,14 +2696,16 @@ def _author_works_node(author_name: str, fuzzy: bool = True) -> tuple | None:
                 has_strings = any(isinstance(x, str) for x in contents)
                 has_tuples  = any(isinstance(x, tuple) for x in contents)
                 if has_strings and not has_tuples:
-                    authors[name] = contents
+                    # one author on several shelves ("Plutarch" in Platonic, "Plutarch: Moralia" in Perseus): all of him
+                    who = name.split(":")[0].strip()
+                    authors[who] = list(dict.fromkeys(authors.get(who, []) + list(contents)))
                 else:
                     authors.update(collect_tree_authors(contents))
         return authors
 
     tree_authors = collect_tree_authors(BOOKS_TREE)
     all_names = list(tree_authors.keys()) + list(source_books.keys())
-    query = author_name.strip()
+    query = AUTHOR_NAMES.get(author_name.strip().lower(), author_name.strip())
 
     # Exact match (case-insensitive)
     for name in all_names:
@@ -2668,10 +2713,22 @@ def _author_works_node(author_name: str, fuzzy: bool = True) -> tuple | None:
             works = tree_authors.get(name) or source_books.get(name, [])
             return (name, works)
 
-    # Fuzzy match
     if not fuzzy:
         return None
-    matches = get_close_matches(query, all_names, n=1, cutoff=0.55)
+    # an author, or authors, whose name has the very words asked for ("cato" -> "Cato the Elder", "Dionysius Cato")
+    from scripture_lookup import HIDDEN_BOOKS, whole_word_matches
+    named = whole_word_matches(query, tree_authors)
+    if len(named) == 1:
+        return (named[0], tree_authors[named[0]])
+    if named:
+        return (query.strip().title(), [(n, tree_authors[n]) for n in named])
+    # else books whose title has them ("Marcus Cato", "Cato the Younger": Plutarch's lives)
+    titles = whole_word_matches(query, {b for books in lookup._data.values() for b in books if b not in HIDDEN_BOOKS})
+    if titles:
+        return (f'Titles with "{query.strip()}"', titles[:25])
+    # last, a spelling-alike, close enough not to turn "cato" into "Plato" (0.55 did, and "cato the elder" into
+    # "Acts of the Apostles")
+    matches = get_close_matches(query, all_names, n=1, cutoff=0.8)
     if matches:
         name = matches[0]
         works = tree_authors.get(name) or source_books.get(name, [])
