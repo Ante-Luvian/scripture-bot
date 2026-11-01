@@ -63,7 +63,7 @@ def test_a_named_author_gets_only_their_passages(ask, small_index):
 def test_an_answer_is_a_plan_then_one_request_with_the_passages(ask, small_index, monkeypatch):
     sent = []
 
-    def fake(system, messages, max_tokens=2000):
+    def fake(system, messages, max_tokens=2000, effort="medium"):
         sent.append((system, messages))
         if system == ask.PLAN:
             return ('{"asking": "what Barnabas teaches of the two ways", "shelves": ["fathers"], '

@@ -28,8 +28,10 @@ from discord.ext import commands
 from core import ROOT, _load_guild_config, _update_guild_config, bot, bot_is_owner, log, lookup, tradition_enabled
 
 ASK_USAGE_PATH = ROOT / "data" / "ask_usage.json"          # {"day": "YYYY-MM-DD", "count": n, "cap": n}
-MODEL = "claude-haiku-5-5"
-ASK_DEFAULT_CAP = 50              # (about a cent an answer, its thinking included: ~50 cents a day at most)
+# Sonnet since 2026-11-01, at the owner's word, after Haiku answered a magic question from Deuteronomy and the
+# magisterium from Westminster ($2 / $10 a million tokens in / out, 20 times Haiku's: a few cents an answer)
+MODEL = "claude-sonnet-5-5"
+ASK_DEFAULT_CAP = 50              # (a few cents an answer, its thinking included: about $2 a day at most)
 ASK_COOLDOWN = 30                 # seconds between one person's questions
 PASSAGES = 8                      # passages sent with a question
 # the most of one passage sent, by its rank (a long one is cut around the words asked about): the best three
@@ -402,7 +404,8 @@ def _plan(question: str, history: list) -> dict:
     be had."""
     earlier = "".join(f"(Earlier question: {q})\n" for q, _ in history[-HISTORY:])
     try:
-        reply = _ask_claude(PLAN, [{"role": "user", "content": f"{earlier}Question: {question}"}], max_tokens=1200)
+        reply = _ask_claude(PLAN, [{"role": "user", "content": f"{earlier}Question: {question}"}], max_tokens=4000,
+                            effort="low")                       # (a short plan: little to think about)
         data = json.loads(re.search(r"\{.*\}", reply, re.S).group(0))
     except Exception as e:
         log.warning(f"ASK  no plan: {type(e).__name__}: {e}")
@@ -491,13 +494,15 @@ them; give the author's view, not your own, and don't preach.
 - At most 220 words. Discord markdown: *italics* for titles, no headings, no tables."""
 
 
-def _ask_claude(system: str, messages: list, max_tokens: int = 3500) -> str:
-    """The reply's text. (Room for its thinking as well: on the Talmud and Jesus it thought for 1,602 tokens of 2,000
-    and stopped mid-sentence. Only what's used is paid for.)"""
+def _ask_claude(system: str, messages: list, max_tokens: int = 8000, effort: str = "medium") -> str:
+    """The reply's text. Sonnet thinks first (adaptive, by default), and the thinking counts toward max_tokens: room
+    for it as well (on Haiku, on the Talmud and Jesus, it thought for 1,602 tokens of 2,000 and stopped mid-sentence).
+    Only what's used is paid for; `effort` bounds how much it thinks."""
     key = os.environ.get("ANTHROPIC_API_KEY")
     if not key:
         raise RuntimeError("no ANTHROPIC_API_KEY")
-    body = json.dumps({"model": MODEL, "max_tokens": max_tokens, "system": system, "messages": messages}).encode()
+    body = json.dumps({"model": MODEL, "max_tokens": max_tokens, "system": system, "messages": messages,
+                       "output_config": {"effort": effort}}).encode()
     req = urllib.request.Request("https://api.anthropic.com/v1/messages", data=body, method="POST", headers={
         "x-api-key": key, "anthropic-version": "2023-06-01", "content-type": "application/json"})
     with urllib.request.urlopen(req, timeout=60) as r:
