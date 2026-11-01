@@ -417,8 +417,11 @@ def _messages(question: str, passages: list, history: list, asking: str = "") ->
     shown = "\n\n".join(f"[{p['reference']}]\n{p['text']}" for p in passages)
     # (the plan's reading of the question: "does the Quran say Mary is part of the Christian Trinity?" was answered
     # as whether the Quran puts her in a Trinity of its own, though 5:116 was there to answer what was asked)
-    point = (f"\nWhat it asks: {asking} Answer that point directly, beginning with yes or no if it is a yes-or-no "
-             "question.") if asking else ""
+    # (not "begin with yes or no": made to choose, it chose the literal word, "No, not as a named member", above a
+    # paragraph that rightly read 5:116 as setting Mary beside Jesus and God)
+    point = (f"\nWhat it asks: {asking} Answer that point in your first sentence. If the text implies it without "
+             "saying it in so many words, say exactly that (\"not by name, but...\"), never a bare yes or no that the "
+             "rest of your answer has to take back.") if asking else ""
     msgs.append({"role": "user", "content": f"Passages from the library:\n\n{shown}\n\nQuestion: {question}{point}\n\n"
                  "(Cite each claim in square brackets, like [Enneads 1.8:3]. Leave out any passage that doesn't "
                  "bear on the question: don't mention it at all. Don't mention the passages or the library "
