@@ -11,7 +11,7 @@ import time
 import discord
 from PIL import Image, ImageDraw, ImageFont
 
-from core import bot
+from core import ROOT, bot
 
 FONTS = "C:/Windows/Fonts/"
 S = 2                                                   # drawn at twice the size, for sharp text
@@ -44,14 +44,16 @@ def _font(name: str, size: int):
         return ImageFont.load_default()
 
 
+LOGO = ROOT / "data" / "grok" / "logo.jpg"           # (the owner's copy of the account's picture)
+
+
 def _avatar(size: int) -> Image.Image:
-    """A ring with a slash through it, white on black, in a circle."""
-    im = Image.new("RGBA", (size, size), (0, 0, 0, 0))
-    d = ImageDraw.Draw(im)
-    d.ellipse((0, 0, size - 1, size - 1), fill=BLACK)
-    c, r, w = size / 2, size * 0.27, max(2, size // 12)
-    d.arc((c - r, c - r, c + r, c + r), start=60, end=360, fill=WHITE, width=w)
-    d.line((size * 0.22, size * 0.80, size * 0.80, size * 0.20), fill=WHITE, width=w)
+    """The logo, cut to a circle."""
+    logo = Image.open(LOGO).convert("RGB").resize((size, size), Image.LANCZOS)
+    mask = Image.new("L", (size * 4, size * 4), 0)
+    ImageDraw.Draw(mask).ellipse((0, 0, size * 4 - 1, size * 4 - 1), fill=255)
+    im = logo.convert("RGBA")
+    im.putalpha(mask.resize((size, size), Image.LANCZOS))
     return im
 
 
