@@ -78,6 +78,7 @@ from bot_commands import (  # noqa: F401
     deluge,
     desert,
     fable,
+    grok,
     ballads,
     tales,
     beasts,
