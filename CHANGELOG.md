@@ -14,6 +14,10 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-11-01 · Pliny the Elder's Natural History
+- 🌍 **Pliny the Elder's *Natural History***, in all 37 books. It's the great Roman encyclopedia of everything in the world: the stars and the weather, countries and peoples, animals, trees, farming, medicine, metals, painting and precious stones. Pliny died in 79 AD sailing in to watch the eruption of Vesuvius up close. Each chapter has its title at the top. Try `!verse natural history 2.5` (book 2, chapter 5: what God is), `!verse pliny the elder 7.2` (the strange peoples at the ends of the earth) or `!verse natural history 35.36` (the great Greek painters). Where words are lost from Pliny's text, a "…" marks the gap. You'll find it in `!books` under 🏛️ Classical → 🦅 Latin → Science.
+- 🗂️ **Greek and Latin now open straight from 🏛️ Classical in `!books`.** Before, choosing 🏛️ Classical gave you a second 🏛️ Classical to choose before you reached Greek and Latin. Now 🏛️ Greek and 🦅 Latin are right there, beside the Ancient Near East and Zoroastrian shelves.
+
 ## 2026-11-01 · Seneca, Pliny, Ovid's Fasti and more Latin; Classical sorted into Greek and Latin
 - 🏛️ **The Classical shelf in `!books` is now split into Greek and Latin, then by kind:** epic, drama, historians, philosophy, letters and so on. Before, about a hundred authors sat on a separate "Perseus" shelf (named after the website their texts came from) instead of beside the writers they belong with. Now Thucydides is with the other Greek historians, Plautus with the Latin playwrights, and Virgil's *Eclogues* and *Georgics* next to his *Aeneid*. Open `!books` and pick 🏛️ Classical to look.
 - 🧘 **Seneca**, the Roman Stoic philosopher and Nero's tutor, now in full:

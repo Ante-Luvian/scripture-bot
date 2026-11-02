@@ -13,6 +13,7 @@ Latin authors the library lacked, into data/classical/latin.json (run scripts/cl
   seneca_tragedies   Seneca's nine tragedies (Miller's Loeb, 1917), from theoi.com
   pliny_letters      Pliny the Younger's Letters and the Trajan correspondence (Melmoth/Bosanquet), Gutenberg #2811
   satyricon   Petronius (Firebaugh, 1922), Gutenberg #5225
+  natural_history    Pliny the Elder's Natural History (Bostock and Riley, 1855-57), Gutenberg's six volumes
   fasti, thebaid, achilleid, argonautica   Ovid, Statius and Valerius Flaccus (Frazer's and Mozley's Loebs), theoi.com
   fabulae, astronomica   Hyginus (Grant, 1960), from ToposText: theoi.com's own pages now hold only a few fables
   dares, dictys, fulgentius   the Trojan War "eyewitnesses" (Frazer, 1966) and the Mythologies (Whitbread), theoi.com
@@ -583,7 +584,7 @@ def dictys() -> None:
 
 def _title(s: str) -> str:
     """ "THE ORIGIN OF IDOLS" -> "The Origin of Idols"."""
-    s = re.sub(r"\b(Of|The|And|To|In|With|A|An|On|By|For|From|Or)\b", lambda w: w.group(1).lower(), s.strip().title())
+    s = re.sub(r"\b(Of|The|And|To|In|With|A|An|On|By|For|From|Or|As)\b", lambda w: w.group(1).lower(), s.strip().title())
     return s[0].upper() + s[1:]
 
 
@@ -637,11 +638,53 @@ def moral_letters() -> None:
     _put("Moral Letters to Lucilius", _sorted_lines(passages), "Seneca, trans. Richard M. Gummere (1917-25)")
 
 
+# ── Pliny the Elder, Natural History (Bostock and Riley, 1855-57) ──────────────────────────────────────────
+# Gutenberg, six volumes. A book an <h2> ("BOOK II. AN ACCOUNT OF THE WORLD..."), a chapter an <h3> ("CHAP. 5. (7.)—
+# OF GOD."): Bostock's chapter numbers (the bracketed ones are the other numbering, left out), so "Natural History
+# 2.5" is Book 2 chapter 5, its title leading it. Book 1, Pliny's dedication, is "1.1". Left out: the translators'
+# preface, life of Pliny, tables of money and measures, footnotes, index and errata.
+
+NATURAL_HISTORY = (57493, 60230, 59131, 61113, 60688, 62704)
+
+
+def natural_history() -> None:
+    chapters = {}
+    for vol in NATURAL_HISTORY:
+        t = NOTE_REF.sub("", gutenberg(vol))
+        for head, body in split(t, r"(?is)<h2[^>]*>(.*?)</h2>"):
+            m = re.match(r"BOOK ([IVXL]+)\.", text(head))
+            if not m:
+                continue
+            book = roman(m.group(1))
+            parts = split(body, r"(?is)<h3[^>]*>(.*?)</h3>")
+            if not parts:                                          # (Book 1: the dedication, no chapters)
+                chapters[f"{book}.1"] = blocks(body)
+                continue
+            for h3, part in parts:
+                # ("CHAP 90.", "27.—CARMANIA.", "CHAPS. 1 & 2. (1.)—THE NATURE OF THE VINE": the first number)
+                c = re.match(r"(?:CHAPS?[.,]?\s*)?(\d+)(?:\s*&\s*\d+)?\s*[.,]?\s*(?:\(\d+\.?\)\s*)?[—-]*\s*(.*)", text(h3))
+                expect(c, f"Natural History {book}: heading {text(h3)!r}")
+                # (Bostock's "* * * *", a gap in Pliny's text, shown as one; italics inside a title dropped, the
+                # title being in italics)
+                paras = [re.sub(r"\s*\*(?:\s+\*)+(?=[\s.,;:)]|$)", " … ", p).replace("  ", " ").strip() for p in blocks(part)]
+                title = _title(c.group(2).replace("*", "").rstrip(". "))
+                key = f"{book}.{c.group(1)}"
+                if key in chapters:                                # (a number printed twice: keep both, in order)
+                    chapters[key] += [f"*{title}*"] + paras
+                else:
+                    chapters[key] = [f"*{title}*\n{paras[0]}" if paras else f"*{title}*"] + paras[1:]
+    books = sorted({int(k.split(".")[0]) for k in chapters})
+    expect(books == list(range(1, 38)), f"Natural History: books {books}")
+    ordered = dict(sorted(chapters.items(), key=lambda kv: tuple(int(x) for x in kv[0].split("."))))
+    _put("Natural History", verses(ordered), "Pliny the Elder, trans. John Bostock and H. T. Riley (1855-57)")
+
+
 BUILDS = {"old_age": old_age, "distichs": distichs, "cato": cato, "varro": varro, "seneca_dialogues": seneca_dialogues,
           "benefits": benefits, "natural_questions": natural_questions, "pliny_letters": pliny_letters,
           "satyricon": satyricon, "fasti": fasti, "thebaid": thebaid, "achilleid": achilleid,
           "argonautica": argonautica, "seneca_tragedies": seneca_tragedies, "fabulae": fabulae, "dares": dares,
-          "dictys": dictys, "fulgentius": fulgentius, "astronomica": astronomica, "moral_letters": moral_letters}
+          "dictys": dictys, "fulgentius": fulgentius, "astronomica": astronomica, "moral_letters": moral_letters,
+          "natural_history": natural_history}
 
 
 def main(names: list) -> None:

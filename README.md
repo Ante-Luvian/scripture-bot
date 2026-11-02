@@ -280,7 +280,7 @@ Presocratics, the Orphic tablets: from Gutenberg, Wikisource and tertullian.org)
 `scripts/build_latin.py` (`latin.json`: Cato's and Varro's farming books from the Loeb on
 LacusCurtius, which `scripts/fetch_lacus.py` downloads first because the site is slow;
 Cicero's *On Old Age* from Gutenberg; the *Distichs of Cato* from Wikisource; Seneca's
-dialogues, *On Benefits* and *Natural Questions*, Pliny's letters and the *Satyricon* from
+dialogues, *On Benefits* and *Natural Questions*, Pliny's letters, Pliny the Elder's *Natural\nHistory* and the *Satyricon* from
 Gutenberg; Seneca's *Moral Letters* from Wikisource; Seneca's tragedies, Ovid's *Fasti*,
 Statius, Valerius Flaccus, Dares, Dictys and Fulgentius from theoi.com, cached by
 `scripts/fetch_theoi.py`; Hyginus from ToposText). The poems, plays and *Moral Letters* are

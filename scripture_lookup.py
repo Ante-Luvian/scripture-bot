@@ -883,6 +883,9 @@ ALIASES: dict[str, str] = {
     # Pliny the Younger, Petronius, Ovid, Statius, Valerius Flaccus
     "pliny letters": "Letters of Pliny", "letters of pliny the younger": "Letters of Pliny",
     "pliny the younger": "Letters of Pliny", "pliny's letters": "Letters of Pliny",
+    "pliny the elder": "Natural History", "naturalis historia": "Natural History",
+    "historia naturalis": "Natural History", "pliny natural history": "Natural History",
+    "pliny's natural history": "Natural History",
     "pliny and trajan": "Correspondence with Trajan", "letters to trajan": "Correspondence with Trajan",
     "pliny to trajan": "Correspondence with Trajan",
     "petronius": "Satyricon", "satyrica": "Satyricon", "satyricon of petronius": "Satyricon",

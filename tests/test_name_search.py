@@ -40,10 +40,12 @@ def test_whole_word_matches():
 
 
 def test_classical_is_greek_and_latin_by_kind(books):
-    """No Perseus shelf: its authors filed by language and kind with the rest (the owner, 2026-11-01)."""
-    classical = dict(dict(books.BOOKS_TREE)["🏛️ Classical"])
-    assert list(classical) == ["Greek", "Latin"]
-    greek, latin = dict(classical["Greek"]), dict(classical["Latin"])
+    """No Perseus shelf: its authors filed by language and kind with the rest (the owner, 2026-11-01). Greek and
+    Latin are what 🏛️ Classical opens to, not a second Classical inside it."""
+    classical = dict(books.ROOT_BOOKS_TREE)["🏛️ Classical"]
+    assert [name for name, _ in classical][:2] == ["🏛️ Greek", "🦅 Latin"]
+    assert "🏛️ Classical" not in [name for name, _ in classical]
+    greek, latin = dict(dict(books.BOOKS_TREE)["🏛️ Greek"]), dict(dict(books.BOOKS_TREE)["🦅 Latin"])
     assert "Thucydides" in dict(greek["Historians"]) and "Sophocles" in dict(greek["Drama"])
     assert "Tacitus" in dict(latin["Historians"]) and "Plautus" in dict(latin["Drama"])
     assert {"Aeneid", "Eclogues", "Georgics"} <= set(dict(latin["Epic"])["Virgil"])   # (beside the Aeneid)

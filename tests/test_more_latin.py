@@ -54,7 +54,7 @@ def test_hyginus(lookup):
 
 
 def test_the_latin_shelves(books):
-    latin = dict(dict(dict(books.BOOKS_TREE)["🏛️ Classical"])["Latin"])
+    latin = dict(dict(books.BOOKS_TREE)["🦅 Latin"])
     assert {"Thebaid", "Achilleid"} <= set(dict(latin["Epic"])["Statius"])
     assert "Fasti" in dict(latin["Epic"])["Ovid"] and "Metamorphoses" in dict(latin["Epic"])["Ovid"]
     assert "Thyestes" in dict(latin["Drama"])["Seneca"] and "Plautus" in dict(latin["Drama"])
@@ -63,3 +63,9 @@ def test_the_latin_shelves(books):
     assert "Satyricon" in dict(latin["Novels & Satire"])["Petronius"]
     assert set(dict(latin["Myth & Legend"])) == {"Hyginus", "Fulgentius", "Dares Phrygius", "Dictys Cretensis"}
     assert "Letters of Pliny" in dict(latin["Letters & Essays"])["Pliny the Younger"]
+    assert "Natural History" in dict(latin["Science"])["Pliny the Elder"]
+
+
+def test_natural_history(lookup):
+    assert "*Of God*" in found(lookup, "Natural History 2.5")["text"]
+    assert "Natural History 7.2" in str(found(lookup, "pliny the elder 7.2").get("reference"))

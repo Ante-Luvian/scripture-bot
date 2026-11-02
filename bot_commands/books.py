@@ -547,176 +547,177 @@ BOOKS_TREE = [
             ]),
         ]),
     ]),
-    # Greek and Latin, each by kind (the owner, 2026-11-01); the Perseus authors are filed into these shelves by
+    # Greek and Latin, each by kind, straight under the 🏛️ Classical menu (the owner, 2026-11-01); the Perseus authors are filed into these shelves by
     # PERSEUS_PLACES below, not kept on a shelf of their own
-    ("🏛️ Classical", [
-        ("Greek", [
-            ("Epic & Hymns", [
-                ("Homer", ["Iliad", "Odyssey"]),
-                ("Hesiod", ["Theogony", "Works and Days", "Shield of Heracles"]),
-                ("Homeric", ["Homeric Hymns"]),
-                ("Orphic", ["Orphic Hymns", "Orphic Gold Tablets"]),
+    ("🏛️ Greek", [
+        ("Epic & Hymns", [
+            ("Homer", ["Iliad", "Odyssey"]),
+            ("Hesiod", ["Theogony", "Works and Days", "Shield of Heracles"]),
+            ("Homeric", ["Homeric Hymns"]),
+            ("Orphic", ["Orphic Hymns", "Orphic Gold Tablets"]),
+        ]),
+        ("Presocratics & Pythagoreans", [
+            ("Presocratic", [
+                "Fragments of Xenophanes", "Fragments of Heraclitus", "Fragments of Parmenides",
+                "Fragments of Empedocles", "Fragments of Anaxagoras", "Fragments of Zeno", "Fragments of Melissus",
+                "Fragments of Diogenes of Apollonia",
             ]),
-            ("Presocratics & Pythagoreans", [
-                ("Presocratic", [
-                    "Fragments of Xenophanes", "Fragments of Heraclitus", "Fragments of Parmenides",
-                    "Fragments of Empedocles", "Fragments of Anaxagoras", "Fragments of Zeno", "Fragments of Melissus",
-                    "Fragments of Diogenes of Apollonia",
-                ]),
-                ("Pythagorean", [
-                    "Anonymous Life of Pythagoras", "Fragments of Philolaus", "Fragments of Archytas",
-                    "Timaeus Locrus on the Soul of the World", "Ocellus Lucanus on the Universe",
-                    "Ocellus Lucanus on Laws", "Political Fragments of the Pythagoreans",
-                    "Ethical Fragments of the Pythagoreans", "Ethical Fragments of Hierocles",
-                    "Golden Verses of Pythagoras", "Golden Sentences of Democrates",
-                    "Pythagorean Sentences of Demophilus", "Similitudes of Demophilus",
-                    "Pythagorean Sentences from Stobaeus", "Select Sentences of Sextus the Pythagorean",
-                    "Pythagorean Sentences from Iamblichus", "Symbols of Pythagoras",
-                ]),
-            ]),
-            ("Plato", [
-                ("Plato", [
-                    "Euthyphro", "Apology", "Crito", "Phaedo", "Cratylus",
-                    "Theaetetus", "Sophist", "Statesman", "Parmenides", "Philebus",
-                    "Symposium", "Phaedrus", "Alcibiades I", "Alcibiades II",
-                    "Hipparchus", "Rival Lovers", "Theages", "Charmides", "Laches",
-                    "Lysis", "Euthydemus", "Protagoras", "Gorgias", "Meno",
-                    "Greater Hippias", "Lesser Hippias", "Ion", "Menexenus",
-                    "Cleitophon", "Republic", "Timaeus", "Critias", "Minos",
-                    "Laws", "Epinomis", "Letters",
-                    "Axiochus", "Eryxias",
-                ]),
-            ]),
-            ("Aristotle", [
-                ("Ethics & Politics", [
-                    "Nicomachean Ethics", "Eudemian Ethics", "Politics", "Economics", "Athenian Constitution",
-                ]),
-                ("Logic (Organon)", [
-                    "Categories", "On Interpretation", "Prior Analytics", "Posterior Analytics", "Topics",
-                    "On Sophistical Refutations",
-                ]),
-                ("Natural Philosophy", [
-                    "Physics", "On the Heavens", "On Generation and Corruption", "Meteorology", "On the Soul",
-                    "On Memory and Reminiscence", "On Dreams", "On Sleep and Sleeplessness",
-                    "On Prophesying by Dreams", "On Sense and the Sensible", "On Longevity and Shortness of Life",
-                    "On Youth, Old Age, Life and Death",
-                ]),
-                ("Biology", [
-                    "History of Animals", "On the Parts of Animals", "On the Motion of Animals",
-                    "On the Gait of Animals", "On the Generation of Animals",
-                ]),
-                ("Rhetoric & Poetics", ["Rhetoric", "Poetics", "Metaphysics"]),
-            ]),
-            ("Stoics", [
-                ("Epictetus", ["Enchiridion of Epictetus"]),
-                ("Marcus Aurelius", ["Meditations"]),
-            ]),
-            ("Platonists", [
-                # his Platonist and religious essays; all of him (the Lives too) is under Lives, Essays & Satire
-                ("Plutarch", [
-                    "Isis and Osiris", "The Ε at Delphi", "The Oracle at Delphi no Longer Given in Verse",
-                    "The Obsolesence of Oracles", "Plutarch's Platonic questions",
-                    "Concerning the procreation of the soul as discoursed in Timaeus",
-                    "A Discourse Concerning Socrates's Daemon", "Concerning Such Whom God is Slow to Punish",
-                    "Concerning the Face which Appears in the Orb Of the Moon", "Of Fate", "Superstition",
-                    "On Moral Virtue", "Of Love",
-                ]),
-                ("Middle Platonists", [
-                    "The Doctrine of Plato (Alcinous)", "Dissertations of Maximus of Tyre",
-                    "Taurus on the Eternity of the World", "Celsus Against the Christians",
-                ]),
-                ("Plotinus", ["Enneads"]),
-                ("Porphyry", [
-                    "Letter to Anebo", "On Images", "On the Faculties of the Soul", "Isagoge",
-                    "Porphyry Against the Christians", "Life of Plotinus", "Life of Pythagoras", "On Abstinence",
-                    "On the Cave of the Nymphs", "Auxiliaries to the Intelligibles", "Letter to Marcella",
-                ]),
-                ("Iamblichus", ["On the Mysteries", "Life of Pythagoras"]),
-                ("Julian", [
-                    "Hymn to King Helios", "Hymn to the Mother of Gods", "Against the Galilaeans",
-                    "Panegyric in Honour of Constantius", "Panegyric in Honour of Eusebia",
-                    "The Heroic Deeds of Constantius", "Consolation upon the Departure of Sallust",
-                    "Letter to Themistius", "Letter to the Athenians", "Fragment of a Letter to a Priest",
-                    "To the Cynic Heracleios", "To the Uneducated Cynics", "The Caesars", "Misopogon",
-                    "Letters of Julian", "Epigrams of Julian", "Fragments of Julian",
-                ]),
-                ("Libanius", ["For the Temples", "Monody on Julian"]),
-                ("Eunapius", ["Lives of the Philosophers and Sophists"]),
-                ("Sallustius", ["On the Gods and the World"]),
-                ("Proclus", [
-                    "Hymns of Proclus", "Theology of Plato", "Elements of Theology", "On Providence and Fate",
-                    "Ten Doubts Concerning Providence", "On the Subsistence of Evil",
-                    "Commentary on the Chaldaean Oracles", "Proclus on Motion", "Theorems on the Perpetuity of Time",
-                ]),
-                ("Hierocles", ["Commentary on the Golden Verses"]),
-                ("Marinus", ["Life of Proclus"]),
-                ("Dionysius the Areopagite", [
-                    "Divine Names", "Mystical Theology", "On the Heavenly Hierarchy", "On the Ecclesiastical Hierarchy",
-                ]),
-            ]),
-            ("Hermetic & Oracles", [
-                ("Hermetic", ["Corpus Hermeticum", "Asclepius", "Definitions of Hermes Trismegistus to Asclepius",
-                              "The Emerald Tablet"]),
-                ("Oracles", ["Delphic Maxims", "Oracular Statements", "Chaldaean Oracles"]),
-            ]),
-            ("Historians", [
-                ("Zosimus", ["New History"]),
-            ]),
-            ("Science & Astrology", [
-                ("Ptolemy", ["Tetrabiblos", "Centiloquy"]),
-            ]),
-            ("Fables", [
-                ("Aesop", ["Aesop's Fables"]),
+            ("Pythagorean", [
+                "Anonymous Life of Pythagoras", "Fragments of Philolaus", "Fragments of Archytas",
+                "Timaeus Locrus on the Soul of the World", "Ocellus Lucanus on the Universe",
+                "Ocellus Lucanus on Laws", "Political Fragments of the Pythagoreans",
+                "Ethical Fragments of the Pythagoreans", "Ethical Fragments of Hierocles",
+                "Golden Verses of Pythagoras", "Golden Sentences of Democrates",
+                "Pythagorean Sentences of Demophilus", "Similitudes of Demophilus",
+                "Pythagorean Sentences from Stobaeus", "Select Sentences of Sextus the Pythagorean",
+                "Pythagorean Sentences from Iamblichus", "Symbols of Pythagoras",
             ]),
         ]),
-        ("Latin", [
-            ("Epic", [
-                ("Virgil", ["Aeneid"]),
-                ("Ovid", ["Fasti"]),                              # (beside the rest of him, from Perseus)
-                ("Statius", ["Thebaid", "Achilleid"]),
-                ("Valerius Flaccus", ["Argonautica"]),
+        ("Plato", [
+            ("Plato", [
+                "Euthyphro", "Apology", "Crito", "Phaedo", "Cratylus",
+                "Theaetetus", "Sophist", "Statesman", "Parmenides", "Philebus",
+                "Symposium", "Phaedrus", "Alcibiades I", "Alcibiades II",
+                "Hipparchus", "Rival Lovers", "Theages", "Charmides", "Laches",
+                "Lysis", "Euthydemus", "Protagoras", "Gorgias", "Meno",
+                "Greater Hippias", "Lesser Hippias", "Ion", "Menexenus",
+                "Cleitophon", "Republic", "Timaeus", "Critias", "Minos",
+                "Laws", "Epinomis", "Letters",
+                "Axiochus", "Eryxias",
             ]),
-            ("Drama", [
-                ("Seneca", [
-                    "Hercules Furens", "Troades", "Phoenissae (Seneca)", "Medea (Seneca)", "Phaedra", "Oedipus",
-                    "Agamemnon (Seneca)", "Thyestes", "Hercules Oetaeus",
-                ]),
+        ]),
+        ("Aristotle", [
+            ("Ethics & Politics", [
+                "Nicomachean Ethics", "Eudemian Ethics", "Politics", "Economics", "Athenian Constitution",
             ]),
-            ("Philosophy", [
-                ("Cicero", ["On Old Age", "Scipio's Dream"]),
-                ("Seneca", [
-                    "Moral Letters to Lucilius", "On Providence", "On the Firmness of the Wise Man", "On Anger",
-                    "To Marcia, On Consolation", "On the Happy Life", "On Leisure", "On Peace of Mind",
-                    "On the Shortness of Life", "To Helvia, On Consolation", "To Polybius, On Consolation",
-                    "On Clemency", "On Benefits", "Natural Questions",
-                ]),
-                ("Boethius", ["Consolation of Philosophy"]),
+            ("Logic (Organon)", [
+                "Categories", "On Interpretation", "Prior Analytics", "Posterior Analytics", "Topics",
+                "On Sophistical Refutations",
             ]),
-            ("Letters & Essays", [
-                ("Pliny the Younger", ["Letters of Pliny", "Correspondence with Trajan"]),
+            ("Natural Philosophy", [
+                "Physics", "On the Heavens", "On Generation and Corruption", "Meteorology", "On the Soul",
+                "On Memory and Reminiscence", "On Dreams", "On Sleep and Sleeplessness",
+                "On Prophesying by Dreams", "On Sense and the Sensible", "On Longevity and Shortness of Life",
+                "On Youth, Old Age, Life and Death",
             ]),
-            ("Novels & Satire", [
-                ("Apuleius", ["The Golden Ass", "Apologia of Apuleius", "Florida"]),
-                ("Petronius", ["Satyricon"]),
+            ("Biology", [
+                "History of Animals", "On the Parts of Animals", "On the Motion of Animals",
+                "On the Gait of Animals", "On the Generation of Animals",
             ]),
-            ("Myth & Legend", [
-                ("Hyginus", ["Fabulae", "Astronomica"]),
-                ("Fulgentius", ["Mythologies"]),
-                # the Trojan War told by two "eyewitnesses", the Middle Ages' Troy (the Greek originals lost)
-                ("Dares Phrygius", ["The Fall of Troy"]),
-                ("Dictys Cretensis", ["Journal of the Trojan War"]),
+            ("Rhetoric & Poetics", ["Rhetoric", "Poetics", "Metaphysics"]),
+        ]),
+        ("Stoics", [
+            ("Epictetus", ["Enchiridion of Epictetus"]),
+            ("Marcus Aurelius", ["Meditations"]),
+        ]),
+        ("Platonists", [
+            # his Platonist and religious essays; all of him (the Lives too) is under Lives, Essays & Satire
+            ("Plutarch", [
+                "Isis and Osiris", "The Ε at Delphi", "The Oracle at Delphi no Longer Given in Verse",
+                "The Obsolesence of Oracles", "Plutarch's Platonic questions",
+                "Concerning the procreation of the soul as discoursed in Timaeus",
+                "A Discourse Concerning Socrates's Daemon", "Concerning Such Whom God is Slow to Punish",
+                "Concerning the Face which Appears in the Orb Of the Moon", "Of Fate", "Superstition",
+                "On Moral Virtue", "Of Love",
             ]),
-            ("Farming & Practical Arts", [
-                ("Cato the Elder", ["On Agriculture"]),
-                ("Varro", ["On Farming"]),
+            ("Middle Platonists", [
+                "The Doctrine of Plato (Alcinous)", "Dissertations of Maximus of Tyre",
+                "Taurus on the Eternity of the World", "Celsus Against the Christians",
             ]),
-            ("Fables & Proverbs", [
-                ("Phaedrus", ["Fables of Phaedrus"]),
-                ("Dionysius Cato", ["Distichs of Cato"]),      # (the name the Middle Ages gave the schoolbook's author)
+            ("Plotinus", ["Enneads"]),
+            ("Porphyry", [
+                "Letter to Anebo", "On Images", "On the Faculties of the Soul", "Isagoge",
+                "Porphyry Against the Christians", "Life of Plotinus", "Life of Pythagoras", "On Abstinence",
+                "On the Cave of the Nymphs", "Auxiliaries to the Intelligibles", "Letter to Marcella",
             ]),
-            ("Astrology", [
-                ("Firmicus Maternus", ["The Geniture of the World"]),
+            ("Iamblichus", ["On the Mysteries", "Life of Pythagoras"]),
+            ("Julian", [
+                "Hymn to King Helios", "Hymn to the Mother of Gods", "Against the Galilaeans",
+                "Panegyric in Honour of Constantius", "Panegyric in Honour of Eusebia",
+                "The Heroic Deeds of Constantius", "Consolation upon the Departure of Sallust",
+                "Letter to Themistius", "Letter to the Athenians", "Fragment of a Letter to a Priest",
+                "To the Cynic Heracleios", "To the Uneducated Cynics", "The Caesars", "Misopogon",
+                "Letters of Julian", "Epigrams of Julian", "Fragments of Julian",
             ]),
+            ("Libanius", ["For the Temples", "Monody on Julian"]),
+            ("Eunapius", ["Lives of the Philosophers and Sophists"]),
+            ("Sallustius", ["On the Gods and the World"]),
+            ("Proclus", [
+                "Hymns of Proclus", "Theology of Plato", "Elements of Theology", "On Providence and Fate",
+                "Ten Doubts Concerning Providence", "On the Subsistence of Evil",
+                "Commentary on the Chaldaean Oracles", "Proclus on Motion", "Theorems on the Perpetuity of Time",
+            ]),
+            ("Hierocles", ["Commentary on the Golden Verses"]),
+            ("Marinus", ["Life of Proclus"]),
+            ("Dionysius the Areopagite", [
+                "Divine Names", "Mystical Theology", "On the Heavenly Hierarchy", "On the Ecclesiastical Hierarchy",
+            ]),
+        ]),
+        ("Hermetic & Oracles", [
+            ("Hermetic", ["Corpus Hermeticum", "Asclepius", "Definitions of Hermes Trismegistus to Asclepius",
+                          "The Emerald Tablet"]),
+            ("Oracles", ["Delphic Maxims", "Oracular Statements", "Chaldaean Oracles"]),
+        ]),
+        ("Historians", [
+            ("Zosimus", ["New History"]),
+        ]),
+        ("Science & Astrology", [
+            ("Ptolemy", ["Tetrabiblos", "Centiloquy"]),
+        ]),
+        ("Fables", [
+            ("Aesop", ["Aesop's Fables"]),
+        ]),
+    ]),
+    ("🦅 Latin", [
+        ("Epic", [
+            ("Virgil", ["Aeneid"]),
+            ("Ovid", ["Fasti"]),                              # (beside the rest of him, from Perseus)
+            ("Statius", ["Thebaid", "Achilleid"]),
+            ("Valerius Flaccus", ["Argonautica"]),
+        ]),
+        ("Drama", [
+            ("Seneca", [
+                "Hercules Furens", "Troades", "Phoenissae (Seneca)", "Medea (Seneca)", "Phaedra", "Oedipus",
+                "Agamemnon (Seneca)", "Thyestes", "Hercules Oetaeus",
+            ]),
+        ]),
+        ("Philosophy", [
+            ("Cicero", ["On Old Age", "Scipio's Dream"]),
+            ("Seneca", [
+                "Moral Letters to Lucilius", "On Providence", "On the Firmness of the Wise Man", "On Anger",
+                "To Marcia, On Consolation", "On the Happy Life", "On Leisure", "On Peace of Mind",
+                "On the Shortness of Life", "To Helvia, On Consolation", "To Polybius, On Consolation",
+                "On Clemency", "On Benefits", "Natural Questions",
+            ]),
+            ("Boethius", ["Consolation of Philosophy"]),
+        ]),
+        ("Letters & Essays", [
+            ("Pliny the Younger", ["Letters of Pliny", "Correspondence with Trajan"]),
+        ]),
+        ("Novels & Satire", [
+            ("Apuleius", ["The Golden Ass", "Apologia of Apuleius", "Florida"]),
+            ("Petronius", ["Satyricon"]),
+        ]),
+        ("Science", [
+            ("Pliny the Elder", ["Natural History"]),
+        ]),
+        ("Myth & Legend", [
+            ("Hyginus", ["Fabulae", "Astronomica"]),
+            ("Fulgentius", ["Mythologies"]),
+            # the Trojan War told by two "eyewitnesses", the Middle Ages' Troy (the Greek originals lost)
+            ("Dares Phrygius", ["The Fall of Troy"]),
+            ("Dictys Cretensis", ["Journal of the Trojan War"]),
+        ]),
+        ("Farming & Practical Arts", [
+            ("Cato the Elder", ["On Agriculture"]),
+            ("Varro", ["On Farming"]),
+        ]),
+        ("Fables & Proverbs", [
+            ("Phaedrus", ["Fables of Phaedrus"]),
+            ("Dionysius Cato", ["Distichs of Cato"]),      # (the name the Middle Ages gave the schoolbook's author)
+        ]),
+        ("Astrology", [
+            ("Firmicus Maternus", ["The Geniture of the World"]),
         ]),
     ]),
     ("📯 LDS", [
@@ -1410,7 +1411,7 @@ def _place_perseus(authors: list) -> None:
         cut = plutarch.index("The Education of Children")
         by_name["Plutarch"] = None
         by_name["Plutarch: Parallel Lives"], by_name["Plutarch: Moralia"] = plutarch[:cut], plutarch[cut:]
-    classical = dict(dict(BOOKS_TREE)["🏛️ Classical"])
+    classical = {"Greek": dict(BOOKS_TREE)["🏛️ Greek"], "Latin": dict(BOOKS_TREE)["🦅 Latin"]}
     placed = set()
     for language, shelves in PERSEUS_PLACES.items():
         groups = classical[language]
@@ -1446,7 +1447,7 @@ SHELF_ORDER = {
               "Plato", "Aristotle", "Stoics", "Platonists", "Hermetic & Oracles", "Lives, Essays & Satire",
               "Myth & Geography", "Science & Astrology", "Fables", "Early Christian", "More"],
     "Latin": ["Epic", "Poetry", "Drama", "Historians", "Oratory & Rhetoric", "Philosophy", "Letters & Essays",
-              "Novels & Satire", "Myth & Legend", "Farming & Practical Arts", "Fables & Proverbs", "Astrology"],
+              "Novels & Satire", "Myth & Legend", "Science", "Farming & Practical Arts", "Fables & Proverbs", "Astrology"],
 }
 
 
@@ -1565,7 +1566,7 @@ _SUPERGROUP_ORDER = [
     ]),
     ("☪️ Islam & Bahá'í", ["☪️ Islamic", "🌍 Bahá'í"]),
     ("🧿 Gnostic & Esoteric", ["🧿 Gnostic", "🔮 Magic & Esotericism"]),
-    ("🏛️ Classical", ["🏛️ Classical", "🌙 Ancient Near East", "🔥 Zoroastrian"]),
+    ("🏛️ Classical", ["🏛️ Greek", "🦅 Latin", "🌙 Ancient Near East", "🔥 Zoroastrian"]),
     ("🪷 Dharmic & Asian", [
         "☸️ Dharmic", "☸️ Buddhist", "🤚 Jain", "🪯 Sikh", "☯️ Chinese Classics", "⛩️ Shinto",
     ]),
@@ -1609,7 +1610,7 @@ def tree_for(guild_id) -> tuple:
 
 
 def _open_lone(root: list) -> list:
-    """A group holding just one shelf of its own name (🏛️ Classical) opens that shelf, not a list of one."""
+    """A group holding just one shelf of its own name opens that shelf, not a list of one."""
     return [subs[0] if len(subs) == 1 and subs[0][0] == group else (group, subs) for group, subs in root]
 
 
