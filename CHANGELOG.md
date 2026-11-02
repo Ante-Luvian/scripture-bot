@@ -14,6 +14,12 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-11-02 · The Revelations of Methodius, in Middle English verse
+- 🔥 ***The Revelations of Methodius***, a poem of 975 lines in the English of the 1400s. It tells the history of the world in seven ages: from Adam and Cain, the flood and the Tower of Babel, through wars and empires, to the last emperor laying his crown on the Cross, the coming of Antichrist, and the Last Judgement. The prophecy was first written in Syriac around 690 AD and falsely put under the name of St Methodius, a bishop martyred centuries earlier. It became one of the most widely read prophecies of the Middle Ages, and this English version turned it into rhyming eight-line stanzas. The text is Charlotte D'Evelyn's 1918 edition of the only surviving manuscript.
+- 📖 It's numbered by line, so ask for any line and you get the stanza it's in: try `!verse revelations of methodius 1` (the opening), `!verse pseudo-methodius 326` (the Tower of Babel) or `!verse revelations of methodius 865` (how Antichrist is brought up). Plain `!verse methodius 1:1` still opens the *Banquet* of Methodius of Olympus, as before.
+- ✍️ **A tip for reading it:** the scribe came from East Anglia and spells the "sh" sound with an **x**, so "xall" is *shall* and "xulde" is *should*. "þ" is *th*, "ȝ" is usually *y* or *gh*, and "ward" means *world*.
+- You'll find it in `!books` under 📜 Medieval English Poetry → Bible Stories and Plays, next to *Genesis and Exodus*.
+
 ## 2026-11-02 · The Roman historians: the Historia Augusta, Velleius, Florus, and Frontinus
 New books for 🏛️ Classical → 🦅 Latin in `!books`. The historians sit in date order beside Caesar, Livy, Tacitus and Suetonius.
 - 👑 **The *Historia Augusta***, a set of 30 biographies of the Roman emperors from Hadrian (117 AD) to the 280s. It's full of gossip, scandal and some outright invention: one author pretended to be six writers, and he made up some of the letters he "quotes". Even so, for much of the 200s it is the only history that survives. Each life is its own book, and you can usually ask for it by the emperor's name:
