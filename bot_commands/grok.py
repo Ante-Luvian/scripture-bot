@@ -127,7 +127,11 @@ def render(answer: str, now: datetime.datetime = None) -> bytes:
     for i, line in enumerate(lines):
         d.text((pad, body_top + i * line_h), line, font=body_f, fill=WHITE)
     d.text((pad, time_top), stamp(now), font=time_f, fill=GREY)
-    d.line((pad, H - 4 * S, W - pad, H - 4 * S), fill=LINE, width=S)
+    d.rounded_rectangle((0, 0, W - 1, H - 1), radius=16 * S, outline=LINE, width=S)     # (the grey outline)
+    corners = Image.new("L", (W, H), 0)                # (outside the rounded corners: see-through)
+    ImageDraw.Draw(corners).rounded_rectangle((0, 0, W - 1, H - 1), radius=16 * S, fill=255)
+    im = im.convert("RGBA")
+    im.putalpha(corners)
     im = im.resize((W // S, H // S), Image.LANCZOS)
     out = io.BytesIO()
     im.save(out, "PNG")
