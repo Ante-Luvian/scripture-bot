@@ -96,3 +96,15 @@ def test_the_alchemists(lookup):
                 "alchemy.json"})
     assert len(text) > 2_000_000 and not re.search(r"Sacred Texts \||Next:|Click to enlarge|fn_\d", text)
     assert len(lookup._data[corpus]["Turba Philosophorum"]) == 73
+
+
+def test_ficino(lookup):
+    """A machine translation (scripts/build_ficino.py), said so in its source and its shelf's name."""
+    r = lookup.get_verse("de vita 1.1")
+    assert r["found"] and "nine guides" in r["text"] and "machine translation" in r["source"]
+    corpus, _ = lookup._resolve_book("Three Books on Life")
+    chapters = list(lookup._data[corpus]["Three Books on Life"])
+    assert chapters[0] == "1.1" and "2.20" in chapters and "3.26" in chapters
+    text = str(lookup._data[corpus]["Three Books on Life"]) + str(lookup._data[corpus]["Antidote against Epidemics"])
+    assert not re.search(r"ANTIDOT(?:E|VS)\.|COMPARANDA|Mars\. Fic|\bp\. \d+", text)
+    assert list(lookup._data[corpus]["Antidote against Epidemics"])[-1] == "25"

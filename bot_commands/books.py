@@ -957,6 +957,9 @@ BOOKS_TREE = [
     ("🔮 Magic & Esotericism", [
         ("Agrippa", ["Three Books of Occult Philosophy", "Fourth Book of Occult Philosophy"]),
         ("Pico della Mirandola", ["Oration on the Dignity of Man"]),
+        ("Marsilio Ficino (machine translation)", ["Three Books on Life", "Ficino's Apology",
+                                                   "On the Tranquillity of Life", "Antidote against Epidemics",
+                                                   "On the Regimen of Life According to the Seasons"]),
         # (the Lesser Key's five parts after the Key: they're Solomonic books too)
         ("Solomonic Literature", ["The Key of Solomon", "Goetia", "Theurgia Goetia", "Ars Paulina", "Ars Almadel",
                                  "Ars Notoria", "Testament of Solomon"]),

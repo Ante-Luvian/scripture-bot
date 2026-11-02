@@ -895,6 +895,10 @@ ALIASES: dict[str, str] = {
     "de hominis dignitate": "Oration on the Dignity of Man",
     "mithraic ritual": "A Mithraic Ritual", "a mithraic ritual": "A Mithraic Ritual",
     "mithras liturgy": "A Mithraic Ritual", "mithraic liturgy": "A Mithraic Ritual", "mithriac ritual": "A Mithraic Ritual",
+    "three books on life": "Three Books on Life", "de vita": "Three Books on Life", "ficino": "Three Books on Life",
+    "de vita libri tres": "Three Books on Life", "marsilio ficino": "Three Books on Life",
+    "ficino's apology": "Ficino's Apology", "antidote against epidemics": "Antidote against Epidemics",
+    "ficino on the plague": "Antidote against Epidemics", "tranquillity of life": "On the Tranquillity of Life",
     # the alchemists (data/esoteric/alchemy.json)
     "turba": "Turba Philosophorum", "turba philosophorum": "Turba Philosophorum",
     "triumphal chariot": "The Triumphal Chariot of Antimony", "chariot of antimony": "The Triumphal Chariot of Antimony",
@@ -2122,6 +2126,7 @@ class ScriptureLookup:
                          "pico.json",                  # Pico's Oration (scripts/build_pico.py)
                          "mithraic.json",              # Mead's Mithraic Ritual (scripts/build_mithraic.py)
                          "alchemy.json",               # the alchemists (scripts/build_alchemy.py)
+                         "ficino.json",                # Ficino, a machine translation (scripts/build_ficino.py)
                          # (moved from the medieval shelf, 2026-11-01: the owner wants them with the esoteric books)
                          "swedenborg.json",
                          "lilly_astrology.json",       # Lilly ed. Zadkiel (scripts/build_astrology.py)

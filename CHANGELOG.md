@@ -14,6 +14,17 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-11-01 · The alchemists, Pico, Ficino, and the Mithras Liturgy
+More for the 🔮 Magic & Esotericism shelf (in `!books`, under 🧿 Gnostic & Esoteric).
+- ⚗️ **A whole shelf of alchemy: 46 treatises.** Alchemy was the old art of turning base metals into gold, and of the "Philosophers' Stone" that would do it; for many alchemists it was just as much about purifying the soul. The books are in A. E. Waite's English translations and other old ones, in four groups:
+  - **Paracelsus**, the rebel physician of the 1500s: *The Treasure of Treasures*, *The Aurora of the Philosophers*, *Coelum Philosophorum* and *The Tincture of the Philosophers*. Try `!verse coelum 3`.
+  - ***The Hermetic Museum***, a famous 1678 collection of 21 treatises, including the *Book of Lambspring* with its riddling emblems (`!verse lambspring 1`), the *Sophic Hydrolith*, and *The Golden Tripod* with Basil Valentine's Twelve Keys.
+  - ***Collectanea Chemica***: Philalethes on the "Alkahest" (the universal solvent), Sir George Ripley's *Bosom Book* and more.
+  - **Classic tracts**: the *Turba Philosophorum*, an imagined assembly of ancient philosophers debating the Stone, all 72 speeches (`!verse turba 2`). Also the *Golden Tractate of Hermes*, the practice of Mary the Prophetess, Roger Bacon's *Mirror of Alchemy*, Basil Valentine's *Triumphal Chariot of Antimony* and Edward Kelly's *Stone of the Philosophers*.
+- 👤 **Pico della Mirandola's *Oration on the Dignity of Man*** (1486), the manifesto of the Renaissance: God tells Adam that he alone of all creatures has no fixed place, and can make himself whatever he chooses. Try `!verse pico 1`.
+- 📗 **Marsilio Ficino's *Three Books on Life*** (1489), the Renaissance Platonist's guide to health for scholars, long life, and drawing on the powers of the stars, with his *Antidote against Epidemics* and three shorter pieces. ⚠️ No human translation of these is freely available, so this one was made by an AI from the Latin, and no person has checked it. Its shelf says so. Try `!verse de vita 1.1`.
+- ☀️ **The "Mithras Liturgy"**, in G. R. S. Mead's *A Mithraic Ritual* (1907): a rite from an Egyptian magical papyrus for rising through the heavens to meet the god of the Sun. Mead's introduction is chapter 0; try `!verse mithras liturgy 2`.
+
 ## 2026-11-01 · Fixes: !summa, canon law, and cleaner texts
 - 🛠️ **`!summa` fixed.** The website it reads from changed, and three things broke. `!summa random` failed. Every reply to an objection was shown a second time as an extra objection. And the last article of each question ran on into the website's copyright notice. All fixed. Supplement articles are now cited "ST Supp.12.2", not "ST Supp..12.2".
 - ⚖️ **Canon law reads properly.** Words with "ff" or "fi" in them came out garbled ("works and aVairs" for *works and affairs*, "ofWce" for *office*), and every section sign showed as "Â§". Fixed throughout. `!ccc CCC 2185` and `!canon Canon 1247` also work now, with the prefix typed in.
