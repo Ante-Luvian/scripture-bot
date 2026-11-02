@@ -11,14 +11,14 @@ import time
 import discord
 from PIL import Image, ImageDraw, ImageFont
 
-from core import ROOT, bot
+from core import ROOT, bot, log
 
 FONTS = "C:/Windows/Fonts/"
 S = 2                                                   # drawn at twice the size, for sharp text
 
 # "grok is this true", "@grok is that real?", "grok confirm": grok, and something asking whether it's so
 TRIGGER = re.compile(r"(?is)(?=.*\bgrok\b)(?=.*\b(?:true|real|accurate|legit|correct|right|fake|confirm|cap|lying|facts?)\b)")
-COOLDOWN = 10                                           # seconds, a channel
+COOLDOWN = 5                                            # seconds, a person (not a channel: two people asking at once both get one)
 _last: dict = {}
 
 # (answer, weight): mostly the plain three, with the odd joke
@@ -151,11 +151,15 @@ def asks_grok(content: str) -> bool:
 async def grok_is_this_true(message: discord.Message):
     if message.author.bot or not asks_grok(message.content):
         return
-    key = getattr(message.channel, "id", None)
+    who = f"{message.author} in #{getattr(message.channel, 'name', 'DM')}"
+    key = message.author.id
     if time.monotonic() - _last.get(key, -1e9) < COOLDOWN:
+        log.info(f"GROK skipped (cooldown) | {who} | {message.content[:60]}")
         return
     _last[key] = time.monotonic()
+    answer = pick()
     try:
-        await message.reply(file=discord.File(io.BytesIO(render(pick())), filename="grok.png"), mention_author=False)
-    except discord.HTTPException:
-        pass
+        await message.reply(file=discord.File(io.BytesIO(render(answer)), filename="grok.png"), mention_author=False)
+        log.info(f"GROK {answer!r} | {who} | {message.content[:60]}")
+    except discord.HTTPException as e:
+        log.warning(f"GROK reply failed ({e}) | {who}")
