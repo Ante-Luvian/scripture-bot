@@ -290,6 +290,36 @@ other books, the Ellesmere Chaucer portraits (ideas, not asked for). `!journey` 
 **How the owner wants checks run (2026-10-26):** proportionate. The 12-minute corpus check only when corpus *text*
 changed (else compare `books` with HEAD); never OCR or proofread scan images without asking first (token cost).
 
+**Handoff, 2026-11-02 (all committed, pushed, live; nothing uncommitted):**
+- *Esoteric shelf* (data/esoteric, tradition "gnostic", never opt-in): Agrippa, Pico, Ficino (an AI translation,
+  labelled so; the owner accepted it), the Solomonic books, grimoires, Dee, Lilly/Sepharial, Swedenborg, the
+  magical papyri and Mithras Liturgy, 46 alchemy treatises. Builders: build_esoteric/papyri/mithraic/pico/
+  alchemy/ficino.py.
+- *Classical in !books* is two sections, `🏛️ Greek` and `🦅 Latin`, which the 🏛️ Classical menu opens to directly
+  (the owner: no "Classical inside Classical", no Perseus shelf). Perseus authors are filed into them by
+  `PERSEUS_PLACES` / `SHELF_ORDER` in books.py; an unplaced one lands on Greek → "More" (a test fails).
+- *Latin* (scripts/build_latin.py → data/classical/latin.json; `python scripts/build_latin.py <step>`): Seneca
+  (dialogues, On Benefits, Natural Questions, Moral Letters, nine tragedies), Pliny the Younger, Pliny the Elder's
+  Natural History (37 books), Petronius, Ovid's Fasti, Statius, Valerius Flaccus, Hyginus (from ToposText: theoi's
+  own Fabulae pages are now truncated), Fulgentius, Dares, Dictys, plus the older Cato/Varro/Cicero/Distichs.
+  theoi.com pages are cached by scripts/fetch_theoi.py. Poems, plays and the Moral Letters are stored line-chunked:
+  the file's `line_chunked` *list* names them (scripture_lookup now accepts a list there as well as `true`).
+  Seneca's Medea/Agamemnon/Phoenissae carry "(Seneca)": "Phoenissae" alone resolves to Euripides via the Perseus
+  aliases. Tests: tests/test_more_latin.py.
+- *Ask the library* (bot_commands/ask.py) runs on claude-sonnet-5-5 with gnostic, esoteric and catholic shelves
+  (CCC, canon law, the Summa from data/summa.json, gitignored). **Private:** never in the changelog,
+  INTRODUCTION.md or !help.
+- *grok reply* (bot_commands/grok.py, an on_message listener): "grok is this true?" → a drawn post from @grok
+  (the owner's logo in data/grok/logo.jpg) saying yes/no/maybe/a joke; a cooldown of 5 s a person; each answer
+  and skip logged as "GROK". **Secret:** same rule as the ask feature.
+- *Open:* Juvenal and Martial (no non-OCR English text found yet); LacusCurtius Latin not yet built (Historia
+  Augusta, Frontinus, Velleius, Florus; slow site, scripts/fetch_lacus.py caches); Hyginus's Astronomica books
+  1, 3, 4 (only Book 2 is transcribed anywhere found); Ptolemy's Almagest (OCR only: the owner said no OCR
+  "at the moment"); the PDF guides (scripts/build_guides.py) haven't been rebuilt since these books.
+- *Traps met this time:* clean_corpora deletes runs of "* * *" as stray markdown, so a builder must turn an
+  editor's lacuna stars into "…" itself. PowerShell eats `"` and `<` inside `python -c`: write a scratch .py. The
+  fable test flaked because the 🎲 fallback picked the same fable from another collection (fixed).
+
 ---
 
 ## 7. Where things are
