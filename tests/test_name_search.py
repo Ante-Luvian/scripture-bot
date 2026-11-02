@@ -39,10 +39,15 @@ def test_whole_word_matches():
     assert whole_word_matches("marcus cato", names) == ["Marcus Cato", "Comparison of Aristides and Marcus Cato"]
 
 
-def test_the_perseus_shelf_is_sorted_by_kind(books):
-    shelves = dict(dict(dict(books.BOOKS_TREE)["🏛️ Classical"])["The Perseus Library: Greek & Latin authors"])
-    assert {"Historians", "Orators & Rhetoric", "Drama", "Poetry"} <= set(shelves)
-    assert "Thucydides" in dict(shelves["Historians"]) and "Sophocles" in dict(shelves["Drama"])
-    plutarch = dict(shelves["Lives, Essays & Satire"])
+def test_classical_is_greek_and_latin_by_kind(books):
+    """No Perseus shelf: its authors filed by language and kind with the rest (the owner, 2026-11-01)."""
+    classical = dict(dict(books.BOOKS_TREE)["🏛️ Classical"])
+    assert list(classical) == ["Greek", "Latin"]
+    greek, latin = dict(classical["Greek"]), dict(classical["Latin"])
+    assert "Thucydides" in dict(greek["Historians"]) and "Sophocles" in dict(greek["Drama"])
+    assert "Tacitus" in dict(latin["Historians"]) and "Plautus" in dict(latin["Drama"])
+    assert {"Aeneid", "Eclogues", "Georgics"} <= set(dict(latin["Epic"])["Virgil"])   # (beside the Aeneid)
+    plutarch = dict(greek["Lives, Essays & Satire"])
     assert "Theseus" in plutarch["Plutarch: Parallel Lives"] and "Of Fate" in plutarch["Plutarch: Moralia"]
     assert len(books._author_works_node("plutarch")[1]) >= 141                  # (all of him, from every shelf)
+    assert "More" not in greek and "More" not in latin                          # (every author placed)
