@@ -399,7 +399,9 @@ page). Malory's chapters are `book.chapter`, numbered by place (the etext mispri
 their own Middle English (and Scots), from the EETS and Oxford editions on Project Gutenberg (Skeat's Chaucer and
 Chaucerian pieces, Macaulay's Gower, Wright's Piers Plowman, Morris's Pearl poems and Gawayne, Havelok, King
 Horn, Barbour, Blind Hary, Sisam's Orfeo, lyrics and plays...) and the National Library of Scotland's
-transcription of the Auchinleck manuscript (auchinleck.nls.uk); the Arthurian ones go to `data/arthurian/`
+transcription of the Auchinleck manuscript (auchinleck.nls.uk), and the verse *Revelations of Methodius*
+(D'Evelyn, 1918) from the Corpus of Middle English, whose text the owner saved by hand to
+`scripts/.cache/cme/Text.txt` (the site blocks scripts); the Arthurian ones go to `data/arthurian/`
 (`middle_english.json`, `auchinleck_arthur.json`), and the Faerie Queene and the Canterbury Tales come from
 `build_arthurian.py`. Most are **line-chunked**: a file marked `"line_chunked": true` keys each passage by
 `part.firstline` (`"1.233"`, `"3.1"`), checked against the edition's own numbers, so `!verse Sir Orfeo 233` is

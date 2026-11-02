@@ -1144,6 +1144,11 @@ ALIASES: dict[str, str] = {
     "conversion of swearers": "Hawes's Shorter Poems", "comfort of lovers": "Hawes's Shorter Poems",
     "cocke lorelles bote": "Cocke Lorelles Bote", "cock lorell": "Cocke Lorelles Bote",
     "cocke lorell": "Cocke Lorelles Bote",
+    # (plain "methodius" is Methodius of Olympus's Banquet; this is the "Pseudo-Methodius" prophecy in English verse)
+    "revelations of methodius": "The Revelations of Methodius", "pseudo-methodius": "The Revelations of Methodius",
+    "pseudo methodius": "The Revelations of Methodius", "apocalypse of pseudo-methodius": "The Revelations of Methodius",
+    "apocalypse of methodius": "The Revelations of Methodius", "methodius revelations": "The Revelations of Methodius",
+    "metrical methodius": "The Revelations of Methodius",
     "lyndsay": "Lyndsay's Poems", "lindsay": "Lyndsay's Poems", "david lyndsay": "Lyndsay's Poems",
     "thrie estaitis": "Lyndsay's Poems", "bellenden": "Bellenden's Poems", "james v": "Poems of King James V",
     "peblis to the play": "Poems of King James V", "christis kirk": "Poems of King James V",
@@ -2202,6 +2207,7 @@ class ScriptureLookup:
                 "skelton.json",
                 "hawes.json",
                 "cocke_lorell.json",
+                "methodius_revelations.json",
                 "faerie_queene.json",
             ],
             # the plays and poems, the Folger text, cited by act.scene.line (scripts/build_shakespeare.py)

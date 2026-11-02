@@ -1170,7 +1170,159 @@ def sowdone() -> dict:
     return {"The Sowdone of Babylone": line_chunked("The Sowdone of Babylone", group_lines(items))}
 
 
+# ── The Revelations of Methodius, the Middle English verse (D'Evelyn, PMLA 33, 1918) ─────────────────────────────
+# From the Corpus of Middle English Prose and Verse (CME00069), which blocks this machine: the owner copied the page's
+# text into scripts/.cache/cme/Text.txt, which keeps a stanza a paragraph and D'Evelyn's marks, but not the line
+# breaks. Her line numbers are every fifth line ("[ 5]", after the line), so the five lines between two marks are
+# found again at the scribe's full stops (he ends nearly every line with one): of the ways to cut the block into five,
+# the one with lines most even in length, never after a numeral ("xl. dayys", "iij. sonys"). Blocks where the cut is
+# not clear (too few stops, or two cuts nearly as good) are printed to be checked by eye; SPLITS settles them.
+# Left out: her notes ("[14. inlente MS.]"), the folio and page marks. Kept: her [supplied] letters and words.
+
+METHODIUS_TXT = ROOT / "scripts" / ".cache" / "cme" / "Text.txt"
+# block's last line number -> its five lines, where the cut was in doubt (settled by the rimes, abababab)
+METHODIUS_SPLITS = {
+    50: ["þere foode with trauayle & swet to wynne.", "In langore & sorow here lyfe to leyne.",
+         "He to delve & sche to spynne.", "And in goddys byddyng for lytyll þey braste", "No wondyr was god were wrothe."],
+    155: ["Thys eche xuball & tuball.", "þat comyn of caym as I late tolde", "werne þe fyrste men of all.",
+          "þat euer fonde crafte ȝonge or olde.", "They were þe fyrste þat wrowte metall."],
+    490: ["þe sarsenys come of ysmaell.", "& all þat leue of paynemys lay.", "Thys ysmaellys sonys as bokys spell",
+          "In mamentry was all here fay.", "All in deserte þo folk gan dwell."],
+    650: ["with-owt mercy hem kyll.", "& kast þer bodyys þey no rekk where.", "And schyrchys brenne & spyll",
+          "All crystendom þus xall þey dere.", "& hem woo full yll."],
+    735: ["þus þe sonys of ysmaell.", "all þat ben left on-slayn.", "In woo & thraldam xall þey dwell.",
+          "Of crysten men sothe to sayne.", "& vij. sethys more as þe story tell."],
+    755: ["egypte & Arabye londys wyde.", "þat forsoke cryste meche & lyte.", "ffor þey in trowþe wolde [not] a-byde",
+          "þey xall be worthy to þat wytte.", "on erde þan xall be reste & roo."],
+    775: ["for þan xall gogmangog nere cum", "owte of þe mownts of calpye.", "That god closyd all & sum.",
+          "At Alexandyrs prayere suyrly.", "þey xall dystroy all crystendome."],
+    835: ["hys syre hys damme a thowsend-folde.", "xall be wers þan we devyse cunne.", "ffor rythe as cryst in mary lyte.",
+          "& conceyuyd of þe holy gost", "be þe vertu of goddys myte."],
+    910: ["but in þe same place þere.", "þat cryste hym-self walkyd & ȝede.", "whyll þat he in erde was leuynge here",
+          "But hys dyscypyls fer xall sprede.", "ouer all þe werd bothe far & nere."],
+    925: ["Than xall ennok & ely.", "ben sent owt from paradyse", "& be-for all pepyll veryly,",
+          "þis Antecryst þey xall dyspyse.", "And proue be ryte & profysy."],
+    930: ["þat all hys maruelys & mastryse.", "Arn not but false & sorcery.", "& wrowt be non oþer wyse.",
+          "Whan Antecryste ys þus scomfet", "meche pepyll xall hem renne-ay."],
+}
+
+
+def _methodius_given(chunks: list, given: list) -> list:
+    """SPLITS' lines -> [(chunk, line)], each line checked to be the block's text in order."""
+    out, ci, rest = [], 0, chunks[0]
+    for x in given:
+        if not rest.strip():
+            ci += 1
+            rest = chunks[ci]
+        rest = rest.strip()
+        expect(rest.startswith(x), f"Methodius: {x!r} is not next in {rest!r}")
+        out.append((ci, x))
+        rest = rest[len(x):]
+    expect(ci == len(chunks) - 1 and not rest.strip(), f"Methodius: text left after {given[-1]!r}")
+    return out
+
+
+def expect(ok, what: str) -> None:
+    if not ok:
+        raise SystemExit(f"unexpected: {what}")
+
+
+def _methodius_cut(chunks: list, need: int):
+    """The best cut of a block's chunks (texts that must start a line) into `need` lines: ([(chunk, line)],
+    doubtful)."""
+    import itertools
+    numeral = re.compile(r"(?:^|\s)(?:[ivxlcm]+|xxti|ml|m|ti|[a-z])\.$", re.I)
+    for where in (r"\. (?=\S)", r"(?:\. | )(?=[A-ZÞȜ])", r" (?=\S)"):  # (at a stop; failing that, a capital; any word)
+        options = [[m.end() for m in re.finditer(where, c) if not numeral.search(c[:m.start() + 1])] for c in chunks]
+        lines, doubtful = _methodius_best(chunks, options, need)
+        if lines:
+            return lines, doubtful or where != r"\. (?=\S)"
+    return None, True
+
+
+def _methodius_best(chunks: list, options: list, need: int):
+    import itertools
+    best = []
+    total = sum(len(c) for c in chunks)
+    for counts in itertools.product(*[range(len(o) + 1) for o in options]):
+        if len(chunks) + sum(counts) != need:
+            continue
+        for picks in itertools.product(*[itertools.combinations(o, k) for o, k in zip(options, counts)]):
+            lines = []
+            for ci, (c, cut) in enumerate(zip(chunks, picks)):
+                edges = [0, *cut, len(c)]
+                lines += [(ci, c[a:b].strip()) for a, b in zip(edges, edges[1:])]
+            mean = total / need
+            best.append((sum((len(x) - mean) ** 2 for _, x in lines), lines))
+    if not best:
+        return None, True
+    best.sort(key=lambda b: b[0])
+    doubtful = len(best) > 1 and best[1][0] < best[0][0] * 1.6
+    return best[0][1], doubtful
+
+
+def methodius() -> dict:
+    raw = METHODIUS_TXT.read_text(encoding="utf-8").splitlines()
+    paras = [p.strip() for p in raw[1:] if p.strip()]                  # (the first: the heading and her note 1)
+    # paragraphs -> ("text", s, opens a paragraph, after a page mark) and ("mark", n)
+    stream, page_break = [], False
+    for p in paras:
+        if re.fullmatch(r"description Page \d+", p):
+            page_break = True
+            continue
+        p = re.sub(r"\[fol\. \d+ [ab]\.\]", " ", p)
+        p = re.sub(r"\[\d+(?:-\d+)?(?:, \d+)*\. [^\]]*\]", " ", p)      # (her notes)
+        first = True
+        for piece in re.split(r"(\[ \d+\])", p):
+            m = re.fullmatch(r"\[ (\d+)\]", piece)
+            if m:
+                stream.append(("mark", int(m.group(1))))
+            elif piece.strip():
+                stream.append(("text", re.sub(r"\s+", " ", piece).strip(), first, page_break and first))
+                first = page_break = False
+    # the blocks between marks, each five lines; a piece of text (a paragraph, or its part after a mark) starts one
+    lines, block, last, report = [], [], 0, []
+    for item in stream + [("mark", None)]:
+        if item[0] == "text":
+            block.append(item)
+            continue
+        n = item[1]
+        if n is None:                                                   # (after line 975: "Amen.")
+            lines += [(None, s, opens, pb) for _, s, opens, pb in block]
+            break
+        expect(n == last + 5, f"Methodius: mark {n} after {last}")
+        chunks = [s for _, s, _, _ in block]
+        if n in METHODIUS_SPLITS:
+            cut, doubtful = _methodius_given(chunks, METHODIUS_SPLITS[n]), False
+        else:
+            cut, doubtful = _methodius_cut(chunks, 5)
+        expect(cut is not None and len(cut) == 5, f"Methodius {n - 4}-{n}: can't make five lines of {chunks}")
+        if doubtful:
+            report.append((n, [x for _, x in cut]))
+        seen = set()
+        for k, (ci, x) in enumerate(cut):
+            opens, pb = (block[ci][2], block[ci][3]) if ci not in seen else (False, False)
+            seen.add(ci)
+            lines.append((n - 4 + k, x, opens, pb))
+        block, last = [], n
+    for n, cut in report:
+        print(f"  check {n - 4}-{n}: " + " | ".join(cut))
+    # stanzas: a paragraph starts one, unless a page broke the stanza (fewer than eight lines so far)
+    items, in_stanza = [], 0
+    for n, x, opens, pb in lines:
+        if opens and in_stanza and (not pb or in_stanza >= 8):
+            items.append(("break",))
+            in_stanza = 0
+        if n is None:
+            items.append(("note", x))
+            continue
+        items.append(("line", x, n))
+        in_stanza += 1
+    return {"The Revelations of Methodius": line_chunked("The Revelations of Methodius", group_lines(items))}
+
+
 BUILDS = {
+    "methodius": lambda: save("methodius_revelations", "ed. Charlotte D'Evelyn, PMLA 33 (1918)", methodius()),
     "auchinleck": build_auchinleck,
     "pearl": lambda: save("pearl_poet", "ed. Richard Morris, Early English Alliterative Poems (EETS 1, 1869)",
                           pearl_poet()),

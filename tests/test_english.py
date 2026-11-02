@@ -10,6 +10,7 @@ LINES = {                                     # one-part poems cited by line -> 
     "Torrent of Portyngale": 2650, "The House of Fame": 2100, "The Legend of Good Women": 2700,
     "The Romaunt of the Rose": 7600, "The Book of the Duchess": 1300, "Sir Beues of Hamtoun": 4400,
     "Of Arthour and of Merlin": 9700, "Sir Gawayn and the Grene Knyȝt": 2500, "Lancelot of the Laik": 3400,
+    "The Revelations of Methodius": 960,
 }
 PARTS = {"Troilus and Criseyde": 5, "Confessio Amantis": 9, "The Bruce": 20, "Wallace": 11}   # (the Prologue is 0)
 
@@ -66,6 +67,23 @@ def test_cited_by_line(lookup):
                 "Chaucer's Shorter Poems 13:1", "Middle English Lyrics 3:1", "Piers Plowman 460"):
         assert lookup.get_verse(ref)["found"], ref
     assert lookup.get_verse("Pearl 1")["tradition"] == "english"
+
+
+def test_methodius(lookup, books):
+    """The lines rebuilt from D'Evelyn's numbers (every fifth line) and the scribe's stops: each where she has it."""
+    passages = books["The Revelations of Methodius"]["1"]
+    lines = {}
+    for start, text in passages.items():
+        for i, line in enumerate(x for x in text.split("\n") if not x.startswith("*")):
+            lines[int(start) + i] = line
+    assert lines[1] == "Sum tyme was there a man of state." and lines[5] == "He seruyd god erly & late."
+    assert lines[49] == "And in goddys byddyng for lytyll þey braste"             # (no stop: cut by hand)
+    assert lines[230] == "I take wytnes þat I not ly."
+    assert lines[975] == "with grace he glad vs with all goode." and lines[976] == "Amen."
+    assert not re.search(r"\[\d|\[fol|MS\.|description Page", "\n".join(lines.values()))   # (her notes, the marks)
+    r = lookup.get_verse("revelations of methodius 230")
+    assert r["found"] and "I take wytnes" in r["text"]
+    assert "Banquet" in lookup.get_verse("methodius 1:1")["reference"]           # (Methodius of Olympus, as before)
 
 
 def test_every_one_chapter_book_is_cited_by_verse_alone(lookup):

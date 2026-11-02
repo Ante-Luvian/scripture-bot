@@ -319,6 +319,12 @@ changed (else compare `books` with HEAD); never OCR or proofread scan images wit
   ("Roman History"), Florus (Halm's four-book numbers, as Thayer's marks have them; Forster's two-book chapter titles
   in italics). `lacus()` in build_latin.py handles Thayer's page variants (unnamed or <SPAN>-labelled chapter marks,
   headings at page tops, gaps, • pop-ups); the Latin Historians shelf is time-ordered by `AUTHOR_ORDER` in books.py.
+- *The Revelations of Methodius (2026-11-02, the owner's request: Middle English reopened for it):* the Corpus of
+  Middle English (quod.lib.umich.edu/c/cme) still blocks scripts with Cloudflare, so the owner opened the page and
+  pasted its text into scripts/.cache/cme/Text.txt ("Save page" only saved the challenge page). The paste loses the
+  line breaks but keeps the editor's every-fifth-line numbers, so `methodius()` in build_english.py rebuilds the
+  lines at the scribe's stops, flags unclear blocks, and METHODIUS_SPLITS settles them by the rimes. The same route
+  works for any other CME text the owner wants.
 - *Open:* Juvenal and Martial (no non-OCR English text found yet); Hyginus's Astronomica books
   1, 3, 4 (only Book 2 is transcribed anywhere found); Ptolemy's Almagest (OCR only: the owner said no OCR
   "at the moment"); the PDF guides (scripts/build_guides.py) haven't been rebuilt since these books.
