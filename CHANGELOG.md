@@ -14,6 +14,27 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-11-01 · Seneca, Pliny, Ovid's Fasti and more Latin; Classical sorted into Greek and Latin
+- 🏛️ **The Classical shelf in `!books` is now split into Greek and Latin, then by kind:** epic, drama, historians, philosophy, letters and so on. Before, about a hundred authors sat on a separate "Perseus" shelf (named after the website their texts came from) instead of beside the writers they belong with. Now Thucydides is with the other Greek historians, Plautus with the Latin playwrights, and Virgil's *Eclogues* and *Georgics* next to his *Aeneid*. Open `!books` and pick 🏛️ Classical to look.
+- 🧘 **Seneca**, the Roman Stoic philosopher and Nero's tutor, now in full:
+  - His ***Moral Letters to Lucilius***: all 124 letters of advice on living well, facing death and using your time (`!verse moral letters 1:2`, `!verse moral letters 47`, "On Master and Slave").
+  - His eleven shorter works: *On Anger*, *On the Shortness of Life*, *On the Happy Life*, *On Providence*, three letters consoling the bereaved, and more (`!verse de brevitate vitae 1`, `!verse de ira 1.1`).
+  - *On Benefits*, on giving and gratitude (`!verse on benefits 1.1`).
+  - *Natural Questions*, his book on earthquakes, comets, thunder and the Nile, with an eyewitness report of the earthquake that shook Pompeii (`!verse natural questions 6.1`).
+- 🎭 **Seneca's nine tragedies**, the bloody Roman versions of the Greek myths that Shakespeare's generation imitated: *Thyestes*, *Medea*, *Phaedra*, *Oedipus*, *Agamemnon* and more. They're numbered by line, so `!verse thyestes 300` finds the speech that contains line 300. Where Seneca shares a title with a Greek play, his version has his name added: `!verse medea (seneca) 1`.
+- ✉️ **Pliny the Younger's Letters.** A Roman senator writes to his friends, including the famous letters about the death of his uncle in the eruption of Vesuvius (`!verse pliny the younger 65`, and 66 for what happened to Pliny himself). Also his official letters to the Emperor Trajan, among them the earliest Roman account of the Christians (`!verse letters to trajan 97`).
+- 🍷 **Petronius's *Satyricon***, the bawdy comic novel of Nero's Rome, with Trimalchio's outrageous dinner party (`!verse satyricon 1`).
+- 📜 **Latin epic poetry:**
+  - Ovid's *Fasti*, a poem on the Roman calendar and the stories behind its festivals (`!verse fasti 1:30`).
+  - Statius's *Thebaid* (the war of the Seven against Thebes) and his unfinished *Achilleid* (`!verse thebaid 1:1`).
+  - Valerius Flaccus's *Argonautica*, Jason's voyage for the Golden Fleece (`!verse argonautica 1:1`).
+  
+  Like the plays, these are numbered by line: ask for any line and you get the passage it's in.
+- 🐉 **A new Myth & Legend shelf:**
+  - Hyginus's *Fabulae*, short summaries of nearly 250 Greek myths (`!verse hyginus 50`), and his *Astronomica*, the myths behind the constellations (`!verse astronomica 2.1`).
+  - Fulgentius's *Mythologies*, which reads the myths as hidden moral lessons (`!verse fulgentius 1.1`).
+  - The Trojan War as told by two supposed eyewitnesses, "Dares the Phrygian" and "Dictys of Crete". These were the versions of Troy the Middle Ages read instead of Homer (`!verse dares 1`, `!verse dictys 1`).
+
 ## 2026-11-01 · The alchemists, Pico, Ficino, and the Mithras Liturgy
 More for the 🔮 Magic & Esotericism shelf (in `!books`, under 🧿 Gnostic & Esoteric).
 - ⚗️ **A whole shelf of alchemy: 46 treatises.** Alchemy was the old art of turning base metals into gold, and of the "Philosophers' Stone" that would do it; for many alchemists it was just as much about purifying the soul. The books are in A. E. Waite's English translations and other old ones, in four groups:

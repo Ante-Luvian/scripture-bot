@@ -279,7 +279,9 @@ def another(code: str, n: int, spec: str, allowed=None) -> dict:
     asked = _split(spec)[1].partition(":")[2]
     sorry = (f"Sorry, that's the only fable with “{asked}”. Here's a random fable instead." if asked
              else "Here's a random fable instead.")
-    c, m = random.choice([x for x in pool("", allowed) if x != (code, n)])
+    # (not the same fable in another collection either: "The Fox and the Grapes" is in more than one)
+    same = title(n, code)
+    c, m = random.choice([x for x in pool("", allowed) if x != (code, n) and title(x[1], x[0]) != same])
     return message(m, heading=sorry, code=c)
 
 

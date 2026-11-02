@@ -279,7 +279,13 @@ Presocratics, the Orphic tablets: from Gutenberg, Wikisource and tertullian.org)
 `scripts/build_neoplatonists.py` (repairs to the older Neoplatonist files) and
 `scripts/build_latin.py` (`latin.json`: Cato's and Varro's farming books from the Loeb on
 LacusCurtius, which `scripts/fetch_lacus.py` downloads first because the site is slow;
-Cicero's *On Old Age* from Gutenberg; the *Distichs of Cato* from Wikisource).
+Cicero's *On Old Age* from Gutenberg; the *Distichs of Cato* from Wikisource; Seneca's
+dialogues, *On Benefits* and *Natural Questions*, Pliny's letters and the *Satyricon* from
+Gutenberg; Seneca's *Moral Letters* from Wikisource; Seneca's tragedies, Ovid's *Fasti*,
+Statius, Valerius Flaccus, Dares, Dictys and Fulgentius from theoi.com, cached by
+`scripts/fetch_theoi.py`; Hyginus from ToposText). The poems, plays and *Moral Letters* are
+stored as passages keyed by first line; the file's `line_chunked` list names them, so
+"Fasti 1:30" finds the passage holding line 30.
 
 **World texts** (built by `scripts/build_world_texts.py`, mostly from the Sacred
 Books of the East on archive.sacred-texts.com) keep each tradition's own

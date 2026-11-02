@@ -862,6 +862,41 @@ ALIASES: dict[str, str] = {
     "catonis disticha": "Distichs of Cato",
     "varro": "On Farming", "de re rustica": "On Farming", "res rusticae": "On Farming",
     "rerum rusticarum": "On Farming", "varro on farming": "On Farming",
+    # Seneca (scripts/build_latin.py): the dialogues by their Latin titles, the letters, the tragedies
+    "de providentia": "On Providence", "seneca on providence": "On Providence",
+    "de constantia sapientis": "On the Firmness of the Wise Man", "de constantia": "On the Firmness of the Wise Man",
+    "de ira": "On Anger", "seneca on anger": "On Anger", "de clementia": "On Clemency",
+    "ad marciam": "To Marcia, On Consolation", "consolation to marcia": "To Marcia, On Consolation",
+    "ad helviam": "To Helvia, On Consolation", "consolation to helvia": "To Helvia, On Consolation",
+    "ad polybium": "To Polybius, On Consolation", "consolation to polybius": "To Polybius, On Consolation",
+    "de vita beata": "On the Happy Life", "de otio": "On Leisure", "de tranquillitate animi": "On Peace of Mind",
+    "on tranquillity of mind": "On Peace of Mind", "de brevitate vitae": "On the Shortness of Life",
+    "de beneficiis": "On Benefits", "naturales quaestiones": "Natural Questions",
+    "quaestiones naturales": "Natural Questions", "moral letters": "Moral Letters to Lucilius",
+    "epistulae morales": "Moral Letters to Lucilius", "epistulae morales ad lucilium": "Moral Letters to Lucilius",
+    "letters to lucilius": "Moral Letters to Lucilius", "seneca letters": "Moral Letters to Lucilius",
+    "seneca's letters": "Moral Letters to Lucilius", "epistles of seneca": "Moral Letters to Lucilius",
+    "seneca agamemnon": "Agamemnon (Seneca)", "seneca medea": "Medea (Seneca)",
+    "seneca phoenissae": "Phoenissae (Seneca)", "seneca oedipus": "Oedipus", "seneca phaedra": "Phaedra",
+    "seneca thyestes": "Thyestes", "seneca troades": "Troades", "seneca trojan women": "Troades",
+    "hercules on oeta": "Hercules Oetaeus", "mad hercules": "Hercules Furens", "hercules mad": "Hercules Furens",
+    # Pliny the Younger, Petronius, Ovid, Statius, Valerius Flaccus
+    "pliny letters": "Letters of Pliny", "letters of pliny the younger": "Letters of Pliny",
+    "pliny the younger": "Letters of Pliny", "pliny's letters": "Letters of Pliny",
+    "pliny and trajan": "Correspondence with Trajan", "letters to trajan": "Correspondence with Trajan",
+    "pliny to trajan": "Correspondence with Trajan",
+    "petronius": "Satyricon", "satyrica": "Satyricon", "satyricon of petronius": "Satyricon",
+    "ovid fasti": "Fasti", "statius thebaid": "Thebaid", "thebais": "Thebaid", "achilleis": "Achilleid",
+    "statius achilleid": "Achilleid", "valerius flaccus": "Argonautica", "argonautica of valerius flaccus": "Argonautica",
+    # Hyginus, Fulgentius, and the Trojan War "eyewitnesses"
+    "hyginus": "Fabulae", "hyginus fabulae": "Fabulae", "genealogiae": "Fabulae", "fables of hyginus": "Fabulae",
+    "hyginus astronomica": "Astronomica", "de astronomia": "Astronomica", "poetic astronomy": "Astronomica",
+    "dares": "The Fall of Troy", "dares phrygius": "The Fall of Troy", "de excidio troiae": "The Fall of Troy",
+    "de excidio troiae historia": "The Fall of Troy", "history of the fall of troy": "The Fall of Troy",
+    "dictys": "Journal of the Trojan War", "dictys cretensis": "Journal of the Trojan War",
+    "ephemeris belli troiani": "Journal of the Trojan War",
+    "fulgentius": "Mythologies", "mitologiae": "Mythologies", "mythologiae": "Mythologies",
+    "fulgentius mythologies": "Mythologies",
     # magic and esotericism (data/esoteric)
     "agrippa": "Three Books of Occult Philosophy", "occult philosophy": "Three Books of Occult Philosophy",
     "de occulta philosophia": "Three Books of Occult Philosophy", "three books": "Three Books of Occult Philosophy",
@@ -2310,8 +2345,10 @@ class ScriptureLookup:
                 books = self._as_one_work(fname, payload.get("books", {}))
                 self._make_room(corpus, books)
                 self._data[corpus].update(books)
-                if payload.get("line_chunked"):          # (files that mark their books as cited by line)
-                    self._LINE_CHUNKED = tuple(self._LINE_CHUNKED) + tuple(books)
+                if payload.get("line_chunked"):          # (files that mark their books as cited by line: all, or a list)
+                    chunked = payload["line_chunked"]
+                    self._LINE_CHUNKED = tuple(self._LINE_CHUNKED) + tuple(
+                        chunked if isinstance(chunked, list) else books)
                 # ...and, where a file says, each chapter's last line, so a line in its last passage is found
                 # ("Hamlet 5.2.400": that passage starts at 380, and its end isn't otherwise recorded)
                 for book, chapters in payload.get("last_lines", {}).items():

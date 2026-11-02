@@ -672,13 +672,39 @@ BOOKS_TREE = [
         ("Latin", [
             ("Epic", [
                 ("Virgil", ["Aeneid"]),
+                ("Ovid", ["Fasti"]),                              # (beside the rest of him, from Perseus)
+                ("Statius", ["Thebaid", "Achilleid"]),
+                ("Valerius Flaccus", ["Argonautica"]),
+            ]),
+            ("Drama", [
+                ("Seneca", [
+                    "Hercules Furens", "Troades", "Phoenissae (Seneca)", "Medea (Seneca)", "Phaedra", "Oedipus",
+                    "Agamemnon (Seneca)", "Thyestes", "Hercules Oetaeus",
+                ]),
             ]),
             ("Philosophy", [
                 ("Cicero", ["On Old Age", "Scipio's Dream"]),
+                ("Seneca", [
+                    "Moral Letters to Lucilius", "On Providence", "On the Firmness of the Wise Man", "On Anger",
+                    "To Marcia, On Consolation", "On the Happy Life", "On Leisure", "On Peace of Mind",
+                    "On the Shortness of Life", "To Helvia, On Consolation", "To Polybius, On Consolation",
+                    "On Clemency", "On Benefits", "Natural Questions",
+                ]),
                 ("Boethius", ["Consolation of Philosophy"]),
+            ]),
+            ("Letters & Essays", [
+                ("Pliny the Younger", ["Letters of Pliny", "Correspondence with Trajan"]),
             ]),
             ("Novels & Satire", [
                 ("Apuleius", ["The Golden Ass", "Apologia of Apuleius", "Florida"]),
+                ("Petronius", ["Satyricon"]),
+            ]),
+            ("Myth & Legend", [
+                ("Hyginus", ["Fabulae", "Astronomica"]),
+                ("Fulgentius", ["Mythologies"]),
+                # the Trojan War told by two "eyewitnesses", the Middle Ages' Troy (the Greek originals lost)
+                ("Dares Phrygius", ["The Fall of Troy"]),
+                ("Dictys Cretensis", ["Journal of the Trojan War"]),
             ]),
             ("Farming & Practical Arts", [
                 ("Cato the Elder", ["On Agriculture"]),
@@ -1420,7 +1446,7 @@ SHELF_ORDER = {
               "Plato", "Aristotle", "Stoics", "Platonists", "Hermetic & Oracles", "Lives, Essays & Satire",
               "Myth & Geography", "Science & Astrology", "Fables", "Early Christian", "More"],
     "Latin": ["Epic", "Poetry", "Drama", "Historians", "Oratory & Rhetoric", "Philosophy", "Letters & Essays",
-              "Novels & Satire", "Farming & Practical Arts", "Fables & Proverbs", "Astrology"],
+              "Novels & Satire", "Myth & Legend", "Farming & Practical Arts", "Fables & Proverbs", "Astrology"],
 }
 
 
