@@ -2521,12 +2521,9 @@ class BooksView(discord.ui.View):
                     self.add_item(btn)
                     continue
                 sub_name, sub_contents = item
-                btn_label = sub_name
-                for emoji in ("📖 ","👼 ","✡️ ","☪️ ","🏛️ ","📯 ","🌍 ","🔥 ","🧿 ","⛪ "):
-                    btn_label = btn_label.replace(emoji, "")
-                btn_label = btn_label[:80]
+                # (the name as listed, emoji and all: an old list stripped the emoji from some and not others)
                 btn = discord.ui.Button(
-                    label=btn_label,
+                    label=sub_name[:80],
                     style=discord.ButtonStyle.primary,
                     row=i // 4
                 )
