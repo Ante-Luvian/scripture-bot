@@ -295,7 +295,11 @@ SHAPED = {"ballad": ["0", "305", "306", "12B", "12b", "12ZZ", "22A", "117", "chi
                     "Hamlet 9.9.9", "Hamlet 3.1.99999", "Hamlet 0", "Hamlet epilogue", "Henry V epilogue 3",
                     "Romeo and Juliet prologue", "shrew induction", "JC 3.2.82", "Julius Caesar 3.2.82",
                     "Sonnets 18", "Sonnets 155", "Sonnet 18:99", "Venus and Adonis 0", "Lucrece 1855",
-                    "Phoenix and the Turtle 53", "macbeth 5.5"]}
+                    "Phoenix and the Turtle 53", "macbeth 5.5",
+                    # the Latin historians: a title with commas and a colon, Florus's four books, a preface chapter 0
+                    "Historia Augusta: Carus, Carinus and Numerian 1:1", "Historia Augusta: Hadrian 14:7-8",
+                    "Historia Augusta 99:1", "hadrian 0", "florus 4.12:60-66", "florus 5.1", "frontinus 1.0",
+                    "stratagems 4.7:99", "de aquis 131", "velleius 2.131", "life of tacitus"]}
 
 
 def sample(command, live: bool = False) -> list:

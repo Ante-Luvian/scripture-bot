@@ -6,6 +6,10 @@ Latin authors the library lacked, into data/classical/latin.json (run scripts/cl
   cato        Cato the Elder's On Agriculture, complete (Hooper and Ash's Loeb, 1934), from LacusCurtius: Harrison's
               translation on Gutenberg (#12140) is a digest of about a third of it
   varro       Varro's On Agriculture (the same Loeb), from LacusCurtius
+  historia_augusta   the Historia Augusta, the thirty lives (Magie's Loeb, 1921-32), from LacusCurtius
+  stratagems, aqueducts   Frontinus (Bennett's Loeb, 1925), from LacusCurtius
+  velleius    Velleius Paterculus, Roman History (Shipley's Loeb, 1924), from LacusCurtius
+  florus      Florus, Epitome of Roman History (Forster's Loeb, 1929), from LacusCurtius
   seneca_dialogues   Seneca's Minor Dialogues and On Clemency (Stewart, 1889), Gutenberg #64576
   benefits    Seneca's On Benefits (Stewart, 1887), Gutenberg #3794
   natural_questions  Seneca's Natural Questions (Clarke, 1910), Gutenberg #76392
@@ -114,46 +118,111 @@ def distichs() -> None:
 # kept, so "On Agriculture 12:3" is Cato 12.3. Left out: the link to the Latin page beside each chapter, page
 # numbers, note numbers, and the notes (after <HR CLASS="endnotes">).
 
-def lacus(pages: list, prefix: str = "") -> dict:
-    """{chapter: {section: text}} of a work's pages; `prefix` before each chapter ("2." for Varro's second book)."""
-    from fetch_lacus import fetch
+TAG = r'(?:[^>"]|"[^"]*")*'                       # (a tag's attributes: Thayer's pop-ups put ">" inside quotes)
+HEAD, HEAD_END = "\x01", "\x02"                  # (a heading, kept through the cleaning, then set before what follows)
+
+
+def _lacus_text(s: str) -> str:
     import html as _html
-    out = {}
+    s = re.sub(r"\s+", " ", s)                                       # (the source's own line wrapping)
+    s = re.sub(rf"(?is)<(i|em)\b{TAG}>(.*?)</\1>", lambda x: f"*{x.group(2).strip()}*" if x.group(2).strip() else "", s)
+    s = re.sub(rf"(?is)<P\b{TAG}>|<BR\b{TAG}>|</?TR\b{TAG}>", "\n", s)
+    s = _html.unescape(re.sub(rf"<{TAG}>", "", s)).replace("\xa0", " ")
+    # (Thayer's pointer to the next page: "(For the end of chapter 14, see Part 2.)", "...continue on...")
+    s = re.sub(r"(?s)\*?\(For the (?:beginning|end|rest) of chapter [^)]*\)\*?", "", s)
+    s = "\n".join(re.sub(r"\s+", " ", line).strip() for line in s.split("\n"))
+    s = re.sub(r"(?:\*\s+){2,}\*|(?:\.\s+){2,}\.", "…", s)           # (a gap, "* * *" or ". . .": one mark)
+    s = re.sub(r"(?<=\w)\*\*(?=\w)", "", s)                          # (two italic runs meeting: "*a**b*")
+    s = re.sub(r" ([,.;:!?])", r"\1", s)
+    return re.sub(r"\n{2,}", "\n", s).strip()
+
+
+def lacus(pages: list, prefix: str = "", book_in_label: bool = False) -> dict:
+    """{chapter: {section: text}} of a work's pages; `prefix` before each chapter ("2." for Varro's second book), or
+    with `book_in_label` the book named in the chapter's mark (Florus's "III, 5" is "3.5").
+
+    A chapter's mark is <A CLASS="chapter" NAME="12">12</A> (or with no NAME, or the book's number in a <SPAN>:
+    Florus's "I, 12"), a section's <A CLASS="sec" NAME="12.3">3</A>. The text before a page's first mark is the
+    work's (or book's) preface, chapter 0, unless the first mark is a "N.2" (Cato's preface: section 1 unmarked).
+    Headings (<H3>, <H4>: Frontinus's chapter titles, the Thirty Pretenders' names) lead the next section in italics,
+    without their Roman numeral. Left out: the page's own title (H1, H2), the link to the Latin beside each
+    paragraph, the cross-references to another translation, page numbers, note numbers and the notes, the unit
+    conversions (pop-ups), the tables of contents, and Thayer's own remarks ("For the end of chapter 14, see...")."""
+    from fetch_lacus import fetch
+    out, pending, chap = {}, [], None
     for page in pages:
         t = fetch(page)
-        t = t[:t.find('<HR CLASS="endnotes"')] if '<HR CLASS="endnotes"' in t else t
-        t = t[t.find("</H1>"):] if "</H1>" in t else t
-        t = re.sub(r'(?is)<A HREF="\s*L/[^"]*"[^>]*>\s*<IMG[^>]*>\s*</A>', " ", t)       # (the Latin page's link)
-        t = re.sub(r'(?is)<SPAN CLASS="pagenum">.*?</SPAN>|<A CLASS="ref"[^>]*>.*?</A>', "", t)
+        ends = [i for i in (t.find('<HR CLASS="endnotes"'), t.find('<TABLE CLASS="footer"')) if i > 0]
+        t = t[:min(ends)] if ends else t
+        t = re.sub(r"(?s)<!--.*?-->", "", t)
+        t = re.sub(rf'(?is)<A HREF="\s*L/[^"]*"{TAG}>\s*<IMG{TAG}>\s*</A>', " ", t)       # (the Latin page's link)
+        t = re.sub(rf'(?is)<A CLASS="(?:parallel|ref|conversion)"{TAG}>.*?</A>|<SPAN CLASS="pagenum">.*?</SPAN>', "", t)
+        t = re.sub(rf'(?is)<A\b{TAG}>\s*•\s*</A>|<SPAN CLASS="(?:ref|superscript)">•</SPAN>', "", t)   # (Thayer's • pop-ups and marks)
         t = t.replace("&shy;", "").replace("&#8288;", "").replace("­", "")
-        marks = [(m.group(1).lower(), m.group(2), m.start(), m.end())
-                 for m in re.finditer(r'(?is)<A CLASS="(chapter|sec)" NAME="([^"]+)">[^<]*</A>', t)]
-        # (Cato's preface has no chapter mark: its first section is the text before the mark "0.2")
-        if marks and marks[0][0] == "sec" and marks[0][1].endswith(".2"):
-            marks.insert(0, ("sec", marks[0][1][:-2] + ".1", 0, 0))
-        chap = None
-        for i, (kind, name, _, after) in enumerate(marks):
-            end = marks[i + 1][2] if i + 1 < len(marks) else len(t)
-            body = t[after:end]
-            body = re.sub(r"(?is)<(i|em)>(.*?)</\1>", lambda x: f"*{x.group(2).strip()}*", body)
-            body = re.sub(r"(?is)<P[^>]*>|<BR[^>]*>", "\n", body)
-            body = _html.unescape(re.sub(r"<[^>]+>", "", body))
-            body = "\n".join(re.sub(r"\s+", " ", line).strip() for line in body.split("\n"))
-            body = re.sub(r"\n{2,}", "\n", body).strip()
-            if kind == "chapter":
-                chap = prefix + name
-                out.setdefault(chap, {})
-                if body:                                     # (a chapter whose first section isn't marked)
-                    out[chap]["1"] = body
-                continue
-            c, _, s = name.rpartition(".")
-            # a section belongs to the chapter it sits in (the page names one "3131.2", in chapter 31)
-            key = chap if chap is not None else prefix + c
-            if chap is not None and prefix + c != chap:
-                print(f"    {page}: section {name} in chapter {chap}")
-            if body:
+        t = re.sub(rf'(?is)<SPAN CLASS="[^"]*">\s*\*\s*(?:</SPAN>\s*)?<IMG{TAG}ALT="lacuna"{TAG}>(?:\s*</SPAN>)?',
+                   " … ", t)                                                               # (a gap in the text)
+        t = re.sub(rf'(?is)<TABLE(?! CLASS="verse"){TAG}>.*?</TABLE>', "", t)          # (a table of contents)
+        t = re.sub(rf"(?is)<(H[34])\b{TAG}>(.*?)</\1>",
+                   lambda m: HEAD + re.sub(r"^[IVXL]+\.\s+", "", _lacus_text(m.group(2)).replace("\n", " ")) + HEAD_END,
+                   t)
+        mark = re.compile(rf'(?is)<A CLASS="(chapter|sec)"(?: NAME="([^"]*)")?{TAG}>((?:[^<]|<SPAN{TAG}>[^<]*</SPAN>)*)</A>')
+        marks = [(m.group(1).lower(), m.group(2), m.group(3), m.start(), m.end()) for m in mark.finditer(t)]
+        if not marks:
+            print(f"    {page}: no marks")
+            continue
+        # the text starts after the last title (H1/H2) before the first mark
+        start = max(t.rfind("</H1>", 0, marks[0][3]), t.rfind("</H2>", 0, marks[0][3]))
+        start = start + 5 if start >= 0 else 0
+        if marks[0][0] == "sec" and marks[0][1].endswith(".2"):
+            marks.insert(0, ("sec", marks[0][1][:-2] + ".1", "", start, start))
+        else:                          # (a later page's top: a heading, or the end of the last page's section)
+            marks.insert(0, ("preface" if chap is None else "continue", "0", "", start, start))
+        for i, (kind, name, label, _, after) in enumerate(marks):
+            end = marks[i + 1][3] if i + 1 < len(marks) else len(t)
+            pieces = re.split(f"{HEAD}(.*?){HEAD_END}", t[after:end])
+            body = _lacus_text(pieces[0])
+            if kind == "preface":
+                key, s = prefix + "0", "1"
+            elif kind == "continue":
+                key, s = chap, list(out[chap])[-1] if out.get(chap) else "1"
+            elif kind == "chapter":
+                book = re.match(r"\(?([IVX]+),\s", re.sub(r"<[^>]*>", "", label))
+                if book_in_label and book:                 # (Florus's "III, 5": Book 3, chapter 5)
+                    prefix = f"{roman(book.group(1))}."
+                number = name or re.sub(r"<[^>]*>[^<]*<[^>]*>|\D", "", label)
+                chap = prefix + ("0" if number == "Introduction" else number)
+                # (a chapter's mark again at the top of a page: what follows continues its last section)
+                key, s = chap, list(out[chap])[-1] if out.get(chap) else "1"
+            else:
+                c, _, s = name.rpartition(".")
+                c = "0" if c == "Introduction" else c
+                # a section belongs to the chapter it sits in (the page names one "3131.2", in chapter 31)
+                key = chap if chap is not None else prefix + c
+                if chap is not None and prefix + c != chap:
+                    print(f"    {page}: section {name} in chapter {chap}")
+            if kind == "preface" and body == "…":          # (the Two Valerians: a row of dots, then 1:1's own "…")
+                body = ""
+            if body and kind == "preface":                  # (an unnumbered preface: a paragraph a verse)
+                lines = body.split("\n")
+                lines[0], pending = "\n".join(pending + [lines[0]]), []
+                out[key] = {str(n): p for n, p in enumerate(lines, 1)}
+                s = str(len(lines))
+            elif body:
+                body = "\n".join(pending + [body])
+                pending = []
                 out.setdefault(key, {})[s] = (out.get(key, {}).get(s, "") + " " + body).strip()
-    return out
+            elif kind == "chapter":
+                out.setdefault(key, {})
+            # headings after the section's text: the next section's title, or, with text after it, inside this one
+            for j in range(1, len(pieces), 2):
+                head, rest = f"*{pieces[j].strip()}*", _lacus_text(pieces[j + 1])
+                if rest and key in out and s in out[key]:
+                    out[key][s] += f"\n{head}\n{rest}"
+                elif head != "**":
+                    pending.append(head)
+                    if rest:
+                        print(f"    {page}: text after heading {head} with no section: {rest[:60]!r}")
+    return {c: v for c, v in out.items() if v}
 
 
 def cato() -> None:
@@ -171,6 +240,87 @@ def varro() -> None:
         chapters.update(lacus([f"E/Roman/Texts/Varro/de_Re_Rustica/{book}*.html"], prefix=f"{book}."))
     expect(len(chapters) > 50, f"Varro: {len(chapters)} chapters")
     _put("On Farming", chapters, "Varro, trans. W. D. Hooper and H. B. Ash (1934)")
+
+
+def _numbered(chapters: dict) -> dict:
+    return dict(sorted(chapters.items(), key=lambda kv: tuple(int(x) for x in kv[0].split("."))))
+
+
+# The Historia Augusta (Magie's Loeb, 1921-32): a life a book, "Historia Augusta: Hadrian 14:7". The Loeb's titles,
+# as Thayer gives them; the pages of a long life (Hadrian's two) run on.
+HISTORIA_AUGUSTA = [
+    ("Hadrian", ["Hadrian/1", "Hadrian/2"]), ("Aelius", ["Aelius"]), ("Antoninus Pius", ["Antoninus_Pius"]),
+    ("Marcus Aurelius", ["Marcus_Aurelius/1", "Marcus_Aurelius/2"]), ("Lucius Verus", ["Lucius_Verus"]),
+    ("Avidius Cassius", ["Avidius_Cassius"]), ("Commodus", ["Commodus"]), ("Pertinax", ["Pertinax"]),
+    ("Didius Julianus", ["Didius_Julianus"]), ("Septimius Severus", ["Septimius_Severus"]),
+    ("Pescennius Niger", ["Pescennius_Niger"]), ("Clodius Albinus", ["Clodius_Albinus"]), ("Caracalla", ["Caracalla"]),
+    ("Geta", ["Geta"]), ("Opellius Macrinus", ["Macrinus"]), ("Diadumenianus", ["Diadumenianus"]),
+    ("Elagabalus", ["Elagabalus/1", "Elagabalus/2"]),
+    ("Severus Alexander", ["Severus_Alexander/1", "Severus_Alexander/2", "Severus_Alexander/3"]),
+    ("The Two Maximini", ["Maximini_duo"]), ("The Three Gordians", ["Gordiani_tres"]),
+    ("Maximus and Balbinus", ["Maximus_et_Balbinus"]), ("The Two Valerians", ["Valeriani_duo"]),
+    ("The Two Gallieni", ["Gallieni_duo"]), ("The Thirty Pretenders", ["Tyranni_XXX"]),
+    ("The Deified Claudius", ["Claudius"]), ("Aurelian", ["Aurelian/1", "Aurelian/2", "Aurelian/3"]),
+    ("Tacitus", ["Tacitus"]), ("Probus", ["Probus"]),
+    ("Firmus, Saturninus, Proculus and Bonosus", ["Firmus_et_al"]), ("Carus, Carinus and Numerian", ["Carus_et_al"]),
+]
+
+
+def historia_augusta() -> None:
+    for name, pages in HISTORIA_AUGUSTA:
+        chapters = lacus([f"E/Roman/Texts/Historia_Augusta/{p}*.html" for p in pages])
+        expect(len(chapters) >= 5, f"Historia Augusta {name}: {len(chapters)} chapters")
+        _put(f"Historia Augusta: {name}", _numbered(chapters), "trans. David Magie (1921-32)")
+
+
+# Frontinus (Bennett's Loeb, 1925): the Stratagems by book and chapter ("Stratagems 1.4:2", a book's preface its
+# chapter 0), each chapter's title leading it; the Aqueducts by Frontinus's own chapters, 1-130, straight through
+# the two books. (Thayer also has R. H. Rodgers's 2003 Aqueducts; the bot takes the Loeb, like the Stratagems.)
+
+def stratagems() -> None:
+    chapters = {}
+    for book in (1, 2, 3, 4):
+        chapters.update(lacus([f"E/Roman/Texts/Frontinus/Strategemata/{book}*.html"], prefix=f"{book}."))
+    expect(sorted({c.split(".")[0] for c in chapters}) == ["1", "2", "3", "4"] and len(chapters) > 45,
+           f"Stratagems: {len(chapters)} chapters")
+    _put("Stratagems", _numbered(chapters), "Frontinus, trans. Charles E. Bennett (1925)")
+
+
+def aqueducts() -> None:
+    raw = lacus([f"E/Roman/Texts/Frontinus/De_Aquis/Bennett/{p}*.html" for p in (1, 2)])
+    note = raw.pop("0", {})                                       # (Thayer's: "The flags in the text are links...")
+    expect(all("links to" in v for v in note.values()), f"Aqueducts: a preface? {note}")
+    chapters = {c.rpartition(".")[2]: v for c, v in raw.items()}
+    expect(len(chapters) == len(raw) and sorted(map(int, chapters)) == list(range(1, 131)),
+           f"Aqueducts: {sorted(raw)[:3]}...{sorted(raw)[-3:]}")
+    _put("The Aqueducts of Rome", _numbered(chapters), "Frontinus, trans. Charles E. Bennett (1925)")
+
+
+# Velleius Paterculus, the Roman History (Shipley's Loeb, 1924): "Roman History 2.94:1". Book 1 survives only in
+# part (its opening and the chapters after 8 are lost).
+
+def velleius() -> None:
+    chapters = lacus(["E/Roman/Texts/Velleius_Paterculus/1*.html"], prefix="1.")
+    chapters.update(lacus([f"E/Roman/Texts/Velleius_Paterculus/2{x}*.html" for x in "ABCD"], prefix="2."))
+    expect(len([c for c in chapters if c.startswith("2.")]) == 131, f"Velleius: {len(chapters)} chapters")
+    _put("Roman History", _numbered(chapters), "Velleius Paterculus, trans. Frederick W. Shipley (1924)")
+
+
+# Florus, the Epitome of Roman History (Forster's Loeb, 1929). Forster prints it in two books of titled chapters
+# (Book II's 22nd to 34th all within one chapter of the other numbering), but numbers the sections, as Thayer's
+# marks do, by the older division into four books: so "Epitome of Roman History 4.2:13" (Halm's numbers; the
+# introduction 1.0), each of Forster's chapter titles leading the section it starts at.
+
+def florus() -> None:
+    chapters = lacus([f"E/Roman/Texts/Florus/Epitome/{x}*.html" for x in
+                      [f"1{c}" for c in "ABCDEFGHIJKLM"] + [f"2{c}" for c in "ABCDEFGHI"]], prefix="1.", book_in_label=True)
+    # (Thayer sets Forster's first title above the introduction; it belongs to chapter 1, Romulus)
+    title, _, rest = chapters["1.0"]["1"].partition("\n")
+    expect(title.startswith("*The period of the Seven Kings"), f"Florus: introduction {title!r}")
+    chapters["1.0"]["1"], chapters["1.1"]["1"] = rest, f"{title}\n{chapters['1.1']['1']}"
+    books = {b: sum(c.startswith(f"{b}.") for c in chapters) for b in "1234"}
+    expect(books == {"1": 27, "2": 20, "3": 23, "4": 12}, f"Florus: {books}")
+    _put("Epitome of Roman History", _numbered(chapters), "Florus, trans. E. S. Forster (1929)")
 
 
 # ── Seneca, the Minor Dialogues and On Clemency (Stewart, 1889) ────────────
@@ -684,7 +834,8 @@ BUILDS = {"old_age": old_age, "distichs": distichs, "cato": cato, "varro": varro
           "satyricon": satyricon, "fasti": fasti, "thebaid": thebaid, "achilleid": achilleid,
           "argonautica": argonautica, "seneca_tragedies": seneca_tragedies, "fabulae": fabulae, "dares": dares,
           "dictys": dictys, "fulgentius": fulgentius, "astronomica": astronomica, "moral_letters": moral_letters,
-          "natural_history": natural_history}
+          "natural_history": natural_history, "historia_augusta": historia_augusta, "stratagems": stratagems,
+          "aqueducts": aqueducts, "velleius": velleius, "florus": florus}
 
 
 def main(names: list) -> None:

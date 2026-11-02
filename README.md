@@ -277,7 +277,9 @@ poetry...; Plutarch split into his Lives and Moralia); an author not listed goes
 Pythagorean, Platonic and Neoplatonic texts, Julian, Apuleius, Boethius, Burnet's
 Presocratics, the Orphic tablets: from Gutenberg, Wikisource and tertullian.org),
 `scripts/build_neoplatonists.py` (repairs to the older Neoplatonist files) and
-`scripts/build_latin.py` (`latin.json`: Cato's and Varro's farming books from the Loeb on
+`scripts/build_latin.py` (`latin.json`: Cato's and Varro's farming books, Frontinus's
+*Stratagems* and *Aqueducts*, Velleius Paterculus, Florus and the thirty lives of the
+*Historia Augusta* (each its own book, "Historia Augusta: Hadrian") from the Loebs on
 LacusCurtius, which `scripts/fetch_lacus.py` downloads first because the site is slow;
 Cicero's *On Old Age* from Gutenberg; the *Distichs of Cato* from Wikisource; Seneca's
 dialogues, *On Benefits* and *Natural Questions*, Pliny's letters, Pliny the Elder's *Natural\nHistory* and the *Satyricon* from

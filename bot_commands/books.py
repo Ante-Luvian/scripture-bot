@@ -681,6 +681,17 @@ BOOKS_TREE = [
                 "Agamemnon (Seneca)", "Thyestes", "Hercules Oetaeus",
             ]),
         ]),
+        ("Historians", [                                       # (Caesar, Livy, Tacitus... join from Perseus)
+            ("Velleius Paterculus", ["Roman History"]),
+            ("Florus", ["Epitome of Roman History"]),
+            ("Historia Augusta", [f"Historia Augusta: {life}" for life in (
+                "Hadrian", "Aelius", "Antoninus Pius", "Marcus Aurelius", "Lucius Verus", "Avidius Cassius",
+                "Commodus", "Pertinax", "Didius Julianus", "Septimius Severus", "Pescennius Niger", "Clodius Albinus",
+                "Caracalla", "Geta", "Opellius Macrinus", "Diadumenianus", "Elagabalus", "Severus Alexander",
+                "The Two Maximini", "The Three Gordians", "Maximus and Balbinus", "The Two Valerians",
+                "The Two Gallieni", "The Thirty Pretenders", "The Deified Claudius", "Aurelian", "Tacitus", "Probus",
+                "Firmus, Saturninus, Proculus and Bonosus", "Carus, Carinus and Numerian")]),
+        ]),
         ("Philosophy", [
             ("Cicero", ["On Old Age", "Scipio's Dream"]),
             ("Seneca", [
@@ -711,6 +722,7 @@ BOOKS_TREE = [
         ("Farming & Practical Arts", [
             ("Cato the Elder", ["On Agriculture"]),
             ("Varro", ["On Farming"]),
+            ("Frontinus", ["Stratagems", "The Aqueducts of Rome"]),
         ]),
         ("Fables & Proverbs", [
             ("Phaedrus", ["Fables of Phaedrus"]),
@@ -1438,6 +1450,9 @@ def _place_perseus(authors: list) -> None:
     for language, order in SHELF_ORDER.items():       # (the shelves in their kinds' order, not as they were added)
         groups = classical[language]
         groups.sort(key=lambda g: order.index(g[0]) if g[0] in order else len(order))
+    for (language, shelf), order in AUTHOR_ORDER.items():   # (authors in time order, the tree's and Perseus's mixed)
+        group = dict(classical[language]).get(shelf, [])
+        group.sort(key=lambda a: order.index(a[0]) if a[0] in order else len(order))
 
 
 # Perseus authors the tree has already (Aristotle's Poetics is on his own shelf, from aristotle_perseus.json)
@@ -1448,6 +1463,10 @@ SHELF_ORDER = {
               "Myth & Geography", "Science & Astrology", "Fables", "Early Christian", "More"],
     "Latin": ["Epic", "Poetry", "Drama", "Historians", "Oratory & Rhetoric", "Philosophy", "Letters & Essays",
               "Novels & Satire", "Myth & Legend", "Science", "Farming & Practical Arts", "Fables & Proverbs", "Astrology"],
+}
+AUTHOR_ORDER = {
+    ("Latin", "Historians"): ["Julius Caesar", "Pseudo-Caesar", "Sallust", "Livy", "Velleius Paterculus", "Tacitus",
+                              "Suetonius", "Florus", "Historia Augusta", "Ammianus Marcellinus"],
 }
 
 

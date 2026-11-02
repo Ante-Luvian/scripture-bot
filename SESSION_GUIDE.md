@@ -312,8 +312,12 @@ changed (else compare `books` with HEAD); never OCR or proofread scan images wit
 - *grok reply* (bot_commands/grok.py, an on_message listener): "grok is this true?" → a drawn post from @grok
   (the owner's logo in data/grok/logo.jpg) saying yes/no/maybe/a joke; a cooldown of 5 s a person; each answer
   and skip logged as "GROK". **Secret:** same rule as the ask feature.
-- *Open:* Juvenal and Martial (no non-OCR English text found yet); LacusCurtius Latin not yet built (Historia
-  Augusta, Frontinus, Velleius, Florus; slow site, scripts/fetch_lacus.py caches); Hyginus's Astronomica books
+- *LacusCurtius Latin (done 2026-11-02):* the Historia Augusta (30 lives, each a book "Historia Augusta: Hadrian"),
+  Frontinus's Stratagems and Aqueducts (Bennett; Thayer also has Rodgers's 2003 Aqueducts, not taken), Velleius
+  ("Roman History"), Florus (Halm's four-book numbers, as Thayer's marks have them; Forster's two-book chapter titles
+  in italics). `lacus()` in build_latin.py handles Thayer's page variants (unnamed or <SPAN>-labelled chapter marks,
+  headings at page tops, gaps, • pop-ups); the Latin Historians shelf is time-ordered by `AUTHOR_ORDER` in books.py.
+- *Open:* Juvenal and Martial (no non-OCR English text found yet); Hyginus's Astronomica books
   1, 3, 4 (only Book 2 is transcribed anywhere found); Ptolemy's Almagest (OCR only: the owner said no OCR
   "at the moment"); the PDF guides (scripts/build_guides.py) haven't been rebuilt since these books.
 - *Traps met this time:* clean_corpora deletes runs of "* * *" as stray markdown, so a builder must turn an
