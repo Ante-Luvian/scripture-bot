@@ -26,18 +26,6 @@ JUNK = {
 }
 
 
-def _corpus_files():
-    for path in sorted((ROOT / "data").rglob("*.json")):
-        if "New folder" in path.parts or "hymns" in path.parts:
-            continue
-        try:
-            payload = json.loads(path.read_text(encoding="utf-8"))
-        except (ValueError, UnicodeDecodeError):
-            continue
-        if isinstance(payload, dict) and isinstance(payload.get("books"), dict):
-            yield path, payload
-
-
 def _passages(payload):
     for book, chapters in payload["books"].items():
         for ch, verses in chapters.items():
@@ -49,15 +37,9 @@ def _passages(payload):
                         yield f"{book} {ch}:{v}", text
 
 
-@pytest.mark.corpus
-def test_no_web_leftovers_in_any_corpus():
-    found = []
-    for path, payload in _corpus_files():
-        for ref, text in _passages(payload):
-            for what, pat in JUNK.items():
-                if re.search(pat, text):
-                    found.append(f"{path.relative_to(ROOT / 'data')} {ref}: {what}")
-    assert not found, f"{len(found)} passages need scripts/clean_corpora.py: {found[:10]}"
+def web_leftovers(payload) -> list:
+    """The passages with page furniture, licences, markup... (JUNK) in them."""
+    return [f"{ref}: {what}" for ref, text in _passages(payload) for what, pat in JUNK.items() if re.search(pat, text)]
 
 
 _MARKER = re.compile(r"[0-9]?[A-Za-z]+[0-9]*")      # a bare word or siglum, no punctuation: "1Clem", "Barnabas"
@@ -89,28 +71,11 @@ def test_no_stray_markers_in_the_apostolic_fathers():
         assert not bad, f"{path.name}: {bad[:5]}"
 
 
-@pytest.mark.corpus
-def test_no_stray_markers_in_any_corpus():
-    found = _stray_markers(_corpus_files())
-    assert not found, found
-
-
 def test_the_marker_check_catches_one():
     payload = {"books": {"1 Clement": {"25": {str(v): f"Verse {v} of the phoenix. 1Clem" for v in range(1, 12)}}}}
     assert _stray_markers([(ROOT / "data" / "x.json", payload)])
     payload["books"]["1 Clement"]["25"] = {str(v): f"Verse {v} of the phoenix." for v in range(1, 12)}
     assert not _stray_markers([(ROOT / "data" / "x.json", payload)])
-
-
-@pytest.mark.corpus
-def test_cleaning_is_already_done():
-    """Re-running the cleaner changes nothing (rebuild a corpus? run scripts/clean_corpora.py after)."""
-    pytest.importorskip("beta_code")
-    import sys
-    sys.path.insert(0, str(ROOT / "scripts"))
-    import clean_corpora                                # (in parallel, as the script runs: a quarter the time)
-    dirty = [path.name for path in clean_corpora.clean_all(dry=True)]
-    assert not dirty, dirty
 
 
 @pytest.mark.parametrize("text, rel, expected", [

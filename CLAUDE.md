@@ -68,7 +68,9 @@ corpora are built (scripts/build_english.py's toolkit, scripts/inspect_corpus.py
   INTRODUCTION.md changes, if the owner wants fresh copies.
 - After adding or rebuilding a corpus, run `python scripts/clean_corpora.py` (strips web
   leftovers, licences, footnotes, Beta Code; see README "Cleaning") and then
-  `python -m pytest -m corpus`, the slow check that every corpus file is clean.
+  `python -m pytest -m corpus -k <file>` (e.g. `-k latin`): tests/test_corpus_files.py checks each data file
+  separately, so check only the files you changed. The whole `-m corpus` run is for changes to the shared
+  cleaning or building code, not for adding books.
 - Tests must never touch the live runtime files; `tests/conftest.py` redirects them
   to a temp folder for every test. Keep new runtime-file paths in its `RUNTIME_FILES`.
 

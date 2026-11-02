@@ -74,9 +74,11 @@ CLAUDE.md has the rules; this is the practical sequence with the commands that w
    would change). Its rules can mangle text (it turned "most~ Say" into "mostSay").
 3. **Tests:** `python -m pytest -q` (~2 min, ~1400 tests, offline). Guard commits on its exit code.
    `tests/test_fable.py::...another_never_repeats...` is flaky (random); it passes on rerun.
-4. **Corpus check** after touching any corpus: `python -m pytest -q -m corpus` (~12 min). Includes
-   `tests/test_citations.py`: **source strings ≤ 80 chars, editor and date only, no URLs or site names**
-   (use `book_sources` for a file mixing editions). Run it in the background (`run_in_background`).
+4. **Corpus check** on the files you touched: `python -m pytest -q -m corpus -k latin` (tests/test_corpus_files.py,
+   a test per data file: web leftovers, stray sigla, clean_corpora has nothing to do, and the citations rule
+   from tests/test_citations.py: **source strings ≤ 80 chars, editor and date only, no URLs or site names**; use
+   `book_sources` for a file mixing editions). The owner (2026-11-02): don't re-check untouched books; a new
+   addition gets its own new tests instead. The whole `-m corpus` only when shared cleaning/building code changed.
 5. **Stress (always, unasked):** `python -m pytest -q -m stress -k "verse or books"` for the commands
    touched; the whole `-m stress` (~3–6 min) when core.py or a shared helper changed. Fix what it finds;
    never loosen the checks. New citation forms or inputs go into `stress.SHAPED[command]`.
