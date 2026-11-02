@@ -14,6 +14,21 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-11-02 · The Roman historians: the Historia Augusta, Velleius, Florus, and Frontinus
+New books for 🏛️ Classical → 🦅 Latin in `!books`. The historians sit in date order beside Caesar, Livy, Tacitus and Suetonius.
+- 👑 **The *Historia Augusta***, a set of 30 biographies of the Roman emperors from Hadrian (117 AD) to the 280s. It's full of gossip, scandal and some outright invention: one author pretended to be six writers, and he made up some of the letters he "quotes". Even so, for much of the 200s it is the only history that survives. Each life is its own book, and you can usually ask for it by the emperor's name:
+  - `!verse hadrian 14` covers Hadrian's travels and his grief for his favourite, Antinous, who drowned in the Nile.
+  - `!verse elagabalus 1` is the teenage emperor the book paints as the worst of all.
+  - `!verse thirty pretenders 30` is Zenobia, queen of Palmyra.
+
+  A few emperors share a name with a book the bot already had, so their lives take "life of": `!verse life of tacitus 1` (the emperor, not the historian Tacitus) and `!verse life of claudius 1` (Claudius II, not Suetonius's Claudius).
+- 📜 **Velleius Paterculus's *Roman History*.** It was written by an officer who served under the Emperor Tiberius, and the account of his own times is an eyewitness's. Book 1 survives only in part. Try `!verse velleius 2.131` (his closing prayer for Rome).
+- 🗺️ **Florus's *Epitome of Roman History***, all of Rome's wars from Romulus to Augustus in one short book. It was a favourite schoolbook for centuries. Each of Forster's chapter titles ("The War against Spartacus") appears in italics where that chapter starts. It's numbered the traditional way, in four books: try `!verse florus 1.1` (Romulus) or `!verse florus 3.20` (Spartacus).
+- ⚔️ **Frontinus**, a Roman general who later ran Rome's water supply, wrote two books, both on the Farming & Practical Arts shelf:
+  - The ***Stratagems***, hundreds of tricks used by generals in real battles, sorted under headings like "On concealing one's plans". Try `!verse stratagems 1.1`.
+  - ***The Aqueducts of Rome***, his own report on the city's nine aqueducts: where each one rose, how long it ran, and how people stole the water. Try `!verse aqueducts 5`.
+- 🧹 **Cato's and Varro's farming books read more smoothly.** Some sentences in Cato's *On Agriculture* and Varro's *On Farming* broke onto a new line partway through, and a few had stray "•" marks or a scrap of website code in them. All fixed.
+
 ## 2026-11-01 · Pliny the Elder's Natural History
 - 🌍 **Pliny the Elder's *Natural History***, in all 37 books. It's the great Roman encyclopedia of everything in the world: the stars and the weather, countries and peoples, animals, trees, farming, medicine, metals, painting and precious stones. Pliny died in 79 AD sailing in to watch the eruption of Vesuvius up close. Each chapter has its title at the top. Try `!verse natural history 2.5` (book 2, chapter 5: what God is), `!verse pliny the elder 7.2` (the strange peoples at the ends of the earth) or `!verse natural history 35.36` (the great Greek painters). Where words are lost from Pliny's text, a "…" marks the gap. You'll find it in `!books` under 🏛️ Classical → 🦅 Latin → Science.
 - 🗂️ **Greek and Latin now open straight from 🏛️ Classical in `!books`.** Before, choosing 🏛️ Classical gave you a second 🏛️ Classical to choose before you reached Greek and Latin. Now 🏛️ Greek and 🦅 Latin are right there, beside the Ancient Near East and Zoroastrian shelves.
