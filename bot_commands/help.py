@@ -152,7 +152,8 @@ HELP_MENU = [
 ]
 
 HELP_TOPICS = ['verse', 'compare', 'votd', 'votdsetup', 'features', 'today', 'bcp', 'prayer', 'strong', 'books', 'parallel', 'oracle', 'discover', 'study', 'xref', 'notes', 'topic', 'save', 'plan', 'leaderboard', 'subscribe', 'card', 'who', 'tree', 'whoami', 'versle', 'place', 'journey', 'measure', 'kings', 'harmony', 'hymn', 'metrical', 'creed', 'ccc', 'summa']
-NOT_IN_MENU = {"help", "guildactivity", "scanstats", "votdmode"}       # (owner and maintenance tools)
+# (owner and maintenance tools; asksetup: asking the library is private, never in !help, the owner, 2026-11-01)
+NOT_IN_MENU = {"help", "guildactivity", "scanstats", "votdmode", "asksetup"}
 _FIELD, _EMBED = 1024, 5800
 
 

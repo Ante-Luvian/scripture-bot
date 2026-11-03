@@ -29,6 +29,12 @@ def test_within_discords_limits_however_long(h, monkeypatch):
     assert embeds[-1].footer.text and not embeds[0].footer.text
 
 
+def test_the_private_features_are_not_in_the_menu(h):
+    """Asking the library is private (the owner, 2026-11-01): a server-member found !asksetup under "More"."""
+    text = " ".join(f.value for e in h.menu_embeds() for f in e.fields).lower()
+    assert "asksetup" not in text and "ask the library" not in text and "grok" not in text
+
+
 def test_more_lines_are_whole_sentences(h):
     for line in h._more_lines():
         assert line.startswith("`!") and not line.rstrip().endswith((",", " from", " the"))
