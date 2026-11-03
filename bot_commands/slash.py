@@ -557,13 +557,8 @@ async def setup_changelog(interaction: discord.Interaction, channel: PostChannel
     await _command("changelogsetup")(ctx, arg="off" if off else (channel.mention if channel else ""))
 
 
-@setup_group.command(name="ask", description="(Admins) Let people ask the library questions in a channel (on/off)")
-@app_commands.describe(channel="The channel to turn it on or off in (leave empty to see where it's on)")
-@_ADMIN
-async def setup_ask(interaction: discord.Interaction, channel: PostChannelT = None):
-    ctx = await _slash_ctx(interaction)
-    ctx.message = _WithChannelMention(ctx.message, channel)
-    await _command("asksetup")(ctx, arg=channel.mention if channel else "")
+# (no /setup ask: asking the library is private, the owner's own, so it isn't in other servers' slash list;
+# !asksetup still turns it on, 2026-11-02)
 
 
 @setup_group.command(name="intro", description="(Admins) Post the full introduction + latest updates in the updates channel")
@@ -602,5 +597,5 @@ SETUP_SUBCOMMANDS = {"votdsetup": "votd", "oraclesetup": "oracle", "quizsetup": 
                      "hymndaysetup": "hymnday", "saintsetup": "saint", "angelussetup": "angelus",
                      "astrosetup": "astro",
                      "learningsetup": "learning", "troparionsetup": "troparion", "features": "features",
-                     "changelogsetup": "changelog", "changelogintro": "intro", "asksetup": "ask",
+                     "changelogsetup": "changelog", "changelogintro": "intro",
                      "serversetup": "traditions", "packs": "packs"}

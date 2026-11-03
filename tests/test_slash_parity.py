@@ -7,9 +7,14 @@ import pytest
 
 # Owner/maintenance tools that stay prefix-only
 PREFIX_ONLY = {"guildactivity", "scanstats", "votdmode",
-               "physiologus", "reynard"}   # (the owner: no slash command each; /tale reaches them)
+               "physiologus", "reynard",   # (the owner: no slash command each; /tale reaches them)
+               "asksetup"}                 # (private: not in other servers' slash list, 2026-11-02)
 # Admin commands; their slash forms are subcommands of /setup (Discord allows 100 slash commands)
-ADMIN_SLASH = {"votdsetup", "oraclesetup", "quizsetup", "verslesetup", "hymndaysetup", "saintsetup", "astrosetup", "angelussetup", "troparionsetup", "learningsetup", "changelogsetup", "changelogintro", "asksetup", "features", "serversetup", "packs"}
+ADMIN_SLASH = {"votdsetup", "oraclesetup", "quizsetup", "verslesetup", "hymndaysetup", "saintsetup", "astrosetup", "angelussetup", "troparionsetup", "learningsetup", "changelogsetup", "changelogintro", "features", "serversetup", "packs"}
+
+
+def test_the_private_ask_setup_has_no_slash_form(bot_module):
+    assert bot_module.bot.tree.get_command("setup").get_command("ask") is None
 
 
 def test_every_command_has_a_slash_version(bot_module):
