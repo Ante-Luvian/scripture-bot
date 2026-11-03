@@ -411,13 +411,16 @@ async def search_prefix(ctx, *, query: str = ""):
 THEME_SNIPPET = 300
 
 
-def theme_embed(query: str, passages: list) -> discord.Embed:
-    """One field per tradition: the reference and the passage, theme words in bold."""
+def theme_embeds(query: str, passages: list) -> list:
+    """One field per tradition: the reference and the passage, theme words in bold; over as many embeds (a message
+    each) as Discord's limits need (25 fields, 6,000 characters): a word every tradition has ("suffering", "faith")
+    filled 26 fields."""
     words = [w for w in (re.sub(r"^[^\w]+|[^\w]+$", "", w) for w in query.lower().split())
              if re.search(r"[^\W\d_]", w)]
     bold = re.compile("|".join(lookup.word_regex(w) for w in words) or r"(?!x)x", re.IGNORECASE)
-    embed = discord.Embed(title=f"🌐 {query.strip().capitalize()} — across the traditions",
-                          color=discord.Color.dark_gold())
+    title = f"🌐 {query.strip().capitalize()} — across the traditions"
+    embed = discord.Embed(title=title, color=discord.Color.dark_gold())
+    embeds = [embed]
     for label, hit in passages:
         text = re.sub(r"\s+", " ", hit["text"].replace("*", "")).strip()
         if len(text) > THEME_SNIPPET:
@@ -428,10 +431,13 @@ def theme_embed(query: str, passages: list) -> discord.Embed:
             if start:
                 window = "…" + window.split(" ", 1)[-1]
             text = (window.rsplit(" ", 1)[0] + "…") if start + THEME_SNIPPET - 2 < len(text) else window
-        embed.add_field(name=f"{label} — {hit['reference']}"[:256], value=bold.sub(r"**\g<0>**", text)[:1024],
-                        inline=False)
-    embed.set_footer(text=f"!verse <reference> to read more · !search {query.strip()} in:<tradition> for every passage")
-    return embed
+        name, value = f"{label} — {hit['reference']}"[:256], bold.sub(r"**\g<0>**", text)[:1024]
+        if len(embed.fields) >= 25 or len(embed) + len(name) + len(value) > 5600:
+            embed = discord.Embed(title=f"{title} (continued)"[:256], color=discord.Color.dark_gold())
+            embeds.append(embed)
+        embed.add_field(name=name, value=value, inline=False)
+    embeds[-1].set_footer(text=f"!verse <reference> to read more · !search {query.strip()} in:<tradition> for every passage"[:2048])
+    return embeds
 
 
 @bot.command(name="theme", aliases=["topicacross", "traditions"])
@@ -454,7 +460,8 @@ async def cmd_theme(ctx, *, query: str = ""):
         await ctx.send(f"I couldn't find **{discord.utils.escape_markdown(query)}** in any tradition. "
                        f"A theme is a word or two, like `!theme mercy`.")
         return
-    await ctx.send(embed=theme_embed(query, passages))
+    for embed in theme_embeds(query, passages):
+        await ctx.send(embed=embed)
 
 
 async def _send_search_overview(ctx, query: str, by_corpus: dict, total_hits: int):
