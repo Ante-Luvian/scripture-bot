@@ -203,6 +203,31 @@ def _collect_for(d: datetime.date, section_key: str, label: str) -> Optional[dic
     return None
 
 
+_WEEKDAYS = {"monday", "tuesday", "wednesday", "thursday", "friday", "saturday"}
+
+
+def _collect_by_rubric(d: datetime.date, section_key: str, label: str) -> Optional[dict]:
+    """A day with no Collect of its own, by the 1662 rubrics (about 55 days a year had none): "The Collect appointed
+    for any Sunday or other Feast is to serve all the week after" (Holy Week has Palm Sunday's, Easter and Whitsun
+    weeks their feast's, Christmas Eve Advent IV's, 2-5 January the Circumcision's); 29-31 December the Christmas
+    Collect; the Sunday next before Advent always "Stir up" (the twenty-fifth after Trinity's)."""
+    data = _load_collects() or {}
+    by_section = data.get("by_section", {})
+    if section_key == "T26" and "Sunday" in by_section.get("T25", {}):
+        return {"name": "Sunday next before Advent", "collect": by_section["T25"]["Sunday"], "is_saint_day": False}
+    if section_key == "Christmastide" and label.startswith("Dec.") and "Christmas Day" in by_section.get(section_key, {}):
+        return {"name": "Christmas Day", "collect": by_section[section_key]["Christmas Day"], "is_saint_day": False}
+    for back in range(1, 9):                      # (the Sunday or feast before: not a weekday's, nor a saint's day)
+        day = d - datetime.timedelta(days=back)
+        sec_key, lab = _section_for_date(day)
+        sec = by_section.get(sec_key, {})
+        if lab in sec and _norm_label(lab) not in _WEEKDAYS:
+            return {"name": lab, "collect": sec[lab], "is_saint_day": False}
+        if lab == "Sunday" and "Sunday" in sec:
+            return {"name": "Sunday", "collect": sec["Sunday"], "is_saint_day": False}
+    return None
+
+
 # ── Movable-feast computation (Gregorian computus) ────────────────────────────
 
 def easter_sunday(year: int) -> datetime.date:
@@ -509,7 +534,17 @@ def _find_row(section_key: str, label: str, year: str) -> Optional[dict]:
         if r["label"].lower().startswith(label_l) or label_l.startswith(r["label"].lower()):
             return {**r, "section_key": section_key, "section_title": sec.get("title", "")}
 
+    # The calendar's name for a day the lectionary labels otherwise: Good Friday is Holy Week's "Friday", the
+    # weekdays before Ascension Day the "Rogation" days (12 days a year had no lessons at all)
+    other = _ROW_LABELS.get((section_key, _norm_label(label)))
+    if other:
+        return _find_row(section_key, other, year)
     return None
+
+
+_ROW_LABELS = {("L6", "good friday"): "Friday", ("L6", "easter eve"): "Saturday",
+               ("E5", "monday"): "Rogation Mon.", ("E5", "tuesday"): "Rogation Tues.",
+               ("E5", "wednesday"): "Rogation Wed.", ("E5", "thursday"): "Ascension Day"}
 
 
 def _norm_label(s: str) -> str:
@@ -586,8 +621,13 @@ def bcp_for_date(d: datetime.date, period: str) -> dict:
             {"slot": "First Lesson",  "ref": row["ep_ot"]},
             {"slot": "Second Lesson", "ref": row["ep_nt"]},
         ]
+    # (the lectionary's "------": no lesson appointed, as on Christmas Eve morning)
+    lessons = [les for les in lessons if (les["ref"] or "").strip("- ")]
 
-    collect = _collect_for(d, section_key, row["label"])
+    # (by the calendar's name for the day, which the Collects use: "Good Friday", where the lectionary's row says
+    # "Friday"; else the row's)
+    collect = (_collect_for(d, section_key, label) or _collect_for(d, section_key, row["label"])
+               or _collect_by_rubric(d, section_key, label))
 
     return {
         "found": True,

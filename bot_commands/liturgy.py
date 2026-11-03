@@ -120,10 +120,10 @@ def _parse_today_date(raw: str):
             return _dt.datetime.strptime(raw, fmt).date()
         except ValueError:
             continue
-    for fmt in ("%m-%d", "%m/%d"):
+    for sep in ("-", "/"):
         try:
-            md = _dt.datetime.strptime(raw, fmt)
-            return _dt.date(today.year, md.month, md.day)
+            # (parsed with this year added: "02-29" alone has no year, and failed on the 29th of February)
+            return _dt.datetime.strptime(f"{today.year}-{raw}", f"%Y-%m{sep}%d").date()
         except ValueError:
             continue
     return None
@@ -226,131 +226,132 @@ async def today_slash(interaction: discord.Interaction, tradition: str = "all", 
 
 # ── !bcp — Book of Common Prayer daily office ────────────────────────────────
 
-def _bcp_normalise_ref(ref: str) -> str:
-    """
-    Normalise lectionary refs into a form lookup.get_verse can handle.
+# The lectionary's books, as it abbreviates them (compared without dots or spaces, in lower case: "Jere." "jere",
+# "S. of Sol." "sofsol", "1Sam." "1sam"); anything else is tried as the bot's own name or alias for a book.
+BCP_BOOKS = {
+    "gen": "Genesis", "ex": "Exodus", "exod": "Exodus", "lev": "Leviticus", "num": "Numbers", "deut": "Deuteronomy",
+    "josh": "Joshua", "judg": "Judges", "ruth": "Ruth", "1sam": "1 Samuel", "2sam": "2 Samuel", "1kings": "1 Kings",
+    "2kings": "2 Kings", "1kgs": "1 Kings", "2kgs": "2 Kings", "1chr": "1 Chronicles", "2chr": "2 Chronicles",
+    "1chron": "1 Chronicles", "2chron": "2 Chronicles", "1chrn": "1 Chronicles", "2chrn": "2 Chronicles",
+    "prayerofmanasses": "Prayer of Manasseh", "prayerofmanasseh": "Prayer of Manasseh", "ezra": "Ezra",
+    "softhethreechildren": "Song of the Three Children", "songofthethreechildren": "Song of the Three Children", "neh": "Nehemiah", "esth": "Esther",
+    "job": "Job", "ps": "Psalms", "prov": "Proverbs", "eccl": "Ecclesiastes", "eccles": "Ecclesiastes",
+    "cant": "Song of Solomon", "sofsol": "Song of Solomon", "songofsol": "Song of Solomon", "isa": "Isaiah",
+    "jer": "Jeremiah", "jere": "Jeremiah", "lam": "Lamentations", "eze": "Ezekiel", "ezek": "Ezekiel",
+    "dan": "Daniel", "hos": "Hosea", "joel": "Joel", "amos": "Amos", "obad": "Obadiah", "jon": "Jonah",
+    "jonah": "Jonah", "mic": "Micah", "nah": "Nahum", "hab": "Habakkuk", "zeph": "Zephaniah", "hag": "Haggai",
+    "zech": "Zechariah", "mal": "Malachi",
+    "tob": "Tobit", "jud": "Judith", "judith": "Judith", "wis": "Wisdom of Solomon", "wisd": "Wisdom of Solomon",
+    "ecclus": "Sirach", "sir": "Sirach", "bar": "Baruch", "1macc": "1 Maccabees", "2macc": "2 Maccabees",
+    "mt": "Matthew", "matt": "Matthew", "mk": "Mark", "lk": "Luke", "jn": "John", "acts": "Acts", "rom": "Romans",
+    "1cor": "1 Corinthians", "2cor": "2 Corinthians", "gal": "Galatians", "eph": "Ephesians", "phil": "Philippians",
+    "col": "Colossians", "1thes": "1 Thessalonians", "2thes": "2 Thessalonians", "1thess": "1 Thessalonians",
+    "2thess": "2 Thessalonians", "1tim": "1 Timothy", "2tim": "2 Timothy", "tit": "Titus", "philem": "Philemon",
+    "philemon": "Philemon", "heb": "Hebrews", "jas": "James", "jam": "James", "1pet": "1 Peter", "2pet": "2 Peter",
+    "1jn": "1 John", "2jn": "2 John", "3jn": "3 John", "1john": "1 John", "2john": "2 John", "3john": "3 John",
+    "jude": "Jude", "rev": "Revelation",
+}
 
-    Examples:
-        "Isa. 11:1-9"            → "Isaiah 11:1-9"
-        "Rom. 8:18-end"          → "Romans 8:18-end" (handled by lookup)
-        "1 Cor. 12:27-13 end"    → "1 Corinthians 12:27-13:end"
-        "Eze. 11:14-20"          → "Ezekiel 11:14-20"
-        "Wis. 1:1-7"             → "Wisdom 1:1-7"
-        "Acts 18:24-19:7"        → "Acts 18:24-19:7"
-    """
-    s = ref.strip()
-    # Expand common abbreviations
-    expansions = [
-        ("Gen.",   "Genesis"),    ("Ex.",    "Exodus"),
-        ("Exod.",  "Exodus"),     ("Lev.",   "Leviticus"),
-        ("Num.",   "Numbers"),    ("Deut.",  "Deuteronomy"),
-        ("Josh.",  "Joshua"),     ("Judg.",  "Judges"),
-        ("1 Sam.", "1 Samuel"),   ("2 Sam.", "2 Samuel"),
-        ("1 Kings","1 Kings"),    ("2 Kings","2 Kings"),
-        ("1 Chr.", "1 Chronicles"),("2 Chr.","2 Chronicles"),
-        ("Neh.",   "Nehemiah"),   ("Esth.",  "Esther"),
-        ("Ps.",    "Psalm"),      ("Prov.",  "Proverbs"),
-        ("Eccl.",  "Ecclesiastes"),("Cant.", "Song of Solomon"),
-        ("Isa.",   "Isaiah"),     ("Isa ",   "Isaiah "),
-        ("Jer.",   "Jeremiah"),   ("Lam.",   "Lamentations"),
-        ("Eze.",   "Ezekiel"),    ("Ezek.",  "Ezekiel"),
-        ("Dan.",   "Daniel"),     ("Hos.",   "Hosea"),
-        ("Joel ",  "Joel "),      ("Amos ",  "Amos "),
-        ("Obad.",  "Obadiah"),    ("Jon.",   "Jonah"),
-        ("Mic.",   "Micah"),      ("Nah.",   "Nahum"),
-        ("Hab.",   "Habakkuk"),   ("Zeph.",  "Zephaniah"),
-        ("Hag.",   "Haggai"),     ("Zech.",  "Zechariah"),
-        ("Mal.",   "Malachi"),
-        # Apocrypha
-        ("Tob.",   "Tobit"),      ("Jud.",   "Judith"),
-        ("Wis.",   "Wisdom"),     ("Ecclus.","Sirach"),
-        ("Sir.",   "Sirach"),     ("Bar.",   "Baruch"),
-        ("1 Macc.","1 Maccabees"),("2 Macc.","2 Maccabees"),
-        # NT
-        ("Mt.",    "Matthew"),    ("Mk.",    "Mark"),
-        ("Lk.",    "Luke"),       ("Jn.",    "John"),
-        ("Rom.",   "Romans"),     ("1 Cor.", "1 Corinthians"),
-        ("2 Cor.", "2 Corinthians"),("Gal.",  "Galatians"),
-        ("Eph.",   "Ephesians"),  ("Phil.",  "Philippians"),
-        ("Col.",   "Colossians"), ("1 Thes.","1 Thessalonians"),
-        ("1 Thess.","1 Thessalonians"),("2 Thess.","2 Thessalonians"),
-        ("1 Tim.", "1 Timothy"),  ("2 Tim.", "2 Timothy"),
-        ("Tit.",   "Titus"),      ("Philem.","Philemon"),
-        ("Heb.",   "Hebrews"),    ("Jas.",   "James"),
-        ("1 Pet.", "1 Peter"),    ("2 Pet.", "2 Peter"),
-        ("1 Jn.",  "1 John"),     ("2 Jn.",  "2 John"),
-        ("3 Jn.",  "3 John"),     ("Rev.",   "Revelation"),
-    ]
-    for short, long in expansions:
-        if s.startswith(short):
-            s = long + s[len(short):]
-            break
 
-    # Convert "X-Y end" (multi-chapter range) to "X-Y:end"
-    s = re.sub(r"(\d+)\s+end\b", r"\1:end", s)
-    return s
+def _bcp_book(raw: str) -> "str | None":
+    """The lectionary's name for a book -> the bot's ("I Pet." -> "1 Peter", "Jam." -> "James")."""
+    s = re.sub(r"^(III|II|I)(?=\s|\.)", lambda m: str(len(m.group(1))), raw.strip())      # ("I Pet.", "II Cor.")
+    key = re.sub(r"[\s.]", "", s).lower()
+    if key in BCP_BOOKS:
+        return BCP_BOOKS[key]
+    corpus, canon = lookup._resolve_exact(s.rstrip("."))
+    return canon
+
+
+def _bcp_segments(ref: str) -> "tuple[str | None, list]":
+    """A lectionary reference -> (book, [(c1, v1, c2, v2)]), v2 "end" for a chapter's last verse, (c, None, c, None)
+    a whole chapter. Its notation: "Gen. 11:1-9; 27-12:10" (11:1-9, then 11:27-12:10), "Ex. 6:2-23 7:1-7",
+    "Job 25 26" (two chapters), "1 Tim.1:18-2 end", "Prov. 8:1, 22-end", "Acts 9:1-22 (23-31)" (the brackets an
+    optional longer reading: the set one is read), "Ruth 2:1-20 a" (half a verse: the verse), "Num. 24;1-19" (a
+    misprint for 24:1), "Philemon" (a one-chapter book, whole)."""
+    s = re.sub(r"\([^)]*\)", " ", ref).replace("=", "-")                  # (the optional longer reading; "1=26")
+    s = re.sub(r"(?<=\d)\s*[ab]\b", "", s)                                  # (half verses)
+    m = re.match(r"^\s*((?:III|II|I|[123])?\s*[A-Za-z][A-Za-z.\s]*?)\s*\.?\s*(?=\d|$)", s)
+    if not m:
+        return None, []
+    book = _bcp_book(m.group(1))
+    spec = s[m.end():].strip()
+    spec = re.sub(r"(\d+)\s*-\s*end", r"\1-end", spec)
+    spec = re.sub(r"(\d+)\s+end\b", r"\1:end", spec)                       # ("2 end" -> "2:end")
+    spec = re.sub(r":\s+", ":", spec)                                       # ("24: 13-35")
+    if re.match(r"^\d+;\d", spec) and ":" not in spec.split(";")[0]:
+        spec = spec.replace(";", ":", 1)                                    # ("24;1-19")
+    if not spec:
+        return book, [(1, None, 1, None)]                                   # (Philemon, Jude, 2 John)
+    one_chapter = bool(book) and lookup._one_chapter(book)
+    segments, chapter = [], (1 if one_chapter and ":" not in spec else None)   # ("Jude 17-end": its verses)
+    # (after a comma or semicolon a bare number is a verse of the same chapter, "Prov. 8:1, 22-end"; after a space,
+    # a chapter, "Deut. 32:48-end 34")
+    for sep, item in re.findall(r"(^|[;,]\s*|\s+)([^;,\s]+)", spec):
+        if sep.strip() == "" and sep and ":" not in item and not one_chapter:
+            chapter = None
+        a, _, b = item.partition("-")
+
+        def point(p, default_chapter):
+            if ":" in p:
+                c, v = p.split(":", 1)
+                return int(c), (v if v == "end" else int(v))
+            return default_chapter, (p if p == "end" else int(p))
+
+        try:
+            if ":" in a:
+                c1, v1 = point(a, None)
+            elif chapter is None:                                           # (a whole chapter, or chapters "25-26")
+                c1 = int(a)
+                if b and ":" not in b:
+                    for c in range(c1, int(b) + 1):
+                        segments.append((c, None, c, None))
+                    chapter = int(b)
+                    continue
+                if not b:
+                    segments.append((c1, None, c1, None))
+                    continue
+                v1 = 1
+            else:
+                c1, v1 = chapter, int(a)
+            if not b:
+                c2, v2 = c1, v1
+            elif ":" in b:
+                c2, v2 = point(b, c1)
+            else:
+                c2, v2 = c1, (b if b == "end" else int(b))
+        except ValueError:
+            return book, []
+        segments.append((c1, v1, c2, v2))
+        chapter = c2
+    return book, segments
 
 
 def _bcp_fetch_text(ref: str) -> tuple[str, str]:
-    """
-    Look up a lectionary reference and return (display_ref, text).
+    """A lectionary reference -> (display reference, text): each of its pieces read and run together."""
+    book, segments = _bcp_segments(ref)
+    if not book or not segments:
+        return ref, "*[not available]*"
 
-    Handles BCP lectionary notation that the standard `lookup.get_verse`
-    doesn't:
-      • "Rom. 8:18-end"      → resolve "end" to the chapter's actual last verse
-      • "1 Cor. 12:27-13 end" → cross-chapter to end of chapter 13
-      • "Acts 18:24-19:7"    → ordinary cross-chapter (lookup handles natively)
-    """
-    norm = _bcp_normalise_ref(ref)
-    import re as _re
+    def last_verse(chap: int) -> int:
+        corpus, canon = lookup._resolve_book(book)
+        nums = [int(k) for k in lookup._data[corpus].get(canon, {}).get(str(chap), {}) if k.isdigit()] if canon else []
+        return max(nums) if nums else 200
 
-    def _last_verse(book: str, chap: int) -> int | None:
-        """Return the highest verse number in (book, chap), or None if unknown."""
+    refs, texts = [], []
+    for c1, v1, c2, v2 in segments:
+        v1 = 1 if v1 is None else v1
+        v2 = last_verse(c2) if v2 in (None, "end") else v2
         try:
-            corpus, canon = lookup._resolve_book(book)
-            if canon is None:
-                return None
-            chap_data = lookup._data[corpus].get(canon, {}).get(str(chap), {})
-            nums = [int(k) for k in chap_data if k.isdigit()]
-            return max(nums) if nums else None
+            result = lookup.get_verse_range(book, c1, v1, c2, v2)
         except Exception:
-            return None
-
-    # Try "Book C:V-end"
-    m = _re.match(r"^(.+?)\s+(\d+):(\d+)\s*-\s*end$", norm)
-    if m:
-        book = m.group(1).strip()
-        c, v = int(m.group(2)), int(m.group(3))
-        last = _last_verse(book, c) or 200
-        try:
-            result = lookup.get_verse_range(book, c, v, c, last)
-            if result.get("found"):
-                return result.get("reference", ref), result.get("text", "")
-        except Exception:
-            pass
-
-    # Try "Book C:V-C2:end"  (multi-chapter to end of chapter)
-    m = _re.match(r"^(.+?)\s+(\d+):(\d+)\s*-\s*(\d+):end$", norm)
-    if m:
-        book = m.group(1).strip()
-        c1, v1, c2 = int(m.group(2)), int(m.group(3)), int(m.group(4))
-        last = _last_verse(book, c2) or 200
-        try:
-            result = lookup.get_verse_range(book, c1, v1, c2, last)
-            if result.get("found"):
-                return result.get("reference", ref), result.get("text", "")
-        except Exception:
-            pass
-
-    # Otherwise, hand off to the standard verse lookup
-    try:
-        result = lookup.get_verse(norm)
+            result = {}
         if result.get("found"):
-            return result.get("reference", ref), result.get("text", "")
-    except Exception:
-        pass
-
-    return ref, "*[not available]*"
+            refs.append(result.get("reference", ""))
+            texts.append(result.get("text", ""))
+    if not texts:
+        return ref, "*[not available]*"
+    return "; ".join(r for r in refs if r) or ref, "\n\n".join(texts)
 
 
 def _bcp_period_for_now() -> str:
