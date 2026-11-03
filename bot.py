@@ -108,6 +108,7 @@ from bot_commands import (  # noqa: F401
     personal,
     psalter,
     quiz,
+    randoms,
     rosary,
     salah,
     troparion,

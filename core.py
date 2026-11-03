@@ -195,6 +195,80 @@ ANE_BOOKS = [
     "The Story of Ahikar",
 ]
 
+# ── `!anything random`, and the bare commands that pick at random ─────────────
+# The owner's rule (2026-11-02, from bug-testers' reports): a command sent with nothing after it does the
+# obvious thing (today's for the daily ones, the list for the browsing ones, else a random one); and
+# `!<command> random` always gives a random one. A command registers random_input(name, picker): picker()
+# makes a random argument it understands (a name, a number, a reference), which takes the place of "random"
+# (and, with bare=True, of nothing at all, with a line saying how to ask for a particular one).
+RANDOM_INPUTS: dict = {}
+
+
+def random_input(command: str, picker, bare: bool = False, hint: str = "") -> None:
+    RANDOM_INPUTS[command] = (picker, bare, hint)
+
+
+def _text_param(command):
+    """The command's text argument: its last keyword-only ("rest of the line") parameter."""
+    names = [n for n, p in command.clean_params.items() if p.kind == p.KEYWORD_ONLY]
+    return names[-1] if names else None
+
+
+def randomized(command, value, ctx=None) -> tuple:
+    """(the argument to use instead of `value`, or None to leave it; whether it stood in for nothing at all).
+    A picker may take the context (to pick only from what the server has)."""
+    import inspect
+    spec = RANDOM_INPUTS.get(command.qualified_name)
+    if spec is None or not (value is None or isinstance(value, str)):
+        return None, False
+    picker, bare, _ = spec
+    text = (value or "").strip()
+    if text.lower() == "random" or (bare and not text):
+        try:
+            takes_ctx = len(inspect.signature(picker).parameters) > 0
+            return str(picker(ctx) if takes_ctx else picker()), not text
+        except Exception as e:                           # (a picker that fails leaves the command as it was)
+            log.warning(f"random input for !{command.name} failed: {type(e).__name__}: {e}")
+    return None, False
+
+
+@bot.before_invoke
+async def _random_before(ctx):
+    name = _text_param(ctx.command)
+    if name is None:
+        return
+    value, from_nothing = randomized(ctx.command, ctx.kwargs.get(name), ctx)
+    if value is not None:
+        ctx.kwargs[name] = value
+        hint = RANDOM_INPUTS[ctx.command.qualified_name][2]
+        if from_nothing and hint:
+            ctx.random_hint = hint
+
+
+@bot.after_invoke
+async def _random_after(ctx):
+    hint = getattr(ctx, "random_hint", None)
+    if hint:
+        await ctx.send(f"-# 🎲 A random one: {hint}")
+
+
+# Slash commands call a command straight (`await cmd_who(ctx, name=...)`), past the hooks above: "random" typed
+# there gets the same treatment (an empty slash option is left alone: Discord asks for the required ones).
+_plain_call = commands.Command.__call__
+
+
+async def _call_with_random(self, context, /, *args, **kwargs):
+    name = _text_param(self)
+    if name in kwargs:
+        value, _ = randomized(self, kwargs[name], context)
+        if value is not None and str(kwargs[name] or "").strip():
+            kwargs[name] = value
+    return await _plain_call(self, context, *args, **kwargs)
+
+
+commands.Command.__call__ = _call_with_random
+
+
 @bot.event
 async def on_command(ctx):
     log.info(f"CMD  {ctx.command.name:<16} | {ctx.author} | #{ctx.channel} | {ctx.message.content[:80]}")

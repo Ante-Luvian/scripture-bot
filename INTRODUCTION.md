@@ -25,6 +25,8 @@ Many of my answers come with buttons underneath. Under a Bible verse you'll see 
 **Getting help any time**
 `!help` shows every command at a glance, and `!help <command>` explains one in detail — `!help verse`, `!help bcp`, `!help jewish`. The messages below are the full tour: first my library, then every command, grouped by what it's for.
 
+**Feeling curious?** Add `random` to almost any command and I'll pick one for you: `!who random` (someone from the Bible), `!saint random`, `!place random`, `!kings random`, `!canon random`. A command on its own does the obvious thing: today's for the daily ones (`!saint`, `!psalm`), the list for the browsing ones (`!journey`, `!books`), and otherwise a random one.
+
 ## 📚 My library: the Bible and its neighbours
 **The Bible** — all 66 books, King James Version by default, plus **more than 40 other translations** you can ask for by name: modern English (ESV, NASB, NKJV, NLT, NRSVCE, NABRE, CSB, the NET Bible and more), older ones (Geneva Bible, Young's Literal, Douay-Rheims, Knox), and the **original and ancient languages**: Hebrew (Westminster Leningrad Codex), Greek New Testament (Textus Receptus, Tischendorf), the Greek Old Testament (Septuagint), Latin (Vulgate), Syriac (Peshitta), Church Slavonic and even Old English. `!translations` lists them all.
 
