@@ -31,5 +31,16 @@ def test_collections_and_authors_still_come_first(bot_module):
     assert _books(bot_module, "Augustine")["embed"].title == "📚 Augustine of Hippo"
 
 
+@pytest.mark.parametrize("query, shelf", [
+    ("dharma", "Dharmic & Asian"), ("dharmic", "☸️ Dharmic"), ("hindu", "☸️ Dharmic"), ("christian", "Christianity"),
+    ("jewish", "Judaism"), ("islam", "Islamic"), ("magic", "Gnostic & Esoteric"), ("classical", "🏛️ Classical"),
+    ("latin", "🦅 Latin"), ("buddhism", "Buddhist"),
+])
+def test_a_tradition_by_any_name_opens_its_shelf(bot_module, query, shelf):
+    """A bug-tester's /books dharma said "dharma not found" (2026-11-02): a shelf by its name without the emoji, or
+    a tradition by any of its names, or nearly ("dharma" for Dharmic), before titles that merely mention it."""
+    assert shelf in _books(bot_module, query)["embed"].title
+
+
 def test_unknown(bot_module):
     assert "not found" in _books(bot_module, "xyzzy")["content"]

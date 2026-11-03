@@ -2464,15 +2464,62 @@ def _books_embed(node, title: str, page: int = 0) -> discord.Embed:
     return embed
 
 
+def _plain(label: str) -> str:
+    """A shelf's name as words: "☸️ Dharmic & Asian" -> "dharmic asian"."""
+    return " ".join(w for w in re.findall(r"[a-zà-ÿʼ'’]+", label.lower()) if w not in ("and", "the"))
+
+
 def _find_node(tree, label: str):
+    """A shelf by its name, emoji, capitals and "&" aside ("dharmic" is ☸️ Dharmic)."""
+    want = _plain(label)
     for item in tree:
         if isinstance(item, tuple):
             name, contents = item
-            if name == label:
+            if name == label or (want and _plain(name) == want):
                 return (name, contents)
             found = _find_node(contents, label)
             if found:
                 return found
+    return None
+
+
+def _tradition_shelf(tree, query: str):
+    """The shelf of a tradition named any way the bot knows ("christianity", "muslim", "hindu" -> its shelf)."""
+    from scripture_lookup import TRADITION_ALIASES, TRADITIONS, tradition
+    key = tradition(query)
+    if key is None:
+        return None
+    label, corpora = TRADITIONS[key]
+    # its whole name first, then its key and other names ("judaism" for jewish), the words of its name, and last
+    # its corpora's (hindu's is "dharmic"): each exactly before any nearly
+    names = [label, key, *(a for a, k in TRADITION_ALIASES.items() if k == key), *_plain(label).split(), *corpora]
+    for find in (_find_node, _near_shelf):
+        for name in names:
+            found = find(tree, name)
+            if found:
+                return found
+    return None
+
+
+def _near_shelf(tree, query: str, depth: int = 2):
+    """A group or shelf (the top two levels) one of whose words the query nearly is ("dharma" -> 🪷 Dharmic & Asian:
+    the first five letters the same, or the whole of a shorter word), for when nothing else matched."""
+    words = _plain(query).split()
+    if len(words) != 1 or len(words[0]) < 4:
+        return None
+    q = words[0]
+    for item in tree:
+        if isinstance(item, tuple):
+            name, contents = item
+            if any(w.startswith(q) or q.startswith(w) or (len(q) >= 5 and w[:5] == q[:5])
+                   for w in _plain(name).split() if len(w) >= 4):
+                return (name, contents)
+    if depth > 1:
+        for item in tree:
+            if isinstance(item, tuple) and isinstance(item[1], list):
+                found = _near_shelf(item[1], query, depth - 1)
+                if found:
+                    return found
     return None
 
 
@@ -2823,8 +2870,9 @@ async def list_books(ctx, *, section: str = ""):
     top_node, sections = tree_for(guild_id)
 
     if section.strip():
-        # 1. Try BOOKS_TREE section match first
-        found = _find_node(sections, section.strip())
+        # 1. Try BOOKS_TREE section match first; then a tradition by any of its names ("christian", "islam",
+        #    "hindu", "magic"), to its shelf, before titles that merely mention the word
+        found = _find_node(sections, section.strip()) or _tradition_shelf(top_node, section.strip())
         if found:
             label, node = found
             stack = [(top_label, top_node, "tree"), (label, node, "tree")]
@@ -2870,6 +2918,11 @@ async def list_books(ctx, *, section: str = ""):
                 labels, mode = options
                 view = BooksView([(top_label, top_node, "tree"), (book_name, labels, mode)])
                 view.message = await ctx.send(embed=_chapter_picker_embed(book_name, len(labels)), view=view)
+            elif near := _near_shelf(top_node, section.strip()):
+                # 4. Nearly a shelf's name ("dharma", "christian", "islam")
+                label, node = near
+                view = BooksView([(top_label, top_node, "tree"), (label, node, "tree")])
+                view.message = await ctx.send(embed=_books_embed(node, label), view=view)
             else:
                 await ctx.send(
                     f"**{section}** not found.\n"
