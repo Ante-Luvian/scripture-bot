@@ -234,7 +234,7 @@ def _justified_lines(paragraph: str, font, width: float, measure) -> list:
 
 
 def _render_verse_card(reference: str, text: str, source: str, question: str = "", style: str = "",
-                       justify: bool = False, verse: bool = False):
+                       justify: bool = False, verse: bool = False, poem: bool = False):
     """Render a verse (or a whole chapter) as a PNG in its tradition's style
     (CARD_STYLES; by default chosen from the reference's book). Runs off the
     event loop (CPU-bound). Height grows to fit the text instead of
@@ -242,7 +242,10 @@ def _render_verse_card(reference: str, text: str, source: str, question: str = "
     `question` (oracle answers): shown in italics above the text.
     `justify`: prose set flush to both margins, like a printed page, instead of centred lines.
     `verse`: a poem's lines kept whole, one to a line (the type made smaller until the longest fits), and the
-    caesura Bellows marks in the Edda's lines ("On his ring swore Othin | the oath") shown as a gap."""
+    caesura Bellows marks in the Edda's lines ("On his ring swore Othin | the oath") shown as a gap.
+    `poem` (with verse): set as a printed poem, the owner's choice for Shakespeare's (2026-11-07): upright type,
+    the lines flush left in a block centred on the card, and every other line of a stanza indented."""
+    verse = verse or poem
     from PIL import Image, ImageDraw, ImageFont
     import io, textwrap
 
@@ -270,6 +273,8 @@ def _render_verse_card(reference: str, text: str, source: str, question: str = "
     is_rtl = _is_rtl_script(quote_text)
     justify = justify and not is_rtl
     body_font_path = _script_font(FONTS, quote_text)
+    if poem and body_font_path.endswith("georgiai.ttf"):
+        body_font_path = FONTS + "georgia.ttf"                # (upright)
 
     # Each verse (separated by the newlines already in whole-chapter text)
     # wraps as its own paragraph, rather than running every verse together.
@@ -292,9 +297,20 @@ def _render_verse_card(reference: str, text: str, source: str, question: str = "
             wrap_width = max(10, int(max_width / (size * 0.52)))
             lines = [l for p in paragraphs for l in (textwrap.wrap(p, width=wrap_width) if len(p) > 110 else [p])]
             line_height = int(size * 1.35)
-            if max((dummy.textlength(l, font=font) for l in lines), default=0) <= max_width or size <= 16:
+            indent = int(size * 1.4) if poem else 0
+            if max((dummy.textlength(l, font=font) for l in lines), default=0) + indent <= max_width or size <= 16:
                 break
             size -= 2
+    # (a poem's lines: every other line of each stanza indented, counting afresh after a stanza break; the block
+    # placed so its widest line is centred)
+    indented, k = set(), 0
+    for i, line in enumerate(lines if poem else []):
+        if not line.strip():
+            k = 0
+            continue
+        if k % 2:
+            indented.add(i)
+        k += 1
     while not justify and not verse and size >= MIN_SIZE:
         font = ImageFont.truetype(body_font_path, size)
         wrap_width = max(10, int(max_width / (size * 0.52)))
@@ -323,8 +339,14 @@ def _render_verse_card(reference: str, text: str, source: str, question: str = "
     # on the minimum-height canvas, which would otherwise sit flush at the top).
     available = H - TOP_MARGIN - BOTTOM_RESERVED
     y = TOP_MARGIN + max(0, (available - text_height) // 2)
-    for line in lines:
-        if justify:
+    if poem:
+        block = max((draw.textlength(l, font=font) + (indent if i in indented else 0) for i, l in enumerate(lines)),
+                    default=0)
+        left = (W - block) / 2
+    for i, line in enumerate(lines):
+        if poem:
+            draw.text((left + (indent if i in indented else 0), y), line, font=font, fill=TEXT)
+        elif justify:
             words, gap = line
             x = (W - max_width) / 2
             for w in words:

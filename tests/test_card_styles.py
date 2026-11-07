@@ -39,6 +39,21 @@ def test_verse_keeps_its_lines(card):
     assert "On his ring swore Othin     the oath, methinks;" in drawn and "Who now his troth shall trust?" in drawn
 
 
+def test_a_poem_is_set_as_printed(card):
+    """Shakespeare's poems (the owner, 2026-11-07): upright, flush left, every other line of a stanza indented."""
+    from unittest import mock
+    from PIL import ImageDraw
+    placed, original = [], ImageDraw.ImageDraw.text
+    with mock.patch.object(ImageDraw.ImageDraw, "text",
+                           lambda self, xy, text, *a, **k: placed.append((xy[0], text, k.get("font"))) or original(self, xy, text, *a, **k)):
+        card._render_verse_card("Sonnet 1", "One line here,\nTwo line here,\nThree line here,\nFour line here,\n\nFive",
+                                "Folger", "", "parchment", poem=True)
+    x = {t: (left, f) for left, t, f in placed}
+    assert x["One line here,"][0] == x["Three line here,"][0] < x["Two line here,"][0] == x["Four line here,"][0]
+    assert x["Five"][0] == x["One line here,"][0]                                  # (a new stanza starts flush)
+    assert "georgia.ttf" in x["One line here,"][1].path                            # (upright: not georgiai)
+
+
 def test_parchment_is_unchanged_for_the_bible(card):
     img = Image.open(card._render_verse_card("John 3:16", "For God so loved the world.", "KJV"))
     assert img.getpixel((5, 5)) == (245, 239, 224)
