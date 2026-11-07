@@ -144,8 +144,11 @@ class OracleCardButton(discord.ui.DynamicItem[discord.ui.Button],
             await interaction.followup.send("⚠️ I can't find that answer's text any more.", ephemeral=True)
             return
         question = _question_from(interaction.message)
-        style = {"iching": "ink", "hafez": "persian", "rumi": "persian", "edda": "norse"}.get(self.kind, "classical")
-        buf = await asyncio.to_thread(_render_verse_card, *content, question, style, verse=self.kind == "edda")
+        style = {"iching": "ink", "hafez": "persian", "rumi": "persian", "edda": "norse",
+                 "bard": "parchment"}.get(self.kind, "classical")
+        # (a poem's lines kept whole: the Edda's stanzas, the Sonnets and the long poems; not a play's speech)
+        poem = self.kind == "edda" or (self.kind == "bard" and self.key.split("|")[0] not in _play_lines().get("lines", {}))
+        buf = await asyncio.to_thread(_render_verse_card, *content, question, style, verse=poem)
         await interaction.followup.send(file=discord.File(buf, filename="oracle.png"))
 
 
