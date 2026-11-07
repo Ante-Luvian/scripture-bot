@@ -667,6 +667,10 @@ ALIASES: dict[str, str] = {
     "sama veda": "Sama Veda", "samaveda": "Sama Veda", "sama": "Sama Veda",
     "2 enoch": "2 Enoch", "secrets of enoch": "2 Enoch", "book of the secrets of enoch": "2 Enoch",
     "slavonic enoch": "2 Enoch", "ii enoch": "2 Enoch",
+    # (a machine translation of the Hebrew, Vatican MS Ebr. 228: scripts/build_3enoch.py)
+    "3 enoch": "3 Enoch", "3enoch": "3 Enoch", "iii enoch": "3 Enoch", "hebrew enoch": "3 Enoch",
+    "hebrew book of enoch": "3 Enoch", "sefer hekhalot": "3 Enoch", "sefer heikhalot": "3 Enoch",
+    "sepher hekhaloth": "3 Enoch", "book of palaces": "3 Enoch", "metatron": "3 Enoch",
     "protevangelium": "The Protevangelium of James", "protoevangelium": "The Protevangelium of James",
     "protevangelium of james": "The Protevangelium of James", "gospel of james": "The Protevangelium of James",
     "infancy gospel of james": "The Protevangelium of James",
@@ -2012,7 +2016,7 @@ class ScriptureLookup:
             "kjv":     ["kjv_canon.json", "kjv_apocrypha.json"],
             "lds":     ["book_of_mormon.json", "doctrine_and_covenants.json", "pearl_of_great_price.json"],
             "brenton": ["brenton_extras.json"],
-            "charles": ["book_of_enoch.json", "book_of_jubilees.json", "testaments_of_twelve_patriarchs.json", "assumption_of_moses.json", "ascension_of_isaiah.json", "sibylline_oracles.json", "letter_of_aristeas.json", "books_of_adam_and_eve.json", "zadokite_fragments.json", "secrets_of_enoch.json", "forgotten_books_of_eden.json"],
+            "charles": ["book_of_enoch.json", "book_of_jubilees.json", "testaments_of_twelve_patriarchs.json", "assumption_of_moses.json", "ascension_of_isaiah.json", "sibylline_oracles.json", "letter_of_aristeas.json", "books_of_adam_and_eve.json", "zadokite_fragments.json", "secrets_of_enoch.json", "forgotten_books_of_eden.json", "3_enoch.json"],
             "nt_apocrypha": ["anf8_apocrypha.json", "anf9_apocrypha.json"],
             "apostolic_fathers": [
                 "1_clement.json",

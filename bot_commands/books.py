@@ -57,7 +57,7 @@ BOOKS_TREE = [
             "Assumption of Moses","Ascension of Isaiah","Sibylline Oracles",
             "Letter of Aristeas","Vita Adae et Evae","Apocalypse of Moses",
             "Fragments of a Zadokite Work",
-            "2 Enoch",
+            "2 Enoch", "3 Enoch",                     # (3 Enoch: a machine translation, its source says so)
             "First Book of Adam and Eve", "Second Book of Adam and Eve", "Odes of Solomon",
         ]),
         ("New Testament Apocrypha (Ante-Nicene Fathers VIII)", [

@@ -325,6 +325,14 @@ changed (else compare `books` with HEAD); never OCR or proofread scan images wit
   line breaks but keeps the editor's every-fifth-line numbers, so `methodius()` in build_english.py rebuilds the
   lines at the scribe's stops, flags unclear blocks, and METHODIUS_SPLITS settles them by the rimes. The same route
   works for any other CME text the owner wants.
+- *Metatron literature (2026-11-07, the owner's request):* Ginzberg's *Legends of the Jews* vols 1-4
+  (scripts/build_jewish_legends.py, Gutenberg; a story a chapter, "1.37" Enoch's ascension); *3 Enoch* as Source
+  Library's machine translation of Vatican MS Ebr. 228, Odeberg's base manuscript (scripts/build_3enoch.py; the
+  owner chose it over OCR-and-proofreading Odeberg's scans: no clean transcription of Odeberg exists online; the
+  48 "Rabbi Ishmael said" openings are Odeberg's 48 chapters). Its API: sourcelibrary.org/api/books/<id>/text?content=
+  both&format=json (text has zero-width watermark characters: strip them). The Targum lookups were broken (Sefaria
+  titles "Targum Jonathan on Genesis", "Aramaic Targum to Psalms"; its Neofiti is 8 verses). Not found in English:
+  al-Kindi, al-Masudi, al-Suyuti, al-Buni on Metatron. The same MS 228 has *Hekhalot Rabbati* from scan 142 if wanted.
 - *Open:* Juvenal and Martial (no non-OCR English text found yet); Hyginus's Astronomica books
   1, 3, 4 (only Book 2 is transcribed anywhere found); Ptolemy's Almagest (OCR only: the owner said no OCR
   "at the moment"); the PDF guides (scripts/build_guides.py) haven't been rebuilt since these books.
