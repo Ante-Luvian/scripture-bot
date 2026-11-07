@@ -30,6 +30,7 @@ from bot_commands.oracles import (
     cmd_rumi,
     cmd_shakespeare,
     cmd_sonnet,
+    cmd_edda,
 )
 from bot_commands.prayers import PRAYERS
 from bot_commands.personal import (
@@ -208,6 +209,14 @@ async def sonnet_slash(interaction: discord.Interaction, which: str = ""):
     await interaction.response.defer()
     ctx = await bot.get_context(interaction)
     await cmd_sonnet(ctx, query=which)
+
+
+@bot.tree.command(name="edda", description="A stanza of the Poetic Edda, the Norse poems of the gods and heroes")
+@app_commands.describe(poem="A poem (havamal, voluspa, lokasenna...), with a stanza if you like; empty for any")
+async def edda_slash(interaction: discord.Interaction, poem: str = ""):
+    await interaction.response.defer()
+    ctx = await bot.get_context(interaction)
+    await cmd_edda(ctx, query=poem)
 
 
 @bot.tree.command(name="books", description="List available scripture collections")

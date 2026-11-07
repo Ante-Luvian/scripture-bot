@@ -87,6 +87,7 @@ HELP_MENU = [
     ]),
     ('🎲 Divination', [
         '`!oracle` `!delphi` `!homer` `!virgil` `!sortesbiblicae` `!iching` `!hafez` `!rumi` `!tarot` · `!help oracle`',
+        "`!edda` — a stanza of the Poetic Edda, Norse poems of the gods (`!edda havamal`, `!edda voluspa 1`), with a card",
         "`!planets` — where the Sun, Moon and planets are in the zodiac, and the day's aspects · `!help planets`",
         "`!horoscope` — the day's significant events in the sky, and what each means and for whom (`!horoscope leo`)",
         '`!quiz` — guess which book a verse is from (`!quiz hard`, `!quiz buddhist`, `!quiz leaderboard`)',

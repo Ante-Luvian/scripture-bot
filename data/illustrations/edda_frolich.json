@@ -1,0 +1,229 @@
+{
+ "code": "ef",
+ "artist": "Lorenz Frølich",
+ "work": "Den Ældre Eddas Gudesange, ed. Karl Gjellerup (1895)",
+ "credit": "MyNDIR, University of Victoria",
+ "label": "Frølich",
+ "pictures": [
+  {
+   "title": "The Sons of Borr",
+   "caption": "The Sons of Borr, Óðinn, Vili and Vé, lifting Ymir's skull to create the heavens. This scene is from the Eddaic poem Völuspá in Karl Gjellerup's Den Ældre Eddas Gudesange.",
+   "book": "Voluspo",
+   "chapter": "*",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/edda_frolich/AldEdGud-1895-003-01.jpg",
+   "page": "https://myndir.uvic.ca/AldEdGud-1895-003-01.html",
+   "n": "1"
+  },
+  {
+   "title": "The Gods Attacking Gullveig",
+   "caption": "The gods attacking Gullveig with spears. This scene is from the Eddaic poem Völuspá in Karl Gjellerup's Den Ældre Eddas Gudesange.",
+   "book": "Voluspo",
+   "chapter": "*",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/edda_frolich/AldEdGud-1895-006-01.jpg",
+   "page": "https://myndir.uvic.ca/AldEdGud-1895-006-01.html",
+   "n": "2"
+  },
+  {
+   "title": "Oðinn Casting His Spear",
+   "caption": "Óðinn casting his spear before the beginning of a battle between the Æsir and the Vanir. This scene is from the Eddaic poem Völuspá in Karl Gjellerup's Den Ældre Eddas Gudesange.",
+   "book": "Voluspo",
+   "chapter": "*",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/edda_frolich/AldEdGud-1895-007-01.jpg",
+   "page": "https://myndir.uvic.ca/AldEdGud-1895-007-01.html",
+   "n": "3"
+  },
+  {
+   "title": "Oðinn Consulting the Seeress",
+   "caption": "Óðinn consulting an unnamed seeress, who tells him about the creation of the world, its destruction in the battle of Ragnarök, and the aftermath of the battle when the earth will be reborn. This scene is from the Eddaic poem Völuspá, The Prophecy of the Seeress, in Karl Gjellerup's Den Ældre Eddas Gudesange.",
+   "book": "Voluspo",
+   "chapter": "*",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/edda_frolich/AldEdGud-1895-008-01.jpg",
+   "page": "https://myndir.uvic.ca/AldEdGud-1895-008-01.html",
+   "n": "4"
+  },
+  {
+   "title": "Loki and Sigyn",
+   "caption": "Sigyn turning aside to empty the bowl of snake venom while writhes in pain. This scene is from the Eddaic poem Völuspá in Karl Gjellerup's Den Ældre Eddas Gudesange.",
+   "book": "Voluspo",
+   "chapter": "*",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/edda_frolich/AldEdGud-1895-009-01.jpg",
+   "page": "https://myndir.uvic.ca/AldEdGud-1895-009-01.html",
+   "n": "5"
+  },
+  {
+   "title": "Heimdallr Blowing His Horn",
+   "caption": "Heimdallr blowing the Gjallarhorn to signal the start of the battle of Ragnarök. This scene is from the Eddaic poem Völuspá in Karl Gjellerup's Den Ældre Eddas Gudesange.",
+   "book": "Voluspo",
+   "chapter": "*",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/edda_frolich/AldEdGud-1895-013-01.jpg",
+   "page": "https://myndir.uvic.ca/AldEdGud-1895-013-01.html",
+   "n": "6"
+  },
+  {
+   "title": "Surtr",
+   "caption": "The giant Surtr and his flaming sword. This scene is from the Eddaic poem Völuspá in Karl Gjellerup's Den Ældre Eddas Gudesange.",
+   "book": "Voluspo",
+   "chapter": "*",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/edda_frolich/AldEdGud-1895-015-02.jpg",
+   "page": "https://myndir.uvic.ca/AldEdGud-1895-015-02.html",
+   "n": "7"
+  },
+  {
+   "title": "Surtr and Freyr in Combat",
+   "caption": "Surtr and Freyr fighting each other at the Battle of Ragnarök. Surtr will be the victor and kill Freyr. This scene is from the Eddaic poem Völuspá in Karl Gjellerup's Den Ældre Eddas Gudesange.",
+   "book": "Voluspo",
+   "chapter": "*",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/edda_frolich/AldEdGud-1895-016-01.jpg",
+   "page": "https://myndir.uvic.ca/AldEdGud-1895-016-01.html",
+   "n": "8"
+  },
+  {
+   "title": "Fenrir About to Devour Óðinn",
+   "caption": "Óðinn charging at Fenrir, who will devour him, at the Battle of Ragnarök. Óðinn is riding Sleipnir and holding his spear Gungnir. This scene is from the Eddaic poem Völuspá in Karl Gjellerup's Den Ældre Eddas Gudesange.",
+   "book": "Voluspo",
+   "chapter": "*",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/edda_frolich/AldEdGud-1895-017-01.jpg",
+   "page": "https://myndir.uvic.ca/AldEdGud-1895-017-01.html",
+   "n": "9"
+  },
+  {
+   "title": "Miðgarðsormr and Þórr in Combat",
+   "caption": "Miðgarðsormr and Þórr in combat at the Battle of Ragnarok. This scene is from the Eddaic poem Völuspá in Karl Gjellerup's Den Ældre Eddas Gudesange.",
+   "book": "Voluspo",
+   "chapter": "*",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/edda_frolich/AldEdGud-1895-017-02.jpg",
+   "page": "https://myndir.uvic.ca/AldEdGud-1895-017-02.html",
+   "n": "10"
+  },
+  {
+   "title": "The Death of Þórr",
+   "caption": "Þórr's body on the ground at Ragnarok after he has killed Miðgarðsormr. This scene is from the Eddaic poem Völuspá in Karl Gjellerup's Den Ældre Eddas Gudesange.",
+   "book": "Voluspo",
+   "chapter": "*",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/edda_frolich/AldEdGud-1895-018-01.jpg",
+   "page": "https://myndir.uvic.ca/AldEdGud-1895-018-01.html",
+   "n": "11"
+  },
+  {
+   "title": "Óðinn and Frigg",
+   "caption": "Óðinn asking his wife Frigg for advice because he intends to go and question the giant Vafþrúðnir. Frigg tries to persuade him not to go but cannot dissuade him. This scene is from the Eddaic poem Vafþrúðnismál in Karl Gjellerup's Den Ældre Eddas Gudesange.",
+   "book": "Vafthruthnismol",
+   "chapter": "*",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/edda_frolich/AldEdGud-1895-035-01.jpg",
+   "page": "https://myndir.uvic.ca/AldEdGud-1895-035-01.html",
+   "n": "12"
+  },
+  {
+   "title": "Líf and Lífþrasir After RagnaRök",
+   "caption": "Líf and Lífþrasir after the Battle of Ragnarök. This scene is from the Eddaic poem Völuspá in Karl Gjellerup's Den Ældre Eddas Gudesange.",
+   "book": "Voluspo",
+   "chapter": "*",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/edda_frolich/AldEdGud-1895-045-01.jpg",
+   "page": "https://myndir.uvic.ca/AldEdGud-1895-045-01.html",
+   "n": "13"
+  },
+  {
+   "title": "Víðarr Slaying Fenrir",
+   "caption": "Víðarr avenging the death of Oðinn at Ragnarök by killing the wolf Fenrir. This scene is from the Eddaic poem Vafþrúðnismál in Karl Gjellerup's Den Ældre Eddas Gudesange.",
+   "book": "Vafthruthnismol",
+   "chapter": "*",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/edda_frolich/AldEdGud-1895-048-01.jpg",
+   "page": "https://myndir.uvic.ca/AldEdGud-1895-048-01.html",
+   "n": "14"
+  },
+  {
+   "title": "Vafþrúðnir Concedes",
+   "caption": "The giant Vafþrúðnir conceding defeat to Óðinn in a wisdom contest. This scene is from the Eddaic poem Vafþrúðnismál in Karl Gjellerup's Den Ældre Eddas Gudesange.",
+   "book": "Vafthruthnismol",
+   "chapter": "*",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/edda_frolich/AldEdGud-1895-049-01.jpg",
+   "page": "https://myndir.uvic.ca/AldEdGud-1895-049-01.html",
+   "n": "15"
+  },
+  {
+   "title": "Óttarr and the Memory Potion",
+   "caption": "Óttarr about to drink the memory potion that Freyja has persuaded the giantess Hyndla to give to him. Óttarr's foot is resting on the head of Freyja's boar Hildisvíni. Óttarr needs the potion so that he can gain knowledge concerning his ancestors. This scene is from the Eddaic poem Hyndluljöð in Karl Gjellerup's Den Ældre Eddas Gudesange.",
+   "book": "Hyndluljoth",
+   "chapter": "*",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/edda_frolich/AldEdGud-1895-270-01.jpg",
+   "page": "https://myndir.uvic.ca/AldEdGud-1895-270-01.html",
+   "n": "16"
+  },
+  {
+   "title": "Freyja Riding on Óttarr",
+   "caption": "Freyja reclining on a boar Hildisvíni, who is actually Freyja´s follower Ottarr in disguise. Freyja and Ottarr have come to consult the giantess Hyndlato gain knowledge concerning Ottarr's ancestors. This scene is from the Eddaic poem Hyndluljöð in Karl Gjellerup's Den Ældre Eddas Gudesange.",
+   "book": "Hyndluljoth",
+   "chapter": "*",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/edda_frolich/AldEdGud-1895-274-01.jpg",
+   "page": "https://myndir.uvic.ca/AldEdGud-1895-274-01.html",
+   "n": "17"
+  },
+  {
+   "title": "The Death of Baldr",
+   "caption": "Baldr mortally wounded after being struck by the weapon that Loki fashioned out of mistletoe. His wife Nanna is trying to help him. This scene is from the Eddaic poem Hyndluljöð in Karl Gjellerup's Den Ældre Eddas Gudesange.",
+   "book": "Hyndluljoth",
+   "chapter": "*",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/edda_frolich/AldEdGud-1895-283-01.jpg",
+   "page": "https://myndir.uvic.ca/AldEdGud-1895-283-01.html",
+   "n": "18"
+  },
+  {
+   "title": "Baldr's Funeral",
+   "caption": "Óðinn saying farewell to the corpse of Baldr with the gods in the background. Óðinn is holding his spear Gungnir, and Þórr is standing while resting his hammer Mjöllnir on his shoulder. The figure riding a wolf in the upper right hand corner is Hyrrokkin, who is coming to push Baldr's funeral boat off shore. This scene is from the Eddaic poem Hyndluljöð in Karl Gjellerup's Den Ældre Eddas Gudesange.",
+   "book": "Hyndluljoth",
+   "chapter": "*",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/edda_frolich/AldEdGud-1895-285-01.jpg",
+   "page": "https://myndir.uvic.ca/AldEdGud-1895-285-01.html",
+   "n": "19"
+  },
+  {
+   "title": "The Völuspá Seeress",
+   "caption": "This the title page for Völuspá in Karl Gjellerup's Den Ældre Eddas Gudesange. The seeress is sitting on a dragon.",
+   "book": "Voluspo",
+   "chapter": "*",
+   "start": null,
+   "end": null,
+   "file": "data/illustrations/edda_frolich/AldEdGud-1895-FrtP-01.jpg",
+   "page": "https://myndir.uvic.ca/AldEdGud-1895-FrtP-01.html",
+   "n": "20"
+  }
+ ]
+}

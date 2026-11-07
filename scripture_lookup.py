@@ -926,8 +926,14 @@ ALIASES: dict[str, str] = {
                            "vegtamskvida", "vegtamskviða"],
         "Rigsthula": ["rígsþula", "rigsthula", "rigsthula", "rigsþula", "the song of rig", "the lay of rig", "rig's list"],
         "Hyndluljoth": ["hyndluljóð", "hyndluljod", "hyndluljoth", "the poem of hyndla", "the lay of hyndla",
-                        "hyndla's poem"],
-        "Svipdagsmol": ["svipdagsmál", "svipdagsmal", "the ballad of svipdag", "the lay of svipdag"],
+                        "hyndla's poem",
+                        # (the "Short Völuspá", which Bellows prints inside it, stanzas 29-44)
+                        "völuspá en skamma", "völuspá hin skamma", "voluspa en skamma", "voluspa hin skamma",
+                        "the short voluspa", "short voluspa", "the short prophecy of the seeress"],
+        "Svipdagsmol": ["svipdagsmál", "svipdagsmal", "the ballad of svipdag", "the lay of svipdag",
+                        # (its two halves, often printed apart: Groa's spell and Fjolsvith's sayings)
+                        "grógaldr", "gróagaldr", "grougaldr", "groagaldr", "grogaldr", "the spell of groa",
+                        "fjölsvinnsmál", "fjolsvinnsmal", "fjölsviðsmál", "fjolsvidsmal"],
         "Völundarkvitha": ["völundarkviða", "volundarkvida", "volundarkvitha", "the lay of volund", "the lay of wayland",
                            "wayland the smith", "the lay of weland"],
         "Helgakvitha Hjorvarthssonar": ["helgakviða hjörvarðssonar", "helgakvida hjorvardssonar",

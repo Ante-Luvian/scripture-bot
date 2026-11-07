@@ -88,6 +88,9 @@
    "engraving",
    "engravings"
   ],
+  "edda": [
+   "eddic"
+  ],
   "ep": [
    "evensong",
    "vespers"
@@ -440,6 +443,7 @@
   "discover",
   "divineliturgy",
   "dore",
+  "edda",
   "ep",
   "export",
   "fable",

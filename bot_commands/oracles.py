@@ -103,6 +103,10 @@ def _oracle_card_content(kind: str, key: str) -> "tuple[str, str, str] | None":
             return (f"{book} {chap}.{line}", text, SHAKESPEARE_SOURCE) if text else None
         text = _shakespeare().get(book, {}).get(chap, {}).get(line)
         return (_sonnet_title(book, chap, line), _plain(text), SHAKESPEARE_SOURCE) if text else None
+    if kind == "edda":                         # key "Hovamol|138": a stanza of the Poetic Edda
+        poem, stanza = (key.split("|") + [""])[:2]
+        text = _edda().get(poem, {}).get(stanza, {}).get("1")
+        return (_edda_title(poem, stanza), _plain(text), EDDA_SOURCE) if text else None
     if kind == "delphi":                       # key: maxim number
         book, num = "Delphic Maxims", key
     elif kind == "oracle" and "|" in key:      # key "Chaldaean Oracles|12"
@@ -118,7 +122,7 @@ def _oracle_card_content(kind: str, key: str) -> "tuple[str, str, str] | None":
 
 
 class OracleCardButton(discord.ui.DynamicItem[discord.ui.Button],
-                       template=r"ocard:(?P<kind>virgil|homer|delphi|oracle|iching|hafez|rumi|bard):(?P<key>.+)"):
+                       template=r"ocard:(?P<kind>virgil|homer|delphi|oracle|iching|hafez|rumi|bard|edda):(?P<key>.+)"):
     """Renders an oracle answer as a !card-style image. Like the study
     buttons, its custom_id carries what it needs, so it keeps working after a
     restart; only ever sent in timeout=None views (see verse.StudyButton)."""
@@ -909,6 +913,97 @@ async def cmd_sonnet(ctx, *, query: str = ""):
     _ask(embed, question)
     _record(ctx, "sonnet", ref)
     await ctx.send(embed=embed, view=_card_view("bard", f"{book}|{chap}|{line}"))
+
+
+# ── !edda — a stanza of the Poetic Edda ─────────────────────────────────────
+# A stanza at random, from all 35 poems or from one ("!edda havamal"), with 🃏 Card, ◀ ▶ to read on stanza by
+# stanza, and 🖌️ Collingwood's and Frølich's pictures of the poem (bot_commands/illustrations.py). The owner's
+# request, 2026-11-07. Bellows's spellings ("Hovamol") are the bot's names; the English title goes with them.
+EDDA_SOURCE = "The Poetic Edda, trans. Henry Adams Bellows (1923)"
+EDDA_ENGLISH = {
+    "Voluspo": "The Prophecy of the Seeress", "Hovamol": "The Sayings of the High One",
+    "Vafthruthnismol": "The Lay of Vafthruthnir", "Grimnismol": "The Ballad of Grimnir",
+    "Skirnismol": "The Ballad of Skirnir", "Harbarthsljoth": "The Poem of Harbarth", "Hymiskvitha": "The Lay of Hymir",
+    "Lokasenna": "Loki's Wrangling", "Thrymskvitha": "The Lay of Thrym", "Alvissmol": "The Ballad of Alvis",
+    "Baldrs Draumar": "Baldr's Dreams", "Rigsthula": "The Song of Rig", "Hyndluljoth": "The Poem of Hyndla",
+    "Svipdagsmol": "The Ballad of Svipdag", "Völundarkvitha": "The Lay of Völund",
+    "Helgakvitha Hjorvarthssonar": "The Lay of Helgi the Son of Hjorvarth",
+    "Helgakvitha Hundingsbana I": "The First Lay of Helgi Hundingsbane",
+    "Helgakvitha Hundingsbana II": "The Second Lay of Helgi Hundingsbane",
+    "Fra Dautha Sinfjotla": "Of Sinfjotli's Death", "Gripisspo": "Gripir's Prophecy", "Reginsmol": "The Ballad of Regin",
+    "Fafnismol": "The Ballad of Fafnir", "Sigrdrifumol": "The Ballad of the Victory-Bringer",
+    "Brot af Sigurtharkvithu": "Fragment of a Sigurth Lay", "Guthrunarkvitha I": "The First Lay of Guthrun",
+    "Sigurtharkvitha en Skamma": "The Short Lay of Sigurth", "Helreith Brynhildar": "Brynhild's Hell-Ride",
+    "Drap Niflunga": "The Slaying of the Niflungs", "Guthrunarkvitha II": "The Second, or Old, Lay of Guthrun",
+    "Guthrunarkvitha III": "The Third Lay of Guthrun", "Oddrunargratr": "Oddrun's Lament",
+    "Atlakvitha en Gronlenzka": "The Greenland Lay of Atli", "Atlamol en Gronlenzku": "The Greenland Ballad of Atli",
+    "Guthrunarhvot": "Guthrun's Inciting", "Hamthesmol": "The Ballad of Hamther",
+}
+
+
+def _edda() -> dict:
+    return lookup._data.get("norse", {})
+
+
+def _edda_pick(query: str, rng=random) -> "tuple[str, str] | str":
+    """(poem, stanza) for !edda's query: a poem's name ("havamal", "Sayings of the High One") for a stanza of it,
+    "havamal 138" for that stanza, anything else (a question) for any stanza of any poem; or the reply when the
+    poem or stanza isn't there."""
+    poems = _edda()
+    q = query.strip()
+    m = re.match(r"^(.*?)\s*(\d+)$", q)
+    name, number = (m.group(1), m.group(2)) if m and m.group(1) else (q, None)
+    poem = lookup._resolve_exact(name)[1] if name else None
+    if poem in poems:
+        if number:
+            return (poem, number) if number in poems[poem] else f"**{poem}** has stanzas 1 to {len(poems[poem])}."
+        return poem, rng.choice(list(poems[poem]))
+    if number and not name:
+        return "Name a poem with the stanza: `!edda havamal 138`."
+    pool = [(p, s) for p, stanzas in poems.items() for s in stanzas]
+    return rng.choice(pool)
+
+
+def _edda_title(poem: str, stanza: str) -> str:
+    english = EDDA_ENGLISH.get(poem)
+    return f"{poem}{f' ({english})' if english else ''}, stanza {stanza}"
+
+
+@bot.command(name="edda", aliases=["eddic"])
+async def cmd_edda(ctx, *, query: str = ""):
+    """A stanza of the Poetic Edda, the Old Norse poems of the gods and heroes: at random, from one poem, or one
+    stanza. Usage: !edda · !edda havamal · !edda havamal 138 · !edda [a question]"""
+    guild = getattr(ctx, "guild", None)
+    if not tradition_enabled(guild.id if guild else None, "norse"):
+        await ctx.send("The Norse texts are turned off on this server.")
+        return
+    if not _edda():
+        await ctx.send("⚠️ The Poetic Edda isn't loaded.")
+        return
+    pick = _edda_pick(query)
+    if isinstance(pick, str):
+        await ctx.send(pick)
+        return
+    poem, stanza = pick
+    named = lookup._resolve_exact(re.sub(r"\s*\d+$", "", query.strip()))[1] if query.strip() else None
+    question = query if named not in _edda() and not re.fullmatch(r"\d+", query.strip()) else ""
+    log.info(f"RNG  edda                   → {poem} {stanza} (user: {ctx.author})")
+    text = _edda()[poem][stanza].get("1", "")
+    embed = discord.Embed(title=f"🌲 {_edda_title(poem, stanza)}", description=text[:4096],
+                          color=discord.Color.dark_green())
+    embed.set_footer(text=f"{EDDA_SOURCE} · !verse {poem} {stanza}")
+    _ask(embed, question)
+    _record(ctx, "edda", f"{poem} {stanza}")
+    view = _card_view("edda", f"{poem}|{stanza}")
+    near = lookup.neighbours(f"{poem} {stanza}")
+    for kind, side in (("p", "prev"), ("n", "next")):        # (◀ ▶ the stanzas either side, where there's one)
+        if near.get(side):
+            button = PassageButton(kind, f"{poem} {stanza}")
+            button.item.row = 0
+            view.add_item(button)
+    for b in illustrations.buttons(illustrations.for_passage(poem, stanza), row=0):
+        view.add_item(b)                                     # (🖌️ the poem's pictures: Collingwood's, Frølich's)
+    await ctx.send(embed=embed, view=view)
 
 
 # ── Daily oracle (!oraclesetup) ───────────────────────────────────────────────

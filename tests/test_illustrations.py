@@ -13,7 +13,8 @@ def il(bot_module):
 
 
 SETS = {"la_fontaine": 300, "aesop_rackham": 60, "aesop_crane": 40, "aesop_winter": 80, "grimm_crane": 100,
-        "grimm_rackham": 70, "malory_beardsley": 15, "faerie_queene_crane": 9, "shakespeare_boydell": 70}
+        "grimm_rackham": 70, "malory_beardsley": 15, "faerie_queene_crane": 9, "shakespeare_boydell": 70,
+        "edda_collingwood": 30, "edda_frolich": 20}
 
 
 def test_the_sets(il):
@@ -30,7 +31,8 @@ def test_the_sets(il):
 def test_every_picture_belongs_to_a_passage_the_bot_has(il, lookup):
     """Its book and chapter open, and a picture of some lines is at a line that's there."""
     for p in il.pictures():
-        ref = f"{p['book']} {p['chapter']}" + (f":{p['start']}" if p.get("start") else "")
+        chapter = "1" if p["chapter"] == "*" else p["chapter"]       # (a whole poem's: its first stanza is there)
+        ref = f"{p['book']} {chapter}" + (f":{p['start']}" if p.get("start") else "")
         assert lookup.get_verse(ref)["found"], (p["key"], ref)
         assert p.get("file") or re.match(r"https://[a-z.]+\.wikimedia\.org/", p["image"]), p["key"]
 

@@ -67,7 +67,8 @@ def for_passage(book: str, chapter: str, start: "int | None" = None, end: "int |
     fable, a tale) goes with every passage of it; one of some lines, only with the passages holding them."""
     hits = []
     for p in by_book().get(book, []):
-        if str(p["chapter"]) != str(chapter):
+        # (chapter "*": a picture of a whole poem, with every stanza: the Edda's, a stanza a chapter)
+        if p["chapter"] != "*" and str(p["chapter"]) != str(chapter):
             continue
         if start is None or p.get("start") is None or (p["start"] <= (end or start) and start <= (p.get("end") or p["start"])):
             hits.append(p)
@@ -132,6 +133,8 @@ def picture_buttons(result: dict, row: "int | None" = 2) -> list:
 
 
 def reference(p: dict) -> str:
+    if p["chapter"] == "*":
+        return p["book"]
     ref = f"{p['book']} {p['chapter']}"
     if p.get("start") is not None:
         ref += f":{p['start']}" + (f"-{p['end']}" if p.get("end") not in (None, p["start"]) else "")
@@ -153,7 +156,8 @@ def picture_embed(p: dict) -> discord.Embed:
         lines.append("\n".join(f"*{line}*" for line in p["quote"].splitlines()))
     embed = discord.Embed(title=f"🖌️ {p['title']}"[:256], url=p.get("page") or None,
                           description="\n".join(lines)[:1500] or None, color=COLOR)
-    embed.add_field(name="Read it", value=f"`!verse {reference(p)}`", inline=False)
+    read = f"{p['book']} 1" if p["chapter"] == "*" else reference(p)     # (a whole poem's: from its beginning)
+    embed.add_field(name="Read it", value=f"`!verse {read}`", inline=False)
     local = _local_file(p)
     embed.set_image(url=f"attachment://{_attachment_name(p)}" if local else p["image"])
     embed.set_footer(text=f"{p['artist']}, {p['work']}" + (f" · image: {p['credit']}" if p.get("credit") else ""))

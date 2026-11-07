@@ -21,6 +21,7 @@ Gutenberg's books are cached in scripts/.cache/illustrations/; Commons' pictures
     python scripts/build_illustrations.py [set ...]
 """
 import difflib
+import functools
 import html
 import io
 import json
@@ -787,10 +788,103 @@ def shakespeare_boydell() -> None:
                                      "work": "paintings and prints, 1789–1805", "credit": "Wikimedia Commons"}, out)
 
 
+# ── The Poetic Edda: Collingwood's (1908) and Frølich's (1895) ─────────────
+# From the University of Victoria's MyNDIR (myndir.uvic.ca), which catalogues each picture of these editions: its
+# record (TEI) names the poem it shows, in its description ("This scene is from the poem <title>Hárbarðsljóð</title>"),
+# gives a title and the scan. A picture goes with every stanza of its poem (chapter "*": the bot's Edda has a stanza
+# a chapter, and these editions put a poem's pictures at its head). Left out: title pages, decorations, and pictures
+# of no single poem (the Prose Edda's stories, the frontispiece).
+MYNDIR = "https://myndir.uvic.ca/"
+EDDA_SETS = {
+    "edda_collingwood": ("EldEdd-1908", {"artist": "W. G. Collingwood",
+                                         "work": "The Elder or Poetic Edda, trans. Olive Bray (Viking Club, 1908)",
+                                         "credit": "MyNDIR, University of Victoria", "label": "Collingwood"}),
+    "edda_frolich": ("AldEdGud-1895", {"artist": "Lorenz Frølich",
+                                       "work": "Den Ældre Eddas Gudesange, ed. Karl Gjellerup (1895)",
+                                       "credit": "MyNDIR, University of Victoria", "label": "Frølich"}),
+}
+CODES.update({"edda_collingwood": "ec", "edda_frolich": "ef"})
+
+
+MYNDIR_IMAGES = "https://hcmc.uvic.ca/~myndir/images/fullsize/"      # (the records' "images/x.jpg" are served here)
+
+
+def _myndir(path: str, binary: bool = False):
+    cache = CACHE / "myndir" / path.replace("/", "_")
+    if not cache.exists():
+        cache.parent.mkdir(parents=True, exist_ok=True)
+        url = MYNDIR_IMAGES + path.split("/", 1)[1] if path.startswith("images/") else MYNDIR + path
+        cache.write_bytes(urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=120).read())
+        time.sleep(1)
+    return cache if binary else cache.read_text(encoding="utf-8")
+
+
+def _norse_fold(s: str) -> str:
+    """ "Grimnismál", "Grímnismál", "Vafþrúðnismál" alike: no accents, ð as d, þ as th, æ as ae."""
+    s = s.strip().lower().replace("ð", "d").replace("þ", "th").replace("æ", "ae").replace("ǫ", "o")
+    return "".join(c for c in unicodedata.normalize("NFKD", s) if not unicodedata.combining(c))
+
+
+def _edda_poem(name: str, books: set, aliases: dict) -> "str | None":
+    """The bot's (Bellows's) name for a poem MyNDIR names in Old Norse ("Hárbarðsljóð" -> Harbarthsljoth)."""
+    key = _norse_fold(name)
+    folded = {_norse_fold(k): v for k, v in aliases.items()} | {_norse_fold(b): b for b in books}
+    return folded.get(key)
+
+
+@functools.lru_cache(maxsize=1)
+def _myndir_keywords() -> dict:
+    """MyNDIR's keyword ids -> names ("VafMal01" -> "Vafþrúðnismál"), from its keyword index."""
+    page = _myndir("keywords.html")
+    out = {}
+    for kid, name in re.findall(r'<a href="([A-Za-z0-9-]+)\.html">([^<]{2,80})</a>', page):
+        out.setdefault(kid, []).append(html.unescape(name).strip())       # (an id under each of its names)
+    return out
+
+
+def edda_set(name: str) -> None:
+    sys.path.insert(0, str(ROOT))
+    from scripture_lookup import ALIASES
+    edition, meta = EDDA_SETS[name]
+    books = set(corpus_book_names("data/norse/poetic_edda.json"))
+    aliases = {k: v for k, v in ALIASES.items() if v in books}
+    ids = sorted(set(re.findall(rf'href="({edition}-[^"]+)\.html"', _myndir("gallery.html"))))
+    expect(len(ids) > 15, f"{edition}: {len(ids)} records")
+    out, skipped = [], []
+    for rid in ids:
+        xml = _myndir(f"xml/standalone/{rid}.xml")
+        # (the description is in figDesc, or in newer records the header's decoDesc)
+        desc = (re.search(r"(?s)<decoDesc>(.*?)</decoDesc>", xml) if "no longer using figDesc" in xml else None) \
+            or re.search(r"(?s)<figDesc>(.*?)</figDesc>", xml)
+        names = re.findall(r"(?s)<title\b[^>/]*>([^<]+)</title>", desc.group(1) if desc else "")
+        names += [n for k in re.findall(r'<title ref="#([^"]+)"', xml) for n in _myndir_keywords().get(k, [])]
+        poems = list(dict.fromkeys(p for p in (_edda_poem(html.unescape(t), books, aliases) for t in names if t) if p))
+        title = re.search(r'(?s)<title type="supplied">(.*?)</title>', xml)
+        graphic = re.search(r'<graphic url="([^"]+)"', xml)
+        if not (poems and title and graphic):
+            skipped.append(f"{rid} ({re.sub(r'<[^>]+>|\\s+', ' ', title.group(1)).strip() if title else '?'})")
+            continue
+        caption = re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", "", desc.group(1)))).strip()
+        src = _myndir(graphic.group(1), binary=True)
+        file = OUT / name / f"{rid}.jpg"
+        save_picture(src, file)
+        out.append({"title": re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", "", title.group(1)))).strip(),
+                    "caption": caption, "book": poems[0], "chapter": "*", "start": None, "end": None,
+                    "file": file.relative_to(ROOT).as_posix(), "page": f"{MYNDIR}{rid}.html"})
+    if skipped:
+        print(f"  left out (no poem of the bot's Edda): {', '.join(skipped)}")
+    save_set(name, meta, out)
+
+
+def corpus_book_names(path: str) -> list:
+    return list(json.loads((ROOT / path).read_text(encoding="utf-8"))["books"])
+
+
 BUILDS = {"la_fontaine": la_fontaine, "aesop_rackham": aesop_rackham, "aesop_crane": aesop_crane,
           "aesop_winter": aesop_winter, "grimm_crane": grimm_crane, "grimm_rackham": grimm_rackham,
           "malory_beardsley": malory_beardsley, "faerie_queene_crane": faerie_queene_crane,
-          "shakespeare_boydell": shakespeare_boydell}
+          "shakespeare_boydell": shakespeare_boydell,
+          "edda_collingwood": lambda: edda_set("edda_collingwood"), "edda_frolich": lambda: edda_set("edda_frolich")}
 
 
 def main(names: list) -> None:

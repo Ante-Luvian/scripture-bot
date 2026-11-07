@@ -279,6 +279,8 @@ SHAPED = {"ballad": ["0", "305", "306", "12B", "12b", "12ZZ", "22A", "117", "chi
           "fable": ["la fontaine", "la fontaine 0", "la fontaine 241", "krylov list", "phaedrus 124", "collections",
                     "bidpai fox", "la fontaine zzzz", "the", "*|t:fox"],
           "physiologus": ["0", "33", "34", "pelican", "the", "about", "list", "lion king"],
+          "edda": ["havamal", "havamal 138", "Hávamál 0", "havamal 99999", "voluspa 66", "138", "the", "Hovamol",
+                   "Sayings of the High One 1", "lokasenna loki", "random"],
           "reynard": ["0", "44", "45", "tybert", "list", "how the", "isegrim wolf", "27"],
           "sonnet": ["0", "1", "154", "155", "#18", "18:5", "-3", "99999999999", "venus", "LUCRECE", "phoenix",
                      "venus lucrece", "the", "will I find love?"],
