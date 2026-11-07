@@ -24,7 +24,19 @@ def test_every_style_renders(card, style):
     buf = card._render_verse_card("Test 1:1", "A short test passage.", "Test source", "a question?", style)
     img = Image.open(buf)
     assert img.size[0] == 1200
-    assert img.getpixel((600, 300)) == card.CARD_STYLES[style]["bg"]          # its own background colour
+    assert img.getpixel((70, 300)) == card.CARD_STYLES[style]["bg"]           # its own background colour (beside the text)
+
+
+def test_verse_keeps_its_lines(card):
+    """A poem's card (the Edda's): each line whole, never wrapped, the caesura "|" a gap, not a bar."""
+    from unittest import mock
+    drawn = []
+    from PIL import ImageDraw
+    original = ImageDraw.ImageDraw.text
+    with mock.patch.object(ImageDraw.ImageDraw, "text", lambda self, xy, text, *a, **k: drawn.append(text) or original(self, xy, text, *a, **k)):
+        card._render_verse_card("Hovamol 110", "On his ring swore Othin | the oath, methinks;\nWho now his troth shall trust?",
+                                "Bellows", "", "norse", verse=True)
+    assert "On his ring swore Othin     the oath, methinks;" in drawn and "Who now his troth shall trust?" in drawn
 
 
 def test_parchment_is_unchanged_for_the_bible(card):

@@ -129,7 +129,7 @@ CARD_STYLES = {
     "hindu":     dict(bg=(252, 242, 226), border=(196, 84, 8), text=(70, 30, 10), accent=(160, 30, 20),
                       frame="double", ornament="sun"),
     "norse":     dict(bg=(232, 231, 226), border=(48, 58, 70), text=(30, 34, 40), accent=(80, 98, 116),
-                      frame="corners", ornament="knot"),
+                      frame="plait", ornament="knot"),
     "classical": dict(bg=(247, 245, 240), border=(128, 102, 58), text=(50, 44, 36), accent=(110, 84, 44),
                       frame="key", ornament="diamond"),
     "desert":    dict(bg=(241, 229, 203), border=(128, 80, 36), text=(58, 38, 20), accent=(150, 70, 26),
@@ -157,6 +157,26 @@ def _draw_frame(draw, W: int, H: int, s: dict) -> None:
             for y, dy in ((30, 1), (H - 31, -1)):
                 draw.line([(x, y), (x + 60 * dx, y)], fill=c, width=3)
                 draw.line([(x, y), (x, y + 60 * dy)], fill=c, width=3)
+    elif s["frame"] == "plait":                       # a two-strand plait along the top and bottom, as Norse carving
+        import math
+        period, amp, x0, x1 = 48, 9, 46, W - 46
+        x1 = x0 + (x1 - x0) // (period // 2) * (period // 2)        # (end at a crossing, not mid-curve)
+
+        def ribbon(y0: float, phase: float, a: float, b: float) -> None:
+            pts = [(x, y0 + amp * math.sin(2 * math.pi * (x - x0) / period + phase)) for x in range(int(a), int(b) + 1)]
+            if len(pts) > 1:
+                draw.line(pts, fill=c, width=8, joint="curve")             # (a hollow ribbon: dark edges,
+                draw.line(pts, fill=s["bg"], width=3, joint="curve")       #  the background showing through)
+
+        for y0 in (38, H - 39):
+            ribbon(y0, 0, x0, x1)
+            ribbon(y0, math.pi, x0, x1)
+            # (over and under, by turns: at every other crossing the first strand is drawn again on top)
+            for k, xc in enumerate(range(x0, x1 + 1, period // 2)):
+                if k % 2 == 0:
+                    ribbon(y0, 0, max(x0, xc - period / 6), min(x1, xc + period / 6))
+            draw.line([(40, y0 - amp - 9), (W - 41, y0 - amp - 9)], fill=c, width=1)
+            draw.line([(40, y0 + amp + 9), (W - 41, y0 + amp + 9)], fill=c, width=1)
     elif s["frame"] == "key":                         # a Greek-key band along the top and bottom
         for y0, flip in ((26, 1), (H - 27, -1)):
             for x in range(40, W - 60, 24):
@@ -214,13 +234,15 @@ def _justified_lines(paragraph: str, font, width: float, measure) -> list:
 
 
 def _render_verse_card(reference: str, text: str, source: str, question: str = "", style: str = "",
-                       justify: bool = False):
+                       justify: bool = False, verse: bool = False):
     """Render a verse (or a whole chapter) as a PNG in its tradition's style
     (CARD_STYLES; by default chosen from the reference's book). Runs off the
     event loop (CPU-bound). Height grows to fit the text instead of
     truncating it -- a chapter-length card is just taller.
     `question` (oracle answers): shown in italics above the text.
-    `justify`: prose set flush to both margins, like a printed page, instead of centred lines."""
+    `justify`: prose set flush to both margins, like a printed page, instead of centred lines.
+    `verse`: a poem's lines kept whole, one to a line (the type made smaller until the longest fits), and the
+    caesura Bellows marks in the Edda's lines ("On his ring swore Othin | the oath") shown as a gap."""
     from PIL import Image, ImageDraw, ImageFont
     import io, textwrap
 
@@ -231,11 +253,12 @@ def _render_verse_card(reference: str, text: str, source: str, question: str = "
     TOP_MARGIN, BOTTOM_RESERVED = 60, 200
 
     question_lines, q_font, q_line_height = [], None, 0
+    q_top = 72 if s["frame"] == "plait" else 50          # (below the plaited band)
     if question.strip():
         q_font = ImageFont.truetype(FONTS + "georgiai.ttf", 30)
         q_line_height = 40
         question_lines = textwrap.wrap(f"“{question.strip()}”", width=60)[:4]
-        TOP_MARGIN = 50 + q_line_height * len(question_lines) + 40
+        TOP_MARGIN = q_top + q_line_height * len(question_lines) + 40
     MAX_CHARS = 4000  # safety cap so a pathological request (e.g. Psalm 119) can't produce a runaway image
 
     # Strip Discord markdown verse-number markers (e.g. "**[1]** ") and any
@@ -261,7 +284,18 @@ def _render_verse_card(reference: str, text: str, source: str, question: str = "
         measure = lambda s_, f_: dummy.textlength(s_, font=f_)
         lines = [l for para in paragraphs for l in (_justified_lines(para, font, max_width, measure) or [([], None)])]
         line_height = int(size * 1.4)
-    while not justify and size >= MIN_SIZE:
+    if verse:
+        paragraphs = [re.sub(r"\s*\|\s*", "     ", p).strip() for p in paragraphs]
+        while True:                                  # (smaller until the longest line fits: never wrapped)
+            font = ImageFont.truetype(body_font_path, size)
+            # (a "line" of over 110 characters is prose, as the Edda's prose links: wrapped like prose)
+            wrap_width = max(10, int(max_width / (size * 0.52)))
+            lines = [l for p in paragraphs for l in (textwrap.wrap(p, width=wrap_width) if len(p) > 110 else [p])]
+            line_height = int(size * 1.35)
+            if max((dummy.textlength(l, font=font) for l in lines), default=0) <= max_width or size <= 16:
+                break
+            size -= 2
+    while not justify and not verse and size >= MIN_SIZE:
         font = ImageFont.truetype(body_font_path, size)
         wrap_width = max(10, int(max_width / (size * 0.52)))
         lines = [l for para in paragraphs for l in (textwrap.wrap(para, width=wrap_width) or [""])]
@@ -278,7 +312,7 @@ def _render_verse_card(reference: str, text: str, source: str, question: str = "
     draw = ImageDraw.Draw(img)
     _draw_frame(draw, W, H, s)
 
-    qy = 50
+    qy = q_top
     for q_line in question_lines:
         q_w = draw.textlength(q_line, font=q_font)
         draw.text(((W - q_w) / 2, qy), q_line, font=q_font, fill=ACCENT)
