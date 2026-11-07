@@ -332,11 +332,15 @@ async def cmd_root(ctx, *, arg: str = ""):
         for n in sorted(family, key=lambda x: int(re.sub(r"\D", "", x) or 0))[:25]:
             e = get_local_strongs_definition(n) or {}
             lines.append(f"**{n}** {e.get('lexeme', '')} ({e.get('transliteration', '')}) — {e.get('short_definition', '')}")
-        embed.add_field(
-            name=f"Direct derivatives ({len(family)})",
-            value="\n".join(lines)[:1024],
-            inline=False,
-        )
+        # (whole lines to Discord's 1,024 a field: cut at 1,024 it could split a **number** and its bold)
+        value, shown = "", 0
+        for line in lines:
+            more = f"\n…and {len(family) - shown - 1} more" if shown + 1 < len(family) else ""
+            if len(value) + len(line) + 1 + len(more) > 1024:
+                value += f"\n…and {len(family) - shown} more"
+                break
+            value, shown = (f"{value}\n{line}" if value else line), shown + 1
+        embed.add_field(name=f"Direct derivatives ({len(family)})", value=value[:1024], inline=False)
     else:
         embed.add_field(name="Direct derivatives", value="*None on record.*", inline=False)
     embed.set_footer(text="One generation of direct derivatives only, per the dictionary's own derivation notes — not the full cognate tree · OpenScriptures Strong's (CC-BY-SA)")
