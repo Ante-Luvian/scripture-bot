@@ -849,8 +849,8 @@ async def cmd_help(ctx, *, topic: str = ""):
         embed.add_field(name="Targumim  (chapter:verse)", value=(
             "`!verse Targum Onkelos Genesis 1:1`  *(Torah)*\n"
             "`!verse Targum Jonathan Isaiah 6:1`  *(Prophets)*\n"
-            "`!verse Targum Pseudo-Jonathan Genesis 1:1`\n"
-            "`!verse Targum Neofiti Genesis 1:1`"
+            "`!verse Targum Pseudo-Jonathan Genesis 5:24`  *(Enoch becomes Metatron)*\n"
+            "`!verse Targum Jonathan Job 1:1`  *(Writings: Psalms, Job)*"
         ), inline=False)
         embed.add_field(name="Midrash  (section:subsection)", value=(
             "`!verse Bereshit Rabbah 1:1`\n"

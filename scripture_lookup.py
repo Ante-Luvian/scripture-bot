@@ -900,6 +900,8 @@ ALIASES: dict[str, str] = {
     "ephemeris belli troiani": "Journal of the Trojan War",
     "fulgentius": "Mythologies", "mitologiae": "Mythologies", "mythologiae": "Mythologies",
     "fulgentius mythologies": "Mythologies",
+    "ginzberg": "Legends of the Jews", "legends": "Legends of the Jews", "jewish legends": "Legends of the Jews",
+    "ginzberg legends": "Legends of the Jews",
     # the Historia Augusta's lives, Frontinus, Velleius and Florus (scripts/build_latin.py, from LacusCurtius). A life
     # by its emperor's name where nothing else has it: "tacitus" is the historian, "claudius" Suetonius's life,
     # "marcus aurelius" the Meditations
@@ -2099,6 +2101,7 @@ class ScriptureLookup:
             "jewish": [
                 "josephus.json",
                 "philo.json",
+                "legends_of_the_jews.json",
             ],
             "bahai": [
                 "kitab_i_aqdas.json",
@@ -3824,6 +3827,18 @@ class ScriptureLookup:
         if targum_sefaria == "Onkelos":
             ref = f"Onkelos_{book_url}.{chapter}"
             tname = "Targum Onkelos"
+        elif targum_sefaria == "Targum_Neofiti":
+            # (Sefaria's Neofiti is one chapter of 8 verses, Genesis 1:1-8: every other reference fetched that)
+            if canon_book != "Genesis" or chapter != 1 or (verse_start and int(verse_start) > 8):
+                return {"found": False, "error": "Sefaria has only Genesis 1:1-8 of Targum Neofiti in English."}
+            ref, tname = "Targum_Neofiti.1", "Targum Neofiti"
+        elif targum_sefaria in ("Targum_Pseudo_Jonathan", "Targum_Jonathan"):
+            # (Sefaria's titles, checked against its API 2026-11-07: Pseudo-Jonathan on the Torah and Jonathan on
+            # the Prophets are both "Targum Jonathan on Genesis/Isaiah"; the Writings' are "Aramaic Targum to Psalms")
+            writings = canon_book in ("Psalms", "Proverbs", "Job")
+            ref = f"Aramaic_Targum_to_{book_url}.{chapter}" if writings else f"Targum_Jonathan_on_{book_url}.{chapter}"
+            tname = ("Targum" if writings else "Targum Pseudo-Jonathan" if canon_book in
+                     ("Genesis", "Exodus", "Leviticus", "Numbers", "Deuteronomy") else "Targum Jonathan")
         else:
             ref = f"{targum_sefaria},{book_url}.{chapter}"
             tname = targum_sefaria.replace("_", " ")

@@ -197,13 +197,13 @@ BOOKS_TREE = [
                 "Targum Onkelos Leviticus","Targum Onkelos Numbers",
                 "Targum Onkelos Deuteronomy",
                 "Targum Pseudo-Jonathan Genesis","Targum Pseudo-Jonathan Exodus",
-                "Targum Neofiti Genesis","Targum Neofiti Exodus",
+                "Targum Pseudo-Jonathan Leviticus","Targum Pseudo-Jonathan Numbers",
+                "Targum Pseudo-Jonathan Deuteronomy",
             ]),
+            # (only those Sefaria has in English, checked 2026-11-07: not Jeremiah, Hosea or Proverbs; its Neofiti
+            # is eight verses)
             ("Prophets & Writings", [
-                "Targum Jonathan Isaiah","Targum Jonathan Jeremiah",
-                "Targum Jonathan Ezekiel","Targum Jonathan Hosea",
-                "Targum Jonathan Psalms","Targum Jonathan Proverbs",
-                "Targum Jonathan Job",
+                "Targum Jonathan Isaiah", "Targum Jonathan Ezekiel", "Targum Jonathan Psalms", "Targum Jonathan Job",
             ]),
         ]),
         ("Midrash", [
@@ -219,6 +219,8 @@ BOOKS_TREE = [
             ("Aggadic Midrash", [
                 "Pirkei DeRabbi Eliezer","Midrash Tanchuma",
             ]),
+            # (Ginzberg's retelling of the legends from all of these, Creation to Esther)
+            "Legends of the Jews",
         ]),
         ("Maimonides", [
             ("Mishneh Torah — Book 1: HaMadda", [
@@ -1785,11 +1787,10 @@ _TARGUM_CHAPTERS: dict[str, int] = {
     "Targum Onkelos Leviticus": 27, "Targum Onkelos Numbers": 36,
     "Targum Onkelos Deuteronomy": 34,
     "Targum Pseudo-Jonathan Genesis": 50, "Targum Pseudo-Jonathan Exodus": 40,
-    "Targum Neofiti Genesis": 50, "Targum Neofiti Exodus": 40,
-    "Targum Jonathan Isaiah": 66, "Targum Jonathan Jeremiah": 52,
-    "Targum Jonathan Ezekiel": 48, "Targum Jonathan Hosea": 14,
-    "Targum Jonathan Psalms": 150, "Targum Jonathan Proverbs": 31,
-    "Targum Jonathan Job": 42,
+    "Targum Pseudo-Jonathan Leviticus": 27, "Targum Pseudo-Jonathan Numbers": 36,
+    "Targum Pseudo-Jonathan Deuteronomy": 34,
+    "Targum Jonathan Isaiah": 66, "Targum Jonathan Ezekiel": 48,
+    "Targum Jonathan Psalms": 150, "Targum Jonathan Job": 42,
 }
 
 # ── Mishneh Torah: 84 sections with chapter counts ────────────────────────────
@@ -1978,11 +1979,9 @@ _TOSEFTA_BOOKS = {name for name in [
 _TARGUM_BOOKS = {
     "Targum Onkelos Genesis","Targum Onkelos Exodus","Targum Onkelos Leviticus",
     "Targum Onkelos Numbers","Targum Onkelos Deuteronomy",
-    "Targum Pseudo-Jonathan Genesis","Targum Pseudo-Jonathan Exodus",
-    "Targum Neofiti Genesis","Targum Neofiti Exodus",
-    "Targum Jonathan Isaiah","Targum Jonathan Jeremiah","Targum Jonathan Ezekiel",
-    "Targum Jonathan Hosea","Targum Jonathan Psalms","Targum Jonathan Proverbs",
-    "Targum Jonathan Job",
+    "Targum Pseudo-Jonathan Genesis","Targum Pseudo-Jonathan Exodus","Targum Pseudo-Jonathan Leviticus",
+    "Targum Pseudo-Jonathan Numbers","Targum Pseudo-Jonathan Deuteronomy",
+    "Targum Jonathan Isaiah","Targum Jonathan Ezekiel","Targum Jonathan Psalms","Targum Jonathan Job",
 }
 
 # Midrash Rabbah books (section:subsection citation)
