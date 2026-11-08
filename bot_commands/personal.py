@@ -1,6 +1,6 @@
 """
-Per-user and per-guild settings and data: !features, !save / !saved / !unsave,
-!plan, !leaderboard, !prefer.
+Per-user and per-guild settings and data: !features, !save / !saved (and !saved remove),
+!plan, !prefer.
 """
 import asyncio
 import discord
@@ -66,7 +66,7 @@ async def cmd_features(ctx, name: str = "", state: str = ""):
     await ctx.send(f"`{name}` is now **{state}** for this server.")
 
 
-# ── Personal bookmarks: !save / !saved / !unsave ─────────────────────────────────
+# ── Personal bookmarks: !save / !saved ───────────────────────────────────────────
 
 @bot.command(name="save", aliases=["bookmark"])
 async def cmd_save(ctx, *, reference: str = ""):
@@ -111,7 +111,7 @@ async def cmd_save(ctx, *, reference: str = ""):
 
     if len(entries) >= MAX_BOOKMARKS:
         await ctx.send(f"You've saved {MAX_BOOKMARKS} verses, as many as I keep for one person. "
-                       "`!unsave <number>` makes room (`!saved` shows the numbers).")
+                       "`!saved remove <number>` makes room (`!saved` shows the numbers).")
         return
     entries.append({
         "reference": canon_ref,
@@ -124,12 +124,22 @@ async def cmd_save(ctx, *, reference: str = ""):
     await ctx.send(f"📌 Saved **{canon_ref}**{suffix}. You have {len(entries)} saved verse(s) — see `!saved`.")
 
 
+REMOVE_WORDS = ("remove", "delete", "unsave", "forget")
+
+
 @bot.command(name="saved", aliases=["bookmarks"])
-async def cmd_saved(ctx, action: str = ""):
-    """List your saved verses. Usage: !saved  |  !saved export"""
+async def cmd_saved(ctx, action: str = "", *, number: str = ""):
+    """List your saved verses.
+    Usage: !saved            — your saved verses, numbered
+           !saved remove 2   — remove number 2 (this took over !unsave on 2026-11-08)
+           !saved export     — download them as a text file"""
     entries = _load_bookmarks().get(str(ctx.author.id), [])
     if not entries:
         await ctx.send("You haven't saved any verses yet. Use `!save <reference>` to bookmark one.")
+        return
+
+    if action.strip().lower() in REMOVE_WORDS:
+        await _remove_saved(ctx, number)
         return
 
     if action.strip().lower() == "export":
@@ -170,21 +180,23 @@ async def cmd_saved(ctx, action: str = ""):
         description="\n".join(lines),
         color=discord.Color.dark_gold(),
     )
-    embed.set_footer(text=f"Showing {shown} of {len(entries)}." if shown < len(entries) else "Use !unsave <number> to remove one.")
+    embed.set_footer(text=f"Showing {shown} of {len(entries)}." if shown < len(entries) else "!saved remove <number> removes one.")
     await ctx.send(embed=embed)
 
 
-@bot.command(name="unsave", aliases=["unbookmark"])
-async def cmd_unsave(ctx, index: int = 0):
-    """Remove a saved verse by its number from !saved. Usage: !unsave 2"""
+async def _remove_saved(ctx, number: str):
+    """!saved remove 2: take a verse off the list by its number in !saved."""
     data = _load_bookmarks()
     uid = str(ctx.author.id)
     entries = data.get(uid, [])
     if not entries:
         await ctx.send("You have no saved verses.")
         return
+    raw = number.strip().lstrip("#")
+    index = int(raw) if raw.isdigit() and len(raw) < 6 else 0
     if not (1 <= index <= len(entries)):
-        await ctx.send(f"Give a number between 1 and {len(entries)} — see `!saved`.")
+        await ctx.send(f"Give a number between 1 and {len(entries)}: `!saved remove 2` removes the second "
+                       "verse on your `!saved` list.")
         return
     removed = entries.pop(index - 1)
     data[uid] = entries
@@ -361,40 +373,7 @@ async def plan_slash(interaction: discord.Interaction, action: str = "", arg: st
     await cmd_plan(ctx, action=action, arg=arg)
 
 
-# ── !leaderboard — most active bookmarkers ───────────────────────────────────────
-# !stats already covers bot-wide "most cited verse/book/command" popularity.
-# This one is genuinely new: per-user bookmark counts, which nothing else shows.
-
-@bot.command(name="leaderboard", aliases=["lb"])
-async def cmd_leaderboard(ctx):
-    """Show who has the most saved bookmarks."""
-    data = _load_bookmarks()
-    counts = [(uid, len(entries)) for uid, entries in data.items() if entries]
-    if not counts:
-        await ctx.send("No one has saved any verses yet — be the first with `!save <reference>`.")
-        return
-
-    counts.sort(key=lambda x: x[1], reverse=True)
-    lines = []
-    for i, (uid, n) in enumerate(counts[:10]):
-        member = ctx.guild.get_member(int(uid)) if ctx.guild else None
-        name = member.display_name if member else f"User {uid}"
-        lines.append(f"`{i + 1}.` **{name}** — {n} saved verse(s)")
-
-    embed = discord.Embed(
-        title="🏆 Bookmark Leaderboard",
-        description="\n".join(lines),
-        color=discord.Color.dark_gold(),
-    )
-    embed.set_footer(text="Based on !save across all servers this bot is in.")
-    await ctx.send(embed=embed)
-
-@bot.tree.command(name="leaderboard", description="Show who has the most saved bookmarks")
-async def leaderboard_slash(interaction: discord.Interaction):
-    await interaction.response.defer()
-    ctx = await bot.get_context(interaction)
-    await cmd_leaderboard(ctx)
-
+# (!leaderboard, which ranked people by bookmarks, became the quiz leaderboard on 2026-11-08: quiz.py.)
 
 MAX_BOOKMARKS = 300          # per person (they're kept on the owner's computer; this is plenty)
 

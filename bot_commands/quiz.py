@@ -318,6 +318,16 @@ async def cmd_quiz(ctx, *, mode: str = ""):
     view.message = await ctx.send(embed=question_embed(question, hard), view=view)
 
 
+@bot.command(name="leaderboard", aliases=["lb"])
+async def cmd_leaderboard(ctx):
+    """This server's top quiz scorers, this week and all time (the same as !quiz leaderboard).
+    Until 2026-11-08 this ranked people by saved bookmarks, which nobody used; people typing
+    !leaderboard were looking for the quiz's."""
+    guild = getattr(ctx, "guild", None)
+    await ctx.send(embed=leaderboard_embed(guild.id if guild else None),
+                   allowed_mentions=discord.AllowedMentions.none())
+
+
 @bot.tree.command(name="quiz", description="Guess which book a verse comes from")
 @app_commands.describe(mode="Bible (default), hard (many traditions), one tradition, or leaderboard")
 @app_commands.choices(mode=[app_commands.Choice(name="Bible", value=""),

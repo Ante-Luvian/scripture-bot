@@ -402,6 +402,10 @@ async def send_hymn_search(ctx, query: str) -> None:
     if query.lower() in ("list", "index", "all"):                # people try this before !hymnlist
         await send_hymn_list(ctx, "")
         return
+    listing = re.match(r"^(?:list|index)\s+(.+)$", query, re.I)   # !hymn list chant = !hymnlist chant (/hymn's
+    if listing:                                                   # way to the list, since /hymnlist went)
+        await send_hymn_list(ctx, listing.group(1))
+        return
     found = find_hymns(query)
     if not found:
         await ctx.send(f"No hymn found for **{query}**. Try a title (`!hymn amazing grace`), a line "
@@ -446,9 +450,9 @@ async def send_hymn_tune(ctx, query: str) -> None:
 async def send_chant(ctx, query: str) -> None:
     """A Latin chant sung, straight away: the audio, no words."""
     query = query.strip()
-    psalm = re.match(r"^(?:psalm|ps)\.?\s*(\d.*)$", query, re.I)
+    psalm = re.match(r"^(?:psalms?|ps)\.?(?:\s*(\d.*))?$", query, re.I)
     if psalm:                                                     # !chant psalm 110: the chanted psalter
-        await latin_psalms.send_psalm_chant(ctx, psalm.group(1))
+        await latin_psalms.send_psalm_chant(ctx, psalm.group(1) or "")   # (bare "psalm": asks which)
         return
     if not query or query.lower() == "random":
         found = [h for h in hymns() if sung_path(h)]
@@ -634,7 +638,7 @@ async def _title_autocomplete(interaction: discord.Interaction, current: str) ->
 
 
 @bot.tree.command(name="hymn", description="A public-domain hymn: words, tune, and the Bible behind it")
-@app_commands.describe(query="A title, first line, words, topic (christmas) or passage (Psalm 23); empty for random")
+@app_commands.describe(query="A title, words, topic (christmas) or passage (Psalm 23); 'list' for all; empty for random")
 @app_commands.autocomplete(query=_title_autocomplete)
 async def hymn_slash(interaction: discord.Interaction, query: str = ""):
     await interaction.response.defer()
@@ -666,9 +670,4 @@ async def chant_slash(interaction: discord.Interaction, query: str = ""):
     await send_chant(ctx, query)
 
 
-@bot.tree.command(name="hymnlist", description="Every hymn the bot has, by title, a page at a time")
-@app_commands.describe(query="all, hymns, chant, harp, a kind of chant (sequences), or words in the title; empty for the sections")
-async def hymnlist_slash(interaction: discord.Interaction, query: str = ""):
-    await interaction.response.defer()
-    ctx = await bot.get_context(interaction)
-    await send_hymn_list(ctx, query)
+# (/hymnlist went on 2026-11-08 to make room in Discord's 100 slash commands: /hymn list does it.)

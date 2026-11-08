@@ -151,7 +151,7 @@ SOURCES = [
     ("verseoftheday.com", "!votd and the daily verse", check_votd),
     ("oca.org", "!troparion", check_oca),
     ("aladhan.com", "!salah", check_aladhan),
-    ("catenabible.com", "!catena, !study", check_catena),
+    ("catenabible.com", "!catena and the Catena button", check_catena),
     ("newadvent.org", "!summa", check_summa),
     ("gematrix.org", "!gematria", check_gematrix),
     ("Church calendars", "!today", check_calendars),

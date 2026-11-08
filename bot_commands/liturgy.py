@@ -1,5 +1,5 @@
 """
-!today liturgical calendar, !bcp daily office, !prayer, and the office alias commands.
+!today liturgical calendar, !bcp daily office (its psalms, lessons and collect), and !prayer.
 """
 import asyncio
 import discord
@@ -13,7 +13,7 @@ from core import (
     lookup,
 )
 from core import ROOT
-from bot_commands import latin_psalms, prayers, psalter
+from bot_commands import prayers
 
 # ── !today — Liturgical / religious calendar across traditions ─────────────────
 
@@ -154,7 +154,7 @@ def _parse_today_args(raw: str) -> tuple[str, str] | None:
     return None
 
 
-@bot.command(name="today", aliases=["calendar", "liturgy"])
+@bot.command(name="today", aliases=["calendar"])
 async def cmd_today(ctx, *, args: str = ""):
     """Liturgical / religious observances for a date.
 
@@ -787,8 +787,8 @@ async def _send_bcp_collect(ctx_or_channel, target_date):
 
 # ── 📅 "Today's readings" button (under the Verse of the Day) ────────────────
 # One look at the day's whole daily office -- psalms and lessons for morning
-# and evening, and the collect -- as references; !mp / !ep / !collect give
-# the full texts. The button carries its date, so it shows that day's
+# and evening, and the collect -- as references; !bcp morning / evening /
+# collect give the full texts. The button carries its date, so it shows that day's
 # readings (and keeps working after a restart: see verse.StudyButton).
 
 def _pretty_date(d) -> str:
@@ -821,8 +821,8 @@ def readings_embed(d) -> "discord.Embed | None":
         week = (morning.get("section_title") or "").removeprefix("The Week of ").strip()
         generic = collect["name"] in ("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday")
         name = f"the collect of {week}" if generic and week else collect["name"]
-        embed.add_field(name="📿 Collect", value=f"{name[0].upper()}{name[1:]} (`!collect`)", inline=False)
-    embed.set_footer(text="Book of Common Prayer (Canada 1962) · full texts: !mp · !ep · !psalm · !collect")
+        embed.add_field(name="📿 Collect", value=f"{name[0].upper()}{name[1:]} (`!bcp collect`)", inline=False)
+    embed.set_footer(text="Book of Common Prayer (Canada 1962) · full texts: !bcp morning · !bcp evening · !bcp collect")
     return embed
 
 
@@ -912,16 +912,15 @@ async def cmd_bcp(ctx, *, args: str = ""):
 
     Usage:
       !bcp                — full office for today, time-appropriate
-      !bcp morning        — full Morning Prayer office (alias: mp/matins)
-      !bcp evening        — full Evening Prayer office (alias: ep/vespers)
+      !bcp morning        — full Morning Prayer office (also mp/matins)
+      !bcp evening        — full Evening Prayer office (also ep/evensong)
       !bcp 2026-12-25     — full office for a specific date
-      !bcp mp             — both lessons for Morning Prayer (alias: !mp)
-      !bcp ep             — both lessons for Evening Prayer (alias: !ep)
       !bcp 1 / !bcp 2     — first or second lesson, time-appropriate
-      !bcp psalm          — psalm(s) for the current period (alias: !psalm)
-      !bcp psalm mp/ep    — psalm(s) for that period
-      !bcp collect        — the Collect of the Day (alias: !collect)
-      !bcp prayer         — random devotional prayer (alias: !prayer)
+      !bcp psalm          — psalm(s) for the current period
+      !bcp psalm evening  — psalm(s) for that period (a date may follow)
+      !bcp collect        — the Collect of the Day
+      !bcp prayer         — random devotional prayer (also !prayer)
+    (!mp, !ep, !psalm and !collect were folded into this on 2026-11-08.)
     """
     parts = args.strip().split()
     if not parts:
@@ -982,61 +981,71 @@ async def cmd_bcp(ctx, *, args: str = ""):
                 date_raw = " ".join(rest[1:])
             else:
                 date_raw = " ".join(rest)
+        if re.fullmatch(r"\d{1,3}", date_raw.strip()):     # "!bcp psalm 23": a psalm, not a date
+            n = date_raw.strip()
+            await ctx.send(f"`!bcp psalm` gives the psalms appointed for today. For Psalm {n} itself: "
+                           f"`!verse Psalm {n}`, sung in metre `!metrical {n}`, or chanted in Latin `!chant psalm {n}`.")
+            return
         d = _parse_today_date(date_raw)
         if d is None:
-            await ctx.send(f"⚠️ Couldn't parse `{date_raw}`.")
+            shown = date_raw.replace("`", "'")[:40]
+            await ctx.send(f"⚠️ Couldn't parse `{shown}` as a date. Try `YYYY-MM-DD` or `MM-DD`.")
             return
         async with ctx.typing():
             await _send_bcp_psalm(ctx, d, period)
         return
 
-    # !bcp mp / !bcp ep  — both lessons for that period
+    # !bcp morning / !bcp ep [date]  — the full office for that period
     period_only = _bcp_parse_period(sub)
-    if period_only is not None and (not rest or _parse_today_date(" ".join(rest)) is not None):
-        # If a date follows, parse it; otherwise today
+    if period_only is not None:
         date_raw = " ".join(rest)
         d = _parse_today_date(date_raw)
         if d is None:
-            await ctx.send(f"⚠️ Couldn't parse `{date_raw}`.")
+            await ctx.send(f"⚠️ Couldn't parse `{date_raw}` as a date. Try `YYYY-MM-DD` or `MM-DD`.")
             return
-        # If they said "mp" or "ep" specifically (short form), give just the lessons;
-        # if they said "morning"/"evening", give the full office.
-        if sub in ("mp", "ep"):
-            async with ctx.typing():
-                await _send_bcp_lessons(ctx, d, period_only, "both")
-        else:
-            async with ctx.typing():
-                await _send_bcp(ctx, d, period_only)
+        async with ctx.typing():
+            await _send_bcp(ctx, d, period_only)
         return
 
     # Fallback: treat the whole arg as a date for the full office
     date_raw = args.strip()
     d = _parse_today_date(date_raw)
     if d is None:
-        await ctx.send(f"⚠️ Unknown subcommand `{sub}`. See `!help bcp`.")
+        shown = sub.replace("`", "'")[:40]
+        await ctx.send(f"⚠️ I don't know `{shown}`. Try `!bcp morning`, `!bcp evening`, `!bcp psalm`, "
+                       "`!bcp collect`, or a date like `!bcp 12-25`; `!help bcp` has the rest.")
         return
     async with ctx.typing():
         await _send_bcp(ctx, d, _bcp_period_for_now())
 
 
-@bot.tree.command(name="bcp", description="BCP daily office: psalms, lessons, and collect")
+@bot.tree.command(name="bcp", description="Book of Common Prayer daily office: psalms, lessons and collect")
 @app_commands.describe(
-    period='"morning" or "evening" (defaults to time of day)',
-    date='Optional date: YYYY-MM-DD or MM-DD; blank for today',
+    part="The whole office (default), or just the psalms or the collect",
+    period="Morning or evening (default: by time of day)",
+    date="Optional date: YYYY-MM-DD or MM-DD; blank for today",
 )
-async def bcp_slash(interaction: discord.Interaction, period: str = "", date: str = ""):
+@app_commands.choices(
+    part=[app_commands.Choice(name="Whole office", value="office"),
+          app_commands.Choice(name="Psalms", value="psalm"),
+          app_commands.Choice(name="Collect", value="collect")],
+    period=[app_commands.Choice(name="Morning", value="morning"),
+            app_commands.Choice(name="Evening", value="evening")],
+)
+async def bcp_slash(interaction: discord.Interaction, part: str = "", period: str = "", date: str = ""):
+    """(Took over /mp, /ep, /psalm and /collect on 2026-11-08.)"""
     await interaction.response.defer()
-    p = _bcp_parse_period(period) if period else None
-    if p is None:
-        p = _bcp_period_for_now()
-    d = _parse_today_date(date)
-    if d is None:
-        await interaction.followup.send(f"⚠️ Couldn't parse `{date}`.")
-        return
-    await _send_bcp(interaction.channel, d, p)
+    ctx = await bot.get_context(interaction)
+    if part == "collect":
+        args = f"collect {date}"
+    elif part == "psalm":
+        args = f"psalm {period or _bcp_period_for_now()} {date}"
+    else:
+        args = f"{period or _bcp_period_for_now()} {date}"
+    await cmd_bcp(ctx, args=args.strip())
 
 
-# ── Alias commands ───────────────────────────────────────────────────────────
+# ── !prayer ──────────────────────────────────────────────────────────────────
 
 @bot.command(name="prayer")
 async def cmd_prayer(ctx, *, name: str = ""):
@@ -1049,73 +1058,4 @@ async def cmd_prayer(ctx, *, name: str = ""):
         return
     async with ctx.typing():
         await _send_random_prayer(ctx)
-
-
-@bot.command(name="collect")
-async def cmd_collect(ctx, *, date_raw: str = ""):
-    """The Collect of the Day. Optional date arg."""
-    d = _parse_today_date(date_raw)
-    if d is None:
-        await ctx.send(f"⚠️ Couldn't parse `{date_raw}`.")
-        return
-    async with ctx.typing():
-        await _send_bcp_collect(ctx, d)
-
-
-@bot.command(name="mp", aliases=["matins"])
-async def cmd_mp(ctx, *, date_raw: str = ""):
-    """Both lessons for today's Morning Prayer."""
-    d = _parse_today_date(date_raw)
-    if d is None:
-        await ctx.send(f"⚠️ Couldn't parse `{date_raw}`.")
-        return
-    async with ctx.typing():
-        await _send_bcp_lessons(ctx, d, "morning", "both")
-
-
-@bot.command(name="ep", aliases=["evensong", "vespers"])
-async def cmd_ep(ctx, *, date_raw: str = ""):
-    """Both lessons for today's Evening Prayer."""
-    d = _parse_today_date(date_raw)
-    if d is None:
-        await ctx.send(f"⚠️ Couldn't parse `{date_raw}`.")
-        return
-    async with ctx.typing():
-        await _send_bcp_lessons(ctx, d, "evening", "both")
-
-
-@bot.command(name="psalm", aliases=["psalms"])
-async def cmd_psalm(ctx, *, args: str = ""):
-    """Today's appointed Psalm(s). Optional `mp`/`ep` to override the period.
-
-    Usage:
-      !psalm           — current period
-      !psalm mp        — Morning Prayer psalms
-      !psalm ep        — Evening Prayer psalms
-      !psalm mp 12-25  — Morning Prayer psalms for Dec 25
-      !psalm 23 sing   — Psalm 23 in metre, to sing (same as !metrical 23)
-      !psalm 110 chant — Psalm 110 chanted in Latin (add `organ` for the organ)
-    """
-    parts = args.strip().split()
-    if any(p.lower() in ("chant", "chanted", "latin", "gregorian", "plainchant") for p in parts):
-        await latin_psalms.send_psalm_chant(ctx, args)
-        return
-    sung = [p for p in parts if p.lower() not in ("sing", "metrical", "metre", "meter")]
-    if len(sung) < len(parts):
-        await psalter.send_metrical(ctx, " ".join(sung))
-        return
-    period = _bcp_period_for_now()
-    date_raw = ""
-    if parts:
-        maybe_period = _bcp_parse_period(parts[0])
-        if maybe_period is not None:
-            period = maybe_period
-            date_raw = " ".join(parts[1:])
-        else:
-            date_raw = args.strip()
-    d = _parse_today_date(date_raw)
-    if d is None:
-        await ctx.send(f"⚠️ Couldn't parse `{date_raw}`.")
-        return
-    async with ctx.typing():
-        await _send_bcp_psalm(ctx, d, period)
+

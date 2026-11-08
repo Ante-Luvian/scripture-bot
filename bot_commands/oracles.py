@@ -407,7 +407,7 @@ def _load_aeneid():
             _AENEID_DATA = json.loads(path.read_text(encoding="utf-8"))["books"]["Aeneid"]
     return _AENEID_DATA
 
-@bot.command(name="virgil", aliases=["sortesvir", "aeneid"])
+@bot.command(name="virgil", aliases=["sortesvir"])
 async def cmd_virgil(ctx, *, question: str = ""):
     """Consult the Sortes Vergilianae. Usage: !virgil [optional question]"""
     aeneid = _load_aeneid()
@@ -450,7 +450,7 @@ def _load_homer():
             _HOMER_DATA = json.loads(path.read_text(encoding="utf-8"))["oracle"]
     return _HOMER_DATA
 
-@bot.command(name="homer", aliases=["homeromanteion", "sortes"])
+@bot.command(name="homer", aliases=["homeromanteion"])
 async def cmd_homer(ctx, *, question: str = ""):
     """Roll three dice and receive a Homeric oracle. Usage: !homer"""
     d1, d2, d3 = random.randint(1,6), random.randint(1,6), random.randint(1,6)

@@ -27,7 +27,7 @@ def day_this_year() -> datetime.date:
 
 
 def gospel_reference() -> str:
-    """A verse of the Gospels: the Fathers' commentary (!catena, !study) covers them fully, much of the Old
+    """A verse of the Gospels: the Fathers' commentary (!catena) covers them fully, much of the Old
     Testament not at all."""
     return lookup.random_verse_from_books(["Matthew", "Mark", "Luke", "John"])["reference"]
 
@@ -43,10 +43,8 @@ for _name in ("verse", "ballad", "blake", "desert", "dore", "physiologus", "reyn
 
 
 # ── the daily ones: bare is today's; "random" a random day this year ─────────
-for _name in ("bcp", "mp", "ep", "collect", "hymnday", "troparion", "planets", "parsha", "dafyomi", "learning",
-              "today"):
+for _name in ("bcp", "hymnday", "troparion", "planets", "parsha", "dafyomi", "learning", "today"):
     random_input(_name, iso_day)
-random_input("psalm", lambda: day_this_year().strftime("%m-%d"))
 
 
 def _saint_day() -> str:
@@ -239,7 +237,6 @@ LOOKUPS = [
     ("interlinear", bible_reference, "`!interlinear John 3:16` for a particular verse"),
     ("reverseinterlinear", bible_reference, "`!reverseinterlinear John 3:16` for a particular verse"),
     ("notes", bible_reference, "`!notes John 3:16` for a particular verse"),
-    ("study", gospel_reference, "`!study John 3:16` for a particular verse"),
     ("compare", bible_reference, "`!compare John 3:16` for a particular verse"),
     ("variants", _dss_reference, "`!variants Isaiah 53:5` for a particular verse"),
     ("strong", _strongs, "`!strong G26` or `!strong John 3:16` for a particular one"),

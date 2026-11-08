@@ -290,7 +290,7 @@ async def start_whoami(ctx) -> None:
     view.message = await ctx.send(embed=view.embed(), view=view)
 
 
-@bot.command(name="whoami", aliases=["mystery", "whoisit"])
+@bot.command(name="whoami", aliases=["whoisit"])
 async def cmd_whoami(ctx):
     """Who Am I? Guess a person from the Bible from clues that get easier."""
     await start_whoami(ctx)
@@ -624,7 +624,7 @@ async def cmd_verslesetup(ctx, action: str = "", *, arg: str = ""):
         await ctx.send("Unknown option. Use `channel`, `time`, `test`, or `off`.")
 
 
-@bot.command(name="versle", aliases=["dailyverse"])
+@bot.command(name="versle")
 async def cmd_versle(ctx, *, arg: str = ""):
     """Versle: today's verse -- where in the Bible is it? Six guesses.
     Usage: !versle         — today's puzzle

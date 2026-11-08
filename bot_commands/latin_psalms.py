@@ -1,5 +1,5 @@
 """
-!psalm 110 chant -- a psalm chanted in Latin to a Gregorian psalm tone: sung by the
+!chant psalm 110 (until 2026-11-08 also !psalm 110 chant) -- a psalm chanted in Latin to a Gregorian psalm tone: sung by the
 synthesised schola (or played on the organ, by its button), with the Latin as the
 Breviary prints it and the Douay-Rheims English. Built by scripts/build_psalm_chant.py.
 
@@ -99,7 +99,7 @@ def chant_message(hebrew: int, v: int, part: int = 0, organ: bool = False) -> di
               f"with the Gloria Patri."
     if len(pieces) > 1:
         content += f"\nPsalm 119 is sung in its 22 sections; this is {part + 1} of 22. " \
-                   f"Another: `!psalm 119 chant {pieces[(part + 1) % 22]['name'].lower()}`."
+                   f"Another: `!chant psalm 119 {pieces[(part + 1) % 22]['name'].lower()}`."
     latin = discord.Embed(title=f"{heading(hebrew, v, part)}", color=COLOR,
                           description=_trim("\n".join(l.replace(" * ", " ✱ ") for l in lines)))
     latin.set_footer(text="Latin: the Breviary's psalter, with the stresses the chant follows · ✱ the mid-verse pause")
@@ -202,8 +202,8 @@ async def send_psalm_chant(ctx, query: str) -> None:
         return
     parsed = parse(query)
     if parsed is None:
-        await ctx.send("Which psalm? `!psalm 110 chant` sings Psalm 110 in Latin; add `organ` for the organ "
-                       "(`!psalm 23 chant organ`), and for Psalm 119 a section (`!psalm 119 chant beth`).")
+        await ctx.send("Which psalm? `!chant psalm 110` sings Psalm 110 in Latin; add `organ` for the organ "
+                       "(`!chant psalm 23 organ`), and for Psalm 119 a section (`!chant psalm 119 beth`).")
         return
     hebrew, targets, organ = parsed
     for v, part in targets:

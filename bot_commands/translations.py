@@ -79,10 +79,11 @@ async def cmd_compare(ctx, *, reference: str = ""):
     Show a verse across translations, paginated.
     Usage: !compare John 3:16
            !compare ancient John 3:16   — KJV + Greek/Hebrew + LXX + Vulgate
-           !compare strong John 3:16    — KJV + WLC/TISCH with Strong's numbers
+    (`!compare strong John 3:16` is the older spelling of `!strong John 3:16`: no longer documented
+    since 2026-11-08, but it still works for anyone who learned it.)
     """
     if not reference:
-        await ctx.send("Usage: `!compare John 3:16` or `!compare ancient John 3:16` or `!compare strong John 3:16`")
+        await ctx.send("Usage: `!compare John 3:16` or `!compare ancient John 3:16`")
         return
     if not _check_search_cooldown(ctx.author.id):
         await ctx.send("⏳ Please wait a moment before using !compare again.", delete_after=8)
@@ -108,7 +109,7 @@ async def cmd_compare(ctx, *, reference: str = ""):
             await _send_compare(ctx, ref)
 
 @bot.tree.command(name="compare", description="Show a verse across multiple translations")
-@app_commands.describe(reference="e.g. John 3:16  |  ancient John 3:16  |  strong John 3:16")
+@app_commands.describe(reference="e.g. John 3:16  |  ancient John 3:16")
 async def compare_slash(interaction: discord.Interaction, reference: str):
     await interaction.response.defer()
     ctx = await bot.get_context(interaction)
@@ -801,7 +802,7 @@ async def cmd_strong(ctx, *, query: str = ""):
     Usage:
       !strong G3588             — Greek lexicon entry
       !strong H7225             — Hebrew lexicon entry
-      !strong John 3:16         — verse with each word tagged (alias for !compare strong)
+      !strong John 3:16         — verse with each word tagged with its Strong's number
       !strong Psalm 23:1        — same, for OT
     """
     raw = (query or "").strip()
@@ -1016,7 +1017,7 @@ async def _display_compare(ctx, reference: str, results: list, mode: str, page_s
 
 
 
-# ── !parallel — Bible & classical texts in parallel languages (alias: !poem) ──
+# ── !parallel — Bible & classical texts in parallel languages (alias: !par) ──
 
 LANG_LABEL = {"en": "English", "grc": "Ancient Greek", "lat": "Latin"}
 LANG_COLOR = {
@@ -1071,7 +1072,7 @@ async def _edda_parallel(ctx, ref: str) -> bool:
     return True
 
 
-@bot.command(name="parallel", aliases=["poem", "po", "par", "classical"])
+@bot.command(name="parallel", aliases=["par"])
 async def cmd_parallel(ctx, *, reference: str = ""):
     """Look up a Bible verse or classical text in parallel languages. !parallel works for a list."""
     classical = "classical" in guild_traditions(getattr(getattr(ctx, "guild", None), "id", None))

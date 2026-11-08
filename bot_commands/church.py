@@ -653,7 +653,7 @@ async def creed_slash(interaction: discord.Interaction, which: str = ""):
 
 # ── !summa — Summa Theologica via newadvent.org ───────────────────────────────
 
-@bot.command(name="summa", aliases=["st", "aquinas", "thomas"])
+@bot.command(name="summa", aliases=["aquinas"])
 async def cmd_summa(ctx, *, reference: str = ""):
     """
     Look up an article from the Summa Theologica.

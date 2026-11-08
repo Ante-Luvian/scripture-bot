@@ -422,7 +422,7 @@ _LEGACY_VOTD_CHANNEL_ID: int | None = 921184056341835836
 _LEGACY_VOTD_TIME = "04:00"
 
 # VOTD mode persistence: "full" (verse + ancients + commentary) or "basic" (verse only).
-# Toggled via the hidden !votdmode command. Default is "full".
+# Set with !votdsetup mode (the hidden !votdmode was retired on 2026-11-08). Default is "full".
 VOTD_MODE_PATH = Path(__file__).parent / "data" / "votd_mode.json"
 
 def _load_votd_mode() -> str:
@@ -657,10 +657,10 @@ def _get_guild_features(guild_id: int) -> dict:
 # didn't have them. Commands in no pack (the Bible, study tools, games...) are always there.
 PACKS = {
     "church": ("⛪ Christian worship & study", "Hymns, creeds, prayers, the church year and the Church Fathers' commentary",
-                  frozenset({"creed", "hymn", "hymnlist", "midi", "hymnday", "prayer", "today", "study", "catena",
+                  frozenset({"creed", "hymn", "hymnlist", "midi", "hymnday", "prayer", "today", "catena",
                              "metrical"})),
     "protestant": ("✝️ Protestant & Anglican", "The Prayer Book's daily office and collects, and Puritan prayers",
-                   frozenset({"bcp", "mp", "ep", "psalm", "collect", "vov"})),
+                   frozenset({"bcp", "vov"})),
     "saints": ("😇 Saints", "The saint of the day, from Butler's Lives of the Saints, and the sayings of the Desert Fathers",
                frozenset({"saint", "desert"})),
     "catholic_devotion": ("📿 Catholic devotions", "The Rosary, the Angelus and Latin chant",

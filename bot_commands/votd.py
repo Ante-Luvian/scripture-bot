@@ -89,7 +89,7 @@ def _todays_readings() -> discord.ui.View:
     return readings_view(datetime.datetime.now(datetime.timezone.utc).date())
 
 
-@bot.command(name="votd", aliases=["verseoftheday", "dayverse"])
+@bot.command(name="votd", aliases=["verseoftheday", "dayverse", "dailyverse"])
 async def cmd_votd(ctx, *, translation: str = ""):
     """Verse of the Day, optionally in a specific translation.
     Usage: !votd  |  !votd ESV  |  !votd full  |  !votd extended"""
@@ -104,50 +104,6 @@ async def cmd_votd(ctx, *, translation: str = ""):
         return
     async with ctx.typing():
         await _send_votd(ctx, translation=arg)
-
-
-@bot.command(name="votdmode", hidden=True)
-@commands.has_permissions(administrator=True)
-async def cmd_votdmode(ctx, *, mode: str = ""):
-    """Hidden: toggle which VOTD style this server's daily task uses.
-    Usage: !votdmode             — show current mode
-           !votdmode basic       — verse only (original VOTD)
-           !votdmode full        — verse + ancients + first commentary
-           !votdmode extended    — full VOTD + today's calendar across five traditions
-           !votdmode toggle      — cycle: basic → full → extended → basic
-    """
-    if not ctx.guild:
-        await ctx.send("This command only works in a server.")
-        return
-
-    requested = mode.strip().lower()
-    current = _get_guild_votd(ctx.guild.id)["mode"]
-
-    if not requested:
-        await ctx.send(
-            f"VOTD mode is currently **{current}**. "
-            "Use `!votdmode basic`, `!votdmode full`, `!votdmode extended`, or `!votdmode toggle`."
-        )
-        return
-
-    cycle = {"basic": "full", "full": "extended", "extended": "basic"}
-    if requested == "toggle":
-        new_mode = cycle.get(current, "full")
-    elif requested in ("basic", "full", "extended"):
-        new_mode = requested
-    else:
-        await ctx.send(f"Unknown mode `{requested}`. Use `basic`, `full`, `extended`, or `toggle`.")
-        return
-
-    if new_mode == current:
-        await ctx.send(f"VOTD mode is already **{current}**.")
-        return
-
-    _update_guild_config(ctx.guild.id, votd_mode=new_mode)
-    await ctx.send(
-        f"VOTD mode switched from **{current}** to **{new_mode}**. "
-        f"The daily post will use the {new_mode} format from now on."
-    )
 
 
 @bot.command(name="votdsetup", aliases=["votdconfig"])
@@ -358,17 +314,26 @@ def _save_subscribers(ids: list) -> None:
     _atomic_write_json(SUBSCRIBERS_PATH, ids)
 
 @bot.command(name="subscribe")
-async def cmd_subscribe(ctx):
-    """Get the daily Verse of the Day sent to you by DM."""
+async def cmd_subscribe(ctx, *, action: str = ""):
+    """Get the daily Verse of the Day sent to you by DM.
+    Usage: !subscribe       — start
+           !subscribe off   — stop (this took over !unsubscribe on 2026-11-08)"""
+    action = action.strip().lower()
+    if action in ("off", "stop", "cancel", "no", "unsubscribe"):
+        await _unsubscribe(ctx)
+        return
+    if action not in ("", "on", "start", "yes"):
+        await ctx.send("`!subscribe` sends you the Verse of the Day by DM each day; `!subscribe off` stops it.")
+        return
     subs = _load_subscribers()
     uid = ctx.author.id
     if uid in subs:
-        await ctx.send("You're already subscribed to the daily DM verse. Use `!unsubscribe` to stop.")
+        await ctx.send("You're already subscribed to the daily DM verse. Use `!subscribe off` to stop.")
         return
     try:
         await ctx.author.send(
             f"📬 You're now subscribed to the daily Verse of the Day, sent here around {DM_DIGEST_TIME} UTC. "
-            "Use `!unsubscribe` in a server with me to stop anytime."
+            "Type `!subscribe off` (here or in a server with me) to stop any time."
         )
     except discord.Forbidden:
         await ctx.send("⚠️ I couldn't DM you — enable direct messages from server members and try again.")
@@ -377,9 +342,8 @@ async def cmd_subscribe(ctx):
     _save_subscribers(subs)
     await ctx.send("📬 Subscribed! Check your DMs.")
 
-@bot.command(name="unsubscribe")
-async def cmd_unsubscribe(ctx):
-    """Stop the daily DM Verse of the Day."""
+
+async def _unsubscribe(ctx):
     subs = _load_subscribers()
     uid = ctx.author.id
     if uid not in subs:

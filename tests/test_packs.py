@@ -36,12 +36,15 @@ def protestant(packs):
 
 
 def test_every_pack_command_is_real_and_has_a_slash_version(bot_module):
+    """(Except the ones kept prefix-only on purpose -- !delphi, !parsha, !dafyomi, !hymnlist since
+    2026-11-08 -- which have no slash form to hide; the pack check still turns their ! form off.)"""
     import core
+    from test_slash_parity import PREFIX_ONLY
     slash = {c.name for c in bot_module.bot.tree.get_commands()}
     for name in core.PACK_OF:
         assert bot_module.bot.get_command(name) is not None, name
         assert bot_module.bot.get_command(name).name == name, f"{name} is an alias; use the command's name"
-        assert name in slash, f"/{name} (needed to hide it per server)"
+        assert name in slash or name in PREFIX_ONLY, f"/{name} (needed to hide it per server)"
 
 
 def test_pack_names_never_clash_with_traditions():

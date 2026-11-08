@@ -103,10 +103,10 @@ def test_scores(lp):
 
 
 def test_the_commands(lp, fake_ctx):
-    from bot_commands import hymns, liturgy
-    asyncio.run(liturgy.cmd_psalm.callback(fake_ctx, args="110 chant"))
+    from bot_commands import hymns     # (!psalm 110 chant went on 2026-11-08: !chant psalm 110 is the way)
+    asyncio.run(hymns.send_chant(fake_ctx, "psalm 110"))
     assert "Dixit" in fake_ctx.sent[-1]["content"]
     asyncio.run(hymns.send_chant(fake_ctx, "psalm 51"))
     assert "Psalm 51" in fake_ctx.sent[-1]["content"]
-    asyncio.run(liturgy.cmd_psalm.callback(fake_ctx, args="chant"))
-    assert "Which psalm?" in fake_ctx.sent[-1]["content"]
+    asyncio.run(hymns.send_chant(fake_ctx, "psalm"))
+    assert "Which psalm?" in fake_ctx.sent[-1]["content"] and "!chant psalm 110" in fake_ctx.sent[-1]["content"]

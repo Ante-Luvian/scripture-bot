@@ -1,18 +1,18 @@
 """
 poem_lookup.py
 --------------
-Lookup module for the !poem command.
+Lookup module for the !parallel command (once called !poem).
 
 Handles two citation styles:
 
   1. book.line  — Homer, Virgil, Ovid
-       !poem Il. 6.440          single couplet
-       !poem Il. 6.440-460      line range
-       !poem Il. 6              whole book (paginated)
+       !parallel Il. 6.440          single couplet
+       !parallel Il. 6.440-460      line range
+       !parallel Il. 6              whole book (paginated)
 
   2. stephanus  — Plato
-       !poem Republic 514a      single section
-       !poem Republic 514a-515b section range
+       !parallel Republic 514a      single section
+       !parallel Republic 514a-515b section range
 
 Add -p to any of the above for parallel display.
 """
@@ -413,10 +413,10 @@ def list_works() -> str:
         "  `!parallel Antigone 1:450`  `!parallel History of the Peloponnesian War 2.40:1`",
         "",
         "**Usage**",
-        "  `!poem Il. 6.440`  `!poem Il. 6.440-460`  `!poem Il. 6`",
-        "  `!poem Aen. 1.1-20`  `!poem Met. 3.1-50`",
-        "  `!poem Republic 514a`  `!poem Republic 514a-515b`",
-        "  `!poem Euthyphro 2a-3b`",
+        "  `!parallel Il. 6.440`  `!parallel Il. 6.440-460`  `!parallel Il. 6`",
+        "  `!parallel Aen. 1.1-20`  `!parallel Met. 3.1-50`",
+        "  `!parallel Republic 514a`  `!parallel Republic 514a-515b`",
+        "  `!parallel Euthyphro 2a-3b`",
     ]
     return "\n".join(lines)
 

@@ -20,12 +20,12 @@ I'm a library of sacred and ancient texts that lives in this server. I can look 
 **4. Right-click any message** (on a phone: press and hold it), choose **Apps**, then **Look up verses** — I'll show you every reference in it (up to five), privately, just for you. Handy for long lists of verses, or older messages.
 
 **Buttons**
-Many of my answers come with buttons underneath. Under a Bible verse you'll see **Notes · Cross-refs · Interlinear · Card**, which dig deeper into that verse with one click (each is explained below), and **🖼️ Doré** when the passage has one of Doré's engravings. Long answers have **◀ ▶** buttons to turn the page.
+Many of my answers come with buttons underneath. Under a Bible verse you'll see **Notes · Cross-refs · Interlinear · Catena · Card**, which dig deeper into that verse with one click (each is explained below), and **🖼️ Doré** when the passage has one of Doré's engravings. Long answers have **◀ ▶** buttons to turn the page.
 
 **Getting help any time**
 `!help` shows every command at a glance, and `!help <command>` explains one in detail — `!help verse`, `!help bcp`, `!help jewish`. The messages below are the full tour: first my library, then every command, grouped by what it's for.
 
-**Feeling curious?** Add `random` to almost any command and I'll pick one for you: `!who random` (someone from the Bible), `!saint random`, `!place random`, `!kings random`, `!canon random`. A command on its own does the obvious thing: today's for the daily ones (`!saint`, `!psalm`), the list for the browsing ones (`!journey`, `!books`), and otherwise a random one.
+**Feeling curious?** Add `random` to almost any command and I'll pick one for you: `!who random` (someone from the Bible), `!saint random`, `!place random`, `!kings random`, `!canon random`. A command on its own does the obvious thing: today's for the daily ones (`!saint`, `!bcp`), the list for the browsing ones (`!journey`, `!books`), and otherwise a random one.
 
 ## 📚 My library: the Bible and its neighbours
 **The Bible** — all 66 books, King James Version by default, plus **more than 40 other translations** you can ask for by name: modern English (ESV, NASB, NKJV, NLT, NRSVCE, NABRE, CSB, the NET Bible and more), older ones (Geneva Bible, Young's Literal, Douay-Rheims, Knox), and the **original and ancient languages**: Hebrew (Westminster Leningrad Codex), Greek New Testament (Textus Receptus, Tischendorf), the Greek Old Testament (Septuagint), Latin (Vulgate), Syriac (Peshitta), Church Slavonic and even Old English. `!translations` lists them all.
@@ -110,7 +110,6 @@ A **🖌️** button shows the pictures of the old illustrated editions wherever
 ## 🔍 Comparing translations and languages
 **`!compare John 3:16`** — one verse across many English translations, a page at a time.
 • `!compare ancient John 3:16` — the same verse in the ancient witnesses: Hebrew or Greek, the Septuagint, Latin Vulgate, Syriac Peshitta, Church Slavonic and Old English.
-• `!compare strong John 3:16` — the KJV with every word tagged by its number in Strong's dictionary of Hebrew and Greek.
 
 **`!interlinear John 3:16`** — an image of the verse in the original Greek (or Hebrew, for the Old Testament), word by word, with how each word is pronounced and what it means written underneath. Press **Interlinear** under any Bible verse for the same thing.
 **`!reverseinterlinear John 3:16`** — the other way round: the KJV in normal English word order, each word labelled with the Hebrew or Greek word it translates.
@@ -127,7 +126,7 @@ A **🖌️** button shows the pictures of the old illustrated editions wherever
 **`!quoted Isaiah 53:5`** — where the New Testament quotes the Old (or the Book of Enoch and other ancient writings), shown side by side, each labelled as a direct quotation or a looser parallel.
 **`!story flood`**: the same story as different traditions tell it, side by side. The Flood in Genesis, the Epic of Gilgamesh, Ovid, the Quran and the Maya Popol Vuh; also `!story creation`, `humans` (the first people, made from earth), `tower`, `underworld`, `ages` (the golden age and after), `end` and `christ` (pagan texts early Christians read as foretelling Christ, each with the Church Father who read it so). Choose one from the menu to read it in full; `!story` alone lists them.
 **`!cloud Ecclesiastes`** — a book's most distinctive words drawn as a picture, the bigger the word the more it sets that book apart from the rest of its collection: Ecclesiastes is *vanity*, *vexation* and *labour under the sun*, the Song of Solomon *beloved*, *myrrh* and *lilies*. Works for any book in the library (`!cloud Revelation`, `!cloud Tao Te Ching`).
-**`!study John 3:16`** — the verse plus what the early Church Fathers said about it. **`!catena John 3:16`** gives just the Fathers' commentary.
+**`!catena John 3:16`** — what the early Church Fathers said about a verse, verse by verse through the Bible. (Also the **Catena** button under any Bible verse.)
 
 **The original languages** (Strong's numbers are a standard numbering of every Hebrew and Greek word in the Bible — G for Greek, H for Hebrew):
 • `!strong G26` — the dictionary entry for a word (here *agapē*, love) · `!strong John 3:16` — a verse with every word numbered
@@ -174,7 +173,7 @@ A **🖌️** button shows the pictures of the old illustrated editions wherever
 <!-- pack: church -->• **The tune menu** — play the psalm to any other tune in the same rhythm, since any of them fits the words.
 <!-- pack: church -->• **📖 Read in the KJV** — the same psalm in ordinary prose, to compare.
 <!-- pack: church -->• **Second version** — some psalms (like Psalm 100) have two versions in the Psalter, and this switches between them. Ask for one directly with `!metrical 100b`.
-<!-- pack: church -->Long psalms have buttons to turn the page, or ask for some verses: `!metrical 119:105-112`. Psalm 119 shows its 22 parts under their Hebrew letters (Aleph, Beth, Gimel…), with a menu to jump between them; ask for one by name with `!metrical 119 nun`. You can also search the words (`!metrical shepherd`), list every psalm sung to a tune (`!metrical crimond`), or get a random one with `!metrical`. `!psalm 23 sing` does the same as `!metrical 23`.
+<!-- pack: church -->Long psalms have buttons to turn the page, or ask for some verses: `!metrical 119:105-112`. Psalm 119 shows its 22 parts under their Hebrew letters (Aleph, Beth, Gimel…), with a menu to jump between them; ask for one by name with `!metrical 119 nun`. You can also search the words (`!metrical shepherd`), list every psalm sung to a tune (`!metrical crimond`), or get a random one with `!metrical`.
 
 ## 🎻 Folk tales and ballads
 
@@ -193,10 +192,8 @@ A **🖌️** button shows the pictures of the old illustrated editions wherever
 
 <!-- pack: protestant -->**The Daily Office** — Morning and Evening Prayer from the Book of Common Prayer (the Canadian 1962 Prayer Book, with Coverdale's Psalter):
 • `!bcp` — today's psalms, two readings and collect, for morning or evening depending on the time · `!bcp morning`, `!bcp evening`, `!bcp 2026-12-25`
-• `!mp` / `!ep` — just the readings for Morning or Evening Prayer
-• `!psalm` — today's appointed psalms (`!psalm ep` for the evening ones)
-• `!psalm 110 chant` — any psalm chanted in Latin to a Gregorian psalm tone, the way monks sing the Office, by the bot's synthesised choir, with the Latin and the Douay-Rheims English to follow. Add `organ` to hear the melody on the organ instead. Psalm 119 is sung in its 22 sections: `!psalm 119 chant beth`.
-• `!collect` — the Collect (short prayer) of the day
+• `!bcp psalm` — just today's appointed psalms (`!bcp psalm evening` for the evening ones) · `!bcp collect` — just the Collect (short prayer) of the day
+• `!chant psalm 110` — any psalm chanted in Latin to a Gregorian psalm tone, the way monks sing the Office, by the bot's synthesised choir, with the Latin and the Douay-Rheims English to follow. Add `organ` to hear the melody on the organ instead. Psalm 119 is sung in its 22 sections: `!chant psalm 119 beth`.
 • `!prayer` — a random prayer from the 1662 Prayer Book; `!prayer st michael`, `!prayer memorare`, `!prayer anima christi`… — a traditional prayer by name, in English and Latin, sung where it's also a chant; Orthodox prayers too, with their Greek (`!prayer jesus prayer`, `!prayer trisagion`); `!prayer list` for them all
 • `!vov` — a prayer of the English Puritans, from the collection *The Valley of Vision*: `!vov` at random, `!vov penitence` on a theme, `!vov topics` to browse them, `!vov 37` by number
 
@@ -235,7 +232,7 @@ A **🖌️** button shows the pictures of the old illustrated editions wherever
 **`!learning`** — all of the day's cycles at once: the Torah portion, Daf Yomi, a Mishnah, Maimonides, a chapter of the Bible, a passage of Jewish law and more, each with the command to read it. Admins: **`!learningsetup channel #chan`** posts it every morning.
 
 ## 🎲 Games
-**Play a game:** `!quiz` shows a verse and four buttons — which book is it from? `!quiz hard` mixes traditions (Proverbs? the Quran? the Norse Edda?), and you can quiz yourself on one tradition: `!quiz buddhist`, `!quiz chinese`, `!quiz hindu`, `!quiz classical`, `!quiz norse` and more. `!quiz leaderboard` shows this server's top scorers — this week (it starts fresh every Monday) and of all time. Everyone gets one guess; the answer is revealed after a minute. Get three or more right in a row and you'll see your 🔥 streak.
+**Play a game:** `!quiz` shows a verse and four buttons — which book is it from? `!quiz hard` mixes traditions (Proverbs? the Quran? the Norse Edda?), and you can quiz yourself on one tradition: `!quiz buddhist`, `!quiz chinese`, `!quiz hindu`, `!quiz classical`, `!quiz norse` and more. `!leaderboard` (or `!quiz leaderboard`) shows this server's top scorers — this week (it starts fresh every Monday) and of all time. Everyone gets one guess; the answer is revealed after a minute. Get three or more right in a row and you'll see your 🔥 streak.
 
 **Versle**, the daily verse puzzle: `!versle` shows today's verse, the same one for everyone, and asks where in the Bible it is. Press **✍️ Guess** and type a verse; you get six tries. After each one I tell you privately how close you were: 🟩 right, 🟨 within three, ⬛ further off, for the book, the chapter and the verse, plus which way to go ("later in the Bible, by 5 books"). When you're done, **📣 Share my result** shows the channel your squares without giving the answer away. `!versle stats` shows your record and streak. A new verse comes at midnight UTC.
 
@@ -260,12 +257,11 @@ A **🖌️** button shows the pictures of the old illustrated editions wherever
 
 ## 🌅 Every day, and just for you
 **`!votd`** — today's Verse of the Day. `!votd ESV` gives it in another translation; `!votd full` adds the ancient translations and a Church Father's commentary; `!votd extended` adds today's calendar too. Servers can have it posted automatically each day. Press **📅 Today's readings** under it to see that day's psalms and Bible readings for morning and evening prayer (from the Book of Common Prayer) — just for you.
-**`!subscribe`** — get the Verse of the Day sent to your private messages every day · `!unsubscribe` to stop.
+**`!subscribe`** — get the Verse of the Day sent to your private messages every day · `!subscribe off` to stop.
 
 **Your own bookmarks**
 • `!save John 3:16` — save a verse (add a note: `!save John 3:16 | got me through a hard week`)
-• `!saved` — your saved verses · `!unsave 2` — remove number 2 from that list
-• `!leaderboard` — who has saved the most verses
+• `!saved` — your saved verses · `!saved remove 2` — remove number 2 from that list
 
 **`!plan start John`** — a reading plan: one chapter a day through a book. `!plan` shows today's chapter, `!plan status` your progress, `!plan stop` ends it. Add `!plan remind on` and I'll send you each day's chapter by private message (at 07:00 UTC, or pick a time: `!plan remind on 19:30`).
 

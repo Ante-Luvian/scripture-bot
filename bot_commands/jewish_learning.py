@@ -182,26 +182,12 @@ async def cmd_parsha(ctx, *, when: str = ""):
     await send_parsha(ctx, when)
 
 
-@bot.tree.command(name="parsha", description="This week's Torah portion, what it's about and its readings")
-@discord.app_commands.describe(date="Optional: YYYY-MM-DD or MM-DD; blank for this week")
-async def parsha_slash(interaction: discord.Interaction, date: str = ""):
-    await interaction.response.defer()
-    await send_parsha(await bot.get_context(interaction), date)
-
-
 @bot.command(name="dafyomi", aliases=["daf", "dafyomit"])
 async def cmd_dafyomi(ctx, *, when: str = ""):
     """Today's page of the Talmud in the Daf Yomi cycle, with its text.
     Usage: !dafyomi              — today's
            !dafyomi 2026-12-25   — another day's"""
     await send_daf(ctx, when)
-
-
-@bot.tree.command(name="dafyomi", description="Today's page of the Talmud (Daf Yomi), with its text")
-@discord.app_commands.describe(date="Optional: YYYY-MM-DD or MM-DD; blank for today")
-async def dafyomi_slash(interaction: discord.Interaction, date: str = ""):
-    await interaction.response.defer()
-    await send_daf(await bot.get_context(interaction), date)
 
 
 async def send_learning(ctx, when: str = "") -> None:
@@ -225,10 +211,17 @@ async def cmd_learning(ctx, *, when: str = ""):
 
 
 @bot.tree.command(name="learning", description="Today's Jewish learning: Torah portion, Daf Yomi, Mishnah, Rambam…")
-@discord.app_commands.describe(date="Optional: YYYY-MM-DD or MM-DD; blank for today")
-async def learning_slash(interaction: discord.Interaction, date: str = ""):
+@discord.app_commands.describe(which="All of the day's cycles (default), or just the Torah portion or Daf Yomi",
+                               date="Optional: YYYY-MM-DD or MM-DD; blank for today")
+@discord.app_commands.choices(which=[discord.app_commands.Choice(name="All the day's learning", value="all"),
+                                     discord.app_commands.Choice(name="Torah portion (parsha)", value="parsha"),
+                                     discord.app_commands.Choice(name="Daf Yomi (Talmud page)", value="daf")])
+async def learning_slash(interaction: discord.Interaction, which: str = "all", date: str = ""):
+    """(/parsha and /dafyomi became its choices on 2026-11-08, to make room in Discord's 100 slash commands.)"""
     await interaction.response.defer()
-    await send_learning(await bot.get_context(interaction), date)
+    ctx = await bot.get_context(interaction)
+    send = {"parsha": send_parsha, "daf": send_daf}.get(which, send_learning)
+    await send(ctx, date)
 
 
 # ── the daily post (!learningsetup) ─────────────────────────────────────────

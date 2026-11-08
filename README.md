@@ -80,13 +80,13 @@ Prefix commands use `!`; most also have a `/` slash-command version.
 
 | Command | Aliases | What it does |
 |---|---|---|
-| `!verse <ref>` | `!v`, `!scripture` | Look up a verse, range, or chapter. `!verse` alone = random verse; `!verse Enoch` = random verse from a book. Add a translation (`!verse John 3:16 esv`) or several for a side-by-side (`!verse John 3:16 kjv web`). Bible verses come with Notes · Cross-refs · Interlinear · Card buttons. |
+| `!verse <ref>` | `!v`, `!scripture` | Look up a verse, range, or chapter. `!verse` alone = random verse; `!verse Enoch` = random verse from a book. Add a translation (`!verse John 3:16 esv`) or several for a side-by-side (`!verse John 3:16 kjv web`). Bible verses come with Notes · Cross-refs · Interlinear · Catena · Card buttons. |
 | `!search <text> [in:<tradition>]` | `!find` | Full-text search, optionally in one tradition (`TRADITIONS` in scripture_lookup.py) |
-| `!theme <word>` | `!traditions` | One passage on a theme from each tradition, side by side |
+| `!theme <word>` | `!topicacross` | One passage on a theme from each tradition, side by side |
 | `!books [filter]` | | Browse every collection, book, and chapter |
 | `!discover` | | Random passage from any tradition |
 | `!compare <ref>` | `!cmp` | One verse across many translations |
-| `!parallel <ref>` | `!poem`, `!par`, `!classical` | Bible or classical text in parallel languages |
+| `!parallel <ref>` | `!par` | Bible or classical text in parallel languages |
 | `!variants <ref>` | `!dss`, `!scrollcompare` | KJV vs Septuagint vs Dead Sea Scroll witness |
 | `!translations` | `!trans`, `!tl` | List available translations |
 | `!export <book> [chapters]` | | Download a book or chapter range as a text file |
@@ -96,8 +96,7 @@ Prefix commands use `!`; most also have a `/` slash-command version.
 
 | Command | Aliases | What it does |
 |---|---|---|
-| `!study <ref>` | | Verse plus patristic commentary |
-| `!catena <ref>` | | Patristic commentary (catenabible.com) |
+| `!catena <ref>` | | Patristic commentary (catenabible.com); also the 📜 Catena button under a Bible verse |
 | `!story [name]` | `!stories`, `!myth` | One story across traditions (`stories.py`, curated in `data/stories.json`: a reference and a quotation per passage, both checked against the text by `tests/test_stories.py`); `christ` adds the Church Fathers who read each pagan text as foretelling Christ |
 | `!cloud <book>` | `!wordcloud` | A book's most distinctive words as an image (`cloud.py`, the `wordcloud` package): tf-idf against the other books of its corpus, stopwords (KJV's included) removed |
 | `!saint [name \| day]` | `!saints`, `!saintoftheday` | The saint of the day, or by name/day (`saints.py`, `data/saints/saints.json` from `build_saints.py`): Butler's 1894 abridged Lives, with a 📖 Golden Legend button; Legend-only saints open to the Legend; several of a name give a picker |
@@ -128,28 +127,25 @@ Prefix commands use `!`; most also have a `/` slash-command version.
 | `!place <name>` | `!where`, `!map` | A place on a drawn map card (nearby places, locator inset, scale; uncertain sites ringed), with its verses |
 | `!harmony [words \| verse \| n]` | `!gospels`, `!synoptic` | An event in the life of Christ as each Gospel tells it, side by side (Robertson's Harmony, 185 sections, `data/harmony.json` from `build_harmony.py`); buttons read each account and step through the events |
 | `!journey [name]` | `!journeys`, `!route` | A journey on a route map (`bible_map.render_route`) with its stops and verses: Abraham, Exodus, Paul 1–3, Rome, Egypt, Jonah; and Chaucer's pilgrims (`canterbury`), Odysseus (`odyssey`), Aeneas (`aeneid`), their places in `journeys.PLACES` (Wikipedia's coordinates; Homer's legendary places where antiquity put them, ringed, the note naming who). Every stop's verse or line is checked against the bot's own text by a test; a journey follows its text's tradition switch |
-| `!hymn [title \| words \| topic \| passage]` | `!hymns`, `!hymnal` | A public-domain hymn: words, author, tune, Bible passages; ▶️ plays the tune (an organ .ogg) |
+| `!hymn [title \| words \| topic \| passage \| list ...]` | `!hymns`, `!hymnal` | A public-domain hymn: words, author, tune, Bible passages; ▶️ plays the tune (an organ .ogg); `list ...` hands on to `!hymnlist` (the slash route to it) |
 | `!midi [title \| words \| topic \| passage]` | `!tune` | Just a hymn's tune, posted straight away without the words |
-| `!psalm <n> chant [organ]` | `!chant psalm <n>` | A psalm chanted in Latin to a psalm tone (or on the organ), with the Latin and Douay-Rheims |
-| `!divineliturgy [part \| page]` | `!orthodoxliturgy` | The Divine Liturgy of St John Chrysostom (1866 English, Wikisource), page by page with a menu of its parts (`build_liturgy.py`) |
+| `!chant psalm <n> [organ]` | | A psalm chanted in Latin to a psalm tone (or on the organ), with the Latin and Douay-Rheims |
+| `!divineliturgy [part \| page]` | `!liturgy`, `!orthodoxliturgy` | The Divine Liturgy of St John Chrysostom (1866 English, Wikisource), page by page with a menu of its parts (`build_liturgy.py`) |
 | `!icon [name \| list]` | `!icons` | An Orthodox icon with its explanation; the day's Great Feast icon when there is one (`data/icons/`, `build_icons.py`) |
 | `!troparion [date]` | `!troparia`, `!kontakion` | The day's Orthodox troparia and kontakia with their tones (oca.org, live); `!troparionsetup` posts them daily |
 | `!rosary [joyful\|luminous\|sorrowful\|glorious]` | `!rosario` | The Rosary a page at a time: the day's mysteries with their Bible passages, the Ave Maria sung |
 | `!prayer [name \| list]` | | A traditional prayer by name (St Michael, Memorare, Anima Christi…), English and Latin, sung where it's a chant; empty for a random BCP prayer |
 | `!angelus` | `!reginacaeli` | The Angelus (Regina caeli in Eastertide), English and Latin, its chant sung; `!angelussetup` posts it at chosen hours |
 | `!chant [title \| words]` | `!sing`, `!sungchant` | A Latin chant sung with its words, posted straight away; random if empty |
-| `!hymnlist [all \| hymns \| chant \| harp \| chant kind \| words]` | `!hymnindex`, `!listhymns` | The hymnal by title: section counts, or a paged list to open from |
-| `!metrical [n \| nb \| n:v-v \| words \| tune]` | `!metricalpsalm`, `!singpsalm`, `!psalter1650`; `!psalm 23 sing` | A psalm from the Scottish Metrical Psalter (1650) with its tune to play, a menu of other same-meter tunes, KJV button, second versions, pages |
+| `!hymnlist [all \| hymns \| chant \| harp \| chant kind \| words]` | `!hymnindex`, `!listhymns` | The hymnal by title: section counts, or a paged list to open from (no slash command: `/hymn list`) |
+| `!metrical [n \| nb \| n:v-v \| words \| tune]` | `!metricalpsalm`, `!singpsalm`, `!psalter1650` | A psalm from the Scottish Metrical Psalter (1650) with its tune to play, a menu of other same-meter tunes, KJV button, second versions, pages |
 
 ### Church, liturgy, and the daily office
 
 | Command | Aliases | What it does |
 |---|---|---|
-| `!today [date]` | `!calendar`, `!liturgy` | Observances across traditions for a date |
-| `!bcp` | | BCP daily office: psalms, lessons, collect |
-| `!mp` / `!ep` | `!matins` / `!evensong`, `!vespers` | Morning / Evening Prayer lessons |
-| `!psalm` | `!psalms` | Today's appointed psalm(s) |
-| `!collect` | | Collect of the day |
+| `!today [date]` | `!calendar` | Observances across traditions for a date |
+| `!bcp [morning \| evening \| date \| 1 \| 2 \| psalm \| collect \| prayer]` | | BCP daily office: psalms, lessons, collect, or one piece of it (`/bcp` has a part choice). Took over `!mp`, `!ep`, `!psalm` and `!collect` on 2026-11-08 |
 | `!prayer` | | Random BCP prayer or collect |
 | `!creed [name]` | `!creeds` | Apostles', Nicene, or Athanasian Creed (English/Latin/Greek) |
 | `!ccc <n>` | | Catechism of the Catholic Church |
@@ -161,9 +157,9 @@ Prefix commands use `!`; most also have a `/` slash-command version.
 | Command | Aliases | What it does |
 |---|---|---|
 | `!oracle` | | Random verse from an oracular corpus |
-| `!delphi` | | Random Delphic maxim |
-| `!homer` | `!homeromanteion`, `!sortes` | Homeric dice oracle |
-| `!virgil [question]` | `!aeneid` | Sortes Vergilianae |
+| `!delphi` | | Random Delphic maxim (no slash command: `/oracle` draws them too) |
+| `!homer` | `!homeromanteion` | Homeric dice oracle |
+| `!virgil [question]` | `!sortesvir` | Sortes Vergilianae |
 | `!sortesbiblicae` | `!bibliomancy` | Sortes Biblicae: the Bible opened at random (with the study buttons) |
 | `!hafez [question]` | `!hafiz`, `!fal` | Fāl-e Hāfez: a random poem from the Divan of Hafiz (Bell's 43 ghazals) |
 | `!rumi [question]` | `!masnavi`, `!mathnawi` | A random run of couplets from Rumi's Masnavi (Whinfield), with the story it comes from; also a daily-oracle kind |
@@ -182,8 +178,8 @@ answer, and every answer has a 🖼️ Card button that renders it as an image.
 | Command | Aliases | What it does |
 |---|---|---|
 | `!quiz [hard \| leaderboard]` | `!guess` | Which book is this verse from? One private guess each, revealed after 60s. Scores per server, weekly and all-time, with streaks |
-| `!versle [stats]` | `!dailyverse` | Versle: a daily well-known verse (`data/versle_pool.json`, from `build_versle_pool.py`); guess its reference in six tries with private 🟩🟨⬛ book/chapter/verse feedback; shareable grid; streaks in `data/versle.json` |
-| `!whoami` | `!mystery`, `!whoisit` | Who Am I? A Bible figure (named in 20+ verses) from clues generated from the !who data, easiest last; guess via a modal, first right answer wins (`games.py`) |
+| `!versle [stats]` | | Versle: a daily well-known verse (`data/versle_pool.json`, from `build_versle_pool.py`); guess its reference in six tries with private 🟩🟨⬛ book/chapter/verse feedback; shareable grid; streaks in `data/versle.json` |
+| `!whoami` | `!whoisit` | Who Am I? A Bible figure (named in 20+ verses) from clues generated from the !who data, easiest last; guess via a modal, first right answer wins (`games.py`) |
 | `!hymnday [YYYY-MM-DD]` | `!hymnoftheday`, `!hotd` | The hymn of the day for the Church year (`hymnday.py`): the feast's hymn on great feasts, a seasonal one in Advent/Christmas/Lent/Passiontide/Easter/Pentecost week, else English hymn, Latin chant and Sacred Harp in turn; the same for everyone on a UTC day |
 | `!hymndaysetup` | `!hymndayconfig` | (Admins) Post the hymn of the day in a channel: `channel #chan`, `time HH:MM` (UTC, default 08:00), `test`, `off`; `hymnday.json` stops double posts |
 | `!verslesetup` | `!versleconfig` | (Admins) Each day's Versle posted in a channel with yesterday's answer and solve count: `channel #chan`, `time HH:MM` (UTC, default 00:05), `test`, `off`; `versle.json` "posted" stops double posts |
@@ -193,21 +189,20 @@ answer, and every answer has a 🖼️ Card button that renders it as an image.
 
 | Command | What it does |
 |---|---|
-| `!votd [translation \| full \| extended]` | Today's verse |
-| `!votdsetup` | (Admins) Configure this server's daily post: channel, time, style |
-| `!subscribe` / `!unsubscribe` | Daily verse by DM |
+| `!votd [translation \| full \| extended]` (`!dailyverse`) | Today's verse |
+| `!votdsetup` | (Admins) Configure this server's daily post: channel, time, style (`mode`) |
+| `!subscribe` / `!subscribe off` | Daily verse by DM |
 
 ### Personal
 
 | Command | Aliases | What it does |
 |---|---|---|
 | `!save <ref> [note]` | `!bookmark` | Bookmark a verse |
-| `!saved [export]` | `!bookmarks` | List (or export) bookmarks |
-| `!unsave <n>` | | Remove a bookmark |
+| `!saved [remove <n> \| export]` | `!bookmarks` | List, remove from (once `!unsave`) or export bookmarks |
 | `!plan` | | Chapter-a-day reading plan, with optional daily DM (`!plan remind on [HH:MM]`) |
-| `!memorize <ref>` | `!memorise`, `!learn` | Learn a verse by heart: blanked-out practice card (4 levels) and spaced reviews by DM; `list`, `stop <ref>` |
+| `!memorize <ref>` | `!memorise` | Learn a verse by heart: blanked-out practice card (4 levels) and spaced reviews by DM; `list`, `stop <ref>` |
 | `!prefer <translation>` | | Default translation for plain `!verse` |
-| `!leaderboard` | `!lb` | Most active bookmarkers |
+| `!leaderboard` | `!lb` | This server's quiz leaderboard (the same as `!quiz leaderboard`; it ranked bookmarkers until 2026-11-08) |
 | `!features` | | (Admins) Opt-in server features |
 
 Plus `!stats`, and owner/admin tools `!guildactivity`, `!scanstats`, `!errors [days]`
@@ -314,12 +309,12 @@ core.py                 Shared state & helpers: the Bot, the ScriptureLookup
                         stats, and the common result/embed senders
 bot_commands/           One module per feature area; each registers its
   verse.py              commands on core.bot when imported:
-  books.py                !verse/!search/!discover/!study · !books/!export
+  books.py                !verse/!search/!discover · !books/!export
   translations.py         !compare/!variants/!strong/!parallel
   card.py                 !card/!interlinear/!reverseinterlinear/!concordance
   reference.py            !xref/!quoted/!root/!topic/!dictionary/!timeline
   church.py               !catena/!ccc/!canon/!creed/!summa
-  liturgy.py              !today/!bcp/!prayer/!mp/!ep/!psalm/!collect
+  liturgy.py              !today/!bcp/!prayer
   oracles.py              !gematria/!virgil/!homer/!delphi/!oracle
   votd.py                 !votd/!votdsetup/!subscribe + the daily task
   personal.py             !save/!plan/!prefer/!leaderboard/!features

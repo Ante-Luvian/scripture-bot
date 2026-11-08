@@ -45,7 +45,6 @@
   "cloud": [
    "wordcloud"
   ],
-  "collect": [],
   "compare": [
    "cmp"
   ],
@@ -81,6 +80,7 @@
   "discover": [],
   "divineliturgy": [
    "chrysostomliturgy",
+   "liturgy",
    "orthodoxliturgy"
   ],
   "dore": [
@@ -90,10 +90,6 @@
   ],
   "edda": [
    "eddic"
-  ],
-  "ep": [
-   "evensong",
-   "vespers"
   ],
   "errors": [],
   "export": [],
@@ -123,8 +119,7 @@
    "h"
   ],
   "homer": [
-   "homeromanteion",
-   "sortes"
+   "homeromanteion"
   ],
   "horoscope": [
    "astroday",
@@ -183,7 +178,6 @@
    "weights"
   ],
   "memorize": [
-   "learn",
    "memorise"
   ],
   "metrical": [
@@ -193,9 +187,6 @@
   ],
   "midi": [
    "tune"
-  ],
-  "mp": [
-   "matins"
   ],
   "notes": [
    "netnote",
@@ -215,10 +206,7 @@
    "pack"
   ],
   "parallel": [
-   "classical",
-   "par",
-   "po",
-   "poem"
+   "par"
   ],
   "parsha": [
    "parasha",
@@ -245,9 +233,6 @@
   "prefer": [
    "defaulttranslation",
    "preference"
-  ],
-  "psalm": [
-   "psalms"
   ],
   "quiz": [
    "guess"
@@ -328,12 +313,9 @@
   "strong": [
    "strongs"
   ],
-  "study": [],
   "subscribe": [],
   "summa": [
-   "aquinas",
-   "st",
-   "thomas"
+   "aquinas"
   ],
   "tale": [
    "fairytale",
@@ -345,15 +327,13 @@
    "taro"
   ],
   "theme": [
-   "topicacross",
-   "traditions"
+   "topicacross"
   ],
   "timeline": [
    "chronology"
   ],
   "today": [
-   "calendar",
-   "liturgy"
+   "calendar"
   ],
   "topic": [
    "naves",
@@ -375,10 +355,6 @@
   "troparionsetup": [
    "troparionconfig"
   ],
-  "unsave": [
-   "unbookmark"
-  ],
-  "unsubscribe": [],
   "variants": [
    "dss",
    "scrollcompare"
@@ -387,21 +363,18 @@
    "scripture",
    "v"
   ],
-  "versle": [
-   "dailyverse"
-  ],
+  "versle": [],
   "verslesetup": [
    "versleconfig"
   ],
   "virgil": [
-   "aeneid",
    "sortesvir"
   ],
   "votd": [
+   "dailyverse",
    "dayverse",
    "verseoftheday"
   ],
-  "votdmode": [],
   "votdsetup": [
    "votdconfig"
   ],
@@ -415,7 +388,6 @@
    "whois"
   ],
   "whoami": [
-   "mystery",
    "whoisit"
   ],
   "xref": [
@@ -438,19 +410,15 @@
   "changelog",
   "chant",
   "cloud",
-  "collect",
   "compare",
   "concordance",
   "creed",
-  "dafyomi",
-  "delphi",
   "desert",
   "dictionary",
   "discover",
   "divineliturgy",
   "dore",
   "edda",
-  "ep",
   "export",
   "fable",
   "gematria",
@@ -461,30 +429,25 @@
   "horoscope",
   "hymn",
   "hymnday",
-  "hymnlist",
   "iching",
   "icon",
   "interlinear",
   "journey",
   "kings",
-  "leaderboard",
   "learning",
   "measure",
   "memorize",
   "metrical",
   "midi",
-  "mp",
   "notes",
   "odin",
   "oracle",
   "parallel",
-  "parsha",
   "place",
   "plan",
   "planets",
   "prayer",
   "prefer",
-  "psalm",
   "quiz",
   "quoted",
   "reverseinterlinear",
@@ -503,7 +466,6 @@
   "stats",
   "story",
   "strong",
-  "study",
   "subscribe",
   "summa",
   "tale",
@@ -515,8 +477,6 @@
   "translations",
   "tree",
   "troparion",
-  "unsave",
-  "unsubscribe",
   "variants",
   "verse",
   "versle",

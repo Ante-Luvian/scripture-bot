@@ -8,7 +8,7 @@ from conftest import FakeCtx, ROOT
 
 # Owner/maintenance tools that don't belong in a public introduction
 # (asksetup: asking the library isn't public, the owner says, 2026-11-01)
-NOT_INTRODUCED = {"guildactivity", "scanstats", "votdmode", "asksetup"}
+NOT_INTRODUCED = {"guildactivity", "scanstats", "asksetup"}
 
 
 @pytest.fixture(scope="module")

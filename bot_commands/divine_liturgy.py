@@ -2,7 +2,7 @@
 !divineliturgy -- the Divine Liturgy of St John Chrysostom, the Orthodox Church's Sunday
 service, a page at a time (data/liturgy/chrysostom.json, built by scripts/build_liturgy.py
 from an 1866 English translation): ◀ ▶ to turn the pages and a menu of its parts.
-(!liturgy is already !today's alias.)
+(!liturgy was !today's alias until 2026-11-08, and is this command's now.)
 """
 import functools
 import json
@@ -122,7 +122,7 @@ async def send_liturgy(ctx, query: str = "") -> None:
     await ctx.send(content=content, embed=page_embed(page), view=liturgy_view(page))
 
 
-@bot.command(name="divineliturgy", aliases=["chrysostomliturgy", "orthodoxliturgy"])
+@bot.command(name="divineliturgy", aliases=["liturgy", "chrysostomliturgy", "orthodoxliturgy"])
 async def cmd_divineliturgy(ctx, *, query: str = ""):
     """The Divine Liturgy of St John Chrysostom, a page at a time.
     Usage: !divineliturgy           — from the beginning

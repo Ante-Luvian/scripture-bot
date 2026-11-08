@@ -206,7 +206,7 @@ async def _before_reviews():
 
 # ── the command ─────────────────────────────────────────────────────────────
 
-@bot.command(name="memorize", aliases=["memorise", "learn"])
+@bot.command(name="memorize", aliases=["memorise"])
 async def cmd_memorize(ctx, *, arg: str = ""):
     """Learn a verse by heart.
     Usage: !memorize John 3:16         — practise it, hiding more words each level

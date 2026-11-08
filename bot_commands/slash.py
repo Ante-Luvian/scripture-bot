@@ -21,7 +21,6 @@ from core import (
     lookup,
 )
 from bot_commands.oracles import (
-    cmd_delphi,
     cmd_gematria,
     cmd_hafez,
     cmd_homer,
@@ -40,7 +39,6 @@ from bot_commands.personal import (
 )
 from bot_commands.verse import (
     cmd_discover,
-    cmd_study,
     verse_prefix,
 )
 from bot_commands.votd import (
@@ -48,7 +46,6 @@ from bot_commands.votd import (
     _send_votd_extended,
     _send_votd_full,
     cmd_subscribe,
-    cmd_unsubscribe,
 )
 
 # ── Slash commands ─────────────────────────────────────────────────────────────
@@ -150,13 +147,6 @@ async def votd_slash(interaction: discord.Interaction, translation: str = ""):
     else:
         await _send_votd(interaction.channel, translation=arg)
 
-@bot.tree.command(name="delphi", description="Random Delphic maxim")
-@app_commands.describe(question="Optional question for the oracle")
-async def delphi_slash(interaction: discord.Interaction, question: str = ""):
-    await interaction.response.defer()
-    ctx = await bot.get_context(interaction)
-    await cmd_delphi(ctx, question=question)
-
 @bot.tree.command(name="oracle", description="Random verse from an oracular corpus")
 @app_commands.describe(question="Optional question for the oracle")
 async def oracle_slash(interaction: discord.Interaction, question: str = ""):
@@ -248,13 +238,6 @@ async def discover_slash(interaction: discord.Interaction):
     ctx = await bot.get_context(interaction)
     await cmd_discover(ctx)
 
-@bot.tree.command(name="study", description="Look up a verse and its patristic commentary together")
-@app_commands.describe(reference="e.g. John 3:16")
-async def study_slash(interaction: discord.Interaction, reference: str):
-    await interaction.response.defer()
-    ctx = await bot.get_context(interaction)
-    await cmd_study(ctx, reference=reference)
-
 @bot.tree.command(name="save", description="Save a verse to your personal bookmark list")
 @app_commands.describe(reference="e.g. John 3:16")
 async def save_slash(interaction: discord.Interaction, reference: str):
@@ -262,23 +245,24 @@ async def save_slash(interaction: discord.Interaction, reference: str):
     ctx = await bot.get_context(interaction)
     await cmd_save(ctx, reference=reference)
 
-@bot.tree.command(name="saved", description="List your saved verses")
-async def saved_slash(interaction: discord.Interaction):
+@bot.tree.command(name="saved", description="List your saved verses, or remove one")   # (and /unsave, till 2026-11-08)
+@app_commands.describe(remove="A verse's number in your list, to remove it")
+async def saved_slash(interaction: discord.Interaction, remove: int = 0):
     await interaction.response.defer()
     ctx = await bot.get_context(interaction)
-    await cmd_saved(ctx)
+    if remove:
+        await cmd_saved(ctx, action="remove", number=str(remove))
+    else:
+        await cmd_saved(ctx)
 
-@bot.tree.command(name="subscribe", description="Get the daily Verse of the Day sent to you by DM")
-async def subscribe_slash(interaction: discord.Interaction):
+@bot.tree.command(name="subscribe", description="Get the Verse of the Day by DM each day, or stop it")   # (/unsubscribe, till 2026-11-08)
+@app_commands.describe(action="Start (default) or stop")
+@app_commands.choices(action=[app_commands.Choice(name="Start", value="on"),
+                              app_commands.Choice(name="Stop", value="off")])
+async def subscribe_slash(interaction: discord.Interaction, action: str = "on"):
     await interaction.response.defer()
     ctx = await bot.get_context(interaction)
-    await cmd_subscribe(ctx)
-
-@bot.tree.command(name="unsubscribe", description="Stop the daily DM Verse of the Day")
-async def unsubscribe_slash(interaction: discord.Interaction):
-    await interaction.response.defer()
-    ctx = await bot.get_context(interaction)
-    await cmd_unsubscribe(ctx)
+    await cmd_subscribe(ctx, action=action)
 
 
 # ── Slash versions of the remaining commands ──────────────────────────────────
@@ -356,30 +340,7 @@ async def prayer_slash(interaction: discord.Interaction, name: str = ""):
     await _command("prayer")(await _slash_ctx(interaction), name=name)
 
 
-@bot.tree.command(name="collect", description="The Collect (short prayer) of the day")
-@app_commands.describe(date="Optional date, YYYY-MM-DD")
-async def collect_slash(interaction: discord.Interaction, date: str = ""):
-    await _command("collect")(await _slash_ctx(interaction), date_raw=date)
-
-
-@bot.tree.command(name="mp", description="Today's Morning Prayer readings (Book of Common Prayer)")
-@app_commands.describe(date="Optional date, YYYY-MM-DD")
-async def mp_slash(interaction: discord.Interaction, date: str = ""):
-    await _command("mp")(await _slash_ctx(interaction), date_raw=date)
-
-
-@bot.tree.command(name="ep", description="Today's Evening Prayer readings (Book of Common Prayer)")
-@app_commands.describe(date="Optional date, YYYY-MM-DD")
-async def ep_slash(interaction: discord.Interaction, date: str = ""):
-    await _command("ep")(await _slash_ctx(interaction), date_raw=date)
-
-
-@bot.tree.command(name="psalm", description="Today's appointed psalms (Coverdale Psalter)")
-@app_commands.describe(period="Morning or evening psalms (default: by time of day)")
-@app_commands.choices(period=[app_commands.Choice(name="Morning", value="mp"),
-                              app_commands.Choice(name="Evening", value="ep")])
-async def psalm_slash(interaction: discord.Interaction, period: str = ""):
-    await _command("psalm")(await _slash_ctx(interaction), args=period)
+# (/collect, /mp, /ep and /psalm became choices of /bcp on 2026-11-08: liturgy.py.)
 
 
 @bot.tree.command(name="stats", description="How the bot has been used: top verses, books and commands")
@@ -393,10 +354,6 @@ async def export_slash(interaction: discord.Interaction, reference: str):
     await _command("export")(await _slash_ctx(interaction), arg=reference)
 
 
-@bot.tree.command(name="unsave", description="Remove a saved verse by its number in /saved")
-@app_commands.describe(number="The verse's number in your /saved list")
-async def unsave_slash(interaction: discord.Interaction, number: int):
-    await _command("unsave")(await _slash_ctx(interaction), number)
 
 
 

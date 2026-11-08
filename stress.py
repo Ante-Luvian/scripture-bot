@@ -62,7 +62,7 @@ LIVE_SAMPLE = ["", "asdfghjkl", "xyzzy 3:16", "Jhon 3:16", "🙏", "*", "`", "\\
 
 # Commands that reach the internet (left to the live run), wait for an answer, or are owner-only.
 NETWORK = {"salah", "notes", "compare", "parallel", "variants", "dafyomi", "parsha", "learning", "midi",
-           "gematria", "today", "interlinear", "reverseinterlinear", "strong", "catena", "study"}
+           "gematria", "today", "interlinear", "reverseinterlinear", "strong", "catena"}
 SKIP = {"weeklyreport", "scanstats", "guildactivity", "errors", "changelogintro", "checksources",
         "askcap"}   # owner tools that DM/scan (askcap: owner-only, sets the paid allowance)
 
@@ -287,6 +287,16 @@ SHAPED = {"ballad": ["0", "305", "306", "12B", "12b", "12ZZ", "22A", "117", "chi
           "sonnet": ["0", "1", "154", "155", "#18", "18:5", "-3", "99999999999", "venus", "LUCRECE", "phoenix",
                      "venus lucrece", "the", "will I find love?"],
           "shakespeare": ["will it rain?", "", "hamlet"],
+          # (2026-11-08: !bcp took over !mp/!ep/!psalm/!collect, !saved over !unsave, !subscribe over
+          # !unsubscribe, !chant psalm over !psalm 110 chant, !hymn list over /hymnlist)
+          "bcp": ["psalm 23", "psalm 999", "psalm evening 12-25", "psalm morning 13-45", "psalm `x`", "collect 12-25",
+                  "collect zz", "morning 12-25", "evening 99-99", "mp", "ep 2026-12-25", "evensong", "matins",
+                  "1", "2", "prayer", "random", "02-29", "psalter", "psalms"],
+          "saved": ["remove 1", "remove 0", "remove -3", "remove 99999999999", "remove abc", "delete #1", "remove",
+                    "export"],
+          "subscribe": ["off", "on", "stop", "maybe"],
+          "chant": ["psalm", "psalms", "psalm 0", "psalm 151", "psalm 119 beth", "ps 23 organ", "psalm 23 sing"],
+          "hymn": ["list", "list chant", "list zzz", "index harp", "list `"],
           "journey": ["canterbury", "Canterbury Tales", "odyssey", "ulysses", "aeneid", "aeneas", "homer", "voyage",
                       "paul 4", "paul 0", "the"],
           # poems cited by line (a one-part poem by line alone, one in books by book:line)

@@ -92,7 +92,7 @@ CLAUDE.md has the rules; this is the practical sequence with the commands that w
 8. **Push** right after: `git push`. Confirm with `git status -sb` (should read `## main...origin/main`).
 9. **Deploy:** `Restart-Service ScriptureBot`, wait ~45 s, then
    `Get-Content C:\ProgramData\nssm\logs\scripturebot.err.log -Tail 8` and look for "Logged in as" and
-   "Synced 51 slash command(s)" (and "Changelog: posted N update message(s)" if you added entries).
+   "Synced N slash command(s)" (88 after the 2026-11-08 tidy; Discord's ceiling is 100, see §6) (and "Changelog: posted N update message(s)" if you added entries).
 10. **Live stress:** `python stress.py verse books` (posts to #bot-testing in the owner's server only).
 
 The service runs as `NT SERVICE\ScriptureBot`: it can write only files directly in `data\`, `backups\`,

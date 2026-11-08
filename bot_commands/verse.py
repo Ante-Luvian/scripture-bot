@@ -1,5 +1,5 @@
 """
-!verse / !search, plus !discover and !study.
+!verse / !search, plus !discover. (!study, the verse and then !catena, was retired on 2026-11-08.)
 """
 import asyncio
 import discord
@@ -440,7 +440,7 @@ def theme_embeds(query: str, passages: list) -> list:
     return embeds
 
 
-@bot.command(name="theme", aliases=["topicacross", "traditions"])
+@bot.command(name="theme", aliases=["topicacross"])
 async def cmd_theme(ctx, *, query: str = ""):
     """One passage on a theme from each tradition, side by side.
     Usage: !theme forgiveness  |  !theme love  |  !theme the soul"""
@@ -586,16 +586,4 @@ async def cmd_discover(ctx):
     result = lookup.random_verse(traditions=guild_traditions(_guild_id(ctx)))
     log.info(f"RNG  discover               → {result.get('reference', '?')} (user: {ctx.author})")
     await _send_result(ctx, result)
-
-
-# ── !study — verse lookup + patristic commentary in one command ─────────────────
-
-@bot.command(name="study")
-async def cmd_study(ctx, *, reference: str = ""):
-    """Look up a verse and its patristic commentary together. Usage: !study John 3:16"""
-    ref = reference.strip()
-    if not ref:
-        await ctx.send("Usage: `!study <reference>` — e.g. `!study John 3:16`")
-        return
-    await verse_prefix(ctx, reference=ref)
-    await cmd_catena(ctx, reference=ref)
+

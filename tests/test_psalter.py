@@ -111,10 +111,12 @@ def test_metrical_command(ps, fake_ctx):
     assert "Psalms 1 to 150" in fake_ctx.sent[-1]["content"]
 
 
-def test_psalm_sing_routes_here(bot_module, fake_ctx):
+def test_bcp_psalm_with_a_number_points_to_the_psalm(bot_module, fake_ctx):
+    """!psalm (and its "!psalm 23 sing") went on 2026-11-08; "!bcp psalm 23" is the likely guess at it."""
     from bot_commands import liturgy
-    asyncio.run(liturgy.cmd_psalm.callback(fake_ctx, args="23 sing"))
-    assert fake_ctx.sent[-1]["embed"].title == "🎶 Psalm 23"
+    asyncio.run(liturgy.cmd_bcp.callback(fake_ctx, args="psalm 23"))
+    reply = fake_ctx.sent[-1]["content"]
+    assert "`!verse Psalm 23`" in reply and "`!metrical 23`" in reply and "`!chant psalm 23`" in reply
 
 
 def test_kjv_button(ps):

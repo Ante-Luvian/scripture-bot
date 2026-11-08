@@ -78,10 +78,8 @@ HELP_MENU = [
         '`!creed apostle` / `nicene` / `athanasius` — traditional English · `!help creed`',
     ]),
     ('📖 Anglican Daily Office', [
-        '`!bcp` — psalms, lessons, and collect for Morning/Evening Prayer · `!help bcp`',
-        '`!mp` / `!ep` — both lessons for that period',
-        '`!psalm` / `!psalm mp` / `!psalm ep` — appointed Coverdale psalms',
-        '`!collect` — the Collect of the Day',
+        '`!bcp` — psalms, lessons, and collect for Morning/Evening Prayer (`!bcp morning`, `!bcp evening`) · `!help bcp`',
+        '`!bcp psalm` — the appointed Coverdale psalms · `!bcp collect` — the Collect of the Day',
         '`!prayer` — random devotional prayer from the BCP · `!help prayer`',
         '`!vov` — Puritan prayers (`!vov topics`)',
     ]),
@@ -91,13 +89,12 @@ HELP_MENU = [
         "`!odin` (or `!wotan`, `!woden`) — Odin's own words from the Edda and the sagas, his riddles too (`!odin grimnismal`, `!odin riddles`, `!odin should I go?`)",
         "`!planets` — where the Sun, Moon and planets are in the zodiac, and the day's aspects · `!help planets`",
         "`!horoscope` — the day's significant events in the sky, and what each means and for whom (`!horoscope leo`)",
-        '`!quiz` — guess which book a verse is from (`!quiz hard`, `!quiz buddhist`, `!quiz leaderboard`)',
+        '`!quiz` — guess which book a verse is from (`!quiz hard`, `!quiz buddhist`) · `!leaderboard` its top scorers',
         '`!whoami` — Who Am I? Guess a Bible figure from clues that get easier · `!help whoami`',
         '`!versle` — the daily verse puzzle: where in the Bible is it? · `!help versle`',
     ]),
     ('🔭 Discovery & Personal', [
         '`!discover` — random passage from any loaded tradition · `!help discover`',
-        '`!study` — verse + patristic commentary together · `!help study`',
         '`!xref` — cross-references (Treasury of Scripture Knowledge) · `!help xref`',
         '`!harmony feeding five thousand` — the four Gospels side by side · `!help harmony`',
         "`!notes` — NET Bible translators' notes on a verse · `!help notes`",
@@ -106,11 +103,10 @@ HELP_MENU = [
         "`!timeline Abraham` — where a person or event falls in Ussher's chronology",
         "`!stats` — the most-read verses and books, and how I've been used",
         "`!topic` — browse scripture by subject (Nave's Topical Bible) · `!help topic`",
-        '`!save` / `!saved` / `!unsave` — personal bookmarks · `!help save`',
+        '`!save` / `!saved` / `!saved remove 2` — personal bookmarks · `!help save`',
         '`!plan` — chapter-a-day reading plan · `!help plan`',
         '`!memorize` — learn a verse by heart, with reviews by DM · `!help memorize`',
-        '`!leaderboard` — most active bookmarkers · `!help leaderboard`',
-        '`!subscribe` / `!unsubscribe` — daily verse by DM · `!help subscribe`',
+        '`!subscribe` / `!subscribe off` — daily verse by DM · `!help subscribe`',
         '`!card` — shareable verse image · `!help card`',
     ]),
     ('🗺️ People, Places & Hymns', [
@@ -143,8 +139,7 @@ HELP_MENU = [
     ("🏛️ Ancient Languages & Strong's", [
         'Append to `!verse`: `OE` `WLC` `LXX` `TR` `VULG` `peshitta` `CSL`',
         '`!compare ancient <ref>` — all ancient witnesses at once · `!help compare`',
-        "`!compare strong <ref>` — KJV + original-language Strong's tagging · `!help compare`",
-        "`!strong G3588` / `!strong H7225` — Strong's lexicon lookup · `!help strong`",
+        "`!strong G3588` / `!strong H7225` — Strong's lexicon lookup · `!strong John 3:16` a verse tagged with them · `!help strong`",
         '`!interlinear John 3:16` — the Greek or Hebrew word by word, with what each word means',
         '`!reverseinterlinear John 3:16` — the KJV, each word labelled with the word it translates',
         '`!concordance G26` — every verse where a Hebrew or Greek word appears',
@@ -153,9 +148,9 @@ HELP_MENU = [
     ]),
 ]
 
-HELP_TOPICS = ['verse', 'compare', 'votd', 'votdsetup', 'features', 'today', 'bcp', 'prayer', 'strong', 'books', 'parallel', 'oracle', 'discover', 'study', 'xref', 'notes', 'topic', 'save', 'plan', 'leaderboard', 'subscribe', 'card', 'who', 'tree', 'whoami', 'versle', 'place', 'journey', 'measure', 'kings', 'harmony', 'hymn', 'metrical', 'creed', 'ccc', 'summa']
+HELP_TOPICS = ['verse', 'compare', 'votd', 'votdsetup', 'features', 'today', 'bcp', 'prayer', 'strong', 'books', 'parallel', 'oracle', 'discover', 'xref', 'notes', 'topic', 'save', 'plan', 'leaderboard', 'subscribe', 'card', 'who', 'tree', 'whoami', 'versle', 'place', 'journey', 'measure', 'kings', 'harmony', 'hymn', 'metrical', 'creed', 'ccc', 'summa']
 # (owner and maintenance tools; asksetup: asking the library is private, never in !help, the owner, 2026-11-01)
-NOT_IN_MENU = {"help", "guildactivity", "scanstats", "votdmode", "asksetup"}
+NOT_IN_MENU = {"help", "guildactivity", "scanstats", "asksetup"}
 _FIELD, _EMBED = 1024, 5800
 
 
@@ -272,7 +267,7 @@ async def cmd_help(ctx, *, topic: str = ""):
         embed.description = (
             "`!compare John 3:16` — verse across all English translations\n"
             "`!compare ancient John 3:16` — verse across ancient language witnesses\n"
-            "`!compare strong John 3:16` — KJV + original Greek (NT) or Hebrew (OT), each word tagged with its Strong's number\n\n"
+            "(For the KJV with each word tagged by its Strong's number: `!strong John 3:16`.)\n\n"
             "Ancient NT: KJV · Textus Receptus (Greek) · Vulgate · Peshitta · Church Slavonic · Old English\n"
             "Ancient OT: KJV · Hebrew (WLC) · LXX (Greek) · Vulgate · Peshitta · Church Slavonic · Old English\n"
             "Apocrypha: KJV · LXX · Vulgate · Peshitta · Church Slavonic"
@@ -376,16 +371,6 @@ async def cmd_help(ctx, *, topic: str = ""):
         await ctx.send(embed=embed)
         return
 
-    if topic in ("study",):
-        embed = discord.Embed(title="🔎 !study — Verse + Patristic Commentary", color=discord.Color.dark_gold())
-        embed.description = (
-            "`!study John 3:16` — looks up the verse, then shows patristic commentary on it "
-            "(from catenabible.com), in one command instead of two.\n\n"
-            "Equivalent to running `!verse` followed by `!catena` on the same reference."
-        )
-        await ctx.send(embed=embed)
-        return
-
     if topic in ("interlinear", "inter", "il"):
         embed = discord.Embed(title="🔤 !interlinear — Word-by-Word Image", color=discord.Color.dark_gold())
         embed.description = (
@@ -421,7 +406,7 @@ async def cmd_help(ctx, *, topic: str = ""):
             "chronology (Annals of the World, 1658, public domain), with the entries just "
             "before and after for context.\n\n"
             "Dates follow Ussher's own reckoning specifically, not a modern scholarly consensus — "
-            "useful alongside `!study` for seeing where things fall relative to each other."
+            "useful for seeing where things fall relative to each other."
         )
         await ctx.send(embed=embed)
         return
@@ -443,7 +428,7 @@ async def cmd_help(ctx, *, topic: str = ""):
             "`!save John 3:16` — save a verse to your personal list\n"
             "`!save John 3:16 | this got me through a hard week` — save with a personal note\n"
             "`!saved` — show your saved verses (with any notes)\n"
-            "`!unsave 2` — remove saved verse #2 (number from `!saved`)\n\n"
+            "`!saved remove 2` — remove saved verse #2 (number from `!saved`)\n\n"
             "Saving an already-saved verse with a new `| note` updates the note instead of "
             "duplicating the entry.\n\n"
             "Bookmarks are personal — only you can see and manage your own list."
@@ -631,8 +616,8 @@ async def cmd_help(ctx, *, topic: str = ""):
             "The Psalms in rhymed, regular verse for a congregation to sing, from the Scottish Psalter "
             "of 1650 — still sung in Scottish churches, and the source of *The Lord's my shepherd, "
             "I'll not want*.\n\n"
-            "`!metrical 23` — Psalm 23 in metre, with the tune it's sung to (also `!psalm 23 sing`)\n"
-            "`!psalm 110 chant` — a psalm chanted in Latin to a Gregorian psalm tone, with the English (`organ` for the organ)\n"
+            "`!metrical 23` — Psalm 23 in metre, with the tune it's sung to\n"
+            "`!chant psalm 110` — a psalm chanted in Latin to a Gregorian psalm tone, with the English (`organ` for the organ)\n"
             "`!metrical 100b` — a psalm's second version, where the Psalter has two\n"
             "`!metrical 119:105-112` — just the stanzas for those verses\n"
             "`!metrical 119 nun` — one of Psalm 119's 22 lettered parts (Aleph, Beth, Gimel…)\n"
@@ -647,9 +632,10 @@ async def cmd_help(ctx, *, topic: str = ""):
         return
 
     if topic in ("leaderboard", "lb"):
-        embed = discord.Embed(title="🏆 !leaderboard — Bookmark Leaderboard", color=discord.Color.dark_gold())
+        embed = discord.Embed(title="🏆 !leaderboard — Quiz Leaderboard", color=discord.Color.dark_gold())
         embed.description = (
-            "`!leaderboard` — shows who has saved the most verses with `!save`.\n\n"
+            "`!leaderboard` — this server's top `!quiz` scorers, this week (it starts fresh every Monday) "
+            "and of all time. The same as `!quiz leaderboard`.\n\n"
             "For overall bot usage (most cited verses/books/commands), see `!stats` instead."
         )
         await ctx.send(embed=embed)
@@ -717,13 +703,13 @@ async def cmd_help(ctx, *, topic: str = ""):
         embed = discord.Embed(title="📬 Daily Verse by DM", color=discord.Color.dark_gold())
         embed.description = (
             f"`!subscribe` — get the daily Verse of the Day sent to your DMs (around {DM_DIGEST_TIME} UTC)\n"
-            "`!unsubscribe` — stop it\n\n"
+            "`!subscribe off` — stop it\n\n"
             "Independent of any server's `!votdsetup` channel post — this goes straight to you."
         )
         await ctx.send(embed=embed)
         return
 
-    if topic in ("today", "calendar", "liturgy", "feast", "saint"):
+    if topic in ("today", "calendar", "feast", "saint"):
         embed = discord.Embed(title="📅 !today — Liturgical & Religious Calendar", color=discord.Color.dark_gold())
         embed.description = (
             "What's going on today across religious traditions — feast days, "
@@ -750,7 +736,7 @@ async def cmd_help(ctx, *, topic: str = ""):
         await ctx.send(embed=embed)
         return
 
-    if topic in ("bcp", "office", "matins", "evensong", "vespers", "mp", "ep"):
+    if topic in ("bcp", "office", "matins", "evensong", "mp", "ep", "psalm", "psalms", "collect"):
         embed = discord.Embed(title="📖 !bcp — Book of Common Prayer Daily Office",
                               color=discord.Color.dark_blue())
         embed.description = (
@@ -762,18 +748,15 @@ async def cmd_help(ctx, *, topic: str = ""):
         )
         embed.add_field(name="The full office", value=(
             "`!bcp` — today, time-appropriate\n"
-            "`!bcp morning` / `!bcp evening` — full office for that period\n"
-            "`!bcp 2026-12-25` — full office for a specific date"
+            "`!bcp morning` / `!bcp evening` — full office for that period (also `mp`/`ep`)\n"
+            "`!bcp evening 12-25` — full office for a specific date"
         ), inline=False)
         embed.add_field(name="Individual pieces", value=(
-            "`!bcp mp` / `!mp` — both lessons for Morning Prayer\n"
-            "`!bcp ep` / `!ep` — both lessons for Evening Prayer\n"
             "`!bcp 1` / `!bcp 2` — first or second lesson, time-appropriate\n"
-            "`!bcp psalm` / `!psalm` — psalms for the current period\n"
-            "`!psalm mp` / `!psalm ep` — psalms for that specific period\n"
-            "`!psalm 110 chant` — a psalm chanted in Latin, with the Douay-Rheims English\n"
-            "`!bcp collect` / `!collect` — the Collect of the Day\n"
-            "`!bcp prayer` / `!prayer` — a random devotional prayer · `!help prayer`"
+            "`!bcp psalm` — psalms for the current period · `!bcp psalm evening` for that one\n"
+            "`!bcp collect` — the Collect of the Day (`!bcp collect 12-25` another day's)\n"
+            "`!bcp prayer` / `!prayer` — a random devotional prayer · `!help prayer`\n"
+            "(A psalm by its number: `!verse Psalm 23`; sung in metre `!metrical 23`; chanted in Latin `!chant psalm 110`.)"
         ), inline=False)
         embed.add_field(name="Notes", value=(
             "• The lectionary year (I/II) is computed from the most-recent Advent Sunday.\n"
@@ -784,7 +767,7 @@ async def cmd_help(ctx, *, topic: str = ""):
         await ctx.send(embed=embed)
         return
 
-    if topic in ("prayer", "collect"):
+    if topic in ("prayer",):
         embed = discord.Embed(title="📿 !prayer — Prayers",
                               color=discord.Color.dark_purple())
         embed.description = (
@@ -794,9 +777,8 @@ async def cmd_help(ctx, *, topic: str = ""):
             "`!prayer` — a random devotional prayer from the Book of Common Prayer 1662"
         )
         embed.add_field(name="Usage", value=(
-            "`!prayer` — a random prayer/collect (alias for `!bcp prayer`)\n"
-            "`!collect` — the Collect of the Day (alias for `!bcp collect`)\n"
-            "`!collect 2026-12-25` — collect for a specific date"
+            "`!prayer` — a random prayer/collect (also `!bcp prayer`)\n"
+            "`!bcp collect` — the Collect of the Day · `!bcp collect 2026-12-25` for a specific date"
         ), inline=False)
         embed.add_field(name="Sources drawn from", value=(
             "Fixed collects of Morning and Evening Prayer (Collect for Peace, Grace, "
@@ -821,7 +803,7 @@ async def cmd_help(ctx, *, topic: str = ""):
             "`!strong G3588` — Greek NT (Thayer's Greek Lexicon)\n"
             "`!strong H7225` — Hebrew OT (Brown-Driver-Briggs)"
         ), inline=False)
-        embed.add_field(name="Tagged verse (alias for !compare strong)", value=(
+        embed.add_field(name="Tagged verse", value=(
             "`!strong John 3:16` — KJV + every Greek word tagged with its Strong's number\n"
             "`!strong Psalm 23:1` — same, for Hebrew OT"
         ), inline=False)
