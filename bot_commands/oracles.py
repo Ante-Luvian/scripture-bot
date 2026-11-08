@@ -10,6 +10,7 @@ import runes
 from scripture_lookup import BIBLE_NT, BIBLE_OT
 from bot_commands import illustrations
 from bot_commands.card import (
+    _render_parallel_card,
     _render_verse_card,
 )
 from bot_commands.verse import (
@@ -109,7 +110,8 @@ def _oracle_card_content(kind: str, key: str) -> "tuple[str, str, str] | None":
         poem, stanza, verse, odin = (key.split("|") + ["", "", ""])[:4]       # speech in a stanza of Hollander's;
         text = _edda_text(poem, stanza, verse)                                #  "|o" on the end: !odin's, unquoted)
         text = _unquoted(text) if odin == "o" else text
-        return (_edda_title(poem, stanza), _plain(text), _edda_source(poem)) if text else None
+        # (a half-line to a line, the second halves indented: the owner's choice, 2026-11-08)
+        return (_edda_title(poem, stanza), _half_lines(_plain(text), mark=True), _edda_source(poem)) if text else None
     if kind == "delphi":                       # key: maxim number
         book, num = "Delphic Maxims", key
     elif kind == "oracle" and "|" in key:      # key "Chaldaean Oracles|12"
@@ -153,9 +155,9 @@ class OracleCardButton(discord.ui.DynamicItem[discord.ui.Button],
                  "bard": "parchment"}.get(self.kind, "classical")
         # (a poem's lines kept whole: the Edda's stanzas, the Sonnets and the long poems; not a play's speech)
         shakespeare_poem = self.kind == "bard" and self.key.split("|")[0] not in _play_lines().get("lines", {})
-        # (Shakespeare's poems set as a printed poem: upright, flush left, every other line indented)
+        # (Shakespeare's poems and the Edda set as a printed poem: upright, flush left, lines indented)
         buf = await asyncio.to_thread(_render_verse_card, *content, question, style,
-                                      verse=self.kind == "edda", poem=shakespeare_poem)
+                                      verse=self.kind == "edda", poem=shakespeare_poem or self.kind == "edda")
         await interaction.followup.send(file=discord.File(buf, filename="oracle.png"))
 
 
@@ -183,6 +185,8 @@ def _view_after(message, pressed: str) -> discord.ui.View:
                 button = RunesButton(m["key"], disabled=done)
             elif m := NorseButton.__discord_ui_compiled_template__.fullmatch(cid):
                 button = NorseButton(m["key"], disabled=done)
+            elif m := NorseCardButton.__discord_ui_compiled_template__.fullmatch(cid):
+                button = NorseCardButton(m["key"], disabled=done)
             elif m := PassageButton.__discord_ui_compiled_template__.fullmatch(cid):
                 button = PassageButton(m["kind"], m["ref"])
             elif m := illustrations.PictureButton.__discord_ui_compiled_template__.fullmatch(cid):
@@ -1076,18 +1080,73 @@ class RunesButton(discord.ui.DynamicItem[discord.ui.Button], template=r"runes:(?
         if not view.children:
             view.add_item(RunesButton(self.key, disabled=True))
         await interaction.response.edit_message(view=view)
-        buf = await asyncio.to_thread(_render_verse_card, _edda_title(poem, stanza), runes.to_runes(norse),
-                                      RUNES_NOTE, _question_from(interaction.message), "norse", verse=True)
+        marked = _norse_marked(norse, _half_lines(_edda_text(poem, stanza), mark=True))
+        carved = "\n".join(("\t" if l.startswith("\t") else "") + runes.to_runes(l) for l in marked.split("\n"))
+        buf = await asyncio.to_thread(_render_verse_card, _edda_title(poem, stanza), carved, RUNES_NOTE,
+                                      _question_from(interaction.message), "norse", verse=True, poem=True)
         await interaction.followup.send(file=discord.File(buf, filename="runes.png"))
 
 
 bot.add_dynamic_items(RunesButton)
 
 
-def _half_lines(text: str) -> str:
-    """Bellows's lines cut at the caesura (" · ", an old "|"), a half-line to a line, as Guðni prints the Norse: the
-    owner's choice for showing the two together (2026-11-08)."""
-    return "\n".join(h.strip() for line in text.split("\n") for h in re.split(r"\s*[·|]\s*", line) if h.strip())
+class NorseCardButton(discord.ui.DynamicItem[discord.ui.Button], template=r"ncard:(?P<key>.+)"):
+    """🖼️ Card under the Old Norse view: the English and the Norse side by side as a picture, both a half-line to a
+    line, upright, flush left, the second halves indented (the owner, 2026-11-08). Key "poem|stanza", "|o" for
+    !odin's (unquoted)."""
+
+    def __init__(self, key: str, disabled: bool = False):
+        super().__init__(discord.ui.Button(label="Card", emoji="🖼️", style=discord.ButtonStyle.secondary,
+                                           custom_id=f"ncard:{key}", disabled=disabled))
+        self.key = key
+
+    @classmethod
+    async def from_custom_id(cls, interaction, item, match):
+        return cls(match["key"])
+
+    async def callback(self, interaction: discord.Interaction):
+        poem, stanza, odin = (self.key.split("|") + [""])[:3]
+        norse, english = _norse_text(poem, stanza), _edda_text(poem, stanza)
+        if not norse or not english:
+            await interaction.response.send_message("⚠️ I can't find that stanza's Old Norse any more.",
+                                                    ephemeral=True)
+            return
+        view = _view_after(interaction.message, self.custom_id)
+        if not view.children:
+            view.add_item(NorseCardButton(self.key, disabled=True))
+        await interaction.response.edit_message(view=view)
+        if odin == "o":
+            norse, english = _unquoted(norse), _unquoted(english)
+        left = _half_lines(_plain(english), mark=True)
+        buf = await asyncio.to_thread(_render_parallel_card, _edda_title(poem, stanza), left,
+                                      _norse_marked(norse, left), f"{EDDA_SOURCE} · {NORSE_SOURCE}")
+        await interaction.followup.send(file=discord.File(buf, filename="edda.png"))
+
+
+bot.add_dynamic_items(NorseCardButton)
+
+
+_CAESURA = re.compile(r"\s*[·|]\s*| +")          # (Bellows's dot, an old bar; Hollander's em space)
+
+
+def _half_lines(text: str, mark: bool = False) -> str:
+    """The lines cut at the caesura, a half-line to a line, as Guðni prints the Norse: the owner's choice (2026-11-08)
+    for the Edda everywhere. Hollander's em-space indents (his whole lines) go. mark: the second half of each line
+    starts with a tab, for the cards to indent (a whole line, unsplit, isn't)."""
+    out = []
+    for line in text.split("\n"):
+        halves = [h.strip() for h in _CAESURA.split(line.strip("  ")) if h.strip()]
+        out += [("\t" if mark and n else "") + h for n, h in enumerate(halves)]
+    return "\n".join(out)
+
+
+def _norse_marked(norse: str, english_marked: str) -> str:
+    """The Norse with its lines marked for indenting: as the English beside it, when the two have as many lines
+    (then they are the same half-lines); else every other line."""
+    lines, eng = norse.split("\n"), english_marked.split("\n")
+    if len(lines) == len(eng):
+        return "\n".join(("\t" if e.startswith("\t") else "") + l for l, e in zip(lines, eng))
+    return "\n".join(("\t" if n % 2 else "") + l for n, l in enumerate(lines))
 
 
 def _fit_field(text: str) -> str:
@@ -1135,6 +1194,7 @@ async def send_norse(ctx, poem: str, stanza: str, odin: bool = False) -> None:
                        f"English." if known else f"**{poem}** has stanzas 1 to {len(_edda().get(poem, {}))}.")
         return
     view = discord.ui.View(timeout=None)
+    view.add_item(NorseCardButton(f"{poem}|{stanza}{'|o' if odin else ''}"))
     view.add_item(RunesButton(f"{poem}|{stanza}"))
     await ctx.send(embed=embed, view=view)
 
@@ -1163,7 +1223,9 @@ class NorseButton(discord.ui.DynamicItem[discord.ui.Button], template=r"norse:(?
         if not view.children:
             view.add_item(NorseButton(self.key, disabled=True))
         await interaction.response.edit_message(view=view)
-        await interaction.followup.send(embed=embed)
+        card = discord.ui.View(timeout=None)
+        card.add_item(NorseCardButton(self.key))
+        await interaction.followup.send(embed=embed, view=card)
 
 
 bot.add_dynamic_items(NorseButton)

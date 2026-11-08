@@ -79,7 +79,14 @@ def stanzas(page):
         if (text and cur is not None and re.search(r"\w", text)            # (not "---------", Guðni's gap marker,
               and not re.fullmatch(r"[IVX]+\.", text)):                # nor his section numbers in Hávamál)
             out[cur].append(text)
-    return {k: v for k, v in out.items() if v}
+    return {k: [typeset(line) for line in v] for k, v in out.items() if v}
+
+
+def typeset(line):
+    """Guðni's typewriter marks as Bellows's printed ones: "…" as “…”, a spaced hyphen as an en dash."""
+    line = re.sub(r'(^|[\s(\[])"', "\\1“", line)
+    line = line.replace('"', "”")
+    return re.sub(r"(^|\s)-(?=\s|$)", "\\1–", line)
 
 
 def fold(word, whole=False):

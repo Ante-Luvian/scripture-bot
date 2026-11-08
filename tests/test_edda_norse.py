@@ -44,11 +44,11 @@ def test_no_edition_leftovers():
     ("Voluspo", "23", "Fleygði Óðinn"),                  # (Bellows swaps 23 and 24)
     ("Voluspo", "24", "Þá gengu regin öll"),
     ("Hyndluljoth", "30", "Váru ellifu"),                # (the Short Völuspá, inside Hyndluljóð in Bellows)
-    ("Hyndluljoth", "46", '"Ber þú minnisöl'),
-    ("Sigrdrifumol", "4", '"Lengi ek svaf'),
-    ("Helgakvitha Hundingsbana II", "17", '"Mun-a þér, Sigrún'),
-    ("Fafnismol", "26", '"Fjarri þú gekkt'),
-    ("Atlamol en Gronlenzku", "96", '"Lýgr þú nú, Guðrún'),
+    ("Hyndluljoth", "46", '“Ber þú minnisöl'),
+    ("Sigrdrifumol", "4", '“Lengi ek svaf'),
+    ("Helgakvitha Hundingsbana II", "17", '“Mun-a þér, Sigrún'),
+    ("Fafnismol", "26", '“Fjarri þú gekkt'),
+    ("Atlamol en Gronlenzku", "96", '“Lýgr þú nú, Guðrún'),
     ("Hamthesmol", "11", "Hitt kvað þá Hróðrglöð"),
 ])
 def test_pairings_read_by_hand(poem, stanza, opening):
@@ -104,7 +104,7 @@ def test_the_norse_view(oracles):
     english, norse = embed.fields
     assert english.inline and norse.inline                                  # (side by side)
     assert english.value.split("\n")[:2] == ["“Gagnrath they call me,", "and thirsty I come"]
-    assert norse.value.startswith('"Gagnráðr ek heiti,') and "·" not in english.value
+    assert norse.value.startswith('“Gagnráðr ek heiti,') and "·" not in english.value
     assert len(english.value.split("\n")) == len(norse.value.split("\n"))   # (a half-line to a line, both)
     assert "Guðni Jónsson" in embed.footer.text
     odin = oracles._norse_embed("Vafthruthnismol", "1", odin=True)
@@ -162,6 +162,60 @@ def test_pressing_card_keeps_the_other_buttons(oracles):
     state = {i.item.custom_id: (i.item.disabled, i.item.row) for i in after.children}
     assert state == {"pnav:n:Hovamol 139": (False, 0), "ocard:edda:Hovamol|139": (True, 1),
                      "norse:Hovamol|139": (False, 1), "runes:Hovamol|139": (False, 1)}
+
+
+def test_typewriter_marks_typeset():
+    text = "\n".join(t for p in NORSE.values() for t in p.values())
+    assert '"' not in text and " - " not in text
+
+
+def test_the_card_text_is_in_marked_half_lines(oracles):
+    """The Edda's card (the owner, 2026-11-08): a half-line to a line, upright, flush left, the second half of each
+    of Bellows's lines indented (a tab marks it for the card); a line he leaves whole isn't."""
+    _, text, _ = oracles._oracle_card_content("edda", "Vafthruthnismol|8")
+    assert text.split("\n") == ["“Gagnrath they call me,", "\tand thirsty I come", "From a journey hard to thy hall;",
+                                "Welcome I look for,", "\tfor long have I fared,", "And gentle greeting, giant.”"]
+    left = oracles._half_lines(oracles._edda_text("Vafthruthnismol", "8"), mark=True)
+    right = oracles._norse_marked(oracles._norse_text("Vafthruthnismol", "8"), left)
+    assert [l.startswith("\t") for l in right.split("\n")] == [l.startswith("\t") for l in left.split("\n")]
+    assert oracles._norse_marked("a\nb\nc", "x") == "a\n\tb\nc"            # (counts differ: every other line)
+
+
+def test_hollanders_half_lines(oracles):
+    assert oracles._half_lines("I got Valholl ready to make room\n  ’twas neither wine", mark=True) \
+        == "I got Valholl ready\n\tto make room\n’twas neither wine"
+
+
+def test_the_cards_indent_the_marked_lines(bot_module):
+    from unittest import mock
+    from PIL import ImageDraw
+    from bot_commands import card
+    drawn = []
+    original = ImageDraw.ImageDraw.text
+    with mock.patch.object(ImageDraw.ImageDraw, "text",
+                           lambda self, xy, text, *a, **k: drawn.append((xy[0], text)) or original(self, xy, text, *a, **k)):
+        card._render_verse_card("t", "One half,\n\tthe other half\nA whole line here", "s", "", "norse",
+                                verse=True, poem=True)
+    x = dict((t, x) for x, t in drawn)
+    assert x["the other half"] > x["One half,"] == x["A whole line here"]
+    drawn.clear()
+    with mock.patch.object(ImageDraw.ImageDraw, "text",
+                           lambda self, xy, text, *a, **k: drawn.append((xy[0], text)) or original(self, xy, text, *a, **k)):
+        buf = card._render_parallel_card("t", "One half,\n\tthe other", "Ein helft,\n\tin önnur", "s")
+    x = dict((t, x) for x, t in drawn)
+    assert x["the other"] > x["One half,"] and x["in önnur"] > x["Ein helft,"] > x["the other"]
+    assert buf.read(8) == b"\x89PNG\r\n\x1a\n"
+
+
+def test_the_norse_view_has_a_card_button(oracles):
+    class Ctx:
+        guild, author, sent = None, "t", []
+
+        async def send(self, *a, **k):
+            self.sent.append(k)
+    ctx = Ctx()
+    asyncio.run(oracles.send_norse(ctx, "Hovamol", "139"))
+    assert {"ncard:Hovamol|139", "runes:Hovamol|139"} <= set(_ids(ctx.sent[0]["view"]))
 
 
 def test_the_runes_card_renders(bot_module):

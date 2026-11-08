@@ -14,6 +14,11 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-11-08 · Edda picture cards set like a printed poem
+- 🖼️ **The Edda's picture cards are now set like a poem in a book.** Under `!edda` and `!odin`, **🖼️ Card** used to show each stanza centred, in italics, with a dot in the middle of each line. Now it is a half-line to a line, in upright type, lined up on the left, and the second half of each line is indented, so you can see where each line of the poem breaks. The same goes for **ᚱ Runes**.
+- 🖼️ **New: a card of the English and the Old Norse together.** Under **📜 Old Norse** (or `!parallel havamal 139`, or `!odin norse`) there is now a **🖼️ Card** button. It makes a picture of the stanza with the English on the left and the Old Norse on the right, line beside line.
+- The Old Norse now has proper curly quotation marks and dashes, like the English beside it, instead of straight typewriter ones.
+
 ## 2026-11-08 · Edda stanzas in half-lines
 - 🌲 **`!edda` and `!odin` now show each stanza a half-line to a line.** Old Norse poetry is built in half-lines, two to a line; the translation used to print both halves on one line with a dot between them. Now each half has its own line, the same shape as the Old Norse beside it under **📜 Old Norse**. Try `!edda havamal 139`.
 

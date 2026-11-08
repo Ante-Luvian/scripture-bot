@@ -270,7 +270,7 @@ def _render_verse_card(reference: str, text: str, source: str, question: str = "
     s = CARD_STYLES.get(style or style_for_reference(reference), CARD_STYLES["parchment"])
     BG, BORDER, TEXT, ACCENT = s["bg"], s["border"], s["text"], s["accent"]
     FONTS = "C:/Windows/Fonts/"
-    TOP_MARGIN, BOTTOM_RESERVED = 60, 200
+    TOP_MARGIN, BOTTOM_RESERVED = (84 if s["frame"] == "plait" else 60), 200     # (clear of the plaited band)
 
     question_lines, q_font, q_line_height = [], None, 0
     q_top = 72 if s["frame"] == "plait" else 50          # (below the plaited band)
@@ -296,6 +296,8 @@ def _render_verse_card(reference: str, text: str, source: str, question: str = "
     # Each verse (separated by the newlines already in whole-chapter text)
     # wraps as its own paragraph, rather than running every verse together.
     paragraphs = quote_text.split("\n")
+    marked = {n for n, p in enumerate(paragraphs) if p.startswith("\t")} if poem else set()   # (lines to indent)
+    paragraphs = [p.lstrip("\t") for p in paragraphs]
 
     dummy = ImageDraw.Draw(Image.new("RGB", (10, 10)))
     max_width = W - 160
@@ -317,16 +319,25 @@ def _render_verse_card(reference: str, text: str, source: str, question: str = "
             font = ImageFont.truetype(body_font_path, size)
             # (a "line" of over 110 characters is prose, as the Edda's prose links: wrapped like prose)
             wrap_width = max(10, int(max_width / (size * 0.52)))
-            lines = [l for p in paragraphs for l in (textwrap.wrap(p, width=wrap_width) if len(p) > 110 else [p])]
+            lines, line_para = [], []
+            for n, p in enumerate(paragraphs):
+                for l in (textwrap.wrap(p, width=wrap_width) if len(p) > 110 else [p]):
+                    lines.append(l)
+                    line_para.append(n)
             line_height = int(size * 1.35)
             indent = int(size * 1.4) if poem else 0
             if max((dummy.textlength(l, font=font) for l in lines), default=0) + indent <= max_width or size <= 16:
                 break
             size -= 2
-    # (a poem's lines: every other line of each stanza indented, counting afresh after a stanza break; the block
-    # placed so its widest line is centred)
+    # (a poem's lines: every other line of each stanza indented, counting afresh after a stanza break; or, where the
+    # text marks them with a tab, the lines so marked (the Edda's second half-lines); the block placed so its widest
+    # line is centred)
     indented, k = set(), 0
     for i, line in enumerate(lines if poem else []):
+        if marked:
+            if line_para[i] in marked and (i == 0 or line_para[i - 1] != line_para[i]):
+                indented.add(i)
+            continue
         if not line.strip():
             k = 0
             continue
@@ -393,6 +404,58 @@ def _render_verse_card(reference: str, text: str, source: str, question: str = "
     src_w = draw.textlength(source, font=src_font)
     draw.text(((W - src_w) / 2, H - 80), source, font=src_font, fill=ACCENT)
 
+    buf = io.BytesIO()
+    img.save(buf, format="PNG")
+    buf.seek(0)
+    return buf
+
+
+def _render_parallel_card(reference: str, left: str, right: str, source: str, labels=("English", "Old Norse"),
+                          style: str = "norse"):
+    """Two texts side by side, line beside line (the Edda's English and Old Norse, 2026-11-08), each column set
+    as a printed poem: upright, flush left, the lines marked with a leading tab indented. The pair is centred on
+    the card, a thin rule between them; the type made smaller until the two fit."""
+    from PIL import Image, ImageDraw, ImageFont
+    import io
+    W, FONTS = 1200, "C:/Windows/Fonts/"
+    s = CARD_STYLES.get(style, CARD_STYLES["parchment"])
+    cols = [[(l.startswith("\t"), l.lstrip("\t")) for l in t.strip("\n").split("\n")] for t in (left, right)]
+    rows = max(len(c) for c in cols)
+    gap, max_total = 90, W - 160
+    dummy = ImageDraw.Draw(Image.new("RGB", (10, 10)))
+    size = _size_for_length(sum(len(t) for t in (left, right)) // 2)
+    while True:
+        font = ImageFont.truetype(FONTS + "georgia.ttf", size)
+        indent = int(size * 1.4)
+        widths = [max((dummy.textlength(t, font=font) + (indent if ind else 0) for ind, t in c), default=0)
+                  for c in cols]
+        if sum(widths) + gap <= max_total or size <= 16:
+            break
+        size -= 2
+    line_height, top = int(size * 1.35), 80
+    label_font = ImageFont.truetype(FONTS + "georgiab.ttf", 20)
+    H = max(630, top + 46 + line_height * rows + 200)
+    img = Image.new("RGB", (W, H), s["bg"])
+    draw = ImageDraw.Draw(img)
+    _draw_frame(draw, W, H, s)
+    x_left = (W - (sum(widths) + gap)) / 2
+    x_right = x_left + widths[0] + gap
+    rule = x_left + widths[0] + gap / 2
+    y0 = top + 46
+    for x, label in ((x_left, labels[0]), (x_right, labels[1])):
+        draw.text((x, top), label.upper(), font=label_font, fill=s["accent"])
+    draw.line([(rule, y0 + 4), (rule, y0 + line_height * rows - (line_height - size))], fill=s["accent"], width=1)
+    for x, col in ((x_left, cols[0]), (x_right, cols[1])):
+        for i, (ind, t) in enumerate(col):
+            draw.text((x + (indent if ind else 0), y0 + i * line_height), t, font=font, fill=s["text"])
+    _draw_ornament(draw, W // 2, H - 160, s)
+    ref_font = ImageFont.truetype(FONTS + "georgiab.ttf", 34)
+    while draw.textlength(reference, font=ref_font) > W - 100 and ref_font.size > 20:
+        ref_font = ImageFont.truetype(FONTS + "georgiab.ttf", ref_font.size - 2)
+    draw.text(((W - draw.textlength(reference, font=ref_font)) / 2, H - 130), reference, font=ref_font,
+              fill=s["accent"])
+    src_font = ImageFont.truetype(FONTS + "georgia.ttf", 20)
+    draw.text(((W - draw.textlength(source, font=src_font)) / 2, H - 80), source, font=src_font, fill=s["accent"])
     buf = io.BytesIO()
     img.save(buf, format="PNG")
     buf.seek(0)
