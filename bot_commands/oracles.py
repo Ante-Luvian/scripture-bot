@@ -1054,7 +1054,10 @@ def _odin_pick(query: str, rng=random) -> "tuple[str, str, str] | str":
             return f"Stanza {number} of **{poem}** isn't Odin speaking. `{show} {poem} {number}` shows it."
         return (*rng.choice(mine), "")
     if poem in lookup._data.get("norse", {}):
-        return f"Odin doesn't speak in **{poem}**. `!odin` alone picks from the poems where he does."
+        if "Hollander" in lookup._book_sources.get(poem, "") or poem in _edda():
+            return f"Odin doesn't speak in **{poem}**. `!odin` alone picks from the poems where he does."
+        # (the prose: Snorri's Edda, the sagas. !odin keeps to verse, the owner's choice, 2026-11-08)
+        return f"`!odin` gives his words in verse; **{poem}** is prose. `!verse {poem} 1` reads it."
     if number and not name:
         return "Name the poem with the stanza: `!odin grimnismal 49`."
     return (*rng.choice(stanzas), q)

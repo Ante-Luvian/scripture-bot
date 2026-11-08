@@ -54,6 +54,16 @@ def test_hollander_speeches(oracles):
     assert oracles._odin_pick("riddles 36", random.Random(1)) == ("Heithreksgatur", "36", "")
 
 
+def test_prose_books(oracles, lookup):
+    """Snorri and the sagas are in the library, not in !odin (verse only) nor !edda."""
+    assert "is prose" in oracles._odin_pick("gylfaginning", random.Random(1))
+    assert "Gylfaginning" not in oracles._edda()
+    assert "Odin" in lookup.get_verse("Ynglinga Saga 2")["text"]
+    assert lookup.get_verse("heimskringla 1")["reference"].startswith("Ynglinga Saga")
+    assert "Fafnir" in lookup.get_verse("story of the volsungs 18")["text"]
+    assert lookup.get_verse("prose edda 3")["found"]
+
+
 def test_edda_is_bellows_only(oracles):
     assert "Eiriksmol" not in oracles._edda() and len(oracles._edda()) == 35
     assert "isn't in the Poetic Edda" in oracles._edda_pick("eiriksmal")

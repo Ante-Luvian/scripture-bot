@@ -1011,6 +1011,17 @@ BOOKS_TREE = [
             "Hlothskvitha", "The Lay of Innstein", "Hildibrand's Death Song", "Haraldskvaethi", "Eiriksmol",
             "Hakonarmol", "Darratharlioth", "Buslubaen", "Heithreksgatur", "Solarlioth",
         ]),
+        # (Snorri's Prose Edda, trans. Brodeur 1916)
+        ("Prose Edda", ["Prologue to the Prose Edda", "Gylfaginning", "Skaldskaparmal"]),
+        # (Snorri's history of the kings of Norway, from Odin on, trans. Laing 1844)
+        ("Heimskringla", [
+            "Ynglinga Saga", "Halfdan the Black's Saga", "Harald Harfager's Saga", "Hakon the Good's Saga",
+            "Harald Grafeld's Saga", "Olaf Trygvason's Saga", "Olaf Haraldson's Saga", "Magnus the Good's Saga",
+            "Harald Hardrade's Saga", "Olaf Kyrre's Saga", "Magnus Barefoot's Saga", "Sigurd the Crusader's Saga",
+            "Magnus the Blind's Saga", "The Sons of Harald's Saga", "Hakon Herdebreid's Saga",
+            "Magnus Erlingson's Saga",
+        ]),
+        ("Sagas", ["Volsunga Saga"]),
     ]),
     ("🌙 Ancient Near East", [
         ("Mesopotamian", [
