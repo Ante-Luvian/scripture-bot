@@ -3,6 +3,7 @@
 """
 import asyncio
 import discord
+import functools
 import random
 import re
 from scripture_lookup import BIBLE_NT, BIBLE_OT
@@ -978,6 +979,65 @@ def _edda_title(poem: str, stanza: str) -> str:
 async def cmd_edda(ctx, *, query: str = ""):
     """A stanza of the Poetic Edda, the Old Norse poems of the gods and heroes: at random, from one poem, or one
     stanza. Usage: !edda · !edda havamal · !edda havamal 138 · !edda [a question]"""
+    await send_edda(ctx, query)
+
+
+# Odin's own words (the owner, 2026-11-07: "his sayings", and none of the other speakers'): the Hávamál (but for
+# five stanzas that are another's words or speak of him: 98 Billing's daughter, 109-110 the frost-giants and "On his
+# ring swore Othin", 138 "Now are Hor's words spoken", 144 "Othin for the gods"), Grimnismol whole (his monologue
+# as Grimnir), and in the dialogue poems only the stanzas Bellows heads "Othin spake" (or "Harbarth" / "The
+# ferryman", Odin disguised): data/norse/edda_speakers.json, from scripts/build_edda_speakers.py.
+ODIN_SPEAKERS = {"Othin", "Harbarth", "The ferryman"}
+HOVAMOL_NOT_HIS = {"98", "109", "110", "138", "144"}
+
+
+@functools.lru_cache(maxsize=1)
+def _odin_stanzas() -> tuple:
+    import json
+    path = ROOT / "data" / "norse" / "edda_speakers.json"
+    table = json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+    edda = _edda()
+    out = [("Hovamol", s) for s in edda.get("Hovamol", {}) if s not in HOVAMOL_NOT_HIS]
+    out += [("Grimnismol", s) for s in edda.get("Grimnismol", {})]
+    for poem, speakers in table.items():
+        out += [(poem, s) for s, who in speakers.items() if who in ODIN_SPEAKERS and s in edda.get(poem, {})]
+    return tuple(out)
+
+
+def _odin_pick(query: str, rng=random) -> "tuple[str, str, str] | str":
+    """(poem, stanza, question) for !odin's query, or the reply when it names a stanza that isn't his."""
+    stanzas = _odin_stanzas()
+    q = query.strip()
+    m = re.match(r"^(.*?)\s*(\d+)$", q)
+    name, number = (m.group(1), m.group(2)) if m else (q, None)
+    poem = lookup._resolve_exact(name)[1] if name else ("Hovamol" if number else None)
+    mine = [s for s in stanzas if s[0] == poem]
+    if poem and mine:
+        if number:
+            if (poem, number) in stanzas:
+                return poem, number, ""
+            return f"Stanza {number} of **{poem}** isn't Odin speaking. `!edda {poem} {number}` shows it."
+        return (*rng.choice(mine), "")
+    if number and not name:
+        return "Name the poem with the stanza: `!odin grimnismal 49`."
+    return (*rng.choice(stanzas), q)
+
+
+@bot.command(name="odin", aliases=["wotan", "woden", "othin", "odinn"])
+async def cmd_odin(ctx, *, query: str = ""):
+    """Odin's own words: a stanza he speaks in the Poetic Edda (the Hávamál, Grímnismál, and his part in
+    Vafþrúðnismál, Hárbarðsljóð, Lokasenna and Baldr's Dreams). Usage: !odin · !odin grimnismal · !odin 138 (the
+    Hávamál's) · !odin [a question]   (also !wotan, !woden)"""
+    pick = _odin_pick(query)
+    if isinstance(pick, str):
+        await ctx.send(pick)
+        return
+    poem, stanza, question = pick
+    await send_edda(ctx, f"{poem} {stanza}", question=question)
+
+
+async def send_edda(ctx, query: str, question: "str | None" = None) -> None:
+    """!edda's reply (and !odin's, with the poem chosen and the question given apart)."""
     guild = getattr(ctx, "guild", None)
     if not tradition_enabled(guild.id if guild else None, "norse"):
         await ctx.send("The Norse texts are turned off on this server.")
@@ -990,8 +1050,9 @@ async def cmd_edda(ctx, *, query: str = ""):
         await ctx.send(pick)
         return
     poem, stanza = pick
-    named = lookup._resolve_exact(re.sub(r"\s*\d+$", "", query.strip()))[1] if query.strip() else None
-    question = query if named not in _edda() and not re.fullmatch(r"\d+", query.strip()) else ""
+    if question is None:
+        named = lookup._resolve_exact(re.sub(r"\s*\d+$", "", query.strip()))[1] if query.strip() else None
+        question = query if named not in _edda() and not re.fullmatch(r"\d+", query.strip()) else ""
     log.info(f"RNG  edda                   → {poem} {stanza} (user: {ctx.author})")
     text = _edda()[poem][stanza].get("1", "")
     embed = discord.Embed(title=f"🌲 {_edda_title(poem, stanza)}", description=text[:4096],

@@ -724,7 +724,7 @@
         "1": "“Gagnrath they call me, | and thirsty I come\nFrom a journey hard to thy hall;\nWelcome I look for, | for long have I fared,\nAnd gentle greeting, giant.”"
       },
       "9": {
-        "1": "“Why standest thou there | on the floor whilst thou\nspeakest?\nA seat shalt thou have in my hall;\nThen soon shall we know | whose knowledge is more,\nThe guest’s or the sage’s gray.”"
+        "1": "“Why standest thou there | on the floor whilst thou speakest?\nA seat shalt thou have in my hall;\nThen soon shall we know | whose knowledge is more,\nThe guest’s or the sage’s gray.”"
       },
       "10": {
         "1": "“If a poor man reaches | the home of the rich,\nLet him wisely speak or be still;\nFor to him who speaks | with the hard of heart\nWill chattering ever work ill.”"
@@ -754,7 +754,7 @@
         "1": "“Vigrith is the field | where in fight shall meet\nSurt and the gracious gods;\nA hundred miles | each way does it measure,\nAnd so are its boundaries set.”"
       },
       "19": {
-        "1": "“Wise art thou, guest! | To my bench shalt thou go,\nIn our seats let us speak together;\nHere in the hall | our heads, O guest,\nhall we wager our wisdom upon.”"
+        "1": "“Wise art thou, guest! | To my bench shalt thou go,\nIn our seats let us speak together;\nHere in the hall | our heads, O guest, hall we wager our wisdom upon.”"
       },
       "20": {
         "1": "“First answer me well, | if thy wisdom avails,\nAnd thou knowest it, Vafthruthnir, now:\nIn earliest time | whence came the earth,\nOr the sky, thou giant sage?”"
@@ -957,7 +957,7 @@
         "1": "Glath and Gyllir, | Gler and Skeithbrimir,\nSilfrintopp and Sinir,\nGisl and Falhofnir, | Golltopp and Lettfeti,\nOn these steeds the gods shall go\nWhen dooms to give | each day they ride\nTo the ash-tree Yggdrasil."
       },
       "31": {
-        "1": "Three roots there are | that three ways run\n’Neath the ash-tree Yggdrasil;\n’Neath the first lives Hel, | ’neath the second the\nfrost-giants,\n’Neath the last are the lands of men."
+        "1": "Three roots there are | that three ways run\n’Neath the ash-tree Yggdrasil;\n’Neath the first lives Hel, | ’neath the second the frost-giants,\n’Neath the last are the lands of men."
       },
       "32": {
         "1": "Ratatosk is the squirrel | who there shall run\nOn the ash-tree Yggdrasil;\nFrom above the words | of the eagle he bears,\nAnd tells them to Nithhogg beneath."
@@ -1162,16 +1162,16 @@
     },
     "Harbarthsljoth": {
       "1": {
-        "1": "“Who is the fellow yonder, | on the farther shore of the\nsound?”"
+        "1": "“Who is the fellow yonder, | on the farther shore of the sound?”"
       },
       "2": {
         "1": "“What kind of a peasant is yon, | that calls o’er the bay?”"
       },
       "3": {
-        "1": "“Ferry me over the sound; | I will feed thee therefor in the\nmorning;\nA basket I have on my back, | and food therein, none better;\nAt leisure I ate, | ere the house I left,\nOf herrings and porridge, | so plenty I had.”"
+        "1": "“Ferry me over the sound; | I will feed thee therefor in the morning;\nA basket I have on my back, | and food therein, none better;\nAt leisure I ate, | ere the house I left,\nOf herrings and porridge, | so plenty I had.”"
       },
       "4": {
-        "1": "“Of thy morning feats art thou proud, | but the future thou\nknowest not wholly;\nDoleful thine home-coming is: | thy mother, methinks, is dead.”"
+        "1": "“Of thy morning feats art thou proud, | but the future thou knowest not wholly;\nDoleful thine home-coming is: | thy mother, methinks, is dead.”"
       },
       "5": {
         "1": "“Now hast thou said | what to each must seem\nThe mightiest grief, | that my mother is dead.”"
@@ -1180,19 +1180,19 @@
         "1": "“Three good dwellings, | methinks, thou hast not;\nBarefoot thou standest, | and wearest a beggar’s dress;\nNot even hose dost thou have.”"
       },
       "7": {
-        "1": "“Steer thou hither the boat; | the landing here shall I show\nthee;\nBut whose the craft | that thou keepest on the shore?”"
+        "1": "“Steer thou hither the boat; | the landing here shall I show thee;\nBut whose the craft | that thou keepest on the shore?”"
       },
       "8": {
         "1": "“Hildolf is he | who bade me have it,\nA hero wise; | his home is at Rathsey’s sound.\nHe bade me no robbers to steer, | nor stealers of steeds,\nBut worthy men, | and those whom well do I know.\nSay now thy name, | if over the sound thou wilt fare.”"
       },
       "9": {
-        "1": "“My name indeed shall I tell, | though in danger I am,\nAnd all my race; | I am Othin’s son,\nMeili’s brother, | and Magni’s father,\nThe strong one of the gods; | with Thor now speech canst thou\nget.\nAnd now would I know | what name thou hast.”"
+        "1": "“My name indeed shall I tell, | though in danger I am,\nAnd all my race; | I am Othin’s son,\nMeili’s brother, | and Magni’s father,\nThe strong one of the gods; | with Thor now speech canst thou get.\nAnd now would I know | what name thou hast.”"
       },
       "10": {
         "1": "“Harbarth am I, | and seldom I hide my name.”"
       },
       "11": {
-        "1": "“Why shouldst thou hide thy name, | if quarrel thou hast\nnot?”"
+        "1": "“Why shouldst thou hide thy name, | if quarrel thou hast not?”"
       },
       "12": {
         "1": "“And though I had a quarrel, | from such as thou art\nYet none the less | my life would I guard,\nUnless I be doomed to die.”"
@@ -1208,6 +1208,138 @@
       },
       "16": {
         "1": "“Five full winters | with Fjolvar was I,\nAnd dwelt in the isle | that is Algrön called;\nThere could we fight, | and fell the slain,\nMuch could we seek, | and maids could master.”"
+      },
+      "17": {
+        "1": "“How won ye success with your women?”"
+      },
+      "18": {
+        "1": "“Lively women we had, | if they wise for us were;\nWise were the women we had, | if they kind for us were;\nFor ropes of sand | they would seek to wind,\nAnd the bottom to dig | from the deepest dale.\nWiser than all | in counsel I was,\nAnd there I slept | by the sisters seven,\nAnd joy full great | did I get from each.\nWhat, Thor, didst thou the while?”"
+      },
+      "19": {
+        "1": "“Thjazi I felled, | the giant fierce,\nAnd I hurled the eyes | of Alvaldi’s son\nTo the heavens hot above;\nOf my deeds the mightiest | marks are these,\nThat all men since can see.\nWhat, Harbarth, didst thou the while?”\nHarbarth spoke:"
+      },
+      "20": {
+        "1": "“Much love-craft I wrought | with them who ride by night,\nWhen I stole them by stealth from their husbands;\nA giant hard | was Hlebarth, methinks:\nHis wand he gave me as gift,\nAnd I stole his wits away.”"
+      },
+      "21": {
+        "1": "“Thou didst repay good gifts with evil mind.”"
+      },
+      "22": {
+        "1": "“The oak must have | what it shaves from another;\nIn such things each for himself.\nWhat, Thor, didst thou the while?”"
+      },
+      "23": {
+        "1": "“Eastward I fared, | of the giants I felled\nTheir ill-working women | who went to the mountain;\nAnd large were the giants’ throng | if all were alive;\nNo men would there be | in Mithgarth more.\nWhat, Harbarth, didst thou the while?”"
+      },
+      "24": {
+        "1": "“In Valland I was, | and wars I raised,\nPrinces I angered, | and peace brought never;\nThe noble who fall | in the fight hath Othin,\nAnd Thor hath the race of the thralls.”"
+      },
+      "25": {
+        "1": "“Unequal gifts | of men wouldst thou give to the gods,\nIf might too much thou shouldst have.”"
+      },
+      "26": {
+        "1": "“Thor has might enough, | but never a heart;\nFor cowardly fear | in a glove wast thou fain to crawl,\nAnd there forgot thou wast Thor;\nAfraid there thou wast, | thy fear was such,\nTo fart or sneeze | lest Fjalar should hear.”"
+      },
+      "27": {
+        "1": "“Thou womanish Harbarth, | to hell would I smite thee straight,\nCould mine arm reach over the sound.”"
+      },
+      "28": {
+        "1": "“Wherefore reach over the sound, | since strife we have none?\nWhat, Thor, didst thou do then?”"
+      },
+      "29": {
+        "1": "“Eastward I was, | and the river I guarded well,\nWhere the sons of Svarang | sought me there;\nStones did they hurl; | small joy did they have of winning;\nBefore me there | to ask for peace did they fare.\nWhat, Harbarth, didst thou the while?”"
+      },
+      "30": {
+        "1": "“Eastward I was, | and spake with a certain one,\nI played with the linen-white maid, | and met her by stealth;\nI gladdened the gold-decked one, | and she granted me joy.”"
+      },
+      "31": {
+        "1": "“Full fair was thy woman-finding.”"
+      },
+      "32": {
+        "1": "“Thy help did I need then, Thor, | to hold the white maid fast.”"
+      },
+      "33": {
+        "1": "“Gladly, had I been there, | my help to thee had been given.”"
+      },
+      "34": {
+        "1": "“I might have trusted thee then, | didst thou not betray thy troth.”"
+      },
+      "35": {
+        "1": "“No heel-biter am I, in truth, | like an old leather shoe in spring.”\nHarbarth spoke:"
+      },
+      "36": {
+        "1": "“What, Thor, didst thou the while?”"
+      },
+      "37": {
+        "1": "“In Hlesey the brides | of the Berserkers slew I;\nMost evil they were, | and all they betrayed.”"
+      },
+      "38": {
+        "1": "“Shame didst thou win, | that women thou slewest, Thor.”"
+      },
+      "39": {
+        "1": "“She-wolves they were like, | and women but little;\nMy ship, which well | I had trimmed, did they shake;\nWith clubs of iron they threatened, | and Thjalfi they drove off.\nWhat, Harbarth, didst thou the while?”"
+      },
+      "40": {
+        "1": "“In the host I was | that hither fared,\nThe banners to raise, | and the spear to redden.”"
+      },
+      "41": {
+        "1": "“Wilt thou now say | that hatred thou soughtest to bring us?”"
+      },
+      "42": {
+        "1": "“A ring for thy hand | shall make all right for thee,\nAs the judge decides | who sets us two at peace.”"
+      },
+      "43": {
+        "1": "“Where foundest thou | so foul and scornful a speech?\nMore foul a speech | I never before have heard.”"
+      },
+      "44": {
+        "1": "“I learned it from men, | the men so old,\nWho dwell in the hills of home.”"
+      },
+      "45": {
+        "1": "“A name full good | to heaps of stones thou givest\nWhen thou callest them hills of home.”"
+      },
+      "46": {
+        "1": "“Of such things speak I so.”"
+      },
+      "47": {
+        "1": "“Ill for thee comes | thy keenness of tongue,\nIf the water I choose to wade;\nLouder, I ween, | than a wolf thou cryest,\nIf a blow of my hammer thou hast.”"
+      },
+      "48": {
+        "1": "“Sif has a lover at home, | and him shouldst thou meet;\nMore fitting it were | on him to put forth thy strength.”"
+      },
+      "49": {
+        "1": "“Thy tongue still makes thee say | what seems most ill to me,\nThou witless man! Thou liest, I ween.”"
+      },
+      "50": {
+        "1": "“Truth do I speak, | but slow on thy way thou art;\nFar hadst thou gone | if now in the boat thou hadst fared.”"
+      },
+      "51": {
+        "1": "“Thou womanish Harbarth! | here hast thou held me too long.”"
+      },
+      "52": {
+        "1": "“I thought not ever | that Asathor would be hindered\nBy a ferryman thus from faring.”"
+      },
+      "53": {
+        "1": "“One counsel I bring thee now: | row hither thy boat;\nNo more of scoffing; | set Magni’s father across.”"
+      },
+      "54": {
+        "1": "“From the sound go hence; | the passage thou hast not.”"
+      },
+      "55": {
+        "1": "“The way now show me, since thou takest me not o’er the water.”"
+      },
+      "56": {
+        "1": "“To refuse it is little, to fare it is long;\nA while to the stock, and a while to the stone;\nThen the road to thy left, till Verland thou reachest;\nAnd there shall Fjorgyn her son Thor find,\nAnd the road of her children she shows him to Othin’s realm.”"
+      },
+      "57": {
+        "1": "“May I come so far in a day?”"
+      },
+      "58": {
+        "1": "“With toil and trouble perchance,\nWhile the sun still shines, or so I think.”"
+      },
+      "59": {
+        "1": "“Short now shall be our speech, for thou speakest in mockery only;\nThe passage thou gavest me not I shall pay thee if ever we meet.”"
+      },
+      "60": {
+        "1": "“Get hence where every evil thing shall have thee!”"
       }
     },
     "Hymiskvitha": {
@@ -1591,7 +1723,7 @@
         "1": "Then Loki spake, | the son of Laufey:\n“As thy maid-servant thither | I go with thee;\nWe two shall haste | to the giants’ home.”"
       },
       "21": {
-        "1": "Then home the goats | to the hall were driven,\nThey wrenched at the halters, | swift were they to\nrun;\nThe mountains burst, | earth burned with fire,\nAnd Othin’s son | sought Jotunheim."
+        "1": "Then home the goats | to the hall were driven,\nThey wrenched at the halters, | swift were they to run;\nThe mountains burst, | earth burned with fire,\nAnd Othin’s son | sought Jotunheim."
       },
       "22": {
         "1": "Then loud spake Thrym, | the giants’ leader:\n“Bestir ye, giants, | put straw on the benches;\nNow Freyja they bring | to be my bride,\nThe daughter of Njorth | out of Noatun."
@@ -1600,7 +1732,7 @@
         "1": "“Gold-horned cattle | go to my stables,\nJet-black oxen, | the giant’s joy;\nMany my gems, | and many my jewels,\nFreyja alone | did I lack, methinks.”"
       },
       "24": {
-        "1": "Early it was | to evening come,\nAnd forth was borne | the beer for the giants;\nThor alone ate an ox, | and eight salmon,\nAll the dainties as well | that were set for the\nwomen;\nAnd drank Sif’s mate | three tuns of mead."
+        "1": "Early it was | to evening come,\nAnd forth was borne | the beer for the giants;\nThor alone ate an ox, | and eight salmon,\nAll the dainties as well | that were set for the women;\nAnd drank Sif’s mate | three tuns of mead."
       },
       "25": {
         "1": "Then loud spake Thrym, | the giants’ leader:\n“Who ever saw bride | more keenly bite?\nI ne’er saw bride | with a broader bite,\nNor a maiden who drank | more mead than this!”"
@@ -1950,7 +2082,7 @@
         "1": "“Falsely thou askest me, | Freyja, to go,\nFor so in the glance | of thine eyes I see;\nOn the way of the slain | thy lover goes with thee,\nOttar the young, | the son of Instein.”"
       },
       "7": {
-        "1": "“Wild dreams, methinks, | are thine when thou\nsayest\nMy lover is with me | on the way of the slain;\nThere shines the boar | with bristles of gold,\nHildisvini, | he who was made\nBy Dain and Nabbi, | the cunning dwarfs."
+        "1": "“Wild dreams, methinks, | are thine when thou sayest\nMy lover is with me | on the way of the slain;\nThere shines the boar | with bristles of gold,\nHildisvini, | he who was made\nBy Dain and Nabbi, | the cunning dwarfs."
       },
       "8": {
         "1": "“Now let us down | from our saddles leap,\nAnd talk of the race | of the heroes twain;\nThe men who were born | of the gods above,\n.  .  .  .  .  .  .  . | .  .  .  .  .  .  .  ."
@@ -2028,7 +2160,7 @@
         "1": "Freyr’s wife was Gerth, | the daughter of Gymir,\nOf the giants’ brood, | and Aurbotha bore her;\nTo these as well | was Thjazi kin,\nThe dark-loving giant; | his daughter was Skathi."
       },
       "33": {
-        "1": "Much have I told thee, | and further will tell;\nThere is much that I know;— | wilt thou hear\nyet more?"
+        "1": "Much have I told thee, | and further will tell;\nThere is much that I know;— | wilt thou hear yet more?"
       },
       "34": {
         "1": "Heith and Hrossthjof, | the children of Hrimnir.\n.  .  .  .  .  .  .  . | .  .  .  .  .  .  .  ."
@@ -3665,7 +3797,7 @@
         "1": "“Sit now, Gunnar! | for I shall speak\nOf thy bride so fair | and so fain to die;\nThy ship in harbor | home thou hast not,\nAlthough my life | I now have lost."
       },
       "53": {
-        "1": "“Thou shalt Guthrun requite | more quick than thou\nthinkest,\n.  .  .  .  .  .  .  . | .  .  .  .  .  .  .  .\nThough sadly mourns | the maiden wise\nWho dwells with the king, | o’er her husband dead."
+        "1": "“Thou shalt Guthrun requite | more quick than thou thinkest,\n.  .  .  .  .  .  .  . | .  .  .  .  .  .  .  .\nThough sadly mourns | the maiden wise\nWho dwells with the king, | o’er her husband dead."
       },
       "54": {
         "1": "“A maid shall then | the mother bear;\nBrighter far | than the fairest day\nSvanhild shall be, | or the beams of the sun."
@@ -4046,7 +4178,7 @@
         "1": "“Now Atli has sent me | his errand to ride,\nOn my bit-champing steed | through Myrkwood the secret,\nTo bid you, Gunnar, | to his benches to come,\nWith helms round the hearth, | and Atli’s home seek."
       },
       "4": {
-        "1": "“Shields shall ye choose there, | and shafts made of\nash-wood,\nGold-adorned helmets, | and slaves out of Hunland,\nSilver-gilt saddle-cloths, | shirts of bright scarlet,\nWith lances and spears too, | and bit-champing steeds."
+        "1": "“Shields shall ye choose there, | and shafts made of ash-wood,\nGold-adorned helmets, | and slaves out of Hunland,\nSilver-gilt saddle-cloths, | shirts of bright scarlet,\nWith lances and spears too, | and bit-champing steeds."
       },
       "5": {
         "1": "“The field shall be given you | of wide Gnitaheith,\nWith loud-ringing lances, | and stems gold-o’erlaid,\nTreasures full huge, | and the home of Danp,\nAnd the mighty forest | that Myrkwood is called.”"
@@ -4073,7 +4205,7 @@
         "1": "A following gallant | fared forth with the ruler,\nYet they wept as their home | with the hero they left;\nAnd the little heir | of Hogni called loudly:\n“Go safe now, ye wise ones, | wherever ye will!”"
       },
       "13": {
-        "1": "Then let the bold heroes | their bit-champing horses\nOn the mountains gallop, | and through Myrkwood the secret;\nAll Hunland was shaken | where the hard-souled ones rode,\nOn the whip-fearers fared they | through fields that were\ngreen."
+        "1": "Then let the bold heroes | their bit-champing horses\nOn the mountains gallop, | and through Myrkwood the secret;\nAll Hunland was shaken | where the hard-souled ones rode,\nOn the whip-fearers fared they | through fields that were green."
       },
       "14": {
         "1": "Then they saw Atli’s halls, | and his watch-towers high,\nOn the walls so lofty | stood the warriors of Buthli;\nThe hall of the southrons | with seats was surrounded,\nWith targets bound | and shields full bright."
@@ -4270,13 +4402,13 @@
         "1": "Then did Bera speak forth, | and fair was her thought,\n.  .  .  .  .  .  .  . | .  .  .  .  .  .  .  .\n“May ye sail now happy, | and victory have,\nTo fare as I bid ye, | may nought your way bar.”"
       },
       "32": {
-        "1": "Then Hogni made answer,— | dear held he his kin,—\ncourage, ye wise ones, | whatsoever may come;\nThough many may speak, | yet is evil oft mighty,\nAnd words avail little | to lead one homeward."
+        "1": "Then Hogni made answer,— | dear held he his kin,— courage, ye wise ones, | whatsoever may come;\nThough many may speak, | yet is evil oft mighty,\nAnd words avail little | to lead one homeward."
       },
       "33": {
         "1": "They tenderly looked | till each turned on his way,\nThen with changing fate | were their farings divided."
       },
       "34": {
-        "1": "Full stoutly they rowed, | and the keel clove asunder,\nTheir backs strained at the oars, | and their strength was\nfierce;\nThe oar-loops were burst, | the thole-pins were broken,\nNor the ship made they fast | ere from her they fared."
+        "1": "Full stoutly they rowed, | and the keel clove asunder,\nTheir backs strained at the oars, | and their strength was fierce;\nThe oar-loops were burst, | the thole-pins were broken,\nNor the ship made they fast | ere from her they fared."
       },
       "35": {
         "1": "Not long was it after— | the end must I tell—\nThat the home they beheld | that Buthli once had;\nLoud the gates resounded | when Hogni smote them;\nVingi spake then a word | that were better unsaid:"
@@ -4375,7 +4507,7 @@
         "1": "“Not free of guilt am I; | a way shall I find\nThat is better by far,— | oft the fairest we shunned;—\nWith slaves I console thee, | with gems fair to see,\nAnd with silver snow-white, | as thyself thou shalt choose.”"
       },
       "67": {
-        "1": "“No hope shall this give thee, | thy gifts I shall take\nnot,\nRequital I spurned | when my sorrows were smaller;\nOnce grim did I seem, | but now greater my grimness,\nThere was nought seemed too hard | while Hogni was living."
+        "1": "“No hope shall this give thee, | thy gifts I shall take not,\nRequital I spurned | when my sorrows were smaller;\nOnce grim did I seem, | but now greater my grimness,\nThere was nought seemed too hard | while Hogni was living."
       },
       "68": {
         "1": "“Our childhood did we have | in a single house,\nWe played many a game, | in the grove did we grow;\nThen did Grimhild give us | gold and necklaces;\nThou shalt ne’er make amends | for my brother’s murder,\nNor ever shalt win me | to think it was well."
@@ -4420,7 +4552,7 @@
         "1": "“Still more would I seek | to slay thee thyself,\nEnough ill comes seldom | to such as thou art;\nThou didst folly of old, | such that no one shall find\nIn the whole world of men | a match for such madness.\nNow this that of late | we learned hast thou added,\nGreat evil hast grasped, | and thine own death-feast made.”"
       },
       "82": {
-        "1": "“With fire shall they burn thee, | and first shall they\nstone thee,\nSo then hast thou earned | what thou ever hast sought for.”"
+        "1": "“With fire shall they burn thee, | and first shall they stone thee,\nSo then hast thou earned | what thou ever hast sought for.”"
       },
       "83": {
         "1": "Together they sat | and full grim were their thoughts,\nUnfriendly their words, | and no joy either found;\nIn Hniflung grew hatred, | great plans did he have,\nTo Guthrun his anger | against Atli was told."

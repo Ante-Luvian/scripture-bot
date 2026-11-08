@@ -201,6 +201,12 @@
    "netnote",
    "netnotes"
   ],
+  "odin": [
+   "odinn",
+   "othin",
+   "woden",
+   "wotan"
+  ],
   "oracle": [],
   "oraclesetup": [
    "oracleconfig"
@@ -469,6 +475,7 @@
   "midi",
   "mp",
   "notes",
+  "odin",
   "oracle",
   "parallel",
   "parsha",

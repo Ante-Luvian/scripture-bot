@@ -31,6 +31,7 @@ from bot_commands.oracles import (
     cmd_shakespeare,
     cmd_sonnet,
     cmd_edda,
+    cmd_odin,
 )
 from bot_commands.prayers import PRAYERS
 from bot_commands.personal import (
@@ -217,6 +218,14 @@ async def edda_slash(interaction: discord.Interaction, poem: str = ""):
     await interaction.response.defer()
     ctx = await bot.get_context(interaction)
     await cmd_edda(ctx, query=poem)
+
+
+@bot.tree.command(name="odin", description="Odin's own words in the Poetic Edda: the Hávamál, Grímnismál and his speeches")
+@app_commands.describe(which="A poem (grimnismal, lokasenna...), a Hávamál stanza's number, or a question; empty for any")
+async def odin_slash(interaction: discord.Interaction, which: str = ""):
+    await interaction.response.defer()
+    ctx = await bot.get_context(interaction)
+    await cmd_odin(ctx, query=which)
 
 
 @bot.tree.command(name="books", description="List available scripture collections")

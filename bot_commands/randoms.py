@@ -38,7 +38,7 @@ def iso_day() -> str:
 
 # ── commands whose bare form is already random: "random" runs it ──────────────
 for _name in ("verse", "ballad", "blake", "desert", "dore", "physiologus", "reynard", "vov", "card", "midi",
-              "metrical", "harmony", "summa", "edda"):
+              "metrical", "harmony", "summa", "edda", "odin"):
     random_input(_name, lambda: ALREADY_RANDOM)
 
 
