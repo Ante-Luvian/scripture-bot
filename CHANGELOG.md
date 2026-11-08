@@ -14,6 +14,13 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-11-08 · Strong's numbers in one place, and bookmarks retired
+- 📚 **Everything about a Hebrew or Greek word is now under `!strong`.** (Strong's numbers are the standard numbering of every Hebrew and Greek word in the Bible: G26 is *agapē*, love.) `!strong G26` shows the dictionary entry as before, and under it are two new buttons: **📖 Every verse**, which lists every verse where that word appears (this was `!concordance`), and **🌳 Root & family**, which shows the word it comes from and the other words built from the same root (this was `!root`). You can also type them: `!strong G26 verses`, `!strong G26 root`.
+- 🔤 **You can look a word up by the word itself**, not just its number: `!strong agape` finds G26. If several words match, I'll list their numbers for you to pick from.
+- 🔁 **`!reverseinterlinear` is now a button on `!interlinear`.** An interlinear shows a verse word by word in the original Greek or Hebrew, with the English meaning under each word. Under the picture, **🔁 English order** turns it the other way round: the King James text in its own word order, each word labelled with the Greek or Hebrew word it translates; **🔁 Original order** turns it back. Or type `!interlinear reverse John 3:16`.
+- 📌 **Bookmarks have been retired.** `!save` and `!saved`, and the 📌 reaction for saving a verse, have gone: in all the servers I'm in, nobody had a verse saved. (So the `!saved remove 2` mentioned in the last update no longer exists, sorry.) The `!features` settings for server admins went with them, as they were mostly bookmark extras.
+- 🔥 **Reading-plan streaks now always show.** If you're reading a book with `!plan`, I'll tell you how many days in a row you've kept it up (from two days on), and `!plan status` shows your streak. This used to be off unless a server admin switched it on.
+
 ## 2026-11-08 · A tidier command list: where the old commands went
 - 🧹 **Some commands that did the same job as another have been folded into it**, so `!help` and the `/` menu are shorter. Nothing you could do before is gone; below is what to type now.
 - 📖 **The Prayer Book commands are all under `!bcp`.** `!mp` and `!ep` (Morning and Evening Prayer) are now `!bcp morning` and `!bcp evening`, which give the whole service: the psalms, both Bible readings and the collect. `!psalm` (the psalms appointed for today) is now `!bcp psalm`, and `!collect` (the day's short set prayer) is `!bcp collect`. In the `/` menu, `/bcp` now lets you pick the whole service, just the psalms or just the collect, and morning or evening. Try `!bcp evening`.
