@@ -54,6 +54,22 @@ def test_hollander_speeches(oracles):
     assert oracles._odin_pick("riddles 36", random.Random(1)) == ("Heithreksgatur", "36", "")
 
 
+def test_no_quotation_marks(oracles):
+    """!odin's text has no quotation marks (the owner, 2026-11-08); apostrophes stay; !edda keeps them."""
+    title, text, source = oracles._oracle_card_content("edda", "Vafthruthnismol|1||o")
+    assert "“" not in text and "”" not in text and text.startswith("Counsel me, Frigg")
+    assert "“" in oracles._oracle_card_content("edda", "Vafthruthnismol|1")[1]
+    riddle = oracles._oracle_card_content("edda", "Heithreksgatur|5|1|o")[1]
+    assert riddle.startswith("Who is the great one") and "”" not in riddle and "o’er" in riddle
+    assert oracles._unquoted("“ ’Tis folly,”") == "’Tis folly,"
+
+
+def test_interpuncts(lookup):
+    """The caesura is a middle dot, not a bar (the owner, 2026-11-08)."""
+    text = lookup.get_verse("Voluspo 1")["text"]
+    assert "Hearing I ask · from the holy races" in text and "|" not in text
+
+
 def test_prose_books(oracles, lookup):
     """Snorri and the sagas are in the library, not in !odin (verse only) nor !edda."""
     assert "is prose" in oracles._odin_pick("gylfaginning", random.Random(1))

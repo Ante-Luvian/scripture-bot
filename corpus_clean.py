@@ -385,6 +385,11 @@ def _words_of(payload: dict) -> frozenset:
     return frozenset(out)
 
 
+# Old Norse verse in translation whose translators mark the caesura with a bar ("Hearing I ask | from the holy
+# races"): Bellows's Poetic Edda, Brodeur's Prose Edda (its skaldic verses). The bar becomes a middle dot.
+CAESURA_FILES = {"norse/poetic_edda.json", "norse/norse_prose.json"}
+
+
 def clean_text(text: str, rel: str) -> str:
     before = None
     while before != text:                               # "&amp;gt;" -> "&gt;" -> ">"
@@ -394,6 +399,8 @@ def clean_text(text: str, rel: str) -> str:
     text = TAIL.sub("", text)
     for pat, rep in FIXES.get(rel, []):
         text = re.sub(pat, rep, text, flags=re.S | re.M)
+    if rel in CAESURA_FILES:                            # (the owner, 2026-11-08: "small interpunct instead of
+        text = re.sub(r"[ \t]*\|[ \t]*", " · ", text)   #  vertical bars" between a line's two halves)
     if TERT_FILES.match(rel):
         text = greek_from_tertullian(text)
     if BETA_FILES.match(rel):

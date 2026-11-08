@@ -242,7 +242,7 @@ def _render_verse_card(reference: str, text: str, source: str, question: str = "
     `question` (oracle answers): shown in italics above the text.
     `justify`: prose set flush to both margins, like a printed page, instead of centred lines.
     `verse`: a poem's lines kept whole, one to a line (the type made smaller until the longest fits), and the
-    caesura Bellows marks in the Edda's lines ("On his ring swore Othin | the oath") shown as a gap.
+    caesura Bellows marks in the Edda's lines ("On his ring swore Othin · the oath") a dot with room about it.
     `poem` (with verse): set as a printed poem, the owner's choice for Shakespeare's (2026-11-07): upright type,
     the lines flush left in a block centred on the card, and every other line of a stanza indented."""
     verse = verse or poem
@@ -290,9 +290,11 @@ def _render_verse_card(reference: str, text: str, source: str, question: str = "
         lines = [l for para in paragraphs for l in (_justified_lines(para, font, max_width, measure) or [([], None)])]
         line_height = int(size * 1.4)
     if verse:
-        # (Bellows's "|" and Hollander's em space, the font has no glyph for, both the caesura's gap; Hollander's
-        #  em-space indents go with the centring)
-        paragraphs = [re.sub(r"\s*[| ]+\s*", "     ", p).strip() for p in paragraphs]
+        # (the caesura: Bellows's, a middle dot since 2026-11-08, the owner's "small interpunct instead of vertical
+        #  bars" (an old "|" too), a dot with room about it; Hollander's em space, the font has no glyph for, a gap;
+        #  Hollander's em-space indents go with the centring)
+        paragraphs = [re.sub(r"\s*[|·]\s*", "   ·   ", p) for p in paragraphs]
+        paragraphs = [re.sub(r"\s* +\s*", "     ", p).strip() for p in paragraphs]
         while True:                                  # (smaller until the longest line fits: never wrapped)
             font = ImageFont.truetype(body_font_path, size)
             # (a "line" of over 110 characters is prose, as the Edda's prose links: wrapped like prose)

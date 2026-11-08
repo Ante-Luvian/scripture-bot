@@ -105,8 +105,9 @@ def _oracle_card_content(kind: str, key: str) -> "tuple[str, str, str] | None":
         text = _shakespeare().get(book, {}).get(chap, {}).get(line)
         return (_sonnet_title(book, chap, line), _plain(text), SHAKESPEARE_SOURCE) if text else None
     if kind == "edda":                         # key "Hovamol|138": a stanza of the Poetic Edda ("Eiriksmol|6|2": Odin's
-        poem, stanza, verse = (key.split("|") + ["", ""])[:3]                 # speech in a stanza of Hollander's)
-        text = _edda_text(poem, stanza, verse)
+        poem, stanza, verse, odin = (key.split("|") + ["", "", ""])[:4]       # speech in a stanza of Hollander's;
+        text = _edda_text(poem, stanza, verse)                                #  "|o" on the end: !odin's, unquoted)
+        text = _unquoted(text) if odin == "o" else text
         return (_edda_title(poem, stanza), _plain(text), _edda_source(poem)) if text else None
     if kind == "delphi":                       # key: maxim number
         book, num = "Delphic Maxims", key
@@ -962,6 +963,13 @@ def _edda_source(poem: str) -> str:
     return EDDA_SOURCE
 
 
+def _unquoted(text: str) -> str:
+    """!odin's text without its quotation marks (the owner, 2026-11-08: "remove quotation marks from anything in
+    !odin"): every word in it is his, so the marks only clutter it. Apostrophes ("o’er", "’Tis") stay."""
+    text = re.sub(r"[“”\"]", "", text)
+    return "\n".join(line.lstrip(" ") for line in text.split("\n"))
+
+
 def _edda_text(poem: str, stanza: str, verse: str = "") -> str:
     """A stanza's text: Bellows's (verse "1"), or one speech of a Hollander stanza without its "Óthin: " label."""
     verses = lookup._data.get("norse", {}).get(poem, {}).get(stanza, {})
@@ -1098,16 +1106,18 @@ async def send_edda(ctx, query: str, question: "str | None" = None, chosen: "tup
     # (one of Hollander's stanzas: Odin's speech in it alone; a riddle's answer under it, hidden till clicked)
     verse = ODIN_HOLLANDER.get(poem, {}).get(stanza, "") if chosen else ""
     text = _edda_text(poem, stanza, verse)
+    if chosen:
+        text = _unquoted(text)
     embed = discord.Embed(title=f"🌲 {_edda_title(poem, stanza)}", description=text[:4096],
                           color=discord.Color.dark_green())
     if poem == "Heithreksgatur" and verse:
-        answer = _edda_text(poem, stanza, "2")
+        answer = _unquoted(_edda_text(poem, stanza, "2"))
         if answer:
             embed.add_field(name="King Heithrek's answer", value=f"||{answer[:1000]}||", inline=False)
     embed.set_footer(text=f"{_edda_source(poem)} · !verse {poem} {stanza}")
     _ask(embed, question)
     _record(ctx, "edda", f"{poem} {stanza}")
-    view = _card_view("edda", f"{poem}|{stanza}" + (f"|{verse}" if verse else ""))
+    view = _card_view("edda", f"{poem}|{stanza}|{verse}|o" if chosen else f"{poem}|{stanza}")
     near = lookup.neighbours(f"{poem} {stanza}")
     for kind, side in (("p", "prev"), ("n", "next")):        # (◀ ▶ the stanzas either side, where there's one)
         if near.get(side):

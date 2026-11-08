@@ -28,15 +28,15 @@ def test_every_style_renders(card, style):
 
 
 def test_verse_keeps_its_lines(card):
-    """A poem's card (the Edda's): each line whole, never wrapped, the caesura "|" a gap, not a bar."""
+    """A poem's card (the Edda's): each line whole, never wrapped, the caesura a spaced middle dot, not a bar."""
     from unittest import mock
     drawn = []
     from PIL import ImageDraw
     original = ImageDraw.ImageDraw.text
     with mock.patch.object(ImageDraw.ImageDraw, "text", lambda self, xy, text, *a, **k: drawn.append(text) or original(self, xy, text, *a, **k)):
-        card._render_verse_card("Hovamol 110", "On his ring swore Othin | the oath, methinks;\nWho now his troth shall trust?",
+        card._render_verse_card("Hovamol 110", "On his ring swore Othin · the oath, methinks;\nWho now his troth shall trust?",
                                 "Bellows", "", "norse", verse=True)
-    assert "On his ring swore Othin     the oath, methinks;" in drawn and "Who now his troth shall trust?" in drawn
+    assert "On his ring swore Othin   ·   the oath, methinks;" in drawn and "Who now his troth shall trust?" in drawn
 
 
 def test_a_poem_is_set_as_printed(card):
