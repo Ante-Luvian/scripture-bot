@@ -290,7 +290,9 @@ def _render_verse_card(reference: str, text: str, source: str, question: str = "
         lines = [l for para in paragraphs for l in (_justified_lines(para, font, max_width, measure) or [([], None)])]
         line_height = int(size * 1.4)
     if verse:
-        paragraphs = [re.sub(r"\s*\|\s*", "     ", p).strip() for p in paragraphs]
+        # (Bellows's "|" and Hollander's em space, the font has no glyph for, both the caesura's gap; Hollander's
+        #  em-space indents go with the centring)
+        paragraphs = [re.sub(r"\s*[| ]+\s*", "     ", p).strip() for p in paragraphs]
         while True:                                  # (smaller until the longest line fits: never wrapped)
             font = ImageFont.truetype(body_font_path, size)
             # (a "line" of over 110 characters is prose, as the Edda's prose links: wrapped like prose)

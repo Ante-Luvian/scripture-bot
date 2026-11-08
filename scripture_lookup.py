@@ -972,6 +972,33 @@ ALIASES: dict[str, str] = {
                           "the whetting of gudrun"],
         "Hamthesmol": ["hamðismál", "hamdismal", "hamthesmal", "the ballad of hamther", "the lay of hamdir"],
     }.items() for key in keys if key != poem.lower()},
+    # Hollander's Old Norse Poems (1936; scripts/build_old_norse_poems.py): the eddic and skaldic poems outside the
+    # Poetic Edda, by their Old Norse names as he spells them, the usual spellings, and his English titles
+    **{key: poem for poem, keys in {
+        "Biarkamol": ["bjarkamál", "bjarkamal", "biarkamál", "biarkamal", "bjarkamál hin fornu", "biarkamol hin fornu",
+                      "the old lay of biarki", "old lay of biarki", "the lay of bjarki"],
+        "Vikarsbalkr": ["víkarsbálkr", "vikarsbalkr", "the lay of vikar", "lay of vikar"],
+        "Hervararkvitha": ["hervararkviða", "hervararkvida", "the lay of hervor", "lay of hervor",
+                           "the waking of angantyr", "the waking of angantýr"],
+        "Hlothskvitha": ["hlöðskviða", "hlodskvida", "hlothskvida", "the lay of hloth and angantyr",
+                         "the battle of the huns", "the battle of the goths and huns"],
+        "Haraldskvaethi": ["haraldskvæði", "haraldskvaedi", "hrafnsmál", "hrafnsmal", "hrafnsmol", "the lay of harold",
+                           "the raven's song"],
+        "Eiriksmol": ["eiríksmál", "eiriksmal", "eiríksmól", "the lay of eric", "the lay of eirik", "lay of eric"],
+        "Hakonarmol": ["hákonarmál", "hakonarmal", "hákonarmól", "the lay of hakon", "the lay of hákon",
+                       "lay of hakon"],
+        "Darratharlioth": ["darraðarljóð", "darradarljod", "darrathlioth", "the song of the valkyries",
+                           "the spear song", "the web of war"],
+        "Buslubaen": ["buslubæn", "buslubaen", "buslubœn", "the curse of busla", "busla's curse", "busla's prayer"],
+        "Heithreksgatur": ["heiðreksgátur", "heidreksgatur", "heithreksgatur", "gátur gestumblinda",
+                           "gatur gestumblinda", "the riddles of king heithrek", "the riddles of heidrek",
+                           "riddles of heidrek", "heidrek's riddles", "the riddles of gestumblindi",
+                           "gestumblindi's riddles", "gestumblindi", "odin's riddles", "riddles"],
+        "Solarlioth": ["sólarljóð", "solarljod", "solarlioth", "the sun song", "the song of the sun", "sun song"],
+        "Hialmar's Death Song": ["hjálmar's death song", "hjalmar's death song", "hialmars death song",
+                                 "hjalmar's death-song"],
+        "Hildibrand's Death Song": ["hildibrands death song", "the death song of hildibrand"],
+    }.items() for key in keys if key != poem.lower()},
     "ginzberg": "Legends of the Jews", "legends": "Legends of the Jews", "jewish legends": "Legends of the Jews",
     "ginzberg legends": "Legends of the Jews",
     # the Historia Augusta's lives, Frontinus, Velleius and Florus (scripts/build_latin.py, from LacusCurtius). A life
@@ -2306,6 +2333,7 @@ class ScriptureLookup:
                         "reynard.json"],          # Caxton, ed. Morley (scripts/build_beasts.py)
             "norse": [
                 "poetic_edda.json",
+                "old_norse_poems.json",
             ],
             "ancient_near_east": [
                 "baal_cycle_en.json",
@@ -3222,7 +3250,7 @@ class ScriptureLookup:
             "mesoamerican":      "Mesoamerican Texts",
             "finnish":           "The Kalevala",
             "celtic":            "The Mabinogion",
-            "norse":            "Trans. Henry Adams Bellows (1923)",
+            "norse":            "The Poetic Edda (Bellows) & Old Norse Poems (Hollander)",
             "patristics":       "Church Fathers (ANF/NPNF/Pearse)",
             "medieval":         "Medieval (Bede, Golden Legend)",
             "reformation":      "Reformation (Luther, Calvin, the confessions)",

@@ -220,7 +220,7 @@ async def edda_slash(interaction: discord.Interaction, poem: str = ""):
     await cmd_edda(ctx, query=poem)
 
 
-@bot.tree.command(name="odin", description="Odin's own words in the Poetic Edda: the Hávamál, Grímnismál and his speeches")
+@bot.tree.command(name="odin", description="Odin's own words: the Hávamál, Grímnismál, his speeches in the Edda and sagas, his riddles")
 @app_commands.describe(which="A poem (grimnismal, lokasenna...), a Hávamál stanza's number, or a question; empty for any")
 async def odin_slash(interaction: discord.Interaction, which: str = ""):
     await interaction.response.defer()

@@ -1005,6 +1005,12 @@ BOOKS_TREE = [
             "Atlakvitha en Gronlenzka", "Atlamol en Gronlenzku",
             "Guthrunarhvot", "Hamthesmol",
         ]),
+        # (Hollander's Old Norse Poems, 1936: the poems outside the Poetic Edda, from the sagas and the skalds)
+        ("Eddic & Skaldic Poems", [
+            "Biarkamol", "The Lay of Ingiald", "Vikarsbalkr", "Hialmar's Death Song", "Hervararkvitha",
+            "Hlothskvitha", "The Lay of Innstein", "Hildibrand's Death Song", "Haraldskvaethi", "Eiriksmol",
+            "Hakonarmol", "Darratharlioth", "Buslubaen", "Heithreksgatur", "Solarlioth",
+        ]),
     ]),
     ("🌙 Ancient Near East", [
         ("Mesopotamian", [

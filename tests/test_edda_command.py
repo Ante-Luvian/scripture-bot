@@ -18,7 +18,7 @@ def test_picks(oracles):
     assert poem == "Hovamol"
     assert oracles._edda_pick("lokasenna 999", rng).startswith("**Lokasenna** has stanzas")
     assert oracles._edda_pick("will it rain?", rng)[0] in oracles._edda()          # (a question: any poem)
-    assert set(oracles.EDDA_ENGLISH) == set(oracles._edda())                       # (every poem's English title)
+    assert set(oracles._edda()) <= set(oracles.EDDA_ENGLISH)                       # (every poem's English title)
 
 
 def test_the_card(oracles):

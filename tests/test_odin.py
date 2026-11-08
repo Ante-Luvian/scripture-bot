@@ -19,7 +19,7 @@ def test_his_stanzas(oracles):
     stanzas = set(oracles._odin_stanzas())
     poems = Counter(p for p, _ in stanzas)
     assert poems == {"Hovamol": 160, "Grimnismol": 54, "Harbarthsljoth": 28, "Vafthruthnismol": 26,
-                     "Baldrs Draumar": 4, "Lokasenna": 3}
+                     "Baldrs Draumar": 4, "Lokasenna": 3, "Eiriksmol": 7, "Heithreksgatur": 37}
     assert ("Vafthruthnismol", "8") in stanzas and ("Vafthruthnismol", "7") not in stanzas      # (Gagnrath; the giant)
     assert ("Vafthruthnismol", "1") in stanzas                     # (the page prints "1," for "1.": still his)
     assert ("Harbarthsljoth", "38") in stanzas and ("Harbarthsljoth", "37") not in stanzas      # (Harbarth; Thor)
@@ -41,6 +41,35 @@ def test_picks(oracles):
     assert oracles._odin_pick("138", rng).startswith("Stanza 138 of **Hovamol**")
     poem, stanza, question = oracles._odin_pick("should I travel?", rng)
     assert question == "should I travel?" and (poem, stanza) in oracles._odin_stanzas()
+
+
+def test_hollander_speeches(oracles):
+    """Odin's part of a Hollander stanza alone, his label off; the riddles' answers kept apart (verse 2)."""
+    assert oracles._edda_text("Eiriksmol", "6", "2").startswith("“Because in many a liege-land")
+    assert "Bragi" not in oracles._edda_text("Eiriksmol", "3", "1").split("\n")[0][:6]
+    assert oracles._edda_text("Heithreksgatur", "37", "1").startswith("“Guess one more riddle")
+    assert oracles._edda_text("Heithreksgatur", "37", "2").startswith("“But wicked spells")
+    assert ("Eiriksmol", "8") not in oracles._odin_stanzas()                 # (Sigmund's)
+    assert "doesn't speak in **Hakonarmol**" in oracles._odin_pick("hakonarmal", random.Random(1))
+    assert oracles._odin_pick("riddles 36", random.Random(1)) == ("Heithreksgatur", "36", "")
+
+
+def test_edda_is_bellows_only(oracles):
+    assert "Eiriksmol" not in oracles._edda() and len(oracles._edda()) == 35
+    assert "isn't in the Poetic Edda" in oracles._edda_pick("eiriksmal")
+
+
+def test_hollander_text(lookup):
+    """The book whole (15 poems; the prose truce formula left out), no stray markup, speakers named only where
+    Hollander heads the speech."""
+    import json as _json
+    books = _json.loads((ROOT / "data" / "norse" / "old_norse_poems.json").read_text(encoding="utf-8"))["books"]
+    assert len(books) == 15 and len(books["Heithreksgatur"]) == 37 and len(books["Solarlioth"]) == 82
+    text = _json.dumps(books, ensure_ascii=False)
+    assert "*" not in text and "<" not in text and "&" not in text
+    assert books["Hlothskvitha"]["6"]["1"].startswith("Rose outcry in hall")    # (narration: no speaker carried on)
+    assert "Then Gestumblindi said" not in books["Heithreksgatur"]["37"]["1"]
+    assert lookup.get_verse("Hakonarmol 1")["found"]
 
 
 def test_harbarthsljoth_whole(lookup):

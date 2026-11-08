@@ -104,10 +104,10 @@ def _oracle_card_content(kind: str, key: str) -> "tuple[str, str, str] | None":
             return (f"{book} {chap}.{line}", text, SHAKESPEARE_SOURCE) if text else None
         text = _shakespeare().get(book, {}).get(chap, {}).get(line)
         return (_sonnet_title(book, chap, line), _plain(text), SHAKESPEARE_SOURCE) if text else None
-    if kind == "edda":                         # key "Hovamol|138": a stanza of the Poetic Edda
-        poem, stanza = (key.split("|") + [""])[:2]
-        text = _edda().get(poem, {}).get(stanza, {}).get("1")
-        return (_edda_title(poem, stanza), _plain(text), EDDA_SOURCE) if text else None
+    if kind == "edda":                         # key "Hovamol|138": a stanza of the Poetic Edda ("Eiriksmol|6|2": Odin's
+        poem, stanza, verse = (key.split("|") + ["", ""])[:3]                 # speech in a stanza of Hollander's)
+        text = _edda_text(poem, stanza, verse)
+        return (_edda_title(poem, stanza), _plain(text), _edda_source(poem)) if text else None
     if kind == "delphi":                       # key: maxim number
         book, num = "Delphic Maxims", key
     elif kind == "oracle" and "|" in key:      # key "Chaldaean Oracles|12"
@@ -944,11 +944,30 @@ EDDA_ENGLISH = {
     "Guthrunarkvitha III": "The Third Lay of Guthrun", "Oddrunargratr": "Oddrun's Lament",
     "Atlakvitha en Gronlenzka": "The Greenland Lay of Atli", "Atlamol en Gronlenzku": "The Greenland Ballad of Atli",
     "Guthrunarhvot": "Guthrun's Inciting", "Hamthesmol": "The Ballad of Hamther",
+    # (and the two poems of Hollander's Old Norse Poems that !odin draws on)
+    "Eiriksmol": "The Lay of Eric", "Heithreksgatur": "The Riddles of King Heithrek",
 }
 
 
 def _edda() -> dict:
-    return lookup._data.get("norse", {})
+    """The Poetic Edda's poems: the Norse shelf's books in Bellows's translation (not Hollander's other poems)."""
+    return {poem: stanzas for poem, stanzas in lookup._data.get("norse", {}).items()
+            if "Bellows" in lookup._book_sources.get(poem, "Bellows")}
+
+
+def _edda_source(poem: str) -> str:
+    source = lookup._book_sources.get(poem, "")
+    if "Hollander" in source:
+        return "Lee M. Hollander, Old Norse Poems (1936)"
+    return EDDA_SOURCE
+
+
+def _edda_text(poem: str, stanza: str, verse: str = "") -> str:
+    """A stanza's text: Bellows's (verse "1"), or one speech of a Hollander stanza without its "Óthin: " label."""
+    verses = lookup._data.get("norse", {}).get(poem, {}).get(stanza, {})
+    if verse:
+        return re.sub(r"^[^\W\d_][\w ]*: (?=[“(])", "", verses.get(verse, ""))
+    return "\n".join(verses[v] for v in sorted(verses, key=int))
 
 
 def _edda_pick(query: str, rng=random) -> "tuple[str, str] | str":
@@ -964,6 +983,9 @@ def _edda_pick(query: str, rng=random) -> "tuple[str, str] | str":
         if number:
             return (poem, number) if number in poems[poem] else f"**{poem}** has stanzas 1 to {len(poems[poem])}."
         return poem, rng.choice(list(poems[poem]))
+    if poem in lookup._data.get("norse", {}):        # (one of Hollander's poems, not the Edda's)
+        return (f"**{poem}** isn't in the Poetic Edda: it's one of the Old Norse poems from the sagas and the "
+                f"skalds. `!verse {poem} 1` reads it.")
     if number and not name:
         return "Name a poem with the stanza: `!edda havamal 138`."
     pool = [(p, s) for p, stanzas in poems.items() for s in stanzas]
@@ -989,6 +1011,15 @@ async def cmd_edda(ctx, *, query: str = ""):
 # ferryman", Odin disguised): data/norse/edda_speakers.json, from scripts/build_edda_speakers.py.
 ODIN_SPEAKERS = {"Othin", "Harbarth", "The ferryman"}
 HOVAMOL_NOT_HIS = {"98", "109", "110", "138", "144"}
+# And from Hollander's Old Norse Poems (1936; the owner, 2026-11-08: "other sources of Norse poetry that have Odin
+# speaking"), stanza -> the verse that is his speech, read by hand: Eiríksmál, where he wakes Valhalla for Eric
+# Bloodaxe (1-5 his; in 3 he asks and Bragi answers; in 6 and 7 he answers Sigmund), and the Riddles of King
+# Heithrek, every one asked by Odin disguised as Gestumblindi (verse 2 is the king's answer). Hákonarmál has no
+# speech of his; the rest of the book, none.
+ODIN_HOLLANDER = {
+    "Eiriksmol": {"1": "1", "2": "1", "3": "1", "4": "1", "5": "1", "6": "2", "7": "2"},
+    "Heithreksgatur": {str(n): "1" for n in range(1, 38)},
+}
 
 
 @functools.lru_cache(maxsize=1)
@@ -1001,6 +1032,9 @@ def _odin_stanzas() -> tuple:
     out += [("Grimnismol", s) for s in edda.get("Grimnismol", {})]
     for poem, speakers in table.items():
         out += [(poem, s) for s, who in speakers.items() if who in ODIN_SPEAKERS and s in edda.get(poem, {})]
+    norse = lookup._data.get("norse", {})
+    for poem, verses in ODIN_HOLLANDER.items():
+        out += [(poem, s) for s, v in verses.items() if v in norse.get(poem, {}).get(s, {})]
     return tuple(out)
 
 
@@ -1016,8 +1050,11 @@ def _odin_pick(query: str, rng=random) -> "tuple[str, str, str] | str":
         if number:
             if (poem, number) in stanzas:
                 return poem, number, ""
-            return f"Stanza {number} of **{poem}** isn't Odin speaking. `!edda {poem} {number}` shows it."
+            show = "!edda" if poem in _edda() else "!verse"
+            return f"Stanza {number} of **{poem}** isn't Odin speaking. `{show} {poem} {number}` shows it."
         return (*rng.choice(mine), "")
+    if poem in lookup._data.get("norse", {}):
+        return f"Odin doesn't speak in **{poem}**. `!odin` alone picks from the poems where he does."
     if number and not name:
         return "Name the poem with the stanza: `!odin grimnismal 49`."
     return (*rng.choice(stanzas), q)
@@ -1026,18 +1063,19 @@ def _odin_pick(query: str, rng=random) -> "tuple[str, str, str] | str":
 @bot.command(name="odin", aliases=["wotan", "woden", "othin", "odinn"])
 async def cmd_odin(ctx, *, query: str = ""):
     """Odin's own words: a stanza he speaks in the Poetic Edda (the Hávamál, Grímnismál, and his part in
-    Vafþrúðnismál, Hárbarðsljóð, Lokasenna and Baldr's Dreams). Usage: !odin · !odin grimnismal · !odin 138 (the
-    Hávamál's) · !odin [a question]   (also !wotan, !woden)"""
+    Vafþrúðnismál, Hárbarðsljóð, Lokasenna and Baldr's Dreams), Eiríksmál, or one of his riddles as Gestumblindi.
+    Usage: !odin · !odin grimnismal · !odin riddles · !odin 138 (the Hávamál's) · !odin [a question]
+    (also !wotan, !woden)"""
     pick = _odin_pick(query)
     if isinstance(pick, str):
         await ctx.send(pick)
         return
     poem, stanza, question = pick
-    await send_edda(ctx, f"{poem} {stanza}", question=question)
+    await send_edda(ctx, "", question=question, chosen=(poem, stanza))
 
 
-async def send_edda(ctx, query: str, question: "str | None" = None) -> None:
-    """!edda's reply (and !odin's, with the poem chosen and the question given apart)."""
+async def send_edda(ctx, query: str, question: "str | None" = None, chosen: "tuple | None" = None) -> None:
+    """!edda's reply (and !odin's, with the stanza chosen and the question given apart)."""
     guild = getattr(ctx, "guild", None)
     if not tradition_enabled(guild.id if guild else None, "norse"):
         await ctx.send("The Norse texts are turned off on this server.")
@@ -1045,7 +1083,7 @@ async def send_edda(ctx, query: str, question: "str | None" = None) -> None:
     if not _edda():
         await ctx.send("⚠️ The Poetic Edda isn't loaded.")
         return
-    pick = _edda_pick(query)
+    pick = chosen or _edda_pick(query)
     if isinstance(pick, str):
         await ctx.send(pick)
         return
@@ -1054,13 +1092,19 @@ async def send_edda(ctx, query: str, question: "str | None" = None) -> None:
         named = lookup._resolve_exact(re.sub(r"\s*\d+$", "", query.strip()))[1] if query.strip() else None
         question = query if named not in _edda() and not re.fullmatch(r"\d+", query.strip()) else ""
     log.info(f"RNG  edda                   → {poem} {stanza} (user: {ctx.author})")
-    text = _edda()[poem][stanza].get("1", "")
+    # (one of Hollander's stanzas: Odin's speech in it alone; a riddle's answer under it, hidden till clicked)
+    verse = ODIN_HOLLANDER.get(poem, {}).get(stanza, "") if chosen else ""
+    text = _edda_text(poem, stanza, verse)
     embed = discord.Embed(title=f"🌲 {_edda_title(poem, stanza)}", description=text[:4096],
                           color=discord.Color.dark_green())
-    embed.set_footer(text=f"{EDDA_SOURCE} · !verse {poem} {stanza}")
+    if poem == "Heithreksgatur" and verse:
+        answer = _edda_text(poem, stanza, "2")
+        if answer:
+            embed.add_field(name="King Heithrek's answer", value=f"||{answer[:1000]}||", inline=False)
+    embed.set_footer(text=f"{_edda_source(poem)} · !verse {poem} {stanza}")
     _ask(embed, question)
     _record(ctx, "edda", f"{poem} {stanza}")
-    view = _card_view("edda", f"{poem}|{stanza}")
+    view = _card_view("edda", f"{poem}|{stanza}" + (f"|{verse}" if verse else ""))
     near = lookup.neighbours(f"{poem} {stanza}")
     for kind, side in (("p", "prev"), ("n", "next")):        # (◀ ▶ the stanzas either side, where there's one)
         if near.get(side):
