@@ -235,3 +235,12 @@ def test_no_quotation_marks_on_the_cards(oracles):
     for key in ("Vafthruthnismol|8", "Lokasenna|6"):
         _, text, _ = oracles._oracle_card_content("edda", key)
         assert not any(q in text for q in '"“”'), key
+
+
+def test_every_rune_is_drawn(bot_module):
+    """The Runes card draws the runes itself, with straight strokes (no font without curves was found)."""
+    from bot_commands.card import RUNE_STROKES, RUNE_DOTS
+    used = {r for v in runes.RUNE.values() for r in v} | {"ᛦ", runes.DOT}
+    assert used <= set(RUNE_STROKES) | set(RUNE_DOTS)
+    carved = runes.carve("\n".join(t for p in NORSE.values() for t in p.values()))
+    assert set(carved) <= set(RUNE_STROKES) | set(RUNE_DOTS)

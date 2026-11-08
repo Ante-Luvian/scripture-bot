@@ -412,26 +412,85 @@ def _render_verse_card(reference: str, text: str, source: str, question: str = "
     return buf
 
 
+# The sixteen runes of the Younger Futhark drawn as straight strokes, the way a carver cut them (the owner, 2026-11-08:
+# no runic font without curves was found, BabelStone's own rounding ᚢ ᚱ ᚦ ᛒ). Each: polylines in a box one unit tall
+# (y down from the top), x from the stave at 0. The shapes follow BabelStone Runic's, with every curve made straight.
+RUNE_STROKES = {
+    "ᚠ": [[(0, 0), (0, 1)], [(0, 0.32), (0.42, 0.04)], [(0, 0.6), (0.42, 0.32)]],
+    "ᚢ": [[(0, 1), (0, 0), (0.5, 0.3), (0.5, 1)]],
+    "ᚦ": [[(0, 0), (0, 1)], [(0, 0.2), (0.4, 0.4), (0, 0.6)]],
+    "ᚬ": [[(0, 0), (0, 1)], [(-0.3, 0.12), (0.3, 0.42)], [(-0.3, 0.42), (0.3, 0.72)]],
+    "ᚱ": [[(0, 1), (0, 0), (0.42, 0.22), (0.12, 0.5), (0.46, 1)]],
+    "ᚴ": [[(0, 0), (0, 1)], [(0, 0.42), (0.42, 0.06)]],
+    "ᚼ": [[(0, 0), (0, 1)], [(-0.32, 0.18), (0.32, 0.58)], [(0.32, 0.18), (-0.32, 0.58)]],
+    "ᚾ": [[(0, 0), (0, 1)], [(-0.3, 0.22), (0.3, 0.56)]],
+    "ᛁ": [[(0, 0), (0, 1)]],
+    "ᛅ": [[(0, 0), (0, 1)], [(-0.3, 0.56), (0.3, 0.22)]],
+    "ᛋ": [[(0, 0.02), (0, 0.56), (0.46, 0.3)], [(0.46, 0), (0.46, 1)]],
+    "ᛏ": [[(0, 0), (0, 1)], [(-0.36, 0.26), (0, 0), (0.36, 0.26)]],
+    "ᛒ": [[(0, 1), (0, 0), (0.4, 0.22), (0, 0.46), (0.44, 0.72), (0, 1)]],
+    "ᛘ": [[(0, 0.2), (0, 1)], [(-0.36, 0), (0, 0.32), (0.36, 0)]],
+    "ᛚ": [[(0, 0), (0, 1)], [(0, 0), (0.4, 0.26)]],
+    "ᛦ": [[(0, 0), (0, 0.8)], [(-0.36, 1), (0, 0.68), (0.36, 1)]],
+}
+RUNE_DOTS = {"᛫": 1, "᛬": 2}            # (the carvers' word dividers: one small square, or two)
+RUNE_GAP = 0.24                          # (space after each rune, in rune heights)
+RUNE_STROKE = 0.085                      # (stroke width, in rune heights)
+
+
+def _rune_extent(ch: str) -> "tuple[float, float]":
+    if ch in RUNE_DOTS:
+        return 0.0, 0.14
+    xs = [x for line in RUNE_STROKES.get(ch, [[(0, 0)]]) for x, _ in line]
+    return min(xs), max(xs)
+
+
+def _rune_advance(ch: str, height: float) -> float:
+    lo, hi = _rune_extent(ch)
+    return (hi - lo + RUNE_GAP + RUNE_STROKE) * height
+
+
+def _draw_rune(draw, x: float, y: float, ch: str, height: float, fill) -> None:
+    """A rune with its left edge at x and its top at y, the strokes cut square, the joints filled."""
+    lo, _ = _rune_extent(ch)
+    w = RUNE_STROKE * height
+    ox = x - lo * height + w / 2
+    if ch in RUNE_DOTS:
+        s = 0.14 * height
+        for k in range(RUNE_DOTS[ch]):
+            cy = y + height * (0.5 if RUNE_DOTS[ch] == 1 else 0.33 + 0.34 * k)
+            draw.rectangle([x, cy - s / 2, x + s, cy + s / 2], fill=fill)
+        return
+    for line in RUNE_STROKES.get(ch, []):
+        pts = [(ox + px * height, y + py * height) for px, py in line]
+        draw.line(pts, fill=fill, width=max(1, round(w)))
+        for px, py in pts[1:-1]:                         # (no notch at a bend)
+            draw.ellipse([px - w / 2, py - w / 2, px + w / 2, py + w / 2], fill=fill)
+
+
 def _render_runes_card(reference: str, carved: str, source: str, question: str = "", style: str = "norse"):
     """Runes set as on a runestone (the owner, 2026-11-08): one continuous run, words parted by the carvers' dot, no
     line breaks for the verse, the rows broken wherever the edge comes (mid-word too, as carvers did), and each
-    row but the last spaced out to the full width. The type as large as will fill the card."""
+    row but the last spaced out to the full width. The runes as large as will fill the card, drawn with straight
+    strokes (RUNE_STROKES) at 4x and scaled down."""
     from PIL import Image, ImageDraw, ImageFont
     import io, textwrap
-    W, H0, FONTS = 1200, 630, "C:/Windows/Fonts/"
+    W, H0, FONTS, S = 1200, 630, "C:/Windows/Fonts/", 4
     s = CARD_STYLES.get(style, CARD_STYLES["parchment"])
-    text = re.sub(r"\s+", "", carved)
+    text = "".join(ch for ch in carved if ch in RUNE_STROKES or ch in RUNE_DOTS)
     q_lines = textwrap.wrap(f"“{question.strip()}”", width=60)[:4] if question.strip() else []
     q_font = ImageFont.truetype(FONTS + "georgiai.ttf", 30)
     top = 84 + (40 * len(q_lines) + 20 if q_lines else 0)
     max_w = W - 160
-    dummy = ImageDraw.Draw(Image.new("RGB", (10, 10)))
 
-    def rows_for(font):
+    def ink(row, height):                            # (a row's width without the gap after its last rune)
+        return sum(_rune_advance(ch, height) for ch in row) - RUNE_GAP * height if row else 0.0
+
+    def rows_for(height):
         rows, row, width = [], "", 0.0
         for ch in text:
-            w = dummy.textlength(ch, font=font)
-            if row and width + w > max_w:
+            w = _rune_advance(ch, height)
+            if row and width + w - RUNE_GAP * height > max_w:
                 rows.append(row)
                 row, width = "", 0.0
             row, width = row + ch, width + w
@@ -442,31 +501,31 @@ def _render_runes_card(reference: str, carved: str, source: str, question: str =
                 rows[i - 1], rows[i] = rows[i - 1] + rows[i][0], rows[i][1:]
         return [r for r in rows if r]
 
-    size, H = 200, H0
+    size = 160                                       # (the rune's height in pixels)
     while True:
-        font = ImageFont.truetype(_RUNIC_FONT_PATH, size)
-        rows, line_height = rows_for(font), int(size * 1.25)
-        if top + line_height * len(rows) + 200 <= H0 or size <= 28:
+        rows, line_height = rows_for(size), int(size * 1.4)
+        if top + line_height * len(rows) - (line_height - size) + 200 <= H0 - 10 or size <= 24:
             break
         size -= 4
-    H = max(H0, top + line_height * len(rows) + 200)
+    block = line_height * len(rows) - (line_height - size)
+    H = max(H0, top + block + 210)
     img = Image.new("RGB", (W, H), s["bg"])
     draw = ImageDraw.Draw(img)
     _draw_frame(draw, W, H, s)
     for i, q in enumerate(q_lines):
         draw.text(((W - draw.textlength(q, font=q_font)) / 2, 72 + 40 * i), q, font=q_font, fill=s["accent"])
-    available = H - top - 200
-    y = top + max(0, (available - line_height * len(rows)) // 2)
-    x0 = (W - max_w) / 2
+    y0 = top + max(0, (H - top - 200 - block) // 2)
+    layer = Image.new("RGBA", (max_w * S, block * S), (0, 0, 0, 0))
+    ld = ImageDraw.Draw(layer)
     for n, row in enumerate(rows):
-        widths = [draw.textlength(ch, font=font) for ch in row]
         last = n == len(rows) - 1
-        spare = 0 if last or len(row) < 2 else (max_w - sum(widths)) / (len(row) - 1)
-        x = x0 if not last else (W - sum(widths)) / 2 if len(rows) == 1 else x0
-        for ch, w in zip(row, widths):
-            draw.text((x, y), ch, font=font, fill=s["text"])
-            x += w + spare
-        y += line_height
+        spare = 0 if last or len(row) < 2 else (max_w - ink(row, size)) / (len(row) - 1)
+        x = (max_w - ink(row, size)) / 2 if last and len(rows) == 1 else 0.0
+        for ch in row:
+            _draw_rune(ld, x * S, n * line_height * S, ch, size * S, s["text"])
+            x += _rune_advance(ch, size) + spare
+    layer = layer.resize((max_w, block), Image.LANCZOS)
+    img.paste(layer, ((W - max_w) // 2, y0), layer)
     _draw_ornament(draw, W // 2, H - 160, s)
     ref_font = ImageFont.truetype(FONTS + "georgiab.ttf", 34)
     while draw.textlength(reference, font=ref_font) > W - 100 and ref_font.size > 20:
