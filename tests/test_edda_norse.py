@@ -173,8 +173,8 @@ def test_the_card_text_is_in_marked_half_lines(oracles):
     """The Edda's card (the owner, 2026-11-08): a half-line to a line, upright, flush left, the second half of each
     of Bellows's lines indented (a tab marks it for the card); a line he leaves whole isn't."""
     _, text, _ = oracles._oracle_card_content("edda", "Vafthruthnismol|8")
-    assert text.split("\n") == ["“Gagnrath they call me,", "\tand thirsty I come", "From a journey hard to thy hall;",
-                                "Welcome I look for,", "\tfor long have I fared,", "And gentle greeting, giant.”"]
+    assert text.split("\n") == ["Gagnrath they call me,", "\tand thirsty I come", "From a journey hard to thy hall;",
+                                "Welcome I look for,", "\tfor long have I fared,", "And gentle greeting, giant."]
     left = oracles._half_lines(oracles._edda_text("Vafthruthnismol", "8"), mark=True)
     right = oracles._norse_marked(oracles._norse_text("Vafthruthnismol", "8"), left)
     assert [l.startswith("\t") for l in right.split("\n")] == [l.startswith("\t") for l in left.split("\n")]
@@ -220,7 +220,18 @@ def test_the_norse_view_has_a_card_button(oracles):
 
 def test_the_runes_card_renders(bot_module):
     from bot_commands.card import _render_verse_card, _script_font
-    assert _script_font("C:/Windows/Fonts/", "ᚠᚢᚦ").endswith("seguihis.ttf")
-    buf = _render_verse_card("Voluspo, stanza 19", runes.to_runes(NORSE["Voluspo"]["19"]), "note", "", "norse",
-                             verse=True)
+    assert _script_font("C:/Windows/Fonts/", "ᚠᚢᚦ").endswith("BabelStoneRunic.ttf")
+    from bot_commands.card import _render_runes_card
+    buf = _render_runes_card("Voluspo, stanza 19", runes.carve(NORSE["Voluspo"]["19"]), "note", "a question?")
     assert buf.read(8) == b"\x89PNG\r\n\x1a\n"
+
+
+def test_carved_as_one_run():
+    """The Runes card's text (the owner, 2026-11-08): one run, as on a runestone, no line breaks."""
+    assert runes.carve("Ask veit ek standa,\nheitir Yggdrasill,") == "ᛅᛋᚴ᛫ᚢᛅᛁᛏ᛫ᛁᚴ᛫ᛋᛏᛅᚾᛏᛅ᛫ᚼᛅᛁᛏᛁᚱ᛫ᚢᚴᛏᚱᛅᛋᛁᛚ"
+
+
+def test_no_quotation_marks_on_the_cards(oracles):
+    for key in ("Vafthruthnismol|8", "Lokasenna|6"):
+        _, text, _ = oracles._oracle_card_content("edda", key)
+        assert not any(q in text for q in '"“”'), key

@@ -14,6 +14,10 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-11-08 · Runes carved like a runestone
+- ᚱ **The Runes card now looks like a runestone.** Viking-Age carvers didn't break an inscription into verse lines: the runes ran on in one band, the words parted only by small dots, carried on wherever the stone's edge came, even in the middle of a word. The **ᚱ Runes** card under `!edda` and `!odin` now does the same: the whole stanza as one run of large runes filling the card, in the BabelStone Runic typeface. Try `!edda voluspa 19` and press **ᚱ Runes**.
+- 🖼️ The Edda's picture cards (**🖼️ Card**, and the English-and-Old-Norse card) no longer show quotation marks around the speeches.
+
 ## 2026-11-08 · Edda picture cards set like a printed poem
 - 🖼️ **The Edda's picture cards are now set like a poem in a book.** Under `!edda` and `!odin`, **🖼️ Card** used to show each stanza centred, in italics, with a dot in the middle of each line. Now it is a half-line to a line, in upright type, lined up on the left, and the second half of each line is indented, so you can see where each line of the poem breaks. The same goes for **ᚱ Runes**.
 - 🖼️ **New: a card of the English and the Old Norse together.** Under **📜 Old Norse** (or `!parallel havamal 139`, or `!odin norse`) there is now a **🖼️ Card** button. It makes a picture of the stanza with the English on the left and the Old Norse on the right, line beside line.

@@ -34,6 +34,8 @@ from greek_translit import _transliterate_greek
 # ── !card — shareable verse image ─────────────────────────────────────────────────
 
 _SYRIAC_FONT_PATH = str(ROOT / "fonts" / "NotoSansSyriac-Regular.ttf")
+# (a copy in the project: the service account can't read fonts installed for a user only)
+_RUNIC_FONT_PATH = str(ROOT / "fonts" / "BabelStoneRunic.ttf")
 
 def _script_font(fonts_dir: str, text: str) -> str:
     """Pick a font file that can actually render the text's script.
@@ -46,8 +48,8 @@ def _script_font(fonts_dir: str, text: str) -> str:
         cp = ord(ch)
         if 0x0700 <= cp <= 0x074F:
             return _SYRIAC_FONT_PATH
-        if 0x16A0 <= cp <= 0x16FF:                  # (runes, the Edda's ᚱ Runes card: Segoe UI Historic has them)
-            return fonts_dir + "seguihis.ttf"
+        if 0x16A0 <= cp <= 0x16FF:                  # (runes: BabelStone Runic, the owner's choice, 2026-11-08)
+            return _RUNIC_FONT_PATH
         if 0x0590 <= cp <= 0x05FF or 0x0370 <= cp <= 0x03FF or 0x1F00 <= cp <= 0x1FFF or 0x0400 <= cp <= 0x04FF:
             return fonts_dir + "times.ttf"
     return fonts_dir + "georgiai.ttf"
@@ -404,6 +406,75 @@ def _render_verse_card(reference: str, text: str, source: str, question: str = "
     src_w = draw.textlength(source, font=src_font)
     draw.text(((W - src_w) / 2, H - 80), source, font=src_font, fill=ACCENT)
 
+    buf = io.BytesIO()
+    img.save(buf, format="PNG")
+    buf.seek(0)
+    return buf
+
+
+def _render_runes_card(reference: str, carved: str, source: str, question: str = "", style: str = "norse"):
+    """Runes set as on a runestone (the owner, 2026-11-08): one continuous run, words parted by the carvers' dot, no
+    line breaks for the verse, the rows broken wherever the edge comes (mid-word too, as carvers did), and each
+    row but the last spaced out to the full width. The type as large as will fill the card."""
+    from PIL import Image, ImageDraw, ImageFont
+    import io, textwrap
+    W, H0, FONTS = 1200, 630, "C:/Windows/Fonts/"
+    s = CARD_STYLES.get(style, CARD_STYLES["parchment"])
+    text = re.sub(r"\s+", "", carved)
+    q_lines = textwrap.wrap(f"“{question.strip()}”", width=60)[:4] if question.strip() else []
+    q_font = ImageFont.truetype(FONTS + "georgiai.ttf", 30)
+    top = 84 + (40 * len(q_lines) + 20 if q_lines else 0)
+    max_w = W - 160
+    dummy = ImageDraw.Draw(Image.new("RGB", (10, 10)))
+
+    def rows_for(font):
+        rows, row, width = [], "", 0.0
+        for ch in text:
+            w = dummy.textlength(ch, font=font)
+            if row and width + w > max_w:
+                rows.append(row)
+                row, width = "", 0.0
+            row, width = row + ch, width + w
+        if row:
+            rows.append(row)
+        for i in range(1, len(rows)):                # (a row never starts with a dot: it ends the row before)
+            while rows[i] and rows[i][0] in "᛫᛬":
+                rows[i - 1], rows[i] = rows[i - 1] + rows[i][0], rows[i][1:]
+        return [r for r in rows if r]
+
+    size, H = 200, H0
+    while True:
+        font = ImageFont.truetype(_RUNIC_FONT_PATH, size)
+        rows, line_height = rows_for(font), int(size * 1.25)
+        if top + line_height * len(rows) + 200 <= H0 or size <= 28:
+            break
+        size -= 4
+    H = max(H0, top + line_height * len(rows) + 200)
+    img = Image.new("RGB", (W, H), s["bg"])
+    draw = ImageDraw.Draw(img)
+    _draw_frame(draw, W, H, s)
+    for i, q in enumerate(q_lines):
+        draw.text(((W - draw.textlength(q, font=q_font)) / 2, 72 + 40 * i), q, font=q_font, fill=s["accent"])
+    available = H - top - 200
+    y = top + max(0, (available - line_height * len(rows)) // 2)
+    x0 = (W - max_w) / 2
+    for n, row in enumerate(rows):
+        widths = [draw.textlength(ch, font=font) for ch in row]
+        last = n == len(rows) - 1
+        spare = 0 if last or len(row) < 2 else (max_w - sum(widths)) / (len(row) - 1)
+        x = x0 if not last else (W - sum(widths)) / 2 if len(rows) == 1 else x0
+        for ch, w in zip(row, widths):
+            draw.text((x, y), ch, font=font, fill=s["text"])
+            x += w + spare
+        y += line_height
+    _draw_ornament(draw, W // 2, H - 160, s)
+    ref_font = ImageFont.truetype(FONTS + "georgiab.ttf", 34)
+    while draw.textlength(reference, font=ref_font) > W - 100 and ref_font.size > 20:
+        ref_font = ImageFont.truetype(FONTS + "georgiab.ttf", ref_font.size - 2)
+    draw.text(((W - draw.textlength(reference, font=ref_font)) / 2, H - 130), reference, font=ref_font,
+              fill=s["accent"])
+    src_font = ImageFont.truetype(FONTS + "georgia.ttf", 20)
+    draw.text(((W - draw.textlength(source, font=src_font)) / 2, H - 80), source, font=src_font, fill=s["accent"])
     buf = io.BytesIO()
     img.save(buf, format="PNG")
     buf.seek(0)

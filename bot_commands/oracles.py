@@ -11,6 +11,7 @@ from scripture_lookup import BIBLE_NT, BIBLE_OT
 from bot_commands import illustrations
 from bot_commands.card import (
     _render_parallel_card,
+    _render_runes_card,
     _render_verse_card,
 )
 from bot_commands.verse import (
@@ -109,7 +110,7 @@ def _oracle_card_content(kind: str, key: str) -> "tuple[str, str, str] | None":
     if kind == "edda":                         # key "Hovamol|138": a stanza of the Poetic Edda ("Eiriksmol|6|2": Odin's
         poem, stanza, verse, odin = (key.split("|") + ["", "", ""])[:4]       # speech in a stanza of Hollander's;
         text = _edda_text(poem, stanza, verse)                                #  "|o" on the end: !odin's, unquoted)
-        text = _unquoted(text) if odin == "o" else text
+        text = _unquoted(text)                    # (no quotation marks on the card: the owner, 2026-11-08)
         # (a half-line to a line, the second halves indented: the owner's choice, 2026-11-08)
         return (_edda_title(poem, stanza), _half_lines(_plain(text), mark=True), _edda_source(poem)) if text else None
     if kind == "delphi":                       # key: maxim number
@@ -1080,10 +1081,9 @@ class RunesButton(discord.ui.DynamicItem[discord.ui.Button], template=r"runes:(?
         if not view.children:
             view.add_item(RunesButton(self.key, disabled=True))
         await interaction.response.edit_message(view=view)
-        marked = _norse_marked(norse, _half_lines(_edda_text(poem, stanza), mark=True))
-        carved = "\n".join(("\t" if l.startswith("\t") else "") + runes.to_runes(l) for l in marked.split("\n"))
-        buf = await asyncio.to_thread(_render_verse_card, _edda_title(poem, stanza), carved, RUNES_NOTE,
-                                      _question_from(interaction.message), "norse", verse=True, poem=True)
+        # (as on a runestone: one run, filling the card; the owner, 2026-11-08)
+        buf = await asyncio.to_thread(_render_runes_card, _edda_title(poem, stanza), runes.carve(norse), RUNES_NOTE,
+                                      _question_from(interaction.message), "norse")
         await interaction.followup.send(file=discord.File(buf, filename="runes.png"))
 
 
@@ -1115,8 +1115,7 @@ class NorseCardButton(discord.ui.DynamicItem[discord.ui.Button], template=r"ncar
         if not view.children:
             view.add_item(NorseCardButton(self.key, disabled=True))
         await interaction.response.edit_message(view=view)
-        if odin == "o":
-            norse, english = _unquoted(norse), _unquoted(english)
+        norse, english = _unquoted(norse), _unquoted(english)       # (no quotation marks on the card)
         left = _half_lines(_plain(english), mark=True)
         buf = await asyncio.to_thread(_render_parallel_card, _edda_title(poem, stanza), left,
                                       _norse_marked(norse, left), f"{EDDA_SOURCE} · {NORSE_SOURCE}")

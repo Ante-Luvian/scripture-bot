@@ -58,7 +58,9 @@ def test_no_quotation_marks(oracles):
     """!odin's text has no quotation marks (the owner, 2026-11-08); apostrophes stay; !edda keeps them."""
     title, text, source = oracles._oracle_card_content("edda", "Vafthruthnismol|1||o")
     assert "“" not in text and "”" not in text and text.startswith("Counsel me, Frigg")
-    assert "“" in oracles._oracle_card_content("edda", "Vafthruthnismol|1")[1]
+    # (!edda's card has none either since 2026-11-08, the owner's wish; its message keeps them)
+    assert "“" not in oracles._oracle_card_content("edda", "Vafthruthnismol|1")[1]
+    assert "“" in oracles._edda_text("Vafthruthnismol", "1")
     riddle = oracles._oracle_card_content("edda", "Heithreksgatur|5|1|o")[1]
     assert riddle.startswith("Who is the great one") and "”" not in riddle and "o’er" in riddle
     assert oracles._unquoted("“ ’Tis folly,”") == "’Tis folly,"

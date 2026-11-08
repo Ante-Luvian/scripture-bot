@@ -39,6 +39,11 @@ def _word(word: str) -> str:
     return "".join(out)
 
 
+def carve(text: str) -> str:
+    """Old Norse text as one continuous run of runes, as on a runestone: no line breaks, every word parted by ᛫."""
+    return DOT.join(w for w in (_word(w) for w in re.findall(r"[^\W\d_]+", text)) if w)
+
+
 def to_runes(text: str) -> str:
     """Old Norse text, line for line, in Younger Futhark runes; punctuation dropped, words parted by ᛫."""
     lines = []
