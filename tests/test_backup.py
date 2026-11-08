@@ -18,14 +18,14 @@ def test_backs_up_the_same_files_the_tests_isolate(backup):
 
 def test_every_runtime_file_is_found(backup, bot_module):
     names = {p.name for p in backup.runtime_paths()}
-    assert {"stats.json", "bookmarks.json", "guild_config.json", "quiz_scores.json"} <= names
+    assert {"stats.json", "reading_plans.json", "guild_config.json", "quiz_scores.json"} <= names
 
 
 def test_copies_once_a_day_and_keeps_two_weeks(backup, tmp_path):
     src = tmp_path / "src"
     src.mkdir()
     (src / "stats.json").write_text('{"a": 1}', encoding="utf-8")
-    missing = src / "bookmarks.json"
+    missing = src / "reading_plans.json"
     dest = tmp_path / "backups"
     day = datetime.date(2026, 10, 1)
     assert backup.backup_data([src / "stats.json", missing], dest, day) == 1

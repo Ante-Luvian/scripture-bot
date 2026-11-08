@@ -1,7 +1,7 @@
 """
 James Ussher's Annals of the World (1658, public domain) chronology lookup,
 built from data/timeline/ussher_timeline.json (see
-deprecated/build_timeline.py). 1,288 dated entries, 4004 BC - 73 AD.
+deprecated/build_timeline.py in git history at 5e99f69). 1,288 dated entries, 4004 BC - 73 AD.
 """
 import json
 from pathlib import Path

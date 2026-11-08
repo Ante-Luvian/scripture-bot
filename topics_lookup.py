@@ -1,6 +1,6 @@
 """
 Nave's Topical Bible lookup (Orville J. Nave, public domain), built from
-data/topics/naves_topical.json (see deprecated/build_topics.py for how that
+data/topics/naves_topical.json (see deprecated/build_topics.py in git history at 5e99f69 for how that
 file was generated). A browsable outline per subject with embedded scripture
 citations -- displayed as-is, not mined for individual verse links.
 """

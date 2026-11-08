@@ -414,32 +414,10 @@ async def on_app_command_error(interaction: discord.Interaction, error: Exceptio
     await _tell_interaction_user(interaction)
 
 # ── VOTD config ────────────────────────────────────────────────────────────────
-# Per-guild VOTD channel/time/mode now lives in data/guild_config.json (see
+# Per-guild VOTD channel/time/mode lives in data/guild_config.json (see
 # _get_guild_votd / _update_guild_config), configured per-server via !votdsetup.
-# These two are only the one-time migration seed for the server that was
-# hardcoded here before per-guild config existed.
-_LEGACY_VOTD_CHANNEL_ID: int | None = 921184056341835836
-_LEGACY_VOTD_TIME = "04:00"
-
-# VOTD mode persistence: "full" (verse + ancients + commentary) or "basic" (verse only).
-# Set with !votdsetup mode (the hidden !votdmode was retired on 2026-11-08). Default is "full".
-VOTD_MODE_PATH = Path(__file__).parent / "data" / "votd_mode.json"
-
-def _load_votd_mode() -> str:
-    if VOTD_MODE_PATH.exists():
-        try:
-            data = json.loads(VOTD_MODE_PATH.read_text(encoding="utf-8"))
-            mode = data.get("mode", "full")
-            return mode if mode in ("full", "basic", "extended") else "full"
-        except Exception:
-            pass
-    return "full"
-
-def _save_votd_mode(mode: str) -> None:
-    VOTD_MODE_PATH.parent.mkdir(parents=True, exist_ok=True)
-    VOTD_MODE_PATH.write_text(
-        json.dumps({"mode": mode}, indent=2), encoding="utf-8"
-    )
+# (The pre-per-server leftovers -- the hard-coded channel, data/votd_mode.json and the hidden
+# !votdmode -- were removed on 2026-11-08.)
 
 # Well-known fallback verses used when verseoftheday.com is unreachable
 _VOTD_FALLBACKS = [
@@ -636,17 +614,8 @@ def _update_guild_config(guild_id: int, **kwargs) -> None:
     g.update(kwargs)
     _save_guild_config(cfg)
 
-# ── Opt-in per-guild feature flags ───────────────────────────────────────────────
-# Off by default everywhere; a server's admins turn them on with !features.
-GUILD_FEATURES = {
-    "react_save": "React 📌 on a verse to bookmark it (no need to type !save)",
-    "streaks":    "Show your !plan check-in streak",
-    "export":     "Let !saved export your full bookmark list as a text file",
-}
-
-def _get_guild_features(guild_id: int) -> dict:
-    g = _load_guild_config().get(str(guild_id), {})
-    return {key: g.get(f"feature_{key}", False) for key in GUILD_FEATURES}
+# (!features -- per-server opt-ins for 📌-reaction bookmarks, bookmark export and !plan streaks --
+# went with the bookmarks on 2026-11-08; the streak is simply always shown now.)
 
 # ── Packs: which commands, and which traditions' texts, a server has ─────────────
 # Chosen when the bot joins a server (bot_commands/packs.py asks its admins what traditions
@@ -817,19 +786,7 @@ async def _pack_check(ctx) -> bool:
         raise PackDisabled()
     return True
 
-# ── Personal bookmarks ───────────────────────────────────────────────────────────
-BOOKMARKS_PATH = Path(__file__).parent / "data" / "bookmarks.json"
-
-def _load_bookmarks() -> dict:
-    if BOOKMARKS_PATH.exists():
-        try:
-            return json.loads(BOOKMARKS_PATH.read_text(encoding="utf-8"))
-        except Exception:
-            pass
-    return {}
-
-def _save_bookmarks(data: dict) -> None:
-    _atomic_write_json(BOOKMARKS_PATH, data)
+# (Personal bookmarks, !save / !saved, were retired on 2026-11-08: no one had a bookmark saved.)
 
 # ── Personal reading plans ───────────────────────────────────────────────────────
 READING_PLANS_PATH = Path(__file__).parent / "data" / "reading_plans.json"
@@ -1115,19 +1072,6 @@ def passage_pages(text: str, size: int = PASSAGE_PAGE) -> list[str]:
     return pages or [""]
 
 
-async def _maybe_react_savable(ctx_or_interaction, msg):
-    """Add a 📌 bookmark reaction to a verse embed, if this guild opted into react_save."""
-    guild = getattr(ctx_or_interaction, "guild", None)
-    if not guild or not msg:
-        return
-    if not _get_guild_features(guild.id).get("react_save"):
-        return
-    try:
-        await msg.add_reaction("📌")
-    except Exception:
-        pass
-
-
 _LAST_CITED: dict[int, dict] = {}  # channel_id -> {"reference","text","source"}
 
 
@@ -1359,7 +1303,6 @@ async def _send_result(ctx_or_interaction, result: dict, extra_buttons: "list | 
 
         view = ChapterView()
         view.message = await _reply(embed=make_page_embed(0), view=view)
-        await _maybe_react_savable(ctx_or_interaction, view.message)
         return
 
     embed = discord.Embed(title=result["reference"], description=pages[0], color=discord.Color.dark_gold())
@@ -1369,8 +1312,7 @@ async def _send_result(ctx_or_interaction, result: dict, extra_buttons: "list | 
         view = discord.ui.View(timeout=_extra_view_timeout(extra_buttons))
         for b in extra_buttons:
             view.add_item(b)
-    msg = await (_reply(embed=embed, view=view) if view else _reply(embed=embed))
-    await _maybe_react_savable(ctx_or_interaction, msg)
+    await (_reply(embed=embed, view=view) if view else _reply(embed=embed))
 
 
 def _build_local_search_embed(query, results, offset, total, page_size):

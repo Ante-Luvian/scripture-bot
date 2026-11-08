@@ -1,7 +1,7 @@
 """
 MACULA Greek/Hebrew word-level interlinear data (Clear-Bible/Biblica, Inc.,
 CC BY 4.0), built from data/interlinear/macula.db (see
-deprecated/build_macula_interlinear.py). Real per-instance transliteration
+deprecated/build_macula_interlinear.py in git history at 5e99f69). Real per-instance transliteration
 (Hebrew) and English gloss for every word in the Greek NT (SBLGNT) and
 Hebrew OT (WLC) -- a genuine word-aligned interlinear, not one
 reconstructed by matching Strong's numbers across independently-tagged

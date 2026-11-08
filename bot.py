@@ -6,12 +6,7 @@ commands on the shared `bot` when imported.
 """
 import os
 from core import (
-    GUILD_CONFIG_PATH,
-    _LEGACY_VOTD_CHANNEL_ID,
-    _LEGACY_VOTD_TIME,
     _load_guild_config,
-    _load_votd_mode,
-    _update_guild_config,
     bot,
     log,
     lookup,
@@ -146,18 +141,8 @@ async def on_ready():
     bot.add_view(packs.WelcomeView())          # the welcome message's Set me up button
     log.info(f"Corpora loaded: {', '.join(lookup.corpora_names())}")
 
-    # One-time migration: seed per-guild config from the old hardcoded channel.
-    if not GUILD_CONFIG_PATH.exists() and _LEGACY_VOTD_CHANNEL_ID:
-        legacy_channel = bot.get_channel(_LEGACY_VOTD_CHANNEL_ID)
-        if legacy_channel and getattr(legacy_channel, "guild", None):
-            _update_guild_config(
-                legacy_channel.guild.id,
-                votd_channel_id=_LEGACY_VOTD_CHANNEL_ID,
-                votd_time=_LEGACY_VOTD_TIME,
-                votd_mode=_load_votd_mode(),
-            )
-            log.info(f"Migrated legacy VOTD config to guild '{legacy_channel.guild.name}' ({legacy_channel.guild.id})")
-
+    # (The one-time move of the old hard-coded VOTD channel into guild_config.json, done long
+    # since, was removed on 2026-11-08 with data/votd_mode.json.)
     active_votd = sum(1 for g in _load_guild_config().values() if g.get("votd_channel_id"))
     log.info(f"Daily VOTD configured for {active_votd} guild(s) — admins can run !votdsetup")
     _daily_votd_task.start()

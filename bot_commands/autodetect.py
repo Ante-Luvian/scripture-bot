@@ -14,9 +14,6 @@ from bot_commands.verse import (
 from core import (
     _AUTO_RE,
     _build_embed,
-    _get_guild_features,
-    _load_bookmarks,
-    _save_bookmarks,
     bot,
     lookup,
     tradition_enabled,
@@ -47,57 +44,6 @@ def _trim_to_book(raw: str) -> str:
 async def on_guild_join(guild: discord.Guild):
     """Welcome a new server, and ask its admins what it's for (bot_commands/packs.py)."""
     await welcome(guild)
-
-
-@bot.event
-async def on_raw_reaction_add(payload: discord.RawReactionActionEvent):
-    """React 📌 on a verse embed (opt-in per guild via !features react_save) to bookmark it."""
-    if payload.member is None or payload.member.bot:
-        return
-    if str(payload.emoji) != "📌":
-        return
-    if not payload.guild_id or not _get_guild_features(payload.guild_id).get("react_save"):
-        return
-
-    channel = bot.get_channel(payload.channel_id)
-    if channel is None:
-        return
-    try:
-        message = await channel.fetch_message(payload.message_id)
-    except (discord.NotFound, discord.Forbidden):
-        return
-    if message.author.id != bot.user.id or not message.embeds:
-        return
-    # Only react to messages the bot itself tagged with 📌 on send — scopes this
-    # to _send_result's verse embeds, not every embed the bot happens to post.
-    if not any(str(r.emoji) == "📌" and r.me for r in message.reactions):
-        return
-
-    title = message.embeds[0].title or ""
-    reference = re.sub(r"\s*\(\d+/\d+\)\s*$", "", title).strip()
-    if not reference:
-        return
-    result = (await asyncio.to_thread(lookup.get_verse, reference))
-    if not result.get("found"):
-        return
-
-    data = _load_bookmarks()
-    uid = str(payload.user_id)
-    entries = data.setdefault(uid, [])
-    canon_ref = result["reference"]
-    if any(e["reference"] == canon_ref for e in entries):
-        return
-    import datetime
-    entries.append({
-        "reference": canon_ref,
-        "source": result.get("source", ""),
-        "saved_at": datetime.datetime.now(datetime.timezone.utc).isoformat(),
-    })
-    _save_bookmarks(data)
-    try:
-        await channel.send(f"📌 Saved **{canon_ref}** for {payload.member.mention}.", delete_after=8)
-    except Exception:
-        pass
 
 
 @bot.event

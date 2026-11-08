@@ -1,5 +1,5 @@
-"""The bot runs on the owner's own computer: no one person can flood it with commands, fill its disk
-with bookmarks, set off hundreds of downloads with one export, or steer a request's URL."""
+"""The bot runs on the owner's own computer: no one person can flood it with commands, set off
+hundreds of downloads with one export, or steer a request's URL."""
 import asyncio
 import types
 
@@ -55,14 +55,7 @@ def test_the_owner_is_never_limited(bot_module, monkeypatch):
         assert asyncio.run(core._rate_check(ctx_for(1, verse)))
 
 
-def test_bookmarks_have_a_limit(bot_module, fake_ctx, monkeypatch):
-    import core
-    from bot_commands import personal
-    monkeypatch.setattr(personal, "MAX_BOOKMARKS", 3)
-    core._save_bookmarks({str(fake_ctx.author.id): [{"reference": f"John 3:{v}"} for v in range(1, 4)]})
-    asyncio.run(bot_module.bot.get_command("save").callback(fake_ctx, reference="Genesis 1:1"))
-    assert "as many as I keep" in fake_ctx.sent[-1]["content"]
-    assert len(core._load_bookmarks()[str(fake_ctx.author.id)]) == 3
+# (test_bookmarks_have_a_limit went with the bookmarks, 2026-11-08)
 
 
 def test_one_export_at_a_time(bot_module):

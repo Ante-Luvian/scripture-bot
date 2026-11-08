@@ -6,7 +6,7 @@ import asyncio
 import pytest
 
 # Owner/maintenance tools that stay prefix-only
-PREFIX_ONLY = {"guildactivity", "scanstats",
+PREFIX_ONLY = {"guildactivity",
                "physiologus", "reynard",   # (the owner: no slash command each; /tale reaches them)
                "asksetup",                 # (private: not in other servers' slash list, 2026-11-02)
                # (2026-11-08, room in Discord's 100: a slash command already reaches each)
@@ -22,7 +22,7 @@ def test_the_prefix_only_ones_are_reachable_by_slash(bot_module):
     assert "leaderboard" in [c.value for c in tree.get_command("quiz").parameters[0].choices]
     assert [c.value for c in tree.get_command("bcp").parameters[0].choices] == ["office", "psalm", "collect"]
 # Admin commands; their slash forms are subcommands of /setup (Discord allows 100 slash commands)
-ADMIN_SLASH = {"votdsetup", "oraclesetup", "quizsetup", "verslesetup", "hymndaysetup", "saintsetup", "astrosetup", "angelussetup", "troparionsetup", "learningsetup", "changelogsetup", "changelogintro", "features", "serversetup", "packs"}
+ADMIN_SLASH = {"votdsetup", "oraclesetup", "quizsetup", "verslesetup", "hymndaysetup", "saintsetup", "astrosetup", "angelussetup", "troparionsetup", "learningsetup", "changelogsetup", "changelogintro", "serversetup", "packs"}
 
 
 @pytest.mark.parametrize("part, period, date, args", [

@@ -1,7 +1,7 @@
 """
 Easton's (1897) + Smith's (1863) Bible Dictionary lookup, both public
 domain, built from data/dictionary/bible_dictionary.json (see
-deprecated/build_bible_dictionary.py).
+deprecated/build_bible_dictionary.py in git history at 5e99f69).
 """
 import json
 from pathlib import Path

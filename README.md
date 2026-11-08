@@ -111,11 +111,8 @@ Prefix commands use `!`; most also have a `/` slash-command version.
 | `!xref <ref>` | `!crossref` | Cross-references (Treasury of Scripture Knowledge) |
 | `!notes <ref>` | `!netnotes` | The NET Bible's translator's, study, and text-critical notes for a verse (up to 5 verses) |
 | `!quoted <ref>` | `!otnt`, `!quotedin` | OT ↔ NT quotations, and NT quotations of / parallels with Enoch and other non-canonical works |
-| `!strong <number or ref>` | `!strongs` | Strong's entry, or a verse with Strong's tagging |
-| `!root <number or word>` | `!cognates` | A Hebrew/Greek word's root and its direct derivatives |
-| `!concordance <number or word>` | `!conc` | Every verse tagged with a Strong's number |
-| `!interlinear <ref>` | `!il` | Word-by-word interlinear image |
-| `!reverseinterlinear <ref>` | `!ril` | KJV text tagged with Strong's numbers, as an image |
+| `!strong <number \| word \| ref> [verses \| root \| in <book>]` | `!strongs` | Strong's entry (with 📖 Every verse and 🌳 Root & family buttons, `StrongMoreButton`), a verse with Strong's tagging, every verse tagged with a number (`card.send_concordance`, MACULA), or a word's root and direct derivatives (`reference.send_root`). Took over `!concordance` and `!root` on 2026-11-08 |
+| `!interlinear [reverse] <ref>` | `!il` | Word-by-word interlinear image; `reverse` (or the 🔁 button, `InterlinearFlipButton`) gives the KJV in its own order tagged with Strong's numbers (`card.send_reverse_interlinear`, once `!reverseinterlinear`) |
 | `!topic <subject>` | `!naves` | Nave's Topical Bible |
 | `!dictionary <term>` | `!dict`, `!define` | Easton's / Smith's Bible Dictionary |
 | `!timeline <subject>` | `!chronology` | Ussher's *Annals of the World* |
@@ -197,15 +194,12 @@ answer, and every answer has a 🖼️ Card button that renders it as an image.
 
 | Command | Aliases | What it does |
 |---|---|---|
-| `!save <ref> [note]` | `!bookmark` | Bookmark a verse |
-| `!saved [remove <n> \| export]` | `!bookmarks` | List, remove from (once `!unsave`) or export bookmarks |
-| `!plan` | | Chapter-a-day reading plan, with optional daily DM (`!plan remind on [HH:MM]`) |
+| `!plan` | | Chapter-a-day reading plan, with optional daily DM (`!plan remind on [HH:MM]`) and a check-in streak (always shown since `!features` went; bookmarks, `!save`/`!saved`, were retired with it on 2026-11-08) |
 | `!memorize <ref>` | `!memorise` | Learn a verse by heart: blanked-out practice card (4 levels) and spaced reviews by DM; `list`, `stop <ref>` |
 | `!prefer <translation>` | | Default translation for plain `!verse` |
 | `!leaderboard` | `!lb` | This server's quiz leaderboard (the same as `!quiz leaderboard`; it ranked bookmarkers until 2026-11-08) |
-| `!features` | | (Admins) Opt-in server features |
 
-Plus `!stats`, and owner/admin tools `!guildactivity`, `!scanstats`, `!errors [days]`
+Plus `!stats`, and owner/admin tools `!guildactivity`, `!errors [days]`
 (recent errors, grouped) and `!weeklyreport` (preview of the Monday DM report).
 Pictures from the old illustrated editions have no command: a 🖌️ button (`bot_commands/illustrations.py`) appears
 under `!verse`, `!fable`, `!tale` and `!shakespeare` wherever the passage has one. `scripts/build_illustrations.py`
@@ -311,13 +305,13 @@ bot_commands/           One module per feature area; each registers its
   verse.py              commands on core.bot when imported:
   books.py                !verse/!search/!discover · !books/!export
   translations.py         !compare/!variants/!strong/!parallel
-  card.py                 !card/!interlinear/!reverseinterlinear/!concordance
-  reference.py            !xref/!quoted/!root/!topic/!dictionary/!timeline
+  card.py                 !card/!interlinear (both orders) · "!strong G26 verses"
+  reference.py            !xref/!quoted/!topic/!dictionary/!timeline · "!strong G26 root"
   church.py               !catena/!ccc/!canon/!creed/!summa
   liturgy.py              !today/!bcp/!prayer
   oracles.py              !gematria/!virgil/!homer/!delphi/!oracle
   votd.py                 !votd/!votdsetup/!subscribe + the daily task
-  personal.py             !save/!plan/!prefer/!leaderboard/!features
+  personal.py             !plan/!prefer
   packs.py                !serversetup/!packs: what a server has (core.PACKS, its traditions),
                           the setup questions on joining, pack slash commands registered per server
   quiz.py                 !quiz/!quizsetup + the daily quiz
@@ -351,7 +345,6 @@ liturgical_calendar.py  !today's multi-tradition calendar
 data/                   The text corpus (JSON) — see below
 fonts/                  Fonts for !card / interlinear images
 tests/                  pytest suite
-deprecated/             Old one-off build/fix scripts, kept for reference
 <six submodules>        Third-party corpora (Perseus, LXX, Peshitta, ...)
 ```
 
@@ -464,8 +457,7 @@ Three reference datasets have their own shape, each rebuilt by a script in `scri
 
 **Runtime state is not in git.** The bot writes per-server and per-user data
 to `data/` as it runs — `stats.json`, `guild_activity.json`, `guild_config.json`,
-`user_prefs.json`, `bookmarks.json`, `reading_plans.json`, `subscribers.json`,
-`votd_mode.json`, plus game state (`quiz_scores.json`, `daily_quiz.json`, `memorize.json`,
+`user_prefs.json`, `reading_plans.json`, `subscribers.json`, plus game state (`quiz_scores.json`, `daily_quiz.json`, `memorize.json`,
 `versle.json`). These contain Discord user/server IDs and are gitignored; back
 them up separately if you move machines.
 

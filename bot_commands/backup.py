@@ -1,5 +1,5 @@
 """
-Daily backup of the bot's runtime state (stats, bookmarks, reading plans,
+Daily backup of the bot's runtime state (stats, reading plans,
 server settings, quiz scores...): each file is a single JSON document, so one
 bad write or accidental delete would otherwise lose it for good.
 
@@ -19,8 +19,8 @@ KEEP_DAYS = 14
 
 # Module attributes holding a runtime-state path (tests/conftest.py keeps the
 # same list, and a test checks the two agree).
-RUNTIME_STATE = ["VOTD_MODE_PATH", "STATS_PATH", "GUILD_ACTIVITY_PATH", "GUILD_CONFIG_PATH",
-                 "USER_PREFS_PATH", "BOOKMARKS_PATH", "READING_PLANS_PATH", "SUBSCRIBERS_PATH",
+RUNTIME_STATE = ["STATS_PATH", "GUILD_ACTIVITY_PATH", "GUILD_CONFIG_PATH",
+                 "USER_PREFS_PATH", "READING_PLANS_PATH", "SUBSCRIBERS_PATH",
                  "ERROR_LOG_PATH", "REPORT_STATE_PATH", "QUIZ_SCORES_PATH", "DAILY_QUIZ_PATH",
                  "MEMORIZE_PATH", "VERSLE_PATH", "HYMNDAY_PATH", "SAINTDAY_PATH", "ANGELUS_PATH", "TROPARION_PATH",
                  "DELUGE_PATH", "LEARNING_PATH", "SOURCE_CHECK_PATH", "ASTRO_PATH", "HOROSCOPE_PATH",

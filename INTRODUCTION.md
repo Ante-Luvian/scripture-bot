@@ -112,7 +112,7 @@ A **🖌️** button shows the pictures of the old illustrated editions wherever
 • `!compare ancient John 3:16` — the same verse in the ancient witnesses: Hebrew or Greek, the Septuagint, Latin Vulgate, Syriac Peshitta, Church Slavonic and Old English.
 
 **`!interlinear John 3:16`** — an image of the verse in the original Greek (or Hebrew, for the Old Testament), word by word, with how each word is pronounced and what it means written underneath. Press **Interlinear** under any Bible verse for the same thing.
-**`!reverseinterlinear John 3:16`** — the other way round: the KJV in normal English word order, each word labelled with the Hebrew or Greek word it translates.
+• `!interlinear reverse John 3:16` (or the **🔁 English order** button under the picture) — the other way round: the KJV in normal English word order, each word labelled with the Hebrew or Greek word it translates.
 
 **`!variants Isaiah 53:5`** — puts the KJV beside the Septuagint and the Dead Sea Scroll text of the same verse, where a scroll survives (Isaiah, Exodus, Deuteronomy, Psalms, Daniel), with the scroll's story and a link to see it.
 
@@ -126,12 +126,12 @@ A **🖌️** button shows the pictures of the old illustrated editions wherever
 **`!quoted Isaiah 53:5`** — where the New Testament quotes the Old (or the Book of Enoch and other ancient writings), shown side by side, each labelled as a direct quotation or a looser parallel.
 **`!story flood`**: the same story as different traditions tell it, side by side. The Flood in Genesis, the Epic of Gilgamesh, Ovid, the Quran and the Maya Popol Vuh; also `!story creation`, `humans` (the first people, made from earth), `tower`, `underworld`, `ages` (the golden age and after), `end` and `christ` (pagan texts early Christians read as foretelling Christ, each with the Church Father who read it so). Choose one from the menu to read it in full; `!story` alone lists them.
 **`!cloud Ecclesiastes`** — a book's most distinctive words drawn as a picture, the bigger the word the more it sets that book apart from the rest of its collection: Ecclesiastes is *vanity*, *vexation* and *labour under the sun*, the Song of Solomon *beloved*, *myrrh* and *lilies*. Works for any book in the library (`!cloud Revelation`, `!cloud Tao Te Ching`).
-**`!catena John 3:16`** — what the early Church Fathers said about a verse, verse by verse through the Bible. (Also the **Catena** button under any Bible verse.)
+**`!catena John 3:16`** — what the early Church Fathers said about a verse. (Also the **Catena** button.)
 
 **The original languages** (Strong's numbers are a standard numbering of every Hebrew and Greek word in the Bible — G for Greek, H for Hebrew):
-• `!strong G26` — the dictionary entry for a word (here *agapē*, love) · `!strong John 3:16` — a verse with every word numbered
-• `!root love` or `!root G26` — a word's root and the family of words built from it
-• `!concordance G26` (or `!concordance agape`) — every verse where that word appears
+• `!strong G26` (or `!strong agape`) — the dictionary entry for a word (here *agapē*, love) · `!strong John 3:16` — a verse with every word numbered
+• `!strong G26 verses` (or **📖 Every verse** under an entry) — every verse with that word (`!strong G26 in John`: one book)
+• `!strong G26 root` (or **🌳 Root & family**) — its root and the words built from it
 
 **Reference books**
 • `!topic forgiveness` — *Nave's Topical Bible*: every passage on a subject, organised into an outline
@@ -259,11 +259,7 @@ A **🖌️** button shows the pictures of the old illustrated editions wherever
 **`!votd`** — today's Verse of the Day. `!votd ESV` gives it in another translation; `!votd full` adds the ancient translations and a Church Father's commentary; `!votd extended` adds today's calendar too. Servers can have it posted automatically each day. Press **📅 Today's readings** under it to see that day's psalms and Bible readings for morning and evening prayer (from the Book of Common Prayer) — just for you.
 **`!subscribe`** — get the Verse of the Day sent to your private messages every day · `!subscribe off` to stop.
 
-**Your own bookmarks**
-• `!save John 3:16` — save a verse (add a note: `!save John 3:16 | got me through a hard week`)
-• `!saved` — your saved verses · `!saved remove 2` — remove number 2 from that list
-
-**`!plan start John`** — a reading plan: one chapter a day through a book. `!plan` shows today's chapter, `!plan status` your progress, `!plan stop` ends it. Add `!plan remind on` and I'll send you each day's chapter by private message (at 07:00 UTC, or pick a time: `!plan remind on 19:30`).
+**`!plan start John`** — a reading plan: one chapter a day through a book. `!plan` shows today's chapter (and your 🔥 streak of days in a row), `!plan status` your progress, `!plan stop` ends it. Add `!plan remind on` and I'll send you each day's chapter by private message (at 07:00 UTC, or pick a time: `!plan remind on 19:30`).
 
 **`!memorize John 3:16`** — learn a verse by heart. I show it with some words blanked out; say it aloud, filling in the gaps, and press **Reveal** to check. **Harder** hides more words each time, until only the first letter of each word is left. Press **🔔 Remind me** and I'll send it to you by private message to practise again after 1, 3, 7, 14 and 30 days — spacing reviews out like that is what makes a verse stick. `!memorize list` shows your verses; `!memorize stop John 3:16` stops one.
 
@@ -280,6 +276,5 @@ These need the server's Administrator permission.
 • `!changelogintro` — post this introduction, followed by the latest updates, in the updates channel (`!changelogintro fresh` first clears my earlier messages there)
 • `!serversetup` (or `/setup traditions`) — tell me what this server is for: which traditions (Christianity, Judaism, Islam, Buddhism…), which church (and for Anglicans, how high church), and whether you'd like oracles and divination. I put away the commands and texts you won't use, so they stop cluttering `!help`, the `/` menu and searches; nothing is deleted, and you can change your mind any time
 • `!packs` — what this server has, and switch one thing on or off: `!packs divination off`, `!packs saints on`, or a tradition's texts, `!packs hindu on`
-• `!features` — optional extras, all off unless you turn them on: `!features react_save on` lets people bookmark a verse by reacting 📌, `!features streaks on` shows reading-plan streaks, `!features export on` lets people download their bookmarks with `!saved export`
 
 Below are my most recent updates — new ones will appear here as they happen. Welcome! 📖

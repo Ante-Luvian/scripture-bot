@@ -1,6 +1,6 @@
 """
 The Church Fathers (data/patristics), rebuilt from Schaff's Ante-Nicene and Nicene & Post-Nicene Fathers
-(38 volumes, CCEL's ThML), where the original one-off scripts (now in deprecated/) left works empty or
+(38 volumes, CCEL's ThML), where the original one-off scripts (once in deprecated/, now only in git history at 5e99f69) left works empty or
 cut short.
 
   python scripts/build_fathers.py download      fetch the 38 volumes into scripts/sources/ (cached)

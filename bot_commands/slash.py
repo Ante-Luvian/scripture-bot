@@ -15,7 +15,6 @@ from bot_commands.church import (
 )
 from scripture_lookup import TRADITIONS
 from core import (
-    GUILD_FEATURES,
     UserFacingError,
     bot,
     lookup,
@@ -33,10 +32,6 @@ from bot_commands.oracles import (
     cmd_odin,
 )
 from bot_commands.prayers import PRAYERS
-from bot_commands.personal import (
-    cmd_save,
-    cmd_saved,
-)
 from bot_commands.verse import (
     cmd_discover,
     verse_prefix,
@@ -238,22 +233,7 @@ async def discover_slash(interaction: discord.Interaction):
     ctx = await bot.get_context(interaction)
     await cmd_discover(ctx)
 
-@bot.tree.command(name="save", description="Save a verse to your personal bookmark list")
-@app_commands.describe(reference="e.g. John 3:16")
-async def save_slash(interaction: discord.Interaction, reference: str):
-    await interaction.response.defer()
-    ctx = await bot.get_context(interaction)
-    await cmd_save(ctx, reference=reference)
-
-@bot.tree.command(name="saved", description="List your saved verses, or remove one")   # (and /unsave, till 2026-11-08)
-@app_commands.describe(remove="A verse's number in your list, to remove it")
-async def saved_slash(interaction: discord.Interaction, remove: int = 0):
-    await interaction.response.defer()
-    ctx = await bot.get_context(interaction)
-    if remove:
-        await cmd_saved(ctx, action="remove", number=str(remove))
-    else:
-        await cmd_saved(ctx)
+# (/save and /saved went with the bookmarks on 2026-11-08.)
 
 @bot.tree.command(name="subscribe", description="Get the Verse of the Day by DM each day, or stop it")   # (/unsubscribe, till 2026-11-08)
 @app_commands.describe(action="Start (default) or stop")
@@ -514,15 +494,6 @@ _daily("learning", "learningsetup", "The day's Jewish learning", ("show", "chann
 _daily("troparion", "troparionsetup", "The day's Orthodox troparia", ("show", "channel", "time", "test", "off"))
 
 
-@setup_group.command(name="features", description="(Admins) Turn optional server features on or off")
-@app_commands.describe(name="Which feature (leave empty to see them all)", state="on or off")
-@app_commands.choices(name=[app_commands.Choice(name=k, value=k) for k in GUILD_FEATURES],
-                      state=[app_commands.Choice(name="on", value="on"), app_commands.Choice(name="off", value="off")])
-@_ADMIN
-async def setup_features(interaction: discord.Interaction, name: str = "", state: str = ""):
-    await _command("features")(await _slash_ctx(interaction), name, state)
-
-
 @setup_group.command(name="changelog", description="(Admins) Choose where the bot announces her updates")
 @app_commands.describe(channel="The updates channel (leave empty to see the current one)", off="Stop announcing updates")
 @_ADMIN
@@ -571,6 +542,6 @@ bot.tree.add_command(setup_group)
 SETUP_SUBCOMMANDS = {"votdsetup": "votd", "oraclesetup": "oracle", "quizsetup": "quiz", "verslesetup": "versle",
                      "hymndaysetup": "hymnday", "saintsetup": "saint", "angelussetup": "angelus",
                      "astrosetup": "astro",
-                     "learningsetup": "learning", "troparionsetup": "troparion", "features": "features",
+                     "learningsetup": "learning", "troparionsetup": "troparion",
                      "changelogsetup": "changelog", "changelogintro": "intro",
                      "serversetup": "traditions", "packs": "packs"}

@@ -9,7 +9,7 @@ from scripture_lookup import BIBLE_OT, get_verse_drb, get_verse_knox
 from translation_lookup import TRANSLATIONS, _mt_to_lxx_psalm, get_translation
 from discord import app_commands
 from poem_lookup import classify_scripture, is_drb_reference, lookup_pair, parse_poem_ref, list_works as poem_list_works, lookup as poem_lookup
-from strongs_lookup import get_definition as get_local_strongs_definition
+from strongs_lookup import get_definition as get_local_strongs_definition, search_by_word as strongs_search_by_word
 from core import (
     _check_search_cooldown,
     guild_traditions,
@@ -795,20 +795,63 @@ async def _send_strongs_concordance(ctx, number: str, book_raw: str):
 
 
 # ── !strong — Strong's concordance lookup ─────────────────────────────────────
+# (!concordance and !root were folded in on 2026-11-08: "!strong G26 verses", "!strong G26 root",
+# and the two buttons under an entry.)
+
+STRONG_VERSES = ("verses", "occurrences", "concordance", "everywhere")
+STRONG_ROOT = ("root", "roots", "family", "cognates", "derivatives")
+
+
+async def _send_strong_more(ctx, what: str, target: str) -> None:
+    if what == "verses":
+        from bot_commands.card import send_concordance          # (here: card.py imports this module)
+        await send_concordance(ctx, target)
+    else:
+        from bot_commands.reference import send_root
+        await send_root(ctx, target)
+
+
+class StrongMoreButton(discord.ui.DynamicItem[discord.ui.Button],
+                       template=r"strongx:(?P<what>verses|root):(?P<num>[GH]\d+[A-Z]?)"):
+    """📖 Every verse and 🌳 Root & family under a !strong entry. Persistent (the custom_id
+    carries the number), so they keep working after a restart."""
+
+    def __init__(self, what: str, number: str):
+        label, emoji = ("Every verse", "📖") if what == "verses" else ("Root & family", "🌳")
+        super().__init__(discord.ui.Button(label=label, emoji=emoji, style=discord.ButtonStyle.secondary,
+                                           row=1, custom_id=f"strongx:{what}:{number}"))
+        self.what, self.number = what, number
+
+    @classmethod
+    async def from_custom_id(cls, interaction, item, match):
+        return cls(match["what"], match["num"])
+
+    async def callback(self, interaction: discord.Interaction):
+        from bot_commands.verse import _ButtonContext          # (here: verse.py imports this module)
+        await interaction.response.defer()
+        await _send_strong_more(_ButtonContext(interaction), self.what, self.number)
+
+
+bot.add_dynamic_items(StrongMoreButton)
+
 
 @bot.command(name="strong", aliases=["strongs"])
 async def cmd_strong(ctx, *, query: str = ""):
     """Look up a Strong's number, or get a verse with Strong's tagging.
     Usage:
-      !strong G3588             — Greek lexicon entry
+      !strong G3588             — Greek lexicon entry (or a word: !strong agape)
       !strong H7225             — Hebrew lexicon entry
+      !strong G26 verses        — every verse where the word appears (was !concordance)
+      !strong G26 in John       — every verse in one book
+      !strong G26 root          — its root and the words built from it (was !root)
       !strong John 3:16         — verse with each word tagged with its Strong's number
       !strong Psalm 23:1        — same, for OT
     """
     raw = (query or "").strip()
     if not raw:
         await ctx.send(
-            "Usage: `!strong G3588` · `!strong H7225` · `!strong John 3:16` · `!strong G26 in John`"
+            "Usage: `!strong G3588` · `!strong agape` · `!strong G26 verses` · `!strong G26 root` · "
+            "`!strong G26 in John` · `!strong John 3:16`"
         )
         return
 
@@ -816,6 +859,13 @@ async def cmd_strong(ctx, *, query: str = ""):
     m_concord = re.match(r"^([GH]\d+)\s+in\s+(.+)$", raw, re.IGNORECASE)
     if m_concord:
         await _send_strongs_concordance(ctx, m_concord.group(1).upper(), m_concord.group(2).strip())
+        return
+
+    # ── "!strong G26 verses" / "!strong agape root" ──
+    m_more = re.match(rf"^(.+?)\s+({'|'.join(STRONG_VERSES + STRONG_ROOT)})$", raw, re.IGNORECASE)
+    if m_more and not re.search(r"\b\d+:\d+\b", raw):
+        what = "verses" if m_more.group(2).lower() in STRONG_VERSES else "root"
+        await _send_strong_more(ctx, what, m_more.group(1).strip())
         return
 
     # If it looks like a verse reference (contains "Book Chapter:Verse"),
@@ -830,12 +880,24 @@ async def cmd_strong(ctx, *, query: str = ""):
     # Allow user to type "3588" if they want — default to G for ambiguous
     if re.match(r"^\d+$", arg):
         await ctx.send("Please prefix with `G` (Greek NT) or `H` (Hebrew OT): "
-                       f"`!strong G{arg}`  or  `!strong H{arg}`")
+                       f"`!strong G{arg[:12]}`  or  `!strong H{arg[:12]}`")
         return
 
     if not re.match(r"^[GH]\d+$", arg):
-        await ctx.send(f"⚠️ `{arg}` isn't a Strong's number. Try `G3588` or `H7225` — or a verse like `John 3:16`.")
-        return
+        # A word or transliteration ("agape", "love"), as !concordance and !root took
+        matches = strongs_search_by_word(raw.lower())
+        shown = raw.replace("`", "'")[:60]
+        if not matches:
+            await ctx.send(f"⚠️ No Strong's entry matches **{shown}**. Try a number like `G3588` or `H7225`, "
+                           "a Greek or Hebrew word like `agape`, or a verse like `John 3:16`.")
+            return
+        if len(matches) > 1:
+            preview = ", ".join(f"`!strong {n}` ({get_local_strongs_definition(n).get('lexeme', '')})"
+                                for n in matches[:10])
+            await ctx.send(f"**{len(matches)} matches** for **{shown}** — pick one: {preview}"
+                           + (", …" if len(matches) > 10 else ""))
+            return
+        arg = matches[0].upper()
 
     async with ctx.typing():
         loop = asyncio.get_event_loop()
@@ -913,17 +975,24 @@ async def cmd_strong(ctx, *, query: str = ""):
         em.set_footer(text=f"{src_label} · via bolls.life")
         return em
 
+    more = [StrongMoreButton("verses", arg), StrongMoreButton("root", arg)]
+
     if len(pages) <= 1:
-        # Short enough to fit in one embed — no buttons needed.
-        await ctx.send(embed=_build_embed(0))
+        # Short enough to fit in one embed: just the 📖 / 🌳 buttons.
+        view = discord.ui.View(timeout=None)          # holds DynamicItems: must never time out
+        for button in more:
+            view.add_item(button)
+        await ctx.send(embed=_build_embed(0), view=view)
         return
 
-    # Long definition: paginate with prev/next buttons.
+    # Long definition: paginate with prev/next buttons. (No timeout: the view holds the
+    # persistent 📖 / 🌳 buttons, and a view timing out unregisters their pattern bot-wide.)
     class StrongDefView(discord.ui.View):
         def __init__(self):
-            super().__init__(timeout=180)
+            super().__init__(timeout=None)
             self.idx = 0
-            self.message: discord.Message | None = None
+            for button in more:
+                self.add_item(button)
 
         @discord.ui.button(emoji="◀", style=discord.ButtonStyle.secondary)
         async def prev(self, interaction: discord.Interaction, button: discord.ui.Button):
@@ -935,20 +1004,11 @@ async def cmd_strong(ctx, *, query: str = ""):
             self.idx = (self.idx + 1) % len(pages)
             await interaction.response.edit_message(embed=_build_embed(self.idx), view=self)
 
-        async def on_timeout(self):
-            try:
-                if self.message is not None:
-                    await self.message.edit(view=None)
-            except Exception:
-                pass
-
-    view = StrongDefView()
-    msg = await ctx.send(embed=_build_embed(0), view=view)
-    view.message = msg
+    await ctx.send(embed=_build_embed(0), view=StrongDefView())
 
 
 @bot.tree.command(name="strong", description="Strong's number lookup or verse with Strong's tagging")
-@app_commands.describe(query="A Strong's number (G3588 / H7225) or a verse reference (John 3:16)")
+@app_commands.describe(query="G3588, a word (agape), G26 verses, G26 root, or a verse (John 3:16)")
 async def strong_slash(interaction: discord.Interaction, query: str):
     await interaction.response.defer()
     ctx = await bot.get_context(interaction)

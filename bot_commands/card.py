@@ -1,7 +1,9 @@
 """
-Image commands: !card shareable verse images, !interlinear and
-!reverseinterlinear word-by-word images, plus !concordance and the Greek
-transliteration they use.
+Image commands: !card shareable verse images, and !interlinear's word-by-word images in
+either order (the original's, or the KJV's: "!interlinear reverse", and the 🔁 button
+between them), plus the every-verse list behind "!strong G26 verses" and the Greek
+transliteration they use. (!reverseinterlinear and !concordance were folded into
+!interlinear and !strong on 2026-11-08.)
 """
 import asyncio
 import discord
@@ -833,16 +835,65 @@ def _render_interlinear_card(reference: str, original_label: str, is_rtl: bool,
     return buf
 
 
+REVERSE_WORDS = {"reverse", "english", "kjv"}
+
+
+class InterlinearFlipButton(discord.ui.DynamicItem[discord.ui.Button],
+                            template=r"ilflip:(?P<to>rev|orig):(?P<ref>.+)"):
+    """🔁 under an interlinear image: the same verse the other way round (in the KJV's English
+    order, or back to the Greek/Hebrew order). It took the place of !reverseinterlinear.
+    Persistent (the custom_id carries the verse), so it works after a restart."""
+
+    def __init__(self, to: str, ref: str):
+        label = "English order" if to == "rev" else "Original order"
+        super().__init__(discord.ui.Button(label=label, emoji="🔁", style=discord.ButtonStyle.secondary,
+                                           custom_id=f"ilflip:{to}:{ref}"[:100]))
+        self.to, self.ref = to, ref
+
+    @classmethod
+    async def from_custom_id(cls, interaction, item, match):
+        return cls(match["to"], match["ref"])
+
+    async def callback(self, interaction: discord.Interaction):
+        from bot_commands.verse import _ButtonContext       # (here: verse.py imports this module)
+        await interaction.response.defer()
+        ctx = _ButtonContext(interaction)
+        if self.to == "rev":
+            await send_reverse_interlinear(ctx, self.ref)
+        else:
+            await cmd_interlinear(ctx, reference=self.ref)
+
+
+bot.add_dynamic_items(InterlinearFlipButton)
+
+
+def _flip_view(to: str, ref: str) -> discord.ui.View:
+    view = discord.ui.View(timeout=None)          # holds a DynamicItem: must never time out
+    view.add_item(InterlinearFlipButton(to, ref))
+    return view
+
+
 @bot.command(name="interlinear", aliases=["inter", "il"])
 async def cmd_interlinear(ctx, *, reference: str = ""):
     """Word-by-word interlinear image: original Greek/Hebrew word, transliteration,
-    and short gloss stacked under each word. Usage: !interlinear John 3:16
+    and short gloss stacked under each word.
+    Usage: !interlinear John 3:16           — in the Greek (or Hebrew) word order
+           !interlinear reverse John 3:16   — the KJV in its own order, each word tagged with the
+                                              Greek or Hebrew it translates (was !reverseinterlinear)
     """
     from poem_lookup import classify_scripture
 
     ref = reference.strip()
+    words = ref.split()
+    if len(words) > 1 and words[0].lower() in REVERSE_WORDS:
+        await send_reverse_interlinear(ctx, " ".join(words[1:]))
+        return
+    if len(words) > 1 and words[-1].lower() in REVERSE_WORDS:
+        await send_reverse_interlinear(ctx, " ".join(words[:-1]))
+        return
     if not ref:
-        await ctx.send("Usage: `!interlinear <verse>` — e.g. `!interlinear John 3:16` or `!interlinear Psalm 23:1`.")
+        await ctx.send("Usage: `!interlinear <verse>` — e.g. `!interlinear John 3:16` or `!interlinear Psalm 23:1`; "
+                       "`!interlinear reverse John 3:16` for the KJV's own word order.")
         return
 
     scripture_type = classify_scripture(ref)
@@ -929,27 +980,32 @@ async def cmd_interlinear(ctx, *, reference: str = ""):
         )
 
     record_special_stat(ctx.author.id, "interlinear", strongs["ref"])
-    await ctx.send(file=discord.File(img_buf, filename="interlinear.png"))
+    await ctx.send(file=discord.File(img_buf, filename="interlinear.png"), view=_flip_view("rev", strongs["ref"]))
 
 @bot.tree.command(name="interlinear", description="Word-by-word interlinear image (original word + transliteration + gloss)")
-@app_commands.describe(reference="e.g. John 3:16")
-async def interlinear_slash(interaction: discord.Interaction, reference: str):
+@app_commands.describe(reference="e.g. John 3:16", order="The Greek/Hebrew word order (default), or the KJV's English order")
+@app_commands.choices(order=[app_commands.Choice(name="Original (Greek or Hebrew) order", value="original"),
+                             app_commands.Choice(name="English (KJV) order", value="reverse")])
+async def interlinear_slash(interaction: discord.Interaction, reference: str, order: str = "original"):
     await interaction.response.defer()
     ctx = await bot.get_context(interaction)
-    await cmd_interlinear(ctx, reference=reference)
+    if order == "reverse":
+        await send_reverse_interlinear(ctx, reference)
+    else:
+        await cmd_interlinear(ctx, reference=reference)
 
 
-@bot.command(name="reverseinterlinear", aliases=["rinterlinear", "ril", "kjvinterlinear"])
-async def cmd_reverse_interlinear(ctx, *, reference: str = ""):
+async def send_reverse_interlinear(ctx, reference: str = ""):
     """Reverse interlinear image: the actual KJV English text in its own
     reading order, with each word/phrase tagged by the Strong's number of
-    the Greek/Hebrew word(s) it translates. Usage: !reverseinterlinear John 3:16
+    the Greek/Hebrew word(s) it translates. !interlinear reverse John 3:16, or the
+    🔁 button under an interlinear (until 2026-11-08 its own !reverseinterlinear).
     """
     from poem_lookup import classify_scripture
 
     ref = reference.strip()
     if not ref:
-        await ctx.send("Usage: `!reverseinterlinear <verse>` — e.g. `!reverseinterlinear John 3:16`.")
+        await ctx.send("Usage: `!interlinear reverse <verse>` — e.g. `!interlinear reverse John 3:16`.")
         return
 
     scripture_type = classify_scripture(ref)
@@ -1003,31 +1059,23 @@ async def cmd_reverse_interlinear(ctx, *, reference: str = ""):
         )
 
     record_special_stat(ctx.author.id, "reverseinterlinear", strongs["ref"])
-    await ctx.send(file=discord.File(img_buf, filename="reverse_interlinear.png"))
+    await ctx.send(file=discord.File(img_buf, filename="reverse_interlinear.png"), view=_flip_view("orig", strongs["ref"]))
 
 
-@bot.tree.command(name="reverseinterlinear", description="Reverse interlinear image (KJV text in reading order, tagged with Strong's numbers)")
-@app_commands.describe(reference="e.g. John 3:16")
-async def reverse_interlinear_slash(interaction: discord.Interaction, reference: str):
-    await interaction.response.defer()
-    ctx = await bot.get_context(interaction)
-    await cmd_reverse_interlinear(ctx, reference=reference)
-
-
-@bot.command(name="concordance", aliases=["occurrences", "conc"])
-async def cmd_concordance(ctx, *, arg: str = ""):
-    """List every verse tagged with a given Strong's number or word.
-    Usage: !concordance G26   |  !concordance H430   |  !concordance agape   |  !concordance love"""
+async def send_concordance(ctx, arg: str = ""):
+    """Every verse tagged with a given Strong's number or word: !strong G26 verses (and the
+    📖 Every verse button under a !strong entry). Until 2026-11-08 its own !concordance."""
     raw = arg.strip()
     number = raw.upper()
     if not re.match(r"^[GH]\d+[A-Z]?$", number):
         # Not a bare Strong's number -- try resolving it as a word/transliteration
         word = raw.lower()
-        matches = strongs_search_by_word(word)
+        matches = strongs_search_by_word(word) if word else []
         if not matches:
+            shown = raw.replace("`", "'")[:60]
             await ctx.send(
-                f"No Strong's entry matches **{raw}**. Usage: `!concordance G26`, "
-                "`!concordance H430`, or a word like `!concordance agape`."
+                f"No Strong's entry matches **{shown}**. Try `!strong G26 verses`, "
+                "`!strong H430 verses`, or a word like `!strong agape verses`."
             )
             return
         if len(matches) > 1:
@@ -1035,7 +1083,7 @@ async def cmd_concordance(ctx, *, arg: str = ""):
                 f"{n} ({get_local_strongs_definition(n).get('lexeme', '')})" for n in matches[:10]
             )
             await ctx.send(
-                f"**{len(matches)} matches** for **{raw}** — pick one: {preview}"
+                f"**{len(matches)} matches** for **{raw}** — pick one, e.g. `!strong {matches[0]} verses`: {preview}"
                 + (", …" if len(matches) > 10 else "")
             )
             return
@@ -1104,14 +1152,6 @@ async def cmd_concordance(ctx, *, arg: str = ""):
 
     view = ConcordanceView()
     view.message = await ctx.send(embed=make_embed(0), view=view)
-
-
-@bot.tree.command(name="concordance", description="List every verse tagged with a given Strong's number")
-@app_commands.describe(number="e.g. G26 or H430")
-async def concordance_slash(interaction: discord.Interaction, number: str):
-    await interaction.response.defer()
-    ctx = await bot.get_context(interaction)
-    await cmd_concordance(ctx, arg=number)
 
 
 def _make_card_text_button(reference: str, content_lines: list[str]) -> discord.ui.Button:

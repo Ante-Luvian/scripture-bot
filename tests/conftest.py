@@ -43,8 +43,8 @@ def lookup(bot_module):
 # Files the running bot writes. Tests that drive real commands must never
 # touch the live copies (an earlier version of this suite added a fake user
 # and fake John 3:16 lookups to data/stats.json on every run).
-RUNTIME_FILES = ["VOTD_MODE_PATH", "STATS_PATH", "GUILD_ACTIVITY_PATH", "GUILD_CONFIG_PATH",
-                 "USER_PREFS_PATH", "BOOKMARKS_PATH", "READING_PLANS_PATH", "SUBSCRIBERS_PATH",
+RUNTIME_FILES = ["STATS_PATH", "GUILD_ACTIVITY_PATH", "GUILD_CONFIG_PATH",
+                 "USER_PREFS_PATH", "READING_PLANS_PATH", "SUBSCRIBERS_PATH",
                  "ERROR_LOG_PATH", "REPORT_STATE_PATH", "QUIZ_SCORES_PATH", "DAILY_QUIZ_PATH",
                  "MEMORIZE_PATH", "VERSLE_PATH", "HYMNDAY_PATH", "SAINTDAY_PATH", "ANGELUS_PATH", "TROPARION_PATH",
                  "DELUGE_PATH", "LEARNING_PATH", "SOURCE_CHECK_PATH", "ASTRO_PATH", "HOROSCOPE_PATH",

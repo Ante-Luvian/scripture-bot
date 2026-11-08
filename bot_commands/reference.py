@@ -1,6 +1,6 @@
 """
-Study references: !xref, !quoted, !root, !topic, !dictionary, !timeline,
-!notes.
+Study references: !xref, !quoted, !topic, !dictionary, !timeline, !notes, and the
+root-and-family view behind "!strong G26 root".
 """
 import asyncio
 import discord
@@ -284,30 +284,30 @@ async def quoted_slash(interaction: discord.Interaction, reference: str):
     await cmd_quoted(ctx, reference=reference)
 
 
-# ── !root — Hebrew/Greek root word and its direct derivatives ───────────────────
+# ── !strong G26 root — Hebrew/Greek root word and its direct derivatives ────────
 
-@bot.command(name="root", aliases=["cognates"])
-async def cmd_root(ctx, *, arg: str = ""):
+async def send_root(ctx, arg: str = ""):
     """Show a Strong's word's root and every word directly derived from it
     (one generation, not the full cognate tree), per the dictionary's own
-    derivation notes.
-    Usage: !root H6   |  !root G26   |  !root love"""
+    derivation notes. !strong G26 root (and the 🌳 Root button under a !strong
+    entry); until 2026-11-08 its own !root."""
     raw = arg.strip()
     if not raw:
-        await ctx.send("Usage: `!root H6`, `!root G26`, or `!root <word>` — e.g. `!root abad`")
+        await ctx.send("Usage: `!strong H6 root`, `!strong G26 root`, or a word — e.g. `!strong abad root`")
         return
 
     number = raw.upper()
     if not re.match(r"^[GH]\d+[A-Z]?$", number):
         matches = strongs_search_by_word(raw.lower())
+        shown = raw.replace("`", "'")[:60]
         if not matches:
-            await ctx.send(f"No Strong's entry matches **{raw}**.")
+            await ctx.send(f"No Strong's entry matches **{shown}**.")
             return
         if len(matches) > 1:
             preview = ", ".join(
                 f"{n} ({get_local_strongs_definition(n).get('lexeme', '')})" for n in matches[:10]
             )
-            await ctx.send(f"**{len(matches)} matches** for **{raw}** — pick one: {preview}")
+            await ctx.send(f"**{len(matches)} matches** for **{shown}** — pick one, e.g. `!strong {matches[0]} root`: {preview}")
             return
         number = matches[0]
 
@@ -345,14 +345,6 @@ async def cmd_root(ctx, *, arg: str = ""):
         embed.add_field(name="Direct derivatives", value="*None on record.*", inline=False)
     embed.set_footer(text="One generation of direct derivatives only, per the dictionary's own derivation notes — not the full cognate tree · OpenScriptures Strong's (CC-BY-SA)")
     await ctx.send(embed=embed)
-
-
-@bot.tree.command(name="root", description="Show a Strong's word's root and its direct derivatives")
-@app_commands.describe(word="e.g. H6, G26, or a word like love")
-async def root_slash(interaction: discord.Interaction, word: str):
-    await interaction.response.defer()
-    ctx = await bot.get_context(interaction)
-    await cmd_root(ctx, arg=word)
 
 
 # ── !topic — Nave's Topical Bible ────────────────────────────────────────────────

@@ -1,5 +1,5 @@
 """
-Repairs and rebuilds for the Neoplatonists, whose first build (deprecated/build_neoplatonic*.py) left them full
+Repairs and rebuilds for the Neoplatonists, whose first build (deprecated/build_neoplatonic*.py in git history at 5e99f69) left them full
 of the web: translators' footnote numbers in the text ("O Firmus 1 , that you"), page numbers ("|18"), Greek
 words dropped ("Apollo is called the , slayer of wolves"), italics lost.
 
@@ -407,7 +407,7 @@ def life_of_plotinus() -> None:
 
 
 # ── The Orphic Hymns, Taylor's (1792) ──────────────────────────────────────
-# The first build (deprecated/build_data.py, from theoi.com) dropped the hymns' titles, three hymns (38, 42, 70),
+# The first build (deprecated/build_data.py in git history at 5e99f69, from theoi.com) dropped the hymns' titles, three hymns (38, 42, 70),
 # the address To Musaeus, and the fumigation line of some. Rebuilt from the same pages: a hymn a chapter (To
 # Musaeus as 0), its title and fumigation in italics as verse 1, then a line a verse, as before. theoi.com's
 # bracketed Greek names ("Night [Nyx]", "Venus [Kypris]") are kept: Taylor gives the gods their Latin names.

@@ -48,10 +48,6 @@
   "compare": [
    "cmp"
   ],
-  "concordance": [
-   "conc",
-   "occurrences"
-  ],
   "creed": [
    "creeds"
   ],
@@ -97,7 +93,6 @@
    "aesop",
    "fables"
   ],
-  "features": [],
   "gematria": [
    "gem",
    "gematrix"
@@ -244,17 +239,9 @@
    "otnt",
    "quotedin"
   ],
-  "reverseinterlinear": [
-   "kjvinterlinear",
-   "ril",
-   "rinterlinear"
-  ],
   "reynard": [
    "fox",
    "reynart"
-  ],
-  "root": [
-   "cognates"
   ],
   "rosary": [
    "rosario"
@@ -274,16 +261,6 @@
    "namaz",
    "prayertimes",
    "salat"
-  ],
-  "save": [
-   "bookmark"
-  ],
-  "saved": [
-   "bookmarks"
-  ],
-  "scanstats": [
-   "historystats",
-   "retrostat"
   ],
   "search": [
    "find"
@@ -411,7 +388,6 @@
   "chant",
   "cloud",
   "compare",
-  "concordance",
   "creed",
   "desert",
   "dictionary",
@@ -450,14 +426,10 @@
   "prefer",
   "quiz",
   "quoted",
-  "reverseinterlinear",
-  "root",
   "rosary",
   "rumi",
   "saint",
   "salah",
-  "save",
-  "saved",
   "search",
   "setup",
   "shakespeare",

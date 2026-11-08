@@ -2,7 +2,7 @@
 Cross-reference lookup: Treasury of Scripture Knowledge dataset via
 openbible.info (https://www.openbible.info/labs/cross-references/, CC-BY),
 built from data/cross_references/cross_references.json (see
-deprecated/build_cross_references.py for how that file was generated).
+deprecated/build_cross_references.py in git history at 5e99f69 for how that file was generated).
 """
 import json
 from pathlib import Path

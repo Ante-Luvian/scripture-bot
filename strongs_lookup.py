@@ -1,7 +1,7 @@
 """
 Local Strong's Hebrew/Greek dictionary (OpenScriptures, CC-BY-SA, derived
 from James Strong's public-domain 1890/1894 original), built from
-data/strongs/strongs_dictionary.json (see deprecated/build_strongs.py).
+data/strongs/strongs_dictionary.json (see deprecated/build_strongs.py in git history at 5e99f69).
 """
 import json
 import re

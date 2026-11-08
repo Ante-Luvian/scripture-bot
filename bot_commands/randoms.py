@@ -225,8 +225,6 @@ LOOKUPS = [
     ("dictionary", _dictionary_term, "`!dictionary Aaron` for a particular entry"),
     ("topic", _topic, "`!topic love` for a particular subject"),
     ("timeline", _timeline, "`!timeline Abraham` for a particular book, person or event"),
-    ("root", _strongs, "`!root H6`, `!root G26` or `!root <word>` for a particular one"),
-    ("concordance", _strongs_in_the_text, "`!concordance G26` or `!concordance agape` for a particular word"),
     ("ccc", _ccc, "`!ccc 2558` for a particular paragraph (1–2865)"),
     ("canon", _canon, "`!canon 1247` for a particular canon (1–1751)"),
     ("cloud", _bible_book, "`!cloud Ecclesiastes` for a particular book"),
@@ -235,11 +233,11 @@ LOOKUPS = [
     ("quoted", _quotation, "`!quoted Isaiah 53:5` for a particular verse"),
     ("memorize", bible_reference, "`!memorize John 3:16` for a particular verse"),
     ("interlinear", bible_reference, "`!interlinear John 3:16` for a particular verse"),
-    ("reverseinterlinear", bible_reference, "`!reverseinterlinear John 3:16` for a particular verse"),
     ("notes", bible_reference, "`!notes John 3:16` for a particular verse"),
     ("compare", bible_reference, "`!compare John 3:16` for a particular verse"),
     ("variants", _dss_reference, "`!variants Isaiah 53:5` for a particular verse"),
-    ("strong", _strongs, "`!strong G26` or `!strong John 3:16` for a particular one"),
+    # (a number that occurs in the text, so its 📖 Every verse button finds some)
+    ("strong", _strongs_in_the_text, "`!strong G26`, `!strong agape` or `!strong John 3:16` for a particular one"),
     ("gematria", _dictionary_term, "`!gematria love` for a particular word"),
 ]
 for _name, _picker, _hint in LOOKUPS:

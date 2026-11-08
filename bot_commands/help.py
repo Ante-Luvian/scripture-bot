@@ -103,7 +103,6 @@ HELP_MENU = [
         "`!timeline Abraham` — where a person or event falls in Ussher's chronology",
         "`!stats` — the most-read verses and books, and how I've been used",
         "`!topic` — browse scripture by subject (Nave's Topical Bible) · `!help topic`",
-        '`!save` / `!saved` / `!saved remove 2` — personal bookmarks · `!help save`',
         '`!plan` — chapter-a-day reading plan · `!help plan`',
         '`!memorize` — learn a verse by heart, with reviews by DM · `!help memorize`',
         '`!subscribe` / `!subscribe off` — daily verse by DM · `!help subscribe`',
@@ -122,7 +121,6 @@ HELP_MENU = [
     ]),
     ('⚙️ Server Setup (Admin)', [
         '`!votdsetup` — the daily VOTD channel/time/mode · `!help votdsetup`',
-        '`!features` — optional extras · `!help features`',
         '`!changelogsetup #channel` — where I post my updates · `!changelog` — recent updates',
         '`!changelogintro` — post my introduction there (`fresh` clears my old posts first)',
         '`!oraclesetup channel #chan` — a daily oracle post (`time`, `kind`, `test`, `off`)',
@@ -141,16 +139,16 @@ HELP_MENU = [
         '`!compare ancient <ref>` — all ancient witnesses at once · `!help compare`',
         "`!strong G3588` / `!strong H7225` — Strong's lexicon lookup · `!strong John 3:16` a verse tagged with them · `!help strong`",
         '`!interlinear John 3:16` — the Greek or Hebrew word by word, with what each word means',
-        '`!reverseinterlinear John 3:16` — the KJV, each word labelled with the word it translates',
-        '`!concordance G26` — every verse where a Hebrew or Greek word appears',
-        "`!root love` — a word's root and the words built from it",
+        '`!interlinear reverse John 3:16` — the KJV, each word labelled with the word it translates (or press 🔁)',
+        '`!strong G26 verses` — every verse where a Hebrew or Greek word appears (or press 📖 under `!strong G26`)',
+        "`!strong agape root` — a word's root and the words built from it (or press 🌳)",
         '`!variants Isaiah 53:5` — the KJV beside the Septuagint and the Dead Sea Scrolls',
     ]),
 ]
 
-HELP_TOPICS = ['verse', 'compare', 'votd', 'votdsetup', 'features', 'today', 'bcp', 'prayer', 'strong', 'books', 'parallel', 'oracle', 'discover', 'xref', 'notes', 'topic', 'save', 'plan', 'leaderboard', 'subscribe', 'card', 'who', 'tree', 'whoami', 'versle', 'place', 'journey', 'measure', 'kings', 'harmony', 'hymn', 'metrical', 'creed', 'ccc', 'summa']
+HELP_TOPICS = ['verse', 'compare', 'votd', 'votdsetup', 'today', 'bcp', 'prayer', 'strong', 'books', 'parallel', 'oracle', 'discover', 'xref', 'notes', 'topic', 'plan', 'leaderboard', 'subscribe', 'card', 'who', 'tree', 'whoami', 'versle', 'place', 'journey', 'measure', 'kings', 'harmony', 'hymn', 'metrical', 'creed', 'ccc', 'summa']
 # (owner and maintenance tools; asksetup: asking the library is private, never in !help, the owner, 2026-11-01)
-NOT_IN_MENU = {"help", "guildactivity", "scanstats", "asksetup"}
+NOT_IN_MENU = {"help", "guildactivity", "asksetup"}
 _FIELD, _EMBED = 1024, 5800
 
 
@@ -249,16 +247,19 @@ async def cmd_help(ctx, *, topic: str = ""):
         await ctx.send(embed=embed)
         return
 
-    if topic in ("strong", "strongs"):
+    if topic in ("strong", "strongs", "concordance", "conc", "root", "cognates"):
         embed = discord.Embed(title="📚 !strong — Strong's Lexicon & Concordance", color=discord.Color.dark_gold())
         embed.description = (
-            "`!strong G3588` — Greek lexicon entry\n"
-            "`!strong H7225` — Hebrew lexicon entry\n"
-            "`!strong John 3:16` — verse with every word tagged with its Strong's number\n"
-            "`!strong G26 in John` — every occurrence of that number within one book (concordance)\n\n"
-            "Concordance search is scoped to a single canonical Bible book at a time — "
-            "a whole-Bible search would mean hundreds of live lookups per query."
+            "Strong's numbers are a standard numbering of every Hebrew (H) and Greek (G) word in the Bible.\n\n"
+            "`!strong G3588` — Greek lexicon entry (Thayer's) · `!strong H7225` — Hebrew (Brown-Driver-Briggs)\n"
+            "`!strong agape` — find the entry by the word itself\n"
+            "`!strong G26 verses` — every verse where that word appears (also the **📖 Every verse** button)\n"
+            "`!strong G26 in John` — just the verses in one book\n"
+            "`!strong G26 root` — its root and the words built from it (also the **🌳 Root & family** button)\n"
+            "`!strong John 3:16` — the KJV with every word tagged with its Strong's number\n\n"
+            "(These took over `!concordance` and `!root` on 2026-11-08.)"
         )
+        embed.set_footer(text="Lexicon: bolls.life · verses: MACULA (CC BY 4.0) · roots: OpenScriptures Strong's")
         await ctx.send(embed=embed)
         return
 
@@ -334,18 +335,6 @@ async def cmd_help(ctx, *, topic: str = ""):
         await ctx.send(embed=embed)
         return
 
-    if topic in ("features", "feature"):
-        embed = discord.Embed(title="⚙️ !features — Optional Server Features", color=discord.Color.dark_gold())
-        embed.description = (
-            "All off by default. Requires Administrator permission to change.\n\n"
-            "`!features` — show current on/off state for this server\n"
-            "`!features react_save on` — react 📌 to a verse embed to bookmark it\n"
-            "`!features streaks on` — show your `!plan` check-in streak\n"
-            "`!features export on` — let `!saved export` send your full bookmark list as a text file"
-        )
-        await ctx.send(embed=embed)
-        return
-
     if topic in ("votdsetup", "votdconfig"):
         embed = discord.Embed(title="⚙️ !votdsetup — Configure Daily VOTD (Admin)", color=discord.Color.dark_gold())
         embed.description = (
@@ -371,29 +360,18 @@ async def cmd_help(ctx, *, topic: str = ""):
         await ctx.send(embed=embed)
         return
 
-    if topic in ("interlinear", "inter", "il"):
+    if topic in ("interlinear", "inter", "il", "reverseinterlinear", "ril"):
         embed = discord.Embed(title="🔤 !interlinear — Word-by-Word Image", color=discord.Color.dark_gold())
         embed.description = (
             "`!interlinear John 3:16` — Greek NT interlinear\n"
-            "`!interlinear Psalm 23:1` — Hebrew OT interlinear\n\n"
+            "`!interlinear Psalm 23:1` — Hebrew OT interlinear\n"
+            "`!interlinear reverse John 3:16` — the other way round (also the **🔁 English order** button)\n\n"
             "Renders each word of the original text with its transliteration and short gloss "
             "stacked underneath, as an image — built on the same Strong's tagging as `!strong`. "
             "Hebrew columns read right-to-left, matching a printed Hebrew interlinear.\n\n"
-            "Capped at 60 tagged words per verse (image width limit)."
-        )
-        await ctx.send(embed=embed)
-        return
-
-    if topic in ("reverseinterlinear", "rinterlinear", "ril", "kjvinterlinear"):
-        embed = discord.Embed(title="🔤 !reverseinterlinear — KJV Reading-Order Interlinear", color=discord.Color.dark_gold())
-        embed.description = (
-            "`!reverseinterlinear John 3:16`\n\n"
-            "Shows the actual KJV verse text in its own natural English word order "
-            "(unlike `!interlinear`, which orders by the original Greek/Hebrew) — each "
-            "English word or phrase tagged with the Strong's number of the word(s) it "
-            "translates. A Hebrew or Greek word often covers more than one English word "
-            "(e.g. \"In the beginning\" is a single Hebrew word); the tag covers the "
-            "whole phrase in that case.\n\n"
+            "The reverse one shows the KJV in its own English word order, each word or phrase tagged "
+            "with the Strong's number of the word it translates (\"In the beginning\" is one Hebrew word, "
+            "so one tag covers the phrase). It took over `!reverseinterlinear` on 2026-11-08.\n\n"
             "Capped at 60 tagged words per verse (image width limit)."
         )
         await ctx.send(embed=embed)
@@ -418,20 +396,6 @@ async def cmd_help(ctx, *, topic: str = ""):
             "Combines Easton's Bible Dictionary (1897) and Smith's Bible Dictionary (1863), "
             "both public domain — encyclopedia-style background, distinct from `!topic`'s "
             "thematic scripture outlines and `!strong`'s word-level Greek/Hebrew lexicon."
-        )
-        await ctx.send(embed=embed)
-        return
-
-    if topic in ("save", "saved", "unsave", "bookmark", "bookmarks"):
-        embed = discord.Embed(title="📌 Personal Bookmarks", color=discord.Color.dark_gold())
-        embed.description = (
-            "`!save John 3:16` — save a verse to your personal list\n"
-            "`!save John 3:16 | this got me through a hard week` — save with a personal note\n"
-            "`!saved` — show your saved verses (with any notes)\n"
-            "`!saved remove 2` — remove saved verse #2 (number from `!saved`)\n\n"
-            "Saving an already-saved verse with a new `| note` updates the note instead of "
-            "duplicating the entry.\n\n"
-            "Bookmarks are personal — only you can see and manage your own list."
         )
         await ctx.send(embed=embed)
         return
@@ -789,25 +753,6 @@ async def cmd_help(ctx, *, topic: str = ""):
             "Forms of Prayer at Sea\n"
             "Seasonal Sunday collects (filtered to exclude state and saint's-day collects)"
         ), inline=False)
-        await ctx.send(embed=embed)
-        return
-
-    if topic in ("strong", "strongs", "concordance"):
-        embed = discord.Embed(title="📚 !strong — Strong's Concordance", color=discord.Color.dark_gold())
-        embed.description = (
-            "Look up a Strong's number for definitions, transliteration, "
-            "pronunciation, and gloss — or pass a verse to see each word "
-            "tagged with its Strong's number."
-        )
-        embed.add_field(name="Lexicon lookup", value=(
-            "`!strong G3588` — Greek NT (Thayer's Greek Lexicon)\n"
-            "`!strong H7225` — Hebrew OT (Brown-Driver-Briggs)"
-        ), inline=False)
-        embed.add_field(name="Tagged verse", value=(
-            "`!strong John 3:16` — KJV + every Greek word tagged with its Strong's number\n"
-            "`!strong Psalm 23:1` — same, for Hebrew OT"
-        ), inline=False)
-        embed.set_footer(text="Source: bolls.life")
         await ctx.send(embed=embed)
         return
 
