@@ -88,6 +88,12 @@ def test_the_reply_has_buttons_not_the_norse(oracles, fake_ctx):
         assert sum(1 for row in ids.values() if row == r) <= 5                 # (Discord's five a row)
 
 
+def test_the_reply_is_in_half_lines(oracles, fake_ctx):
+    asyncio.run(oracles.cmd_edda.callback(fake_ctx, query="vafthruthnismol 8"))
+    text = fake_ctx.sent[0]["embed"].description
+    assert "·" not in text and text.split("\n")[:2] == ["“Gagnrath they call me,", "and thirsty I come"]
+
+
 def test_half_lines(oracles):
     assert oracles._half_lines("Gagnrath they call me, · and thirsty I come\nFrom a journey hard to thy hall;") \
         == "Gagnrath they call me,\nand thirsty I come\nFrom a journey hard to thy hall;"

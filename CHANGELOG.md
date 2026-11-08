@@ -14,6 +14,9 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-11-08 · Edda stanzas in half-lines
+- 🌲 **`!edda` and `!odin` now show each stanza a half-line to a line.** Old Norse poetry is built in half-lines, two to a line; the translation used to print both halves on one line with a dot between them. Now each half has its own line, the same shape as the Old Norse beside it under **📜 Old Norse**. Try `!edda havamal 139`.
+
 ## 2026-11-08 · The Old Norse side by side, and cleaner Norse cards
 - 📜 **The Old Norse now comes when you ask for it**, instead of making every `!edda` and `!odin` message twice as long. Press the new **📜 Old Norse** button under a stanza, and the English and the Norse appear side by side, the English on the left and the Norse on the right (one above the other on a phone). Each line is a half-line in both, so the Norse words sit beside the English that translates them. (Old Norse poetry is built in half-lines, two to a line, joined by alliteration; Bellows marks the break with a dot, and here the lines are split at it.)
 - 📖 **`!parallel` now does the Edda**, as it does Greek and Latin: `!parallel havamal 139` shows Odin hanging on the World Tree in English and in Old Norse together. `!parallel voluspa` gives a stanza of that poem at random.

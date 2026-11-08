@@ -1305,7 +1305,8 @@ async def send_edda(ctx, query: str, question: "str | None" = None, chosen: "tup
     log.info(f"RNG  edda                   → {poem} {stanza} (user: {ctx.author})")
     # (one of Hollander's stanzas: Odin's speech in it alone; a riddle's answer under it, hidden till clicked)
     verse = ODIN_HOLLANDER.get(poem, {}).get(stanza, "") if chosen else ""
-    text = _edda_text(poem, stanza, verse)
+    # (Bellows's lines cut at the caesura, a half-line to a line, as in the Old Norse view: the owner, 2026-11-08)
+    text = _half_lines(_edda_text(poem, stanza, verse))
     if chosen:
         text = _unquoted(text)
     embed = discord.Embed(title=f"🌲 {_edda_title(poem, stanza)}", description=text[:4096],
