@@ -46,6 +46,8 @@ def _script_font(fonts_dir: str, text: str) -> str:
         cp = ord(ch)
         if 0x0700 <= cp <= 0x074F:
             return _SYRIAC_FONT_PATH
+        if 0x16A0 <= cp <= 0x16FF:                  # (runes, the Edda's ᚱ Runes card: Segoe UI Historic has them)
+            return fonts_dir + "seguihis.ttf"
         if 0x0590 <= cp <= 0x05FF or 0x0370 <= cp <= 0x03FF or 0x1F00 <= cp <= 0x1FFF or 0x0400 <= cp <= 0x04FF:
             return fonts_dir + "times.ttf"
     return fonts_dir + "georgiai.ttf"

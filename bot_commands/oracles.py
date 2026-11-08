@@ -6,6 +6,7 @@ import discord
 import functools
 import random
 import re
+import runes
 from scripture_lookup import BIBLE_NT, BIBLE_OT
 from bot_commands import illustrations
 from bot_commands.card import (
@@ -140,7 +141,9 @@ class OracleCardButton(discord.ui.DynamicItem[discord.ui.Button],
 
     async def callback(self, interaction: discord.Interaction):
         # One image per answer; the edit is also the interaction's response
-        await interaction.response.edit_message(view=_card_view(self.kind, self.key, disabled=True))
+        view = _view_after(interaction.message, self.custom_id)
+        await interaction.response.edit_message(view=view if view.children else
+                                                _card_view(self.kind, self.key, disabled=True))
         content = _oracle_card_content(self.kind, self.key)
         if content is None:
             await interaction.followup.send("⚠️ I can't find that answer's text any more.", ephemeral=True)
@@ -162,6 +165,28 @@ bot.add_dynamic_items(OracleCardButton)
 def _card_view(kind: str, key: str, disabled: bool = False) -> discord.ui.View:
     view = discord.ui.View(timeout=None)
     view.add_item(OracleCardButton(kind, key, disabled))
+    return view
+
+
+def _view_after(message, pressed: str) -> discord.ui.View:
+    """An oracle answer's buttons once one image button is pressed: rebuilt from the message (so it works after a
+    restart), the 🖼️ Card or ᚱ Runes button pressed now (or before) disabled, the rest (◀ ▶, 🖌️, 📜) as they were.
+    (Until 2026-11-08 a pressed Card left only itself, and !edda's ◀ ▶ and 🖌️ went.)"""
+    view = discord.ui.View(timeout=None)
+    for row in getattr(message, "components", None) or []:
+        for c in getattr(row, "children", []):
+            cid = getattr(c, "custom_id", None) or ""
+            done = bool(getattr(c, "disabled", False)) or cid == pressed
+            if m := OracleCardButton.__discord_ui_compiled_template__.fullmatch(cid):
+                view.add_item(OracleCardButton(m["kind"], m["key"], disabled=done))
+            elif m := RunesButton.__discord_ui_compiled_template__.fullmatch(cid):
+                view.add_item(RunesButton(m["key"], disabled=done))
+            elif m := PassageButton.__discord_ui_compiled_template__.fullmatch(cid):
+                button = PassageButton(m["kind"], m["ref"])
+                button.item.row = 0
+                view.add_item(button)
+            elif m := illustrations.PictureButton.__discord_ui_compiled_template__.fullmatch(cid):
+                view.add_item(illustrations.PictureButton(m["keys"].split(","), row=0))
     return view
 
 # ── !gematria — Gematria lookup via gematrix.org ─────────────────────────────
@@ -1005,6 +1030,56 @@ def _edda_title(poem: str, stanza: str) -> str:
     return f"{poem}{f' ({english})' if english else ''}, stanza {stanza}"
 
 
+# The Old Norse beside Bellows (the owner, 2026-11-07): Guðni Jónsson's text, matched to Bellows's stanzas by
+# scripts/build_edda_norse.py (by content: Bellows numbers and orders some stanzas his own way). A stanza of Bellows's
+# with nothing in the Norse to match it (some of his lacunae, a line or two he took from elsewhere) has none.
+NORSE_SOURCE = "Old Norse: Guðni Jónsson, Eddukvæði (1949)"
+RUNES_NOTE = "Younger Futhark: a modern transcription (the Edda was written down in the Latin alphabet)"
+
+
+@functools.lru_cache(maxsize=1)
+def _edda_norse() -> dict:
+    import json
+    path = ROOT / "data" / "norse" / "edda_norse.json"
+    return json.loads(path.read_text(encoding="utf-8")) if path.exists() else {}
+
+
+def _norse_text(poem: str, stanza: str) -> str:
+    return _edda_norse().get(poem, {}).get(stanza, "")
+
+
+class RunesButton(discord.ui.DynamicItem[discord.ui.Button], template=r"runes:(?P<key>.+)"):
+    """ᚱ Runes under !edda and !odin: the stanza's Old Norse as a card in Younger Futhark runes. Its custom_id
+    carries the "poem|stanza" (so it works after a restart, like the Card button)."""
+
+    def __init__(self, key: str, disabled: bool = False):
+        super().__init__(discord.ui.Button(label="ᚱ Runes", style=discord.ButtonStyle.secondary,
+                                           custom_id=f"runes:{key}", disabled=disabled))
+        self.key = key
+
+    @classmethod
+    async def from_custom_id(cls, interaction, item, match):
+        return cls(match["key"])
+
+    async def callback(self, interaction: discord.Interaction):
+        poem, _, stanza = self.key.partition("|")
+        norse = _norse_text(poem, stanza)
+        if not norse:
+            await interaction.response.send_message("⚠️ I can't find that stanza's Old Norse any more.",
+                                                    ephemeral=True)
+            return
+        view = _view_after(interaction.message, self.custom_id)       # (one card per answer, as with 🖼️ Card)
+        if not view.children:
+            view.add_item(RunesButton(self.key, disabled=True))
+        await interaction.response.edit_message(view=view)
+        buf = await asyncio.to_thread(_render_verse_card, _edda_title(poem, stanza), runes.to_runes(norse),
+                                      RUNES_NOTE, _question_from(interaction.message), "norse", verse=True)
+        await interaction.followup.send(file=discord.File(buf, filename="runes.png"))
+
+
+bot.add_dynamic_items(RunesButton)
+
+
 @bot.command(name="edda", aliases=["eddic"])
 async def cmd_edda(ctx, *, query: str = ""):
     """A stanza of the Poetic Edda, the Old Norse poems of the gods and heroes: at random, from one poem, or one
@@ -1114,10 +1189,15 @@ async def send_edda(ctx, query: str, question: "str | None" = None, chosen: "tup
         answer = _unquoted(_edda_text(poem, stanza, "2"))
         if answer:
             embed.add_field(name="King Heithrek's answer", value=f"||{answer[:1000]}||", inline=False)
-    embed.set_footer(text=f"{_edda_source(poem)} · !verse {poem} {stanza}")
+    norse = _norse_text(poem, stanza)
+    if norse:                                    # (the Old Norse under Bellows: as the stanza was composed)
+        embed.add_field(name="In Old Norse", value=(_unquoted(norse) if chosen else norse)[:1024], inline=False)
+    embed.set_footer(text=f"{_edda_source(poem)}{f' · {NORSE_SOURCE}' if norse else ''} · !verse {poem} {stanza}")
     _ask(embed, question)
     _record(ctx, "edda", f"{poem} {stanza}")
     view = _card_view("edda", f"{poem}|{stanza}|{verse}|o" if chosen else f"{poem}|{stanza}")
+    if norse:
+        view.add_item(RunesButton(f"{poem}|{stanza}"))
     near = lookup.neighbours(f"{poem} {stanza}")
     for kind, side in (("p", "prev"), ("n", "next")):        # (◀ ▶ the stanzas either side, where there's one)
         if near.get(side):
