@@ -173,20 +173,24 @@ def _view_after(message, pressed: str) -> discord.ui.View:
     restart), the 🖼️ Card or ᚱ Runes button pressed now (or before) disabled, the rest (◀ ▶, 🖌️, 📜) as they were.
     (Until 2026-11-08 a pressed Card left only itself, and !edda's ◀ ▶ and 🖌️ went.)"""
     view = discord.ui.View(timeout=None)
-    for row in getattr(message, "components", None) or []:
+    for r, row in enumerate(getattr(message, "components", None) or []):
         for c in getattr(row, "children", []):
             cid = getattr(c, "custom_id", None) or ""
             done = bool(getattr(c, "disabled", False)) or cid == pressed
             if m := OracleCardButton.__discord_ui_compiled_template__.fullmatch(cid):
-                view.add_item(OracleCardButton(m["kind"], m["key"], disabled=done))
+                button = OracleCardButton(m["kind"], m["key"], disabled=done)
             elif m := RunesButton.__discord_ui_compiled_template__.fullmatch(cid):
-                view.add_item(RunesButton(m["key"], disabled=done))
+                button = RunesButton(m["key"], disabled=done)
+            elif m := NorseButton.__discord_ui_compiled_template__.fullmatch(cid):
+                button = NorseButton(m["key"], disabled=done)
             elif m := PassageButton.__discord_ui_compiled_template__.fullmatch(cid):
                 button = PassageButton(m["kind"], m["ref"])
-                button.item.row = 0
-                view.add_item(button)
             elif m := illustrations.PictureButton.__discord_ui_compiled_template__.fullmatch(cid):
-                view.add_item(illustrations.PictureButton(m["keys"].split(","), row=0))
+                button = illustrations.PictureButton(m["keys"].split(","))
+            else:
+                continue
+            button.item.row = min(r, 4)                         # (each on the row it was on)
+            view.add_item(button)
     return view
 
 # ── !gematria — Gematria lookup via gematrix.org ─────────────────────────────
@@ -1054,7 +1058,7 @@ class RunesButton(discord.ui.DynamicItem[discord.ui.Button], template=r"runes:(?
 
     def __init__(self, key: str, disabled: bool = False):
         super().__init__(discord.ui.Button(label="ᚱ Runes", style=discord.ButtonStyle.secondary,
-                                           custom_id=f"runes:{key}", disabled=disabled))
+                                           custom_id=f"runes:{key}", disabled=disabled, row=1))
         self.key = key
 
     @classmethod
@@ -1078,6 +1082,91 @@ class RunesButton(discord.ui.DynamicItem[discord.ui.Button], template=r"runes:(?
 
 
 bot.add_dynamic_items(RunesButton)
+
+
+def _half_lines(text: str) -> str:
+    """Bellows's lines cut at the caesura (" · ", an old "|"), a half-line to a line, as Guðni prints the Norse: the
+    owner's choice for showing the two together (2026-11-08)."""
+    return "\n".join(h.strip() for line in text.split("\n") for h in re.split(r"\s*[·|]\s*", line) if h.strip())
+
+
+def _fit_field(text: str) -> str:
+    """A field's value: whole lines up to Discord's 1024 characters."""
+    if len(text) <= 1024:
+        return text
+    return text[:1021].rsplit("\n", 1)[0] + "\n…"
+
+
+def _norse_embed(poem: str, stanza: str, odin: bool = False) -> "discord.Embed | None":
+    """A stanza's English and Old Norse side by side, a half-line to a line in both (on a phone Discord stacks the
+    two columns). None if the stanza has no Norse."""
+    norse, english = _norse_text(poem, stanza), _edda_text(poem, stanza)
+    if not norse or not english:
+        return None
+    if odin:
+        norse, english = _unquoted(norse), _unquoted(english)
+    embed = discord.Embed(title=f"🌲 {_edda_title(poem, stanza)}", color=discord.Color.dark_green())
+    embed.add_field(name="English", value=_fit_field(_half_lines(english)), inline=True)
+    embed.add_field(name="Old Norse", value=_fit_field(norse), inline=True)
+    embed.set_footer(text=f"{EDDA_SOURCE} · {NORSE_SOURCE}")
+    return embed
+
+
+def _edda_stanza(query: str) -> "tuple[str, str] | None":
+    """(poem, stanza) for an Edda reference, as !parallel takes one: "havamal 139", "Hovamol 139", "Hovamol 139:1";
+    a poem alone gives one of its stanzas with Norse. None if it isn't a poem of the Edda."""
+    m = re.match(r"^(.*?)\s*(\d+)(?::1)?$", query.strip())
+    name, number = (m.group(1), m.group(2)) if m and m.group(1) else (query.strip(), None)
+    poem = lookup._resolve_exact(name)[1] if name else None
+    if poem not in _edda():
+        return None
+    if number:
+        return poem, number
+    have = list(_edda_norse().get(poem, {}))
+    return (poem, random.choice(have)) if have else (poem, "1")
+
+
+async def send_norse(ctx, poem: str, stanza: str, odin: bool = False) -> None:
+    """The English and Old Norse of a stanza (!parallel, !odin norse), with the ᚱ Runes button."""
+    embed = _norse_embed(poem, stanza, odin)
+    if embed is None:
+        known = poem in _edda() and stanza in _edda()[poem]
+        await ctx.send(f"Stanza {stanza} of **{poem}** has no Old Norse here: `!edda {poem} {stanza}` gives the "
+                       f"English." if known else f"**{poem}** has stanzas 1 to {len(_edda().get(poem, {}))}.")
+        return
+    view = discord.ui.View(timeout=None)
+    view.add_item(RunesButton(f"{poem}|{stanza}"))
+    await ctx.send(embed=embed, view=view)
+
+
+class NorseButton(discord.ui.DynamicItem[discord.ui.Button], template=r"norse:(?P<key>.+)"):
+    """Old Norse under !edda and !odin: the stanza's English and Norse side by side, as a message of its own (the
+    owner, 2026-11-08: not in the first message, it made it too big). Key "poem|stanza", "|o" for !odin's."""
+
+    def __init__(self, key: str, disabled: bool = False):
+        super().__init__(discord.ui.Button(label="Old Norse", emoji="📜", style=discord.ButtonStyle.secondary,
+                                           custom_id=f"norse:{key}", disabled=disabled, row=1))
+        self.key = key
+
+    @classmethod
+    async def from_custom_id(cls, interaction, item, match):
+        return cls(match["key"])
+
+    async def callback(self, interaction: discord.Interaction):
+        poem, stanza, odin = (self.key.split("|") + [""])[:3]
+        embed = _norse_embed(poem, stanza, odin == "o")
+        if embed is None:
+            await interaction.response.send_message("⚠️ I can't find that stanza's Old Norse any more.",
+                                                    ephemeral=True)
+            return
+        view = _view_after(interaction.message, self.custom_id)
+        if not view.children:
+            view.add_item(NorseButton(self.key, disabled=True))
+        await interaction.response.edit_message(view=view)
+        await interaction.followup.send(embed=embed)
+
+
+bot.add_dynamic_items(NorseButton)
 
 
 @bot.command(name="edda", aliases=["eddic"])
@@ -1151,13 +1240,49 @@ async def cmd_odin(ctx, *, query: str = ""):
     """Odin's own words: a stanza he speaks in the Poetic Edda (the Hávamál, Grímnismál, and his part in
     Vafþrúðnismál, Hárbarðsljóð, Lokasenna and Baldr's Dreams), Eiríksmál, or one of his riddles as Gestumblindi.
     Usage: !odin · !odin grimnismal · !odin riddles · !odin 138 (the Hávamál's) · !odin [a question]
-    (also !wotan, !woden)"""
+    (also !wotan, !woden) · !odin norse (· !odin norse grimnismal 49): in Old Norse beside the English"""
+    if re.match(r"^(old\s*)?norse\b", query.strip(), re.I):
+        await _odin_norse(ctx, re.sub(r"^(old\s*)?norse\b\s*", "", query.strip(), flags=re.I))
+        return
     pick = _odin_pick(query)
     if isinstance(pick, str):
         await ctx.send(pick)
         return
     poem, stanza, question = pick
     await send_edda(ctx, "", question=question, chosen=(poem, stanza))
+
+
+async def _odin_norse(ctx, query: str) -> None:
+    """!odin norse: one of Odin's stanzas in the Edda with its Old Norse beside it (Hollander's poems have none
+    here). A question after it is ignored, as the Norse view has no place for one."""
+    guild = getattr(ctx, "guild", None)
+    if not tradition_enabled(guild.id if guild else None, "norse"):
+        await ctx.send("The Norse texts are turned off on this server.")
+        return
+    norse = _edda_norse()
+    pool = [(p, s) for p, s in _odin_stanzas() if s in norse.get(p, {})]
+    if not pool:
+        await ctx.send("⚠️ The Old Norse of the Edda isn't loaded.")
+        return
+    pick = _odin_pick(query) if query else None
+    if isinstance(pick, str):
+        await ctx.send(pick.replace("`!odin", "`!odin norse"))
+        return
+    if pick and not pick[2]:                                 # (a poem or stanza named)
+        poem, stanza = pick[:2]
+        if stanza not in norse.get(poem, {}):
+            mine = [s for s in pool if s[0] == poem]
+            if not mine or re.search(r"\d$", query):
+                await ctx.send(f"Stanza {stanza} of **{poem}** has no Old Norse here. `!odin {poem} {stanza}` "
+                               f"gives the English." if mine else
+                               f"**{poem}** has no Old Norse here: `!odin norse` alone picks from the Edda's poems.")
+                return
+            poem, stanza = random.choice(mine)
+    else:
+        poem, stanza = random.choice(pool)
+    log.info(f"RNG  odin norse             → {poem} {stanza} (user: {ctx.author})")
+    _record(ctx, "edda", f"{poem} {stanza}")
+    await send_norse(ctx, poem, stanza, odin=True)
 
 
 async def send_edda(ctx, query: str, question: "str | None" = None, chosen: "tuple | None" = None) -> None:
@@ -1189,14 +1314,17 @@ async def send_edda(ctx, query: str, question: "str | None" = None, chosen: "tup
         answer = _unquoted(_edda_text(poem, stanza, "2"))
         if answer:
             embed.add_field(name="King Heithrek's answer", value=f"||{answer[:1000]}||", inline=False)
-    norse = _norse_text(poem, stanza)
-    if norse:                                    # (the Old Norse under Bellows: as the stanza was composed)
-        embed.add_field(name="In Old Norse", value=(_unquoted(norse) if chosen else norse)[:1024], inline=False)
-    embed.set_footer(text=f"{_edda_source(poem)}{f' · {NORSE_SOURCE}' if norse else ''} · !verse {poem} {stanza}")
+    norse = _norse_text(poem, stanza)            # (not in the message: the owner found it made it too big, 2026-11-08)
+    embed.set_footer(text=f"{_edda_source(poem)} · !verse {poem} {stanza}")
     _ask(embed, question)
     _record(ctx, "edda", f"{poem} {stanza}")
-    view = _card_view("edda", f"{poem}|{stanza}|{verse}|o" if chosen else f"{poem}|{stanza}")
+    # (two rows: ◀ ▶ 🖌️ on the first; 🖼️ Card, 📜 Old Norse, ᚱ Runes on the second; six won't fit Discord's five)
+    view = discord.ui.View(timeout=None)
+    card = OracleCardButton("edda", f"{poem}|{stanza}|{verse}|o" if chosen else f"{poem}|{stanza}")
+    card.item.row = 1
+    view.add_item(card)
     if norse:
+        view.add_item(NorseButton(f"{poem}|{stanza}{'|o' if chosen else ''}"))
         view.add_item(RunesButton(f"{poem}|{stanza}"))
     near = lookup.neighbours(f"{poem} {stanza}")
     for kind, side in (("p", "prev"), ("n", "next")):        # (◀ ▶ the stanzas either side, where there's one)

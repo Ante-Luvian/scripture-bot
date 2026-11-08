@@ -149,6 +149,39 @@ def style_for_reference(reference: str) -> str:
     return _STYLE_BY_CORPUS.get(corpus, "parchment")
 
 
+def _draw_plait(draw, W: int, H: int, s: dict) -> None:
+    """The Norse cards' plaited bands, top and bottom: drawn at 4x and scaled down, so the curves are smooth (PIL
+    draws lines without anti-aliasing: the owner found the 1x plait "extremely pixelated", 2026-11-08), and running
+    exactly from the frame's inner edge to its inner edge, a whole number of twists, crossing at both ends."""
+    import math
+    from PIL import Image, ImageDraw
+    S, amp, half = 4, 9, 18                          # (scale; the strands' swing; the band's half-height)
+    x0, x1 = 20, W - 21                              # (inside the 4px outline drawn at 16)
+    twists = max(2, round((x1 - x0) / 48))
+    period = (x1 - x0) / twists
+    c, bg = s["border"], s["bg"]
+    for y0 in (38, H - 39):
+        band = Image.new("RGBA", ((x1 - x0 + 1) * S, (2 * half + 1) * S), (0, 0, 0, 0))
+        d = ImageDraw.Draw(band)
+
+        def ribbon(phase: float, a: float, b: float) -> None:
+            pts = [(x * S, (half + amp * math.sin(2 * math.pi * x / period + phase)) * S)
+                   for x in [a + (b - a) * i / 400 for i in range(401)]]
+            d.line(pts, fill=c, width=8 * S, joint="curve")              # (a hollow ribbon: dark edges,
+            d.line(pts, fill=bg, width=3 * S, joint="curve")             #  the background showing through)
+
+        ribbon(0, 0, x1 - x0)
+        ribbon(math.pi, 0, x1 - x0)
+        for k in range(2 * twists + 1):              # (over and under by turns: every other crossing redrawn on top)
+            if k % 2 == 0:
+                xc = k * period / 2
+                ribbon(0, max(0, xc - period / 6), min(x1 - x0, xc + period / 6))
+        for y in (0, 2 * half):                      # (the band's rules, edge to edge of the frame)
+            d.rectangle([0, y * S, band.width, y * S + S - 1], fill=c)
+        band = band.resize((x1 - x0 + 1, 2 * half + 1), Image.LANCZOS)
+        draw._image.paste(band, (x0, y0 - half), band)
+
+
 def _draw_frame(draw, W: int, H: int, s: dict) -> None:
     c = s["border"]
     draw.rectangle([16, 16, W - 17, H - 17], outline=c, width=4)
@@ -160,25 +193,7 @@ def _draw_frame(draw, W: int, H: int, s: dict) -> None:
                 draw.line([(x, y), (x + 60 * dx, y)], fill=c, width=3)
                 draw.line([(x, y), (x, y + 60 * dy)], fill=c, width=3)
     elif s["frame"] == "plait":                       # a two-strand plait along the top and bottom, as Norse carving
-        import math
-        period, amp, x0, x1 = 48, 9, 46, W - 46
-        x1 = x0 + (x1 - x0) // (period // 2) * (period // 2)        # (end at a crossing, not mid-curve)
-
-        def ribbon(y0: float, phase: float, a: float, b: float) -> None:
-            pts = [(x, y0 + amp * math.sin(2 * math.pi * (x - x0) / period + phase)) for x in range(int(a), int(b) + 1)]
-            if len(pts) > 1:
-                draw.line(pts, fill=c, width=8, joint="curve")             # (a hollow ribbon: dark edges,
-                draw.line(pts, fill=s["bg"], width=3, joint="curve")       #  the background showing through)
-
-        for y0 in (38, H - 39):
-            ribbon(y0, 0, x0, x1)
-            ribbon(y0, math.pi, x0, x1)
-            # (over and under, by turns: at every other crossing the first strand is drawn again on top)
-            for k, xc in enumerate(range(x0, x1 + 1, period // 2)):
-                if k % 2 == 0:
-                    ribbon(y0, 0, max(x0, xc - period / 6), min(x1, xc + period / 6))
-            draw.line([(40, y0 - amp - 9), (W - 41, y0 - amp - 9)], fill=c, width=1)
-            draw.line([(40, y0 + amp + 9), (W - 41, y0 + amp + 9)], fill=c, width=1)
+        _draw_plait(draw, W, H, s)
     elif s["frame"] == "key":                         # a Greek-key band along the top and bottom
         for y0, flip in ((26, 1), (H - 27, -1)):
             for x in range(40, W - 60, 24):
@@ -295,7 +310,8 @@ def _render_verse_card(reference: str, text: str, source: str, question: str = "
         # (the caesura: Bellows's, a middle dot since 2026-11-08, the owner's "small interpunct instead of vertical
         #  bars" (an old "|" too), a dot with room about it; Hollander's em space, the font has no glyph for, a gap;
         #  Hollander's em-space indents go with the centring)
-        paragraphs = [re.sub(r"\s*[|·]\s*", "   ·   ", p) for p in paragraphs]
+        paragraphs = [re.sub(r"\s*[|·]\s*", " · ", p) for p in paragraphs]     # (one space each side: the owner
+        #  found three "absurd", 2026-11-08)
         paragraphs = [re.sub(r"\s* +\s*", "     ", p).strip() for p in paragraphs]
         while True:                                  # (smaller until the longest line fits: never wrapped)
             font = ImageFont.truetype(body_font_path, size)

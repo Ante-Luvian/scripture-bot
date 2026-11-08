@@ -71,28 +71,71 @@ def test_runes_are_only_runes():
     assert set(text) <= {chr(c) for c in range(0x16A0, 0x1700)} | {"\n"}
 
 
-def test_the_reply_has_the_norse_and_a_runes_button(oracles, fake_ctx):
+def _ids(view):
+    return {getattr(getattr(i, "item", i), "custom_id", ""): getattr(getattr(i, "item", i), "row", None)
+            for i in view.children}
+
+
+def test_the_reply_has_buttons_not_the_norse(oracles, fake_ctx):
+    """The owner (2026-11-08): the Norse in the message made it too big; it comes by a button instead."""
     asyncio.run(oracles.cmd_edda.callback(fake_ctx, query="havamal 139"))
     sent = fake_ctx.sent[0]
-    field = next(f for f in sent["embed"].fields if f.name == "In Old Norse")
-    assert field.value.startswith("Veit ek, at ek hekk")
-    assert "Guðni Jónsson" in sent["embed"].footer.text
-    ids = [getattr(getattr(item, "item", item), "custom_id", "") or "" for item in sent["view"].children]
-    assert "runes:Hovamol|139" in ids and len(ids) <= 5               # (all on one row: Discord's limit is 5)
+    assert not sent["embed"].fields and "Veit ek" not in sent["embed"].description
+    ids = _ids(sent["view"])
+    assert ids["norse:Hovamol|139"] == ids["runes:Hovamol|139"] == ids["ocard:edda:Hovamol|139"] == 1
+    assert all(row == 0 for cid, row in ids.items() if cid.startswith(("pnav:", "pics:")))
+    for r in (0, 1):
+        assert sum(1 for row in ids.values() if row == r) <= 5                 # (Discord's five a row)
 
 
-def test_odin_unquoted_norse_too(oracles, fake_ctx):
-    asyncio.run(oracles.cmd_odin.callback(fake_ctx, query="vafthruthnismol 1"))
-    field = next(f for f in fake_ctx.sent[0]["embed"].fields if f.name == "In Old Norse")
-    assert '"' not in field.value and field.value.startswith("Ráð þú mér nú, Frigg")
+def test_half_lines(oracles):
+    assert oracles._half_lines("Gagnrath they call me, · and thirsty I come\nFrom a journey hard to thy hall;") \
+        == "Gagnrath they call me,\nand thirsty I come\nFrom a journey hard to thy hall;"
 
 
-def test_no_norse_no_button(oracles, fake_ctx):
-    asyncio.run(oracles.cmd_odin.callback(fake_ctx, query="riddles 1"))     # (Hollander's: no Norse here)
-    sent = fake_ctx.sent[0]
-    assert not any(f.name == "In Old Norse" for f in sent["embed"].fields)
-    ids = [getattr(getattr(item, "item", item), "custom_id", "") or "" for item in sent["view"].children]
-    assert not any(i.startswith("runes:") for i in ids)
+def test_the_norse_view(oracles):
+    embed = oracles._norse_embed("Vafthruthnismol", "8")
+    english, norse = embed.fields
+    assert english.inline and norse.inline                                  # (side by side)
+    assert english.value.split("\n")[:2] == ["“Gagnrath they call me,", "and thirsty I come"]
+    assert norse.value.startswith('"Gagnráðr ek heiti,') and "·" not in english.value
+    assert len(english.value.split("\n")) == len(norse.value.split("\n"))   # (a half-line to a line, both)
+    assert "Guðni Jónsson" in embed.footer.text
+    odin = oracles._norse_embed("Vafthruthnismol", "1", odin=True)
+    assert not any(q in f.value for f in odin.fields for q in '"“”')
+
+
+def test_parallel_takes_the_edda(bot_module, fake_ctx):
+    from bot_commands import translations
+    asyncio.run(translations.cmd_parallel.callback(fake_ctx, reference="havamal 139"))
+    sent = fake_ctx.sent[-1]
+    assert sent["embed"].fields[1].value.startswith("Veit ek, at ek hekk")
+    assert "runes:Hovamol|139" in _ids(sent["view"])
+
+
+@pytest.mark.parametrize("query, expect", [
+    ("norse", None),
+    ("norse grimnismol 1", "Grimnismol"),
+    ("norse havamal 139", "Hovamol"),
+])
+def test_odin_norse(oracles, fake_ctx, query, expect):
+    asyncio.run(oracles.cmd_odin.callback(fake_ctx, query=query))
+    sent = fake_ctx.sent[-1]
+    assert sent["embed"].fields[1].name == "Old Norse"
+    if expect:
+        assert sent["embed"].title.startswith(f"🌲 {expect}")
+
+
+def test_odin_norse_where_there_is_none(oracles, fake_ctx):
+    asyncio.run(oracles.cmd_odin.callback(fake_ctx, query="norse riddles"))   # (Hollander's: no Norse here)
+    assert "no Old Norse" in fake_ctx.sent[-1]["content"]
+    asyncio.run(oracles.cmd_odin.callback(fake_ctx, query="norse havamal 98"))  # (not Odin's)
+    assert "isn't Odin speaking" in fake_ctx.sent[-1]["content"]
+
+
+def test_no_norse_no_buttons(oracles, fake_ctx):
+    asyncio.run(oracles.cmd_odin.callback(fake_ctx, query="riddles 1"))
+    assert not any(i.startswith(("runes:", "norse:")) for i in _ids(fake_ctx.sent[0]["view"]))
 
 
 def test_pressing_card_keeps_the_other_buttons(oracles):
@@ -103,15 +146,16 @@ def test_pressing_card_keeps_the_other_buttons(oracles):
     class Message:
         pass
 
-    view = oracles._card_view("edda", "Hovamol|139")
-    view.add_item(oracles.RunesButton("Hovamol|139"))
     from bot_commands.verse import PassageButton
-    view.add_item(PassageButton("n", "Hovamol 139"))
+    first = [PassageButton("n", "Hovamol 139")]
+    second = [oracles.OracleCardButton("edda", "Hovamol|139"), oracles.NorseButton("Hovamol|139"),
+              oracles.RunesButton("Hovamol|139")]
     message = Message()
-    message.components = [Row([getattr(i, "item", i) for i in view.children])]
+    message.components = [Row([b.item for b in first]), Row([b.item for b in second])]
     after = oracles._view_after(message, "ocard:edda:Hovamol|139")
-    state = {getattr(i, "item", i).custom_id: getattr(i, "item", i).disabled for i in after.children}
-    assert state == {"ocard:edda:Hovamol|139": True, "runes:Hovamol|139": False, "pnav:n:Hovamol 139": False}
+    state = {i.item.custom_id: (i.item.disabled, i.item.row) for i in after.children}
+    assert state == {"pnav:n:Hovamol 139": (False, 0), "ocard:edda:Hovamol|139": (True, 1),
+                     "norse:Hovamol|139": (False, 1), "runes:Hovamol|139": (False, 1)}
 
 
 def test_the_runes_card_renders(bot_module):

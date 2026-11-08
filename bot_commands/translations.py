@@ -15,6 +15,7 @@ from core import (
     guild_traditions,
     bot,
     lookup,
+    tradition_enabled,
 )
 
 # what !parallel offers a server without the Greek and Roman texts
@@ -1057,6 +1058,19 @@ def perseus_parallel(reference: str) -> "tuple[dict, dict] | None":
     return primary, pair
 
 
+async def _edda_parallel(ctx, ref: str) -> bool:
+    """!parallel for a stanza of the Poetic Edda: Bellows's English beside Guðni Jónsson's Old Norse (the owner,
+    2026-11-08). True if the reference was the Edda's (and answered). On servers with the Norse texts only."""
+    from bot_commands import oracles                        # (here, not at the top: oracles is the larger module)
+    if not tradition_enabled(getattr(getattr(ctx, "guild", None), "id", None), "norse"):
+        return False
+    found = oracles._edda_stanza(ref)
+    if not found:
+        return False
+    await oracles.send_norse(ctx, *found)
+    return True
+
+
 @bot.command(name="parallel", aliases=["poem", "po", "par", "classical"])
 async def cmd_parallel(ctx, *, reference: str = ""):
     """Look up a Bible verse or classical text in parallel languages. !parallel works for a list."""
@@ -1082,6 +1096,8 @@ async def cmd_parallel(ctx, *, reference: str = ""):
         scripture_type = classify_scripture(ref_clean)
         if scripture_type:
             await _send_poem_scripture(ctx, ref_clean, scripture_type, drb)
+            return
+        if await _edda_parallel(ctx, ref_clean):            # (the Poetic Edda, with its Old Norse)
             return
 
         # ── Classical poetry reference ─────────────────────────────────────
@@ -1124,6 +1140,8 @@ async def poem_slash(interaction: discord.Interaction,
     scripture_type = classify_scripture(ref_clean)
     if scripture_type:
         await _send_poem_scripture(ctx, ref_clean, scripture_type, drb)
+        return
+    if await _edda_parallel(ctx, ref_clean):
         return
     spec = parse_poem_ref(ref_clean)
     if spec is None and (both := await asyncio.to_thread(perseus_parallel, ref_clean)):
