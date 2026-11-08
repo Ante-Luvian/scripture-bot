@@ -1043,7 +1043,7 @@ def _edda_title(poem: str, stanza: str) -> str:
 # scripts/build_edda_norse.py (by content: Bellows numbers and orders some stanzas his own way). A stanza of Bellows's
 # with nothing in the Norse to match it (some of his lacunae, a line or two he took from elsewhere) has none.
 NORSE_SOURCE = "Old Norse: Guðni Jónsson, Eddukvæði (1949)"
-RUNES_NOTE = "Younger Futhark: a modern transcription (the Edda was written down in the Latin alphabet)"
+RUNES_NOTE = "Norwegian Viking-Age runes: a modern transcription (the Edda was written down in the Latin alphabet)"
 
 
 @functools.lru_cache(maxsize=1)

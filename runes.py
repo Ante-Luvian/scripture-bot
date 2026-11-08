@@ -2,20 +2,24 @@
 
 A modern transcription, not the poems as they were ever written: the Edda comes down in Icelandic manuscripts of
 the 13th century, in the Latin alphabet. It follows how Viking-Age carvers spelled, as the handbooks set it out:
-sixteen runes for all the sounds, so one rune serves several letters (ᚴ k and g, ᛏ t and d, ᛒ b and p, ᚢ u, o, v
-and y, ᛁ i, e and j, ᛅ a and æ, ᚦ þ and ð; the diphthongs ei and ey as ᛅᛁ and ᛅᚢ, as on the runestones' "stain"
+sixteen runes for all the sounds, so one rune serves several letters (ᚴ k and g, ᛐ t and d, ᛒ b and p, ᚢ u, o, v
+and y, ᛁ i, e and j, ᛆ a and æ, ᚦ þ and ð; the diphthongs ei and ey as ᛆᛁ and ᛆᚢ, as on the runestones' "stain"
 for steinn); length unmarked; a rune never written twice running, even across
 letters it stands for alike ("gk", "dt"); ᛦ for the r of endings that was once z (word-final after a consonant:
-"maðr", "Baldr"), ᚱ elsewhere; ᚬ for ö and ǫ. Words are parted by ᛫, the carvers' dot.
+"maðr", "Baldr"), ᚱ elsewhere; ᚮ for ö and ǫ. Words are parted by ᛫, the carvers' dot.
+
+The runes are Norway's mixed set (the owner's choice, 2026-11-08): the Edda's poems are West Norse, and Iceland took
+its runes from Norway, where carvers wrote the short-twig forms of a, n, t and o (ᛆ ᚿ ᛐ ᚮ) beside the long-branch
+h, m, b and s (ᚼ ᛘ ᛒ ᛋ). The card uses BabelStone Runic Norse, the typeface made for them.
 """
 import re
 import unicodedata
 
 RUNE = {
     "f": "ᚠ", "u": "ᚢ", "ú": "ᚢ", "o": "ᚢ", "ó": "ᚢ", "v": "ᚢ", "w": "ᚢ", "y": "ᚢ", "ý": "ᚢ",
-    "þ": "ᚦ", "ð": "ᚦ", "ö": "ᚬ", "ǫ": "ᚬ", "ø": "ᚬ", "œ": "ᚬ", "r": "ᚱ", "k": "ᚴ", "g": "ᚴ", "c": "ᚴ",
-    "q": "ᚴ", "x": "ᚴᛋ", "h": "ᚼ", "n": "ᚾ", "i": "ᛁ", "í": "ᛁ", "e": "ᛁ", "é": "ᛁ", "j": "ᛁ",
-    "a": "ᛅ", "á": "ᛅ", "æ": "ᛅ", "ę": "ᛅ", "s": "ᛋ", "z": "ᛋ", "t": "ᛏ", "d": "ᛏ", "b": "ᛒ", "p": "ᛒ",
+    "þ": "ᚦ", "ð": "ᚦ", "ö": "ᚮ", "ǫ": "ᚮ", "ø": "ᚮ", "œ": "ᚮ", "r": "ᚱ", "k": "ᚴ", "g": "ᚴ", "c": "ᚴ",
+    "q": "ᚴ", "x": "ᚴᛋ", "h": "ᚼ", "n": "ᚿ", "i": "ᛁ", "í": "ᛁ", "e": "ᛁ", "é": "ᛁ", "j": "ᛁ",
+    "a": "ᛆ", "á": "ᛆ", "æ": "ᛆ", "ę": "ᛆ", "s": "ᛋ", "z": "ᛋ", "t": "ᛐ", "d": "ᛐ", "b": "ᛒ", "p": "ᛒ",
     "m": "ᛘ", "l": "ᛚ",
 }
 DOT = "᛫"

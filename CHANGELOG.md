@@ -14,6 +14,10 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-11-08 · Norwegian runes, and bigger
+- ᚱ **The Runes card now uses Norway's runes.** In the Viking Age, different regions carved slightly different runes. The poems of the Edda come from Norway and Iceland (and Iceland learned its runes from Norway), so the card now uses the Norwegian set, in which a, n, t and o are short strokes (ᛆ ᚿ ᛐ ᚮ) rather than the Danish long-branch forms it used before.
+- 🔍 **And they're bigger:** the runes now fill most of the card, from the top band down to the title. Try `!edda voluspa 19` and press **ᚱ Runes**.
+
 ## 2026-11-08 · Runes carved like a runestone
 - ᚱ **The Runes card now looks like a runestone.** Viking-Age carvers didn't break an inscription into verse lines: the runes ran on in one band, the words parted only by small dots, carried on wherever the stone's edge came, even in the middle of a word. The **ᚱ Runes** card under `!edda` and `!odin` now does the same: the whole stanza as one run of large runes filling the card, in the BabelStone Runic typeface. Try `!edda voluspa 19` and press **ᚱ Runes**.
 - 🖼️ The Edda's picture cards (**🖼️ Card**, and the English-and-Old-Norse card) no longer show quotation marks around the speeches.

@@ -35,7 +35,8 @@ from greek_translit import _transliterate_greek
 
 _SYRIAC_FONT_PATH = str(ROOT / "fonts" / "NotoSansSyriac-Regular.ttf")
 # (a copy in the project: the service account can't read fonts installed for a user only)
-_RUNIC_FONT_PATH = str(ROOT / "fonts" / "BabelStoneRunic.ttf")
+#  BabelStone Runic Norse: the Norwegian mixed runes, the Edda's own (West Norse) world (the owner, 2026-11-08)
+_RUNIC_FONT_PATH = str(ROOT / "fonts" / "BabelStoneRunicNorse.ttf")
 
 def _script_font(fonts_dir: str, text: str) -> str:
     """Pick a font file that can actually render the text's script.
@@ -48,7 +49,7 @@ def _script_font(fonts_dir: str, text: str) -> str:
         cp = ord(ch)
         if 0x0700 <= cp <= 0x074F:
             return _SYRIAC_FONT_PATH
-        if 0x16A0 <= cp <= 0x16FF:                  # (runes: BabelStone Runic, the owner's choice, 2026-11-08)
+        if 0x16A0 <= cp <= 0x16FF:                  # (runes: BabelStone Runic Norse, the owner's choice, 2026-11-08)
             return _RUNIC_FONT_PATH
         if 0x0590 <= cp <= 0x05FF or 0x0370 <= cp <= 0x03FF or 0x1F00 <= cp <= 0x1FFF or 0x0400 <= cp <= 0x04FF:
             return fonts_dir + "times.ttf"
@@ -415,7 +416,9 @@ def _render_verse_card(reference: str, text: str, source: str, question: str = "
 def _render_runes_card(reference: str, carved: str, source: str, question: str = "", style: str = "norse"):
     """Runes set as on a runestone (the owner, 2026-11-08): one continuous run, words parted by the carvers' dot, no
     line breaks for the verse, the rows broken wherever the edge comes (mid-word too, as carvers did), and each
-    row but the last spaced out to the full width. The type as large as will fill the card."""
+    row but the last spaced out to the full width. The runes as large as will fill the card (the owner, 2026-11-08:
+    "bigger and take up more of the card"): rows spaced by the runes' own height, not the font's line box, the spare
+    height shared out between them, and no ornament between them and the title."""
     from PIL import Image, ImageDraw, ImageFont
     import io, textwrap
     W, H0, FONTS = 1200, 630, "C:/Windows/Fonts/"
@@ -423,8 +426,9 @@ def _render_runes_card(reference: str, carved: str, source: str, question: str =
     text = re.sub(r"\s+", "", carved)
     q_lines = textwrap.wrap(f"“{question.strip()}”", width=60)[:4] if question.strip() else []
     q_font = ImageFont.truetype(FONTS + "georgiai.ttf", 30)
-    top = 84 + (40 * len(q_lines) + 20 if q_lines else 0)
-    max_w = W - 160
+    top = 80 + (40 * len(q_lines) + 16 if q_lines else 0)
+    BOTTOM = 158                                     # (the title and the note under the runes, and a gap)
+    max_w = W - 110
     dummy = ImageDraw.Draw(Image.new("RGB", (10, 10)))
 
     def rows_for(font):
@@ -442,21 +446,30 @@ def _render_runes_card(reference: str, carved: str, source: str, question: str =
                 rows[i - 1], rows[i] = rows[i - 1] + rows[i][0], rows[i][1:]
         return [r for r in rows if r]
 
-    size, H = 200, H0
+    def ink(font):                                   # (the runes' drawn top and height: a stave, the tallest rune)
+        top_, _, _, bottom_ = font.getbbox("ᛁ")
+        return top_, bottom_ - top_
+
+    room = H0 - top - BOTTOM
+    size = 400
     while True:
         font = ImageFont.truetype(_RUNIC_FONT_PATH, size)
-        rows, line_height = rows_for(font), int(size * 1.25)
-        if top + line_height * len(rows) + 200 <= H0 or size <= 28:
+        rows = rows_for(font)
+        offset, rune_h = ink(font)
+        pitch = rune_h * 1.3                         # (a row and the gap under it)
+        if rune_h + pitch * (len(rows) - 1) <= room or size <= 28:
             break
-        size -= 4
-    H = max(H0, top + line_height * len(rows) + 200)
+        size -= 2
+    H = max(H0, top + int(rune_h + pitch * (len(rows) - 1)) + BOTTOM)
+    if len(rows) > 1:                                # (the spare height shared out between the rows)
+        pitch = min(rune_h * 1.7, (H - top - BOTTOM - rune_h) / (len(rows) - 1))
+    block = rune_h + pitch * (len(rows) - 1)
     img = Image.new("RGB", (W, H), s["bg"])
     draw = ImageDraw.Draw(img)
     _draw_frame(draw, W, H, s)
     for i, q in enumerate(q_lines):
         draw.text(((W - draw.textlength(q, font=q_font)) / 2, 72 + 40 * i), q, font=q_font, fill=s["accent"])
-    available = H - top - 200
-    y = top + max(0, (available - line_height * len(rows)) // 2)
+    y = top + max(0, (H - top - BOTTOM - block) / 2) - offset
     x0 = (W - max_w) / 2
     for n, row in enumerate(rows):
         widths = [draw.textlength(ch, font=font) for ch in row]
@@ -466,15 +479,14 @@ def _render_runes_card(reference: str, carved: str, source: str, question: str =
         for ch, w in zip(row, widths):
             draw.text((x, y), ch, font=font, fill=s["text"])
             x += w + spare
-        y += line_height
-    _draw_ornament(draw, W // 2, H - 160, s)
-    ref_font = ImageFont.truetype(FONTS + "georgiab.ttf", 34)
+        y += pitch
+    ref_font = ImageFont.truetype(FONTS + "georgiab.ttf", 32)
     while draw.textlength(reference, font=ref_font) > W - 100 and ref_font.size > 20:
         ref_font = ImageFont.truetype(FONTS + "georgiab.ttf", ref_font.size - 2)
-    draw.text(((W - draw.textlength(reference, font=ref_font)) / 2, H - 130), reference, font=ref_font,
+    draw.text(((W - draw.textlength(reference, font=ref_font)) / 2, H - 124), reference, font=ref_font,
               fill=s["accent"])
-    src_font = ImageFont.truetype(FONTS + "georgia.ttf", 20)
-    draw.text(((W - draw.textlength(source, font=src_font)) / 2, H - 80), source, font=src_font, fill=s["accent"])
+    src_font = ImageFont.truetype(FONTS + "georgia.ttf", 19)
+    draw.text(((W - draw.textlength(source, font=src_font)) / 2, H - 82), source, font=src_font, fill=s["accent"])
     buf = io.BytesIO()
     img.save(buf, format="PNG")
     buf.seek(0)

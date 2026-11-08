@@ -56,11 +56,11 @@ def test_pairings_read_by_hand(poem, stanza, opening):
 
 
 @pytest.mark.parametrize("norse, carved", [
-    ("maðr", "ᛘᛅᚦᛦ"),                   # (the ending -r, once z: ᛦ)
+    ("maðr", "ᛘᛆᚦᛦ"),                   # (the ending -r, once z: ᛦ)
     ("Þórr", "ᚦᚢᛦ"),                    # (a double letter written once)
-    ("steinn", "ᛋᛏᛅᛁᚾ"),                # (ei as ᛅᛁ: "stain" on the runestones)
-    ("Yggdrasill", "ᚢᚴᛏᚱᛅᛋᛁᛚ"),          # (g and k one rune: "gg" one ᚴ)
-    ("hár baðmr,", "ᚼᛅᚱ᛫ᛒᛅᚦᛘᛦ"),          # (words parted by ᛫, punctuation dropped)
+    ("steinn", "ᛋᛐᛆᛁᚿ"),                # (ei as ᛆᛁ: "stain" on the runestones; Norway's short-twig a, n, t)
+    ("Yggdrasill", "ᚢᚴᛐᚱᛆᛋᛁᛚ"),          # (g and k one rune: "gg" one ᚴ)
+    ("hár baðmr,", "ᚼᛆᚱ᛫ᛒᛆᚦᛘᛦ"),          # (words parted by ᛫, punctuation dropped)
 ])
 def test_runes(norse, carved):
     assert runes.to_runes(norse) == carved
@@ -220,7 +220,7 @@ def test_the_norse_view_has_a_card_button(oracles):
 
 def test_the_runes_card_renders(bot_module):
     from bot_commands.card import _render_verse_card, _script_font
-    assert _script_font("C:/Windows/Fonts/", "ᚠᚢᚦ").endswith("BabelStoneRunic.ttf")
+    assert _script_font("C:/Windows/Fonts/", "ᚠᚢᚦ").endswith("BabelStoneRunicNorse.ttf")
     from bot_commands.card import _render_runes_card
     buf = _render_runes_card("Voluspo, stanza 19", runes.carve(NORSE["Voluspo"]["19"]), "note", "a question?")
     assert buf.read(8) == b"\x89PNG\r\n\x1a\n"
@@ -228,10 +228,20 @@ def test_the_runes_card_renders(bot_module):
 
 def test_carved_as_one_run():
     """The Runes card's text (the owner, 2026-11-08): one run, as on a runestone, no line breaks."""
-    assert runes.carve("Ask veit ek standa,\nheitir Yggdrasill,") == "ᛅᛋᚴ᛫ᚢᛅᛁᛏ᛫ᛁᚴ᛫ᛋᛏᛅᚾᛏᛅ᛫ᚼᛅᛁᛏᛁᚱ᛫ᚢᚴᛏᚱᛅᛋᛁᛚ"
+    assert runes.carve("Ask veit ek standa,\nheitir Yggdrasill,") == "ᛆᛋᚴ᛫ᚢᛆᛁᛐ᛫ᛁᚴ᛫ᛋᛐᛆᚿᛐᛆ᛫ᚼᛆᛁᛐᛁᚱ᛫ᚢᚴᛐᚱᛆᛋᛁᛚ"
 
 
 def test_no_quotation_marks_on_the_cards(oracles):
     for key in ("Vafthruthnismol|8", "Lokasenna|6"):
         _, text, _ = oracles._oracle_card_content("edda", key)
         assert not any(q in text for q in '"“”'), key
+
+
+def test_the_font_has_every_rune(bot_module):
+    """BabelStone Runic Norse (Norway's mixed runes) must hold every rune the transcription makes, or the card
+    shows empty boxes."""
+    from fontTools.ttLib import TTFont
+    from bot_commands.card import _RUNIC_FONT_PATH
+    cmap = TTFont(_RUNIC_FONT_PATH).getBestCmap()
+    carved = runes.carve("\n".join(t for p in NORSE.values() for t in p.values()))
+    assert {c for c in carved if ord(c) not in cmap} == set()
