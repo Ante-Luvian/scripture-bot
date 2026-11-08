@@ -14,9 +14,6 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
-## 2026-11-08 · Runes with straight strokes
-- ᚱ **The runes on the Runes card are now cut in straight lines**, the way they were carved: a rune had to be cut into wood or stone with a knife or chisel, so the real ones have no curves. Typefaces round off several of them (ᚢ, ᚱ, ᚦ, ᛒ), so the bot now draws all sixteen itself, with straight strokes and angled bowls, as they look on the runestones. Try `!edda voluspa 19` and press **ᚱ Runes**.
-
 ## 2026-11-08 · Runes carved like a runestone
 - ᚱ **The Runes card now looks like a runestone.** Viking-Age carvers didn't break an inscription into verse lines: the runes ran on in one band, the words parted only by small dots, carried on wherever the stone's edge came, even in the middle of a word. The **ᚱ Runes** card under `!edda` and `!odin` now does the same: the whole stanza as one run of large runes filling the card, in the BabelStone Runic typeface. Try `!edda voluspa 19` and press **ᚱ Runes**.
 - 🖼️ The Edda's picture cards (**🖼️ Card**, and the English-and-Old-Norse card) no longer show quotation marks around the speeches.
