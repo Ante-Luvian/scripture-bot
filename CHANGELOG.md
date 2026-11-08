@@ -14,6 +14,19 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-11-08 · A tidier command list: where the old commands went
+- 🧹 **Some commands that did the same job as another have been folded into it**, so `!help` and the `/` menu are shorter. Nothing you could do before is gone; below is what to type now.
+- 📖 **The Prayer Book commands are all under `!bcp`.** `!mp` and `!ep` (Morning and Evening Prayer) are now `!bcp morning` and `!bcp evening`, which give the whole service: the psalms, both Bible readings and the collect. `!psalm` (the psalms appointed for today) is now `!bcp psalm`, and `!collect` (the day's short set prayer) is `!bcp collect`. In the `/` menu, `/bcp` now lets you pick the whole service, just the psalms or just the collect, and morning or evening. Try `!bcp evening`.
+- 🎶 **For a particular psalm:** `!verse Psalm 23` reads it, `!metrical 23` gives it in rhyming verse to sing (this was also `!psalm 23 sing`), and `!chant psalm 110` sings it in Latin plainchant (this was `!psalm 110 chant`). If you type `!bcp psalm 23`, I'll point you to these, instead of the old reply "Couldn't parse `23`".
+- 📌 **`!unsave 2` is now `!saved remove 2`**: it removes the second verse on your list of saved verses.
+- 📬 **`!unsubscribe` is now `!subscribe off`**: it stops the Verse of the Day being sent to your private messages.
+- 📜 **`!study` has gone.** It showed a verse and then what the early Church Fathers said about it. Every Bible verse already has a **Catena** button underneath that shows the Fathers' commentary, and `!catena John 3:16` still works on its own.
+- 🏆 **`!leaderboard` now shows the quiz leaderboard**, this server's top `!quiz` scorers this week and of all time. It used to rank people by how many verses they had saved, which nobody was using.
+- 🔤 **`!compare strong John 3:16` is now just `!strong John 3:16`**: the King James text with each word tagged by its Strong's number (the standard numbering of every Hebrew and Greek word in the Bible). The old way still works.
+- ⌨️ **A few commands are now typed with `!` only**, as another `/` command already does the same: `/oracle` draws the Delphic maxims as well (`!delphi` still works), `/learning` has a choice for the Torah portion or the Talmud page of the day (`!parsha`, `!dafyomi` still work), and `/hymn list` lists the hymnal (`!hymnlist` still works).
+- 🔀 **Two short names now go where you'd expect:** `!liturgy` opens the Orthodox Divine Liturgy (it used to open `!today`), and `!dailyverse` gives the Verse of the Day (it used to open the Versle puzzle).
+- ✂️ **Some short names that led somewhere unexpected have been removed:** `!aeneid` (it opened the Virgil oracle, not the poem: for the poem, `!verse Aeneid 1.1`), `!sortes` (now `!homer`), `!traditions` (now `!theme`), `!learn` (now `!memorize`), `!mystery` (now `!whoami`), `!st` and `!thomas` (now `!summa` or `!aquinas`), `!poem`, `!po` and `!classical` (now `!parallel`), and `!matins`, `!vespers` and `!evensong` (now `!bcp morning` and `!bcp evening`).
+
 ## 2026-11-08 · More of Odin in Old Norse
 - 🐦‍⬛ **Odin's riddles and Eiríksmál now have their Old Norse too.** Under `!odin riddles` (the riddles Odin asks King Heithrek in disguise) and the *Eiríksmál* (Odin waking Valhalla for King Eric Bloodaxe), the **📜 Old Norse** and **ᚱ Runes** buttons now work as they do for the Edda. Only Odin's own words are shown, in both languages. Try `!odin norse riddles` or `!odin riddles 3` and press **📜 Old Norse**. One riddle of the 37, the one about the widows, isn't in the Old Norse edition used here, so it has none.
 - 📜 **The *Fragment of a Sigurth Lay* has its Old Norse now**, the last poem of the Edda that didn't: Sigurd's murder, and Brynhild's laugh. Try `!parallel Brot af Sigurtharkvithu 10`.
