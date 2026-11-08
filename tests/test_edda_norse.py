@@ -21,11 +21,16 @@ def oracles(bot_module):
     return oracles
 
 
+HOLLANDER = json.loads((ROOT / "data" / "norse" / "old_norse_poems.json").read_text(encoding="utf-8"))["books"]
+
+
 def test_every_stanza_is_one_of_bellowss():
+    """(or, for Eiríksmál and the riddles, Hollander's: !odin's poems outside the Edda)"""
     for poem, stanzas in NORSE.items():
-        assert poem in BELLOWS
-        assert set(stanzas) <= set(BELLOWS[poem]), poem
-    have = sum(len(s) for s in NORSE.values())
+        english = BELLOWS.get(poem) or HOLLANDER[poem]
+        assert set(stanzas) <= set(english), poem
+    assert set(NORSE) - set(BELLOWS) == {"Eiriksmol", "Heithreksgatur"}
+    have = sum(len(s) for p, s in NORSE.items() if p in BELLOWS)
     assert have >= 0.97 * sum(len(s) for s in BELLOWS.values())          # (1539 of 1566 when built)
 
 
@@ -50,6 +55,12 @@ def test_no_edition_leftovers():
     ("Fafnismol", "26", '“Fjarri þú gekkt'),
     ("Atlamol en Gronlenzku", "96", '“Lýgr þú nú, Guðrún'),
     ("Hamthesmol", "11", "Hitt kvað þá Hróðrglöð"),
+    ("Brot af Sigurtharkvithu", "1", "“[hvat hefir Sigurðr"),     # (Guðni's "Sigurðarkviða in meiri" 5)
+    ("Brot af Sigurtharkvithu", "20", "Benvönd of lét"),
+    ("Eiriksmol", "1", "Hvat's þat drauma?"),                    # (Finnur Jónsson's text)
+    ("Heithreksgatur", "1", "“Hafa ek þat vilda"),
+    ("Heithreksgatur", "24", "“Hverjar eru þær brúðir,\ner ganga brimserkjum í"),   # (Guðni 23: Hollander's
+    ("Heithreksgatur", "37", "“Segðu þat þá hinzt"),                #  23 isn't in his text)
 ])
 def test_pairings_read_by_hand(poem, stanza, opening):
     assert NORSE[poem][stanza].startswith(opening)
@@ -133,14 +144,14 @@ def test_odin_norse(oracles, fake_ctx, query, expect):
 
 
 def test_odin_norse_where_there_is_none(oracles, fake_ctx):
-    asyncio.run(oracles.cmd_odin.callback(fake_ctx, query="norse riddles"))   # (Hollander's: no Norse here)
+    asyncio.run(oracles.cmd_odin.callback(fake_ctx, query="norse riddles 23"))   # (not in Guðni's text)
     assert "no Old Norse" in fake_ctx.sent[-1]["content"]
     asyncio.run(oracles.cmd_odin.callback(fake_ctx, query="norse havamal 98"))  # (not Odin's)
     assert "isn't Odin speaking" in fake_ctx.sent[-1]["content"]
 
 
 def test_no_norse_no_buttons(oracles, fake_ctx):
-    asyncio.run(oracles.cmd_odin.callback(fake_ctx, query="riddles 1"))
+    asyncio.run(oracles.cmd_odin.callback(fake_ctx, query="riddles 23"))
     assert not any(i.startswith(("runes:", "norse:")) for i in _ids(fake_ctx.sent[0]["view"]))
 
 
@@ -245,3 +256,13 @@ def test_the_font_has_every_rune(bot_module):
     cmap = TTFont(_RUNIC_FONT_PATH).getBestCmap()
     carved = runes.carve("\n".join(t for p in NORSE.values() for t in p.values()))
     assert {c for c in carved if ord(c) not in cmap} == set()
+
+
+def test_hollanders_poems_in_norse(oracles):
+    """!odin's poems outside the Edda: the English beside the Norse is Odin's speech alone, as the Norse is."""
+    embed = oracles._norse_embed("Eiriksmol", "3", odin=True)
+    english, norse = embed.fields
+    assert "Bragi:" not in english.value and "Braka" not in norse.value and norse.value.startswith("Hvat þrymr")
+    assert "Finnur Jónsson" in embed.footer.text and "Hollander" in embed.footer.text
+    riddle = oracles._norse_embed("Heithreksgatur", "3", odin=True)
+    assert not riddle.fields[0].value.startswith("Gestumblindi") and "Góð er gáta" not in riddle.fields[1].value

@@ -14,6 +14,10 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-11-08 · More of Odin in Old Norse
+- 🐦‍⬛ **Odin's riddles and Eiríksmál now have their Old Norse too.** Under `!odin riddles` (the riddles Odin asks King Heithrek in disguise) and the *Eiríksmál* (Odin waking Valhalla for King Eric Bloodaxe), the **📜 Old Norse** and **ᚱ Runes** buttons now work as they do for the Edda. Only Odin's own words are shown, in both languages. Try `!odin norse riddles` or `!odin riddles 3` and press **📜 Old Norse**. One riddle of the 37, the one about the widows, isn't in the Old Norse edition used here, so it has none.
+- 📜 **The *Fragment of a Sigurth Lay* has its Old Norse now**, the last poem of the Edda that didn't: Sigurd's murder, and Brynhild's laugh. Try `!parallel Brot af Sigurtharkvithu 10`.
+
 ## 2026-11-08 · Norwegian runes, and bigger
 - ᚱ **The Runes card now uses Norway's runes.** In the Viking Age, different regions carved slightly different runes. The poems of the Edda come from Norway and Iceland (and Iceland learned its runes from Norway), so the card now uses the Norwegian set, in which a, n, t and o are short strokes (ᛆ ᚿ ᛐ ᚮ) rather than the Danish long-branch forms it used before.
 - 🔍 **And they're bigger:** the runes now fill most of the card, from the top band down to the title. Try `!edda voluspa 19` and press **ᚱ Runes**.

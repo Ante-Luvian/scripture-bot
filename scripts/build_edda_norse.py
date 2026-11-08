@@ -40,7 +40,9 @@ PAGES = {
     "Helgakvitha Hundingsbana I": ["Helgakviða Hundingsbana I"],
     "Helgakvitha Hundingsbana II": ["Völsungakviða in forna"], "Gripisspo": ["Grípisspá"],
     "Reginsmol": ["Reginsmál"], "Fafnismol": ["Fáfnismál"], "Sigrdrifumol": ["Sigrdrífumál"],
-    "Brot af Sigurtharkvithu": ["Brot af Sigurðarkviðu"], "Guthrunarkvitha I": ["Guðrúnarkviða in fyrsta"],
+    # (the Brot: Guðni prints it as "Sigurðarkviða in meiri", the longer lay it is the end of, after stanzas of
+    #  the Völsunga saga's that he puts before it)
+    "Brot af Sigurtharkvithu": ["Sigurðarkviða in meiri"], "Guthrunarkvitha I": ["Guðrúnarkviða in fyrsta"],
     "Sigurtharkvitha en Skamma": ["Sigurðarkviða in skamma"], "Helreith Brynhildar": ["Helreið Brynhildar"],
     "Guthrunarkvitha II": ["Guðrúnarkviða in forna"], "Guthrunarkvitha III": ["Guðrúnarkviða in þriðja"],
     "Oddrunargratr": ["Oddrúnarkviða"], "Atlakvitha en Gronlenzka": ["Atlakviða"],
@@ -319,6 +321,58 @@ def overridden(poem, pages):
     return out
 
 
+def finnur(page):
+    """{number: [lines]} from a page in Finnur Jónsson's Carmina Scaldica layout: a <blockquote> of <br />-parted
+    lines, a stanza opened by a line "N."."""
+    body = page[page.find("<blockquote>"):page.find("</blockquote>")]
+    out, cur = {}, None
+    for line in re.split(r"<br\s*/?>", body):
+        text = html.unescape(re.sub(r"<[^>]+>", "", line)).replace("\xa0", " ").strip()
+        if m := re.fullmatch(r"(\d+)\.", text):
+            cur = m.group(1)
+            out[cur] = []
+        elif text and cur:
+            out[cur].append(text)
+    return out
+
+
+def outside_quotes(lines):
+    """The lines outside "…": in Finnur's Eiríksmál, Odin's own, the other speakers' words (Bragi's, Sigmund's)
+    being quoted."""
+    keep, inside = [], False
+    for line in lines:
+        opens, closes = line.startswith('"'), line.rstrip(".,;:?!").endswith('"') or line.endswith('".')
+        if not inside and not opens:
+            keep.append(line)
+        if opens and not closes:
+            inside = True
+        elif closes:
+            inside = False
+    return keep
+
+
+# Hollander's poems in !odin (data/norse/old_norse_poems.json), with the Norse of Odin's speech in each stanza:
+# Eiríksmál in Finnur Jónsson's text (Carmina Scaldica, 1929: Guðni's Eddukvæði hasn't it), Odin's lines being those
+# outside quotation marks; the Riddles of King Heithrek in Guðni's, a riddle each (his stanza runs on into the
+# start of the king's answer, "Góð er gáta þín…", cut off). Eiríksmál's stanzas match Hollander's one to one; the
+# riddles to 22 too, but Hollander's 23 (the widows banding together) isn't in Guðni's text, so from there his n is
+# Guðni's n-1, to the last, the question of what Odin said in Baldr's ear (Guðni 36); Guðni's 37 is the king's reply.
+def riddles(page):
+    out = {}
+    for n, v in stanzas(page).items():
+        k = int(n)
+        if k <= 36:
+            out[str(k if k <= 22 else k + 1)] = \
+                v[:next((i for i, l in enumerate(v) if l.lstrip('"“').startswith("Góð er gáta")), len(v))]
+    return out
+
+
+HOLLANDER = {
+    "Eiriksmol": ("Eiríksmál", lambda page: {n: outside_quotes(v) for n, v in finnur(page).items()}),
+    "Heithreksgatur": ("Heiðreksgátur", riddles),
+}
+
+
 def build(report=False):
     books = json.loads((ROOT / "data" / "norse" / "poetic_edda.json").read_text(encoding="utf-8"))["books"]
     out = {}
@@ -354,6 +408,12 @@ def build(report=False):
                 lines, src = pairs.get(b, (["-"], ["-"]))
                 print(f"  {b:>3} {e[0][:44]:<45} {'+'.join(str(int(s) % 1000) if s[0].isdigit() else s for s in src):>6}"
                       f" {lines[0][:28]:<29} ~ {e[-1][-26:]:<27} | {lines[-1][-26:]}")
+    hollander = json.loads((ROOT / "data" / "norse" / "old_norse_poems.json").read_text(encoding="utf-8"))["books"]
+    for poem, (title, parse) in HOLLANDER.items():
+        norse = parse(fetch(title))
+        out[poem] = {n: "\n".join(typeset(l) for l in lines) for n, lines in norse.items()
+                     if n in hollander[poem] and lines}
+        print(f"{poem}: {len(out[poem])}/{len(hollander[poem])} (Norse {len(norse)})")
     OUT.write_text(json.dumps(out, ensure_ascii=False, indent=1) + "\n", encoding="utf-8")
     return out
 

@@ -1106,7 +1106,7 @@ class NorseCardButton(discord.ui.DynamicItem[discord.ui.Button], template=r"ncar
 
     async def callback(self, interaction: discord.Interaction):
         poem, stanza, odin = (self.key.split("|") + [""])[:3]
-        norse, english = _norse_text(poem, stanza), _edda_text(poem, stanza)
+        norse, english = _norse_text(poem, stanza), _norse_english(poem, stanza)
         if not norse or not english:
             await interaction.response.send_message("⚠️ I can't find that stanza's Old Norse any more.",
                                                     ephemeral=True)
@@ -1118,7 +1118,7 @@ class NorseCardButton(discord.ui.DynamicItem[discord.ui.Button], template=r"ncar
         norse, english = _unquoted(norse), _unquoted(english)       # (no quotation marks on the card)
         left = _half_lines(_plain(english), mark=True)
         buf = await asyncio.to_thread(_render_parallel_card, _edda_title(poem, stanza), left,
-                                      _norse_marked(norse, left), f"{EDDA_SOURCE} · {NORSE_SOURCE}")
+                                      _norse_marked(norse, left), f"{_edda_source(poem)} · {_norse_source(poem)}")
         await interaction.followup.send(file=discord.File(buf, filename="edda.png"))
 
 
@@ -1155,10 +1155,24 @@ def _fit_field(text: str) -> str:
     return text[:1021].rsplit("\n", 1)[0] + "\n…"
 
 
+NORSE_SOURCES = {"Eiriksmol": "Old Norse: Finnur Jónsson, Carmina Scaldica (1929)"}   # (else Guðni's Eddukvæði)
+
+
+def _norse_source(poem: str) -> str:
+    return NORSE_SOURCES.get(poem, NORSE_SOURCE)
+
+
+def _norse_english(poem: str, stanza: str) -> str:
+    """The English to set beside the Norse: Bellows's stanza, or in Hollander's poems (only in !odin) Odin's speech
+    alone, as the Norse there is his lines alone (scripts/build_edda_norse.py HOLLANDER)."""
+    verse = ODIN_HOLLANDER.get(poem, {}).get(stanza, "")
+    return _edda_text(poem, stanza, verse)
+
+
 def _norse_embed(poem: str, stanza: str, odin: bool = False) -> "discord.Embed | None":
     """A stanza's English and Old Norse side by side, a half-line to a line in both (on a phone Discord stacks the
     two columns). None if the stanza has no Norse."""
-    norse, english = _norse_text(poem, stanza), _edda_text(poem, stanza)
+    norse, english = _norse_text(poem, stanza), _norse_english(poem, stanza)
     if not norse or not english:
         return None
     if odin:
@@ -1166,7 +1180,7 @@ def _norse_embed(poem: str, stanza: str, odin: bool = False) -> "discord.Embed |
     embed = discord.Embed(title=f"🌲 {_edda_title(poem, stanza)}", color=discord.Color.dark_green())
     embed.add_field(name="English", value=_fit_field(_half_lines(english)), inline=True)
     embed.add_field(name="Old Norse", value=_fit_field(norse), inline=True)
-    embed.set_footer(text=f"{EDDA_SOURCE} · {NORSE_SOURCE}")
+    embed.set_footer(text=f"{_edda_source(poem)} · {_norse_source(poem)}")
     return embed
 
 
@@ -1314,8 +1328,8 @@ async def cmd_odin(ctx, *, query: str = ""):
 
 
 async def _odin_norse(ctx, query: str) -> None:
-    """!odin norse: one of Odin's stanzas in the Edda with its Old Norse beside it (Hollander's poems have none
-    here). A question after it is ignored, as the Norse view has no place for one."""
+    """!odin norse: one of Odin's stanzas with its Old Norse beside it (the Edda's, Eiríksmál's, and all but one of
+    his riddles). A question after it is ignored, as the Norse view has no place for one."""
     guild = getattr(ctx, "guild", None)
     if not tradition_enabled(guild.id if guild else None, "norse"):
         await ctx.send("The Norse texts are turned off on this server.")
