@@ -340,6 +340,31 @@ changed (else compare `books` with HEAD); never OCR or proofread scan images wit
   editor's lacuna stars into "…" itself. PowerShell eats `"` and `<` inside `python -c`: write a scratch .py. The
   fable test flaked because the 🎲 fallback picked the same fable from another collection (fixed).
 
+**Handoff, 2026-11-08: the Norse shelf (all committed, pushed, live; nothing uncommitted, nothing open):**
+- *What's there:* `!edda` (Bellows's Poetic Edda), `!odin` (`!wotan`, `!woden`: Odin's own words, by Bellows's speaker
+  headings in data/norse/edda_speakers.json, plus Hollander's Eiríksmál and the 37 riddles of Heiðreksgátur),
+  Hollander's *Old Norse Poems*, Snorri's Heimskringla and Prose Edda, the Völsunga saga (data/norse/).
+- *The Old Norse:* data/norse/edda_norse.json `{poem: {stanza: text}}`, built by scripts/build_edda_norse.py from
+  heimskringla.no (Guðni Jónsson's Eddukvæði, 1949; Eiríksmál from Finnur Jónsson's Carmina Scaldica, 1929). Bellows
+  reorders/splits stanzas, so they're matched by content (align()); every pairing out of sequence was read by hand
+  and the wrong ones fixed in `OVERRIDES`; Hollander's poems in `HOLLANDER` (the riddles' numbering is shifted by
+  one after Hollander's 23, which Guðni hasn't). 1539/1566 Bellows stanzas + all but one riddle have Norse.
+  `python scripts/build_edda_norse.py --report` (~20 s) shows every pairing.
+- *How it's shown (the owner's choices, settled after several rounds; don't redo without asking):* **not** in the
+  `!edda`/`!odin` message (too big). It comes by the 📜 Old Norse button, `!parallel havamal 139`, or `!odin norse`:
+  English and Norse as two inline embed fields, a half-line to a line in both. Messages show Bellows's lines split at
+  the caesura (`_half_lines` in oracles.py; Hollander's em-space caesura too). Buttons: ◀ ▶ 🖌️ on row 0; 🖼️ Card,
+  📜 Old Norse, ᚱ Runes on row 1 (`_view_after` rebuilds them from the message when one is pressed).
+- *Cards (bot_commands/card.py):* Edda cards are a printed poem: half-lines, upright, flush left, second halves
+  indented (a leading tab marks them), no quotation marks. `_render_parallel_card`: English | Old Norse columns.
+  `_render_runes_card`: runestone style, one continuous run filling the card, in **BabelStone Runic Norse**
+  (fonts/BabelStoneRunicNorse.ttf: the service can't read fonts installed per-user) with Norway's mixed runes
+  (runes.py: short-twig ᛆ ᚿ ᛐ ᚮ, long-branch ᚼ ᛘ ᛒ ᛋ), labelled a modern transcription. Norse cards have a smooth
+  plaited band (`_draw_plait`, drawn at 4x).
+- *Tried and rejected by the owner:* hand-drawn straight-stroke runes (looked bad; reverted, its changelog post
+  deleted). No runic font without curves exists among those found (BabelStone family, Noto, Segoe UI Historic).
+- Tests: tests/test_edda_norse.py, test_odin.py, test_edda_command.py, test_card_styles.py.
+
 ---
 
 ## 7. Where things are
