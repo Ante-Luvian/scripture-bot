@@ -365,6 +365,39 @@ changed (else compare `books` with HEAD); never OCR or proofread scan images wit
   deleted). No runic font without curves exists among those found (BabelStone family, Noto, Segoe UI Historic).
 - Tests: tests/test_edda_norse.py, test_odin.py, test_edda_command.py, test_card_styles.py.
 
+**Handoff, 2026-11-08 (later): the command tidy (all committed, pushed, live; changelog posted):**
+- *Why:* the bot was at **100 slash commands, Discord's ceiling** (`tests/test_slash_parity.py::test_within_discords_slash_limit`
+  guards it); one more and the whole sync fails. Now **83**: room again, but spend it carefully. The owner asked for
+  redundant commands to go; candidates were picked from `data/guild_activity.json` (every `!` command per server since
+  launch; the older `stats.json` counts were partial, see below) plus plain duplication. Don't bring these back.
+- *Folded into another command (old name → now):* `!mp` `!ep` `!psalm` `!collect` → `!bcp morning|evening|psalm|collect`
+  (`/bcp` has part and period choices; `!bcp mp` now gives the whole office); `!psalm 23 sing` → `!metrical 23`;
+  `!psalm 110 chant` → `!chant psalm 110`; `!unsubscribe` → `!subscribe off`; `!study` → the Catena button;
+  `!votdmode` → `!votdsetup mode`; `!concordance` → `!strong G26 verses`; `!root` → `!strong G26 root`;
+  `!reverseinterlinear` → `!interlinear reverse` and the 🔁 button; `!leaderboard` now shows the quiz's.
+- *Retired outright:* bookmarks (`!save`, `!saved`, `!unsave`, the 📌 reaction) and `!features` (nobody had a bookmark;
+  the `!plan` streak, its one non-bookmark flag, is always on); `!scanstats`; the legacy VOTD migration and
+  `data/votd_mode.json`; `deprecated/` (its scripts are in git at 5e99f69, which the lookup modules' docstrings name).
+- *Prefix-only on purpose* (`PREFIX_ONLY` in test_slash_parity, each still reachable by slash): `!delphi` (`/oracle`),
+  `!parsha` `!dafyomi` (`/learning`'s choice), `!hymnlist` (`/hymn list`), `!leaderboard` (`/quiz`'s choice).
+- *Admin daily posts:* `!daily` (bot_commands/daily.py) lists them all and hands `!daily saint channel #x` on to
+  `!saintsetup`; the ten `*setup` commands are `hidden=True` but still work, and `/setup <kind>` is unchanged.
+  `!changelogsetup` stays separate (not a daily post).
+- *Aliases removed because they misled:* `!aeneid` `!sortes` `!traditions` `!learn` `!mystery` `!st` `!thomas`
+  `!classical` `!poem` `!po` `!matins` `!vespers` `!evensong`; `!liturgy` now opens `!divineliturgy`, `!dailyverse` `!votd`.
+- *Counting:* `core.count_command` (from `on_command` and the new `on_app_command_completion`) now counts **every**
+  command, `!` and `/`, in `stats.json` and `guild_activity.json`. Until 2026-11-08 only the commands that called
+  `record_stat` / `record_special_stat` reached `!stats`, and slash commands were counted nowhere; those two now record
+  only which verse or reference was shown. Past counts were left as they were (a backfill would make one weekly report
+  show the whole backlog as that week's).
+- *Buttons that must survive restarts* are DynamicItems in views with `timeout=None`: `StrongMoreButton` (📖 🌳),
+  `StrongPageButton` (◀ ▶ through a long entry, rebuilt by `strong_entry_message`), `InterlinearFlipButton` (🔁).
+- *The posted introduction:* only edited in place where `guild_config.json` has a `changelog_intro` record (written by
+  `!changelogintro`). ℍ𝕐ℙ𝔼ℝℍ𝕀𝕊𝕋𝕆ℝ𝕐's predated the record; the owner ran `!changelogintro fresh` there, so it's tracked
+  now. A line naming only `!daily …` and a pack's command needs a `<!-- pack: x -->` marker, or it shows in servers
+  with that pack off (test_packs caught the troparion, Angelus, hymn-of-the-day and learning lines).
+- *The PDF guides* (scripts/build_guides.py) were one-offs, the owner says: don't offer to rebuild them.
+
 ---
 
 ## 7. Where things are

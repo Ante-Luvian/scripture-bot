@@ -494,6 +494,12 @@ _daily("learning", "learningsetup", "The day's Jewish learning", ("show", "chann
 _daily("troparion", "troparionsetup", "The day's Orthodox troparia", ("show", "channel", "time", "test", "off"))
 
 
+@setup_group.command(name="daily", description="(Admins) What this server posts each day, where and when")
+@_ADMIN
+async def setup_daily(interaction: discord.Interaction):
+    await _command("daily")(await _slash_ctx(interaction))
+
+
 @setup_group.command(name="changelog", description="(Admins) Choose where the bot announces her updates")
 @app_commands.describe(channel="The updates channel (leave empty to see the current one)", off="Stop announcing updates")
 @_ADMIN
@@ -542,6 +548,6 @@ bot.tree.add_command(setup_group)
 SETUP_SUBCOMMANDS = {"votdsetup": "votd", "oraclesetup": "oracle", "quizsetup": "quiz", "verslesetup": "versle",
                      "hymndaysetup": "hymnday", "saintsetup": "saint", "angelussetup": "angelus",
                      "astrosetup": "astro",
-                     "learningsetup": "learning", "troparionsetup": "troparion",
+                     "learningsetup": "learning", "troparionsetup": "troparion", "daily": "daily",
                      "changelogsetup": "changelog", "changelogintro": "intro",
                      "serversetup": "traditions", "packs": "packs"}

@@ -175,7 +175,7 @@ def _times(arg: str) -> "list | None":
     return sorted({f"{int(h):02d}:{m}" for h, m in found})
 
 
-@bot.command(name="angelussetup", aliases=["angelusconfig"])
+@bot.command(name="angelussetup", aliases=["angelusconfig"], hidden=True)   # (!daily angelus; 2026-11-08)
 @commands.has_permissions(administrator=True)
 async def cmd_angelussetup(ctx, action: str = "", *, arg: str = ""):
     """Post the Angelus in a channel, at one or more times a day.

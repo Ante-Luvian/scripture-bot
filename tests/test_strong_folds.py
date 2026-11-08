@@ -63,6 +63,34 @@ def test_interlinear_reverse(calls, fake_ctx, query):
     assert calls == [("reverse", "John 3:16")]
 
 
+def test_a_long_entry_pages_by_buttons_that_survive_a_restart(bot_module, monkeypatch):
+    from bot_commands import translations
+    long = " ".join(f"Sentence number {i} of a long definition." for i in range(80))      # ~3,300 chars
+    monkeypatch.setattr(translations, "_fetch_strongs_definition",
+                        lambda n: {"lexeme": "ἀγάπη", "definition": long, "short_definition": "love"})
+
+    def ids(page):
+        message = asyncio.run(translations.strong_entry_message("G26", page))
+        return message["embed"].fields[0].name, [getattr(c, "item", c).custom_id for c in message["view"].children]
+
+    name, first = ids(0)
+    pages = int(name.split("/")[1].rstrip(")"))
+    assert pages >= 3 and name == f"Definition (page 1/{pages})"
+    assert first[:2] == [f"strongpg:back:G26:{pages - 1}", "strongpg:next:G26:1"]         # ◀ wraps round
+    assert first[2:] == ["strongx:verses:G26", "strongx:root:G26"]
+    assert ids(pages)[0] == f"Definition (page 1/{pages})"                                # a page past the end wraps
+    assert translations.StrongPageButton.__discord_ui_compiled_template__.fullmatch("strongpg:next:H430:2")
+
+
+def test_a_short_entry_has_no_page_buttons(bot_module, monkeypatch):
+    from bot_commands import translations
+    monkeypatch.setattr(translations, "_fetch_strongs_definition", lambda n: {"lexeme": "x", "definition": "Short."})
+    message = asyncio.run(translations.strong_entry_message("G1", 0))
+    assert [getattr(c, "item", c).custom_id for c in message["view"].children] == ["strongx:verses:G1", "strongx:root:G1"]
+    monkeypatch.setattr(translations, "_fetch_strongs_definition", lambda n: None)
+    assert asyncio.run(translations.strong_entry_message("G99999", 0)) is None
+
+
 def test_the_buttons_carry_what_they_need(bot_module):
     from bot_commands import card, translations
     flip = card.InterlinearFlipButton("rev", "John 3:16")

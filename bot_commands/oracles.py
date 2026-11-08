@@ -1493,7 +1493,7 @@ async def _before_daily_oracle():
     await bot.wait_until_ready()
 
 
-@bot.command(name="oraclesetup", aliases=["oracleconfig"])
+@bot.command(name="oraclesetup", aliases=["oracleconfig"], hidden=True)   # (!daily oracle; 2026-11-08)
 @commands.has_permissions(administrator=True)
 async def cmd_oraclesetup(ctx, action: str = "", *, arg: str = ""):
     """Configure this server's daily oracle post.

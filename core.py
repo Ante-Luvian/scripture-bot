@@ -272,7 +272,27 @@ commands.Command.__call__ = _call_with_random
 @bot.event
 async def on_command(ctx):
     log.info(f"CMD  {ctx.command.name:<16} | {ctx.author} | #{ctx.channel} | {ctx.message.content[:80]}")
-    _record_guild_activity(ctx)
+    count_command(ctx.command.name, ctx.author, ctx.guild)
+
+
+def _slash_name(command) -> str:
+    """A slash command's name as its ! command is called, so the two are counted together:
+    "/setup votd" is !votdsetup (bot_commands/slash.py SETUP_SUBCOMMANDS), the rest share names."""
+    if getattr(command, "parent", None) is not None:
+        try:
+            from bot_commands.slash import SETUP_SUBCOMMANDS
+            return {sub: prefix for prefix, sub in SETUP_SUBCOMMANDS.items()}.get(command.name, command.qualified_name)
+        except ImportError:
+            return command.qualified_name
+    return command.name
+
+
+@bot.event
+async def on_app_command_completion(interaction, command):
+    """Slash commands and the right-click menu: until 2026-11-08 nothing counted them at all."""
+    name = _slash_name(command)
+    log.info(f"CMD  /{name:<15} | {interaction.user} | #{interaction.channel}")
+    count_command(name, interaction.user, interaction.guild)
 
 @bot.event
 async def on_command_error(ctx, error):
@@ -498,28 +518,46 @@ def _load_guild_activity() -> dict:
             pass
     return {}
 
-def _record_guild_activity(ctx):
-    """Per-guild, per-command, per-user usage counts. Called once from the
-    global on_command hook so every command is covered without threading a
-    new parameter through every individual command handler. Only command
+def _record_guild_activity(guild, user, name: str):
+    """Per-guild, per-command, per-user usage counts (from count_command, so every command is
+    covered without threading a new parameter through every handler). Only command
     invocations and identities are recorded here -- never message content,
     keeping this well inside "necessary for stated functionality" territory
     rather than the general conversation logging that would risk it."""
-    if not ctx.guild:
+    if not guild:
         return
     try:
         data = _load_guild_activity()
-        gid = str(ctx.guild.id)
-        g = data.setdefault(gid, {"name": ctx.guild.name, "commands": {}, "users": {}})
-        g["name"] = ctx.guild.name  # keep fresh if the server gets renamed
-        g["commands"][ctx.command.name] = g["commands"].get(ctx.command.name, 0) + 1
-        uid = str(ctx.author.id)
-        u = g["users"].setdefault(uid, {"name": str(ctx.author), "commands": {}})
-        u["name"] = str(ctx.author)
-        u["commands"][ctx.command.name] = u["commands"].get(ctx.command.name, 0) + 1
+        gid = str(guild.id)
+        g = data.setdefault(gid, {"name": guild.name, "commands": {}, "users": {}})
+        g["name"] = guild.name  # keep fresh if the server gets renamed
+        g["commands"][name] = g["commands"].get(name, 0) + 1
+        uid = str(user.id)
+        u = g["users"].setdefault(uid, {"name": str(user), "commands": {}})
+        u["name"] = str(user)
+        u["commands"][name] = u["commands"].get(name, 0) + 1
         _atomic_write_json(GUILD_ACTIVITY_PATH, data)
     except Exception:
         pass  # never let this break the bot
+
+
+def count_command(name: str, user, guild=None) -> None:
+    """Count one use of a command, typed (!) or slash (/), in !stats and the per-server activity.
+    The one place commands are counted (2026-11-08): before, only the commands that called
+    record_stat / record_special_stat reached !stats, so !compare, !parallel, !hymn, !fable...
+    never appeared in it; record_stat now only notes which verse or reference was looked up."""
+    try:
+        stats = _load_stats()
+        stats["total_commands"] = stats.get("total_commands", 0) + 1
+        uid = str(user.id)
+        if uid not in stats.get("unique_users", []):
+            stats.setdefault("unique_users", []).append(uid)
+        cmd_counts = stats.setdefault("command_counts", {})
+        cmd_counts[name] = cmd_counts.get(name, 0) + 1
+        _save_stats(stats)
+    except Exception:
+        pass  # never let stats break the bot
+    _record_guild_activity(guild, user, name)
 
 def _load_stats() -> dict:
     if STATS_PATH.exists():
@@ -822,15 +860,10 @@ def book_from_reference(ref: str) -> str:
 
 
 def record_stat(user_id: int, command: str, result: dict = None):
-    """Record a command invocation and optionally a verse lookup result."""
+    """Record which verse and book a lookup showed (for !stats' top verses and books). The
+    command itself is counted by count_command, from the on_command hook."""
     try:
         stats = _load_stats()
-        stats["total_commands"] = stats.get("total_commands", 0) + 1
-        uid = str(user_id)
-        if uid not in stats.get("unique_users", []):
-            stats.setdefault("unique_users", []).append(uid)
-        cmd_counts = stats.setdefault("command_counts", {})
-        cmd_counts[command] = cmd_counts.get(command, 0) + 1
         if result and result.get("found"):
             book = result.get("book") or book_from_reference(result.get("reference", ""))
             ref  = result.get("reference", "")
@@ -845,15 +878,10 @@ def record_stat(user_id: int, command: str, result: dict = None):
         pass  # never let stats break the bot
 
 def record_special_stat(user_id: int, command: str, ref: str):
-    """Record a usage of !ccc, !canon, !summa, !virgil, !homer, !delphi, or !oracle."""
+    """Record which paragraph, article, oracle answer... a command showed (!stats' "top" lists for
+    !ccc, !summa, !virgil and the rest). The command itself is counted by count_command."""
     try:
         stats = _load_stats()
-        stats["total_commands"] = stats.get("total_commands", 0) + 1
-        uid = str(user_id)
-        if uid not in stats.get("unique_users", []):
-            stats.setdefault("unique_users", []).append(uid)
-        cmd_counts = stats.setdefault("command_counts", {})
-        cmd_counts[command] = cmd_counts.get(command, 0) + 1
         # Store in a per-command ref counter
         special = stats.setdefault("special_counts", {})
         cmd_refs = special.setdefault(command, {})

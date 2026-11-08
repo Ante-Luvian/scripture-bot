@@ -735,7 +735,7 @@ async def cmd_horoscope(ctx, *, when: str = ""):
     await ctx.send(embed=await asyncio.to_thread(horoscope_embed, moment.date(), notes, sign))
 
 
-@bot.command(name="astrosetup", aliases=["astroconfig", "horoscopesetup"])
+@bot.command(name="astrosetup", aliases=["astroconfig", "horoscopesetup"], hidden=True)   # (!daily astro; 2026-11-08)
 @commands.has_permissions(administrator=True)
 async def cmd_astrosetup(ctx, action: str = "", *, arg: str = ""):
     """Post the day's sky in a channel every day: !planets (where everything is), then !horoscope.

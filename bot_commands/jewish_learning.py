@@ -276,7 +276,7 @@ async def _before_daily_learning():
     await bot.wait_until_ready()
 
 
-@bot.command(name="learningsetup", aliases=["learningconfig"])
+@bot.command(name="learningsetup", aliases=["learningconfig"], hidden=True)   # (!daily learning; 2026-11-08)
 @commands.has_permissions(administrator=True)
 async def cmd_learningsetup(ctx, action: str = "", *, arg: str = ""):
     """Post the day's Jewish learning in a channel.

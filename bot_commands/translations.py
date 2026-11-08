@@ -900,12 +900,46 @@ async def cmd_strong(ctx, *, query: str = ""):
         arg = matches[0].upper()
 
     async with ctx.typing():
-        loop = asyncio.get_event_loop()
-        entry = await loop.run_in_executor(None, _fetch_strongs_definition, arg)
+        message = await strong_entry_message(arg, 0)
 
-    if entry is None:
+    if message is None:
         await ctx.send(f"⚠️ No definition found for **{arg}**.")
         return
+    await ctx.send(**message)
+
+
+def _paginate_def(text: str, page_size: int = 1000) -> list[str]:
+    """A long definition in pages of ≤ ~1000 chars, broken at sentences where possible."""
+    text = text.strip()
+    if not text:
+        return []
+    if len(text) <= page_size:
+        return [text]
+    pages: list[str] = []
+    remaining = text
+    while remaining:
+        if len(remaining) <= page_size:
+            pages.append(remaining.strip())
+            break
+        window = remaining[:page_size]
+        cut = window.rfind(". ")
+        if cut < page_size // 3:  # no good sentence break — fall back to space
+            cut = window.rfind(" ")
+        if cut <= 0:
+            cut = page_size
+        pages.append(remaining[:cut + 1].strip())
+        remaining = remaining[cut + 1:].lstrip()
+    return pages
+
+
+async def strong_entry_message(arg: str, page: int = 0) -> "dict | None":
+    """A !strong entry's message (embed and buttons) at one page of its definition, or None if
+    the number has no entry. Shared by !strong and its ◀ ▶ buttons, which carry the number and
+    page, so the pages keep turning after a restart (2026-11-08; they used to live in a view's
+    memory, and stopped working when the bot restarted)."""
+    entry = await asyncio.to_thread(_fetch_strongs_definition, arg)
+    if entry is None:
+        return None
 
     lexeme    = entry.get("lexeme") or entry.get("topic") or arg
     translit  = entry.get("transliteration") or ""
@@ -922,10 +956,7 @@ async def cmd_strong(ctx, *, query: str = ""):
     # Collapse the runs of whitespace we just introduced
     full_def = re.sub(r"\s+", " ", full_def).strip()
 
-    is_hebrew = arg.startswith("H")
-    src_label = "Brown-Driver-Briggs" if is_hebrew else "Thayer's Greek Lexicon"
-
-    title = f"📚 {arg} — {lexeme}"
+    src_label = "Brown-Driver-Briggs" if arg.startswith("H") else "Thayer's Greek Lexicon"
     desc_parts = []
     if translit:
         desc_parts.append(f"**Transliteration:** {translit}")
@@ -933,78 +964,47 @@ async def cmd_strong(ctx, *, query: str = ""):
         desc_parts.append(f"**Pronunciation:** {pron}")
     if short_def:
         desc_parts.append(f"**Gloss:** {short_def}")
-    base_description = "\n".join(desc_parts) if desc_parts else None
-
-    # Split the full definition into one or more pages of ≤ ~1000 chars each,
-    # breaking on sentence boundaries where possible.
-    def _paginate_def(text: str, page_size: int = 1000) -> list[str]:
-        text = text.strip()
-        if not text:
-            return []
-        if len(text) <= page_size:
-            return [text]
-        pages: list[str] = []
-        remaining = text
-        while remaining:
-            if len(remaining) <= page_size:
-                pages.append(remaining.strip())
-                break
-            window = remaining[:page_size]
-            cut = window.rfind(". ")
-            if cut < page_size // 3:  # no good sentence break — fall back to space
-                cut = window.rfind(" ")
-            if cut <= 0:
-                cut = page_size
-            pages.append(remaining[:cut + 1].strip())
-            remaining = remaining[cut + 1:].lstrip()
-        return pages
 
     pages = _paginate_def(full_def)
+    page = page % len(pages) if pages else 0
+    embed = discord.Embed(title=f"📚 {arg} — {lexeme}", description="\n".join(desc_parts) or None,
+                          color=discord.Color.teal())
+    if pages:
+        name = f"Definition (page {page + 1}/{len(pages)})" if len(pages) > 1 else "Definition"
+        embed.add_field(name=name, value=pages[page], inline=False)
+    embed.set_footer(text=f"{src_label} · via bolls.life")
 
-    def _build_embed(page_idx: int) -> discord.Embed:
-        em = discord.Embed(
-            title=title,
-            description=base_description,
-            color=discord.Color.teal(),
-        )
-        if pages:
-            name = "Definition"
-            if len(pages) > 1:
-                name = f"Definition (page {page_idx + 1}/{len(pages)})"
-            em.add_field(name=name, value=pages[page_idx], inline=False)
-        em.set_footer(text=f"{src_label} · via bolls.life")
-        return em
+    view = discord.ui.View(timeout=None)          # holds DynamicItems: must never time out
+    if len(pages) > 1:
+        view.add_item(StrongPageButton("back", arg, (page - 1) % len(pages)))
+        view.add_item(StrongPageButton("next", arg, (page + 1) % len(pages)))
+    view.add_item(StrongMoreButton("verses", arg))
+    view.add_item(StrongMoreButton("root", arg))
+    return {"embed": embed, "view": view}
 
-    more = [StrongMoreButton("verses", arg), StrongMoreButton("root", arg)]
 
-    if len(pages) <= 1:
-        # Short enough to fit in one embed: just the 📖 / 🌳 buttons.
-        view = discord.ui.View(timeout=None)          # holds DynamicItems: must never time out
-        for button in more:
-            view.add_item(button)
-        await ctx.send(embed=_build_embed(0), view=view)
-        return
+class StrongPageButton(discord.ui.DynamicItem[discord.ui.Button],
+                       template=r"strongpg:(?P<way>back|next):(?P<num>[GH]\d+[A-Z]?):(?P<page>\d+)"):
+    """◀ ▶ through a long !strong definition. The custom_id names the page it goes to (and which
+    way, so ◀ and ▶ differ even when both lead to the same page of two)."""
 
-    # Long definition: paginate with prev/next buttons. (No timeout: the view holds the
-    # persistent 📖 / 🌳 buttons, and a view timing out unregisters their pattern bot-wide.)
-    class StrongDefView(discord.ui.View):
-        def __init__(self):
-            super().__init__(timeout=None)
-            self.idx = 0
-            for button in more:
-                self.add_item(button)
+    def __init__(self, way: str, number: str, page: int):
+        super().__init__(discord.ui.Button(emoji="◀" if way == "back" else "▶", style=discord.ButtonStyle.secondary,
+                                           row=0, custom_id=f"strongpg:{way}:{number}:{page}"))
+        self.way, self.number, self.page = way, number, page
 
-        @discord.ui.button(emoji="◀", style=discord.ButtonStyle.secondary)
-        async def prev(self, interaction: discord.Interaction, button: discord.ui.Button):
-            self.idx = (self.idx - 1) % len(pages)
-            await interaction.response.edit_message(embed=_build_embed(self.idx), view=self)
+    @classmethod
+    async def from_custom_id(cls, interaction, item, match):
+        return cls(match["way"], match["num"], int(match["page"]))
 
-        @discord.ui.button(emoji="▶", style=discord.ButtonStyle.secondary)
-        async def next(self, interaction: discord.Interaction, button: discord.ui.Button):
-            self.idx = (self.idx + 1) % len(pages)
-            await interaction.response.edit_message(embed=_build_embed(self.idx), view=self)
+    async def callback(self, interaction: discord.Interaction):
+        await interaction.response.defer()           # (the lookup can take a moment)
+        message = await strong_entry_message(self.number, self.page)
+        if message is not None:
+            await interaction.edit_original_response(**message)
 
-    await ctx.send(embed=_build_embed(0), view=StrongDefView())
+
+bot.add_dynamic_items(StrongPageButton)
 
 
 @bot.tree.command(name="strong", description="Strong's number lookup or verse with Strong's tagging")

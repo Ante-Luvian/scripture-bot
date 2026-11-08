@@ -106,7 +106,7 @@ async def cmd_votd(ctx, *, translation: str = ""):
         await _send_votd(ctx, translation=arg)
 
 
-@bot.command(name="votdsetup", aliases=["votdconfig"])
+@bot.command(name="votdsetup", aliases=["votdconfig"], hidden=True)   # (!daily votd; 2026-11-08)
 @commands.has_permissions(administrator=True)
 async def cmd_votdsetup(ctx, action: str = "", *, arg: str = ""):
     """Configure this server's daily Verse of the Day post.

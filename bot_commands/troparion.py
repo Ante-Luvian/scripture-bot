@@ -199,7 +199,7 @@ async def _before_daily_troparion():
     await bot.wait_until_ready()
 
 
-@bot.command(name="troparionsetup", aliases=["troparionconfig"])
+@bot.command(name="troparionsetup", aliases=["troparionconfig"], hidden=True)   # (!daily troparion; 2026-11-08)
 @commands.has_permissions(administrator=True)
 async def cmd_troparionsetup(ctx, action: str = "", *, arg: str = ""):
     """Post the day's troparia in a channel.

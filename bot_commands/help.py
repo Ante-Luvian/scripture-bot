@@ -120,18 +120,11 @@ HELP_MENU = [
         '`!metrical 23` — a psalm in rhyming verse to sing (Scottish Psalter, 1650), with its tune · `!help metrical`',
     ]),
     ('⚙️ Server Setup (Admin)', [
-        '`!votdsetup` — the daily VOTD channel/time/mode · `!help votdsetup`',
+        "`!daily` — what this server posts each day, where and when · `!help daily`",
+        "`!daily saint channel #chan` — post one (`votd`, `oracle`, `quiz`, `versle`, `hymn`, `saint`, `astro`, "
+        "`angelus`, `troparion`, `learning`), then `time 07:00`, `test`, `off`",
         '`!changelogsetup #channel` — where I post my updates · `!changelog` — recent updates',
         '`!changelogintro` — post my introduction there (`fresh` clears my old posts first)',
-        '`!oraclesetup channel #chan` — a daily oracle post (`time`, `kind`, `test`, `off`)',
-        '`!quizsetup channel #chan` — a daily quiz question (`time`, `kind bible|hard`, `test`, `off`)',
-        "`!verslesetup channel #chan` — the day's Versle puzzle (`time`, `test`, `off`)",
-        '`!hymndaysetup channel #chan` — the hymn of the day (`time`, `test`, `off`)',
-        '`!saintsetup channel #chan` — the saint of the day (`time`, `test`, `off`)',
-        "`!astrosetup channel #chan` — the day's sky each morning: `!planets`, then `!horoscope` (`time`, `test`, `off`)",
-        '`!angelussetup channel #chan` — the Angelus (`time 06:00 12:00 18:00`, `test`, `off`)',
-        '`!troparionsetup channel #chan` — the Orthodox troparia of the day (`time`, `test`, `off`)',
-        "`!learningsetup channel #chan` — the day's Jewish learning (`time`, `test`, `off`)",
         '`!serversetup` — what this server is for · `!packs` — turn packs on/off',
     ]),
     ("🏛️ Ancient Languages & Strong's", [
@@ -146,7 +139,7 @@ HELP_MENU = [
     ]),
 ]
 
-HELP_TOPICS = ['verse', 'compare', 'votd', 'votdsetup', 'today', 'bcp', 'prayer', 'strong', 'books', 'parallel', 'oracle', 'discover', 'xref', 'notes', 'topic', 'plan', 'leaderboard', 'subscribe', 'card', 'who', 'tree', 'whoami', 'versle', 'place', 'journey', 'measure', 'kings', 'harmony', 'hymn', 'metrical', 'creed', 'ccc', 'summa']
+HELP_TOPICS = ['verse', 'compare', 'votd', 'daily', 'votdsetup', 'today', 'bcp', 'prayer', 'strong', 'books', 'parallel', 'oracle', 'discover', 'xref', 'notes', 'topic', 'plan', 'leaderboard', 'subscribe', 'card', 'who', 'tree', 'whoami', 'versle', 'place', 'journey', 'measure', 'kings', 'harmony', 'hymn', 'metrical', 'creed', 'ccc', 'summa']
 # (owner and maintenance tools; asksetup: asking the library is private, never in !help, the owner, 2026-11-01)
 NOT_IN_MENU = {"help", "guildactivity", "asksetup"}
 _FIELD, _EMBED = 1024, 5800
@@ -331,6 +324,22 @@ async def cmd_help(ctx, *, topic: str = ""):
             "`!votd extended` — full VOTD + today's calendar across all five traditions\n\n"
             "A new verse is posted automatically each day in this server's configured channel — "
             "server admins can set that up with `!help votdsetup`."
+        )
+        await ctx.send(embed=embed)
+        return
+
+    if topic in ("daily", "setup", "dailyposts"):
+        embed = discord.Embed(title="📅 !daily — The Server's Daily Posts (Admin)", color=discord.Color.dark_gold())
+        embed.description = (
+            "`!daily` — everything this server posts each day, the channel and the time\n"
+            "`!daily saint channel #saints` — post the saint of the day in that channel\n"
+            "`!daily saint time 07:30` — at that time (24-hour, UTC)\n"
+            "`!daily saint test` — post one now · `!daily saint off` — stop it\n\n"
+            "**The daily posts:** `votd` (Verse of the Day; `mode basic|full|extended`), `oracle` (`kind virgil`…), "
+            "`quiz` (`kind hard`…), `versle`, `hymn`, `saint`, `astro` (the day's sky: `!planets` then `!horoscope`), "
+            "`angelus` (`time 06:00 12:00 18:00`), `troparion`, `learning`.\n\n"
+            "In the `/` menu: `/setup daily`, and `/setup saint` and so on. The older commands "
+            "(`!saintsetup`…) still work. Requires Administrator permission."
         )
         await ctx.send(embed=embed)
         return

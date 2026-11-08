@@ -180,7 +180,7 @@ async def _before_daily_hymn():
     await bot.wait_until_ready()
 
 
-@bot.command(name="hymndaysetup", aliases=["hymndayconfig"])
+@bot.command(name="hymndaysetup", aliases=["hymndayconfig"], hidden=True)   # (!daily hymn; 2026-11-08)
 @commands.has_permissions(administrator=True)
 async def cmd_hymndaysetup(ctx, action: str = "", *, arg: str = ""):
     """Post the hymn of the day in a channel.

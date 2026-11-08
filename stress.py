@@ -295,6 +295,9 @@ SHAPED = {"ballad": ["0", "305", "306", "12B", "12b", "12ZZ", "22A", "117", "chi
           "subscribe": ["off", "on", "stop", "maybe"],
           "chant": ["psalm", "psalms", "psalm 0", "psalm 151", "psalm 119 beth", "ps 23 organ", "psalm 23 sing"],
           "hymn": ["list", "list chant", "list zzz", "index harp", "list `"],
+          # (!daily: one command for the ten daily-post setups)
+          "daily": ["saint", "SAINT", "hymnday", "verse", "astro off", "votd mode full", "votd mode zzz", "nonsense",
+                    "saint time 25:99", "angelus time 06:00 12:00 18:00", "quiz kind hard", "oracle kind `x`"],
           # (!concordance, !root and !reverseinterlinear folded in: "G26 verses", "G26 root", "reverse")
           "strong": ["G26 verses", "G26 root", "agape", "agape verses", "love root", "G99999 verses", "H0 root",
                      "xyzzy verses", "verses", "root", "G26 in John", "John 3:16 verses", "`` root"],

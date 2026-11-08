@@ -188,6 +188,7 @@ answer, and every answer has a 🖼️ Card button that renders it as an image.
 |---|---|
 | `!votd [translation \| full \| extended]` (`!dailyverse`) | Today's verse |
 | `!votdsetup` | (Admins) Configure this server's daily post: channel, time, style (`mode`) |
+| `!daily [kind [action args]]` | (Admins) Since 2026-11-08 the documented way to all ten daily posts (`daily.py`): bare, an overview of each kind's channel and time from `guild_config.json` (`/setup daily`); `!daily saint channel #chan` hands on to `!saintsetup` and so on. The ten `*setup` commands above are hidden from `!help` and the introduction but still work; `!changelogsetup` isn't a daily post and stays as it is |
 | `!subscribe` / `!subscribe off` | Daily verse by DM |
 
 ### Personal

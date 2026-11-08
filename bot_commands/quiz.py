@@ -468,7 +468,7 @@ async def _before_daily_quiz():
     await bot.wait_until_ready()
 
 
-@bot.command(name="quizsetup", aliases=["quizconfig"])
+@bot.command(name="quizsetup", aliases=["quizconfig"], hidden=True)   # (!daily quiz; 2026-11-08)
 @commands.has_permissions(administrator=True)
 async def cmd_quizsetup(ctx, action: str = "", *, arg: str = ""):
     """Configure this server's daily quiz.

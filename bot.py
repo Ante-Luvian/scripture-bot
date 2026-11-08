@@ -70,6 +70,7 @@ from bot_commands import (  # noqa: F401
     card,
     changelog,
     church,
+    daily,
     deluge,
     desert,
     fable,

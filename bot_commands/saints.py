@@ -320,7 +320,7 @@ async def _before_daily_saint():
     await bot.wait_until_ready()
 
 
-@bot.command(name="saintsetup", aliases=["saintconfig"])
+@bot.command(name="saintsetup", aliases=["saintconfig"], hidden=True)   # (!daily saint; 2026-11-08)
 @commands.has_permissions(administrator=True)
 async def cmd_saintsetup(ctx, action: str = "", *, arg: str = ""):
     """Post the saint of the day in a channel.

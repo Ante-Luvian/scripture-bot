@@ -578,7 +578,7 @@ async def _before_daily_versle():
     await bot.wait_until_ready()
 
 
-@bot.command(name="verslesetup", aliases=["versleconfig"])
+@bot.command(name="verslesetup", aliases=["versleconfig"], hidden=True)   # (!daily versle; 2026-11-08)
 @commands.has_permissions(administrator=True)
 async def cmd_verslesetup(ctx, action: str = "", *, arg: str = ""):
     """Post each day's Versle in a channel.
