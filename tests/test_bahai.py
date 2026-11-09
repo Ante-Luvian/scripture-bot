@@ -13,7 +13,21 @@ BOOKS = ["Selections from the Writings of the Bab", "Kitab-i-Aqdas", "Questions 
          "A Traveler's Narrative", "Memorials of the Faithful", "Light of the World", "Tablets of the Divine Plan",
          "Tablets to The Hague", "Tablet to Auguste Forel", "Will and Testament of Abdu'l-Baha",
          "Additional Tablets of Abdu'l-Baha", "Additional Prayers of Abdu'l-Baha", "Paris Talks",
-         "Promulgation of Universal Peace", "Twelve Table Talks", "Baha'i Prayers"]
+         "Promulgation of Universal Peace", "Twelve Table Talks", "Baha'i Prayers", "Persian Bayan",
+         # Shoghi Effendi's: authoritative interpretation, as the Talmud or the Fathers are
+         "God Passes By", "The Advent of Divine Justice", "The Promised Day Is Come",
+         "The World Order of Baha'u'llah", "Baha'i Administration", "Citadel of Faith", "The Decisive Hour"]
+
+
+def test_the_persian_bayan_is_the_babs_words_and_says_its_unofficial(lookup):
+    """By Váḥid and gate, 8 x 19 and 9's 10, where the Báb left it; only the translator's bold (the Báb), not
+    Nicolas's notes; and its citation says it isn't an authorized translation."""
+    bayan = lookup._data["bahai"]["Persian Bayan"]
+    assert len(bayan) == 162 and "9.10" in bayan and "9.11" not in bayan
+    result = lookup.get_verse("Persian Bayan 2.1:3")
+    assert "God, so that His rank will be exalted" in result["text"]
+    assert result["source"].startswith("unofficial")
+    assert not any(re.search(r"\[\^\d|Note:", v) for c in bayan.values() for v in c.values())
 
 
 def test_every_work_is_here(lookup):
@@ -38,6 +52,9 @@ def test_every_work_is_here(lookup):
     ("Tablets of the Divine Plan 1", "Tablet to the Bahá’ís of the Northeastern States"),
     ("Seven Valleys 2", "*The Seven Valleys*"),                          # (now in The Call of the Divine Beloved)
     ("Call of the Divine Beloved 7", "*The Four Valleys*"),
+    ("God Passes By 13", "*Ascension of Bahá’u’lláh*"),             # (by its "Chapter XIII"; the Foreword is 0)
+    ("God Passes By 0", "*Foreword*"),
+    ("The Decisive Hour 1", "PROFOUND SORROW"),
 ])
 def test_passages(lookup, ref, words):
     result = lookup.get_verse(ref)

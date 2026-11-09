@@ -753,7 +753,7 @@ BOOKS_TREE = [
         ]),
     ]),
     ("🌍 Bahá'í", [
-        ("The Báb", ["Selections from the Writings of the Bab"]),
+        ("The Báb", ["Selections from the Writings of the Bab", "Persian Bayan"]),
         ("Bahá'u'lláh", [
             "Kitab-i-Aqdas", "Questions and Answers (Aqdas)", "Kitab-i-Iqan", "The Hidden Words (Arabic)", "The Hidden Words (Persian)",
             "Call of the Divine Beloved", "Gems of Divine Mysteries", "Gleanings from the Writings of Baha'u'llah",
@@ -769,6 +769,9 @@ BOOKS_TREE = [
         ]),
         ("His Talks", ["Paris Talks", "Promulgation of Universal Peace", "Twelve Table Talks"]),
         ("Prayers", ["Baha'i Prayers"]),
+        ("Shoghi Effendi", ["God Passes By", "The World Order of Baha'u'llah", "The Advent of Divine Justice",
+                            "The Promised Day Is Come", "Baha'i Administration", "Citadel of Faith",
+                            "The Decisive Hour"]),
     ]),
     ("🏺 Dead Sea Scrolls", [
         "Hodayot",

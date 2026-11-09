@@ -17,6 +17,8 @@ counts paragraphs as its reader does -- so each work is read one of these ways:
     headings    a chapter a tablet, at its heading (the Summons, Tablets of Bahá'u'lláh, Tablets of the Divine Plan)
     numbered    a chapter a numbered piece, its number a heading (The Call of the Divine Beloved, Days of Remembrance)
     dotted      paragraphs numbered by part, "3.13" (the Will and Testament): part 3, paragraph 13
+    titled      a chapter at each title (a letter's, a chapter's), what comes before the first chapter 0 (Shoghi
+                Effendi's letters, God Passes By)
     items       a chapter a prayer or extract, each opening with the book's drop capital (the additional prayers and
                 tablets, the Báb's Selections, Bahá'í Prayers)
 
@@ -68,6 +70,8 @@ WORKS = [
      "Additional Prayers of Baha'u'llah", "items", None, "Bahá'í World Centre"),
     ("the-bab/selections-writings-bab", "selections_from_the_bab.json", "Selections from the Writings of the Bab",
      "items", None, "trans. Habib Taherzadeh et al. (1976)"),
+    ("the-bab/persian-bayan", "persian_bayan.json", "Persian Bayan", "bayan", 162,
+     "unofficial: trans. Peter Terry (2020) from Nicolas's French"),
     ("abdul-baha/selections-writings-abdul-baha", "selections_from_abdul_baha.json",
      "Selections from the Writings of Abdu'l-Baha", "sections", 237, "Bahá'í World Centre (1978)"),
     ("abdul-baha/some-answered-questions", "some_answered_questions.json", "Some Answered Questions",
@@ -98,6 +102,21 @@ WORKS = [
     ("abdul-baha/twelve-table-talks-abdul-baha", "twelve_table_talks.json", "Twelve Table Talks",
      "sections", 12, "Bahá'í World Centre (2018)"),
     ("prayers/bahai-prayers", "bahai_prayers.json", "Baha'i Prayers", "items", None, "Bahá'í World Centre"),
+    # Shoghi Effendi, the Guardian: authoritative interpretation (not revelation), as the Talmud or the Church
+    # Fathers are to theirs -- the owner's call (2026-11-09). Written in English.
+    ("shoghi-effendi/god-passes-by", "god_passes_by.json", "God Passes By", "titled", None, "Shoghi Effendi (1944)"),
+    ("shoghi-effendi/advent-divine-justice", "advent_of_divine_justice.json", "The Advent of Divine Justice",
+     "paragraphs", None, "Shoghi Effendi (1939)"),
+    ("shoghi-effendi/promised-day-come", "promised_day_is_come.json", "The Promised Day Is Come",
+     "titled", None, "Shoghi Effendi (1941)"),
+    ("shoghi-effendi/world-order-bahaullah", "world_order_of_bahaullah.json", "The World Order of Baha'u'llah",
+     "headings", None, "Shoghi Effendi (1938)"),
+    ("shoghi-effendi/bahai-administration", "bahai_administration.json", "Baha'i Administration",
+     "titled", None, "Shoghi Effendi (1928)"),
+    ("shoghi-effendi/citadel-faith", "citadel_of_faith.json", "Citadel of Faith", "titled", None,
+     "Shoghi Effendi (1965)"),
+    ("shoghi-effendi/decisive-hour", "decisive_hour.json", "The Decisive Hour", "sections", 165,
+     "Shoghi Effendi (2002)"),
 ]
 
 
@@ -196,6 +215,8 @@ def read(work: str, mode: str) -> dict:
     """{chapter: {verse: text}} by the work's mode."""
     if mode == "questions":
         return read_questions(work)
+    if mode == "bayan":
+        return read_bayan()
     bl = blocks(fetch(work))
     # the body: after the front matter, before the notes
     end = next((i for i, (t, c, x) in enumerate(bl) if t == "h2" and x.startswith(BACK)), len(bl))
@@ -206,7 +227,7 @@ def read(work: str, mode: str) -> dict:
         start = next(i for i, (t, c, x) in enumerate(bl) if t == "h3" and x.isdigit())
     else:
         heads = [i for i, (t, c, x) in enumerate(bl) if t == "h2" and not x.startswith(FRONT)]
-        if heads:
+        if heads and mode != "titled":
             start = heads[0]
         else:                                   # (no headings: after the title page's lines)
             start = next(i for i, (t, c, x) in enumerate(bl)
@@ -277,6 +298,11 @@ def read(work: str, mode: str) -> dict:
                 n -= 1
             new_chapter(key)
             continue
+        if mode == "titled" and (_is_title(cls) or {"c", "p"} <= cls):
+            if chapter is None or book[chapter]:     # (a chapter's number and its title are one heading)
+                new_chapter()
+            pending.append(text)
+            continue
         if _is_title(cls):
             pending.append(text)
             continue
@@ -289,8 +315,62 @@ def read(work: str, mode: str) -> dict:
             continue
         if chapter is None and mode in ("headings", "numbered", "sections"):
             continue
+        if chapter is None and mode == "titled":    # (before the first title: a foreword, chapter 0)
+            book["0"] = {}
+            chapter = "0"
         add(text, cls)
-    return {c: v for c, v in book.items() if v}
+    book = {c: v for c, v in book.items() if v}
+    if mode == "titled":                        # (God Passes By: "- Chapter XIII -" is chapter 13, its Foreword 0)
+        numbered = {}
+        for c, verses in book.items():
+            first = next(iter(verses.values()))
+            heading = re.match(r"(?:\*[^\n]*\*\n)*", first).group()          # (its italic lines: "First Period"...)
+            m = re.search(r"(?m)^\*\W*Chapter ([IVXLC]+)\W*\*$", heading)
+            key = _marker({"c", "q"}, m.group(1)) if m else ("0" if first.startswith("*Foreword*") else None)
+            numbered[key or c] = verses
+        if len(numbered) == len(book):
+            book = numbered
+    return book
+
+
+# The Persian Bayán, the Báb's book of laws: no authorized English translation exists (the Selections has excerpts),
+# so this is an unofficial one, plainly labelled -- Peter Terry's English (2020) of A. L. M. Nicolas's French (Le
+# Béyan persan, 1911-14), on Bahá'í Library Online. The owner chose it (2026-11-09). Its translator sets the Báb's
+# words in bold and Nicolas's notes, the footnotes and the Qur'án's Arabic in plain type: only the bold is kept.
+# Cited by Váḥid (unity) and Báb (gate): 8 unities of 19 gates and a ninth of 10, where the Báb left it.
+BAYAN_DOCX = "https://bahai-library.com/docs/b/bab_bayan_nicolas_anonymous.docx"
+
+
+def read_bayan() -> dict:
+    import zipfile
+    cached = CACHE / "persian_bayan.docx"
+    if not cached.exists():
+        CACHE.mkdir(parents=True, exist_ok=True)
+        cached.write_bytes(urllib.request.urlopen(urllib.request.Request(BAYAN_DOCX, headers=UA), timeout=120).read())
+    xml = zipfile.ZipFile(cached).read("word/document.xml").decode("utf-8")
+    book, chapter = {}, None
+    numerals = {"I": 1, "II": 2, "III": 3, "IV": 4, "V": 5, "VI": 6, "VII": 7, "VIII": 8, "IX": 9}
+    for p in re.findall(r"(?s)<w:p[ >].*?</w:p>", xml):
+        runs = []
+        for r in re.findall(r"(?s)<w:r[ >].*?</w:r>", p):
+            text = html.unescape("".join(re.findall(r"(?s)<w:t(?: [^>]*)?>(.*?)</w:t>", r)))
+            runs.append((text, bool(re.search(r'<w:b/>|<w:b w:val="(?:1|true)"/>', r))))
+        whole = "".join(t for t, _ in runs).strip()
+        m = re.fullmatch(r"Vahid ([IVX]+) - Bab (\d+)", whole)
+        if m:
+            chapter = f"{numerals[m.group(1)]}.{m.group(2)}"
+            book[chapter] = {}
+            continue
+        if whole.startswith("HERE ENDS THE PERSIAN BAYAN"):
+            break
+        bold = sum(len(t) for t, b in runs if b)
+        if chapter is None or not whole or bold * 2 < len(whole) or re.fullmatch(r"[*_\s]+", whole):
+            continue                                # (Nicolas's notes, footnotes, the Arabic, separators)
+        text = re.sub(r"\[\^\d+(?:[\])]|\.(?=\s))", "", whole)  # (the footnote marks: "[^30]", "[^30.", "[^657)")
+        text = re.sub(r"[ \t]{2,}", " ", text).strip()
+        if text and not re.match(r":?\s*Note:", text):         # (a footnote of Nicolas's set in bold, twice)
+            book[chapter][str(len(book[chapter]) + 1)] = text
+    return book
 
 
 def write(file: str, name: str, source: str, chapters: dict) -> None:

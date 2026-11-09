@@ -1009,7 +1009,8 @@ _CATEGORY_BOOKS = {
         "Memorials of the Faithful", "Light of the World", "Tablets of the Divine Plan", "Tablets to The Hague",
         "Tablet to Auguste Forel", "Will and Testament of Abdu'l-Baha", "Additional Tablets of Abdu'l-Baha",
         "Additional Prayers of Abdu'l-Baha", "Paris Talks", "Promulgation of Universal Peace", "Twelve Table Talks",
-        "Baha'i Prayers",
+        "Baha'i Prayers", "Persian Bayan", "God Passes By", "The Advent of Divine Justice", "The Promised Day Is Come",
+        "The World Order of Baha'u'llah", "Baha'i Administration", "Citadel of Faith", "The Decisive Hour",
     },
     "🏺 Dead Sea Scrolls":  {
         "Hodayot", "Damascus Document", "Community Rule", "War Scroll",
