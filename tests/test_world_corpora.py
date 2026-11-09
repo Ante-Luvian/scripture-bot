@@ -27,6 +27,16 @@ import pytest
     ("Yasna 49:12", "What aids of grace hast Thou"),          # (printed with L)
     ("Yasna 50:1", "doth my soul indeed obtain assisting"),
     ("Yasna 64:1", "(as Yasna 46:3)"),                      # made of others' verses: filled in from them
+    ("Arda Viraf 1:1", "the pious Zartosht made the religion"),
+    ("Menog-i Khrad 2:1", "The sage asked the spirit of wisdom"),
+    ("Menog-i Khrad 2:2", "thus: 'How is it possible"),        # (West's verse numbered in brackets, "(2) thus:")
+    ("Menog-i Khrad 1:1", "THROUGH the name and power"),        # (an unnumbered opening is verse 1)
+    ("Shikand-gumanik Vizar 1:1", "In the name of Aûharmazd"),
+    ("Bahman Yasht 3:20", "It is concerning the displayed banners"),     # (this copy misprints it "26.")
+    ("Selections of Zadspram 12:1", "About the coming of the religion"),
+    ("Dinkard 7.1:1", "For the gratification of the creator"),
+    ("Shahnameh 1:1", "Kaiumers first sat upon the throne"),
+    ("Shahnameh 8:1", "Give ear unto the combat of Sohrab against Rustem"),
     ("Zhuangzi 1:1", "In the Northern Ocean there is a fish"),
     ("Mencius 1.1.1:1", "Mencius went to see king Hûi of Liang"),
     ("Mencius 4.2.11:1", "The great man does not think beforehand of his words"),     # numbered across the lost chapters
@@ -81,14 +91,16 @@ def test_discover_is_spread_across_traditions(lookup):
 
 
 def test_aliases(lookup):
-    for name, book in (("Chuang Tzu", "Zhuangzi"), ("Manusmriti", "Laws of Manu"), ("Nihon Shoki", "Nihongi"),
+    for name, book in (("Arda Viraz", "Arda Viraf"), ("Denkard", "Dinkard"), ("Book of Kings", "Shahnameh"),
+                       ("Mainyo-i-Khard", "Menog-i Khrad"), ("Visparad", "Visperad"), ("Chuang Tzu", "Zhuangzi"), ("Manusmriti", "Laws of Manu"), ("Nihon Shoki", "Nihongi"),
                        ("Mathnawi", "Masnavi"), ("Japji Sahib", "Japji"), ("Milindapanha", "Questions of King Milinda")):
         assert lookup._resolve_book(name)[1] == book, name
 
 
 def test_no_page_furniture(lookup):
     import re
-    new = ["Guru Granth Sahib", "Akaranga Sutra", "Kojiki", "Vendidad", "Yasna", "Visperad", "Gahs", "Zhuangzi", "Mencius", "Masnavi",
+    new = ["Guru Granth Sahib", "Akaranga Sutra", "Kojiki", "Vendidad", "Yasna", "Visperad", "Gahs", "Menog-i Khrad", "Arda Viraf",
+           "Shahnameh", "Zhuangzi", "Mencius", "Masnavi",
            "Lotus Sutra", "Jataka", "Chandogya Upanishad", "Laws of Manu", "Kalevala", "Mabinogion", "Cloud of Unknowing"]
     for book in new:
         corpus, _ = lookup._resolve_book(book)

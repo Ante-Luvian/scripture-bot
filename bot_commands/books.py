@@ -779,7 +779,9 @@ BOOKS_TREE = [
     ("🔥 Zoroastrian", [
         ("The Avesta", ["Gathas", "Yasna", "Visperad", "Yashts", "Vendidad", "Avesta Fragments"]),
         ("Khorda Avesta", ["Nyayeshes", "Gahs", "Afrinagans", "Sirozahs"]),
-        ("Pahlavi Texts", ["Bundahishn"]),
+        ("Pahlavi Texts", ["Bundahishn", "Arda Viraf", "Menog-i Khrad", "Bahman Yasht", "Selections of Zadspram",
+                           "Dinkard", "Shikand-gumanik Vizar"]),
+        ("Persian Epic", ["Shahnameh"]),
     ]),
     ("🪯 Sikh", [
         "Guru Granth Sahib",

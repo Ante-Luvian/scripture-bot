@@ -1296,6 +1296,53 @@ def _verse_ranges(text: str) -> str:
     return re.sub(r"(?m)(^[ \t]*|(?<=[.!?'’”)\]][ \t]))(\d+)(?:\s*[-–,]\s*\d+)+\.(?=[ \t])", r"\1\2.", text)
 
 
+def _inline_verses(verses: dict) -> dict:
+    """West's verses run on within a sentence, numbered in brackets ("asked the spirit of wisdom (2) thus:"):
+    each its own verse, where the bracketed number is the next one."""
+    out, keys = {}, list(verses)
+    for i, k in enumerate(keys):
+        nxt = int(keys[i + 1]) if i + 1 < len(keys) and keys[i + 1].isdigit() else None
+        last, text, at = int(k), verses[k], 0
+        pieces = [(k, 0)]
+        for m in re.finditer(r"\((\d+)\)\s*|(?<=[,;:—] )(\d+)\.\s+(?=[A-Z‘'\"(])", text):     # (or "good, 10. The")
+            n = int(m.group(1) or m.group(2))
+            if last < n <= last + 2 and (nxt is None or n < nxt):
+                pieces.append((str(n), m.start(), m.end()))
+                last = n
+        for j, piece in enumerate(pieces):
+            start = piece[2] if len(piece) > 2 else 0
+            end = pieces[j + 1][1] if j + 1 < len(pieces) else len(text)
+            out[piece[0]] = text[start:end].strip()
+    return {k: v for k, v in out.items() if v}
+
+
+def sbe_verses(page: str = None, title: str = None, text: str = None, inline: bool = False) -> dict:
+    """A sacred-texts.com chapter page of the Sacred Books of the East as {verse: text}, by the translator's
+    numbers: its footnote marks taken out by their links, the site's line and the headings left out, and a
+    translator's outline by verse numbers ("1-16. Contracts... 3-4. Damages...") before verse 1. title: put
+    in italics before the first verse. inline: verses also numbered in brackets within a paragraph (West's
+    Pahlavi books), and an unnumbered opening that has them is verse 1."""
+    text = st_page(page, by_link=True) if text is None else text
+    text = re.sub(r"(?m)^\s*Buy this Book at Amazon\.com\s*", "", text)             # (the site's)
+    text = re.sub(r"(?m)^[^\na-z]*\b[A-Z]{2,}[^\na-z]*$", "", text)     # headings ("VISPARAD VI (SP. VII).")
+    first = re.search(r"(?m)^[ \t]*1(?: \(1\))?\.[ \t]", text)
+    if first and re.search(r"(?m)^[ \t]*\d+\s*[-–]\s*\d+\.", text[:first.start()]):
+        text = text[first.start():]
+    text = re.sub(r"(?<=[^\s.]) +(?=[,;:!?)]|\.(?! \.))|(?<=\() +", "", text)   # where a footnote mark was
+    text = re.sub(r"(?m)((?:^|\s)\d+(?: \(\d+\))?)\.\.\.\. ", r"\1. . . . ", text)    # "47 (130).... Verily"
+    if inline:
+        body = text.lstrip()
+        if not re.match(r"\d+\.", body) and re.search(r"\(2\)", body.split("\n\n")[0] if body else ""):
+            text = "1. " + body
+    verses = leading_numbered(_verse_ranges(text))
+    if inline:
+        verses = _inline_verses(verses)
+    if title and verses:
+        first = next(iter(verses))
+        verses[first] = f"*{title}*\n{verses[first]}"
+    return verses
+
+
 # The Yasna's chapters that Mills doesn't print again, being made of others' verses ("See Y. XV, 2; ..."):
 # each verse of them is given here from where it's printed, as [(this chapter's verse or None, chapter, verses)].
 _YASNA_REPEATS = {
@@ -1346,22 +1393,7 @@ def avesta():
     made of other chapters' verses, which Mills doesn't print again, are
     filled in from them (_YASNA_REPEATS)."""
     out = {}
-
-    def verses_of(page, title=None, text=None):
-        text = st_page(page, by_link=True) if text is None else text
-        text = re.sub(r"(?m)^\s*Buy this Book at Amazon\.com\s*", "", text)             # (the site's)
-        text = re.sub(r"(?m)^[^\na-z]*\b[A-Z]{2,}[^\na-z]*$", "", text)     # headings ("VISPARAD VI (SP. VII).")
-        # a translator's outline by verse numbers ("1-16. Contracts... 3-4. Damages...") before verse 1
-        first = re.search(r"(?m)^[ \t]*1(?: \(1\))?\.[ \t]", text)
-        if first and re.search(r"(?m)^[ \t]*\d+\s*[-–]\s*\d+\.", text[:first.start()]):
-            text = text[first.start():]
-        text = re.sub(r"(?<=[^\s.]) +(?=[,;:!?)]|\.(?! \.))|(?<=\() +", "", text)   # where a footnote mark was
-        text = re.sub(r"(?m)((?:^|\s)\d+(?: \(\d+\))?)\.\.\.\. ", r"\1. . . . ", text)    # "47 (130).... Verily"
-        verses = leading_numbered(_verse_ranges(text))
-        if title and verses:
-            first = next(iter(verses))
-            verses[first] = f"*{title}*\n{verses[first]}"
-        return verses
+    verses_of = sbe_verses
 
     def collect(index, pattern, name, numbering=lambda m: str(roman(m.group(1))), titled=False):
         book = {}
@@ -1432,6 +1464,109 @@ def avesta():
     data["book_sources"] = {b: f"trans. {translator.get(b, 'L. H. Mills (1887)')}, Sacred Books of the East"
                             for b in out}
     path.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
+
+
+def pahlavi():
+    """Pahlavi books (the Middle Persian Zoroastrian books of the 9th century and around it), trans. E. W.
+    West, Sacred Books of the East, sacred-texts.com archive (a page per chapter): the Menog-i Khrad ("the
+    Spirit of Wisdom", SBE 24), the Shikand-gumanik Vizar (a Zoroastrian's answer to Islam, Judaism,
+    Christianity and the Manichaeans, SBE 24), the Bahman Yasht (an apocalypse, SBE 5), the Selections of
+    Zadspram (chapters 1-11 in SBE 5, 12-24 with the life of Zarathustra in SBE 47) and the Dinkard's seventh
+    book (the legend of Zarathustra, SBE 47; as "Dinkard 7.1"...). Verses by West's numbers (0 is a book's
+    opening dedication); his introductions and footnotes are left out. And the Book of Arda Viraf, trans.
+    Haug and West (1872), from avesta.org (J. H. Peterson's transcription, the chapters on hell that Horne's
+    1917 reprint left out restored): 101 chapters, the bracketed chapter titles Peterson's."""
+    # verse numbers misprinted in this copy (so the verses after them ran together)
+    misprints = {"sbe0559.htm": [(r"comes into\s+view\. 26\. It is concerning", "comes into view. 20. It is concerning")]}
+
+    def run(index, first, last, start=1):
+        pages = [p for p, l in st_index(index) if l.startswith("Chapter ")]
+        names = [p.rsplit("/", 1)[1] for p in pages]
+        chosen = pages[names.index(first):names.index(last) + 1]
+        book = {}
+        for n, p in enumerate(chosen, start):
+            text = st_page(p, by_link=True)
+            for wrong, right in misprints.get(p.rsplit("/", 1)[1], []):
+                text, found = re.subn(wrong, right, text)
+                expect(found == 1, f"{p}: {wrong!r}")
+            book[str(n)] = sbe_verses(text=text, inline=True)
+        return book
+
+    out = {
+        "Menog-i Khrad": run("zor/sbe24/index.htm", "sbe24007.htm", "sbe24069.htm"),
+        "Shikand-gumanik Vizar": run("zor/sbe24/index.htm", "sbe24071.htm", "sbe24086.htm"),
+        "Bahman Yasht": run("zor/sbe05/index.htm", "sbe0557.htm", "sbe0559.htm"),
+        "Selections of Zadspram": {**run("zor/sbe05/index.htm", "sbe0545.htm", "sbe0555.htm"),
+                                   **run("zor/sbe47/index.htm", "sbe4720.htm", "sbe4732.htm", start=12)},
+        "Dinkard": {f"7.{k}": v for k, v in run("zor/sbe47/index.htm", "sbe4705.htm", "sbe4715.htm").items()},
+        "Arda Viraf": _arda_viraf(),
+    }
+    counts = {k: (len(v), sum(map(len, v.values()))) for k, v in out.items()}
+    print(f"  (chapters, verses): {counts}")
+    expect([c for c, _ in counts.values()] == [63, 16, 3, 24, 11, 101], f"chapters {counts}")
+    expect(all(v for book in out.values() for v in book.values()), "a chapter without verses")
+    path = DATA / "zoroastrian" / "pahlavi.json"
+    sources = {b: "trans. E. W. West, Sacred Books of the East (1880-1897)" for b in out}
+    sources["Arda Viraf"] = "trans. Martin Haug and E. W. West (1872)"
+    path.write_text(json.dumps({"source": "Pahlavi Texts", "book_sources": sources, "books": out},
+                               ensure_ascii=False, indent=1), encoding="utf-8")
+    print(f"wrote {path.relative_to(ROOT)}")
+
+
+def _arda_viraf() -> dict:
+    import html as html_mod
+    page = cached_url("avesta_viraf.html", "https://www.avesta.org/mp/viraf.html")
+    page = re.sub(r"(?is)<TD CLASS=NOTE>.*?</TD>", "", page)                # (the editor's notes column)
+    parts = re.split(r"(?i)<H3[^>]*>\s*(?:<A[^>]*>\s*</A>\s*)?CHAPTER\s+(\d+)\.?\s*(.*?)</H3>", page)
+    book = {}
+    for num, title, body in zip(parts[1::3], parts[2::3], parts[3::3]):
+        body = re.split(r"(?i)<H[23][^>]*>", body)[0]
+        text = html_mod.unescape(re.sub(r"<[^>]+>", " ", re.sub(r"(?i)<P>", "\n\n", body)))
+        text = re.sub(r"[ \t\r]+", " ", text)
+        text = re.sub(r"\n ?", "\n", text)
+        text = re.sub(r"(?<!\n)\n(?!\n)", " ", text)                          # lines rejoined, paragraphs kept
+        text = text.replace("IN THE NAME OF GOD", "")
+        # verse numbers: "1. They say..." opening a paragraph, "(2) and till..." within one
+        verses, last, cut = {}, 0, []
+        for m in re.finditer(r"(?:(?<=\n)|^)\s*(\d+)\.\s|\((\d+)\)\s", text):
+            n = int(m.group(1) or m.group(2))
+            if last < n <= last + 3:
+                cut.append((n, m.start(), m.end()))
+                last = n
+        for i, (n, _, end) in enumerate(cut):
+            stop = cut[i + 1][1] if i + 1 < len(cut) else len(text)
+            verses[str(n)] = re.sub(r"\s+", " ", text[end:stop]).strip()
+        if not verses:                                                     # (a chapter without numbers)
+            verses = {str(i): re.sub(r"\s+", " ", p).strip()
+                      for i, p in enumerate([p for p in text.split("\n\n") if p.strip()], 1)}
+        title = re.sub(r"\s+", " ", html_mod.unescape(re.sub(r"<[^>]+>", "", title))).strip(" []")
+        if title and verses:
+            first = next(iter(verses))
+            verses[first] = f"*{title}*\n{verses[first]}"
+        book[str(int(num))] = {k: v for k, v in verses.items() if v}
+    return book
+
+
+def shahnameh():
+    """The Shahnameh (Book of Kings) of Ferdowsi, the Persian national epic (c. 1010), in Helen Zimmern's
+    prose retelling of its legendary part, The Epic of Kings (1883), sacred-texts.com archive
+    (neu/shahnama.txt): her 18 tales, Kaiumers to the death of Rustem, a paragraph a verse, each tale's
+    title before its first."""
+    text = sacred_text("neu/shahnama.txt")
+    parts = re.split(r"(?m)^([A-Z][A-Z ,'\-]+)\s*$", text)
+    book = {}
+    for title, body in zip(parts[1::2], parts[2::2]):
+        if title.strip() == "THE END":
+            continue
+        paras = [tidy(p) for p in paragraphs(body)]
+        n = str(len(book) + 1)
+        book[n] = {str(i): p for i, p in enumerate(paras, 1)}
+        words = title.strip().lower().split()
+        name = " ".join(w if i and w in ("and", "of", "the", "into", "more") else w.capitalize()
+                        for i, w in enumerate(words))
+        book[n]["1"] = f"*{name}*\n{book[n]['1']}"
+    expect(len(book) == 18, f"{len(book)} tales")
+    write("zoroastrian", "shahnameh.json", "Ferdowsi, trans. Helen Zimmern (1883)", {"Shahnameh": book})
 
 
 # ── Jain ────────────────────────────────────────────────────────────────────
@@ -2154,7 +2289,7 @@ BUILDERS = {f.__name__: f for f in (dhammapada, diamond_sutra, tao_te_ching, ana
                                     rule_of_benedict, divine_comedy, hesiod, nt_apocrypha, secrets_of_enoch,
                                     forgotten_books_of_eden, sutta_nipata, gospel_of_thomas, enuma_elish,
                                     enneads, enoch_missing_chapters, guru_granth_sahib,
-                                    jaina_sutras, kojiki, nihongi, popol_vuh, avesta,
+                                    jaina_sutras, kojiki, nihongi, popol_vuh, avesta, pahlavi, shahnameh,
                                     zhuangzi, mencius, great_learning_and_mean, masnavi, rubaiyat,
                                     lotus_sutra, milinda, jataka, upanishads_muller, laws_of_manu, yoga_sutras,
                                     kalevala, mabinogion, cloud_of_unknowing, julian_of_norwich, brother_lawrence, swedenborg, blake, milton, pilgrims_progress)}
