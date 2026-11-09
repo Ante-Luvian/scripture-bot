@@ -60,6 +60,7 @@ def test_parse_day(z):
     assert z.parse_day("", today) == today and z.parse_day("21 March", today) == D(2026, 3, 21)
     assert z.parse_day("march 21", today) == D(2026, 3, 21) and z.parse_day("2025-08-15", today) == D(2025, 8, 15)
     assert z.parse_day("31 February", today) is None and z.parse_day("banana", today) is None
+    assert z.parse_day("9999-12-31", today) is None and z.parse_day("0001-01-01", today) is None
 
 
 def test_the_command(z, fake_ctx):

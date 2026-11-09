@@ -297,7 +297,12 @@ SHAPED = {"ballad": ["0", "305", "306", "12B", "12b", "12ZZ", "22A", "117", "chi
           "hymn": ["list", "list chant", "list zzz", "index harp", "list `"],
           # (!daily: one command for the ten daily-post setups)
           "daily": ["saint", "SAINT", "hymnday", "verse", "astro off", "votd mode full", "votd mode zzz", "nonsense",
-                    "saint time 25:99", "angelus time 06:00 12:00 18:00", "quiz kind hard", "oracle kind `x`"],
+                    "saint time 25:99", "angelus time 06:00 12:00 18:00", "quiz kind hard", "oracle kind `x`", "roz",
+                    "roz time 06:00", "zoroastrian"],
+          # (!roz: a day of the Zoroastrian calendar)
+          "roz": ["21 March", "march 21", "2025-08-15", "2025-08-14", "2028-02-29", "2027-02-29", "31 February",
+                  "0 March", "32 May", "1 Smarch", "9999-12-31", "0001-01-01", "today", "tomorrow", "21", "March",
+                  "2026-13-01", "-5 March"],
           # (!concordance, !root and !reverseinterlinear folded in: "G26 verses", "G26 root", "reverse")
           "strong": ["G26 verses", "G26 root", "agape", "agape verses", "love root", "G99999 verses", "H0 root",
                      "xyzzy verses", "verses", "root", "G26 in John", "John 3:16 verses", "`` root"],

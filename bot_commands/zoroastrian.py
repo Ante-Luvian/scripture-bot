@@ -159,6 +159,8 @@ def parse_day(text: str, today: datetime.date) -> "datetime.date | None":
         if mo is None:
             return None
         y, d = today.year, int(d)
+    if not 1000 <= y <= 3000:                          # (the reckoning runs either way, but not to Python's ends)
+        return None
     try:
         return datetime.date(y, mo, d)
     except ValueError:
@@ -174,7 +176,8 @@ async def cmd_roz(ctx, *, when: str = ""):
     """Today in the Zoroastrian calendar. Usage: !roz  or  !roz 21 March"""
     day = parse_day(when, _today())
     if day is None:
-        await ctx.send("Give a date like `!roz 21 March` or `!roz 2026-08-15`, or nothing for today.")
+        await ctx.send("Give a date like `!roz 21 March` or `!roz 2026-08-15` (years 1000 to 3000), "
+                       "or nothing for today.")
         return
     await ctx.send(embed=roz_embed(day))
 
