@@ -138,6 +138,40 @@ def check_calendars():
     return True, ", ".join(sorted(set(asked))) or "nothing asked (all cached)"
 
 
+PICTURE_DATA = {"Doré": ["data/dore/plates.json"], "Blake": ["data/blake/plates.json", "data/blake/art.json"],
+                "the 🖌️ pictures": ["data/illustrations/*.json"]}
+
+
+def _wikimedia_entries(node):
+    if isinstance(node, dict):
+        if str(node.get("image", "")).startswith(("https://upload.wikimedia.org/", "https://thumb.wikimedia.org/")):
+            yield node
+        for value in node.values():
+            yield from _wikimedia_entries(value)
+    elif isinstance(node, list):
+        for value in node:
+            yield from _wikimedia_entries(value)
+
+
+def check_pictures():
+    """Every Wikimedia picture has its local copy (core.local_picture). Discord can't show Wikimedia's
+    addresses any more (2026-11-08), so a missing copy is an empty embed: the copies are out of git, and
+    a fresh checkout or a deleted folder loses them (README: rebuild with scripts/wikimedia_copies.py)."""
+    missing, total = {}, 0
+    for label, patterns in PICTURE_DATA.items():
+        for pattern in patterns:
+            for path in sorted(core.ROOT.glob(pattern)):
+                for entry in _wikimedia_entries(json.loads(path.read_text(encoding="utf-8"))):
+                    total += 1
+                    if not core.local_picture(entry):
+                        missing[label] = missing.get(label, 0) + 1
+    if missing:
+        return False, (f"{sum(missing.values())} of {total} have no local copy ("
+                       + ", ".join(f"{label} {n}" for label, n in missing.items())
+                       + "); rebuild with scripts/wikimedia_copies.py (README)")
+    return True, f"all {total} here"
+
+
 # (source, the commands that use it, check)
 SOURCES = [
     ("bolls.life", "!verse with a translation, !compare, !search ... ESV", check_bolls),
@@ -155,6 +189,7 @@ SOURCES = [
     ("newadvent.org", "!summa", check_summa),
     ("gematrix.org", "!gematria", check_gematrix),
     ("Church calendars", "!today", check_calendars),
+    ("Picture copies", "!dore, !blake, the 🖌️ buttons", check_pictures),
 ]
 
 

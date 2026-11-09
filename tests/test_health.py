@@ -1,6 +1,7 @@
 """The !notes canary: health_check (network stubbed) and the owner DM on failure.
 The real network check is in test_live.py (`python -m pytest -m live`)."""
 import asyncio
+import json
 
 import pytest
 
@@ -96,6 +97,22 @@ def test_every_source_is_checked(health):
     for host in ("bolls.life", "Sefaria", "netbible.org", "SuttaCentral", "BaniDB", "verseoftheday.com",
                  "oca.org", "aladhan.com", "catenabible.com", "newadvent.org", "gematrix.org"):
         assert host in names, host
+
+
+def test_picture_check_finds_missing_copies(health, monkeypatch, tmp_path):
+    import core
+    monkeypatch.setattr(core, "ROOT", tmp_path)
+    (tmp_path / "data" / "dore").mkdir(parents=True)
+    (tmp_path / "data" / "dore" / "a.jpg").write_bytes(b"x")
+    monkeypatch.setattr(health, "PICTURE_DATA", {"Doré": ["data/dore/plates.json"]})
+    plates = {"x": [{"image": "https://upload.wikimedia.org/a.jpg", "copy": "data/dore/a.jpg"},
+                    {"image": "https://thumb.wikimedia.org/b.jpg", "copy": "data/dore/b.jpg"},
+                    {"image": "https://example.org/c.jpg"}]}             # (not Wikimedia's: not counted)
+    (tmp_path / "data" / "dore" / "plates.json").write_text(json.dumps(plates), encoding="utf-8")
+    ok, detail = health.check_pictures()
+    assert not ok and "1 of 2" in detail and "Doré 1" in detail
+    (tmp_path / "data" / "dore" / "b.jpg").write_bytes(b"x")
+    assert health.check_pictures() == (True, "all 2 here")
 
 
 def test_checked_once_a_week_not_every_restart(health, monkeypatch):
