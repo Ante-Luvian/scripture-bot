@@ -15,8 +15,11 @@ wide.
   malory_beardsley     Aubrey Beardsley's Morte Darthur (Dent, 1893-94), from Commons, by Caxton's chapters
   faerie_queene_crane  Walter Crane's Faerie Queene (1894-97), from Commons, by canto
   shakespeare_boydell  the Boydell Shakespeare Gallery (1789-1805), from Commons, by Folger's scenes
+  chaucer_ellesmere    the Ellesmere Chaucer's 23 pilgrim portraits (c. 1400-10), from Commons, each with its tale
 
-Gutenberg's books are cached in scripts/.cache/illustrations/; Commons' pictures are shown from Commons.
+Gutenberg's books are cached in scripts/.cache/illustrations/. Commons' pictures are shown from local copies
+(Discord can't show Wikimedia's addresses since November 2026): after building a Commons set, run
+`python scripts/wikimedia_copies.py data/illustrations/<set>.json data/illustrations/copies`.
 
     python scripts/build_illustrations.py [set ...]
 """
@@ -788,6 +791,46 @@ def shakespeare_boydell() -> None:
                                      "work": "paintings and prints, 1789–1805", "credit": "Wikimedia Commons"}, out)
 
 
+# ── The Ellesmere Chaucer's pilgrims ───────────────────────────────────────
+# The 23 portraits in the margins of the Ellesmere manuscript (c. 1400-1410, Huntington Library), each at the head
+# of its teller's tale: the whole page, as Commons has it ("Ellesmere Chaucer f. 10r"). The folios are Wikipedia's
+# list ("Ellesmere Chaucer"), which agrees with every Commons file that names its tale; the chapter is the tale's
+# in the bot's Skeat (Chaucer, at fol. 153v, heads Melibee, his second tale).
+# (folio, pilgrim, the bot's chapter of The Canterbury Tales)
+ELLESMERE = [("10r", "The Knight", "2"), ("34v", "The Miller", "4"), ("42r", "The Reeve", "6"), ("47r", "The Cook", "8"),
+             ("50v", "The Man of Law", "10"), ("72r", "The Wife of Bath", "29"), ("76v", "The Friar", "31"),
+             ("81r", "The Summoner", "33"), ("88r", "The Clerk of Oxford", "35"), ("102v", "The Merchant", "37"),
+             ("115v", "The Squire", "39"), ("123v", "The Franklin", "41"), ("133r", "The Physician", "24"),
+             ("138r", "The Pardoner", "27"), ("143v", "The Shipman", "12"), ("148v", "The Prioress", "14"),
+             ("153v", "Chaucer himself", "18"), ("169r", "The Monk", "20"), ("179r", "The Nun's Priest", "22"),
+             ("187r", "The Second Nun", "42"), ("194r", "The Canon's Yeoman", "44"), ("203r", "The Manciple", "46"),
+             ("206v", "The Parson", "48")]
+CODES["chaucer_ellesmere"] = "ce"
+
+
+def chaucer_ellesmere() -> None:
+    import build_dore as commons
+    tales = corpus_book("data/english/canterbury_tales.json", "The Canterbury Tales")
+    members = [m for m in commons.members("Category:Ellesmere Chaucer") if m.startswith("File:Ellesmere Chaucer f. ")]
+    files = {}
+    for folio, who, chapter in ELLESMERE:
+        hits = [m for m in members if re.match(rf"File:Ellesmere Chaucer f\. {folio}(\.| \()", m) and "cropped" not in m]
+        expect(len(hits) == 1, f"fol. {folio}: {hits}")
+        files[folio] = hits[0]
+    info = commons.file_info(list(files.values()))
+    out = []
+    for folio, who, chapter in ELLESMERE:
+        heading = re.match(r"\*([^*]+)\*", tales[chapter]["1"]).group(1)          # ("The Knightes Tale")
+        expect("tale" in heading.lower(), f"chapter {chapter} is {heading!r}, not a tale")
+        f = files[folio]
+        out.append({"title": who, "caption": f"At the head of {heading}, fol. {folio}", "book": "The Canterbury Tales",
+                    "chapter": chapter, "start": None, "end": None,
+                    "image": info[f]["image"].split("?")[0], "page": info[f]["page"]})
+    out.sort(key=lambda p: int(p["chapter"]))
+    save_set("chaucer_ellesmere", {"artist": "The Ellesmere Chaucer", "label": "Ellesmere",
+                                   "work": "c. 1400–1410, Huntington Library", "credit": "Wikimedia Commons"}, out)
+
+
 # ── The Poetic Edda: Collingwood's (1908) and Frølich's (1895) ─────────────
 # From the University of Victoria's MyNDIR (myndir.uvic.ca), which catalogues each picture of these editions: its
 # record (TEI) names the poem it shows, in its description ("This scene is from the poem <title>Hárbarðsljóð</title>"),
@@ -883,7 +926,7 @@ def corpus_book_names(path: str) -> list:
 BUILDS = {"la_fontaine": la_fontaine, "aesop_rackham": aesop_rackham, "aesop_crane": aesop_crane,
           "aesop_winter": aesop_winter, "grimm_crane": grimm_crane, "grimm_rackham": grimm_rackham,
           "malory_beardsley": malory_beardsley, "faerie_queene_crane": faerie_queene_crane,
-          "shakespeare_boydell": shakespeare_boydell,
+          "shakespeare_boydell": shakespeare_boydell, "chaucer_ellesmere": chaucer_ellesmere,
           "edda_collingwood": lambda: edda_set("edda_collingwood"), "edda_frolich": lambda: edda_set("edda_frolich")}
 
 

@@ -14,7 +14,18 @@ def il(bot_module):
 
 SETS = {"la_fontaine": 300, "aesop_rackham": 60, "aesop_crane": 40, "aesop_winter": 80, "grimm_crane": 100,
         "grimm_rackham": 70, "malory_beardsley": 15, "faerie_queene_crane": 9, "shakespeare_boydell": 70,
-        "edda_collingwood": 30, "edda_frolich": 20}
+        "edda_collingwood": 30, "edda_frolich": 20, "chaucer_ellesmere": 23}
+
+
+def test_each_ellesmere_pilgrim_heads_their_own_tale(il, lookup):
+    """The portrait is with the tale its pilgrim tells: the Knight's with the Knightes Tale, the Wife of Bath's
+    with hers, Chaucer's with Melibee (the chapters are the bot's Skeat's)."""
+    shown = {p["title"]: p for p in il.pictures() if p["set"] == "chaucer_ellesmere"}
+    assert len(shown) == 23
+    for who, words in {"The Knight": "Knightes Tale", "The Wife of Bath": "Wyf of Bathe", "Chaucer himself": "Melibee",
+                       "The Pardoner": "Pardoners Tale", "The Parson": "Persones Tale", "The Miller": "Milleres Tale"}.items():
+        text = lookup.get_verse(f"The Canterbury Tales {shown[who]['chapter']}:1")["text"]
+        assert words in text, (who, text[:120])
 
 
 def test_the_sets(il):
