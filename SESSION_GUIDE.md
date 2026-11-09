@@ -333,7 +333,8 @@ changed (else compare `books` with HEAD); never OCR or proofread scan images wit
   both&format=json (text has zero-width watermark characters: strip them). The Targum lookups were broken (Sefaria
   titles "Targum Jonathan on Genesis", "Aramaic Targum to Psalms"; its Neofiti is 8 verses). Not found in English:
   al-Kindi, al-Masudi, al-Suyuti, al-Buni on Metatron. The same MS 228 has *Hekhalot Rabbati* from scan 142 if wanted.
-- *Open:* Juvenal and Martial (no non-OCR English text found yet); Hyginus's Astronomica books
+- *Open:* ~~Juvenal and Martial~~ (done 2026-11-09: Ramsay on Wikisource, Bohn on tertullian.org; build_latin.py
+  `juvenal`, `martial`; Persius is on the same Wikisource pages if wanted, his summaries need separating); Hyginus's Astronomica books
   1, 3, 4 (only Book 2 is transcribed anywhere found); Ptolemy's Almagest (OCR only: the owner said no OCR
   "at the moment"); the PDF guides (scripts/build_guides.py) haven't been rebuilt since these books.
 - *Traps met this time:* clean_corpora deletes runs of "* * *" as stray markdown, so a builder must turn an
@@ -403,6 +404,12 @@ changed (else compare `books` with HEAD); never OCR or proofread scan images wit
   `"file"`, then `"copy"`, then the address). Rebuild: README "Pictures". `scripts/wikimedia_copies.py` asks for standard
   thumbnail widths only; its 429s are momentary (5 s back-off, not a minute). The weekly source check counts missing copies.
   New Commons pictures (any new set) must go through it too, or they'll be blank.
+
+**2026-11-09 (all committed, pushed, live):** Perseus plays' speaker names now open their speeches (perseus_tei);
+the Ellesmere Chaucer's 23 pilgrims under the Canterbury Tales (🖌️, `chaucer_ellesmere`); Hekhalot Rabbati, Sar Torah
+and the Chapter of Rabbi Nehuniah (scripts/build_hekhalot.py, MS Ebr. 228 again); Juvenal and Martial. *Waiting on the
+owner:* Flaxman's Homer: Commons has the plates but not which passage each shows (only their printed captions say,
+so placing them means reading the plate images: ask first); no list of the plates with book and line was found.
 
 ---
 
