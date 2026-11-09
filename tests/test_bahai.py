@@ -4,7 +4,7 @@ import re
 
 import pytest
 
-BOOKS = ["Selections from the Writings of the Bab", "Kitab-i-Aqdas", "Kitab-i-Iqan", "The Hidden Words (Arabic)",
+BOOKS = ["Selections from the Writings of the Bab", "Kitab-i-Aqdas", "Questions and Answers (Aqdas)", "Kitab-i-Iqan", "The Hidden Words (Arabic)",
          "The Hidden Words (Persian)", "Call of the Divine Beloved", "Gems of Divine Mysteries",
          "Gleanings from the Writings of Baha'u'llah", "Prayers and Meditations", "Summons of the Lord of Hosts",
          "Tablets of Baha'u'llah", "Tabernacle of Unity", "Days of Remembrance", "Epistle to the Son of the Wolf",
@@ -25,6 +25,8 @@ def test_every_work_is_here(lookup):
     ("Kitab-i-Iqan 213", "But, O my brother, when a true seeker determineth"),       # (the famous ¶213)
     ("Kitab-i-Iqan 290", "Glorified be our Lord, the Most High!"),
     ("Gleanings 1", "Lauded and glorified art Thou, O Lord, my God!"),
+    ("Q&A 1", "Question: Concerning the Most Great Festival."),
+    ("Questions and Answers 107", "In one of the Tablets He, exalted be His words"),     # (its "107" off)
     ("Some Answered Questions 1:1", "Nature is that condition or reality"),
     ("Selections from the Writings of the Bab 1", "This is an epistle from this lowly servant"),
     ("Will and Testament of Abdu'l-Baha 3:13", "The Glory of Glories rest upon you!"),

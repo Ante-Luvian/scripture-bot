@@ -755,7 +755,7 @@ BOOKS_TREE = [
     ("🌍 Bahá'í", [
         ("The Báb", ["Selections from the Writings of the Bab"]),
         ("Bahá'u'lláh", [
-            "Kitab-i-Aqdas", "Kitab-i-Iqan", "The Hidden Words (Arabic)", "The Hidden Words (Persian)",
+            "Kitab-i-Aqdas", "Questions and Answers (Aqdas)", "Kitab-i-Iqan", "The Hidden Words (Arabic)", "The Hidden Words (Persian)",
             "Call of the Divine Beloved", "Gems of Divine Mysteries", "Gleanings from the Writings of Baha'u'llah",
             "Prayers and Meditations", "Summons of the Lord of Hosts", "Tablets of Baha'u'llah",
             "Tabernacle of Unity", "Days of Remembrance", "Epistle to the Son of the Wolf",

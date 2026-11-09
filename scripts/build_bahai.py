@@ -43,6 +43,8 @@ FRONT = ("Preface", "Foreword", "Introduction", "Author’s Preface", "A Descrip
 WORKS = [
     ("bahaullah/gleanings-writings-bahaullah", "gleanings.json", "Gleanings from the Writings of Baha'u'llah",
      "sections", 166, "trans. Shoghi Effendi"),
+    ("bahaullah/kitab-i-aqdas", "aqdas_questions_and_answers.json", "Questions and Answers (Aqdas)",
+     "questions", 107, "Bahá'í World Centre (1992)"),          # (the Aqdas itself was built before and is kept)
     ("bahaullah/prayers-meditations", "prayers_and_meditations.json", "Prayers and Meditations",
      "sections", 184, "trans. Shoghi Effendi"),
     ("bahaullah/kitab-i-iqan", "kitab_i_iqan.json", "Kitab-i-Iqan", "paragraphs", 290, "trans. Shoghi Effendi"),
@@ -171,8 +173,29 @@ def _italic(lines: list) -> str:
     return "\n".join(f"*{part}*" for line in lines for part in line.split("\n") if part.strip())
 
 
+def read_questions(work: str) -> dict:
+    """The Kitáb-i-Aqdas volume's Questions and Answers: each its number ("1."), then the question and the answer,
+    a chapter each, as they're cited ("Q&A 1")."""
+    bl = blocks(fetch(work))
+    start = next(i for i, (t, c, x) in enumerate(bl) if t == "h2" and x.startswith("Questions and Answers"))
+    end = next(i for i, (t, c, x) in enumerate(bl) if i > start and t == "h2")
+    book, chapter = {}, None
+    for tag, cls, text in bl[start + 1:end]:
+        m = re.fullmatch(r"(\d+)\.", text)
+        if m:
+            chapter = m.group(1)
+            expect(chapter not in book, f"Q&A {chapter} twice")
+            book[chapter] = {}
+        elif chapter and tag == "p" and text:
+            text = re.sub(rf"^{chapter}\s+(?=\S)", "", text)
+            book[chapter][str(len(book[chapter]) + 1)] = text
+    return book
+
+
 def read(work: str, mode: str) -> dict:
     """{chapter: {verse: text}} by the work's mode."""
+    if mode == "questions":
+        return read_questions(work)
     bl = blocks(fetch(work))
     # the body: after the front matter, before the notes
     end = next((i for i, (t, c, x) in enumerate(bl) if t == "h2" and x.startswith(BACK)), len(bl))

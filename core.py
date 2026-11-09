@@ -1002,7 +1002,7 @@ _CATEGORY_BOOKS = {
         "Kitab-i-Aqdas", "The Hidden Words (Arabic)", "The Hidden Words (Persian)",
         "Gleanings from the Writings of Baha'u'llah", "Prayers and Meditations",
         "Some Answered Questions", "Kitab-i-Iqan", "Epistle to the Son of the Wolf",
-        "Selections from the Writings of the Bab", "Call of the Divine Beloved", "Gems of Divine Mysteries",
+        "Selections from the Writings of the Bab", "Questions and Answers (Aqdas)", "Call of the Divine Beloved", "Gems of Divine Mysteries",
         "Summons of the Lord of Hosts", "Tablets of Baha'u'llah", "Tabernacle of Unity", "Days of Remembrance",
         "Additional Tablets of Baha'u'llah", "Additional Prayers of Baha'u'llah",
         "Selections from the Writings of Abdu'l-Baha", "Secret of Divine Civilization", "A Traveler's Narrative",

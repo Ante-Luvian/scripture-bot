@@ -540,7 +540,10 @@ ALIASES: dict[str, str] = {
     # the rest of the Bahá'í writings (scripts/build_bahai.py), by their usual names and abbreviations
     "selections from the writings of the bab": "Selections from the Writings of the Bab",
     "writings of the bab": "Selections from the Writings of the Bab", "swb": "Selections from the Writings of the Bab",
-    "selections bab": "Selections from the Writings of the Bab", "the bab": "Selections from the Writings of the Bab",
+    "selections bab": "Selections from the Writings of the Bab",
+    "questions and answers": "Questions and Answers (Aqdas)", "q&a": "Questions and Answers (Aqdas)",
+    "aqdas questions and answers": "Questions and Answers (Aqdas)", "qa": "Questions and Answers (Aqdas)",
+    "questions and answers (aqdas)": "Questions and Answers (Aqdas)", "the bab": "Selections from the Writings of the Bab",
     "call of the divine beloved": "Call of the Divine Beloved", "cdb": "Call of the Divine Beloved",
     "seven valleys": "Call of the Divine Beloved", "four valleys": "Call of the Divine Beloved",
     "gems of divine mysteries": "Gems of Divine Mysteries", "gdm": "Gems of Divine Mysteries",
@@ -2335,7 +2338,7 @@ class ScriptureLookup:
                 "prayers_and_meditations.json",
                 "some_answered_questions.json",
                 # the rest of the Central Figures' writings, from the Bahá'í Reference Library (scripts/build_bahai.py)
-                "selections_from_the_bab.json", "call_of_the_divine_beloved.json", "gems_of_divine_mysteries.json",
+                "selections_from_the_bab.json", "aqdas_questions_and_answers.json", "call_of_the_divine_beloved.json", "gems_of_divine_mysteries.json",
                 "summons_of_the_lord_of_hosts.json", "tablets_of_bahaullah.json", "tabernacle_of_unity.json",
                 "days_of_remembrance.json", "bahaullah_additional_tablets.json", "bahaullah_additional_prayers.json",
                 "selections_from_abdul_baha.json", "secret_of_divine_civilization.json", "travelers_narrative.json",
