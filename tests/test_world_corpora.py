@@ -46,6 +46,12 @@ import pytest
     ("Menog-i Khrad 13:10", "punishment [of sin]"),        # (this copy's OCR printed (10) as "(To)")
     ("Menog-i Khrad 4:2", "thus: 'Which is a good work"),  # ("(?) thus", for "(2) thus")
     ("Shahnameh 1:1", "Kaiumers first sat upon the throne"),
+    ("Gospel of Truth 1", "The gospel of truth is joy for those who have received"),
+    ("Gospel of Philip 1", "A Hebrew makes another Hebrew"),
+    ("Apocryphon of John 1:2", "it happened one [d]ay when John [the brother] of James"),    # (King's sections)
+    ("First Apocalypse of James 1", "It is the Lord who spoke with me"),
+    ("Pistis Sophia 1:1", "IT came to pass, when Jesus had risen from the dead"),
+    ("Pistis Sophia 2:1", "It came to pass then, when the disciples were sitting together on the Mount of Olives"),
     ("Al-Jilwah 1:1", "I was, am now, and shall have no end"),
     ("Black Book 1:1", "In the beginning God created the White Pearl"),
     ("Poem of Sheikh Adi 1", "My understanding surrounds the truth of things"),

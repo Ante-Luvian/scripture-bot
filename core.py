@@ -933,7 +933,7 @@ _CATEGORY_BOOKS = {
     "☪️ Islamic":          {
         "Quran","Sahih al-Bukhari","Sahih Muslim","Sunan Abu Dawud",
         "Jami at-Tirmidhi","Sunan an-Nasa'i","Sunan Ibn Majah",
-        "Muwatta Malik","Forty Hadith of Nawawi","Divan of Hafiz",
+        "Muwatta Malik","Forty Hadith of Nawawi","Divan of Hafiz","Nahj al-Balagha","Sahifa Sajjadiyya",
     },
     "🏛️ Classical":        {
         "Enneads","Republic","Iliad","Odyssey","Theology of Plato",
@@ -955,7 +955,8 @@ _CATEGORY_BOOKS = {
         "Imitation of Christ","Rule of Benedict","Inferno","Purgatorio","Paradiso",
     },
     "🧿 Gnostic/Hermetic":  {
-        "Ginza Rba","Book of John","Asclepius","Gospel of Thomas",
+        "Ginza Rba","Book of John","Asclepius","Gospel of Thomas","The Secret Book of John","The Gospel of Truth",
+        "The Gospel of Philip","The First Apocalypse of James","Pistis Sophia",
         "The Prayer of Paul, the Apostle","The Secret Book of James",
         "Treatise on the Resurrection","The Tripartite Tractate",
         "The Substance of the Archons","On the Origin of the World",

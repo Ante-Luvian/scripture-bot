@@ -549,6 +549,7 @@ BOOKS_TREE = [
                 "Forty Hadith Qudsi",
             ]),
         ]),
+        ("Shi'ite", ["Nahj al-Balagha", "Sahifa Sajjadiyya"]),
     ]),
     # Greek and Latin, each by kind, straight under the 🏛️ Classical menu (the owner, 2026-11-01); the Perseus authors are filed into these shelves by
     # PERSEUS_PLACES below, not kept on a shelf of their own
@@ -946,6 +947,10 @@ BOOKS_TREE = [
             "Trimorphic Protennoia (Three Forms of Primal Thought)",
             "Corpus Hermeticum XIII, On Rebirth", "The Act of Peter",
         ]),
+        ("More of Nag Hammadi (Coptic Gnostic Library Project)", [
+            "The Secret Book of John", "The Gospel of Truth", "The Gospel of Philip", "The First Apocalypse of James",
+        ]),
+        ("Pistis Sophia (trans. G. R. S. Mead, 1921)", ["Pistis Sophia"]),
         ("Manichaean (trans. C.R.C. Allberry, 1938)", [
             "Manichaean Psalms to Jesus",
             "Manichaean Bema Psalms",
