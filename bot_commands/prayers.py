@@ -241,6 +241,35 @@ PRAYERS.update({
         "The Creed of Nicaea and Constantinople (381) as first written: the Spirit \"proceeds from the Father\", "
         "without the Western addition \"and the Son\" (the filioque). The full Greek: `!creed nicene greek`.", ""),
 })
+# the Zoroastrian prayers said every day, in the Avesta's translators' words as the bot has them (not
+# Wikipedia's: tests/test_prayers.py checks them against Darmesteter's Vendidad and Mills's Yasna)
+PRAYERS.update({
+    "ahuna vairya": (
+        "Yatha Ahu Vairyo (the Ahuna Vairya)", ["yatha ahu vairyo", "ahunavar", "ahunwar", "ahuna vairya"],
+        "The will of the Lord is the law of holiness; the riches of Vohu-manô shall be given to him who works in "
+        "this world for Mazda, and wields according to the will of Ahura the power he gave to him to relieve the "
+        "poor.",
+        "",
+        "The holiest Zoroastrian prayer, said many times a day and at every rite; the Avesta says it was spoken "
+        "before the world was made. Darmesteter's translation (Vendidad 19:22); !verse Yasna 27:13 is Mills's.",
+        ""),
+    "ashem vohu": (
+        "Ashem Vohu", ["ashem vohu", "asem vohu"],
+        "Holiness is the best of all good. Happy, happy the man who is holy with perfect holiness!",
+        "",
+        "The short prayer in praise of asha (truth, right order), said on waking, before meals and throughout "
+        "the day. Darmesteter's translation (Vendidad 19:22).", ""),
+    "airyema ishyo": (
+        "Airyema Ishyo", ["airyaman", "airyaman ishya", "airyemaishyo", "airyama ishyo"],
+        "Let the Airyaman, the desired friend and peers-man, draw near for grace to the men and to the women who "
+        "are taught of Zarathustra, for the joyful grace of the Good Mind, whereby the conscience may attain its "
+        "wished-for recompense. I pray for the sacred reward of the ritual order which is (likewise so much) to be "
+        "desired; and may Ahura Mazda grant it, (or cause it to increase).",
+        "",
+        "The prayer for Airyaman, the being of friendship and healing, recited at weddings; one of the four great "
+        "prayers of the Avesta. Mills's translation (Yasna 54:1).", ""),
+})
+ZOROASTRIAN = ["ahuna vairya", "ashem vohu", "airyema ishyo"]
 ORTHODOX = ["jesus prayer", "trisagion", "o heavenly king", "axion estin", "rejoice o virgin", "st ephrem",
             "orthodox creed"]
 

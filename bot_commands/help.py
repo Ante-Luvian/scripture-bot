@@ -74,6 +74,10 @@ HELP_MENU = [
         "`!icon` — an Orthodox icon and what it shows (`!icon trinity`, `!icon list`)",
         "`!divineliturgy` — the Divine Liturgy of St John Chrysostom, a page at a time",
     ]),
+    ('🔥 Zoroastrian', [
+        "`!roz` — today in the Zoroastrian calendar: the day's being, festivals, the five gahs (`!roz 21 March`)",
+        "`!prayer ashem vohu` · `ahuna vairya` · `airyema ishyo` — the daily prayers",
+    ]),
     ('📜 Creeds', [
         '`!creed apostle` / `nicene` / `athanasius` — traditional English · `!help creed`',
     ]),
@@ -122,7 +126,7 @@ HELP_MENU = [
     ('⚙️ Server Setup (Admin)', [
         "`!daily` — what this server posts each day, where and when · `!help daily`",
         "`!daily saint channel #chan` — post one (`votd`, `oracle`, `quiz`, `versle`, `hymn`, `saint`, `astro`, "
-        "`angelus`, `troparion`, `learning`), then `time 07:00`, `test`, `off`",
+        "`angelus`, `troparion`, `learning`, `roz`), then `time 07:00`, `test`, `off`",
         '`!changelogsetup #channel` — where I post my updates · `!changelog` — recent updates',
         '`!changelogintro` — post my introduction there (`fresh` clears my old posts first)',
         '`!serversetup` — what this server is for · `!packs` — turn packs on/off',

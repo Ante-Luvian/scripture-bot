@@ -1,0 +1,153 @@
+{
+ "code": "st",
+ "artist": "The Shahnameh of Shah Tahmasp",
+ "label": "Shah Tahmasp",
+ "work": "Tabriz, c. 1525–35, Metropolitan Museum of Art",
+ "credit": "Wikimedia Commons",
+ "pictures": [
+  {
+   "title": "Faridun Embraces Manuchihr",
+   "caption": "Folio 59v",
+   "book": "Shahnameh",
+   "chapter": "2",
+   "start": 37,
+   "end": 37,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c9/%22Faridun_Embraces_Manuchihr%22%2C_Folio_59v_from_the_Shahnama_%28Book_of_Kings%29_of_Shah_Tahmasp_MET_DP107121.jpg/1280px-%22Faridun_Embraces_Manuchihr%22%2C_Folio_59v_from_the_Shahnama_%28Book_of_Kings%29_of_Shah_Tahmasp_MET_DP107121.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:%22Faridun_Embraces_Manuchihr%22,_Folio_59v_from_the_Shahnama_(Book_of_Kings)_of_Shah_Tahmasp_MET_DP107121.jpg",
+   "n": "1",
+   "copy": "data/illustrations/copies/ee3541c47164.jpg"
+  },
+  {
+   "title": "Rudaba Makes a Ladder of Her Tresses",
+   "caption": "Folio 72v",
+   "book": "Shahnameh",
+   "chapter": "4",
+   "start": 35,
+   "end": 35,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/88/%22Rudaba_Makes_a_Ladder_of_Her_Tresses%22%2C_Folio_72v_from_the_Shahnama_%28Book_of_Kings%29_of_Shah_Tahmasp_MET_DP107123.jpg/1280px-%22Rudaba_Makes_a_Ladder_of_Her_Tresses%22%2C_Folio_72v_from_the_Shahnama_%28Book_of_Kings%29_of_Shah_Tahmasp_MET_DP107123.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:%22Rudaba_Makes_a_Ladder_of_Her_Tresses%22,_Folio_72v_from_the_Shahnama_(Book_of_Kings)_of_Shah_Tahmasp_MET_DP107123.jpg",
+   "n": "2",
+   "copy": "data/illustrations/copies/85aaf42a4050.jpg"
+  },
+  {
+   "title": "Sam Seals His Pact with Sindukht",
+   "caption": "Folio 85v",
+   "book": "Shahnameh",
+   "chapter": "4",
+   "start": 84,
+   "end": 84,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/7d/%22Sam_Seals_His_Pact_with_Sindukht%22%2C_Folio_85v_from_the_Shahnama_%28Book_of_Kings%29_of_Shah_Tahmasp_MET_DP107128.jpg/1280px-%22Sam_Seals_His_Pact_with_Sindukht%22%2C_Folio_85v_from_the_Shahnama_%28Book_of_Kings%29_of_Shah_Tahmasp_MET_DP107128.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:%22Sam_Seals_His_Pact_with_Sindukht%22,_Folio_85v_from_the_Shahnama_(Book_of_Kings)_of_Shah_Tahmasp_MET_DP107128.jpg",
+   "n": "3",
+   "copy": "data/illustrations/copies/9516ec79ee76.jpg"
+  },
+  {
+   "title": "Zal Expounds the Mysteries of the Magi",
+   "caption": "Folio 87v",
+   "book": "Shahnameh",
+   "chapter": "4",
+   "start": 95,
+   "end": 95,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a0/%22Zal_Expounds_the_Mysteries_of_the_Magi%22%2C_Folio_87v_from_the_Shahnama_%28Book_of_Kings%29_of_Shah_Tahmasp_MET_DP107130.jpg/1280px-%22Zal_Expounds_the_Mysteries_of_the_Magi%22%2C_Folio_87v_from_the_Shahnama_%28Book_of_Kings%29_of_Shah_Tahmasp_MET_DP107130.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:%22Zal_Expounds_the_Mysteries_of_the_Magi%22,_Folio_87v_from_the_Shahnama_(Book_of_Kings)_of_Shah_Tahmasp_MET_DP107130.jpg",
+   "n": "4",
+   "copy": "data/illustrations/copies/568509662a2e.jpg"
+  },
+  {
+   "title": "Rustam's Fourth Course, He Cleaves a Witch",
+   "caption": "Folio 120v",
+   "book": "Shahnameh",
+   "chapter": "6",
+   "start": 58,
+   "end": 58,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/37/%22Rustam%27s_Fourth_Course%2C_He_Cleaves_a_Witch%22%2C_Folio_120v_from_the_Shahnama_%28Book_of_Kings%29_of_Shah_Tahmasp_MET_DP107133.jpg/1280px-%22Rustam%27s_Fourth_Course%2C_He_Cleaves_a_Witch%22%2C_Folio_120v_from_the_Shahnama_%28Book_of_Kings%29_of_Shah_Tahmasp_MET_DP107133.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:%22Rustam%27s_Fourth_Course,_He_Cleaves_a_Witch%22,_Folio_120v_from_the_Shahnama_(Book_of_Kings)_of_Shah_Tahmasp_MET_DP107133.jpg",
+   "n": "5",
+   "copy": "data/illustrations/copies/7347092cb73f.jpg"
+  },
+  {
+   "title": "Kai Kavus Ascends to the Sky",
+   "caption": "Folio 134r",
+   "book": "Shahnameh",
+   "chapter": "7",
+   "start": 33,
+   "end": 33,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2c/%22Kai_Kavus_Ascends_to_the_Sky%22%2C_Folio_134r_from_the_Shahnama_%28Book_of_Kings%29_of_Shah_Tahmasp_MET_DP107137.jpg/1280px-%22Kai_Kavus_Ascends_to_the_Sky%22%2C_Folio_134r_from_the_Shahnama_%28Book_of_Kings%29_of_Shah_Tahmasp_MET_DP107137.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:%22Kai_Kavus_Ascends_to_the_Sky%22,_Folio_134r_from_the_Shahnama_(Book_of_Kings)_of_Shah_Tahmasp_MET_DP107137.jpg",
+   "n": "6",
+   "copy": "data/illustrations/copies/d7dcf833f560.jpg"
+  },
+  {
+   "title": "The Wedding of Siyavush and Farangis",
+   "caption": "Folio 185v",
+   "book": "Shahnameh",
+   "chapter": "9",
+   "start": 62,
+   "end": 62,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ad/%22The_Wedding_of_Siyavush_and_Farangis%22%2C_Folio_185v_from_the_Shahnama_%28Book_of_Kings%29_of_Shah_Tahmasp_MET_DP107144.jpg/1280px-%22The_Wedding_of_Siyavush_and_Farangis%22%2C_Folio_185v_from_the_Shahnama_%28Book_of_Kings%29_of_Shah_Tahmasp_MET_DP107144.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:%22The_Wedding_of_Siyavush_and_Farangis%22,_Folio_185v_from_the_Shahnama_(Book_of_Kings)_of_Shah_Tahmasp_MET_DP107144.jpg",
+   "n": "7",
+   "copy": "data/illustrations/copies/5cd5fa6e7152.jpg"
+  },
+  {
+   "title": "Kai Khusrau Rides Bihzad for the First Time",
+   "caption": "Folio 212r",
+   "book": "Shahnameh",
+   "chapter": "10",
+   "start": 62,
+   "end": 62,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9c/%22Kai_Khusrau_Rides_Bihzad_for_the_First_Time%22%2C_Folio_212r_from_the_Shahnama_%28Book_of_Kings%29_of_Shah_Tahmasp_MET_DP107149.jpg/1280px-%22Kai_Khusrau_Rides_Bihzad_for_the_First_Time%22%2C_Folio_212r_from_the_Shahnama_%28Book_of_Kings%29_of_Shah_Tahmasp_MET_DP107149.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:%22Kai_Khusrau_Rides_Bihzad_for_the_First_Time%22,_Folio_212r_from_the_Shahnama_(Book_of_Kings)_of_Shah_Tahmasp_MET_DP107149.jpg",
+   "n": "8",
+   "copy": "data/illustrations/copies/e299417b8bfe.jpg"
+  },
+  {
+   "title": "Bizhan Receives an Invitation through Manizha's Nurse",
+   "caption": "Folio 300v",
+   "book": "Shahnameh",
+   "chapter": "13",
+   "start": 17,
+   "end": 17,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/eb/%22Bizhan_Receives_an_Invitation_through_Manizha%27s_Nurse%22%2C_Folio_300v_from_the_Shahnama_%28Book_of_Kings%29_of_Shah_Tahmasp_MET_DP107157.jpg/1280px-%22Bizhan_Receives_an_Invitation_through_Manizha%27s_Nurse%22%2C_Folio_300v_from_the_Shahnama_%28Book_of_Kings%29_of_Shah_Tahmasp_MET_DP107157.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:%22Bizhan_Receives_an_Invitation_through_Manizha%27s_Nurse%22,_Folio_300v_from_the_Shahnama_(Book_of_Kings)_of_Shah_Tahmasp_MET_DP107157.jpg",
+   "n": "9",
+   "copy": "data/illustrations/copies/2e44301aafaa.jpg"
+  },
+  {
+   "title": "Isfandiyar's Sixth Course: He Comes Through the Snow",
+   "caption": "Folio 438r",
+   "book": "Shahnameh",
+   "chapter": "16",
+   "start": 29,
+   "end": 29,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/61/%22Isfandiyar%27s_Sixth_Course-_He_Comes_Through_the_Snow%22%2C_Folio_438r_from_the_Shahnama_%28Book_of_Kings%29_of_Shah_Tahmasp_MET_DP107168.jpg/1280px-%22Isfandiyar%27s_Sixth_Course-_He_Comes_Through_the_Snow%22%2C_Folio_438r_from_the_Shahnama_%28Book_of_Kings%29_of_Shah_Tahmasp_MET_DP107168.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:%22Isfandiyar%27s_Sixth_Course-_He_Comes_Through_the_Snow%22,_Folio_438r_from_the_Shahnama_(Book_of_Kings)_of_Shah_Tahmasp_MET_DP107168.jpg",
+   "n": "10",
+   "copy": "data/illustrations/copies/b9a33dcaf19f.jpg"
+  },
+  {
+   "title": "Rustam Slays Isfandiyar",
+   "caption": "Folio 466r",
+   "book": "Shahnameh",
+   "chapter": "17",
+   "start": 94,
+   "end": 94,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/32/%22Rustam_Slays_Isfandiyar%22%2C_Folio_466r_from_the_Shahnama_%28Book_of_Kings%29_of_Shah_Tahmasp_MET_DP107170.jpg/1280px-%22Rustam_Slays_Isfandiyar%22%2C_Folio_466r_from_the_Shahnama_%28Book_of_Kings%29_of_Shah_Tahmasp_MET_DP107170.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:%22Rustam_Slays_Isfandiyar%22,_Folio_466r_from_the_Shahnama_(Book_of_Kings)_of_Shah_Tahmasp_MET_DP107170.jpg",
+   "n": "11",
+   "copy": "data/illustrations/copies/a26b353ff4d1.jpg"
+  },
+  {
+   "title": "Rustam Avenges His Own Impending Death",
+   "caption": "Folio 472r",
+   "book": "Shahnameh",
+   "chapter": "18",
+   "start": 22,
+   "end": 22,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/76/%22Rustam_Avenges_His_Own_Impending_Death%22%2C_Folio_472r_from_the_Shahnama_%28Book_of_Kings%29_of_Shah_Tahmasp_MET_DP107171.jpg/1280px-%22Rustam_Avenges_His_Own_Impending_Death%22%2C_Folio_472r_from_the_Shahnama_%28Book_of_Kings%29_of_Shah_Tahmasp_MET_DP107171.jpg",
+   "page": "https://commons.wikimedia.org/wiki/File:%22Rustam_Avenges_His_Own_Impending_Death%22,_Folio_472r_from_the_Shahnama_(Book_of_Kings)_of_Shah_Tahmasp_MET_DP107171.jpg",
+   "n": "12",
+   "copy": "data/illustrations/copies/8b029e83fd56.jpg"
+  }
+ ]
+}

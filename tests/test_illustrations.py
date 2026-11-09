@@ -15,7 +15,17 @@ def il(bot_module):
 SETS = {"la_fontaine": 300, "aesop_rackham": 60, "aesop_crane": 40, "aesop_winter": 80, "grimm_crane": 100,
         "grimm_rackham": 70, "malory_beardsley": 15, "faerie_queene_crane": 9, "shakespeare_boydell": 70,
         "edda_collingwood": 30, "edda_frolich": 20, "chaucer_ellesmere": 23, "iliad_flaxman": 34,
-        "odyssey_flaxman": 20}
+        "odyssey_flaxman": 20, "shahnameh_tahmasp": 12}
+
+
+def test_the_shahnameh_paintings_at_their_scenes(il, lookup):
+    """Shah Tahmasp's folios at the paragraph of Zimmern's that tells each scene."""
+    def titles(ref):
+        return [p["title"] for p in il.for_result(lookup.get_verse(ref))]
+    assert "Kai Kavus Ascends to the Sky" in titles("Shahnameh 7:33")
+    assert "Rudaba Makes a Ladder of Her Tresses" in titles("Shahnameh 4:35")
+    assert "Rustam Avenges His Own Impending Death" in titles("Shahnameh 18:22")
+    assert "Kai Kavus Ascends to the Sky" not in titles("Shahnameh 7:1")
 
 
 def test_flaxman_at_his_lines(il, lookup):

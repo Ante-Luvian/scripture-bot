@@ -1077,6 +1077,61 @@ def edda_set(name: str) -> None:
     save_set(name, meta, out)
 
 
+# ── The Shahnameh of Shah Tahmasp ──────────────────────────────────────────
+# The great illustrated Shahnameh made for Shah Tahmasp of Iran (c. 1525-35); the Metropolitan Museum's folios, on
+# Commons with their scenes as file names ("Rudaba Makes a Ladder of Her Tresses", Folio 72v...). Each goes with
+# the paragraph of Zimmern's Epic of Kings (the bot's) that tells its scene, found by its names and read
+# (2026-11-09): only scenes Zimmern tells, and placed where she tells them -- her shortened retelling leaves out
+# most of the manuscript's later scenes (the Sasanian kings) and some earlier ones. Each entry's words must be in
+# its paragraph. (folio, the scene as the Met titles it, chapter:verse in Zimmern, words there)
+SHAHNAMEH_TAHMASP = [
+    ("59v", "Faridun Embraces Manuchihr", "2:37", ["Feridoun", "son"]),
+    ("72v", "Rudaba Makes a Ladder of Her Tresses", "4:35", ["tresses", "battlements"]),
+    ("85v", "Sam Seals His Pact with Sindukht", "4:84", ["Saum", "Sindokht", "sware"]),
+    ("87v", "Zal Expounds the Mysteries of the Magi", "4:95", ["Zal", "Mubids", "questions"]),
+    ("120v", "Rustam's Fourth Course, He Cleaves a Witch", "6:58", ["witches", "Rustem"]),
+    ("134r", "Kai Kavus Ascends to the Sky", "7:33", ["eagles", "Kai Kaous"]),
+    ("185v", "The Wedding of Siyavush and Farangis", "9:62", ["Saiawush", "Ferangis", "bridal"]),
+    ("212r", "Kai Khusrau Rides Bihzad for the First Time", "10:62", ["Behzah", "Kai Khosrau"]),
+    ("300v", "Bizhan Receives an Invitation through Manizha's Nurse", "13:17", ["Byzun", "message"]),
+    ("438r", "Isfandiyar's Sixth Course: He Comes Through the Snow", "16:29", ["sixth", "snow"]),
+    ("466r", "Rustam Slays Isfandiyar", "17:94", ["arrow", "Simurgh"]),
+    ("472r", "Rustam Avenges His Own Impending Death", "18:22", ["Shugdad", "bow"]),
+]
+CODES["shahnameh_tahmasp"] = "st"
+
+
+def shahnameh_tahmasp() -> None:
+    import build_dore as commons
+    zimmern = corpus_book("data/zoroastrian/shahnameh.json", "Shahnameh")
+    members = commons.members("Category:Shah Tahmasp's Shahnameh in the Metropolitan Museum of Art")
+    files, problems = {}, []
+    for folio, scene, ref, words in SHAHNAMEH_TAHMASP:
+        hits = [m for m in members if re.search(rf"Folio {folio} from", m) and "cropped" not in m]
+        hits.sort(key=lambda m: (" DP10" not in m, m))                       # (the Met's own photograph first)
+        if not hits:
+            problems.append(f"fol. {folio}: not on Commons")
+            continue
+        files[folio] = hits[0]
+        chapter, verse = ref.split(":")
+        text = zimmern.get(chapter, {}).get(verse, "")
+        missing = [w for w in words if w.lower() not in text.lower()]
+        if missing:
+            problems.append(f"fol. {folio} at Shahnameh {ref}: {missing} not in it")
+    expect(not problems, "\n".join(problems))
+    info = commons.file_info(list(files.values()))
+    out = []
+    for folio, scene, ref, _ in SHAHNAMEH_TAHMASP:
+        chapter, verse = ref.split(":")
+        f = files[folio]
+        out.append({"title": scene, "caption": f"Folio {folio}", "book": "Shahnameh", "chapter": chapter,
+                    "start": int(verse), "end": int(verse), "image": info[f]["image"].split("?")[0],
+                    "page": info[f]["page"]})
+    save_set("shahnameh_tahmasp", {"artist": "The Shahnameh of Shah Tahmasp", "label": "Shah Tahmasp",
+                                   "work": "Tabriz, c. 1525–35, Metropolitan Museum of Art",
+                                   "credit": "Wikimedia Commons"}, out)
+
+
 def corpus_book_names(path: str) -> list:
     return list(json.loads((ROOT / path).read_text(encoding="utf-8"))["books"])
 
@@ -1086,6 +1141,7 @@ BUILDS = {"la_fontaine": la_fontaine, "aesop_rackham": aesop_rackham, "aesop_cra
           "malory_beardsley": malory_beardsley, "faerie_queene_crane": faerie_queene_crane,
           "shakespeare_boydell": shakespeare_boydell, "chaucer_ellesmere": chaucer_ellesmere,
           "iliad_flaxman": iliad_flaxman, "odyssey_flaxman": odyssey_flaxman,
+          "shahnameh_tahmasp": shahnameh_tahmasp,
           "edda_collingwood": lambda: edda_set("edda_collingwood"), "edda_frolich": lambda: edda_set("edda_frolich")}
 
 

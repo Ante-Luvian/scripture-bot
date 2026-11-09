@@ -57,6 +57,9 @@ from bot_commands.saints import (
 from bot_commands.planets import (
     daily_astro_task,
 )
+from bot_commands.zoroastrian import (
+    daily_roz_task,
+)
 from bot_commands.report import (
     weekly_report_task,
 )
@@ -117,6 +120,7 @@ from bot_commands import (  # noqa: F401
     translations,
     verse,
     votd,
+    zoroastrian,
 )
 
 # ── Startup ────────────────────────────────────────────────────────────────────
@@ -156,6 +160,7 @@ async def on_ready():
     angelus_task.start()
     daily_troparion_task.start()
     daily_learning_task.start()
+    daily_roz_task.start()
     plan_reminder_task.start()
     memorize_review_task.start()
     weekly_report_task.start()

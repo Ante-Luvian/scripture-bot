@@ -182,6 +182,15 @@ async def gathas_slash(interaction: discord.Interaction, question: str = ""):
     await cmd_gathas(ctx, question=question)
 
 
+@bot.tree.command(name="roz", description="Today in the Zoroastrian calendar: the day's being, festivals, the gahs")
+@app_commands.describe(day="Another day, e.g. 21 March (leave empty for today)")
+async def roz_slash(interaction: discord.Interaction, day: str = ""):
+    from bot_commands.zoroastrian import cmd_roz
+    await interaction.response.defer()
+    ctx = await bot.get_context(interaction)
+    await cmd_roz(ctx, when=day)
+
+
 @bot.tree.command(name="rumi", description="Open Rumi's Masnavi at random")
 @app_commands.describe(question="Optional question or wish to hold in mind")
 async def rumi_slash(interaction: discord.Interaction, question: str = ""):
@@ -501,6 +510,7 @@ _daily("angelus", "angelussetup", "The Angelus at chosen hours", ("show", "chann
        "For 'time': one or more HH:MM, UTC (06:00 12:00 18:00)")
 _daily("learning", "learningsetup", "The day's Jewish learning", ("show", "channel", "time", "test", "off"))
 _daily("troparion", "troparionsetup", "The day's Orthodox troparia", ("show", "channel", "time", "test", "off"))
+_daily("roz", "rozsetup", "The Zoroastrian day: its being, festivals and gahs", ("show", "channel", "time", "test", "off"))
 
 
 @setup_group.command(name="daily", description="(Admins) What this server posts each day, where and when")
@@ -557,6 +567,6 @@ bot.tree.add_command(setup_group)
 SETUP_SUBCOMMANDS = {"votdsetup": "votd", "oraclesetup": "oracle", "quizsetup": "quiz", "verslesetup": "versle",
                      "hymndaysetup": "hymnday", "saintsetup": "saint", "angelussetup": "angelus",
                      "astrosetup": "astro",
-                     "learningsetup": "learning", "troparionsetup": "troparion", "daily": "daily",
+                     "learningsetup": "learning", "troparionsetup": "troparion", "rozsetup": "roz", "daily": "daily",
                      "changelogsetup": "changelog", "changelogintro": "intro",
                      "serversetup": "traditions", "packs": "packs"}

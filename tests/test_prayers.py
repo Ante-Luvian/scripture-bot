@@ -49,6 +49,15 @@ def test_the_wording(pr):
         pytest.skip("the Wikipedia articles aren't cached here")
 
 
+def test_the_zoroastrian_prayers_are_the_avestas(pr, lookup):
+    """Each as the bot's Avesta has it: the Ahuna Vairya and Ashem Vohu in Darmesteter's Vendidad 19:22, the Airyema
+    Ishyo in Mills's Yasna."""
+    for key, ref in (("ahuna vairya", "Vendidad 19:22"), ("ashem vohu", "Vendidad 19:22"), ("airyema ishyo", "Yasna 54:1")):
+        flat = re.sub(r"\s+", " ", lookup.get_verse(ref)["text"])
+        assert pr.PRAYERS[key][2] in flat, key
+    assert pr.find("yatha ahu vairyo") == "ahuna vairya" and pr.find("ashem vohu") == "ashem vohu"
+
+
 @pytest.mark.parametrize("query, key", [("st michael", "st michael"), ("Saint Michael", "st michael"),
                                         ("michael", "st michael"), ("Memorare", "memorare"),
                                         ("soul of christ", "anima christi"), ("guardian angel", "angel of god"),

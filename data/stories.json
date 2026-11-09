@@ -11,7 +11,8 @@
     {"tradition": "🏛️ Greece", "title": "Deucalion and Pyrrha, in Apollodorus", "ref": "Library 1.7:2", "quote": "And Prometheus had a son Deucalion"},
     {"tradition": "🏛️ Rome", "title": "Jupiter drowns the world, in Ovid", "ref": "Metamorphoses 1:338-350", "quote": "he preferred to overwhelm"},
     {"tradition": "☪️ Islam", "title": "Noah, in the Quran", "ref": "Quran 11:40-44", "quote": "the oven gushed forth water"},
-    {"tradition": "🌽 The Maya", "title": "The men of wood, in the Popol Vuh", "ref": "Popol Vuh 1:2", "quote": "a great flood came upon the mannikins of wood"}
+    {"tradition": "🌽 The Maya", "title": "The men of wood, in the Popol Vuh", "ref": "Popol Vuh 1:2", "quote": "a great flood came upon the mannikins of wood"},
+    {"tradition": "🔥 Zoroastrian", "title": "Yima's enclosure against the great winter, in the Vendidad", "ref": "Vendidad 2:25", "quote": "Therefore make thee a Vara", "note": "Not a flood but killing winters: Yima is told to build an enclosure and bring into it the seeds of every kind of creature."}
    ]
   },
   "creation": {
@@ -29,7 +30,8 @@
     {"tradition": "⛩️ Japan", "title": "The first gods, in the Kojiki", "ref": "Kojiki 1:1", "quote": "when the Heaven and Earth began"},
     {"tradition": "🌽 The Maya", "title": "Hurakan calls out the earth, in the Popol Vuh", "ref": "Popol Vuh 1:1", "quote": "He called out \"earth,\""},
     {"tradition": "🪓 The Norse", "title": "The yawning gap, in the Poetic Edda", "ref": "Voluspo 3", "quote": "when Ymir lived"},
-    {"tradition": "🌲 Finland", "title": "The duck's eggs, in the Kalevala", "ref": "Kalevala 1:15-18", "quote": "Six, the golden eggs she lays there"}
+    {"tradition": "🌲 Finland", "title": "The duck's eggs, in the Kalevala", "ref": "Kalevala 1:15-18", "quote": "Six, the golden eggs she lays there"},
+    {"tradition": "🔥 Zoroastrian", "title": "Ohrmazd's creations one after another, in the Bundahishn", "ref": "Bundahishn 1:28", "quote": "the first was the sky; the second, water"}
    ]
   },
   "humans": {
@@ -41,7 +43,8 @@
     {"tradition": "☪️ Islam", "title": "Potter's clay, in the Quran", "ref": "Quran 15:26-29", "quote": "We created man of potter's clay"},
     {"tradition": "🏺 Babylon", "title": "Man from a god's blood, in the Enuma Elish", "ref": "Enuma Elish 6:1", "quote": "My blood will I take and bone will I fashion"},
     {"tradition": "🏛️ Greece", "title": "Pandora, in Hesiod's Works and Days", "ref": "Works and Days 1:60", "quote": "mix earth with water"},
-    {"tradition": "🌽 The Maya", "title": "People of maize, in the Popol Vuh", "ref": "Popol Vuh 3:1", "quote": "wholly created from yellow and White maize"}
+    {"tradition": "🌽 The Maya", "title": "People of maize, in the Popol Vuh", "ref": "Popol Vuh 3:1", "quote": "wholly created from yellow and White maize"},
+    {"tradition": "🔥 Zoroastrian", "title": "The first man and woman grow from the earth as a plant, in the Bundahishn", "ref": "Bundahishn 15:2", "quote": "grew up from the earth"}
    ]
   },
   "tower": {
@@ -66,7 +69,8 @@
     {"tradition": "🕉️ India", "title": "Nachiketas in the house of Yama, in the Katha Upanishad", "ref": "Katha Upanishad 1:9", "quote": "Yama said"},
     {"tradition": "🌽 The Maya", "title": "The road to Xibalba, in the Popol Vuh", "ref": "Popol Vuh 2:3", "quote": "down the steep incline to Xibalba"},
     {"tradition": "✝️ Christian", "title": "Christ harrows hell, in the Gospel of Nicodemus", "ref": "Christ's Descent into Hell: Latin. First Version 5:2", "quote": "Lift up your gates, ye princes"},
-    {"tradition": "✝️ Christian", "title": "Dante at the gate of hell", "ref": "Inferno 3:1", "quote": "Through me the way is to the city dolent"}
+    {"tradition": "✝️ Christian", "title": "Dante at the gate of hell", "ref": "Inferno 3:1", "quote": "Through me the way is to the city dolent"},
+    {"tradition": "🔥 Zoroastrian", "title": "The priest Viraf is shown heaven and hell, in the Book of Arda Viraf", "ref": "Arda Viraf 5:7", "quote": "so that we may show unto thee heaven and hell"}
    ]
   },
   "ages": {
@@ -77,7 +81,8 @@
     {"tradition": "🏛️ Greece", "title": "The golden race, in Hesiod's Works and Days", "ref": "Works and Days 1:110", "quote": "made a golden race of mortal men"},
     {"tradition": "🏛️ Rome", "title": "The Golden Age, in Ovid", "ref": "Metamorphoses 1:115", "quote": "First was the Golden Age"},
     {"tradition": "📖 The Bible", "title": "Nebuchadnezzar's statue of gold, silver, brass and iron", "ref": "Daniel 2:31-35", "quote": "This great image, whose brightness was excellent"},
-    {"tradition": "🕉️ India", "title": "The four ages, in the Laws of Manu", "ref": "Laws of Manu 1:81-86", "quote": "In the Krita age Dharma is four-footed and entire"}
+    {"tradition": "🕉️ India", "title": "The four ages, in the Laws of Manu", "ref": "Laws of Manu 1:81-86", "quote": "In the Krita age Dharma is four-footed and entire"},
+    {"tradition": "🔥 Zoroastrian", "title": "Zarathustra's tree with branches of four metals, in the Bahman Yasht", "ref": "Bahman Yasht 1:1", "quote": "four branches, one golden, one of silver, one of steel"}
    ]
   },
   "end": {
@@ -89,7 +94,8 @@
     {"tradition": "📖 The Bible", "title": "A new heaven and a new earth", "ref": "Revelation 21:1", "quote": "a new heaven and a new earth"},
     {"tradition": "☪️ Islam", "title": "When the sun is overthrown, in the Quran", "ref": "Quran 81:1-14", "quote": "When the sun is overthrown"},
     {"tradition": "🪓 The Norse", "title": "Ragnarok, in the Poetic Edda", "ref": "Voluspo 57", "quote": "The sun turns black"},
-    {"tradition": "🔥 Zoroastrian", "title": "The renovation, in the Bundahishn", "ref": "Bundahishn 11:6", "quote": "causes the resurrection and future existence"}
+    {"tradition": "🔥 Zoroastrian", "title": "The renovation, in the Bundahishn", "ref": "Bundahishn 11:6", "quote": "causes the resurrection and future existence"},
+    {"tradition": "🔥 Zoroastrian", "title": "The raising of the dead, in the Bundahishn", "ref": "Bundahishn 30:7", "quote": "they prepare all the dead, and all men stand up"}
    ]
   },
   "christ": {

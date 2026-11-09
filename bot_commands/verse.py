@@ -17,6 +17,7 @@ from bot_commands.church import (
 )
 from bot_commands.dore import ArtButton, art_buttons
 from bot_commands.illustrations import PictureButton
+from bot_commands import zoroastrian
 from bot_commands.reference import (
     cmd_notes,
     cmd_xref,
@@ -231,6 +232,7 @@ def hidden_in_guild(ctx, result: dict) -> dict:
 async def _send_with_study(ctx, result: dict):
     result = hidden_in_guild(ctx, result)
     buttons = (_study_buttons(result) + art_buttons(result)    # 🖼️ Doré · 🎨 Blake, wherever the passage has one
+               + zoroastrian.term_buttons(result)               # 🔤 the Avesta's untranslated words
                + passage_buttons(result))
     await _send_result(ctx, result, extra_buttons=buttons)
 

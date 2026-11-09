@@ -82,6 +82,8 @@ Browse all of it with `!books`, or let me pick something at random with `!discov
 
 <!-- pack: comparative -->`!search` and `!theme` know each of these as a tradition: `in:sikh`, `in:jain`, `in:shinto`, `in:zoroastrian`, `in:mesoamerican`, `in:finnish`, `in:celtic`.
 
+<!-- texts: zoroastrian --> ScriptureBot introduction
+
 ## 📖 Reading scripture
 **`!verse`** (or `!v`) is my main command.
 • `!verse John 3:16` — one verse · `!verse Genesis 1:1-5` — a range · `!verse John 7:53-8:11` — across chapters · `!verse Psalm 23` — a whole chapter, in pages
@@ -259,6 +261,8 @@ A **🖌️** button shows the pictures of the old illustrated editions wherever
 ## 🌅 Every day, and just for you
 **`!votd`** — today's Verse of the Day. `!votd ESV` gives it in another translation; `!votd full` adds the ancient translations and a Church Father's commentary; `!votd extended` adds today's calendar too. Servers can have it posted automatically each day. Press **📅 Today's readings** under it to see that day's psalms and Bible readings for morning and evening prayer (from the Book of Common Prayer) — just for you.
 **`!subscribe`** — get the Verse of the Day sent to your private messages every day · `!subscribe off` to stop.
+
+<!-- texts: zoroastrian -->**`!roz`** — today in the Zoroastrian calendar, where every day (*roz*) and month (*mah*) is named for a divine being: today's in each of the three calendars Zoroastrians keep, that being's line from the Avesta, any festival today and the next, and the five watches of the day (*gahs*) with their prayers. Another day: `!roz 21 March`; admins: `!daily roz channel #chan`. Zoroastrian passages under `!verse` have a **🔤 Terms** button for the words translators leave untranslated (*asha*, *fravashi*…), and `!prayer ashem vohu`, `ahuna vairya` and `airyema ishyo` are the faith's daily prayers.
 
 **`!plan start John`** — a reading plan: one chapter a day through a book. `!plan` shows today's chapter (and your 🔥 streak of days in a row), `!plan status` your progress, `!plan stop` ends it. Add `!plan remind on` and I'll send you each day's chapter by private message (at 07:00 UTC, or pick a time: `!plan remind on 19:30`).
 

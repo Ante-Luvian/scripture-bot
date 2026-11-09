@@ -252,6 +252,14 @@
   "rosary": [
    "rosario"
   ],
+  "roz": [
+   "parsiday",
+   "zday",
+   "zoroastrianday"
+  ],
+  "rozsetup": [
+   "rozconfig"
+  ],
   "rumi": [
    "masnavi",
    "mathnawi"
@@ -434,6 +442,7 @@
   "quiz",
   "quoted",
   "rosary",
+  "roz",
   "rumi",
   "saint",
   "salah",
