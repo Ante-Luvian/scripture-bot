@@ -434,7 +434,7 @@ same way (bahai-library.com/bab_bayan_arabic_terry), but only as a scan of a 198
 waiting on the owner (page-image proofreading, ~100 pages). Not in English at all: the Kitáb-i-Badí', most tablets.
 Changelog posted (both the Bahá'í and the Pahlavi/!gathas entries).
 
-**Yazidi (2026-11-09, live, no changelog yet -- ask):** `build_world_texts.py yezidi` -> data/zoroastrian/yezidi.json
+**Yazidi (2026-11-09, live, changelog posted):** `build_world_texts.py yezidi` -> data/zoroastrian/yezidi.json
 (Isya Joseph 1919: Al-Jilwah, Mashaf Res, Poem of Sheikh Adi, Yazidi Prayer, the 1872 Articles), a "Yazidi" heading on
 the Zoroastrian shelf (a new tradition would be hidden on servers with a chosen list). Al-Jilwah and the Black Book
 cite "held to be forged c. 1911". The real scripture, the oral qewls, has no public-domain English.
