@@ -540,6 +540,14 @@ if __name__ == "__main__":
             paras = [p for p in library_text(path, title)       # (the link to Jung's "Basilides", not his)
                      if not re.search(r"Septem Sermones|Modern Pseudepigraph", p)]
             books[name] = {"1": {str(i): p for i, p in enumerate(paras, 1)}}
+        # the Naassene Psalm in two translations, the site's remarks before each: the modern one (1), and ANF's
+        # verse from Hippolytus (2), without the Hippolytus prose that introduces it
+        naas = list(books["The Naassene Psalm"]["1"].values())
+        cut = [i for i, p in enumerate(naas) if p.startswith(("This is a modern", "This is the nineteenth-century"))]
+        verse = next(i for i, p in enumerate(naas) if p.startswith("The world's producing law"))
+        expect(cut and cut[0] == 0 and len(cut) == 2 and cut[1] < verse, "Naassene Psalm layout")
+        books["The Naassene Psalm"] = {"1": {str(i): p for i, p in enumerate(naas[1:cut[1]], 1)},
+                                       "2": {str(i): p for i, p in enumerate(naas[verse:], 1)}}
         excerpta = library_text("library/excr.htm", "Excerpta ex Theodoto")
         # (one long paragraph, its sections numbered bare: "...spirit. 2 The Valentinians...")
         text = " ".join(p for p in excerpta if not p.startswith('"Extracts from the Works'))

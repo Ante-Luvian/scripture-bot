@@ -58,6 +58,8 @@ import pytest
     ("Untitled Text 3:1", "This is the Father, the second demiurge"),
     ("Untitled Text 21:1", "incomprehensible"),
     ("Letter to Flora 1", ""),
+    ("Naassene Psalm 1:1", "The Law of Universal Genesis"),         # (not the site's remark on the translation)
+    ("Naassene Psalm 2:1", "The world's producing law was Primal Mind"),
     ("Excerpts from Theodotus 83", "It is fitting to go to baptism with joy"),      # (numbered mid-sentence)
     ("Theodotus 86", "In the case of the coin"),
     ("Fragments of Basilides 1", "attributed to Basilides"),
