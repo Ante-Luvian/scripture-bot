@@ -434,6 +434,18 @@ same way (bahai-library.com/bab_bayan_arabic_terry), but only as a scan of a 198
 waiting on the owner (page-image proofreading, ~100 pages). Not in English at all: the Kitáb-i-Badí', most tablets.
 Changelog posted (both the Bahá'í and the Pahlavi/!gathas entries).
 
+**Exhausting the Abrahamic texts (the owner's goal, 2026-11-09): plan and progress.** Rabbinic literature is via
+Sefaria and the Sunni hadith is local, so the gaps are elsewhere. Done (live, no changelog yet -- ask):
+`scripts/build_shia.py` (Nahj al-Balagha, Qutbuddin's Brill PDF, and Sahifa Sajjadiyya, Chittick, both from PDFs the
+owner downloaded to ~/Downloads -- the sites refuse scripts; don't spoof a browser, the permission system refuses it)
+and `scripts/build_gnosis.py` (gnosis.org: the Nag Hammadi tractates Zinner lacks; Pistis Sophia, Mead). To do, in
+order: the rest of gnosis.org's Gnostic texts (Gospel of Mary, Books of Jeu, Valentinian fragments, Marcion); M. R.
+James's Apocryphal NT (gnosis.org/library/cac.htm has his Acts of John, Paul, Peter, Andrew, Thomas, the Gospel of
+Bartholomew, Apocalypses of Thomas, Stephen...; Schaff's ANF 8-9 apocrypha are already in); the Jewish
+pseudepigrapha (2-4 Baruch, Apocalypse of Abraham, Joseph and Aseneth, Testament of Job, Lives of the Prophets...);
+the church orders (Didascalia...); more Islam (Riyad as-Salihin, Ghazali, Hujwiri, Attar, a sira); the Dead Sea
+Scrolls (gnosis.org/library/dss/dss.htm may help).
+
 **Yazidi (2026-11-09, live, changelog posted):** `build_world_texts.py yezidi` -> data/zoroastrian/yezidi.json
 (Isya Joseph 1919: Al-Jilwah, Mashaf Res, Poem of Sheikh Adi, Yazidi Prayer, the 1872 Articles), a "Yazidi" heading on
 the Zoroastrian shelf (a new tradition would be hidden on servers with a chosen list). Al-Jilwah and the Black Book
