@@ -62,6 +62,26 @@ def test_hafez(oracles, fake_ctx, lookup):
     assert r["found"] and "Arise, oh Cup-bearer" in r["text"]
 
 
+def test_gathas(oracles, fake_ctx, lookup):
+    """A verse of the Gathas answers; it says which Gatha and Yasna chapter it's from (hymn 9 is Yasna 44, "This do
+    I ask Thee")."""
+    for seed in range(20):
+        key, text = oracles.gathas_verse(random.Random(seed))
+        assert text and lookup.get_verse(f"Gathas {key}")["text"].endswith(text[-40:])
+    assert oracles.gatha_place("1") == "the Ahunavaiti Gatha, Yasna 28"
+    assert oracles.gatha_place("9") == "the Ushtavaiti Gatha, Yasna 44"
+    assert oracles.gatha_place("14") == "the Spenta Mainyu Gatha, Yasna 49"
+    assert oracles.gatha_place("17") == "the Vahishto Ishti Gatha, Yasna 53"
+    assert lookup.get_verse("Gathas 9:1")["text"].find("This do I ask Thee") >= 0
+    asyncio.run(oracles.cmd_gathas.callback(fake_ctx, question="should I take the job?"))
+    msg = fake_ctx.sent[0]
+    assert msg["embed"].author.name == "❓ should I take the job?"
+    key = msg["view"].children[0].custom_id.removeprefix("ocard:gathas:")
+    assert f"— Gathas {key}, from the " in msg["embed"].description
+    title, text, source = oracles._oracle_card_content("gathas", key)
+    assert title == f"The Gathas — {key}" and "Azargoshasb" in source
+
+
 def test_rumi(oracles, fake_ctx, lookup):
     import random
     for seed in range(20):                     # always couplets, never a story's prose summary

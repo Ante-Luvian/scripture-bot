@@ -20,6 +20,7 @@ from core import (
     lookup,
 )
 from bot_commands.oracles import (
+    cmd_gathas,
     cmd_gematria,
     cmd_hafez,
     cmd_homer,
@@ -171,6 +172,14 @@ async def hafez_slash(interaction: discord.Interaction, question: str = ""):
     await interaction.response.defer()
     ctx = await bot.get_context(interaction)
     await cmd_hafez(ctx, question=question)
+
+
+@bot.tree.command(name="gathas", description="Ask Ahura Mazda, and a verse of Zarathustra's Gathas answers")
+@app_commands.describe(question="Optional question to ask")
+async def gathas_slash(interaction: discord.Interaction, question: str = ""):
+    await interaction.response.defer()
+    ctx = await bot.get_context(interaction)
+    await cmd_gathas(ctx, question=question)
 
 
 @bot.tree.command(name="rumi", description="Open Rumi's Masnavi at random")

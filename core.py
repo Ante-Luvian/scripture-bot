@@ -682,7 +682,7 @@ PACKS = {
     "comparative": ("🌐 Comparative religion", "The same story or theme as the world's traditions tell it",
                     frozenset({"story", "theme"})),
     "divination": ("🔮 Divination & esoteric", "Oracles, the I Ching, tarot, the planets, bibliomancy and William Blake",
-                   frozenset({"oracle", "virgil", "homer", "delphi", "iching", "hafez", "rumi", "sortesbiblicae",
+                   frozenset({"oracle", "virgil", "homer", "delphi", "iching", "hafez", "gathas", "rumi", "sortesbiblicae",
                               "tarot", "blake", "planets", "horoscope"})),
 }
 PACK_OF = {command: key for key, (_, _, commands_) in PACKS.items() for command in commands_}

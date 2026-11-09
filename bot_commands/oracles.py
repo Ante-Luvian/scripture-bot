@@ -89,6 +89,10 @@ def _oracle_card_content(kind: str, key: str) -> "tuple[str, str, str] | None":
     if kind == "hafez":                        # key: poem number; the card shows its opening stanza
         stanza = _hafiz_poems().get(key, {}).get("1")
         return (f"Fāl-e Hāfez — Poem {key}", stanza, HAFIZ_SOURCE) if stanza else None
+    if kind == "gathas":                       # key "9:4": hymn:verse
+        hymn, _, verse = key.partition(":")
+        text = _gathas().get(hymn, {}).get(verse)
+        return (f"The Gathas — {key}", text, GATHAS_SOURCE) if text else None
     if kind == "rumi":                         # key "1.5:3": book.story:passage
         parts = _rumi_parts(key)
         return (f"The Masnavi — {parts[0]}", parts[1], RUMI_SOURCE) if parts else None
@@ -128,7 +132,8 @@ def _oracle_card_content(kind: str, key: str) -> "tuple[str, str, str] | None":
 
 
 class OracleCardButton(discord.ui.DynamicItem[discord.ui.Button],
-                       template=r"ocard:(?P<kind>virgil|homer|delphi|oracle|iching|hafez|rumi|bard|edda):(?P<key>.+)"):
+                       template=r"ocard:(?P<kind>virgil|homer|delphi|oracle|iching|hafez|gathas|rumi|bard|edda):"
+                                r"(?P<key>.+)"):
     """Renders an oracle answer as a !card-style image. Like the study
     buttons, its custom_id carries what it needs, so it keeps working after a
     restart; only ever sent in timeout=None views (see verse.StudyButton)."""
@@ -152,7 +157,7 @@ class OracleCardButton(discord.ui.DynamicItem[discord.ui.Button],
             await interaction.followup.send("⚠️ I can't find that answer's text any more.", ephemeral=True)
             return
         question = _question_from(interaction.message)
-        style = {"iching": "ink", "hafez": "persian", "rumi": "persian", "edda": "norse",
+        style = {"iching": "ink", "hafez": "persian", "gathas": "persian", "rumi": "persian", "edda": "norse",
                  "bard": "parchment"}.get(self.kind, "classical")
         # (a poem's lines kept whole: the Edda's stanzas, the Sonnets and the long poems; not a play's speech)
         shakespeare_poem = self.kind == "bard" and self.key.split("|")[0] not in _play_lines().get("lines", {})
@@ -692,6 +697,60 @@ async def cmd_hafez(ctx, *, question: str = ""):
     _ask(embed, question)
     _record(ctx, "hafez", f"Poem {num}")
     await ctx.send(embed=embed, view=_card_view("hafez", num))
+
+
+# ── !gathas — ask, and a verse of Zarathustra's hymns answers ─────────────────
+# Not an old custom (the owner knows; 2026-11-09): the Gathas were recited, not
+# opened at random. The framing is Yasna 44's, where nearly every verse begins
+# "This do I ask Thee ... tell me truly". Azargoshasb's 17 hymns, in the
+# Yasna's order: 1-7 = Yasna 28-34 (the Ahunavaiti Gatha), 8-11 = 43-46
+# (Ushtavaiti), 12-15 = 47-50 (Spenta Mainyu), 16 = 51 (Vohu Khshathra),
+# 17 = 53 (Vahishto Ishti).
+
+GATHAS_SOURCE = "trans. Mobed Firouz Azargoshasb"
+_YASNA_OF_HYMN = dict(zip(range(1, 18), [28, 29, 30, 31, 32, 33, 34, 43, 44, 45, 46, 47, 48, 49, 50, 51, 53]))
+_GATHA_NAMES = {28: "Ahunavaiti", 43: "Ushtavaiti", 47: "Spenta Mainyu", 51: "Vohu Khshathra", 53: "Vahishto Ishti"}
+
+
+def _gathas() -> dict:
+    return lookup._data.get("zoroastrian", {}).get("Gathas", {})
+
+
+def gatha_place(hymn: str) -> str:
+    """'the Ushtavaiti Gatha, Yasna 44' for hymn 9."""
+    yasna = _YASNA_OF_HYMN.get(int(hymn)) if hymn.isdigit() else None
+    if not yasna:
+        return ""
+    name = _GATHA_NAMES[max(y for y in _GATHA_NAMES if y <= yasna)]
+    return f"the {name} Gatha, Yasna {yasna}"
+
+
+def gathas_verse(rng=random) -> "tuple[str, str] | None":
+    """("9:4", its text): a verse of the Gathas at random."""
+    verses = [(h, v) for h, chapter in _gathas().items() for v, t in chapter.items() if t]
+    if not verses:
+        return None
+    hymn, verse = rng.choice(verses)
+    return f"{hymn}:{verse}", _gathas()[hymn][verse]
+
+
+@bot.command(name="gathas", aliases=["gatha", "zarathustra", "zoroaster"])
+async def cmd_gathas(ctx, *, question: str = ""):
+    """Ask Ahura Mazda, and a verse of Zarathustra's Gathas answers. Usage: !gathas [optional question]"""
+    pick = gathas_verse()
+    if pick is None:
+        await ctx.send("⚠️ The Gathas aren't loaded.")
+        return
+    key, text = pick
+    hymn, _, verse = key.partition(":")
+    log.info(f"RNG  gathas                 → {key} (user: {ctx.author})")
+    embed = discord.Embed(title="🔥 The Gathas: “tell me truly”",          # (Yasna 44:1, Azargoshasb's words)
+                          description=f"*{text}*\n\n— Gathas {key}, from {gatha_place(hymn)}"[:4096],
+                          color=discord.Color.orange())
+    embed.set_footer(text=f"{GATHAS_SOURCE} · the whole hymn: !verse Gathas {hymn}")
+    _ask(embed, question)
+    _record(ctx, "gathas", f"Gathas {key}")
+    await ctx.send(embed=embed, view=_card_view("gathas", key))
 
 
 # ── !rumi — the Masnavi opened at random ──────────────────────────────────────

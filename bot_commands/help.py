@@ -84,7 +84,7 @@ HELP_MENU = [
         '`!vov` — Puritan prayers (`!vov topics`)',
     ]),
     ('🎲 Divination', [
-        '`!oracle` `!delphi` `!homer` `!virgil` `!sortesbiblicae` `!iching` `!hafez` `!rumi` `!tarot` · `!help oracle`',
+        '`!oracle` `!delphi` `!homer` `!virgil` `!sortesbiblicae` `!iching` `!hafez` `!gathas` `!rumi` `!tarot` · `!help oracle`',
         "`!edda` — a stanza of the Poetic Edda, Norse poems of the gods (`!edda havamal`, `!edda voluspa 1`), with a card",
         "`!odin` (or `!wotan`, `!woden`) — Odin's own words from the Edda and the sagas, his riddles too (`!odin grimnismal`, `!odin riddles`, `!odin should I go?`)",
         "`!planets` — where the Sun, Moon and planets are in the zodiac, and the day's aspects · `!help planets`",
@@ -1033,7 +1033,7 @@ async def cmd_help(ctx, *, topic: str = ""):
         await ctx.send(embed=embed)
         return
 
-    if topic in ("oracle", "delphi", "homer", "virgil", "sortes", "sortesbiblicae", "bibliomancy", "iching", "yijing", "hafez", "hafiz", "rumi", "masnavi"):
+    if topic in ("oracle", "delphi", "homer", "virgil", "sortes", "sortesbiblicae", "bibliomancy", "iching", "yijing", "hafez", "hafiz", "gathas", "rumi", "masnavi"):
         embed = discord.Embed(title="🎲 Divination Commands", color=discord.Color.dark_gold())
         embed.add_field(name="!oracle", value="Random saying from an oracular corpus (Delphic maxims and oracles, "
                                               "Chaldaean Oracles, Golden Verses of Pythagoras)", inline=False)
@@ -1047,6 +1047,9 @@ async def cmd_help(ctx, *, topic: str = ""):
                         inline=False)
         embed.add_field(name="!hafez", value="Fāl-e Hāfez — the Persian custom of opening the Divan of Hafiz at random "
                                              "and reading the poem as your answer (Gertrude Bell's translation)",
+                        inline=False)
+        embed.add_field(name="!gathas", value="Ask Ahura Mazda, as Zarathustra does in his hymns (\"tell me truly\"), "
+                                              "and a verse of the Gathas answers. A new oracle, not an old custom",
                         inline=False)
         embed.add_field(name="!rumi", value="The same with Rumi's Masnavi: open it anywhere and read a few couplets "
                                             "as your answer, with the story they come from (Whinfield's translation)",

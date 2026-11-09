@@ -94,6 +94,11 @@
    "aesop",
    "fables"
   ],
+  "gathas": [
+   "gatha",
+   "zarathustra",
+   "zoroaster"
+  ],
   "gematria": [
    "gem",
    "gematrix"
@@ -398,6 +403,7 @@
   "edda",
   "export",
   "fable",
+  "gathas",
   "gematria",
   "hafez",
   "harmony",
