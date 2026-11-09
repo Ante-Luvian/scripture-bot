@@ -421,6 +421,14 @@ Dinkard 7, Arda Viraf from avesta.org) and `shahnameh` (Zimmern's Epic of Kings)
 !roz (Shahenshahi/Kadmi/Fasli day, Sirozah line, festivals, gahs; anchor Navroz 1395 = 2025-08-15), !daily roz, and
 the 🔤 Terms button under Zoroastrian !verse; !prayer ashem vohu / ahuna vairya / airyema ishyo; Zoroastrian passages
 in six !story stories; 🖌️ `shahnameh_tahmasp` (12 Met folios at Zimmern's paragraphs). Changelog posted.
+Then (live, no changelog yet -- ask): !gathas a daily-oracle kind; the rest of West's Pahlavi books (Sad Dar,
+Shayast-la-Shayast, Dadistan-i Dinik, Manuskihar's Epistles, Dinkard 5/8/9) and `_split_missing` putting back ~90
+verses whose numbers the OCR lost or misread (19 left with no number in the text at all).
+
+**Bahá'í (2026-11-09):** `scripts/build_bahai.py` builds every work of the Báb, Bahá'u'lláh and 'Abdu'l-Bahá in
+bahai.org/library (its .xhtml) plus Bahá'í Prayers and the Aqdas's Q&A; the Íqán, Epistle, Gems etc. a chapter a
+paragraph as cited (the Íqán's ¶213 checked). Hidden Words and Aqdas kept from before. Not in English authoritatively,
+so not here: the Persian Bayán, the Kitáb-i-Badí', most tablets. Shoghi Effendi/UHJ: interpretation, left out.
 
 ---
 
