@@ -1545,6 +1545,8 @@ ALIASES: dict[str, str] = {
     "the instructor": "The Instructor",
     "paedagogus": "The Instructor",
     "stromateis": "Stromateis", "stromata": "Stromateis", "miscellanies": "Stromateis",
+    "eclogae propheticae": "Selections from the Prophetic Scriptures", "prophetic eclogues": "Selections from the Prophetic Scriptures",
+    "prophetic selections": "Selections from the Prophetic Scriptures", "eclogae": "Selections from the Prophetic Scriptures",
     "apologeticum": "Apology",
     "on the prescription of heretics": "On the Prescription of Heretics",
     "de praescriptione": "On the Prescription of Heretics",

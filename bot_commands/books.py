@@ -1168,7 +1168,7 @@ BOOKS_TREE = [
             ]),
             ("Clement of Alexandria", [
                 "Exhortation to the Heathen","The Instructor","Stromateis",
-                "Who is the Rich Man That Shall Be Saved?",
+                "Who is the Rich Man That Shall Be Saved?", "Selections from the Prophetic Scriptures",
             ]),
             ("Tertullian", [
                 "Apology","On the Prescription of Heretics","Against Marcion",
