@@ -407,9 +407,10 @@ changed (else compare `books` with HEAD); never OCR or proofread scan images wit
 
 **2026-11-09 (all committed, pushed, live):** Perseus plays' speaker names now open their speeches (perseus_tei);
 the Ellesmere Chaucer's 23 pilgrims under the Canterbury Tales (🖌️, `chaucer_ellesmere`); Hekhalot Rabbati, Sar Torah
-and the Chapter of Rabbi Nehuniah (scripts/build_hekhalot.py, MS Ebr. 228 again); Juvenal and Martial. *Waiting on the
-owner:* Flaxman's Homer: Commons has the plates but not which passage each shows (only their printed captions say,
-so placing them means reading the plate images: ask first); no list of the plates with book and line was found.
+and the Chapter of Rabbi Nehuniah (scripts/build_hekhalot.py, MS Ebr. 228 again); Juvenal, Persius and Martial. Flaxman's
+Iliad (34 plates, at the Greek line engraved on each) and Odyssey (20, Réveil's, placed by scene) under !verse (🖌️):
+`iliad_flaxman`, `odyssey_flaxman`; the owner approved reading the plates. !homer is the dice oracle (no line refs),
+so they're not under it.
 
 ---
 
