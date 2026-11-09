@@ -94,6 +94,11 @@ BOOKS_TREE = [
                 "The Passing of Mary: First Latin Form", "The Passing of Mary: Second Latin Form",
             ]),
         ]),
+        ("New Testament Apocrypha (trans. M. R. James, 1924)", [
+            "Acts of John", "Virtues of John", "Acts of Andrew", "Acts of Paul", "Third Corinthians",
+            "Acts of Peter", "Acts of Peter: Peter's Daughter", "Acts of Thomas", "Questions of Bartholomew",
+            "Apocalypse of Thomas", "Ethiopic Apocalypse of Peter", "Letter to Theodore",
+        ]),
     ]),
     ("✡️ Rabbinic & Kabbalistic", [
         ("Mishnah", [

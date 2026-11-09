@@ -5,9 +5,15 @@ editions leave out (2026-11-09):
     the Nag Hammadi tractates missing from Zinner's translation (data/gnostic/nag_hammadi_zinner.json) --
     the Secret Book (Apocryphon) of John, the Gospel of Truth, the Gospel of Philip, the First Apocalypse of
     James -- in the Coptic Gnostic Library Project's translations, as gnosis.org gives them (each translator
-    cited); a chapter each, a paragraph a verse.
+    cited); a chapter each, a paragraph a verse (nhl);
+    the Pistis Sophia, in Mead's translation (pistis);
+    the Gospel of Mary, the Bruce Codex, and the teachers the Fathers quote -- Ptolemy, Basilides, Epiphanes, the
+    Naassenes, Theodotus (fragments);
+    M. R. James's Apocryphal New Testament (1924): the apocryphal Acts, Third Corinthians, Bartholomew, the
+    Apocalypses of Thomas and of Peter (the Ethiopic), and the letter with the Secret Gospel of Mark, into
+    data/nt_apocrypha/james_apocrypha.json (james).
 
-    python scripts/build_gnosis.py
+    python scripts/build_gnosis.py [nhl] [pistis] [fragments] [james]
 """
 import html
 import json
@@ -210,8 +216,275 @@ def gospel_of_mary() -> dict:
     return book
 
 
-def write(file: str, books: dict, sources: dict, source: str) -> None:
-    path = ROOT / "data" / "gnostic" / file
+ROMAN = {"I": 1, "V": 5, "X": 10, "L": 50}
+
+
+def roman(numeral: str) -> int:
+    values = [ROMAN[c] for c in numeral]
+    return sum(-v if i + 1 < len(values) and v < values[i + 1] else v for i, v in enumerate(values))
+
+
+def page_paragraphs(path: str) -> list:
+    """A page's paragraphs, its headings among them ("## The Acts of John")."""
+    page = re.sub(r"(?is)<(script|style)\b.*?</\1>", "", fetch(path))
+    return paragraphs(re.sub(r"(?is)<h\d[^>]*>(.*?)</h\d>", r"<p>## \1</p>", page))
+
+
+def segment(paras: list, start: str, end: str = None, drop: tuple = ()) -> list:
+    """The paragraphs from the one starting `start` to the one before the one starting `end`, without those
+    starting with any of `drop` (James's notes among the text) or a heading."""
+    first = [i for i, p in enumerate(paras) if p.startswith(start)]
+    expect(len(first) == 1, f"start {start!r}: {len(first)} matches")
+    out = []
+    for p in paras[first[0]:]:
+        if end and p.startswith(end) and out:
+            break
+        if not p.startswith(drop) and not p.startswith("## "):
+            out.append(p)
+    expect(not end or len(out) < len(paras) - first[0], f"end {end!r} not found")
+    for d in drop:
+        expect(any(p.startswith(d) for p in paras), f"drop {d!r} matches nothing")
+    return out
+
+
+def by_number(paras: list, numerals: str = "arabic", titles: tuple = ()) -> dict:
+    """James's sections: a paragraph opening with its number ("18 Now John", "XVII. And", "(144) My Lord",
+    "Greek. 16-17 And") opens it, and the unnumbered ones after it are its own, a line each; a number in the
+    running text that comes before the next paragraph's ("2 And they shall become sons of perdition. 3 And
+    then") opens one too. A paragraph starting one of `titles` (an act's title) heads the next, in italics."""
+    if numerals == "roman":
+        pattern = r"\(?(?:Lat\. )?([IVXL]+)\.\)?\s*"
+    else:
+        pattern = r"(?:Greek\.\s+)?\(?(\d{1,3})\)?(?:-\d+)?\s*(?:\.\s*|:\s+|\s+)(?:\(continued\.\)\s*)?"
+    verses, last, title = {}, 0, ""
+    for p in paras:
+        if p.startswith(titles):
+            title += f"*{p.strip()}*\n"
+            continue
+        m = re.match(pattern, p)
+        n = (roman(m.group(1)) if numerals == "roman" else int(m.group(1))) if m else None
+        if m and n > last:
+            last = n
+            verses[str(n)] = title + p[m.end():]
+        elif m and n == last:                                 # ("37 (continued.)", "(144)": a second part)
+            verses[str(n)] += "\n" + title + p[m.end():]
+        elif verses:
+            verses[str(last)] += "\n" + title + p
+        else:                                                  # (an unnumbered opening is the first)
+            last = 1
+            verses["1"] = title + p
+        title = ""
+    # a whole paragraph of James's brackets after a number ("XVII. [This episode, inserted most abruptly...]")
+    verses = {k: re.sub(r"^\[[^\[\]]*[\])]\s*(?:\n|$)", "", v).strip() for k, v in verses.items()}
+    if numerals == "arabic":
+        keys, split = list(verses), {}
+        for k, following in zip(keys, keys[1:] + [None]):
+            parts = re.split(r"(?<=[.;:,?!’”'\"\)\]\s])\s*(?<!\S)(\d{1,3})\s+(?=[A-Za-z“\"‘'(\[])", verses[k])
+            current = k
+            split[current] = parts[0]
+            for num, text in zip(parts[1::2], parts[2::2]):
+                # (before a small letter, only the very next number: "that we must not use the prophets, 11 and")
+                if (int(current) < int(num) < (int(following) if following else 10 ** 4)
+                        and (not text[:1].islower() or int(num) == int(current) + 1)):
+                    current = num
+                    split[current] = text
+                else:
+                    split[current] += num + " " + text
+            # (re.split eats the space before a number that turned out to be no section's)
+        verses = {k: re.sub(r"[ \t]+", " ", v).strip() for k, v in split.items()}
+    return verses
+
+
+def by_paragraph(paras: list, titles: tuple = ()) -> dict:
+    verses, title = {}, ""
+    for p in paras:
+        if p.startswith(titles):
+            title += f"*{p.strip()}*\n"
+            continue
+        verses[str(len(verses) + 1)] = title + p
+        title = ""
+    return verses
+
+
+JAMES = "trans. M. R. James (1924)"
+JAMES_REMARKS = ("It is evident from what follows", "So the Latin, which has", "so the MS.; I would read",
+                 "this last clause in the MS.", "this cannot be the author's", "At about this point we must place",
+                 "From the Ascension of Isaiah", "Gundaphorus is a historical", "This description of hell-torments",
+                 "Here and elsewhere there is a marked", "P has nothing of this", "something is wrong here",
+                 "Hermas, Vision III", "Probably: in the time of rain", "These are the worshippers of idols")
+
+# The site's Acts of Thomas garbles James's bracketed words (its own note says so): each phrase's words, once each,
+# the first in capitals, the rest in reverse order. Put back in order from the 1924 printing (a scan at
+# gospelstudies.org.uk), each checked to have the same words as the garbled one; nothing else taken from it.
+THOMAS_BRACKETS = {
+    "SYR. is the of God rest temperance and": "Syr. and temperance is the rest of God",
+    "THE of land": "the land of", "WHICH iron breaketh": "which breaketh iron",
+    "IN the of sea midst": "in the midst of the sea",
+    "AND the of Sarbug walls unto came": "and came unto the walls of Sarbug",
+    "AND the and thyself deck shouldest thou wherewith wear which mantle glorious":
+        "and the glorious mantle which thou shouldest wear and wherewith thou shouldest deck thyself",
+    "THOU be shalt": "thou shalt be", "AND letter a was my": "and my letter was a letter",
+    "WITH hand right his": "with his right hand", "AND the seal brake": "and brake the seal",
+    "HIM it brought that": "him that brought it", "EVEN be a it Syr. lamp, in if": "even if it be in a lamp, Syr.",
+    "AND Syr. nurse, her": "and her nurse, Syr.",
+    "CANNOT chastely live they except well": "cannot live well except they live chastely",
+    "TO name": "to name", "THOU things these sayest": "thou sayest these things",
+    "WHO and a tower buildeth": "who buildeth a tower and", "MAKETH him": "maketh him", "GOOD hope": "good hope",
+    "UNTO Syr. one,": "unto one, Syr.", "THEE of my Syr. rest, giver": "thee my giver of rest, Syr.",
+    "LO, and my raiment, on off put I": "lo, I put off and on my raiment,",
+    "GIVE the of Syr. day, bread constant us": "give us the constant bread of the day, Syr.",
+    "SOW in": "sow in", "OR Syr. die,": "or die, Syr.", "NOT, Syr.": "not, Syr.", "THEY, Syr.": "they, Syr.",
+    "BELIEVE, the of God and my his Syr. in giver I servants, helper life believe preach; whom Christ Jesus "
+    "proclaim, children.": "believe, my children, in the God whom I proclaim; believe in Jesus Christ whom I preach; "
+                          "believe in the giver of life and helper of his servants, Syr.",
+    "a man poor": "a poor man",
+    # (and three in the Acts of John)
+    "who for incurable lain had": "who had lain incurable for", "enduring for things": "enduring things for",
+    "nor of spoken": "nor spoken of",
+}
+
+
+def james() -> None:
+    """M. R. James's Apocryphal New Testament (1924), as the Gnostic Society Library has it: the books the
+    bot's ANF 8-9 translations lack or give only in part. His introductions, his notes among the text (whole
+    paragraphs, some in italics, some not) and his summaries of what is lost are left out; the text is cited by
+    the sections he gives (Bonnet's, Lipsius's), a paragraph or a verse each. Left out: the Revelation of
+    Stephen and the Martyrdom of Matthew (only his summaries), the Book of the Resurrection by Bartholomew (the
+    same), the Akhmim Apocalypse of Peter and the infancy gospels (ANF 8-9 have them)."""
+    books, sources = {}, {}
+    # The Acts of John: Bonnet's sections 18-115 (the beginning is lost); the Latin Virtutes between 105 and
+    # 106, its own book
+    p = page_paragraphs("library/actjohn.htm")
+    john_notes = ("There need be no portion", "This sentence must be an abridgement", "[Another manuscript",
+                  "'We' remained four years", "[Q has the above", "Now one day as John was seated",
+                  "Then the elder, hearing", "Cassian, Collation", "It is told that the most blessed",
+                  "The only common point", "Our best manuscript prefixes", "From Laodicca to Ephesus",
+                  "'John therefore was with the brethren", "There cannot be much of a gap",
+                  "The greater part of this episode")
+    books["Acts of John"] = {"1": by_number(
+        segment(p, "18 Now John was hastening", "The remaining episode which is extant", john_notes)
+        + segment(p, "106 John therefore continued", "The less good Greek manuscripts"))}
+    books["Virtues of John"] = {"1": by_number(segment(
+        p, "(Lat. XIV.)", "The last episode of these Acts",
+        ("XIX tells shortly", "Then follows the episode of the poison-cup", "This bracketed sentence",
+         "[M.R. James gives")), "roman")}
+    # The Acts of Andrew: Gregory of Tours' epitome, the Vatican fragment, the Martyrdom
+    p = [re.sub(r"^## Text (?=1 )", "", x) for x in page_paragraphs("library/actandy.htm")]
+    books["Acts of Andrew"] = {
+        "1": by_number(segment(p, "1 After the Ascension", "(The Passion to which Gregory", ("(I feel sure",))),
+        "2": by_number(segment(p, "1 . . . is there in you", "THE MARTYRDOM")),
+        "3": by_paragraph(segment(p, "And after he had thus discoursed throughout the night", "[Not much of this")),
+    }
+    # The Acts of Paul, by James's episodes (I, VI and VIII are only described, or quoted by others); the
+    # Corinthian correspondence (3 Corinthians), from VII, its own book
+    p = [x.replace("38 But Thecla, being taken", "33 But Thecla, being taken")       # (misprinted)
+         for x in page_paragraphs("library/actpaul.htm")]
+    episode_titles = ("When he was departed", "When Paul was departed")
+    books["Acts of Paul"] = {
+        "2": by_number(segment(p, "1 When Paul went up unto Iconium", "A good many manuscripts add")),
+        "3": by_paragraph(segment(p, "When he was departed from Antioch and taught in Myra", "IV",
+                                  ("A leaf lost", "A leaf gone", ". . . concord and peace")), episode_titles),
+        "4": by_paragraph(segment(p, "When he was departed from Myra", "The purpose of confining Paul",
+                                  ("Two leaves at least gone", "(Paul is speaking)", "About two leaves gone",
+                                   "... (Paul speaking) through me")), episode_titles),
+        "5": by_paragraph(segment(p, "When he was departed out of Sidon", "On the next page is a proper name"),
+                          episode_titles),
+        "7": by_paragraph(segment(p, "When he was departed from . . .", "On the following page begins"),
+                          episode_titles),
+        "9": by_paragraph(segment(p, "The grace of the Lord will walk with me", "Next page, first extant line")),
+        "10": by_number(segment(p, "I. Now there were awaiting Paul at Rome", "The Coptic MS. has a colophon"),
+                        "roman"),
+    }
+    corinth = [x.replace("86 And whoso receiveth", "36 And whoso receiveth")            # (misprinted)
+               for x in segment(p, "I. 1 Stephanus and the elders", "[Laon adds")]
+    parts = {"1": [], "2": [], "3": []}
+    for x in corinth:
+        m = re.match(r"(I{1,3})\.\s*(?=1 )", x)
+        key = str(len(m.group(1))) if m else key
+        parts[key].append(x[m.end():] if m else x)
+    books["Third Corinthians"] = {k: by_number(v) for k, v in parts.items()}
+    # The Acts of Peter: the Coptic fragment (Peter's daughter), and the Vercelli Acts by their chapters
+    p = page_paragraphs("library/actpete.htm")
+    books["Acts of Peter: Peter's Daughter"] = {"1": by_paragraph(segment(
+        p, "But Peter smiled and said unto him", "The scene of this episode", ("[Here a leaf is lost", "Ptolemaeus, unable"))
+    )}
+    books["Acts of Peter"] = {"1": by_number(segment(
+        p, "I. At the time when Paul", None,
+        ("There has been great dispute", "If they are from the Acts of Paul", "The question is a difficult",
+         "The writer of Paul obviously", "Here begins the original Greek text", "[Here the Martyrdom proper")),
+        "roman")}
+    # The Acts of Thomas: Bonnet's sections 1-170 (the Hymn of the Soul, 108-113), each act's title over it
+    p = page_paragraphs("library/actthom.htm")
+    thomas_notes = ("Note by Professor F. C. Burliitt", "In the Acts of Thomas, 27, the apostle",
+                    "'Come, O elder of the five members", "What is the essential distinction",
+                    "'Come, Messenger of reconciliation", "The word for 'Come' is fem.",
+                    "As for the five words for 'mind'", "hauna means", "The Greek terms, used here", "[",
+                    "My Lord and God, hope and confidence")                # (the shorter text: he follows P's)
+    acts = tuple(x for x in p if re.match(r"(?:The \w+ Act|Act the \w+):", x))
+    expect(len(acts) == 13, f"Thomas: {len(acts)} acts")
+    thomas = by_number(segment(p, "The First Act:", "## Archive", thomas_notes), titles=acts)
+    for v, text in thomas.items():     # (a garbled single word is only in capitals: "[GARLANDS]")
+        thomas[v] = re.sub(r"\[([A-Z]{2,})\]", lambda m: f"[{m.group(1).capitalize() if m.group(1) in ('JESUS', 'GOD') else m.group(1).lower()}]", text)
+    books["Acts of Thomas"] = {"1": thomas}
+    # The Questions of Bartholomew (the Greek where James gives it with the Slavonic and Latin), I-V
+    p = page_paragraphs("library/gosbart.htm")
+    bart = segment(p, "Greek. 1 After the resurrection", "THE BOOK OF THE RESURRECTION",
+                   ("3 Om.", "Slavonic.", "Latin 2.", "[Slav", "[Slavonic"))
+    bart = [x for x in bart if not re.fullmatch(r"\d \S.{0,80}", x) or not x.startswith(("2 And Jesus said unto them",
+            "3 But when he was buried", "4 But Bartholomew, &c.", "2 But Jesus answered", "3 But after that"))]
+    chapters, current = {}, "1"
+    for x in bart:
+        if re.fullmatch(r"[IV]+", x):
+            current = str(min(roman(x), 5))         # (V is printed "VI")
+            chapters[current] = []
+            continue
+        chapters.setdefault(current, []).append(x)
+    books["Questions of Bartholomew"] = {k: by_number(v) for k, v in chapters.items()}
+    # The Apocalypse of Thomas: the longer text (Wilhelm's) and the shorter (Bihlmeyer's)
+    p = page_paragraphs("library/apcthom.htm")
+    books["Apocalypse of Thomas"] = {
+        "1": by_paragraph(segment(p, "Here beginneth the epistle of the Lord unto Thomas", "(Here Wilhelm's text ends",
+                                  ("[Here is a break",))),
+        "2": by_paragraph(segment(p, "Hear thou, O Thomas, for I am the Son", "None of the Latin texts")),
+    }
+    # The Apocalypse of Peter in the Ethiopic (the Akhmim Greek is ANF 9's)
+    p = page_paragraphs("library/apocpeter.htm")
+    books["Ethiopic Apocalypse of Peter"] = {"1": by_paragraph(segment(
+        p, "The Second Coming of Christ and Resurrection", "There is a great deal more of the Ethiopic",
+        ("[And this that dieth", "(Here begins the description", "(Parts of these two sections",
+         "(We now have the section")), ("The Second Coming of Christ",))}
+    for name in books:
+        sources[name] = JAMES
+    # Clement's letter to Theodore, with the Secret Gospel of Mark (Morton Smith's find and translation)
+    p = page_paragraphs("library/secm.htm")
+    books["Letter to Theodore"] = {"1": by_paragraph(segment(
+        p, "From the letters of the most holy Clement", "[Here the fragment ends"))}
+    sources["Letter to Theodore"] = "trans. Morton Smith (1973); many hold it a modern forgery"
+    unscrambled, remarks = 0, 0
+    for name, chapters in books.items():
+        for verses in chapters.values():
+            for v, text in verses.items():
+                # James's remarks in brackets among the text (his variant readings, also bracketed, stay)
+                text, n = re.subn(r"\s*\[(?:" + "|".join(map(re.escape, JAMES_REMARKS)) + r")[^\]]*\]", "", text)
+                remarks += n
+                verses[v] = re.sub(r"\[([^\]]+)\]", lambda m: f"[{THOMAS_BRACKETS.get(m.group(1), m.group(1))}]", text)
+                unscrambled += sum(f"[{k}]" in text for k in THOMAS_BRACKETS)
+    expect(unscrambled == len(THOMAS_BRACKETS), f"{unscrambled} brackets put in order")
+    expect(remarks == len(JAMES_REMARKS), f"{remarks} of James's remarks taken out")
+    expect(not any(re.search(r"\[[A-Z]{2,}\b", t) for t in books["Acts of Thomas"]["1"].values()),
+           "Thomas: a garbled bracket left")
+    for name, chapters in books.items():
+        expect(all(chapters.values()), f"{name}: an empty chapter")
+        for c, verses in chapters.items():
+            for v, text in verses.items():
+                expect(bool(text.strip()), f"{name} {c}:{v} empty")
+                expect(not re.search(r"Archive \||Scanned and [Ee]dited|Bonnet, Act", text), f"{name} {c}:{v}: {text[:60]}")
+        print(f"  {name}: " + ", ".join(f"{c} ({len(v)})" for c, v in chapters.items()))
+    write("james_apocrypha.json", books, sources, JAMES, folder="nt_apocrypha")
+
+
+def write(file: str, books: dict, sources: dict, source: str, folder: str = "gnostic") -> None:
+    path = ROOT / "data" / folder / file
     path.write_text(json.dumps({"source": source, "book_sources": sources, "books": books}, ensure_ascii=False,
                                indent=1), encoding="utf-8")
     print(f"  {path.name}: " + ", ".join(f"{b} ({sum(map(len, c.values()))})" for b, c in books.items()))
@@ -234,6 +507,8 @@ if __name__ == "__main__":
     only = sys.argv[1:]
     if not only or "nhl" in only:
         nag_hammadi_more()
+    if not only or "james" in only:
+        james()
     if not only or "fragments" in only:
         books, sources = {}, {}
         books["Gospel of Mary"] = gospel_of_mary()

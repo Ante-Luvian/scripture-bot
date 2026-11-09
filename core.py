@@ -926,6 +926,9 @@ _CATEGORY_BOOKS = {
         "The Protevangelium of James","The Gospel of Pseudo-Matthew","Gospel of Thomas: First Greek Form",
         "The Arabic Gospel of the Infancy of the Saviour","Acts of Pilate: First Greek Form",
         "Acts of Paul and Thecla","Revelation of Paul",
+        "Acts of John","Virtues of John","Acts of Andrew","Acts of Paul","Third Corinthians","Acts of Peter",
+        "Acts of Peter: Peter's Daughter","Acts of Thomas","Questions of Bartholomew","Apocalypse of Thomas",
+        "Ethiopic Apocalypse of Peter","Letter to Theodore",
     },
     "✡️ Halakha/Kabbalah": {
         "Zohar","Berakhot","Shabbat","Sanhedrin","Avot","Bava Kamma",
