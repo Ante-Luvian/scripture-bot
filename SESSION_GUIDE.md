@@ -427,8 +427,10 @@ verses whose numbers the OCR lost or misread (19 left with no number in the text
 
 **Bahá'í (2026-11-09):** `scripts/build_bahai.py` builds every work of the Báb, Bahá'u'lláh and 'Abdu'l-Bahá in
 bahai.org/library (its .xhtml) plus Bahá'í Prayers and the Aqdas's Q&A; the Íqán, Epistle, Gems etc. a chapter a
-paragraph as cited (the Íqán's ¶213 checked). Hidden Words and Aqdas kept from before. Not in English authoritatively,
-so not here: the Persian Bayán, the Kitáb-i-Badí', most tablets. Shoghi Effendi/UHJ: interpretation, left out.
+paragraph as cited (the Íqán's ¶213 checked). Hidden Words and Aqdas kept from before. Shoghi Effendi's 7 books
+added at the owner's word (interpretation, but in the Talmud's/Fathers' role); the UHJ's not. The Persian Bayán from
+Terry's English of Nicolas's French, citation "unofficial: ...", only the Báb's bold text. Not in English at all, so
+not here: the Arabic Bayán in full, the Kitáb-i-Badí', most tablets. No changelog yet for any of this -- ask.
 
 ---
 
