@@ -334,7 +334,7 @@ changed (else compare `books` with HEAD); never OCR or proofread scan images wit
   titles "Targum Jonathan on Genesis", "Aramaic Targum to Psalms"; its Neofiti is 8 verses). Not found in English:
   al-Kindi, al-Masudi, al-Suyuti, al-Buni on Metatron. The same MS 228 has *Hekhalot Rabbati* from scan 142 if wanted.
 - *Open:* ~~Juvenal and Martial~~ (done 2026-11-09: Ramsay on Wikisource, Bohn on tertullian.org; build_latin.py
-  `juvenal`, `martial`; Persius is on the same Wikisource pages if wanted, his summaries need separating); Hyginus's Astronomica books
+  `juvenal`, `martial`, `persius`; two Persius openings come from the book's Page: transcriptions); Hyginus's Astronomica books
   1, 3, 4 (only Book 2 is transcribed anywhere found); Ptolemy's Almagest (OCR only: the owner said no OCR
   "at the moment"); the PDF guides (scripts/build_guides.py) haven't been rebuilt since these books.
 - *Traps met this time:* clean_corpora deletes runs of "* * *" as stray markdown, so a builder must turn an
