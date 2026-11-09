@@ -14,6 +14,10 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-11-09 · Flaxman's pictures for Homer
+- 🖌️ **Homer's *Iliad* and *Odyssey* now have pictures.** John Flaxman, an English sculptor, drew outline engravings of Homer's scenes in the 1790s: clean line drawings, like figures on a Greek vase, which were copied all over Europe. Under a passage of Homer that one of them shows, a **🖌️ Flaxman** button brings up the picture. All 34 of his *Iliad* plates are here, each at the exact line it illustrates (Flaxman engraved the line number on every plate), with the lines of Alexander Pope's translation that were printed under it. Try `!verse Iliad 6:325`, where Hector finds Paris idling beside Helen, and press the button.
+- 🌊 **Twenty of his *Odyssey* plates are in too**, each with the scene it shows, among them Odysseus making the Cyclops drunk (`!verse Odyssey 9:345`) and sailing past the Sirens (`!verse Odyssey 12:181`). The pictures are under `!verse`, not `!homer`: `!homer` is the ancient Homeric oracle, which answers with a single line of Homer, and it doesn't know where in the poems that line comes from.
+
 ## 2026-11-09 · Three Roman satirists, the Greater Palaces, and Chaucer's pilgrims
 - 🗡️ **Juvenal's Satires are in the library**: all sixteen, in G. G. Ramsay's 1918 translation. Juvenal was the angriest of the Roman satirists, raging at Rome's corruption around AD 100, and he gave us "bread and circuses" and "a sound mind in a sound body". Each satire is found by its Latin line numbers, the way scholars cite it: `!verse Juvenal 10:356` gives the passage with "a sound mind in a sound body", and `!verse Juvenal 10:1` starts *The Vanity of Human Wishes* from the top.
 - 🗡️ **Persius's Satires are in too**: his short Prologue and six satires, in the same 1918 book. Persius was a young Stoic poet of Nero's day whose satires are sermons on how to live. Try `!verse Persius 0:1` for the Prologue or `!verse Persius 2:1` for his satire on what people really pray for.
