@@ -438,10 +438,15 @@ Changelog posted (both the Bahá'í and the Pahlavi/!gathas entries).
 Sefaria and the Sunni hadith is local, so the gaps are elsewhere. Done (live, no changelog yet -- ask):
 `scripts/build_shia.py` (Nahj al-Balagha, Qutbuddin's Brill PDF, and Sahifa Sajjadiyya, Chittick, both from PDFs the
 owner downloaded to ~/Downloads -- the sites refuse scripts; don't spoof a browser, the permission system refuses it)
-and `scripts/build_gnosis.py` (gnosis.org: the Nag Hammadi tractates Zinner lacks; Pistis Sophia, Mead). To do, in
-order: the rest of gnosis.org's Gnostic texts (Gospel of Mary, Books of Jeu, Valentinian fragments, Marcion); M. R.
-James's Apocryphal NT (gnosis.org/library/cac.htm has his Acts of John, Paul, Peter, Andrew, Thomas, the Gospel of
-Bartholomew, Apocalypses of Thomas, Stephen...; Schaff's ANF 8-9 apocrypha are already in); the Jewish
+and `scripts/build_gnosis.py` (gnosis.org: the Nag Hammadi tractates Zinner lacks; Pistis Sophia, Mead; `fragments`:
+Gospel of Mary, Bruce Codex, 1 Ieou, Flora, Basilides, Epiphanes, Naassene Psalm, Theodotus; `james`: M. R. James's
+apocryphal Acts, 3 Corinthians, Bartholomew, Apocalypses of Thomas and Ethiopic Peter, Secret Mark ->
+data/nt_apocrypha/james_apocrypha.json). James's pages mix his notes with the text: build_gnosis lists the note
+paragraphs by their openings (each must match, so a site change fails loudly), and THOMAS_BRACKETS puts back the
+bracketed words the site garbles (checked word-for-word against the 1924 scan at gospelstudies.org.uk -- an OCR'd
+scan, used only to order words already there). data/patristics/theodotus.json was Clement's Eclogae under a wrong
+name: now "Selections from the Prophetic Scriptures". To do, in order: Marcion's Gospel (gnosis.org/library/
+marcionsection.htm, a reconstruction with citations to strip); the Jewish
 pseudepigrapha (2-4 Baruch, Apocalypse of Abraham, Joseph and Aseneth, Testament of Job, Lives of the Prophets...);
 the church orders (Didascalia...); more Islam (Riyad as-Salihin, Ghazali, Hujwiri, Attar, a sira); the Dead Sea
 Scrolls (gnosis.org/library/dss/dss.htm may help).
