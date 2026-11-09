@@ -209,8 +209,14 @@ Doré's *La Fontaine* (the 1886 edition the bot's Thornbury comes from), Rackham
 Aesop and Crane's Grimm from Gutenberg, matched to Townsend's and Hunt's tales by text and title (the doubtful ones
 read and settled by hand in the script); Rackham's Grimm (Gutenberg and Commons), Beardsley's Malory, Crane's
 *Faerie Queene* and the Boydell Shakespeare Gallery from Commons, Boydell's scene numbers checked against Folger's.
-Gutenberg's pictures are kept in `data/illustrations/<set>/` (not in git; the script rebuilds them); Commons' are
-shown from Commons.
+Gutenberg's pictures are kept in `data/illustrations/<set>/` (not in git; the script rebuilds them). Commons'
+pictures, here and in `!dore` and `!blake`, are local thumbnail copies attached to the message, as Wikimedia
+stopped serving its full-size originals to Discord in November 2026: each entry's `"copy"` names its file in
+`data/illustrations/copies/`, `data/dore/copies/` or `data/blake/copies/` (not in git, ~300 MB). On a fresh
+checkout, rebuild them with `python scripts/build_dore.py copies` and
+`python scripts/wikimedia_copies.py <data json> <copies folder>` for `data/blake/plates.json`, `data/blake/art.json`
+and each Commons set in `data/illustrations/`; without them the bot falls back to the Commons address, which
+Discord shows as an empty embed.
 Secret (kept out of !help, INTRODUCTION and the changelog on purpose): mods saying "+5 deluge
 points @someone" are quietly tallied; mods get a random excerpt with `!delugepoints` (`bot_commands/deluge.py`).
 Right-clicking a message → Apps → **Look up verses** shows the references in it, privately.
