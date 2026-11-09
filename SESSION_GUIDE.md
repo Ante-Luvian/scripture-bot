@@ -412,6 +412,13 @@ Iliad (34 plates, at the Greek line engraved on each) and Odyssey (20, Réveil's
 `iliad_flaxman`, `odyssey_flaxman`; the owner approved reading the plates. !homer is the dice oracle (no line refs),
 so they're not under it.
 
+**Avesta finished (2026-11-09, live; no changelog entry yet -- ask the owner):** `build_world_texts.py avesta` now also
+builds the Visperad, the Khorda Avesta prayers (Nyayeshes, Gahs, Afrinagans, Sirozahs: a "Khorda Avesta" shelf),
+Avesta Fragments and Yashts 22-23, and fixed the Yasna's Gatha chapters (they had held Mills's commentary). The
+other Zoroastrian ideas brainstormed with the owner, not started: Arda Viraf, more SBE Pahlavi books (Menog-i Khrad,
+Bahman Yasht, Zadspram, Shikand-gumanik Vizar), Shahnameh (Warner only as Archive OCR?), a roz/mah daily post, the
+current gah's prayer, core prayers, festival notices, verified parallels, an Avestan glossary.
+
 ---
 
 ## 7. Where things are
