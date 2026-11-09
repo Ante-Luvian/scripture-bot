@@ -951,6 +951,11 @@ BOOKS_TREE = [
             "The Secret Book of John", "The Gospel of Truth", "The Gospel of Philip", "The First Apocalypse of James",
         ]),
         ("Pistis Sophia (trans. G. R. S. Mead, 1921)", ["Pistis Sophia"]),
+        ("Berlin and Bruce Codices", ["Gospel of Mary", "Untitled Text of the Bruce Codex", "First Book of Ieou"]),
+        ("The Gnostic Teachers, in the Church Fathers", [
+            "Ptolemy's Letter to Flora", "Fragments of Basilides", "Epiphanes, On Righteousness", "The Naassene Psalm",
+            "Excerpts from Theodotus",
+        ]),
         ("Manichaean (trans. C.R.C. Allberry, 1938)", [
             "Manichaean Psalms to Jesus",
             "Manichaean Bema Psalms",

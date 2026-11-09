@@ -957,6 +957,8 @@ _CATEGORY_BOOKS = {
     "🧿 Gnostic/Hermetic":  {
         "Ginza Rba","Book of John","Asclepius","Gospel of Thomas","The Secret Book of John","The Gospel of Truth",
         "The Gospel of Philip","The First Apocalypse of James","Pistis Sophia",
+        "Gospel of Mary","Untitled Text of the Bruce Codex","First Book of Ieou","Ptolemy's Letter to Flora",
+        "Fragments of Basilides","Epiphanes, On Righteousness","The Naassene Psalm","Excerpts from Theodotus",
         "The Prayer of Paul, the Apostle","The Secret Book of James",
         "Treatise on the Resurrection","The Tripartite Tractate",
         "The Substance of the Archons","On the Origin of the World",

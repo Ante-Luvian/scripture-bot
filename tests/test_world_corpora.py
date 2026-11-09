@@ -52,6 +52,15 @@ import pytest
     ("First Apocalypse of James 1", "It is the Lord who spoke with me"),
     ("Pistis Sophia 1:1", "IT came to pass, when Jesus had risen from the dead"),
     ("Pistis Sophia 2:1", "It came to pass then, when the disciples were sitting together on the Mount of Olives"),
+    ("Gospel of Mary 4:22", ""),
+    ("Gospel of Mary 9:10", "they began to go forth to proclaim and to preach"),    # (not the site's footer)
+    ("Untitled Text 2:3", "The first deep is the all-wise"),          # (a list in section 2, not section 3)
+    ("Untitled Text 3:1", "This is the Father, the second demiurge"),
+    ("Untitled Text 21:1", "incomprehensible"),
+    ("Letter to Flora 1", ""),
+    ("Excerpts from Theodotus 83", "It is fitting to go to baptism with joy"),      # (numbered mid-sentence)
+    ("Theodotus 86", "In the case of the coin"),
+    ("Fragments of Basilides 1", "attributed to Basilides"),
     ("Al-Jilwah 1:1", "I was, am now, and shall have no end"),
     ("Black Book 1:1", "In the beginning God created the White Pearl"),
     ("Poem of Sheikh Adi 1", "My understanding surrounds the truth of things"),
