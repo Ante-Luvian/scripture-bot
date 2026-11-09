@@ -1,0 +1,229 @@
+{
+ "code": "fo",
+ "artist": "John Flaxman",
+ "label": "Flaxman",
+ "work": "The Odyssey, engraved by Réveil (captions translated from his French)",
+ "credit": "Wikimedia Commons",
+ "pictures": [
+  {
+   "title": "Minerva goes to Ithaca, to counsel Telemachus to go and seek news of his father at Pylos and Sparta",
+   "book": "Odyssey",
+   "chapter": "1",
+   "start": 105,
+   "end": 105,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cb/OdysseyAthena.png/1280px-OdysseyAthena.png",
+   "page": "https://commons.wikimedia.org/wiki/File:OdysseyAthena.png",
+   "n": "1",
+   "copy": "data/illustrations/copies/392594cd8759.jpg"
+  },
+  {
+   "title": "The suitors discover the trick Penelope uses to escape their persecution",
+   "book": "Odyssey",
+   "chapter": "2",
+   "start": 104,
+   "end": 104,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/89/OdysseySuitors.png/1280px-OdysseySuitors.png",
+   "page": "https://commons.wikimedia.org/wiki/File:OdysseySuitors.png",
+   "n": "2",
+   "copy": "data/illustrations/copies/ecd0a4e744d0.jpg"
+  },
+  {
+   "title": "Minerva, in the likeness of Mentor, and Telemachus arrive at Pylos, where old Nestor reigns",
+   "book": "Odyssey",
+   "chapter": "3",
+   "start": 1,
+   "end": 1,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/9a/OdysseyTelemachos.png/1280px-OdysseyTelemachos.png",
+   "page": "https://commons.wikimedia.org/wiki/File:OdysseyTelemachos.png",
+   "n": "3",
+   "copy": "data/illustrations/copies/9875dd53ad40.jpg"
+  },
+  {
+   "title": "Nestor, recognising Minerva as she departs, makes a sacrifice to the goddess",
+   "book": "Odyssey",
+   "chapter": "3",
+   "start": 375,
+   "end": 375,
+   "image": "https://upload.wikimedia.org/wikipedia/commons/0/03/OdysseyNestor.png",
+   "page": "https://commons.wikimedia.org/wiki/File:OdysseyNestor.png",
+   "n": "4",
+   "copy": "data/illustrations/copies/806a5d9a7e7c.jpg"
+  },
+  {
+   "title": "Minerva, in the likeness of Penelope's sister, tells the queen of her son Telemachus' return",
+   "book": "Odyssey",
+   "chapter": "4",
+   "start": 795,
+   "end": 795,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c1/OdysseyPenelope.png/1280px-OdysseyPenelope.png",
+   "page": "https://commons.wikimedia.org/wiki/File:OdysseyPenelope.png",
+   "n": "5",
+   "copy": "data/illustrations/copies/7806f2ea320d.jpg"
+  },
+  {
+   "title": "Jupiter takes counsel with Mercury and Minerva",
+   "book": "Odyssey",
+   "chapter": "5",
+   "start": 18,
+   "end": 18,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/55/OdysseyZeus.png/1280px-OdysseyZeus.png",
+   "page": "https://commons.wikimedia.org/wiki/File:OdysseyZeus.png",
+   "n": "6",
+   "copy": "data/illustrations/copies/0b01c1bb9140.jpg"
+  },
+  {
+   "title": "Mercury, sent by Jupiter, orders Calypso to let Ulysses go, whom she has kept on her island seven years",
+   "book": "Odyssey",
+   "chapter": "5",
+   "start": 85,
+   "end": 85,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6e/OdysseyHermes.png/1280px-OdysseyHermes.png",
+   "page": "https://commons.wikimedia.org/wiki/File:OdysseyHermes.png",
+   "n": "7",
+   "copy": "data/illustrations/copies/015fb86bf64f.jpg"
+  },
+  {
+   "title": "Neptune raises a storm that breaks Ulysses' raft; Leucothea gives him her veil to save him from the wreck",
+   "book": "Odyssey",
+   "chapter": "5",
+   "start": 333,
+   "end": 333,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/57/OdysseyLeukothea.png/1280px-OdysseyLeukothea.png",
+   "page": "https://commons.wikimedia.org/wiki/File:OdysseyLeukothea.png",
+   "n": "8",
+   "copy": "data/illustrations/copies/788ddece892b.jpg"
+  },
+  {
+   "title": "Nausicaa and her women, having washed the linen they brought in the river, play together at ball",
+   "book": "Odyssey",
+   "chapter": "6",
+   "start": 100,
+   "end": 100,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/8c/OdysseyNausikaa.png/1280px-OdysseyNausikaa.png",
+   "page": "https://commons.wikimedia.org/wiki/File:OdysseyNausikaa.png",
+   "n": "9",
+   "copy": "data/illustrations/copies/36615da38317.jpg"
+  },
+  {
+   "title": "Nausicaa, having met Ulysses by the river, leads him to the palace of her father, King Alcinous",
+   "book": "Odyssey",
+   "chapter": "6",
+   "start": 255,
+   "end": 255,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/0e/OdysseyAlcinoos.png/1280px-OdysseyAlcinoos.png",
+   "page": "https://commons.wikimedia.org/wiki/File:OdysseyAlcinoos.png",
+   "n": "10",
+   "copy": "data/illustrations/copies/43610c324dbb.jpg"
+  },
+  {
+   "title": "Ulysses is moved to tears by the tale of the siege of Troy that the blind Demodocus sings",
+   "book": "Odyssey",
+   "chapter": "8",
+   "start": 521,
+   "end": 521,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/cb/OdysseyDemodokos.png/1280px-OdysseyDemodokos.png",
+   "page": "https://commons.wikimedia.org/wiki/File:OdysseyDemodokos.png",
+   "n": "11",
+   "copy": "data/illustrations/copies/ae5801d291aa.jpg"
+  },
+  {
+   "title": "Ulysses makes the Cyclops Polyphemus drunk",
+   "book": "Odyssey",
+   "chapter": "9",
+   "start": 345,
+   "end": 345,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/40/OdysseyPolyphemos.png/1280px-OdysseyPolyphemos.png",
+   "page": "https://commons.wikimedia.org/wiki/File:OdysseyPolyphemos.png",
+   "n": "12",
+   "copy": "data/illustrations/copies/4bad11ba7196.jpg"
+  },
+  {
+   "title": "Antiphates, king of the Laestrygonians, slaughters many of Ulysses' companions",
+   "book": "Odyssey",
+   "chapter": "10",
+   "start": 114,
+   "end": 114,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/ff/OdysseyAntiphates.png/1280px-OdysseyAntiphates.png",
+   "page": "https://commons.wikimedia.org/wiki/File:OdysseyAntiphates.png",
+   "n": "13",
+   "copy": "data/illustrations/copies/049b26d9a42a.jpg"
+  },
+  {
+   "title": "Ulysses, grieving for his companions' fate, begs Circe to restore them to their first form",
+   "book": "Odyssey",
+   "chapter": "10",
+   "start": 383,
+   "end": 383,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/07/OdysseyCirce.png/1280px-OdysseyCirce.png",
+   "page": "https://commons.wikimedia.org/wiki/File:OdysseyCirce.png",
+   "n": "14",
+   "copy": "data/illustrations/copies/6b78bbd89875.jpg"
+  },
+  {
+   "title": "Ulysses goes down to the underworld, by Circe's counsel, to consult the shade of Tiresias",
+   "book": "Odyssey",
+   "chapter": "11",
+   "start": 90,
+   "end": 90,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/45/OdysseyUnderworld.png/1280px-OdysseyUnderworld.png",
+   "page": "https://commons.wikimedia.org/wiki/File:OdysseyUnderworld.png",
+   "n": "15",
+   "copy": "data/illustrations/copies/91d5e01231db.jpg"
+  },
+  {
+   "title": "Circe comes down to the seashore to receive Ulysses",
+   "book": "Odyssey",
+   "chapter": "12",
+   "start": 16,
+   "end": 16,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/27/OdysseyMorning.png/1280px-OdysseyMorning.png",
+   "page": "https://commons.wikimedia.org/wiki/File:OdysseyMorning.png",
+   "n": "16",
+   "copy": "data/illustrations/copies/1d67060d51be.jpg"
+  },
+  {
+   "title": "The Sirens try with their songs to draw Ulysses to them",
+   "book": "Odyssey",
+   "chapter": "12",
+   "start": 181,
+   "end": 181,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/da/OdysseySirens.png/1280px-OdysseySirens.png",
+   "page": "https://commons.wikimedia.org/wiki/File:OdysseySirens.png",
+   "n": "17",
+   "copy": "data/illustrations/copies/9343f29fd3fb.jpg"
+  },
+  {
+   "title": "Scylla devours six of Ulysses' companions",
+   "book": "Odyssey",
+   "chapter": "12",
+   "start": 245,
+   "end": 245,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c5/OdysseyScylla.png/1280px-OdysseyScylla.png",
+   "page": "https://commons.wikimedia.org/wiki/File:OdysseyScylla.png",
+   "n": "18",
+   "copy": "data/illustrations/copies/96cfdecd98d5.jpg"
+  },
+  {
+   "title": "Ulysses' companions, landed on the island of the Sun, kill its finest oxen; Lampetie takes her complaint to the Sun",
+   "book": "Odyssey",
+   "chapter": "12",
+   "start": 375,
+   "end": 375,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6e/OdysseyApollo.png/1280px-OdysseyApollo.png",
+   "page": "https://commons.wikimedia.org/wiki/File:OdysseyApollo.png",
+   "n": "19",
+   "copy": "data/illustrations/copies/da486b0147fd.jpg"
+  },
+  {
+   "title": "Ulysses, asleep, is set ashore by the Phaeacians on the coast of Ithaca",
+   "book": "Odyssey",
+   "chapter": "13",
+   "start": 117,
+   "end": 117,
+   "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/27/OdysseyIthaka.png/1280px-OdysseyIthaka.png",
+   "page": "https://commons.wikimedia.org/wiki/File:OdysseyIthaka.png",
+   "n": "20",
+   "copy": "data/illustrations/copies/591f4852ed02.jpg"
+  }
+ ]
+}

@@ -14,7 +14,19 @@ def il(bot_module):
 
 SETS = {"la_fontaine": 300, "aesop_rackham": 60, "aesop_crane": 40, "aesop_winter": 80, "grimm_crane": 100,
         "grimm_rackham": 70, "malory_beardsley": 15, "faerie_queene_crane": 9, "shakespeare_boydell": 70,
-        "edda_collingwood": 30, "edda_frolich": 20, "chaucer_ellesmere": 23}
+        "edda_collingwood": 30, "edda_frolich": 20, "chaucer_ellesmere": 23, "iliad_flaxman": 34,
+        "odyssey_flaxman": 20}
+
+
+def test_flaxman_at_his_lines(il, lookup):
+    """Each Iliad plate at the Greek line engraved in its corner (Murray numbers by it); the Odyssey's at its scene."""
+    def labels(ref):
+        return [p["title"] for p in il.for_result(lookup.get_verse(ref))]
+    assert "Him thus unactive, with an ardent look" in labels("Iliad 6:325")             # (Hector finds Paris)
+    assert "Otus and Ephialtes held the chain" in labels("Iliad 5:385")
+    assert not [t for t in labels("Iliad 6:1") if "unactive" in t]                       # (not the whole book)
+    assert any("Cyclops Polyphemus drunk" in t for t in labels("Odyssey 9:345"))
+    assert any("Sirens" in t for t in labels("Odyssey 12:181"))
 
 
 def test_each_ellesmere_pilgrim_heads_their_own_tale(il, lookup):

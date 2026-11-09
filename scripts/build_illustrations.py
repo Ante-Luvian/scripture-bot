@@ -16,6 +16,8 @@ wide.
   faerie_queene_crane  Walter Crane's Faerie Queene (1894-97), from Commons, by canto
   shakespeare_boydell  the Boydell Shakespeare Gallery (1789-1805), from Commons, by Folger's scenes
   chaucer_ellesmere    the Ellesmere Chaucer's 23 pilgrim portraits (c. 1400-10), from Commons, each with its tale
+  iliad_flaxman        Flaxman's Iliad (Piroli, 1793/95), from Commons, at the Greek line engraved on each plate
+  odyssey_flaxman      Flaxman's Odyssey (Réveil's engravings), from Commons, each at its scene in Murray
 
 Gutenberg's books are cached in scripts/.cache/illustrations/. Commons' pictures are shown from local copies
 (Discord can't show Wikimedia's addresses since November 2026): after building a Commons set, run
@@ -831,6 +833,162 @@ def chaucer_ellesmere() -> None:
                                    "work": "c. 1400–1410, Huntington Library", "credit": "Wikimedia Commons"}, out)
 
 
+# ── Flaxman's Iliad ────────────────────────────────────────────────────────
+# John Flaxman's outlines, engraved by Piroli (1793), in the London edition's 34 numbered plates (Matthews, 1795), as
+# Commons has them ("(10) Flaxman Ilias 1795, ..."). Each plate is engraved with its place in the Greek, book and
+# line, in its corner ("6.325"), and under it Pope's lines and the names of the figures: read off the plates
+# (2026-11-09; the owner approved reading them). The Greek line is the bot's (Murray numbers by it), and each is
+# checked: the words given must be in Murray's text within a few lines of it (the corner numbers are faint on a few
+# plates: 8 reads 4.385 or 5.385, and is Book 5's Otus and Ephialtes; 31's last digit is cut).
+# (plate, book, line, words in Murray near it, the names engraved under the figures, Pope's lines)
+FLAXMAN_ILIAD = [
+    (1, 1, 345, ["Patroclus", "Briseis"], "Achilles, Patroclus, Briseis",
+     "Patroclus now th'unwilling beauty brought;\nShe, in soft sorrows, and in pensive thought,\nPast silent, as the heralds held her hand,\nAnd oft look'd back, slow moving o'er the strand."),
+    (2, 1, 402, ["Briareus"], "Briareus",
+     "Then call'd by thee, the Monster Titan came,\n(Whom Gods Briareus, Men Ægæon name.)"),
+    (3, 2, 8, ["Dream"], "Jupiter, Pernicious Dream",
+     "Fly hence, deluding dream! and light as air,\nTo Agamemnon's ample tent repair."),
+    (4, 3, 385, ["Helen", "robe"], "Venus disguised, Helen", "The Goddess softly shook her silken vest."),
+    (5, 3, 425, ["Helen", "Aphrodite"], "Venus, Helen, Paris",
+     "Full in her Paris' sight, the Queen of Love\nHad placed the beauteous progeny of Jove."),
+    (6, 4, 3, ["Hebe"], "Hebe", "Immortal Hebe, fresh with bloom divine,\nThe golden goblet crowns with purple wine."),
+    (7, 5, 353, ["Iris", "Ares"], "Mars, Iris, Venus", "To Mars, who sat remote, they bent their way."),
+    (8, 5, 385, ["Otus", "Ephialtes"], "Mars", "Otus and Ephialtes held the chain."),
+    (9, 5, 850, ["Ares", "Diomedes"], "Armed Minerva, Mars",
+     "Now rushing fierce, in equal arms appear\nThe daring Greek, the dreadful God of War."),
+    (10, 6, 325, ["Hector"], "Helen, Paris, Hector",
+     "Him thus unactive, with an ardent look,\nThe Prince beheld, and high resenting spoke."),
+    (11, 7, 277, ["Hector", "Aias"], "Ajax, Hector", "Between their swords their peaceful sceptres rear'd."),
+    (12, 8, 392, ["Hera", "Hours"], "The Hours, Minerva, Juno", "Saturnia lends the lash, the coursers fly."),
+    (13, 8, 433, ["Hours"], "", "The Hours unloos'd them."),
+    (14, 9, 196, ["Achilles", "Patroclus"], "Patroclus, Achilles, Ulysses, Ajax, Phoenix", "Princes, all hail!"),
+    (15, 10, 541, ["Nestor"], "Diomed, Ulysses, Nestor", "Scarce had he spoke, when lo! the chiefs appear."),
+    (16, 11, 3, ["Strife"], "", "When baleful Eris, sent by Jove's command,\nThe torch of discord blazing in her hand."),
+    (17, 12, 76, ["Polydamas"], "Hector, Polydamas", "Back from the trenches let your steeds be led."),
+    (18, 13, 26, ["waves"], "Neptune", "He sits superior, and the chariot flies."),
+    (19, 14, 259, ["Night"], "Sleep",
+     "But gentle Night, to whom I fled for aid,\n(The friend of earth and heaven,) her wings display'd."),
+    (20, 15, 745, ["twelve"], "", "Full twelve, the boldest, in a moment fell,\nSent by great Ajax to the shades of hell."),
+    (21, 16, 681, ["Sleep", "Death"], "Sleep, Sarpedon, Death",
+     "Then Sleep and Death, two twins of winged race,\nOf matchless swiftness, but of silent pace,\nReceived Sarpedon, at the God's command,\nAnd in a moment reach'd the Lycian land."),
+    (22, 17, 270, ["Menoetius", "corpse"], "", "… the Trojans seize the slain."),
+    (23, 18, 140, ["sisters"], "", "Ye sister Nereids! to your deeps descend."),
+    (24, 18, 239, ["Hera", "sun"], "Juno",
+     "In Ocean's waves th'unwilling light of day\nQuench'd his red orb, at Juno's high command."),
+    (25, 18, 398, ["Eurynome"], "Thetis, Infant Vulcan, Eurynome",
+     "She and Eurynome my griefs redrest,\nAnd soft receiv'd me on their silver breast."),
+    (26, 18, 427, ["Thetis"], "Thetis, Charis, Vulcan",
+     "The monarch's steps two female forms uphold,\nThat mov'd, and breath'd, in animated gold."),
+    (27, 19, 4, ["Thetis"], "Achilles",
+     "Th'immortal arms the goddess-mother bears\nSwift to her son: her son she finds in tears,\nStretch'd o'er Patroclus' corse."),
+    (28, 20, 37, ["Ares", "Xanthus"], "",
+     "Mars fiery-helm'd, the laughter-loving dame,\nXanthus, whose streams in golden currents flow,\nAnd the chaste huntress of the silver bow."),
+    (29, 21, 325, ["Achilles"], "Xanthus, Achilles, Simois",
+     "He said; and on the chief descends amain,\nIncreas'd with gore, and swelling with the slain."),
+    (30, 22, 474, ["sisters"], "Andromache",
+     "Around, a train of weeping sisters stands,\nTo raise her sinking with assistant hands."),
+    (31, 23, 212, ["winds"], "", "Swift as the word, the winds tumultuous flew."),
+    (32, 24, 15, ["Hector"], "Achilles", "The chariot flies, and Hector trails behind."),
+    (33, 24, 169, ["Iris"], "Iris, Priam", "Before the King, Jove's messenger appears."),
+    (34, 24, 787, ["Hector"], "Hector", "Forth to the pile was borne the man divine,\nAnd plac'd aloft."),
+]
+CODES["iliad_flaxman"] = "fi"
+
+
+def _murray(poem: str) -> dict:
+    """{(book, line): text} of the bot's Homer, each passage under its first line."""
+    books = corpus_book("data/classical/homer.json", poem)
+    return {tuple(map(int, k.split("."))): v["1"] for k, v in books.items()}
+
+
+def _near(murray: dict, book: int, line: int, span: int = 14) -> str:
+    return " ".join(t for (b, l), t in murray.items() if b == book and line - span <= l <= line + span)
+
+
+def iliad_flaxman() -> None:
+    import build_dore as commons
+    murray = _murray("Iliad")
+    members = commons.members("Category:John Flaxman's Iliad")
+    files = {}
+    for plate, *_ in FLAXMAN_ILIAD:
+        hits = [m for m in members if m.startswith(f"File:({plate}) Flaxman Ilias")]
+        expect(len(hits) == 1, f"plate {plate}: {hits}")
+        files[plate] = hits[0]
+    info = commons.file_info(list(files.values()))
+    out, problems = [], []
+    for plate, book, line, words_, names, pope in FLAXMAN_ILIAD:
+        near = fold(_near(murray, book, line))
+        missing = [w for w in words_ if fold(w) not in near]
+        if missing:
+            problems.append(f"plate {plate}, Iliad {book}.{line}: {missing} not near it in Murray")
+            continue
+        f = files[plate]
+        out.append({"title": pope.split("\n")[0].strip(" ,;:.!(…").rstrip(",;:"), "quote": pope,
+                    "caption": f"Plate {plate}" + (f": {names}" if names else ""),
+                    "book": "Iliad", "chapter": str(book), "start": line, "end": line,
+                    "image": info[f]["image"].split("?")[0], "page": info[f]["page"]})
+    expect(not problems, "\n".join(problems))
+    save_set("iliad_flaxman", {"artist": "John Flaxman", "label": "Flaxman",
+                               "work": "The Iliad, engraved by Piroli (1793; London, 1795), with Pope's lines",
+                               "credit": "Wikimedia Commons"}, out)
+
+
+# ── Flaxman's Odyssey ──────────────────────────────────────────────────────
+# The Odyssey's outlines as Commons has them: twenty plates of Réveil's engravings after Flaxman ("OdysseyCirce.png"),
+# each captioned in French with its scene and no line number. Each is placed at the scene in Murray's Odyssey, found
+# by its words (the same check as the Iliad's), and its caption is given in English.
+# (file, book, line, words in Murray near it, the caption in English)
+FLAXMAN_ODYSSEY = [
+    # (the council of Book 5: Athena pleads for Odysseus, and Zeus sends Hermes)
+    ("Zeus", 5, 18, ["Zeus", "Hermes", "Athena"], "Jupiter takes counsel with Mercury and Minerva"),
+    ("Athena", 1, 105, ["Mentes"], "Minerva goes to Ithaca, to counsel Telemachus to go and seek news of his father at Pylos and Sparta"),
+    ("Suitors", 2, 104, ["web"], "The suitors discover the trick Penelope uses to escape their persecution"),
+    ("Telemachos", 3, 1, ["Pylos", "Nestor"], "Minerva, in the likeness of Mentor, and Telemachus arrive at Pylos, where old Nestor reigns"),
+    ("Nestor", 3, 375, ["Nestor", "heifer"], "Nestor, recognising Minerva as she departs, makes a sacrifice to the goddess"),
+    ("Penelope", 4, 795, ["Iphthime"], "Minerva, in the likeness of Penelope's sister, tells the queen of her son Telemachus' return"),
+    ("Hermes", 5, 85, ["Hermes", "Calypso"], "Mercury, sent by Jupiter, orders Calypso to let Ulysses go, whom she has kept on her island seven years"),
+    ("Leukothea", 5, 333, ["Leucothea", "veil"], "Neptune raises a storm that breaks Ulysses' raft; Leucothea gives him her veil to save him from the wreck"),
+    ("Nausikaa", 6, 100, ["ball"], "Nausicaa and her women, having washed the linen they brought in the river, play together at ball"),
+    ("Alcinoos", 6, 255, ["Nausicaa", "city", "mules"], "Nausicaa, having met Ulysses by the river, leads him to the palace of her father, King Alcinous"),
+    ("Demodokos", 8, 521, ["Demodocus", "tears"], "Ulysses is moved to tears by the tale of the siege of Troy that the blind Demodocus sings"),
+    ("Polyphemos", 9, 345, ["Cyclops", "wine"], "Ulysses makes the Cyclops Polyphemus drunk"),
+    ("Antiphates", 10, 114, ["Antiphates"], "Antiphates, king of the Laestrygonians, slaughters many of Ulysses' companions"),
+    ("Circe", 10, 383, ["Circe", "comrades"], "Ulysses, grieving for his companions' fate, begs Circe to restore them to their first form"),
+    ("Underworld", 11, 90, ["Teiresias"], "Ulysses goes down to the underworld, by Circe's counsel, to consult the shade of Tiresias"),
+    ("Morning", 12, 16, ["Circe"], "Circe comes down to the seashore to receive Ulysses"),
+    ("Sirens", 12, 181, ["Sirens"], "The Sirens try with their songs to draw Ulysses to them"),
+    ("Scylla", 12, 245, ["Scylla", "six"], "Scylla devours six of Ulysses' companions"),
+    ("Apollo", 12, 375, ["Lampetie"], "Ulysses' companions, landed on the island of the Sun, kill its finest oxen; Lampetie takes her complaint to the Sun"),
+    ("Ithaka", 13, 117, ["Phaeacians", "sleep"], "Ulysses, asleep, is set ashore by the Phaeacians on the coast of Ithaca"),
+]
+CODES["odyssey_flaxman"] = "fo"
+
+
+def odyssey_flaxman() -> None:
+    import build_dore as commons
+    murray = _murray("Odyssey")
+    members = commons.members("Category:Odysseus by John Flaxman")
+    files = {name: f"File:Odyssey{name}.png" for name, *_ in FLAXMAN_ODYSSEY}
+    for f in files.values():
+        expect(f in members, f"{f} is no longer on Commons")
+    info = commons.file_info(list(files.values()))
+    out, problems = [], []
+    for name, book, line, words_, caption in FLAXMAN_ODYSSEY:
+        near = fold(_near(murray, book, line))
+        missing = [w for w in words_ if fold(w) not in near]
+        if missing:
+            problems.append(f"{name}, Odyssey {book}.{line}: {missing} not near it in Murray")
+            continue
+        f = files[name]
+        out.append({"title": caption, "book": "Odyssey", "chapter": str(book), "start": line, "end": line,
+                    "image": info[f]["image"].split("?")[0], "page": info[f]["page"]})
+    expect(not problems, "\n".join(problems))
+    out.sort(key=lambda p: (int(p["chapter"]), p["start"]))
+    save_set("odyssey_flaxman", {"artist": "John Flaxman", "label": "Flaxman",
+                                 "work": "The Odyssey, engraved by Réveil (captions translated from his French)",
+                                 "credit": "Wikimedia Commons"}, out)
+
+
 # ── The Poetic Edda: Collingwood's (1908) and Frølich's (1895) ─────────────
 # From the University of Victoria's MyNDIR (myndir.uvic.ca), which catalogues each picture of these editions: its
 # record (TEI) names the poem it shows, in its description ("This scene is from the poem <title>Hárbarðsljóð</title>"),
@@ -927,6 +1085,7 @@ BUILDS = {"la_fontaine": la_fontaine, "aesop_rackham": aesop_rackham, "aesop_cra
           "aesop_winter": aesop_winter, "grimm_crane": grimm_crane, "grimm_rackham": grimm_rackham,
           "malory_beardsley": malory_beardsley, "faerie_queene_crane": faerie_queene_crane,
           "shakespeare_boydell": shakespeare_boydell, "chaucer_ellesmere": chaucer_ellesmere,
+          "iliad_flaxman": iliad_flaxman, "odyssey_flaxman": odyssey_flaxman,
           "edda_collingwood": lambda: edda_set("edda_collingwood"), "edda_frolich": lambda: edda_set("edda_frolich")}
 
 
