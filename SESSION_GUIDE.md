@@ -430,8 +430,9 @@ bahai.org/library (its .xhtml) plus Bahá'í Prayers and the Aqdas's Q&A; the Í
 paragraph as cited (the Íqán's ¶213 checked). Hidden Words and Aqdas kept from before. Shoghi Effendi's 7 books
 added at the owner's word (interpretation, but in the Talmud's/Fathers' role); the UHJ's not. The Persian Bayán from
 Terry's English of Nicolas's French, citation "unofficial: ...", only the Báb's bold text. The Arabic Bayán exists the
-same way (bahai-library.com/bab_bayan_arabic_terry), offered to the owner, not added. Not in English at all: the
-Kitáb-i-Badí', most tablets. No changelog yet for any of this -- ask.
+same way (bahai-library.com/bab_bayan_arabic_terry), but only as a scan of a 1980 typescript with unusable OCR:
+waiting on the owner (page-image proofreading, ~100 pages). Not in English at all: the Kitáb-i-Badí', most tablets.
+Changelog posted (both the Bahá'í and the Pahlavi/!gathas entries).
 
 ---
 
