@@ -420,8 +420,7 @@ Then, all live: `build_world_texts.py pahlavi` (Menog-i Khrad, Shikand-gumanik V
 Dinkard 7, Arda Viraf from avesta.org) and `shahnameh` (Zimmern's Epic of Kings); bot_commands/zoroastrian.py:
 !roz (Shahenshahi/Kadmi/Fasli day, Sirozah line, festivals, gahs; anchor Navroz 1395 = 2025-08-15), !daily roz, and
 the 🔤 Terms button under Zoroastrian !verse; !prayer ashem vohu / ahuna vairya / airyema ishyo; Zoroastrian passages
-in six !story stories; 🖌️ `shahnameh_tahmasp` (12 Met folios at Zimmern's paragraphs). No changelog entry for these
-yet -- ask the owner.
+in six !story stories; 🖌️ `shahnameh_tahmasp` (12 Met folios at Zimmern's paragraphs). Changelog posted.
 
 ---
 
