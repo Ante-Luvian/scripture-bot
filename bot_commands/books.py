@@ -58,6 +58,7 @@ BOOKS_TREE = [
             "Letter of Aristeas","Vita Adae et Evae","Apocalypse of Moses",
             "Fragments of a Zadokite Work",
             "2 Enoch", "3 Enoch",                     # (3 Enoch: a machine translation, its source says so)
+            "Hekhalot Rabbati", "Sar Torah", "Chapter of Rabbi Nehuniah",       # (the same manuscript's, likewise)
             "First Book of Adam and Eve", "Second Book of Adam and Eve", "Odes of Solomon",
         ]),
         ("New Testament Apocrypha (Ante-Nicene Fathers VIII)", [

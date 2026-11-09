@@ -42,6 +42,24 @@ def test_3_enoch(lookup):
     assert max(len(v) for c in chapters.values() for v in c.values()) < 2000
 
 
+def test_hekhalot_rabbati(lookup):
+    """The same manuscript's next three pieces (scripts/build_hekhalot.py), each in its own chapters."""
+    data = json.loads((ROOT / "data" / "charles" / "hekhalot_rabbati.json").read_text(encoding="utf-8"))
+    assert "machine translation (AI)" in data["source"]
+    books = data["books"]
+    assert {b: len(c) for b, c in books.items()} == {"Hekhalot Rabbati": 26, "Sar Torah": 5, "Chapter of Rabbi Nehuniah": 2}
+    assert books["Hekhalot Rabbati"]["1"]["1"].startswith("*The Palaces of Rabbi Ishmael")
+    assert books["Hekhalot Rabbati"]["24"]["1"] == "*The Song of the Throne*"
+    assert "Completed are the Laws of the Palaces" in found(lookup, "Hekhalot Rabbati 26")["text"]
+    assert "Let us begin Sar Torah" in found(lookup, "prince of the torah 1:1")["text"]
+    assert "How does a man make use of this Crown?" in found(lookup, "Chapter of Rabbi Nehuniah 2:1")["text"]
+    text = "\n".join(v for b in books.values() for c in b.values() for v in c.values())
+    # (a margin that carries on the sentence is kept: it was "the Prince of of the King")
+    assert "the Prince of the Presence, my friend, the praise of the King" in text and " of of " not in text
+    assert not any(ch in text for ch in "​‌‍﻿그<>~") and "Chapter" not in text.replace("Chapter of Rabbi", "")
+    assert max(len(v) for b in books.values() for c in b.values() for v in c.values()) < 2000
+
+
 def test_the_targum_titles(lookup, monkeypatch):
     """Sefaria's own titles (no network here: the reference each asks Sefaria for)."""
     import scripture_lookup
