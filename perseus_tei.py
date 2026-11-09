@@ -71,6 +71,15 @@ def events(el):
         yield ("mark", "l", el.get("n"))
     elif tag in ("head",):
         yield ("text", "")
+    elif tag == "speaker":
+        # (its own event: split_leaf puts it before the speech it names. As text it came before the next
+        # line marker, so it ended the previous passage: "…halls of Althaea?\nChorus")
+        name = re.sub(r"\s+", " ", "".join(el.itertext())).strip()
+        if name:
+            yield ("speaker", name)
+        return
+    elif tag == "stage":
+        yield ("break",)                                # (a stage direction is its own line)
     # (the file's own line breaks are just spacing; real breaks come from the structure)
     if el.text and tag not in ("head",):
         yield ("text", el.text.replace("\n", " "))
@@ -80,7 +89,7 @@ def events(el):
             yield ("text", child.tail.replace("\n", " "))
     if tag == "lb":
         yield ("break",)
-    if tag in ("l", "p", "lg", "sp", "speaker", "div", "quote") or re.fullmatch(r"div\d", tag):
+    if tag in ("l", "p", "lg", "sp", "stage", "div", "quote") or re.fullmatch(r"div\d", tag):
         yield ("break",)
 
 
@@ -101,16 +110,23 @@ def split_leaf(el, unit: str) -> list:
     candidates = [u for u in ([unit] if unit else []) + (["l", "line"] if unit in ("line", "l", "verse", "") else [])
                   if u in units]
     cut = max(candidates, key=units.count) if candidates else None
-    pieces, key, buf = [], None, []
+    pieces, key, buf, speaker = [], None, [], None
     for e in evs:
         if e[0] == "mark" and e[1] == cut:
             if "".join(buf).strip() or key is not None:
                 pieces.append((key, "".join(buf)))
             key, buf = e[2], []
+        elif e[0] == "speaker":
+            speaker = e[1]                              # (held until the speech's first words, past any marker)
         elif e[0] == "text":
+            if speaker and e[1].strip():
+                buf.append(f"\n{speaker}\n")
+                speaker = None
             buf.append(e[1])
         elif e[0] == "break":
             buf.append("\n")
+    if speaker:
+        buf.append(f"\n{speaker}\n")
     pieces.append((key, "".join(buf)))
     pieces = [(k, tidy(t)) for k, t in pieces]
     pieces = [(k, t) for k, t in pieces if t]

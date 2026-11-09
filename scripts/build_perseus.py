@@ -45,7 +45,10 @@ SKIP_GROUPS = {"New Testament", "Old Testament", "Homeric Hymns", "Flavius Josep
 # (by a word of its description): Brookes More's Metamorphoses, numbered by the Latin lines,
 # not Golding's 1567 one
 PREFER_TRANSLATOR = {("Ovid", "Metamorphoses"): "More, Brookes"}
-SKIP_WORKS = {("Plato", "Alcibiades 1"), ("Plato", "Alcibiades 2"), ("Plato", "Lovers"), ("Epictetus", "The Handbook")}
+SKIP_WORKS = {("Plato", "Alcibiades 1"), ("Plato", "Alcibiades 2"), ("Plato", "Lovers"), ("Epictetus", "The Handbook"),
+              # in their own files (data/classical/aeneid.json, isis_and_osiris.json), whose sources don't name the
+              # author, so the check below took these for other authors' works and added "Virgil: Aeneid" beside them
+              ("P. Vergilius Maro (Virgil)", "Aeneid"), ("Plutarch", "De Iside et Osiride")}
 SKIP_LABELS = {"The Martydom of St. Polycarp",      # the Martyrdom of Polycarp is with the Apostolic Fathers
                'The "Art" of Rhetoric'}             # Aristotle's Rhetoric is in aristotle_perseus.json
 
@@ -240,7 +243,9 @@ def main(only=None):
                 steady, median = proportion(book, original)
             except Exception:
                 match = steady = median = 0.0
-            if match >= PARALLEL_MIN and steady >= 0.9 and 0.4 <= median <= 2.5:
+            # (steady 0.89, not 0.9: moving speakers' names to their speeches, 2026-11-08, put Ovid's Epistles,
+            # lined up before and still a 1.0 match, at 0.899)
+            if match >= PARALLEL_MIN and steady >= 0.89 and 0.4 <= median <= 2.5:
                 originals[name] = {"file": w["original"].relative_to(ROOT).as_posix(), "lang": w["lang"],
                                    "match": round(match, 3)}
             else:

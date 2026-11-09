@@ -29,6 +29,18 @@ def test_passages(lookup, ref, words):
     assert words in result["text"], (ref, result["text"][:200])
 
 
+def test_a_speakers_name_opens_their_speech():
+    """Not the end of the speech before (perseus_tei.split_leaf): "…to my misfortune.\nNurse" was line 45 of the
+    Trachiniae, and line 49 began mid-air; the Cyclops's scene heading ran into "Silenus" (2026-11-08)."""
+    trach = json.loads((PERSEUS / "tlg0011.json").read_text(encoding="utf-8"))["books"]["Trachiniae"]["1"]
+    assert not trach["45"].endswith("Nurse") and trach["49"].startswith("Nurse\nDeianeira, my mistress")
+    cyclops = json.loads((PERSEUS / "tlg0006.json").read_text(encoding="utf-8"))["books"]["The Cyclops"]["1"]
+    assert cyclops["0"].endswith("cave of the Cyclops.") and cyclops["1"].startswith("Silenus\nO Bromius")
+    names = {"Chorus", "Nurse", "Hyllus", "Deianeira", "Silenus", "Cyclops", "Odysseus"}
+    for passages in (trach, cyclops):
+        assert not [k for k, t in passages.items() if t.rsplit("\n", 1)[-1] in names], "a name left at a speech's end"
+
+
 def test_names(lookup):
     index = json.loads((PERSEUS / "index.json").read_text(encoding="utf-8"))
     names = [n for books in index.values() for n in books]

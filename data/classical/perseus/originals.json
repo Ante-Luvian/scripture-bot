@@ -12,7 +12,7 @@
  "The Cyclops": {
   "file": "canonical-greekLit/data/tlg0006/tlg001/tlg0006.tlg001.perseus-grc2.xml",
   "lang": "grc",
-  "match": 1.0
+  "match": 0.997
  },
  "Alcestis": {
   "file": "canonical-greekLit/data/tlg0006/tlg002/tlg0006.tlg002.perseus-grc2.xml",
@@ -22,12 +22,12 @@
  "Medea": {
   "file": "canonical-greekLit/data/tlg0006/tlg003/tlg0006.tlg003.perseus-grc2.xml",
   "lang": "grc",
-  "match": 1.0
+  "match": 0.998
  },
  "Heracleidae": {
   "file": "canonical-greekLit/data/tlg0006/tlg004/tlg0006.tlg004.perseus-grc2.xml",
   "lang": "grc",
-  "match": 1.0
+  "match": 0.997
  },
  "Hippolytus": {
   "file": "canonical-greekLit/data/tlg0006/tlg005/tlg0006.tlg005.perseus-grc2.xml",
@@ -37,27 +37,27 @@
  "Andromache": {
   "file": "canonical-greekLit/data/tlg0006/tlg006/tlg0006.tlg006.perseus-grc2.xml",
   "lang": "grc",
-  "match": 0.995
+  "match": 0.993
  },
  "Hecuba": {
   "file": "canonical-greekLit/data/tlg0006/tlg007/tlg0006.tlg007.perseus-grc2.xml",
   "lang": "grc",
-  "match": 1.0
+  "match": 0.996
  },
  "The Suppliants": {
   "file": "canonical-greekLit/data/tlg0006/tlg008/tlg0006.tlg008.perseus-grc2.xml",
   "lang": "grc",
-  "match": 1.0
+  "match": 0.998
  },
  "Heracles Mad": {
   "file": "canonical-greekLit/data/tlg0006/tlg009/tlg0006.tlg009.perseus-grc2.xml",
   "lang": "grc",
-  "match": 1.0
+  "match": 0.996
  },
  "Euripides: Ion": {
   "file": "canonical-greekLit/data/tlg0006/tlg010/tlg0006.tlg010.perseus-grc2.xml",
   "lang": "grc",
-  "match": 1.0
+  "match": 0.996
  },
  "The Trojan Women": {
   "file": "canonical-greekLit/data/tlg0006/tlg011/tlg0006.tlg011.perseus-grc2.xml",
@@ -67,27 +67,27 @@
  "Euripides: Electra": {
   "file": "canonical-greekLit/data/tlg0006/tlg012/tlg0006.tlg012.perseus-grc2.xml",
   "lang": "grc",
-  "match": 1.0
+  "match": 0.998
  },
  "Iphigenia Among the Tauri": {
   "file": "canonical-greekLit/data/tlg0006/tlg013/tlg0006.tlg013.perseus-grc2.xml",
   "lang": "grc",
-  "match": 1.0
+  "match": 0.998
  },
  "Euripides: Helen": {
   "file": "canonical-greekLit/data/tlg0006/tlg014/tlg0006.tlg014.perseus-grc2.xml",
   "lang": "grc",
-  "match": 0.999
+  "match": 0.997
  },
  "The Phoenician Maidens": {
   "file": "canonical-greekLit/data/tlg0006/tlg015/tlg0006.tlg015.perseus-grc2.xml",
   "lang": "grc",
-  "match": 1.0
+  "match": 0.999
  },
  "Orestes": {
   "file": "canonical-greekLit/data/tlg0006/tlg016/tlg0006.tlg016.perseus-grc2.xml",
   "lang": "grc",
-  "match": 1.0
+  "match": 0.997
  },
  "The Bacchae": {
   "file": "canonical-greekLit/data/tlg0006/tlg017/tlg0006.tlg017.perseus-grc2.xml",
@@ -97,12 +97,12 @@
  "Iphigenia at Aulis": {
   "file": "canonical-greekLit/data/tlg0006/tlg018/tlg0006.tlg018.perseus-grc2.xml",
   "lang": "grc",
-  "match": 1.0
+  "match": 0.994
  },
  "Rhesus": {
   "file": "canonical-greekLit/data/tlg0006/tlg019/tlg0006.tlg019.perseus-grc2.xml",
   "lang": "grc",
-  "match": 0.994
+  "match": 0.993
  },
  "Theseus": {
   "file": "canonical-greekLit/data/tlg0007/tlg001/tlg0007.tlg001.perseus-grc2.xml",
@@ -434,6 +434,11 @@
   "lang": "grc",
   "match": 1.0
  },
+ "How a Man May Become Aware of His Progress in Virtue": {
+  "file": "canonical-greekLit/data/tlg0007/tlg071/tlg0007.tlg071.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.826
+ },
  "Virtue and Vice": {
   "file": "canonical-greekLit/data/tlg0007/tlg075/tlg0007.tlg075.perseus-grc2.xml",
   "lang": "grc",
@@ -508,6 +513,11 @@
   "file": "canonical-greekLit/data/tlg0007/tlg111/tlg0007.tlg111.perseus-grc2.xml",
   "lang": "grc",
   "match": 1.0
+ },
+ "Symposiacs": {
+  "file": "canonical-greekLit/data/tlg0007/tlg112/tlg0007.tlg112.perseus-grc2.xml",
+  "lang": "grc",
+  "match": 0.836
  },
  "Whether an Old Man Should Engage in Public Affairs": {
   "file": "canonical-greekLit/data/tlg0007/tlg117/tlg0007.tlg117.perseus-grc2.xml",
@@ -742,7 +752,7 @@
  "Oedipus at Colonus": {
   "file": "canonical-greekLit/data/tlg0011/tlg007/tlg0011.tlg007.perseus-grc2.xml",
   "lang": "grc",
-  "match": 0.987
+  "match": 0.985
  },
  "Tracking Satyrs": {
   "file": "canonical-greekLit/data/tlg0011/tlg008/tlg0011.tlg008.perseus-grc2.xml",
@@ -1132,12 +1142,12 @@
  "Clouds": {
   "file": "canonical-greekLit/data/tlg0019/tlg003/tlg0019.tlg003.perseus-grc2.xml",
   "lang": "grc",
-  "match": 1.0
+  "match": 0.999
  },
  "Birds": {
   "file": "canonical-greekLit/data/tlg0019/tlg006/tlg0019.tlg006.perseus-grc2.xml",
   "lang": "grc",
-  "match": 1.0
+  "match": 0.999
  },
  "Against Timarchus": {
   "file": "canonical-greekLit/data/tlg0026/tlg001/tlg0026.tlg001.perseus-grc2.xml",
@@ -1682,7 +1692,7 @@
  "Seven Against Thebes": {
   "file": "canonical-greekLit/data/tlg0085/tlg004/tlg0085.tlg004.perseus-grc2.xml",
   "lang": "grc",
-  "match": 1.0
+  "match": 0.997
  },
  "Agamemnon": {
   "file": "canonical-greekLit/data/tlg0085/tlg005/tlg0085.tlg005.perseus-grc2.xml",
@@ -2047,12 +2057,12 @@
  "Amphitryon, or Jupiter in Disguise": {
   "file": "canonical-latinLit/data/phi0119/phi001/phi0119.phi001.perseus-lat2.xml",
   "lang": "lat",
-  "match": 0.998
+  "match": 0.996
  },
  "Asinaria, or The Ass-Dealer": {
   "file": "canonical-latinLit/data/phi0119/phi002/phi0119.phi002.perseus-lat2.xml",
   "lang": "lat",
-  "match": 0.998
+  "match": 0.987
  },
  "Aulularia, or The Concealed Treasure": {
   "file": "canonical-latinLit/data/phi0119/phi003/phi0119.phi003.perseus-lat2.xml",
@@ -2062,12 +2072,12 @@
  "Bacchides, or The Twin Sisters": {
   "file": "canonical-latinLit/data/phi0119/phi004/phi0119.phi004.perseus-lat2.xml",
   "lang": "lat",
-  "match": 0.889
+  "match": 0.883
  },
  "Captivi: The Captives": {
   "file": "canonical-latinLit/data/phi0119/phi005/phi0119.phi005.perseus-lat2.xml",
   "lang": "lat",
-  "match": 0.994
+  "match": 0.992
  },
  "Casina, or The Stratagem Defeated": {
   "file": "canonical-latinLit/data/phi0119/phi006/phi0119.phi006.perseus-lat2.xml",
@@ -2092,12 +2102,12 @@
  "Menaechmi, or The Twin Brothers": {
   "file": "canonical-latinLit/data/phi0119/phi010/phi0119.phi010.perseus-lat2.xml",
   "lang": "lat",
-  "match": 0.994
+  "match": 0.99
  },
  "Mercator, or The Merchant": {
   "file": "canonical-latinLit/data/phi0119/phi011/phi0119.phi011.perseus-lat2.xml",
   "lang": "lat",
-  "match": 0.985
+  "match": 0.973
  },
  "Mostellaria, or The Haunted House": {
   "file": "canonical-latinLit/data/phi0119/phi013/phi0119.phi013.perseus-lat2.xml",
@@ -2107,17 +2117,17 @@
  "Persa, or The Persian": {
   "file": "canonical-latinLit/data/phi0119/phi014/phi0119.phi014.perseus-lat2.xml",
   "lang": "lat",
-  "match": 0.998
+  "match": 0.996
  },
  "Poenulus, or The Young Carthaginian": {
   "file": "canonical-latinLit/data/phi0119/phi015/phi0119.phi015.perseus-lat2.xml",
   "lang": "lat",
-  "match": 0.987
+  "match": 0.952
  },
  "Pseudolus, or The Cheat": {
   "file": "canonical-latinLit/data/phi0119/phi016/phi0119.phi016.perseus-lat2.xml",
   "lang": "lat",
-  "match": 0.994
+  "match": 0.985
  },
  "Rudens, or The Fisherman's Rope": {
   "file": "canonical-latinLit/data/phi0119/phi017/phi0119.phi017.perseus-lat2.xml",
@@ -2127,17 +2137,17 @@
  "Stichus, or The Parasite Rebuffed": {
   "file": "canonical-latinLit/data/phi0119/phi018/phi0119.phi018.perseus-lat2.xml",
   "lang": "lat",
-  "match": 0.99
+  "match": 0.983
  },
  "Trinummus: The Three Pieces of Money": {
   "file": "canonical-latinLit/data/phi0119/phi019/phi0119.phi019.perseus-lat2.xml",
   "lang": "lat",
-  "match": 0.998
+  "match": 0.993
  },
  "Truculentus, or The Churl": {
   "file": "canonical-latinLit/data/phi0119/phi020/phi0119.phi020.perseus-lat2.xml",
   "lang": "lat",
-  "match": 0.998
+  "match": 0.994
  },
  "Andria": {
   "file": "canonical-latinLit/data/phi0134/phi001/phi0134.phi001.perseus-lat2.xml",
@@ -2289,6 +2299,11 @@
   "lang": "lat",
   "match": 0.996
  },
+ "De Rerum Natura": {
+  "file": "canonical-latinLit/data/phi0550/phi001/phi0550.phi001.perseus-lat1.xml",
+  "lang": "lat",
+  "match": 0.996
+ },
  "Six Poems": {
   "file": "canonical-latinLit/data/phi0660/phi003/phi0660.phi003.perseus-lat2.xml",
   "lang": "lat",
@@ -2311,6 +2326,11 @@
  },
  "The Art of Beauty": {
   "file": "canonical-latinLit/data/phi0959/phi003/phi0959.phi003.perseus-lat2.xml",
+  "lang": "lat",
+  "match": 1.0
+ },
+ "The Art of Love": {
+  "file": "canonical-latinLit/data/phi0959/phi004/phi0959.phi004.perseus-lat2.xml",
   "lang": "lat",
   "match": 1.0
  },
