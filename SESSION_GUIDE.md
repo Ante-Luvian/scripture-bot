@@ -429,8 +429,9 @@ verses whose numbers the OCR lost or misread (19 left with no number in the text
 bahai.org/library (its .xhtml) plus Bahá'í Prayers and the Aqdas's Q&A; the Íqán, Epistle, Gems etc. a chapter a
 paragraph as cited (the Íqán's ¶213 checked). Hidden Words and Aqdas kept from before. Shoghi Effendi's 7 books
 added at the owner's word (interpretation, but in the Talmud's/Fathers' role); the UHJ's not. The Persian Bayán from
-Terry's English of Nicolas's French, citation "unofficial: ...", only the Báb's bold text. Not in English at all, so
-not here: the Arabic Bayán in full, the Kitáb-i-Badí', most tablets. No changelog yet for any of this -- ask.
+Terry's English of Nicolas's French, citation "unofficial: ...", only the Báb's bold text. The Arabic Bayán exists the
+same way (bahai-library.com/bab_bayan_arabic_terry), offered to the owner, not added. Not in English at all: the
+Kitáb-i-Badí', most tablets. No changelog yet for any of this -- ask.
 
 ---
 
