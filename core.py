@@ -1100,6 +1100,19 @@ def passage_pages(text: str, size: int = PASSAGE_PAGE) -> list[str]:
     return pages or [""]
 
 
+def local_picture(entry: dict) -> "Path | None":
+    """The picture file to attach for a Doré, Blake or illustration entry: its own "file" if that's a file
+    here (the Dante cut-outs, the illustrated editions'), else the "copy" of its Wikimedia image made by
+    scripts/wikimedia_copies.py, else None (the embed then falls back to the address). Since November
+    2026 Discord can't show Wikimedia's full-size addresses, so the copies are what make them appear."""
+    for key in ("file", "copy"):
+        if entry.get(key):
+            path = ROOT / entry[key]
+            if path.is_file():
+                return path
+    return None
+
+
 _LAST_CITED: dict[int, dict] = {}  # channel_id -> {"reference","text","source"}
 
 

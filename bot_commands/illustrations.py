@@ -14,7 +14,7 @@ import re
 
 import discord
 
-from core import ROOT, bot, lookup
+from core import ROOT, bot, local_picture, lookup
 
 DIR = ROOT / "data" / "illustrations"
 COLOR = discord.Color.from_rgb(120, 90, 60)
@@ -142,8 +142,8 @@ def reference(p: dict) -> str:
 
 
 def _local_file(p: dict):
-    path = ROOT / p["file"] if p.get("file") else None
-    return path if path and path.exists() else None
+    """The picture kept here (its own "file", or the "copy" of its Wikimedia image: core.local_picture)."""
+    return local_picture(p)
 
 
 def _attachment_name(p: dict) -> str:

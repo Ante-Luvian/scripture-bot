@@ -17,7 +17,7 @@ import re
 import discord
 
 from bot_commands import illustrations
-from core import ROOT, bot, lookup
+from core import ROOT, bot, local_picture, lookup
 
 PLATES_PATH = ROOT / "data" / "dore" / "plates.json"
 BLAKE_PATH = ROOT / "data" / "blake" / "art.json"
@@ -167,14 +167,15 @@ def plate_embed(p: dict) -> discord.Embed:
     local = _local_file(p)
     embed.set_image(url=f"attachment://{local.name}" if local else p["image"])
     embed.set_footer(text=f"{name}, {WORKS[(p['artist'], p['set'])]} · "
-                          + ("scan: Wikimedia Commons" if local else "image: Wikimedia Commons"))
+                          + ("scan: Wikimedia Commons" if local and local.parent.name == "dante" else "image: Wikimedia Commons"))
     return embed
 
 
 def _local_file(p: dict):
-    """The engraving cut out of its page scan (most Dante plates), if the build made it."""
-    path = ROOT / p["file"] if p.get("file") else None
-    return path if path and path.exists() else None
+    """The plate's picture file, attached to the message: the engraving cut out of its page scan
+    (most Dante plates, data/dore/dante/) or a copy of the Commons image (the rest, data/dore/copies/;
+    Blake's in data/blake/copies/). See core.local_picture."""
+    return local_picture(p)
 
 
 def plate_message(shown: list) -> dict:

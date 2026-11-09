@@ -2,8 +2,10 @@
 !blake -- William Blake's illuminated books, plate by plate (data/blake/plates.json, built by
 scripts/build_blake_plates.py). Blake etched his words and pictures together on copper and
 coloured every copy by hand; each book here is one copy, as Wikimedia Commons has it, and
-the pictures are shown from Wikimedia. ◀ ▶ turn the plates. (Their words are in the
-library too: !verse Songs of Experience 12, !verse Thel 1.)
+the pictures are copies of Wikimedia's, attached to the message (data/blake/copies/, made by
+`python scripts/wikimedia_copies.py data/blake/plates.json data/blake/copies`: since November 2026
+Discord can't show the Wikimedia addresses themselves). ◀ ▶ turn the plates. (Their words are in
+the library too: !verse Songs of Experience 12, !verse Thel 1.)
 """
 import functools
 import json
@@ -12,7 +14,7 @@ import re
 
 import discord
 
-from core import ROOT, bot
+from core import ROOT, bot, local_picture
 
 PLATES_PATH = ROOT / "data" / "blake" / "plates.json"
 COLOR = discord.Color.from_rgb(150, 70, 30)
@@ -73,12 +75,13 @@ def plate_message(key: str, page: int) -> dict:
         description = description[:description.rfind("\n", 0, 3990)] + "\n…"
     embed = discord.Embed(title=f"{book['title']} — plate {page + 1} of {len(plates)}", url=plate["page"],
                           color=COLOR, description=description or None)
-    embed.set_image(url=plate["image"])
+    local = local_picture(plate)                         # (its "file" is the Commons title; this finds the "copy")
+    embed.set_image(url=f"attachment://{local.name}" if local else plate["image"])
     embed.set_footer(text=f"William Blake, {book['year']} · copy {book['copy']} · image: Wikimedia Commons")
     view = discord.ui.View(timeout=None)                # persistent: must never time out
     view.add_item(PlateButton("back", key, (page - 1) % len(plates)))
     view.add_item(PlateButton("next", key, (page + 1) % len(plates)))
-    return {"embed": embed, "view": view}
+    return {"embed": embed, "view": view, **({"file": discord.File(local)} if local else {})}
 
 
 class PlateButton(discord.ui.DynamicItem[discord.ui.Button],
@@ -98,7 +101,9 @@ class PlateButton(discord.ui.DynamicItem[discord.ui.Button],
         if self.key not in books():
             await interaction.response.send_message("⚠️ I can't find that book any more.", ephemeral=True)
             return
-        await interaction.response.edit_message(**plate_message(self.key, self.page))
+        message = plate_message(self.key, self.page)
+        file = message.pop("file", None)                # (an edit replaces the attachments instead)
+        await interaction.response.edit_message(**message, attachments=[file] if file else [])
 
 
 bot.add_dynamic_items(PlateButton)

@@ -57,6 +57,10 @@ scripts/score/node_modules/
 
 # Doré's Dante plates cut out of their page scans (~40 MB; rebuilt by scripts/build_dore.py)
 data/dore/dante/
+# ...and the other plates' pictures, attached since Discord stopped showing the Wikimedia links (scripts/build_dore.py copies)
+data/dore/copies/
+# Blake's plates and pictures, the same way (scripts/wikimedia_copies.py data/blake/plates.json data/blake/copies)
+data/blake/copies/
 # The illustrated editions' pictures (Doré's La Fontaine, Rackham, Crane...; rebuilt by scripts/build_illustrations.py)
 data/illustrations/*/
 

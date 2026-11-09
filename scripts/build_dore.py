@@ -1,7 +1,8 @@
 """
 Builds data/dore/plates.json: Gustave Doré's engravings for the Bible (Apocrypha included), the
 Divine Comedy and Paradise Lost, each tied to the passage it illustrates, for !dore and the 🖼️
-button on !verse. Only image addresses are stored; Discord shows the pictures from Wikimedia.
+button on !verse. Each picture is kept in data/dore/ (not in git) and attached to the message:
+Discord stopped showing the Wikimedia addresses in November 2026 (see local_copies).
 
   · The Bible (241 plates, 1866). The Old Testament and Apocrypha are Commons' numbered series
     ("001.The Creation of Light.jpg" ... "152.", with "041A." etc.), whose descriptions give the
@@ -17,7 +18,8 @@ button on !verse. Only image addresses are stored; Discord shows the pictures fr
     the Wikisource transcription of the illustrated edition; the lines are found in the bot's own
     Milton, so the numbers agree with !verse Paradise Lost.
 
-    python scripts/build_dore.py
+    python scripts/build_dore.py           (everything)
+    python scripts/build_dore.py copies    (just the local copies, for the plates.json there is)
 """
 import difflib
 import html
@@ -628,6 +630,24 @@ def milton() -> list:
     return plates
 
 
+COPIES = ROOT / "data" / "dore" / "copies"
+
+
+def local_copies(plates: list) -> int:
+    """A copy of every plate that has no file of its own (all but the cut-out Dante plates), in
+    data/dore/copies/, so the bot attaches the picture to its message: since November 2026 Discord
+    can't show the full-size Wikimedia addresses (scripts/wikimedia_copies.py says why). Kept out of
+    git. Returns how many were fetched."""
+    from wikimedia_copies import local_copies as copies      # (scripts/ is on the path when run as a script)
+    return copies(plates, COPIES)
+
+
+def copies_only() -> None:
+    """python scripts/build_dore.py copies -- just the local copies, for the plates.json there is."""
+    from wikimedia_copies import copy_file
+    copy_file(OUT, COPIES)
+
+
 def expect(condition: bool, message: str) -> None:
     if not condition:
         raise SystemExit(f"unexpected: {message}")
@@ -656,10 +676,11 @@ def main():
     d = clean_dante(d)
     m = milton()
     print(f"  Paradise Lost: {len(m)} plates")
+    print(f"  local copies: fetched {local_copies(plates + d + m)}")
     OUT.write_text(json.dumps({"source": "Gustave Doré",
                                "plates": plates + d + m}, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"wrote {OUT.relative_to(ROOT)}: {len(plates) + len(d) + len(m)} plates")
 
 
 if __name__ == "__main__":
-    main()
+    copies_only() if sys.argv[1:] == ["copies"] else main()
