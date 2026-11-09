@@ -414,10 +414,14 @@ so they're not under it.
 
 **Avesta finished (2026-11-09, live; no changelog entry yet -- ask the owner):** `build_world_texts.py avesta` now also
 builds the Visperad, the Khorda Avesta prayers (Nyayeshes, Gahs, Afrinagans, Sirozahs: a "Khorda Avesta" shelf),
-Avesta Fragments and Yashts 22-23, and fixed the Yasna's Gatha chapters (they had held Mills's commentary). The
-other Zoroastrian ideas brainstormed with the owner, not started: Arda Viraf, more SBE Pahlavi books (Menog-i Khrad,
-Bahman Yasht, Zadspram, Shikand-gumanik Vizar), Shahnameh (Warner only as Archive OCR?), a roz/mah daily post, the
-current gah's prayer, core prayers, festival notices, verified parallels, an Avestan glossary.
+Avesta Fragments and Yashts 22-23, and fixed the Yasna's Gatha chapters (they had held Mills's commentary). Changelog
+posted (with !gathas, the Gathas oracle: new, said plainly not an old custom).
+Then, all live: `build_world_texts.py pahlavi` (Menog-i Khrad, Shikand-gumanik Vizar, Bahman Yasht, Zadspram,
+Dinkard 7, Arda Viraf from avesta.org) and `shahnameh` (Zimmern's Epic of Kings); bot_commands/zoroastrian.py:
+!roz (Shahenshahi/Kadmi/Fasli day, Sirozah line, festivals, gahs; anchor Navroz 1395 = 2025-08-15), !daily roz, and
+the 🔤 Terms button under Zoroastrian !verse; !prayer ashem vohu / ahuna vairya / airyema ishyo; Zoroastrian passages
+in six !story stories; 🖌️ `shahnameh_tahmasp` (12 Met folios at Zimmern's paragraphs). No changelog entry for these
+yet -- ask the owner.
 
 ---
 
