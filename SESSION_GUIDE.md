@@ -397,6 +397,12 @@ changed (else compare `books` with HEAD); never OCR or proofread scan images wit
   now. A line naming only `!daily …` and a pack's command needs a `<!-- pack: x -->` marker, or it shows in servers
   with that pack off (test_packs caught the troparion, Angelus, hymn-of-the-day and learning lines).
 - *The PDF guides* (scripts/build_guides.py) were one-offs, the owner says: don't offer to rebuild them.
+- *Wikimedia pictures are local copies (2026-11-08):* Wikimedia began refusing full-size originals (429), so `!dore`,
+  `!blake` and the 🖌️ buttons showed empty embeds. Each Commons entry now has a `"copy"` (a ≤1200 px JPEG in
+  data/{dore,blake,illustrations}/copies/, gitignored, ~300 MB) that the bot attaches (`core.local_picture`: own
+  `"file"`, then `"copy"`, then the address). Rebuild: README "Pictures". `scripts/wikimedia_copies.py` asks for standard
+  thumbnail widths only; its 429s are momentary (5 s back-off, not a minute). The weekly source check counts missing copies.
+  New Commons pictures (any new set) must go through it too, or they'll be blank.
 
 ---
 
