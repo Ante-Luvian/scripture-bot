@@ -74,6 +74,17 @@ def test_juvenal_by_line(lookup):
     assert "Ogulnia" in found(lookup, "Juvenal 6:360")["text"]                              # (the passage the Oxford lines join)
 
 
+def test_persius(lookup):
+    """Ramsay's summaries left out; the two openings Wikisource's satire pages lack, from its page transcriptions."""
+    assert "I never soused my lips in the Nag's Spring" in found(lookup, "Persius 0:1")["text"]
+    assert "*P.* \"O the vanity of mankind!" in found(lookup, "satires of persius 1:1")["text"]
+    assert "Set the whitest of white stones, Macrinus" in found(lookup, "Persius 2:5")["text"]
+    assert "Has winter yet brought thee, Bassus" in found(lookup, "Persius 6:1")["text"]
+    assert "SUMMARY" not in found(lookup, "Persius 6:1")["text"]
+    assert "hen thrush" in found(lookup, "Persius 6:20")["text"]
+    assert found(lookup, "Persius 5:191")                                   # (the satire's last line, from the Latin)
+
+
 def test_martial(lookup, books):
     assert "*On Diaulus*\nDiaulus, lately a doctor, is now an undertaker" in found(lookup, "Martial 1:47")["text"]
     assert "*[From the Loeb translation]*" in found(lookup, "epigrams of martial 1:46")["text"]

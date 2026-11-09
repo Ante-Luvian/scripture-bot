@@ -22,6 +22,7 @@ Latin authors the library lacked, into data/classical/latin.json (run scripts/cl
   fabulae, astronomica   Hyginus (Grant, 1960), from ToposText: theoi.com's own pages now hold only a few fables
   dares, dictys, fulgentius   the Trojan War "eyewitnesses" (Frazer, 1966) and the Mythologies (Whitbread), theoi.com
   juvenal     Juvenal's Satires (Ramsay's Loeb, 1918), from Wikisource, by the Latin lines
+  persius     Persius's Satires (the same book), likewise
   martial     Martial's Epigrams (Bohn, 1897; Ker's Loeb where Bohn gave Italian), Roger Pearse's tertullian.org
 
 LacusCurtius is slow (a page can take a minute and a half): scripts/fetch_lacus.py downloads its pages first.
@@ -879,6 +880,74 @@ def juvenal() -> None:
     _save(payload)
 
 
+# ── Persius, Satires (Ramsay's Loeb, 1918), from Wikisource ───────────────────────────────────────────────
+# The same book's pages: the Prologue ("Persius 0:1", 14 lines) and six satires, stored by the Latin lines as Juvenal
+# is. Each satire's page has Ramsay's summary first ("SUMMARY OF SATIRE II", its line references in brackets): left
+# out, the satire beginning at its heading. Two pages lack the satire's opening, the summary standing in its place
+# (2: lines 1-16, 6: lines 1-11): those are taken from the book's proofread page transcriptions (djvu 421, 479).
+# Each satire's last line from the Perseus Latin (canonical-latinLit phi0969, a <div> a satire).
+PERSIUS_OPENINGS = {2: 421, 6: 479}
+
+
+def _ws_page_text(n: int) -> list:
+    """A proofread page of Ramsay's book, from its wikitext: its paragraphs, notes and heading left out."""
+    import urllib.parse
+    from build_platonists import fetch
+    title = f"Page:Juvenal and Persius by G. G. Ramsay.djvu/{n}"
+    url = "https://en.wikisource.org/w/api.php?" + urllib.parse.urlencode(
+        {"action": "query", "prop": "revisions|info", "rvprop": "content", "rvslots": "main", "titles": title,
+         "format": "json", "formatversion": 2})
+    page = json.loads(fetch(url, f"ws_page_ramsay_{n}.json"))["query"]["pages"][0]
+    c = page["revisions"][0]["slots"]["main"]["content"]
+    expect('pagequality level="3"' in c or 'pagequality level="4"' in c, f"djvu/{n} isn't proofread")
+    c = re.sub(r"(?s)<noinclude>.*?</noinclude>|<ref>.*?</ref>|\{\{c\|\{\{larger\|[^}]*\}\}\}\}|\{\{nop\}\}", "", c)
+    c = re.sub(r"\{\{sc\|([^}]*)\}\}", r"\1", c)
+    c = re.sub(r"''(.+?)''", r"*\1*", c)
+    return [re.sub(r"\s+", " ", p).strip() for p in re.split(r"\n\s*\n", c) if p.strip()]
+
+
+def persius() -> None:
+    import xml.etree.ElementTree as ET
+    tei = ET.parse(ROOT / "canonical-latinLit/data/phi0969/phi001/phi0969.phi001.perseus-lat2.xml").getroot()
+    ns = "{http://www.tei-c.org/ns/1.0}"
+    last = {("0" if d.get("n") == "pr" else d.get("n")): max(int(l.get("n")) for l in d.iter(f"{ns}l"))
+            for d in tei.iter(f"{ns}div") if d.get("type") == "textpart"}
+    expect(sorted(last, key=int) == [str(n) for n in range(0, 7)], f"Persius's Latin: {sorted(last)}")
+    passages = {}
+    for n in range(0, 7):
+        page = "Prologue" if n == 0 else f"Satire {n}"
+        t = wikisource(f"Juvenal and Persius/The Satires of Persius/{page}")
+        paras = []
+        for m in re.finditer(r"(?is)<p\b[^>]*>(.*?)</p>", t):
+            ids = re.findall(r'class="wst-verse[^"]*" id="([^"]+)"', m.group(1))
+            s = text(m.group(1))
+            if s:
+                paras.append((ids[0] if ids else None, s))
+        heading = "THE PROLOGUE" if n == 0 else f"SATIRE {_ROMAN_OF[n]}"
+        head = next((i for i, (_, p) in enumerate(paras) if p == heading), None)
+        expect(head is not None, f"Persius {page}: no heading {heading!r}")
+        body = paras[head + 1:]
+        if n == 0:
+            body = body[:1]                              # (the page repeats the Prologue's one paragraph)
+        if n in PERSIUS_OPENINGS:
+            opening = _ws_page_text(PERSIUS_OPENINGS[n])
+            expect(body and body[0][0] and int(body[0][0]) > 1, f"Persius {n}: its page has its opening after all")
+            body = [(None, p) for p in opening] + body
+        key, lead = f"{n}.1", [f"*{'The Prologue' if n == 0 else f'Satire {_ROMAN_OF[n]}'}*"]
+        for line, p in body:
+            if line and line.isdigit() and int(line) > int(key.split(".")[1]):
+                key = f"{n}.{line}"
+            expect(int(key.split(".")[1]) <= last[str(n)], f"Persius {key}: past the satire's end, {last[str(n)]}")
+            passages.setdefault(key, {"1": ""})
+            passages[key]["1"] = "\n".join(([passages[key]["1"]] if passages[key]["1"] else []) + lead + [p])
+            lead = []
+    payload = _load()
+    payload["books"]["Persius"] = _sorted_lines(passages)
+    payload["book_sources"]["Persius"] = "Satires, trans. G. G. Ramsay (Loeb, 1918)"
+    payload.setdefault("last_lines", {})["Persius"] = last
+    _save(payload)
+
+
 # Ramsay titles three satires with their famous Latin tags: given instead in his own English for those lines
 # (1.30, 3.41, 8.1), the library being English
 JUVENAL_LATIN_TITLES = {"difficile est saturam non scribere": "It Is Hard Not to Write Satire",
@@ -986,7 +1055,8 @@ BUILDS = {"old_age": old_age, "distichs": distichs, "cato": cato, "varro": varro
           "argonautica": argonautica, "seneca_tragedies": seneca_tragedies, "fabulae": fabulae, "dares": dares,
           "dictys": dictys, "fulgentius": fulgentius, "astronomica": astronomica, "moral_letters": moral_letters,
           "natural_history": natural_history, "historia_augusta": historia_augusta, "stratagems": stratagems,
-          "aqueducts": aqueducts, "velleius": velleius, "florus": florus, "juvenal": juvenal, "martial": martial}
+          "aqueducts": aqueducts, "velleius": velleius, "florus": florus, "juvenal": juvenal, "martial": martial,
+          "persius": persius}
 
 
 def main(names: list) -> None:
