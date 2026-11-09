@@ -19,7 +19,8 @@
      5
     ]
    ],
-   "also": []
+   "also": [],
+   "copy": "data/blake/copies/3a0157d5df8e.jpg"
   },
   {
    "set": "job",
@@ -53,7 +54,8 @@
     "Daniel 7:9",
     "Psalms 17:15",
     "Isaiah 63:16"
-   ]
+   ],
+   "copy": "data/blake/copies/50b857768a32.jpg"
   },
   {
    "set": "job",
@@ -83,7 +85,8 @@
      16
     ]
    ],
-   "also": []
+   "also": [],
+   "copy": "data/blake/copies/31b8323a8e6d.jpg"
   },
   {
    "set": "job",
@@ -108,7 +111,8 @@
      7
     ]
    ],
-   "also": []
+   "also": [],
+   "copy": "data/blake/copies/e9646929439f.jpg"
   },
   {
    "set": "job",
@@ -136,7 +140,8 @@
    "also": [
     "Genesis 6:6",
     "Psalms 104:4"
-   ]
+   ],
+   "copy": "data/blake/copies/b17aa919d2c9.jpg"
   },
   {
    "set": "job",
@@ -161,7 +166,8 @@
      21
     ]
    ],
-   "also": []
+   "also": [],
+   "copy": "data/blake/copies/2776c8f59df6.jpg"
   },
   {
    "set": "job",
@@ -188,7 +194,8 @@
    ],
    "also": [
     "James 5:11"
-   ]
+   ],
+   "copy": "data/blake/copies/1643865b0717.jpg"
   },
   {
    "set": "job",
@@ -218,7 +225,8 @@
      13
     ]
    ],
-   "also": []
+   "also": [],
+   "copy": "data/blake/copies/5c77bcd263c9.jpg"
   },
   {
    "set": "job",
@@ -243,7 +251,8 @@
      18
     ]
    ],
-   "also": []
+   "also": [],
+   "copy": "data/blake/copies/fc9b77521976.jpg"
   },
   {
    "set": "job",
@@ -283,7 +292,8 @@
      15
     ]
    ],
-   "also": []
+   "also": [],
+   "copy": "data/blake/copies/d43240531cf8.jpg"
   },
   {
    "set": "job",
@@ -326,7 +336,8 @@
    "also": [
     "2 Corinthians 11:14",
     "2 Thessalonians 2:4"
-   ]
+   ],
+   "copy": "data/blake/copies/84e1e939878a.jpg"
   },
   {
    "set": "job",
@@ -371,7 +382,8 @@
      7
     ]
    ],
-   "also": []
+   "also": [],
+   "copy": "data/blake/copies/ade40c1f91b1.jpg"
   },
   {
    "set": "job",
@@ -398,7 +410,8 @@
    ],
    "also": [
     "Psalms 104:3"
-   ]
+   ],
+   "copy": "data/blake/copies/d2f1a0ec3741.jpg"
   },
   {
    "set": "job",
@@ -425,7 +438,8 @@
    ],
    "also": [
     "Genesis 1:3-25"
-   ]
+   ],
+   "copy": "data/blake/copies/dde7fa40a997.jpg"
   },
   {
    "set": "job",
@@ -460,7 +474,8 @@
      12
     ]
    ],
-   "also": []
+   "also": [],
+   "copy": "data/blake/copies/40fb3c429b92.jpg"
   },
   {
    "set": "job",
@@ -495,7 +510,8 @@
     "John 12:31",
     "Luke 10:17-18",
     "1 Corinthians 1:27"
-   ]
+   ],
+   "copy": "data/blake/copies/445fb2247aa5.jpg"
   },
   {
    "set": "job",
@@ -521,7 +537,8 @@
     "1 Samuel 2:6",
     "John 14:7-23",
     "John 10:30"
-   ]
+   ],
+   "copy": "data/blake/copies/261bd8b36600.jpg"
   },
   {
    "set": "job",
@@ -543,7 +560,8 @@
    ],
    "also": [
     "Matthew 5:44-48"
-   ]
+   ],
+   "copy": "data/blake/copies/a2b67696d74b.jpg"
   },
   {
    "set": "job",
@@ -571,7 +589,8 @@
    "also": [
     "1 Samuel 2:7",
     "Psalms 136:23"
-   ]
+   ],
+   "copy": "data/blake/copies/d6ce3349abe7.jpg"
   },
   {
    "set": "job",
@@ -594,7 +613,8 @@
    "also": [
     "Psalms 139:8",
     "Psalms 139:17"
-   ]
+   ],
+   "copy": "data/blake/copies/9cf6d3647eb0.jpg"
   },
   {
    "set": "job",
@@ -622,7 +642,8 @@
    "also": [
     "Revelation 15:3",
     "Hebrews 10:6"
-   ]
+   ],
+   "copy": "data/blake/copies/64084dfa1a08.jpg"
   },
   {
    "set": "bible",
@@ -634,7 +655,8 @@
    "end": 12,
    "cited": "Genesis 28:12",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ea/Blake_jacobsladder.jpg/1280px-Blake_jacobsladder.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:Blake_jacobsladder.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Blake_jacobsladder.jpg",
+   "copy": "data/blake/copies/a82d37e2ba17.jpg"
   },
   {
    "set": "bible",
@@ -646,7 +668,8 @@
    "end": 21,
    "cited": "Genesis 3:21",
    "image": "https://upload.wikimedia.org/wikipedia/commons/b/bb/The_Angel_of_the_Divine_Presence_Clothing_Adam_and_Eve_with_Coats_of_Skins%2C_object_1_%28Butlin_436%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:The_Angel_of_the_Divine_Presence_Clothing_Adam_and_Eve_with_Coats_of_Skins,_object_1_(Butlin_436).jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:The_Angel_of_the_Divine_Presence_Clothing_Adam_and_Eve_with_Coats_of_Skins,_object_1_(Butlin_436).jpg",
+   "copy": "data/blake/copies/259142829f5b.jpg"
   },
   {
    "set": "bible",
@@ -658,7 +681,8 @@
    "end": 8,
    "cited": "Genesis 4:8",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c9/The_Body_of_Abel_Found_by_Adam_and_Eve_by_William_Blake_c1826_Tate.jpg/1280px-The_Body_of_Abel_Found_by_Adam_and_Eve_by_William_Blake_c1826_Tate.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:The_Body_of_Abel_Found_by_Adam_and_Eve_by_William_Blake_c1826_Tate.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:The_Body_of_Abel_Found_by_Adam_and_Eve_by_William_Blake_c1826_Tate.jpg",
+   "copy": "data/blake/copies/d8443d14ba89.jpg"
   },
   {
    "set": "bible",
@@ -670,7 +694,8 @@
    "end": 10,
    "cited": "Genesis 22:10",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4c/William_Blake_-_Abraham_and_Isaac_-_Google_Art_Project.jpg/1280px-William_Blake_-_Abraham_and_Isaac_-_Google_Art_Project.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_-_Abraham_and_Isaac_-_Google_Art_Project.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_-_Abraham_and_Isaac_-_Google_Art_Project.jpg",
+   "copy": "data/blake/copies/3ceb68a5d156.jpg"
   },
   {
    "set": "bible",
@@ -682,7 +707,8 @@
    "end": 12,
    "cited": "Genesis 39:12",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/3e/William_Blake_-_Joseph_and_Potiphar%27s_Wife_-_Google_Art_Project.jpg/1280px-William_Blake_-_Joseph_and_Potiphar%27s_Wife_-_Google_Art_Project.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_-_Joseph_and_Potiphar%27s_Wife_-_Google_Art_Project.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_-_Joseph_and_Potiphar%27s_Wife_-_Google_Art_Project.jpg",
+   "copy": "data/blake/copies/9f77d43fc9d7.jpg"
   },
   {
    "set": "bible",
@@ -694,7 +720,8 @@
    "end": 18,
    "cited": "Exodus 31:18",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b4/William_Blake_-_Moses_Receiving_the_Law_-_Google_Art_Project.jpg/1280px-William_Blake_-_Moses_Receiving_the_Law_-_Google_Art_Project.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_-_Moses_Receiving_the_Law_-_Google_Art_Project.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_-_Moses_Receiving_the_Law_-_Google_Art_Project.jpg",
+   "copy": "data/blake/copies/945473e0008f.jpg"
   },
   {
    "set": "bible",
@@ -706,7 +733,8 @@
    "end": 9,
    "cited": "Numbers 21:9",
    "image": "https://upload.wikimedia.org/wikipedia/commons/8/89/William_Blake_Moses_and_the_brazen_serpent.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_Moses_and_the_brazen_serpent.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_Moses_and_the_brazen_serpent.jpg",
+   "copy": "data/blake/copies/c3600fe25a1e.jpg"
   },
   {
    "set": "bible",
@@ -718,7 +746,8 @@
    "end": 14,
    "cited": "Leviticus 24:14",
    "image": "https://upload.wikimedia.org/wikipedia/commons/a/a4/Blake_The_Blasphemer.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:Blake_The_Blasphemer.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Blake_The_Blasphemer.jpg",
+   "copy": "data/blake/copies/8a63da69bc6b.jpg"
   },
   {
    "set": "bible",
@@ -730,7 +759,8 @@
    "end": 10,
    "cited": "Psalms 85:10",
    "image": "https://upload.wikimedia.org/wikipedia/commons/0/0a/Mercy_and_Truth_are_Met_Together%2C_Righteousness_and_Peace_Have_Kissed_Each_Other%2C_object_1_%28Butlin_463%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:Mercy_and_Truth_are_Met_Together,_Righteousness_and_Peace_Have_Kissed_Each_Other,_object_1_(Butlin_463).jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Mercy_and_Truth_are_Met_Together,_Righteousness_and_Peace_Have_Kissed_Each_Other,_object_1_(Butlin_463).jpg",
+   "copy": "data/blake/copies/76576f92e945.jpg"
   },
   {
    "set": "bible",
@@ -742,7 +772,8 @@
    "end": 7,
    "cited": "Luke 2:7",
    "image": "https://upload.wikimedia.org/wikipedia/commons/3/3e/Nativity_by_Blake.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:Nativity_by_Blake.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Nativity_by_Blake.jpg",
+   "copy": "data/blake/copies/9a4216a3bc2e.jpg"
   },
   {
    "set": "bible",
@@ -754,7 +785,8 @@
    "end": 16,
    "cited": "Matthew 3:16",
    "image": "https://upload.wikimedia.org/wikipedia/commons/4/46/The_Baptism_of_Christ%2C_1803_%28Butlin_475%29_Ashmolean_Museum%2C_Oxford.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:The_Baptism_of_Christ,_1803_(Butlin_475)_Ashmolean_Museum,_Oxford.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:The_Baptism_of_Christ,_1803_(Butlin_475)_Ashmolean_Museum,_Oxford.jpg",
+   "copy": "data/blake/copies/2a698290d931.jpg"
   },
   {
    "set": "bible",
@@ -766,7 +798,8 @@
    "end": 41,
    "cited": "Mark 5:41",
    "image": "https://upload.wikimedia.org/wikipedia/commons/4/4c/Christ_Raising_Jairus%27s_Daughter%2C_object_1_%28Butlin_417%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:Christ_Raising_Jairus%27s_Daughter,_object_1_(Butlin_417).jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Christ_Raising_Jairus%27s_Daughter,_object_1_(Butlin_417).jpg",
+   "copy": "data/blake/copies/f5d5afcd0141.jpg"
   },
   {
    "set": "bible",
@@ -778,7 +811,8 @@
    "end": 40,
    "cited": "Luke 10:40",
    "image": "https://upload.wikimedia.org/wikipedia/commons/8/83/Christ_in_the_House_of_Martha_and_Mary_But_Martha_Was_Cumbered_About_Much_Serving_%28Butlin_489%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:Christ_in_the_House_of_Martha_and_Mary_But_Martha_Was_Cumbered_About_Much_Serving_(Butlin_489).jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Christ_in_the_House_of_Martha_and_Mary_But_Martha_Was_Cumbered_About_Much_Serving_(Butlin_489).jpg",
+   "copy": "data/blake/copies/df1b8b57a0de.jpg"
   },
   {
    "set": "bible",
@@ -790,7 +824,8 @@
    "end": 7,
    "cited": "John 8:7",
    "image": "https://upload.wikimedia.org/wikipedia/commons/c/c6/The_Woman_Taken_in_Adultery_but486_1_1_wc_100.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:The_Woman_Taken_in_Adultery_but486_1_1_wc_100.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:The_Woman_Taken_in_Adultery_but486_1_1_wc_100.jpg",
+   "copy": "data/blake/copies/439df1505f22.jpg"
   },
   {
    "set": "bible",
@@ -802,7 +837,8 @@
    "end": 1,
    "cited": "Matthew 25:1",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d2/William_Blake_-_The_Parable_of_the_Wise_and_Foolish_Virgins_-_Google_Art_Project.jpg/1280px-William_Blake_-_The_Parable_of_the_Wise_and_Foolish_Virgins_-_Google_Art_Project.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_-_The_Parable_of_the_Wise_and_Foolish_Virgins_-_Google_Art_Project.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_-_The_Parable_of_the_Wise_and_Foolish_Virgins_-_Google_Art_Project.jpg",
+   "copy": "data/blake/copies/49ddb3913d2b.jpg"
   },
   {
    "set": "bible",
@@ -814,7 +850,8 @@
    "end": 21,
    "cited": "Matthew 26:21",
    "image": "https://upload.wikimedia.org/wikipedia/commons/0/0a/William_Blake_-_The_Last_Supper_ca_1799.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_-_The_Last_Supper_ca_1799.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_-_The_Last_Supper_ca_1799.jpg",
+   "copy": "data/blake/copies/bd8841c03891.jpg"
   },
   {
    "set": "bible",
@@ -826,7 +863,8 @@
    "end": 24,
    "cited": "John 19:24",
    "image": "https://upload.wikimedia.org/wikipedia/commons/d/d1/Blake_soldiers_casting_lots.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:Blake_soldiers_casting_lots.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Blake_soldiers_casting_lots.jpg",
+   "copy": "data/blake/copies/222b4aca9bb7.jpg"
   },
   {
    "set": "bible",
@@ -838,7 +876,8 @@
    "end": 33,
    "cited": "Luke 23:33",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f3/William_Blake_Christ_Nailed_to_the_Cross.jpg/1280px-William_Blake_Christ_Nailed_to_the_Cross.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_Christ_Nailed_to_the_Cross.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_Christ_Nailed_to_the_Cross.jpg",
+   "copy": "data/blake/copies/b855c6a5ab73.jpg"
   },
   {
    "set": "bible",
@@ -850,7 +889,8 @@
    "end": 12,
    "cited": "John 20:12",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/22/William_Blake_-_Christ_in_the_Sepulchre%2C_Guarded_by_Angels.jpg/1280px-William_Blake_-_Christ_in_the_Sepulchre%2C_Guarded_by_Angels.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_-_Christ_in_the_Sepulchre,_Guarded_by_Angels.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_-_Christ_in_the_Sepulchre,_Guarded_by_Angels.jpg",
+   "copy": "data/blake/copies/2a070ed040a5.jpg"
   },
   {
    "set": "bible",
@@ -862,7 +902,8 @@
    "end": 4,
    "cited": "Revelation 4:4",
    "image": "https://upload.wikimedia.org/wikipedia/commons/5/55/The_Four_and_Twenty_Elders_by_W.Blake.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:The_Four_and_Twenty_Elders_by_W.Blake.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:The_Four_and_Twenty_Elders_by_W.Blake.jpg",
+   "copy": "data/blake/copies/d9f8ad3b8cdc.jpg"
   },
   {
    "set": "bible",
@@ -874,7 +915,8 @@
    "end": 8,
    "cited": "Revelation 6:8",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/0/03/William_Blake_-_Death_on_a_Pale_Horse_-_Butlin_517.jpg/1280px-William_Blake_-_Death_on_a_Pale_Horse_-_Butlin_517.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_-_Death_on_a_Pale_Horse_-_Butlin_517.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_-_Death_on_a_Pale_Horse_-_Butlin_517.jpg",
+   "copy": "data/blake/copies/5f9db8d2a977.jpg"
   },
   {
    "set": "bible",
@@ -886,7 +928,8 @@
    "end": 1,
    "cited": "Revelation 10:1",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/87/Angel_of_the_Revelation_%28Book_of_Revelation%2C_chapter_10%29_MET_DT5424.jpg/1280px-Angel_of_the_Revelation_%28Book_of_Revelation%2C_chapter_10%29_MET_DT5424.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:Angel_of_the_Revelation_(Book_of_Revelation,_chapter_10)_MET_DT5424.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Angel_of_the_Revelation_(Book_of_Revelation,_chapter_10)_MET_DT5424.jpg",
+   "copy": "data/blake/copies/41e348832683.jpg"
   },
   {
    "set": "bible",
@@ -898,7 +941,8 @@
    "end": 1,
    "cited": "Revelation 12:1",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/67/William_Blake_-_The_Great_Red_Dragon_and_the_Woman_Clothed_with_the_Sun_-_Google_Art_Project.jpg/1280px-William_Blake_-_The_Great_Red_Dragon_and_the_Woman_Clothed_with_the_Sun_-_Google_Art_Project.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_-_The_Great_Red_Dragon_and_the_Woman_Clothed_with_the_Sun_-_Google_Art_Project.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_-_The_Great_Red_Dragon_and_the_Woman_Clothed_with_the_Sun_-_Google_Art_Project.jpg",
+   "copy": "data/blake/copies/afc4c98e3690.jpg"
   },
   {
    "set": "bible",
@@ -910,7 +954,8 @@
    "end": 18,
    "cited": "Revelation 13:18",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/40/The_number_of_the_beast_is_666_Philadelphia%2C_Rosenbach_Museum_and_Library.jpg/1280px-The_number_of_the_beast_is_666_Philadelphia%2C_Rosenbach_Museum_and_Library.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:The_number_of_the_beast_is_666_Philadelphia,_Rosenbach_Museum_and_Library.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:The_number_of_the_beast_is_666_Philadelphia,_Rosenbach_Museum_and_Library.jpg",
+   "copy": "data/blake/copies/69aa8cea65d6.jpg"
   },
   {
    "set": "bible",
@@ -922,7 +967,8 @@
    "end": 3,
    "cited": "Revelation 17:3",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/de/Whore-of-babylon-blake-1809.jpg/1280px-Whore-of-babylon-blake-1809.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:Whore-of-babylon-blake-1809.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Whore-of-babylon-blake-1809.jpg",
+   "copy": "data/blake/copies/7f8920d961c9.jpg"
   },
   {
    "set": "bible",
@@ -934,7 +980,8 @@
    "end": 2,
    "cited": "Revelation 20:2",
    "image": "https://upload.wikimedia.org/wikipedia/commons/4/4d/Angel_Michael_Binding_Satan_by_W.Blake_%28c._1805%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:Angel_Michael_Binding_Satan_by_W.Blake_(c._1805).jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Angel_Michael_Binding_Satan_by_W.Blake_(c._1805).jpg",
+   "copy": "data/blake/copies/de115f698fe3.jpg"
   },
   {
    "set": "bible",
@@ -946,7 +993,8 @@
    "end": 3,
    "cited": "Revelation 20:3",
    "image": "https://upload.wikimedia.org/wikipedia/commons/7/7b/W.Blake_-_He_Cast_Him_into_the_Bottomless_Pit_and_Shut_Him_Up%2C_c._1800.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:W.Blake_-_He_Cast_Him_into_the_Bottomless_Pit_and_Shut_Him_Up,_c._1800.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:W.Blake_-_He_Cast_Him_into_the_Bottomless_Pit_and_Shut_Him_Up,_c._1800.jpg",
+   "copy": "data/blake/copies/78f2b073b10b.jpg"
   },
   {
    "set": "bible",
@@ -958,7 +1006,8 @@
    "end": 1,
    "cited": "Revelation 22:1",
    "image": "https://upload.wikimedia.org/wikipedia/commons/0/0c/Blake_The_River_of_Life_Tate_Britain.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:Blake_The_River_of_Life_Tate_Britain.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Blake_The_River_of_Life_Tate_Britain.jpg",
+   "copy": "data/blake/copies/99651e4ad881.jpg"
   },
   {
    "set": "pl",
@@ -970,7 +1019,8 @@
    "end": 330,
    "cited": "Paradise Lost 1:330",
    "image": "https://upload.wikimedia.org/wikipedia/commons/4/43/ParadiseLThomas1.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:ParadiseLThomas1.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:ParadiseLThomas1.jpg",
+   "copy": "data/blake/copies/8054c86fae00.jpg"
   },
   {
    "set": "pl",
@@ -982,7 +1032,8 @@
    "end": 648,
    "cited": "Paradise Lost 2:648",
    "image": "https://upload.wikimedia.org/wikipedia/commons/8/86/ParadiseLThomas2.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:ParadiseLThomas2.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:ParadiseLThomas2.jpg",
+   "copy": "data/blake/copies/7773af314162.jpg"
   },
   {
    "set": "pl",
@@ -994,7 +1045,8 @@
    "end": 236,
    "cited": "Paradise Lost 3:236",
    "image": "https://upload.wikimedia.org/wikipedia/commons/a/a3/ParadiseLThomas3.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:ParadiseLThomas3.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:ParadiseLThomas3.jpg",
+   "copy": "data/blake/copies/7642b8cd6096.jpg"
   },
   {
    "set": "pl",
@@ -1006,7 +1058,8 @@
    "end": 266,
    "cited": "Paradise Lost 5:266",
    "image": "https://upload.wikimedia.org/wikipedia/commons/e/e3/ParadiseLThomas4.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:ParadiseLThomas4.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:ParadiseLThomas4.jpg",
+   "copy": "data/blake/copies/f0569336aaeb.jpg"
   },
   {
    "set": "pl",
@@ -1018,7 +1071,8 @@
    "end": 468,
    "cited": "Paradise Lost 5:468",
    "image": "https://upload.wikimedia.org/wikipedia/commons/e/ed/ParadiseLThomas6.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:ParadiseLThomas6.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:ParadiseLThomas6.jpg",
+   "copy": "data/blake/copies/a4fd671fb365.jpg"
   },
   {
    "set": "pl",
@@ -1030,7 +1084,8 @@
    "end": 871,
    "cited": "Paradise Lost 6:871",
    "image": "https://upload.wikimedia.org/wikipedia/commons/4/4f/ParadiseLThomas7.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:ParadiseLThomas7.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:ParadiseLThomas7.jpg",
+   "copy": "data/blake/copies/55baa42a5f4e.jpg"
   },
   {
    "set": "pl",
@@ -1042,7 +1097,8 @@
    "end": 470,
    "cited": "Paradise Lost 8:470",
    "image": "https://upload.wikimedia.org/wikipedia/commons/7/7f/ParadiseLThomas8.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:ParadiseLThomas8.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:ParadiseLThomas8.jpg",
+   "copy": "data/blake/copies/97da68536a4c.jpg"
   },
   {
    "set": "pl",
@@ -1054,7 +1110,8 @@
    "end": 781,
    "cited": "Paradise Lost 9:781",
    "image": "https://upload.wikimedia.org/wikipedia/commons/3/36/ParadiseLThomas9.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:ParadiseLThomas9.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:ParadiseLThomas9.jpg",
+   "copy": "data/blake/copies/ff677a566dae.jpg"
   },
   {
    "set": "pl",
@@ -1066,7 +1123,8 @@
    "end": 209,
    "cited": "Paradise Lost 10:209",
    "image": "https://upload.wikimedia.org/wikipedia/commons/0/0c/ParadiseLThomas10.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:ParadiseLThomas10.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:ParadiseLThomas10.jpg",
+   "copy": "data/blake/copies/27f685e03987.jpg"
   },
   {
    "set": "pl",
@@ -1078,7 +1136,8 @@
    "end": 414,
    "cited": "Paradise Lost 12:414",
    "image": "https://upload.wikimedia.org/wikipedia/commons/9/94/ParadiseLThomas11.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:ParadiseLThomas11.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:ParadiseLThomas11.jpg",
+   "copy": "data/blake/copies/8450a7da1fdf.jpg"
   },
   {
    "set": "pl",
@@ -1090,7 +1149,8 @@
    "end": 647,
    "cited": "Paradise Lost 12:647",
    "image": "https://upload.wikimedia.org/wikipedia/commons/3/37/ParadiseLThomas12.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:ParadiseLThomas12.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:ParadiseLThomas12.jpg",
+   "copy": "data/blake/copies/f71929dddeab.jpg"
   },
   {
    "set": "pp",
@@ -1102,7 +1162,8 @@
    "end": 1,
    "cited": "Pilgrim's Progress 1:1",
    "image": "https://upload.wikimedia.org/wikipedia/commons/c/c4/William_Blake_-_John_Bunyan_Plate_1_Dreamen_Dreams_a_Dream.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_-_John_Bunyan_Plate_1_Dreamen_Dreams_a_Dream.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_-_John_Bunyan_Plate_1_Dreamen_Dreams_a_Dream.jpg",
+   "copy": "data/blake/copies/b05291af4468.jpg"
   },
   {
    "set": "pp",
@@ -1114,7 +1175,8 @@
    "end": 1,
    "cited": "Pilgrim's Progress 1:1",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6c/William_Blake_-_John_Bunyan_-_Cristian_Reading_in_His_Book_-_Frick_Collection_New_York.jpg/1280px-William_Blake_-_John_Bunyan_-_Cristian_Reading_in_His_Book_-_Frick_Collection_New_York.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_-_John_Bunyan_-_Cristian_Reading_in_His_Book_-_Frick_Collection_New_York.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_-_John_Bunyan_-_Cristian_Reading_in_His_Book_-_Frick_Collection_New_York.jpg",
+   "copy": "data/blake/copies/2fd87733bdbb.jpg"
   },
   {
    "set": "pp",
@@ -1126,7 +1188,8 @@
    "end": 83,
    "cited": "Pilgrim's Progress 1:83",
    "image": "https://upload.wikimedia.org/wikipedia/commons/b/b9/William_Blake_-_John_Bunyan_Plate_8_Christian_Fears_the_Fire_from_the_Mountain.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_-_John_Bunyan_Plate_8_Christian_Fears_the_Fire_from_the_Mountain.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_-_John_Bunyan_Plate_8_Christian_Fears_the_Fire_from_the_Mountain.jpg",
+   "copy": "data/blake/copies/d4448820cd07.jpg"
   },
   {
    "set": "pp",
@@ -1138,7 +1201,8 @@
    "end": 49,
    "cited": "Pilgrim's Progress 2:49",
    "image": "https://upload.wikimedia.org/wikipedia/commons/6/69/William_Blake_-_John_Bunyan_-_The_Man_Sweeping_the_Interprener%27s_Parlour.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_-_John_Bunyan_-_The_Man_Sweeping_the_Interprener%27s_Parlour.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_-_John_Bunyan_-_The_Man_Sweeping_the_Interprener%27s_Parlour.jpg",
+   "copy": "data/blake/copies/1f54fad837f6.jpg"
   },
   {
    "set": "pp",
@@ -1150,7 +1214,8 @@
    "end": 71,
    "cited": "Pilgrim's Progress 2:71",
    "image": "https://upload.wikimedia.org/wikipedia/commons/7/73/William_Blake_-_John_Bunyan_-_The_Man_in_the_Iron_Cage.gif?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_-_John_Bunyan_-_The_Man_in_the_Iron_Cage.gif"
+   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_-_John_Bunyan_-_The_Man_in_the_Iron_Cage.gif",
+   "copy": "data/blake/copies/cda0373bedc5.jpg"
   },
   {
    "set": "pp",
@@ -1162,7 +1227,8 @@
    "end": 92,
    "cited": "Pilgrim's Progress 2:92",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e1/William_Blake_-_John_Bunyan_Plate_13_The_Man_Who_Dreamed_of_the_Day_of_Judgement.jpg/1280px-William_Blake_-_John_Bunyan_Plate_13_The_Man_Who_Dreamed_of_the_Day_of_Judgement.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_-_John_Bunyan_Plate_13_The_Man_Who_Dreamed_of_the_Day_of_Judgement.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_-_John_Bunyan_Plate_13_The_Man_Who_Dreamed_of_the_Day_of_Judgement.jpg",
+   "copy": "data/blake/copies/010bc7196c04.jpg"
   },
   {
    "set": "pp",
@@ -1174,7 +1240,8 @@
    "end": 26,
    "cited": "Pilgrim's Progress 3:26",
    "image": "https://upload.wikimedia.org/wikipedia/commons/9/92/William_Blake_-_John_Bunyan_Plate_17_The_Christian_at_the_Arbor.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_-_John_Bunyan_Plate_17_The_Christian_at_the_Arbor.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_-_John_Bunyan_Plate_17_The_Christian_at_the_Arbor.jpg",
+   "copy": "data/blake/copies/fe5338f9afdf.jpg"
   },
   {
    "set": "pp",
@@ -1186,7 +1253,8 @@
    "end": 37,
    "cited": "Pilgrim's Progress 4:37",
    "image": "https://upload.wikimedia.org/wikipedia/commons/a/ab/William_Blake_-_John_Bunyan_Plate_20_The_Christian_Fights_Apollyon.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_-_John_Bunyan_Plate_20_The_Christian_Fights_Apollyon.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_-_John_Bunyan_Plate_20_The_Christian_Fights_Apollyon.jpg",
+   "copy": "data/blake/copies/8bfbf0f9212d.jpg"
   },
   {
    "set": "pp",
@@ -1198,7 +1266,8 @@
    "end": 128,
    "cited": "Pilgrim's Progress 10:128",
    "image": "https://upload.wikimedia.org/wikipedia/commons/9/9a/William_Blake_-_John_Bunyan_Plate_28_At_the_Gates_of_Heaven.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_-_John_Bunyan_Plate_28_At_the_Gates_of_Heaven.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_-_John_Bunyan_Plate_28_At_the_Gates_of_Heaven.jpg",
+   "copy": "data/blake/copies/12485f6c5d54.jpg"
   },
   {
    "set": "dante",
@@ -1210,7 +1279,8 @@
    "end": 63,
    "cited": "Inferno 1:61-63",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b9/William_Blake_-_Dante_running_from_the_three_beasts_-_Google_Art_Project.jpg/1280px-William_Blake_-_Dante_running_from_the_three_beasts_-_Google_Art_Project.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_-_Dante_running_from_the_three_beasts_-_Google_Art_Project.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_-_Dante_running_from_the_three_beasts_-_Google_Art_Project.jpg",
+   "copy": "data/blake/copies/ad19afce9e52.jpg"
   },
   {
    "set": "dante",
@@ -1222,7 +1292,8 @@
    "end": 57,
    "cited": "Inferno 2:52-57",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2c/Illustrations_to_Dante%27s_Divine_Comedy_object_2_Butlin_812-3_The_Mission_of_Virgil.jpg/1280px-Illustrations_to_Dante%27s_Divine_Comedy_object_2_Butlin_812-3_The_Mission_of_Virgil.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:Illustrations_to_Dante%27s_Divine_Comedy_object_2_Butlin_812-3_The_Mission_of_Virgil.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Illustrations_to_Dante%27s_Divine_Comedy_object_2_Butlin_812-3_The_Mission_of_Virgil.jpg",
+   "copy": "data/blake/copies/4f81108ba0a1.jpg"
   },
   {
    "set": "dante",
@@ -1234,7 +1305,8 @@
    "end": 142,
    "cited": "Inferno 2:139-142",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/23/Illustrations_to_Dante%27s_Divine_Comedy_object_3_Butlin_812-2_Dante_and_Virgil_Penetrating_the_Forest.jpg/1280px-Illustrations_to_Dante%27s_Divine_Comedy_object_3_Butlin_812-2_Dante_and_Virgil_Penetrating_the_Forest.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:Illustrations_to_Dante%27s_Divine_Comedy_object_3_Butlin_812-2_Dante_and_Virgil_Penetrating_the_Forest.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Illustrations_to_Dante%27s_Divine_Comedy_object_3_Butlin_812-2_Dante_and_Virgil_Penetrating_the_Forest.jpg",
+   "copy": "data/blake/copies/2afb325a2d1b.jpg"
   },
   {
    "set": "dante",
@@ -1246,7 +1318,8 @@
    "end": 9,
    "cited": "Inferno 3:1-9",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/72/Illustrations_to_Dante%27s_Divine_Comedy_object_4_Butlin_812-4_The_Inscription_over_Hell-Gate.jpg/1280px-Illustrations_to_Dante%27s_Divine_Comedy_object_4_Butlin_812-4_The_Inscription_over_Hell-Gate.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:Illustrations_to_Dante%27s_Divine_Comedy_object_4_Butlin_812-4_The_Inscription_over_Hell-Gate.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Illustrations_to_Dante%27s_Divine_Comedy_object_4_Butlin_812-4_The_Inscription_over_Hell-Gate.jpg",
+   "copy": "data/blake/copies/feb968f416a7.jpg"
   },
   {
    "set": "dante",
@@ -1258,7 +1331,8 @@
    "end": 57,
    "cited": "Inferno 3:52-57",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/66/The_Vestibule_of_Hell_and_Souls_Mustering_to_Cross_the_Acheron_Blake.jpg/1280px-The_Vestibule_of_Hell_and_Souls_Mustering_to_Cross_the_Acheron_Blake.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:The_Vestibule_of_Hell_and_Souls_Mustering_to_Cross_the_Acheron_Blake.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:The_Vestibule_of_Hell_and_Souls_Mustering_to_Cross_the_Acheron_Blake.jpg",
+   "copy": "data/blake/copies/3a3fc0eca7ec.jpg"
   },
   {
    "set": "dante",
@@ -1270,7 +1344,8 @@
    "end": 111,
    "cited": "Inferno 3:109-111",
    "image": "https://upload.wikimedia.org/wikipedia/commons/7/78/Charon_and_the_Condemned_Souls_Blake.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:Charon_and_the_Condemned_Souls_Blake.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Charon_and_the_Condemned_Souls_Blake.jpg",
+   "copy": "data/blake/copies/f0d1b56e593c.jpg"
   },
   {
    "set": "dante",
@@ -1282,7 +1357,8 @@
    "end": 90,
    "cited": "Inferno 4:85-90",
    "image": "https://upload.wikimedia.org/wikipedia/commons/9/9e/Homer_Bearing_the_Sword_and_His_Companions_Blake.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:Homer_Bearing_the_Sword_and_His_Companions_Blake.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Homer_Bearing_the_Sword_and_His_Companions_Blake.jpg",
+   "copy": "data/blake/copies/8c138a6b5714.jpg"
   },
   {
    "set": "dante",
@@ -1294,7 +1370,8 @@
    "end": 105,
    "cited": "Inferno 4:100-105",
    "image": "https://upload.wikimedia.org/wikipedia/commons/2/21/Blake_Dante_Hell_IV_Canto.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:Blake_Dante_Hell_IV_Canto.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Blake_Dante_Hell_IV_Canto.jpg",
+   "copy": "data/blake/copies/c8dd9b315151.jpg"
   },
   {
    "set": "dante",
@@ -1306,7 +1383,8 @@
    "end": 6,
    "cited": "Inferno 5:4-6",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b7/Illustrations_to_Dante%27s_Divine_Comedy_object_9_Butlin_812-9Minos.jpg/1280px-Illustrations_to_Dante%27s_Divine_Comedy_object_9_Butlin_812-9Minos.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:Illustrations_to_Dante%27s_Divine_Comedy_object_9_Butlin_812-9Minos.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Illustrations_to_Dante%27s_Divine_Comedy_object_9_Butlin_812-9Minos.jpg",
+   "copy": "data/blake/copies/04c799c411d0.jpg"
   },
   {
    "set": "dante",
@@ -1318,7 +1396,8 @@
    "end": 142,
    "cited": "Inferno 5:139-142",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/6/6f/Illustrations_to_Dante%27s_Divine_Comedy_object_10_Butlin_812-10_The_Circle_of_the_Lustful_Francesca_Da_Rimini.jpg/1280px-Illustrations_to_Dante%27s_Divine_Comedy_object_10_Butlin_812-10_The_Circle_of_the_Lustful_Francesca_Da_Rimini.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:Illustrations_to_Dante%27s_Divine_Comedy_object_10_Butlin_812-10_The_Circle_of_the_Lustful_Francesca_Da_Rimini.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Illustrations_to_Dante%27s_Divine_Comedy_object_10_Butlin_812-10_The_Circle_of_the_Lustful_Francesca_Da_Rimini.jpg",
+   "copy": "data/blake/copies/ce7b43aa4530.jpg"
   },
   {
    "set": "dante",
@@ -1330,7 +1409,8 @@
    "end": 142,
    "cited": "Inferno 5:139-142",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/10/Blake%27s_Illustrations_of_Dante%2C_object_2_Bentley_448-1_The_Circle_of_the_Lustful_Francesca_Da_Rimini.jpg/1280px-Blake%27s_Illustrations_of_Dante%2C_object_2_Bentley_448-1_The_Circle_of_the_Lustful_Francesca_Da_Rimini.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:Blake%27s_Illustrations_of_Dante,_object_2_Bentley_448-1_The_Circle_of_the_Lustful_Francesca_Da_Rimini.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Blake%27s_Illustrations_of_Dante,_object_2_Bentley_448-1_The_Circle_of_the_Lustful_Francesca_Da_Rimini.jpg",
+   "copy": "data/blake/copies/4e6f8de29ff4.jpg"
   },
   {
    "set": "dante",
@@ -1342,7 +1422,8 @@
    "end": 12,
    "cited": "Inferno 6:7-12",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/14/Illustrations_to_Dante%27s_Divine_Comedy_object_11_Butlin_812-11_recto%29_The_Circle_of_the_Gluttons_with_Cerberus.jpg/1280px-Illustrations_to_Dante%27s_Divine_Comedy_object_11_Butlin_812-11_recto%29_The_Circle_of_the_Gluttons_with_Cerberus.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:Illustrations_to_Dante%27s_Divine_Comedy_object_11_Butlin_812-11_recto)_The_Circle_of_the_Gluttons_with_Cerberus.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Illustrations_to_Dante%27s_Divine_Comedy_object_11_Butlin_812-11_recto)_The_Circle_of_the_Gluttons_with_Cerberus.jpg",
+   "copy": "data/blake/copies/8a1a3397ad11.jpg"
   },
   {
    "set": "dante",
@@ -1354,7 +1435,8 @@
    "end": 18,
    "cited": "Inferno 6:13-18",
    "image": "https://upload.wikimedia.org/wikipedia/commons/2/25/Cerberus-Blake.jpeg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:Cerberus-Blake.jpeg"
+   "page": "https://commons.wikimedia.org/wiki/File:Cerberus-Blake.jpeg",
+   "copy": "data/blake/copies/6a2fe0373de1.jpg"
   },
   {
    "set": "dante",
@@ -1366,7 +1448,8 @@
    "end": 27,
    "cited": "Inferno 6:25-27",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/20/Illustrations_to_Dante%27s_Divine_Comedy_object_13_Butlin_812-13_Second_Version_of_Cerberus.jpg/1280px-Illustrations_to_Dante%27s_Divine_Comedy_object_13_Butlin_812-13_Second_Version_of_Cerberus.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:Illustrations_to_Dante%27s_Divine_Comedy_object_13_Butlin_812-13_Second_Version_of_Cerberus.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Illustrations_to_Dante%27s_Divine_Comedy_object_13_Butlin_812-13_Second_Version_of_Cerberus.jpg",
+   "copy": "data/blake/copies/15ce77a13cd7.jpg"
   },
   {
    "set": "dante",
@@ -1378,7 +1461,8 @@
    "end": 9,
    "cited": "Inferno 7:1-9",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/d3/Illustrations_to_Dante%27s_Divine_Comedy_object_14_Butlin_812-14_Plutus.jpg/1280px-Illustrations_to_Dante%27s_Divine_Comedy_object_14_Butlin_812-14_Plutus.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:Illustrations_to_Dante%27s_Divine_Comedy_object_14_Butlin_812-14_Plutus.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Illustrations_to_Dante%27s_Divine_Comedy_object_14_Butlin_812-14_Plutus.jpg",
+   "copy": "data/blake/copies/385883ad231a.jpg"
   },
   {
    "set": "dante",
@@ -1390,7 +1474,8 @@
    "end": 96,
    "cited": "Inferno 7:94-96",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/88/Illustrations_to_Dante%27s_Divine_Comedy_object_15_Butlin_812-16_The_Goddess_of_Fortune.jpg/1280px-Illustrations_to_Dante%27s_Divine_Comedy_object_15_Butlin_812-16_The_Goddess_of_Fortune.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:Illustrations_to_Dante%27s_Divine_Comedy_object_15_Butlin_812-16_The_Goddess_of_Fortune.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Illustrations_to_Dante%27s_Divine_Comedy_object_15_Butlin_812-16_The_Goddess_of_Fortune.jpg",
+   "copy": "data/blake/copies/800217b2154c.jpg"
   },
   {
    "set": "dante",
@@ -1402,7 +1487,8 @@
    "end": 114,
    "cited": "Inferno 7:109-114",
    "image": "https://upload.wikimedia.org/wikipedia/commons/a/ab/Blake_Dante_Hell_VII_Canto.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:Blake_Dante_Hell_VII_Canto.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Blake_Dante_Hell_VII_Canto.jpg",
+   "copy": "data/blake/copies/de99eb6db5d8.jpg"
   },
   {
    "set": "dante",
@@ -1414,7 +1500,8 @@
    "end": 6,
    "cited": "Inferno 8:1-6",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/4f/Illustrations_to_Dante%27s_Divine_Comedy_object_17_Butlin_812-17_Dante_and_Virgil_about_to_Pass_the_Stygian_Lake.jpg/1280px-Illustrations_to_Dante%27s_Divine_Comedy_object_17_Butlin_812-17_Dante_and_Virgil_about_to_Pass_the_Stygian_Lake.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:Illustrations_to_Dante%27s_Divine_Comedy_object_17_Butlin_812-17_Dante_and_Virgil_about_to_Pass_the_Stygian_Lake.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Illustrations_to_Dante%27s_Divine_Comedy_object_17_Butlin_812-17_Dante_and_Virgil_about_to_Pass_the_Stygian_Lake.jpg",
+   "copy": "data/blake/copies/76eed1d36cb6.jpg"
   },
   {
    "set": "dante",
@@ -1426,7 +1513,8 @@
    "end": 42,
    "cited": "Inferno 8:40-42",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/13/Blake_Dante_Hell_VIII_Canto.jpg/1280px-Blake_Dante_Hell_VIII_Canto.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:Blake_Dante_Hell_VIII_Canto.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Blake_Dante_Hell_VIII_Canto.jpg",
+   "copy": "data/blake/copies/103e7b7cdb59.jpg"
   },
   {
    "set": "dante",
@@ -1438,7 +1526,8 @@
    "end": 90,
    "cited": "Inferno 9:85-90",
    "image": "https://upload.wikimedia.org/wikipedia/commons/e/e7/Blake_Dante_Hell_IX.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:Blake_Dante_Hell_IX.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Blake_Dante_Hell_IX.jpg",
+   "copy": "data/blake/copies/6ce61368791a.jpg"
   },
   {
    "set": "dante",
@@ -1450,7 +1539,8 @@
    "end": 36,
    "cited": "Inferno 10:31-36",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/34/Blake_Dante_Hell_X_Farinata.jpg/1280px-Blake_Dante_Hell_X_Farinata.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:Blake_Dante_Hell_X_Farinata.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Blake_Dante_Hell_X_Farinata.jpg",
+   "copy": "data/blake/copies/232c5f037353.jpg"
   },
   {
    "set": "dante",
@@ -1462,7 +1552,8 @@
    "end": 21,
    "cited": "Inferno 11:16-21",
    "image": "https://upload.wikimedia.org/wikipedia/commons/d/d1/Blake_Dante_Hell_XI.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:Blake_Dante_Hell_XI.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Blake_Dante_Hell_XI.jpg",
+   "copy": "data/blake/copies/53e950485935.jpg"
   },
   {
    "set": "dante",
@@ -1474,7 +1565,8 @@
    "end": 15,
    "cited": "Inferno 12:10-15",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/d/db/Blake_Dante_Hell_XII.jpg/1280px-Blake_Dante_Hell_XII.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:Blake_Dante_Hell_XII.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Blake_Dante_Hell_XII.jpg",
+   "copy": "data/blake/copies/d5e1edf39de7.jpg"
   },
   {
    "set": "dante",
@@ -1486,7 +1578,8 @@
    "end": 36,
    "cited": "Inferno 13:31-36",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/85/Blake_Dante_Hell_XIII.jpg/1280px-Blake_Dante_Hell_XIII.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:Blake_Dante_Hell_XIII.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Blake_Dante_Hell_XIII.jpg",
+   "copy": "data/blake/copies/43f0c7f5091b.jpg"
   },
   {
    "set": "dante",
@@ -1498,7 +1591,8 @@
    "end": 51,
    "cited": "Inferno 14:46-51",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/92/Capaneum.jpg/1280px-Capaneum.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:Capaneum.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Capaneum.jpg",
+   "copy": "data/blake/copies/6adf6137e7d2.jpg"
   },
   {
    "set": "dante",
@@ -1510,7 +1604,8 @@
    "end": 111,
    "cited": "Inferno 14:103-111",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/85/Illustrations_to_Dante%27s_Divine_Comedy_object_30_Butlin_812-28_rectoThe_Symbolic_Figure_of_the_Course_of_Human_History_Described_by_Virgil.jpg/1280px-Illustrations_to_Dante%27s_Divine_Comedy_object_30_Butlin_812-28_rectoThe_Symbolic_Figure_of_the_Course_of_Human_History_Described_by_Virgil.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:Illustrations_to_Dante%27s_Divine_Comedy_object_30_Butlin_812-28_rectoThe_Symbolic_Figure_of_the_Course_of_Human_History_Described_by_Virgil.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Illustrations_to_Dante%27s_Divine_Comedy_object_30_Butlin_812-28_rectoThe_Symbolic_Figure_of_the_Course_of_Human_History_Described_by_Virgil.jpg",
+   "copy": "data/blake/copies/493d61a33b1d.jpg"
   },
   {
    "set": "dante",
@@ -1522,7 +1617,8 @@
    "end": 102,
    "cited": "Inferno 17:97-102",
    "image": "https://upload.wikimedia.org/wikipedia/commons/b/b8/Geryon_Conveying_Dante_and_Virgil_Down_Towards_Malebolge%2C_Object_33_%28Butlin_812.31_recto%29.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:Geryon_Conveying_Dante_and_Virgil_Down_Towards_Malebolge,_Object_33_(Butlin_812.31_recto).jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Geryon_Conveying_Dante_and_Virgil_Down_Towards_Malebolge,_Object_33_(Butlin_812.31_recto).jpg",
+   "copy": "data/blake/copies/76209a45f68c.jpg"
   },
   {
    "set": "dante",
@@ -1534,7 +1630,8 @@
    "end": 48,
    "cited": "Inferno 19:43-48",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c8/William_Blake_004.jpg/1280px-William_Blake_004.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_004.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_004.jpg",
+   "copy": "data/blake/copies/e4b236b4117e.jpg"
   },
   {
    "set": "dante",
@@ -1546,7 +1643,8 @@
    "end": 72,
    "cited": "Inferno 22:70-72",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/44/Illustrations_to_Dante%27s_Divine_Comedy%2C_object_43_%28Butlin_812-41%29_Ciampolo_the_Barrator_Tormented_by_the_Devils.jpg/1280px-Illustrations_to_Dante%27s_Divine_Comedy%2C_object_43_%28Butlin_812-41%29_Ciampolo_the_Barrator_Tormented_by_the_Devils.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:Illustrations_to_Dante%27s_Divine_Comedy,_object_43_(Butlin_812-41)_Ciampolo_the_Barrator_Tormented_by_the_Devils.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Illustrations_to_Dante%27s_Divine_Comedy,_object_43_(Butlin_812-41)_Ciampolo_the_Barrator_Tormented_by_the_Devils.jpg",
+   "copy": "data/blake/copies/02fc76ca93a0.jpg"
   },
   {
    "set": "dante",
@@ -1558,7 +1656,8 @@
    "end": 72,
    "cited": "Inferno 22:70-72",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c6/Blake%27s_Illustrations_of_Dante%2C_object_3_%28Bentley_448-2%29_Ciampolo_the_Barrator_Tormented_by_the_Devils.jpg/1280px-Blake%27s_Illustrations_of_Dante%2C_object_3_%28Bentley_448-2%29_Ciampolo_the_Barrator_Tormented_by_the_Devils.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:Blake%27s_Illustrations_of_Dante,_object_3_(Bentley_448-2)_Ciampolo_the_Barrator_Tormented_by_the_Devils.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Blake%27s_Illustrations_of_Dante,_object_3_(Bentley_448-2)_Ciampolo_the_Barrator_Tormented_by_the_Devils.jpg",
+   "copy": "data/blake/copies/6db2f0a22c27.jpg"
   },
   {
    "set": "dante",
@@ -1570,7 +1669,8 @@
    "end": 141,
    "cited": "Inferno 22:133-141",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/ba/Illustrations_to_Dante%27s_Divine_Comedy%2C_object_44_%28Butlin_812-42%29_The_Baffled_Devils_Fighting.jpg/1280px-Illustrations_to_Dante%27s_Divine_Comedy%2C_object_44_%28Butlin_812-42%29_The_Baffled_Devils_Fighting.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:Illustrations_to_Dante%27s_Divine_Comedy,_object_44_(Butlin_812-42)_The_Baffled_Devils_Fighting.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Illustrations_to_Dante%27s_Divine_Comedy,_object_44_(Butlin_812-42)_The_Baffled_Devils_Fighting.jpg",
+   "copy": "data/blake/copies/347508f81c91.jpg"
   },
   {
    "set": "dante",
@@ -1582,7 +1682,8 @@
    "end": 141,
    "cited": "Inferno 22:133-141",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/f/f9/Blake%27s_Illustrations_of_Dante%2C_object_4_%28Bentley_448-3%29_The_Baffled_Devils_Fighting.jpg/1280px-Blake%27s_Illustrations_of_Dante%2C_object_4_%28Bentley_448-3%29_The_Baffled_Devils_Fighting.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:Blake%27s_Illustrations_of_Dante,_object_4_(Bentley_448-3)_The_Baffled_Devils_Fighting.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Blake%27s_Illustrations_of_Dante,_object_4_(Bentley_448-3)_The_Baffled_Devils_Fighting.jpg",
+   "copy": "data/blake/copies/cef24e75342f.jpg"
   },
   {
    "set": "dante",
@@ -1594,7 +1695,8 @@
    "end": 96,
    "cited": "Inferno 24:91-96",
    "image": "https://upload.wikimedia.org/wikipedia/commons/c/cb/Blake_Dante_Hell_XXIV_Thieves.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:Blake_Dante_Hell_XXIV_Thieves.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Blake_Dante_Hell_XXIV_Thieves.jpg",
+   "copy": "data/blake/copies/5b155d7daa07.jpg"
   },
   {
    "set": "dante",
@@ -1606,7 +1708,8 @@
    "end": 24,
    "cited": "Inferno 25:16-24",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/83/Blake_Hell_25_Centaur_Cacus.jpg/1280px-Blake_Hell_25_Centaur_Cacus.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:Blake_Hell_25_Centaur_Cacus.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Blake_Hell_25_Centaur_Cacus.jpg",
+   "copy": "data/blake/copies/0ddffae123cd.jpg"
   },
   {
    "set": "dante",
@@ -1618,7 +1721,8 @@
    "end": 54,
    "cited": "Inferno 25:49-54",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ed/Illustrations_to_Dante%27s_Divine_Comedy%2C_object_54_%28Butlin_812-51_recto%29_The_Six-Footed_Serpent_Attacking_Agnolo_Brunelleschi.jpg/1280px-Illustrations_to_Dante%27s_Divine_Comedy%2C_object_54_%28Butlin_812-51_recto%29_The_Six-Footed_Serpent_Attacking_Agnolo_Brunelleschi.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:Illustrations_to_Dante%27s_Divine_Comedy,_object_54_(Butlin_812-51_recto)_The_Six-Footed_Serpent_Attacking_Agnolo_Brunelleschi.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Illustrations_to_Dante%27s_Divine_Comedy,_object_54_(Butlin_812-51_recto)_The_Six-Footed_Serpent_Attacking_Agnolo_Brunelleschi.jpg",
+   "copy": "data/blake/copies/85deccb2d274.jpg"
   },
   {
    "set": "dante",
@@ -1630,7 +1734,8 @@
    "end": 54,
    "cited": "Inferno 25:49-54",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/91/Blake%27s_Illustrations_of_Dante%2C_object_5_%28Bentley_448-4%29_The_Six-Footed_Serpent_Attacking_Agnolo_Brunelleschi.jpg/1280px-Blake%27s_Illustrations_of_Dante%2C_object_5_%28Bentley_448-4%29_The_Six-Footed_Serpent_Attacking_Agnolo_Brunelleschi.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:Blake%27s_Illustrations_of_Dante,_object_5_(Bentley_448-4)_The_Six-Footed_Serpent_Attacking_Agnolo_Brunelleschi.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Blake%27s_Illustrations_of_Dante,_object_5_(Bentley_448-4)_The_Six-Footed_Serpent_Attacking_Agnolo_Brunelleschi.jpg",
+   "copy": "data/blake/copies/318ba535ef50.jpg"
   },
   {
    "set": "dante",
@@ -1642,7 +1747,8 @@
    "end": 93,
    "cited": "Inferno 25:85-93",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/1/11/Illustrations_to_Dante%27s_Divine_Comedy%2C_object_56_%28Butlin_812-53_recto%29_The_Serpent_Attacking_Buoso_Donati.jpg/1280px-Illustrations_to_Dante%27s_Divine_Comedy%2C_object_56_%28Butlin_812-53_recto%29_The_Serpent_Attacking_Buoso_Donati.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:Illustrations_to_Dante%27s_Divine_Comedy,_object_56_(Butlin_812-53_recto)_The_Serpent_Attacking_Buoso_Donati.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Illustrations_to_Dante%27s_Divine_Comedy,_object_56_(Butlin_812-53_recto)_The_Serpent_Attacking_Buoso_Donati.jpg",
+   "copy": "data/blake/copies/5c9a4d59facc.jpg"
   },
   {
    "set": "dante",
@@ -1654,7 +1760,8 @@
    "end": 93,
    "cited": "Inferno 25:85-93",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/8/82/The_Circle_of_the_Thieves%3B_Buoso_Donati_Attacked_by_the_Serpent_%2C_from_Dante%27s_Inferno%2C_Canto_XXV_MET_DP816840.jpg/1280px-The_Circle_of_the_Thieves%3B_Buoso_Donati_Attacked_by_the_Serpent_%2C_from_Dante%27s_Inferno%2C_Canto_XXV_MET_DP816840.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:The_Circle_of_the_Thieves;_Buoso_Donati_Attacked_by_the_Serpent_,_from_Dante%27s_Inferno,_Canto_XXV_MET_DP816840.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:The_Circle_of_the_Thieves;_Buoso_Donati_Attacked_by_the_Serpent_,_from_Dante%27s_Inferno,_Canto_XXV_MET_DP816840.jpg",
+   "copy": "data/blake/copies/b3e6dd79e086.jpg"
   },
   {
    "set": "dante",
@@ -1666,7 +1773,8 @@
    "end": 57,
    "cited": "Inferno 26:52-57",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/3/36/Blake_Dante_Hell_XXVI_Ulisses.jpg/1280px-Blake_Dante_Hell_XXVI_Ulisses.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:Blake_Dante_Hell_XXVI_Ulisses.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Blake_Dante_Hell_XXVI_Ulisses.jpg",
+   "copy": "data/blake/copies/7ce9fc71ec03.jpg"
   },
   {
    "set": "dante",
@@ -1678,7 +1786,8 @@
    "end": 33,
    "cited": "Inferno 28:28-33",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/c/c6/William_Blake_-_The_schismatics_and_sowers_of_discord-_Mahomet_-_Google_Art_Project.jpg/1280px-William_Blake_-_The_schismatics_and_sowers_of_discord-_Mahomet_-_Google_Art_Project.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_-_The_schismatics_and_sowers_of_discord-_Mahomet_-_Google_Art_Project.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_-_The_schismatics_and_sowers_of_discord-_Mahomet_-_Google_Art_Project.jpg",
+   "copy": "data/blake/copies/c15c18eacea2.jpg"
   },
   {
    "set": "dante",
@@ -1690,7 +1799,8 @@
    "end": 51,
    "cited": "Inferno 29:46-51",
    "image": "https://upload.wikimedia.org/wikipedia/commons/e/e2/The_Pit_of_Disease-_The_Falsifiers.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:The_Pit_of_Disease-_The_Falsifiers.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:The_Pit_of_Disease-_The_Falsifiers.jpg",
+   "copy": "data/blake/copies/cfa1eb3c8fc5.jpg"
   },
   {
    "set": "dante",
@@ -1702,7 +1812,8 @@
    "end": 51,
    "cited": "Inferno 29:46-51",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/e9/Blake%27s_Illustrations_of_Dante%2C_object_7_%28Bentley_448-6%29_The_Pit_of_Disease_The_Falsifiers.jpg/1280px-Blake%27s_Illustrations_of_Dante%2C_object_7_%28Bentley_448-6%29_The_Pit_of_Disease_The_Falsifiers.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:Blake%27s_Illustrations_of_Dante,_object_7_(Bentley_448-6)_The_Pit_of_Disease_The_Falsifiers.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Blake%27s_Illustrations_of_Dante,_object_7_(Bentley_448-6)_The_Pit_of_Disease_The_Falsifiers.jpg",
+   "copy": "data/blake/copies/69cec875541d.jpg"
   },
   {
    "set": "dante",
@@ -1714,7 +1825,8 @@
    "end": 144,
    "cited": "Inferno 31:139-144",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/a8/William_Blake_-_Antaeus_setting_down_Dante_and_Virgil_in_the_Last_Circle_of_Hell_-_Google_Art_Project.jpg/1280px-William_Blake_-_Antaeus_setting_down_Dante_and_Virgil_in_the_Last_Circle_of_Hell_-_Google_Art_Project.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_-_Antaeus_setting_down_Dante_and_Virgil_in_the_Last_Circle_of_Hell_-_Google_Art_Project.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_-_Antaeus_setting_down_Dante_and_Virgil_in_the_Last_Circle_of_Hell_-_Google_Art_Project.jpg",
+   "copy": "data/blake/copies/945a00c9809d.jpg"
   },
   {
    "set": "dante",
@@ -1726,7 +1838,8 @@
    "end": 78,
    "cited": "Inferno 32:76-78",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/5/50/Illustrations_to_Dante%27s_Divine_Comedy%2C_object_68_Butlin_812-65_Dante_Striking_Against_Bocca_Degli_Abati.jpg/1280px-Illustrations_to_Dante%27s_Divine_Comedy%2C_object_68_Butlin_812-65_Dante_Striking_Against_Bocca_Degli_Abati.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:Illustrations_to_Dante%27s_Divine_Comedy,_object_68_Butlin_812-65_Dante_Striking_Against_Bocca_Degli_Abati.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Illustrations_to_Dante%27s_Divine_Comedy,_object_68_Butlin_812-65_Dante_Striking_Against_Bocca_Degli_Abati.jpg",
+   "copy": "data/blake/copies/574deb469760.jpg"
   },
   {
    "set": "dante",
@@ -1738,7 +1851,8 @@
    "end": 78,
    "cited": "Inferno 32:76-78",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/7/78/Blake%27s_Illustrations_of_Dante%2C_object_8_%28Bentley_448-7%29_Dante_Striking_Against_Bocca_Degli_Abati.jpg/1280px-Blake%27s_Illustrations_of_Dante%2C_object_8_%28Bentley_448-7%29_Dante_Striking_Against_Bocca_Degli_Abati.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:Blake%27s_Illustrations_of_Dante,_object_8_(Bentley_448-7)_Dante_Striking_Against_Bocca_Degli_Abati.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Blake%27s_Illustrations_of_Dante,_object_8_(Bentley_448-7)_Dante_Striking_Against_Bocca_Degli_Abati.jpg",
+   "copy": "data/blake/copies/caf9911926d4.jpg"
   },
   {
    "set": "dante",
@@ -1750,7 +1864,8 @@
    "end": 99,
    "cited": "Inferno 32:97-99",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b7/Illustrations_to_Dante%27s_Divine_Comedy%2C_object_69_Butlin_812-66_recto_Dante_Tugging_at_Bocca%27s_Hair.jpg/1280px-Illustrations_to_Dante%27s_Divine_Comedy%2C_object_69_Butlin_812-66_recto_Dante_Tugging_at_Bocca%27s_Hair.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:Illustrations_to_Dante%27s_Divine_Comedy,_object_69_Butlin_812-66_recto_Dante_Tugging_at_Bocca%27s_Hair.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Illustrations_to_Dante%27s_Divine_Comedy,_object_69_Butlin_812-66_recto_Dante_Tugging_at_Bocca%27s_Hair.jpg",
+   "copy": "data/blake/copies/82803c449d08.jpg"
   },
   {
    "set": "dante",
@@ -1762,7 +1877,8 @@
    "end": 3,
    "cited": "Inferno 33:1-3",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2f/Illustrations_to_Dante%27s_Divine_Comedy%2C_object_70_Butlin_812-67_Ugolino_Relating_His_Death.jpg/1280px-Illustrations_to_Dante%27s_Divine_Comedy%2C_object_70_Butlin_812-67_Ugolino_Relating_His_Death.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:Illustrations_to_Dante%27s_Divine_Comedy,_object_70_Butlin_812-67_Ugolino_Relating_His_Death.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Illustrations_to_Dante%27s_Divine_Comedy,_object_70_Butlin_812-67_Ugolino_Relating_His_Death.jpg",
+   "copy": "data/blake/copies/f31e018e6f03.jpg"
   },
   {
    "set": "dante",
@@ -1774,7 +1890,8 @@
    "end": 51,
    "cited": "Inferno 33:46-51",
    "image": "https://upload.wikimedia.org/wikipedia/commons/3/3c/Blake_Hell_33_Ugolino.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:Blake_Hell_33_Ugolino.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Blake_Hell_33_Ugolino.jpg",
+   "copy": "data/blake/copies/a885ab7ff826.jpg"
   },
   {
    "set": "dante",
@@ -1786,7 +1903,8 @@
    "end": 33,
    "cited": "Inferno 34:28-33",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/9/97/Illustrations_to_Dante%27s_Divine_Comedy%2C_object_72_Butlin_812-69_recto_Lucifer.jpg/1280px-Illustrations_to_Dante%27s_Divine_Comedy%2C_object_72_Butlin_812-69_recto_Lucifer.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:Illustrations_to_Dante%27s_Divine_Comedy,_object_72_Butlin_812-69_recto_Lucifer.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Illustrations_to_Dante%27s_Divine_Comedy,_object_72_Butlin_812-69_recto_Lucifer.jpg",
+   "copy": "data/blake/copies/7e9fc770d4d2.jpg"
   },
   {
    "set": "dante",
@@ -1798,7 +1916,8 @@
    "end": 36,
    "cited": "Purgatorio 1:31-36",
    "image": "https://upload.wikimedia.org/wikipedia/commons/5/5e/Blake_Dante_Purgatory_I_Dante-Virgil-Cato.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:Blake_Dante_Purgatory_I_Dante-Virgil-Cato.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Blake_Dante_Purgatory_I_Dante-Virgil-Cato.jpg",
+   "copy": "data/blake/copies/eede84dbb4d1.jpg"
   },
   {
    "set": "dante",
@@ -1810,7 +1929,8 @@
    "end": 84,
    "cited": "Purgatorio 9:76-84",
    "image": "https://upload.wikimedia.org/wikipedia/commons/5/55/Blake_Dante_Purgatory_9.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail_unscaled",
-   "page": "https://commons.wikimedia.org/wiki/File:Blake_Dante_Purgatory_9.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Blake_Dante_Purgatory_9.jpg",
+   "copy": "data/blake/copies/243b2a34d806.jpg"
   },
   {
    "set": "dante",
@@ -1822,7 +1942,8 @@
    "end": 57,
    "cited": "Purgatorio 30:55-57",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/a/ad/William_Blake_001.jpg/1280px-William_Blake_001.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_001.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_001.jpg",
+   "copy": "data/blake/copies/8432470c0b36.jpg"
   },
   {
    "set": "dante",
@@ -1834,7 +1955,8 @@
    "end": 24,
    "cited": "Paradiso 25:19-24",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/4/48/William_Blake_-_St_Peter_and_St_James_with_Dante_and_Beatrice_-_Google_Art_Project.jpg/1280px-William_Blake_-_St_Peter_and_St_James_with_Dante_and_Beatrice_-_Google_Art_Project.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_-_St_Peter_and_St_James_with_Dante_and_Beatrice_-_Google_Art_Project.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:William_Blake_-_St_Peter_and_St_James_with_Dante_and_Beatrice_-_Google_Art_Project.jpg",
+   "copy": "data/blake/copies/9edcc2dab735.jpg"
   },
   {
    "set": "dante",
@@ -1846,7 +1968,8 @@
    "end": 21,
    "cited": "Paradiso 28:16-21",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/2/2b/Illustrations_to_Dante%27s_Divine_Comedy_object_100_Butlin_812-97_The_Vision_of_the_Deity_from_Whom_Proceed_the_Nine_Spheres.jpg/1280px-Illustrations_to_Dante%27s_Divine_Comedy_object_100_Butlin_812-97_The_Vision_of_the_Deity_from_Whom_Proceed_the_Nine_Spheres.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:Illustrations_to_Dante%27s_Divine_Comedy_object_100_Butlin_812-97_The_Vision_of_the_Deity_from_Whom_Proceed_the_Nine_Spheres.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Illustrations_to_Dante%27s_Divine_Comedy_object_100_Butlin_812-97_The_Vision_of_the_Deity_from_Whom_Proceed_the_Nine_Spheres.jpg",
+   "copy": "data/blake/copies/8d7e8d6668d4.jpg"
   },
   {
    "set": "dante",
@@ -1858,7 +1981,8 @@
    "end": 90,
    "cited": "Paradiso 30:85-90",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/e/ec/Illustrations_to_Dante%27s_Divine_Comedy%2C_object_101_Butlin_812-98_Dante_in_the_Empyrean_Drinking_at_the_River_of_Light.jpg/1280px-Illustrations_to_Dante%27s_Divine_Comedy%2C_object_101_Butlin_812-98_Dante_in_the_Empyrean_Drinking_at_the_River_of_Light.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:Illustrations_to_Dante%27s_Divine_Comedy,_object_101_Butlin_812-98_Dante_in_the_Empyrean_Drinking_at_the_River_of_Light.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Illustrations_to_Dante%27s_Divine_Comedy,_object_101_Butlin_812-98_Dante_in_the_Empyrean_Drinking_at_the_River_of_Light.jpg",
+   "copy": "data/blake/copies/e3eda27d9175.jpg"
   },
   {
    "set": "dante",
@@ -1870,7 +1994,8 @@
    "end": 123,
    "cited": "Paradiso 31:115-123",
    "image": "https://thumb.wikimedia.org/wikipedia/commons/thumb/b/b8/Illustrations_to_Dante%27s_Divine_Comedy_object_102_Butlin_812-99_The_Queen_of_Heaven_in_Glory.jpg/1280px-Illustrations_to_Dante%27s_Divine_Comedy_object_102_Butlin_812-99_The_Queen_of_Heaven_in_Glory.jpg?utm_source=commons.wikimedia.org&utm_campaign=imageinfo&utm_content=thumbnail",
-   "page": "https://commons.wikimedia.org/wiki/File:Illustrations_to_Dante%27s_Divine_Comedy_object_102_Butlin_812-99_The_Queen_of_Heaven_in_Glory.jpg"
+   "page": "https://commons.wikimedia.org/wiki/File:Illustrations_to_Dante%27s_Divine_Comedy_object_102_Butlin_812-99_The_Queen_of_Heaven_in_Glory.jpg",
+   "copy": "data/blake/copies/baa3ddf075fb.jpg"
   }
  ]
 }

@@ -40,24 +40,29 @@ def thumbnail_url(url: str, width: int) -> str:
     return f"{head.replace('/commons/', '/commons/thumb/', 1)}/{name}/{width}px-{name}"   # (JPEG, PNG, GIF alike)
 
 
-def fetch_thumbnail(url: str, title: str = "") -> bytes:
-    """The largest standard thumbnail there is (a narrow original has no 1280 px one), paced, and
-    waiting out a 429 rather than pressing on."""
+def fetch_thumbnail(url: str, title: str = "") -> "bytes | None":
+    """The largest standard thumbnail there is (a narrow original has no 1280 px one), waiting out a
+    429 rather than pressing on: 5 s doubling to a minute, or longer if its Retry-After says so (the
+    429s are brief: a fixed minute's wait made the first run take hours; but Retry-After is often
+    "1", and eight 1 s waits weren't always enough)."""
     for width in THUMB_WIDTHS:
         thumb = thumbnail_url(url, width)
-        for attempt in range(6):
+        for attempt in range(8):
             try:
                 return urllib.request.urlopen(urllib.request.Request(thumb, headers=UA), timeout=120).read()
             except urllib.error.HTTPError as e:
                 if e.code == 429:
-                    print(f"  {title}: 429, waiting {60 * (attempt + 1)} s")
-                    time.sleep(60 * (attempt + 1))
+                    after = e.headers.get("Retry-After", "")
+                    wait = max(int(after) if after.isdigit() else 0, min(5 * 2 ** attempt, 60))
+                    print(f"  {title}: 429, waiting {wait} s", flush=True)
+                    time.sleep(wait)
                     continue
                 break                                   # (400/404: no thumbnail that wide; try a smaller one)
             except Exception as e:
                 print(f"  {title}: {e}, retrying")
                 time.sleep(20 * (attempt + 1))
-    raise SystemExit(f"couldn't fetch a thumbnail of {url}")
+    print(f"  {title}: couldn't fetch a thumbnail of {url}; skipped (run again later)", flush=True)
+    return None
 
 
 def _entries(node):
@@ -86,7 +91,10 @@ def local_copies(data, folder: Path) -> int:
         url = entry["image"].split("?")[0]
         out = folder / f"{hashlib.md5(url.encode()).hexdigest()[:12]}.jpg"
         if not out.exists():
-            img = Image.open(io.BytesIO(fetch_thumbnail(url, entry.get("title", url)))).convert("RGB")
+            data_ = fetch_thumbnail(url, entry.get("title", url))
+            if data_ is None:
+                continue                                # (no copy yet: the bot falls back to the address)
+            img = Image.open(io.BytesIO(data_)).convert("RGB")
             if img.width > MAX_WIDTH:
                 img = img.resize((MAX_WIDTH, round(img.height * MAX_WIDTH / img.width)), Image.LANCZOS)
             img.save(out, quality=85)
