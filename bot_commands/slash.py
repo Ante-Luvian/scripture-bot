@@ -498,7 +498,7 @@ def _daily(sub: str, command: str, what: str, actions: tuple, value_help: str = 
 _daily("votd", "votdsetup", "The daily Verse of the Day post", ("show", "channel", "time", "mode", "off"),
        "For 'time' (HH:MM, UTC) or 'mode' (basic/full/extended)")
 _daily("oracle", "oraclesetup", "The daily oracle post", ("show", "channel", "time", "kind", "test", "off"),
-       "For 'time' (HH:MM, UTC) or 'kind' (any/virgil/homer/delphi/oracle/iching/hafez/rumi)")
+       "For 'time' (HH:MM, UTC) or 'kind' (any/virgil/homer/delphi/oracle/iching/hafez/gathas/rumi)")
 _daily("quiz", "quizsetup", "The daily quiz question", ("show", "channel", "time", "kind", "test", "off"),
        "For 'time' (HH:MM, UTC) or 'kind' (bible/hard)")
 _daily("versle", "verslesetup", "Each day's Versle puzzle", ("show", "channel", "time", "test", "off"))

@@ -780,7 +780,8 @@ BOOKS_TREE = [
         ("The Avesta", ["Gathas", "Yasna", "Visperad", "Yashts", "Vendidad", "Avesta Fragments"]),
         ("Khorda Avesta", ["Nyayeshes", "Gahs", "Afrinagans", "Sirozahs"]),
         ("Pahlavi Texts", ["Bundahishn", "Arda Viraf", "Menog-i Khrad", "Bahman Yasht", "Selections of Zadspram",
-                           "Dinkard", "Shikand-gumanik Vizar"]),
+                           "Dinkard", "Shikand-gumanik Vizar", "Dadistan-i Dinik", "Epistles of Manuskihar",
+                           "Shayast-la-Shayast", "Sad Dar"]),
         ("Persian Epic", ["Shahnameh"]),
     ]),
     ("🪯 Sikh", [

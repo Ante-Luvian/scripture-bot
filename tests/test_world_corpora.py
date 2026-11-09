@@ -35,6 +35,16 @@ import pytest
     ("Bahman Yasht 3:20", "It is concerning the displayed banners"),     # (this copy misprints it "26.")
     ("Selections of Zadspram 12:1", "About the coming of the religion"),
     ("Dinkard 7.1:1", "For the gratification of the creator"),
+    ("Sad Dar 0:1", "In the name of Hôrmazd"),                 # (its own introduction)
+    ("Sad Dar 1:1", "The first subject is this"),
+    ("Shayast-la-Shayast 1:1", "seven degrees"),
+    ("Dadistan-i Dinik 23:1", "The twenty-second question"),
+    ("Epistles of Manuskihar 1.1:1", "In the name of the sacred beings, who sent you a soul"),   # (not West's notes)
+    ("Epistles of Manuskihar 3.1:1", "It has come unto the ears"),
+    ("Dinkard 8.1:1", "Praise for Aûharmazd"),
+    ("Dinkard 5.1:1", "The triumph of the creator Aûharmazd"),
+    ("Menog-i Khrad 13:10", "punishment [of sin]"),        # (this copy's OCR printed (10) as "(To)")
+    ("Menog-i Khrad 4:2", "thus: 'Which is a good work"),  # ("(?) thus", for "(2) thus")
     ("Shahnameh 1:1", "Kaiumers first sat upon the throne"),
     ("Shahnameh 8:1", "Give ear unto the combat of Sohrab against Rustem"),
     ("Zhuangzi 1:1", "In the Northern Ocean there is a fish"),

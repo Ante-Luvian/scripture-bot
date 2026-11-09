@@ -1316,6 +1316,38 @@ def _inline_verses(verses: dict) -> dict:
     return {k: v for k, v in out.items() if v}
 
 
+def _split_missing(verses: dict) -> dict:
+    """A verse whose number this copy dropped from where the counting expects it ran into the one before:
+    split it out wherever its number does stand in that verse ("... 10 The seventh", "...;(10) and"), and
+    the numbers after it likewise."""
+    keys = [int(k) for k in verses if k.isdigit()]
+    out = dict(verses)
+    for a, b in zip(keys, keys[1:]):
+        prev = str(a)
+        for n in range(a + 1, b):
+            text = out[prev]
+            m = None
+            # (this copy's OCR reads 1 as I, l or i, and 0 as o: "Io." for 10, "I1." or "II." for 11, "i7." for
+            # 17, and 10 also as "to"; and puts stray stops after a number: "5..", "8,.", "16,")
+            number = "".join("[1Iil]" if ch == "1" else "[0oO]" if ch == "0" else ch for ch in str(n))
+            if n == 10:
+                number = f"(?:{number}|[Tt]o|0)"
+            if n == 2:                  # ("asked the spirit of wisdom (?) thus", where chapter 2 has "(2) thus";
+                number = r"(?:2|\?(?=\)\s+thus))"   #  West's own "(?)" marks a doubtful word, so only before "thus")
+            # (a bracketed number can begin mid-sentence, "(10) because"; an unbracketed one opens a sentence)
+            for m in re.finditer(rf"(?:(?<=[\s.,;:!?'’”)\]—\[-])|^)(?:\({number}\)(?=\s+\S)|{number}[.,]{{0,2}}"
+                                 rf"(?=\s+[A-Z‘'\"(\[]))", text):
+                pass                                            # (the last such: a number in the verse's own text
+            if m is None or m.start() == 0:                     #  is more often earlier, a date or a count)
+                continue
+            before, after = text[:m.start()].rstrip(), text[m.end():].strip()
+            if before.endswith("["):                            # ("[5. How do...": West's bracket opens the verse)
+                before, after = before[:-1].rstrip(), "[" + after
+            out[prev], out[str(n)] = before, after
+            prev = str(n)
+    return dict(sorted(out.items(), key=lambda kv: int(kv[0]) if kv[0].isdigit() else -1))
+
+
 def sbe_verses(page: str = None, title: str = None, text: str = None, inline: bool = False) -> dict:
     """A sacred-texts.com chapter page of the Sacred Books of the East as {verse: text}, by the translator's
     numbers: its footnote marks taken out by their links, the site's line and the headings left out, and a
@@ -1336,7 +1368,7 @@ def sbe_verses(page: str = None, title: str = None, text: str = None, inline: bo
             text = "1. " + body
     verses = leading_numbered(_verse_ranges(text))
     if inline:
-        verses = _inline_verses(verses)
+        verses = _split_missing(_inline_verses(verses))
     if title and verses:
         first = next(iter(verses))
         verses[first] = f"*{title}*\n{verses[first]}"
@@ -1477,20 +1509,45 @@ def pahlavi():
     Haug and West (1872), from avesta.org (J. H. Peterson's transcription, the chapters on hell that Horne's
     1917 reprint left out restored): 101 chapters, the bracketed chapter titles Peterson's."""
     # verse numbers misprinted in this copy (so the verses after them ran together)
-    misprints = {"sbe0559.htm": [(r"comes into\s+view\. 26\. It is concerning", "comes into view. 20. It is concerning")]}
+    misprints = {"sbe0559.htm": [(r"comes into\s+view\. 26\. It is concerning", "comes into view. 20. It is concerning")],
+                 # (West's notes on the manuscripts, numbered too, are on the Epistles' first page)
+                 "sbe18102.htm": [(r"OBSERVATIONS\.[\s\S]*?State Library at Munich\.", "")]}
 
-    def run(index, first, last, start=1):
-        pages = [p for p, l in st_index(index) if l.startswith("Chapter ")]
-        names = [p.rsplit("/", 1)[1] for p in pages]
-        chosen = pages[names.index(first):names.index(last) + 1]
-        book = {}
-        for n, p in enumerate(chosen, start):
-            text = st_page(p, by_link=True)
-            for wrong, right in misprints.get(p.rsplit("/", 1)[1], []):
-                text, found = re.subn(wrong, right, text)
-                expect(found == 1, f"{p}: {wrong!r}")
-            book[str(n)] = sbe_verses(text=text, inline=True)
-        return book
+    # verse numbers this copy prints wrongly, where the count shows which they are (each is in the verse before
+    # the one it should open): put right before the page is read (each must be found once, across the pages)
+    wrong = {r"(?<=drinking of wine\. )17\.(?= Because, from the modera)": "37.",
+             r"(?<=was this, )\(42,\s*43\)": "(42)",
+             r"answered \(it\)\) thus:": "answered (10) thus:",
+             r"(?<=the creatures\.)\s+4\.\s*6\.(?=\s+And those two fiends)": " 46.",
+             r"(?<=pain and disease, )\(115\)(?= so that)": "(135)",
+             r"(?<=thou bringest\.' )13\.(?= And Zarat)": "33.",
+             r"(?<=the righteous Zarat[ûu]st\.\" )17\.(?= On to him)": "37.",
+             r"(?<=\(avarpêkŏ\))\s*\.\s+3\.(?=\s+About the good)": ". 5.",
+             r"(?<=the angel, said )\(5\)(?= thus: 'This is the soul)": "(7)",
+             r"are these:--2\. That is": "are these: 2. That is",
+             r"to say:--3\. The righteous": "to say: 3. The righteous"}
+    used = dict.fromkeys(wrong, 0)
+
+    def page_verses(p):
+        text = st_page(p, by_link=True)
+        for bad, right in misprints.get(p.rsplit("/", 1)[1], []):
+            text, found = re.subn(bad, right, text)
+            expect(found == 1, f"{p}: {bad!r}")
+        for bad, right in wrong.items():
+            text, found = re.subn(bad, right, text)
+            used[bad] += found
+        return sbe_verses(text=text, inline=True)
+
+    def run(index, first, last, start=1, by_label=False):
+        """The chapters from page `first` to `last`, numbered in order from `start` (by_label: by the index's
+        roman numerals, for a book this copy has lost a chapter of)."""
+        found = [(p, l) for p, l in st_index(index) if l.startswith("Chapter ")]
+        names = [p.rsplit("/", 1)[1] for p, _ in found]
+        chosen = found[names.index(first):names.index(last) + 1]
+        return {str(roman(l.split()[1]) if by_label else n): page_verses(p) for n, (p, l) in enumerate(chosen, start)}
+
+    def prefixed(prefix, chapters):
+        return {f"{prefix}.{k}": v for k, v in chapters.items()}
 
     out = {
         "Menog-i Khrad": run("zor/sbe24/index.htm", "sbe24007.htm", "sbe24069.htm"),
@@ -1498,12 +1555,31 @@ def pahlavi():
         "Bahman Yasht": run("zor/sbe05/index.htm", "sbe0557.htm", "sbe0559.htm"),
         "Selections of Zadspram": {**run("zor/sbe05/index.htm", "sbe0545.htm", "sbe0555.htm"),
                                    **run("zor/sbe47/index.htm", "sbe4720.htm", "sbe4732.htm", start=12)},
-        "Dinkard": {f"7.{k}": v for k, v in run("zor/sbe47/index.htm", "sbe4705.htm", "sbe4715.htm").items()},
+        "Dinkard": {**prefixed("5", run("zor/sbe47/index.htm", "sbe4716.htm", "sbe4719.htm")),
+                    **prefixed("7", run("zor/sbe47/index.htm", "sbe4705.htm", "sbe4715.htm")),
+                    **prefixed("8", run("zor/sbe37/index.htm", "sbe37004.htm", "sbe37049.htm")),   # (index: "XVII" twice)
+                    **prefixed("9", run("zor/sbe37/index.htm", "sbe37050.htm", "sbe37118.htm"))},
         "Arda Viraf": _arda_viraf(),
+        "Sad Dar": {"0": page_verses("zor/sbe24/sbe24088.htm"),                  # (its own introduction)
+                    **run("zor/sbe24/index.htm", "sbe24089.htm", "sbe24188.htm")},
+        "Shayast-la-Shayast": run("zor/sbe05/index.htm", "sbe0561.htm", "sbe0583.htm"),
+        # (this copy has no chapter XXII: XXI's page ends with XXI, and the next is XXIII)
+        "Dadistan-i Dinik": run("zor/sbe18/index.htm", "sbe18009.htm", "sbe18101.htm", by_label=True),
+        "Epistles of Manuskihar": {**prefixed("1", run("zor/sbe18/index.htm", "sbe18102.htm", "sbe18112.htm")),
+                                   **prefixed("2", run("zor/sbe18/index.htm", "sbe18113.htm", "sbe18121.htm")),
+                                   "3.1": page_verses("zor/sbe18/sbe18122.htm")},
     }
+    # (Arda Viraf, from avesta.org, isn't read through page_verses: its one misprint is put right here)
+    av = out["Arda Viraf"]["67"]
+    hit = [k for k, v in av.items() if "said (5) thus: 'This is the soul" in v]
+    expect(len(hit) == 1, f"Arda Viraf 67: {hit}")
+    av[hit[0]] = av[hit[0]].replace("said (5) thus: 'This is the soul", "said (7) thus: 'This is the soul")
+    out["Arda Viraf"]["67"] = _split_missing(av)
+    used[r"(?<=the angel, said )\(5\)(?= thus: 'This is the soul)"] += 1
+    expect(all(n == 1 for n in used.values()), f"misprints not found once: {[k for k, n in used.items() if n != 1]}")
     counts = {k: (len(v), sum(map(len, v.values()))) for k, v in out.items()}
     print(f"  (chapters, verses): {counts}")
-    expect([c for c, _ in counts.values()] == [63, 16, 3, 24, 11, 101], f"chapters {counts}")
+    expect([c for c, _ in counts.values()] == [63, 16, 3, 24, 130, 101, 101, 23, 93, 21], f"chapters {counts}")
     expect(all(v for book in out.values() for v in book.values()), "a chapter without verses")
     path = DATA / "zoroastrian" / "pahlavi.json"
     sources = {b: "trans. E. W. West, Sacred Books of the East (1880-1897)" for b in out}
@@ -1543,7 +1619,7 @@ def _arda_viraf() -> dict:
         if title and verses:
             first = next(iter(verses))
             verses[first] = f"*{title}*\n{verses[first]}"
-        book[str(int(num))] = {k: v for k, v in verses.items() if v}
+        book[str(int(num))] = _split_missing({k: v for k, v in verses.items() if v})
     return book
 
 

@@ -1487,8 +1487,10 @@ _DAILY_KINDS = {
     "oracle": cmd_oracle,
     "iching": cmd_iching,
     "hafez": cmd_hafez,
+    "gathas": cmd_gathas,
     "rumi": cmd_rumi,
 }
+_KIND_NAMES = ", ".join(f"`{k}`" for k in ("any", *list(_DAILY_KINDS)[:-1])) + f", or `{list(_DAILY_KINDS)[-1]}`"
 
 
 class _DailyContext:
@@ -1559,7 +1561,7 @@ async def cmd_oraclesetup(ctx, action: str = "", *, arg: str = ""):
     Usage: !oraclesetup                  — show this server's settings
            !oraclesetup channel #chan    — post the daily oracle there
            !oraclesetup time 12:00       — daily post time (24h UTC)
-           !oraclesetup kind any         — any | virgil | homer | delphi | oracle | iching | hafez | rumi
+           !oraclesetup kind any         — any | virgil | homer | delphi | oracle | iching | hafez | gathas | rumi
            !oraclesetup test             — post one now, to try it
            !oraclesetup off              — stop the daily oracle"""
     if not ctx.guild:
@@ -1574,7 +1576,7 @@ async def cmd_oraclesetup(ctx, action: str = "", *, arg: str = ""):
         embed.add_field(name="Channel", value=f"<#{channel_id}>" if channel_id else "*not set — daily oracle is off*")
         embed.add_field(name="Time (UTC)", value=time_hm)
         embed.add_field(name="Oracle", value=kind)
-        embed.set_footer(text="!oraclesetup channel #chan · time HH:MM · kind any|virgil|homer|delphi|oracle|iching|hafez|rumi · test · off")
+        embed.set_footer(text=f"!oraclesetup channel #chan · time HH:MM · kind {'|'.join(('any', *_DAILY_KINDS))} · test · off")
         await ctx.send(embed=embed)
         return
     if action == "off":
@@ -1601,7 +1603,7 @@ async def cmd_oraclesetup(ctx, action: str = "", *, arg: str = ""):
     if action == "kind":
         new_kind = arg.strip().lower()
         if new_kind not in ("any", *_DAILY_KINDS):
-            await ctx.send("Choose `any`, `virgil`, `homer`, `delphi`, `oracle`, `iching`, `hafez`, or `rumi`.")
+            await ctx.send(f"Choose {_KIND_NAMES}.")
             return
         _update_guild_config(ctx.guild.id, oracle_kind=new_kind)
         await ctx.send(f"Daily oracle set to **{new_kind}**.")
