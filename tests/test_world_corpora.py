@@ -46,6 +46,11 @@ import pytest
     ("Menog-i Khrad 13:10", "punishment [of sin]"),        # (this copy's OCR printed (10) as "(To)")
     ("Menog-i Khrad 4:2", "thus: 'Which is a good work"),  # ("(?) thus", for "(2) thus")
     ("Shahnameh 1:1", "Kaiumers first sat upon the throne"),
+    ("Al-Jilwah 1:1", "I was, am now, and shall have no end"),
+    ("Black Book 1:1", "In the beginning God created the White Pearl"),
+    ("Poem of Sheikh Adi 1", "My understanding surrounds the truth of things"),
+    ("Yazidi Prayer 1", "Amen, Amen, Amen!"),
+    ("Yazidi Articles of Faith 1:1", "must visit Melek Ṭâ’ûs three times a year"),
     ("Shahnameh 8:1", "Give ear unto the combat of Sohrab against Rustem"),
     ("Zhuangzi 1:1", "In the Northern Ocean there is a fish"),
     ("Mencius 1.1.1:1", "Mencius went to see king Hûi of Liang"),
@@ -98,6 +103,20 @@ def test_discover_is_spread_across_traditions(lookup):
     picks = collections.Counter(label[corpus_of[lookup.random_verse(rng)["book"]]] for _ in range(2200))
     share = 2200 / len(TRADITIONS)
     assert len(picks) == len(TRADITIONS) and max(picks.values()) < 1.6 * share and min(picks.values()) > 0.5 * share
+
+
+def test_the_yazidi_books_say_theyre_disputed(lookup):
+    """Al-Jilwah and the Black Book are held to be forgeries of about 1911: their citation says so; the poem,
+    the prayer and the 1872 articles, which aren't, don't. None has the site's script or navigation in it."""
+    assert "forged" in lookup.get_verse("Al-Jilwah 1:1")["source"]
+    assert "forged" in lookup.get_verse("Mashaf Res 1:1")["source"]
+    assert "forged" not in lookup.get_verse("Poem of Sheikh Adi 1")["source"]
+    import re
+    from scripture_lookup import tradition
+    assert tradition("Yazidi") == "zoroastrian"                  # (in:yazidi searches the shelf they're on)
+    for book in lookup._data["zoroastrian"].keys() & {"Al-Jilwah", "Mashaf Res", "Yazidi Prayer"}:
+        for verses in lookup._data["zoroastrian"][book].values():
+            assert not any(re.search(r"document\.|Next:|readyState", v) for v in verses.values()), book
 
 
 def test_aliases(lookup):

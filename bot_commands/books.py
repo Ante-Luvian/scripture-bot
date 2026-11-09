@@ -794,6 +794,7 @@ BOOKS_TREE = [
                            "Dinkard", "Shikand-gumanik Vizar", "Dadistan-i Dinik", "Epistles of Manuskihar",
                            "Shayast-la-Shayast", "Sad Dar"]),
         ("Persian Epic", ["Shahnameh"]),
+        ("Yazidi", ["Al-Jilwah", "Mashaf Res", "Poem of Sheikh Adi", "Yazidi Prayer", "Yazidi Articles of Faith"]),
     ]),
     ("🪯 Sikh", [
         "Guru Granth Sahib",

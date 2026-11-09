@@ -1623,6 +1623,74 @@ def _arda_viraf() -> dict:
     return book
 
 
+def _st_paragraphs(path: str) -> list:
+    """A sacred-texts.com page's paragraphs below its heading, a line break kept as a new line; without the
+    footnote marks (by their links), the page numbers, the headings and the footnotes."""
+    import html as html_mod
+    page = sacred_text(path)
+    page = re.sub(r'(?is)<a\s+href="?[^">]*#fn_[^>]*>.*?</a>|<(script|style)\b.*?</\1>', "", page)
+    body = page[page.find("<h3"):]
+    body = re.split(r"(?i)<hr\b[^>]*>\s*(?:<center>|<p[^>]*>\s*<a\s+href)", body)[0]     # (the site's navigation)
+    body = re.split(r"(?i)<h3[^>]*>\s*Footnotes|Next:\s*<", body)[0]
+    body = re.sub(r"(?is)<h\d[^>]*>.*?</h\d>", "", body)
+    out = []
+    for p in re.split(r"(?i)<p\b[^>]*>", body):
+        p = re.sub(r"(?i)<br\s*/?>", "\n", p)
+        text = html_mod.unescape(re.sub(r"<[^>]+>", "", p))
+        text = "\n".join(re.sub(r"\s+", " ", line).strip() for line in text.split("\n")).strip()
+        if text.startswith(("Next:", "« Previous", "Sacred Texts")):
+            break
+        if text and not re.fullmatch(r"p\. \d+", text) and "sacred-texts.com" not in text:
+            out.append(text)
+    return out
+
+
+def yezidi():
+    """The Yazidi texts in Isya Joseph's Devil Worship: The Sacred Books and Traditions of the Yezidiz (1919),
+    sacred-texts.com archive (asia/sby), Part I: the two "sacred books", Al-Jilwah ("The Revelation", its preface
+    chapter 0) and Mashaf Reš ("The Black Book"), which scholars hold to be forgeries of about 1911 by non-Yazidis
+    though their contents agree with the oral tradition -- each says so in its citation (the owner's choice,
+    2026-11-09); and the appendix's Poem in Praise of Sheikh 'Adi and the principal Yazidi prayer (four lines a
+    verse), and the articles of faith the Yazidis put to the Ottoman government in 1872 (an article a chapter).
+    Joseph's own study, Part II, is left out. On the Zoroastrian shelf, under its own heading: a new tradition
+    would be hidden from servers that chose theirs."""
+    def lines_in_fours(paras):
+        lines = [l for p in paras for l in p.split("\n") if l]
+        return {str(i // 4 + 1): "\n".join(lines[i:i + 4]) for i in range(0, len(lines), 4)}
+
+    jilwah = {"0": {str(i): p for i, p in enumerate(_st_paragraphs("asia/sby/sby05.htm"), 1)}}
+    for n in range(1, 6):
+        jilwah[str(n)] = {str(i): p for i, p in enumerate(_st_paragraphs(f"asia/sby/sby{5 + n:02d}.htm"), 1)}
+    black_book = {"1": {str(i): p for i, p in enumerate(_st_paragraphs("asia/sby/sby11.htm"), 1)}}
+    poem = _st_paragraphs("asia/sby/sby13.htm")
+    expect(poem[0] == "Peace Be unto Him", f"poem opens {poem[0]!r}")
+    poem_verses = lines_in_fours(poem[1:])
+    poem_verses["1"] = "*Peace Be unto Him*\n" + poem_verses["1"]
+    prayer = lines_in_fours(_st_paragraphs("asia/sby/sby14.htm"))
+    articles, chapter = {}, "0"
+    for p in _st_paragraphs("asia/sby/sby16.htm"):
+        m = re.fullmatch(r"ARTICLE ([IVXL]+)", p)
+        if m:
+            chapter = str(roman(m.group(1)))
+            continue
+        if p.startswith("These are they whose names were in the petition") or chapter == "signed":
+            chapter = "signed"
+            continue                                # (the petitioners' names, and Joseph's note after)
+        articles.setdefault(chapter, {})
+        articles[chapter][str(len(articles[chapter]) + 1)] = p
+    books = {"Al-Jilwah": jilwah, "Mashaf Res": black_book, "Poem of Sheikh Adi": {"1": poem_verses},
+             "Yazidi Prayer": {"1": prayer}, "Yazidi Articles of Faith": articles}
+    counts = {k: (len(v), sum(map(len, v.values()))) for k, v in books.items()}
+    print(f"  (chapters, verses): {counts}")
+    expect(len(jilwah) == 6 and len(articles) >= 14, f"chapters {counts}")
+    disputed = "trans. Isya Joseph (1919); held to be forged c. 1911"
+    path = DATA / "zoroastrian" / "yezidi.json"
+    path.write_text(json.dumps({"source": "trans. Isya Joseph (1919)",
+                                "book_sources": {"Al-Jilwah": disputed, "Mashaf Res": disputed},
+                                "books": books}, ensure_ascii=False, indent=1), encoding="utf-8")
+    print(f"wrote {path.relative_to(ROOT)}")
+
+
 def shahnameh():
     """The Shahnameh (Book of Kings) of Ferdowsi, the Persian national epic (c. 1010), in Helen Zimmern's
     prose retelling of its legendary part, The Epic of Kings (1883), sacred-texts.com archive
@@ -2365,7 +2433,7 @@ BUILDERS = {f.__name__: f for f in (dhammapada, diamond_sutra, tao_te_ching, ana
                                     rule_of_benedict, divine_comedy, hesiod, nt_apocrypha, secrets_of_enoch,
                                     forgotten_books_of_eden, sutta_nipata, gospel_of_thomas, enuma_elish,
                                     enneads, enoch_missing_chapters, guru_granth_sahib,
-                                    jaina_sutras, kojiki, nihongi, popol_vuh, avesta, pahlavi, shahnameh,
+                                    jaina_sutras, kojiki, nihongi, popol_vuh, avesta, pahlavi, shahnameh, yezidi,
                                     zhuangzi, mencius, great_learning_and_mean, masnavi, rubaiyat,
                                     lotus_sutra, milinda, jataka, upanishads_muller, laws_of_manu, yoga_sutras,
                                     kalevala, mabinogion, cloud_of_unknowing, julian_of_norwich, brother_lawrence, swedenborg, blake, milton, pilgrims_progress)}
