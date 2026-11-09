@@ -900,6 +900,9 @@ ALIASES: dict[str, str] = {
     "pliny and trajan": "Correspondence with Trajan", "letters to trajan": "Correspondence with Trajan",
     "pliny to trajan": "Correspondence with Trajan",
     "petronius": "Satyricon", "satyrica": "Satyricon", "satyricon of petronius": "Satyricon",
+    "satires of juvenal": "Juvenal", "juvenal satires": "Juvenal", "juvenal's satires": "Juvenal",
+    "juvenalis": "Juvenal", "epigrams of martial": "Martial", "martial epigrams": "Martial",
+    "martial's epigrams": "Martial", "martialis": "Martial",
     "ovid fasti": "Fasti", "statius thebaid": "Thebaid", "thebais": "Thebaid", "achilleis": "Achilleid",
     "statius achilleid": "Achilleid", "valerius flaccus": "Argonautica", "argonautica of valerius flaccus": "Argonautica",
     # Hyginus, Fulgentius, and the Trojan War "eyewitnesses"

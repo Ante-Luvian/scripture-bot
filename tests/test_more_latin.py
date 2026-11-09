@@ -66,6 +66,24 @@ def test_the_latin_shelves(books):
     assert "Natural History" in dict(latin["Science"])["Pliny the Elder"]
 
 
+def test_juvenal_by_line(lookup):
+    """Ramsay's paragraphs keyed by the Latin line each begins at: 10:356 is in the passage from 346."""
+    assert "a sound mind in a sound body" in found(lookup, "Juvenal 10:356")["text"]
+    assert "*The Vanity of Human Wishes*" in found(lookup, "satires of juvenal 10:1")["text"]
+    assert "*It Is Hard Not to Write Satire*" in found(lookup, "Juvenal 1:1")["text"]     # (Ramsay's Latin tag, in his English)
+    assert "Ogulnia" in found(lookup, "Juvenal 6:360")["text"]                              # (the passage the Oxford lines join)
+
+
+def test_martial(lookup, books):
+    assert "*On Diaulus*\nDiaulus, lately a doctor, is now an undertaker" in found(lookup, "Martial 1:47")["text"]
+    assert "*[From the Loeb translation]*" in found(lookup, "epigrams of martial 1:46")["text"]
+    one_92 = found(lookup, "Martial 1:92")["text"]                     # (Bohn's Latin half: left out, and said so)
+    assert "left in Latin" in one_92 and "culum" not in one_92
+    assert "To His Friend, Decianus" in found(lookup, "Martial 2:0")["text"]               # (a book's preface)
+    assert "When with desire you see me racked" in found(lookup, "Martial 11:58")["text"]  # (a verse rendering only)
+    assert "Juvenal" in dict(dict(dict(books.BOOKS_TREE)["🦅 Latin"])["Novels & Satire"])
+
+
 def test_natural_history(lookup):
     assert "*Of God*" in found(lookup, "Natural History 2.5")["text"]
     assert "Natural History 7.2" in str(found(lookup, "pliny the elder 7.2").get("reference"))

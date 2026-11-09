@@ -21,6 +21,8 @@ Latin authors the library lacked, into data/classical/latin.json (run scripts/cl
   fasti, thebaid, achilleid, argonautica   Ovid, Statius and Valerius Flaccus (Frazer's and Mozley's Loebs), theoi.com
   fabulae, astronomica   Hyginus (Grant, 1960), from ToposText: theoi.com's own pages now hold only a few fables
   dares, dictys, fulgentius   the Trojan War "eyewitnesses" (Frazer, 1966) and the Mythologies (Whitbread), theoi.com
+  juvenal     Juvenal's Satires (Ramsay's Loeb, 1918), from Wikisource, by the Latin lines
+  martial     Martial's Epigrams (Bohn, 1897; Ker's Loeb where Bohn gave Italian), Roger Pearse's tertullian.org
 
 LacusCurtius is slow (a page can take a minute and a half): scripts/fetch_lacus.py downloads its pages first.
 theoi.com's pages are cached by scripts/fetch_theoi.py.
@@ -829,13 +831,162 @@ def natural_history() -> None:
     _put("Natural History", verses(ordered), "Pliny the Elder, trans. John Bostock and H. T. Riley (1855-57)")
 
 
+# ── Juvenal, Satires (Ramsay's Loeb, 1918), from Wikisource ────────────────────────────────────────────────
+# A satire a page ("Juvenal and Persius/The Satires of Juvenal/Satire 10"), its paragraphs marked with the Latin line
+# each begins at (<span class="wst-verse" id="23">), so a satire is stored as passages from each ("10.23") and
+# "Juvenal 10:356" is the passage holding line 356. The heading ("SATIRE X") and Ramsay's title ("The Vanity of
+# Human Wishes") lead line 1. The Oxford fragment in Satire 6 (lines "O1"-"O34", after 365) goes with the passage
+# it stands in.
+
+def juvenal() -> None:
+    passages = {}
+    for n in range(1, 17):
+        t = wikisource(f"Juvenal and Persius/The Satires of Juvenal/Satire {n}")
+        paras = []
+        for m in re.finditer(r"(?is)<p\b[^>]*>(.*?)</p>", t):
+            ids = re.findall(r'class="wst-verse[^"]*" id="([^"]+)"', m.group(1))
+            s = text(m.group(1))
+            if s:
+                paras.append((ids[0] if ids else None, s))
+        head = next((i for i, (_, p) in enumerate(paras) if re.fullmatch(r"SATIRE [IVXL]+", p)), None)
+        expect(head is not None and paras[head][1] == f"SATIRE {_ROMAN_OF[n]}", f"Satire {n}: no heading")
+        title, body = paras[head + 1][1], paras[head + 2:]
+        expect(len(title) < 80 and not title.endswith("."), f"Satire {n}: title {title!r}")
+        title = JUVENAL_LATIN_TITLES.get(title.lower(), title)
+        key, lead = f"{n}.1", [f"*{_title(title)}*"]
+        for line, p in body:
+            if line and line.isdigit() and int(line) > int(key.split(".")[1]):
+                key = f"{n}.{line}"
+            passages.setdefault(key, {"1": ""})
+            passages[key]["1"] = "\n".join(([passages[key]["1"]] if passages[key]["1"] else []) + lead + [p])
+            lead = []
+    satires = {k.split(".")[0] for k in passages}
+    expect(len(satires) == 16 and len(passages) > 200, f"Juvenal: {len(satires)} satires, {len(passages)} passages")
+    # each satire's last line, so a line in its last passage is found ("Juvenal 10:356"): from the Perseus Latin
+    # (canonical-latinLit, its satires cited "book.satire"), Ramsay's pages not saying where a satire ends
+    sys.path.insert(0, str(ROOT))
+    from perseus_tei import passages as tei_passages, to_book
+    latin = to_book(tei_passages(ROOT / "canonical-latinLit/data/phi1276/phi001/phi1276.phi001.perseus-lat2.xml"))
+    last = {c.split(".")[1]: max(int(re.match(r"\d+", k).group()) for k in v) for c, v in latin.items()}
+    expect(sorted(last, key=int) == [str(n) for n in range(1, 17)], f"Juvenal's Latin: satires {sorted(last)}")
+    for k in passages:
+        sat, line = k.split(".")
+        expect(int(line) <= last[sat], f"Juvenal {k}: past the satire's last line, {last[sat]}")
+    payload = _load()
+    payload["books"]["Juvenal"] = _sorted_lines(passages)
+    payload["book_sources"]["Juvenal"] = "Satires, trans. G. G. Ramsay (Loeb, 1918)"
+    payload.setdefault("last_lines", {})["Juvenal"] = last
+    _save(payload)
+
+
+# Ramsay titles three satires with their famous Latin tags: given instead in his own English for those lines
+# (1.30, 3.41, 8.1), the library being English
+JUVENAL_LATIN_TITLES = {"difficile est saturam non scribere": "It Is Hard Not to Write Satire",
+                        "quid romae faciam?": "What Can I Do at Rome?",
+                        "stemmata quid faciunt?": "What Avail Your Pedigrees?"}
+_ROMAN_OF = {n: r for n, r in enumerate("I II III IV V VI VII VIII IX X XI XII XIII XIV XV XVI".split(), 1)}
+
+
+# ── Martial, Epigrams (Bohn's Classical Library, 1897), from tertullian.org ─────────────────────────────────
+# Roger Pearse's transcription (2008), a book a page: an epigram a heading ("<A NAME="C46"></A>XLVI. TO HEDYLUS."),
+# its prose under it, its notes in a <blockquote> (left out). Where Bohn printed an epigram in Italian, not English,
+# Pearse gives the Loeb's (Ker, 1919-20) and says so ("[From the Loeb translation]"): kept, after the title. A book
+# is a chapter, an epigram a verse ("Martial 1:47"); a book's prose preface (1, 2, 8, 9, 12) is verse 0.
+MARTIAL_CACHE = ROOT / "scripts" / ".cache" / "martial"
+MARTIAL_COUNTS = {1: 118, 2: 93, 3: 100, 4: 89, 5: 84, 6: 94, 7: 99, 8: 82, 9: 103, 10: 104, 11: 108, 12: 98, 13: 127,
+                  14: 223}
+
+
+def _martial_page(n: int) -> str:
+    import urllib.request
+    f = MARTIAL_CACHE / f"book{n:02d}.htm"
+    if not f.exists():
+        f.parent.mkdir(parents=True, exist_ok=True)
+        url = f"https://www.tertullian.org/fathers/martial_epigrams_book{n:02d}.htm"
+        f.write_bytes(urllib.request.urlopen(urllib.request.Request(
+            url, headers={"User-Agent": "ScriptureBotCorpusBuilder/1.0 (Discord bot; low-volume one-off import)"}),
+            timeout=120).read())
+    return f.read_bytes().decode("latin-1")
+
+
+def _martial_body(seg: str) -> "tuple[str, str]":
+    """(the title, the epigram's text) of one heading's stretch."""
+    # (the notes' blockquotes, which open with a note number or are "smallish"; one holding an epigram's own text,
+    # 11.58's verse rendering, stays)
+    def quote(m):
+        body = m.group(1)
+        note = re.match(r"(?is)\s*<p[^>]*>\s*(?:&nbsp;|\s)*<sup>", body) or not re.search(r"(?i)<p align=\"?justify", body)
+        return " " if note else body
+    seg = re.sub(r"(?is)<blockquote>(.*?)</blockquote>", quote, seg)
+    seg = re.split(r"(?i)This text was transcribed by Roger Pearse|<hr", seg)[0]
+    title_html, _, rest = seg.partition("</p>")             # (the heading's paragraph: some have no title, no <b>)
+    title = text(re.sub(r"(?is)^.*?</SPAN>", "", title_html))
+    note, out = [], []
+    for m in re.finditer(r"(?is)<p\b([^>]*)>(.*?)</p>", rest):
+        s = text(m.group(2), lines=True)                    # (a verse rendering's lines kept)
+        if not s:
+            continue
+        if "smallish" in m.group(1):
+            if s.startswith("["):
+                note.append(f"*{s}*")                    # ("[From the Loeb translation]")
+            continue
+        if _latin(s):                                   # (Bohn leaves the coarsest lines in Latin: 1.92)
+            if not out or out[-1] != LEFT_IN_LATIN:
+                out.append(LEFT_IN_LATIN)
+            continue
+        out.append(s)
+    body = "\n".join(note + out)
+    body = re.sub(r"\*\s+([^*\n]+?)\*", r"*\1*", body)          # ("* Anon.* 1695": the italics' stray space)
+    body = re.sub(r"(\d+)\*(th [Cc]ent(?:ury)?\.?)\*", r"\1\2", body)   # ("16*th cent.*")
+    body = re.sub(r"(?<=[a-z]{3})\d(?=[\s,.;:])", "", body)     # (a note mark the markup didn't raise: "Paccius1")
+    return re.sub(r"[*.\s]+$", "", title.replace("*", "")).strip(), body
+
+
+LEFT_IN_LATIN = "*[The rest is left in Latin in Bohn's translation.]*"
+LATIN_WORDS = set("et est in non qui quae quod sed nec neque te tibi me mihi tu ego cum ad ut si sit esse enim olim "
+                  "vel aut atque hic haec hoc ille illa nisi quid quam ne iam nam".split())
+ENGLISH_WORDS = set("the and of to you your is that it he she his her with for not but as be have".split())
+
+
+def _latin(s: str) -> bool:
+    words = re.findall(r"[a-z]+", s.lower())
+    lat = sum(w in LATIN_WORDS for w in words)
+    eng = sum(w in ENGLISH_WORDS for w in words)
+    return len(words) >= 6 and lat >= 3 and eng <= lat // 4
+
+
+def martial() -> None:
+    books = {}
+    for n, count in MARTIAL_COUNTS.items():
+        t = _martial_page(n)
+        start = re.search(r"(?is)<h3[^>]*>\s*BOOK [IVXL]+\.?\s*</h3>", t)
+        expect(start, f"Martial {n}: no BOOK heading")
+        parts = re.split(r'<A NAME="C(\d+)"></A>', t[start.end():])
+        epigrams = {}
+        preface = []
+        for m in re.finditer(r"(?is)<p\b([^>]*)>(.*?)</p>", parts[0]):
+            s = text(m.group(2))
+            if s and "smallish" not in m.group(1) and not s.startswith("BOOK"):
+                preface.append(f"*{_title(s.rstrip('.'))}*" if re.search(r"<b>", m.group(2)) else s)
+        if preface:
+            epigrams["0"] = "\n".join(preface)
+        for i in range(1, len(parts), 2):
+            title, body = _martial_body(parts[i + 1])
+            expect(body, f"Martial {n}.{parts[i]}: no text")
+            epigrams[parts[i]] = f"*{_title(title)}*\n{body}" if title else body
+        numbers = [int(k) for k in epigrams if k != "0"]
+        expect(numbers == list(range(1, count + 1)), f"Martial {n}: epigrams {numbers[:5]}…{numbers[-3:]}")
+        books[str(n)] = epigrams
+    _put("Martial", books, "Epigrams, Bohn's Classical Library (1897), with Ker (1919-20)")
+
+
 BUILDS = {"old_age": old_age, "distichs": distichs, "cato": cato, "varro": varro, "seneca_dialogues": seneca_dialogues,
           "benefits": benefits, "natural_questions": natural_questions, "pliny_letters": pliny_letters,
           "satyricon": satyricon, "fasti": fasti, "thebaid": thebaid, "achilleid": achilleid,
           "argonautica": argonautica, "seneca_tragedies": seneca_tragedies, "fabulae": fabulae, "dares": dares,
           "dictys": dictys, "fulgentius": fulgentius, "astronomica": astronomica, "moral_letters": moral_letters,
           "natural_history": natural_history, "historia_augusta": historia_augusta, "stratagems": stratagems,
-          "aqueducts": aqueducts, "velleius": velleius, "florus": florus}
+          "aqueducts": aqueducts, "velleius": velleius, "florus": florus, "juvenal": juvenal, "martial": martial}
 
 
 def main(names: list) -> None:

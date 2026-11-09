@@ -711,6 +711,8 @@ BOOKS_TREE = [
         ("Novels & Satire", [
             ("Apuleius", ["The Golden Ass", "Apologia of Apuleius", "Florida"]),
             ("Petronius", ["Satyricon"]),
+            ("Juvenal", ["Juvenal"]),                         # (his Satires: "Juvenal 10:356", by the Latin lines)
+            ("Martial", ["Martial"]),                         # (his Epigrams: "Martial 1:47", book and epigram)
         ]),
         ("Science", [
             ("Pliny the Elder", ["Natural History"]),
