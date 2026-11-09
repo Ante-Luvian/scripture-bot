@@ -15,6 +15,18 @@ import pytest
     ("Popol Vuh 1:1", "Hurakan"),
     ("Vendidad 2:2", "The fair Yima, the great shepherd"),
     ("Bundahishn 1:2", "Aûharmazd is supreme in omniscience and goodness"),
+    ("Visperad 1:1", "I announce, and (will) complete (my Yasna)"),
+    ("Yashts 22:1", "where does his soul abide on that night"),        # (the Hadhokht Nask)
+    ("Nyayeshes 1:1", "Hail unto the Sun, the swift-horsed"),
+    ("Gahs 1:1", "Gâh Hâvan"),
+    ("Sirozahs 1:1", "To Ahura Mazda, bright and glorious"),
+    ("Afrinagans 1:1", "Âfrînagân Gahanbâr"),
+    ("Avesta Fragments 4:1", "I proclaim the Airyemâ-ishyô"),
+    ("Yasna 29:1", "the Soul of the Kine"),
+    ("Yasna 49:1", "Bendva has ever fought with me"),       # Mills's translation of a Gâtha, not his account of it
+    ("Yasna 49:12", "What aids of grace hast Thou"),          # (printed with L)
+    ("Yasna 50:1", "doth my soul indeed obtain assisting"),
+    ("Yasna 64:1", "(as Yasna 46:3)"),                      # made of others' verses: filled in from them
     ("Zhuangzi 1:1", "In the Northern Ocean there is a fish"),
     ("Mencius 1.1.1:1", "Mencius went to see king Hûi of Liang"),
     ("Mencius 4.2.11:1", "The great man does not think beforehand of his words"),     # numbered across the lost chapters
@@ -76,13 +88,14 @@ def test_aliases(lookup):
 
 def test_no_page_furniture(lookup):
     import re
-    new = ["Guru Granth Sahib", "Akaranga Sutra", "Kojiki", "Vendidad", "Yasna", "Zhuangzi", "Mencius", "Masnavi",
+    new = ["Guru Granth Sahib", "Akaranga Sutra", "Kojiki", "Vendidad", "Yasna", "Visperad", "Gahs", "Zhuangzi", "Mencius", "Masnavi",
            "Lotus Sutra", "Jataka", "Chandogya Upanishad", "Laws of Manu", "Kalevala", "Mabinogion", "Cloud of Unknowing"]
     for book in new:
         corpus, _ = lookup._resolve_book(book)
         for chapter in lookup._data[corpus][book].values():
             for text in chapter.values():
-                assert not re.search(r"sacred-texts\.com|\[\*\d+\]|\[p\. \d+\]|^Footnotes$|^\^\d+\w*:", text, re.M), book
+                assert not re.search(r"sacred-texts\.com|\[\*\d+\]|\[p\. \d+\]|^Footnotes$|^\^\d+\w*:|Buy this Book",
+                                     text, re.M), book
 
 
 def test_no_footnotes(lookup):

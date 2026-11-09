@@ -1064,11 +1064,16 @@ def st_index(path: str) -> list:
     return out
 
 
-def st_page(path: str) -> str:
+def st_page(path: str, by_link: bool = False) -> str:
     """A chapter page's text: from after the site's navigation to its
     footnotes, without page numbers or the plain-number footnote markers the
-    HTML pages leave in the text ("did converse 1, whom")."""
-    text = _html_text(sacred_text(path))
+    HTML pages leave in the text ("did converse 1, whom"). by_link: remove
+    the markers by their links to the footnotes instead of by guessing at
+    numbers after words, which also takes real numbers ("3, 4." "Y. XV, 2")."""
+    page = sacred_text(path)
+    if by_link:
+        page = re.sub(r'(?is)<a\s+href="?[^">]*#fn_[^>]*>.*?</a>', "", page)
+    text = _html_text(page)
     nav = list(re.finditer(r"(?m)^\s*Next\s*$", text[:3000]))
     text = text[nav[0].end() if nav else 0:]
     text = re.split(r"(?m)^\s*(?:Footnotes|Next: .*|Sacred Texts \|.*)\s*$", text)[0]
@@ -1076,7 +1081,8 @@ def st_page(path: str) -> str:
     text = re.sub(r"(?m)^[^\n]*?\bat sacred-texts\.com\s*", "", text)              # the running header
     text = re.sub(r"\s+p\. \d+(?=\s|$)", "", text)                                 # a page number left inline
     text = text.replace("\xa0", " ")
-    text = re.sub(r"(?:(?<=[^\W\d_])|(?<=[,;:!?'’”)\]]))[ \t]+\d{1,2}(?=[\s,.;:!?'’”)]|$)", "", text)
+    if not by_link:
+        text = re.sub(r"(?:(?<=[^\W\d_])|(?<=[,;:!?'’”)\]]))[ \t]+\d{1,2}(?=[\s,.;:!?'’”)]|$)", "", text)
     text = re.sub(r"\n[ \t]*\n(?=[ \t]*[a-z])", "\n", text)        # a paragraph cut by a page number
     return text
 
@@ -1278,17 +1284,86 @@ def yoga_sutras():
 
 # ── Zoroastrian ─────────────────────────────────────────────────────────────
 
+def _verse_ranges(text: str) -> str:
+    """A verse printed with others ("3, 4. And we sacrifice...", "9-10. (See...)") under its first number.
+    Mills marks verses he leaves out as repeats before the next one ("1-10, 11. We worship", "3-5. 6. The
+    Haomas"): those go, and the verse is under its own number."""
+    text = re.sub(r"\b\d+\s*[-–]\s*\d+\s*,\s*(?=\d+\s*\.)", "", text)
+    text = re.sub(r"\b\d+\s*[-–]\s*\d+\s*\.\s+(?=\d+\s*\.\s)", "", text)
+    # a reference for verses printed elsewhere ("1-17. (See Y. XVII, 1-17.) 18-27. (See...) 28. We worship")
+    # under its last number, so the next verse follows on
+    text = re.sub(r"\b\d+\s*[-–]\s*(\d+)\s*\.(?=\s+\(See\b)", r"\1.", text)
+    return re.sub(r"(?m)(^[ \t]*|(?<=[.!?'’”)\]][ \t]))(\d+)(?:\s*[-–,]\s*\d+)+\.(?=[ \t])", r"\1\2.", text)
+
+
+# The Yasna's chapters that Mills doesn't print again, being made of others' verses ("See Y. XV, 2; ..."):
+# each verse of them is given here from where it's printed, as [(this chapter's verse or None, chapter, verses)].
+_YASNA_REPEATS = {
+    "5": [(None, "37", None)],                                         # "identical with Yasna XXXVII"
+    "63": [(None, "15", ["2"]), (None, "66", ["2"]), (None, "38", ["3"])],
+    "64": [(None, "46", ["3"]), (None, "50", ["6", "7", "8", "9", "10", "11"])],
+    "67": [(1, "23", ["1", "2", "3", "4"]), (5, "38", ["3", "4", "5"])],
+    "69": [(None, "15", ["2"]), (None, "51", ["1", "22"])],
+    "72": [(None, "61", None)],
+}
+
+
+# verse numbers misprinted in this copy of the Gâthas (so a verse ran into the one before)
+_YASNA_MISPRINTS = {"43": [(r"\bII\.(?=\s+Yea, I conceived)", "11.")],
+                    "47": [(r"\b11\.(?=\s+And to this)", "1.")],
+                    "49": [(r"\b7\s*,(?=\s+And \(\s*as we speak)", "7.")]}
+
+
+def _fill_repeats(yasna: dict) -> None:
+    for chapter, parts in _YASNA_REPEATS.items():
+        verses, n = {}, 0
+        for at, source, which in parts:
+            n = at or n + 1
+            for v in which or list(yasna[source]):
+                # (Mills: LXVII has XXIII "replacing 'I desire to approach with sanctity' by 'I offer with
+                # sanctity'", words his XXIII doesn't have -- it says "with my praise" -- so it's noted, not done)
+                note = ", with 'I offer' for 'I desire to approach'" if chapter == "67" and source == "23" else ""
+                verses[str(n)] = f"{yasna[source][v]}\n*(as Yasna {source}:{v}{note})*"
+                n += 1
+            n -= 1
+        yasna[chapter] = verses
+
+
 def avesta():
     """The Zend-Avesta and Pahlavi texts of the Sacred Books of the East,
     sacred-texts.com archive (a page per chapter): the Vendidad (22
-    fargards) and the Yashts (the 21 hymns) trans. James Darmesteter (SBE 4,
-    1880; SBE 23, 1883), the Yasna (72 chapters) trans. L. H. Mills (SBE 31,
-    1887), and the Bundahishn, the Zoroastrian account of creation, trans.
-    E. W. West (SBE 5, 1880). Verses by the translators' numbers; their
-    introductions to each chapter and their footnotes are left out."""
+    fargards) and the Yashts (24 hymns, among them the Hadhokht Nask's
+    fate of the soul after death, XXII) trans. James Darmesteter (SBE 4,
+    1880; SBE 23, 1883), the Yasna (72 chapters) and the Visperad (23)
+    trans. L. H. Mills (SBE 31, 1887), the Bundahishn, the Zoroastrian
+    account of creation, trans. E. W. West (SBE 5, 1880), and the Khorda
+    Avesta's prayers in SBE 23 and 31: the two Sirozahs (the thirty days'
+    beings), the five Nyayeshes (to the Sun, Mithra, the Moon, the Waters,
+    the Fire), the three Afrinagans (blessings) and the five Gahs (the
+    prayers of the day's five watches), with the nine fragments at the end
+    of SBE 31. Verses by the translators' numbers; their introductions to
+    each chapter and their footnotes are left out. The Yasna's six chapters
+    made of other chapters' verses, which Mills doesn't print again, are
+    filled in from them (_YASNA_REPEATS)."""
     out = {}
 
-    def collect(index, pattern, name, numbering=lambda m: str(roman(m.group(1)))):
+    def verses_of(page, title=None, text=None):
+        text = st_page(page, by_link=True) if text is None else text
+        text = re.sub(r"(?m)^\s*Buy this Book at Amazon\.com\s*", "", text)             # (the site's)
+        text = re.sub(r"(?m)^[^\na-z]*\b[A-Z]{2,}[^\na-z]*$", "", text)     # headings ("VISPARAD VI (SP. VII).")
+        # a translator's outline by verse numbers ("1-16. Contracts... 3-4. Damages...") before verse 1
+        first = re.search(r"(?m)^[ \t]*1(?: \(1\))?\.[ \t]", text)
+        if first and re.search(r"(?m)^[ \t]*\d+\s*[-–]\s*\d+\.", text[:first.start()]):
+            text = text[first.start():]
+        text = re.sub(r"(?<=[^\s.]) +(?=[,;:!?)]|\.(?! \.))|(?<=\() +", "", text)   # where a footnote mark was
+        text = re.sub(r"(?m)((?:^|\s)\d+(?: \(\d+\))?)\.\.\.\. ", r"\1. . . . ", text)    # "47 (130).... Verily"
+        verses = leading_numbered(_verse_ranges(text))
+        if title and verses:
+            first = next(iter(verses))
+            verses[first] = f"*{title}*\n{verses[first]}"
+        return verses
+
+    def collect(index, pattern, name, numbering=lambda m: str(roman(m.group(1))), titled=False):
         book = {}
         for page, label in st_index(index):
             m = re.fullmatch(pattern, label)
@@ -1296,22 +1371,67 @@ def avesta():
                 key = numbering(m)
                 if key in book:
                     continue
-                verses = leading_numbered(st_page(page))
+                verses = verses_of(page, re.sub(r"^[IVXL]+\.\s*", "", label) if titled else None)
                 if verses:
                     book[key] = verses
         out[name] = dict(sorted(book.items(), key=lambda kv: int(kv[0])))
+        return out[name]
 
     collect("zor/sbe04/index.htm", r"Fargard ([IVXL]+)\b.*", "Vendidad")
-    collect("zor/sbe23/index.htm", r"([IVXL]+)\. .*Yast\b.*", "Yashts")
-    collect("zor/sbe31/index.htm", r"Yasna ([IVXL]+)\b.*", "Yasna")
+    yashts = collect("zor/sbe23/index.htm", r"([IVXL]+)\. .*Yast\b.*", "Yashts")
+    yashts["22"] = verses_of("zor/sbe23/sbe2327.htm")                  # (the index calls it "Yast XXII")
+    yashts["23"] = verses_of("zor/sbe23/sbe2328.htm", "Âfrîn Paighambar Zartûst")   # (with XXIV's introduction)
+    out["Yashts"] = dict(sorted(yashts.items(), key=lambda kv: int(kv[0])))
+    # the Yasna by each page's own heading (the index calls LXIV "LXIX"); a Gâtha's page has Mills's
+    # account of it, its verses numbered too, before the "Translation."
+    yasna = {}
+    for page, label in st_index("zor/sbe31/index.htm"):
+        if label.startswith("Yasna "):
+            text = st_page(page, by_link=True)
+            m = re.search(r"YASNA ([IVXL]+)\b", text) or re.match(r"Yasna ([IVXL]+)\b", label)
+            whole = text
+            translation = re.search(r"(?m)^\s*Translation\.?\s*$", text)
+            if translation:
+                text = text[translation.end():]
+            if re.search(r"YASNA XLIX, 12-L\b", whole):                     # (XLIX's last verse is with L)
+                last, text = re.split(r"\bY\. L, (?=1\.)", text)
+                yasna["49"]["12"] = verses_of(page, text=re.sub(r"\bY\. XLIX, 12 ?\.", "12.", last))["12"]
+                yasna["50"] = verses_of(page, text=text)
+                continue
+            for wrong, right in _YASNA_MISPRINTS.get(str(roman(m.group(1))), []):
+                text, found = re.subn(wrong, right, text, count=1)
+                expect(found, f"Yasna {m.group(1)}: {wrong!r}")
+            yasna[str(roman(m.group(1)))] = verses_of(page, text=text)
+    # this copy has lost XXXVIII's "5." (Mills cites "Y. XXXVIII, 3-5"): it's his second address to the waters
+    four, five = yasna["38"]["4"].split(" O waters, ye who are productive")
+    yasna["38"].update({"4": four, "5": "O waters, ye who are productive" + five})
+    _fill_repeats(yasna)
+    out["Yasna"] = dict(sorted(yasna.items(), key=lambda kv: int(kv[0])))
+    collect("zor/sbe31/index.htm", r"Visparad ([IVXL]+)", "Visperad")
     collect("zor/sbe05/index.htm", r"Chapter ([IVXL]+)\b.*", "Bundahishn")
+    collect("zor/sbe23/index.htm", r"Sîrôzah ([IVXL]+)", "Sirozahs")
+    collect("zor/sbe23/index.htm", r"([IVXL]+)\. .* Nyâyis", "Nyayeshes", titled=True)
+    collect("zor/sbe31/index.htm", r"([IVXL]+)\. Âfrînagân .*", "Afrinagans", titled=True)
+    collect("zor/sbe31/index.htm", r"([IVXL]+)\. (?:The )?Gâh .*", "Gahs", titled=True)
+    fragments = {}
+    for page, label in st_index("zor/sbe31/index.htm"):
+        if re.fullmatch(r"[IVXL]+", label):
+            fragments[str(roman(label))] = verses_of(page)
+    out["Avesta Fragments"] = fragments
     counts = {k: len(v) for k, v in out.items()}
     print(f"  chapters: {counts}")
-    expect(counts["Vendidad"] == 22 and counts["Yashts"] >= 19 and counts["Yasna"] >= 70 and counts["Bundahishn"] >= 30,
-           f"chapters {counts}")
-    write("zoroastrian", "avesta.json",
-          "The Zend-Avesta (Vendidad, Yashts trans. James Darmesteter; Yasna trans. L. H. Mills) and the Bundahishn "
-          "(trans. E. W. West), Sacred Books of the East 4, 5, 23, 31 (1880-1887)", out)
+    expect(counts == {"Vendidad": 22, "Yashts": 24, "Yasna": 72, "Visperad": 23, "Bundahishn": 34, "Sirozahs": 2,
+                      "Nyayeshes": 5, "Afrinagans": 3, "Gahs": 5, "Avesta Fragments": 9}, f"chapters {counts}")
+    expect(all(out["Yasna"][str(n)] for n in range(1, 73)), "a Yasna chapter without verses")
+    write("zoroastrian", "avesta.json", "Sacred Books of the East (1880-1887)", out)
+    path = DATA / "zoroastrian" / "avesta.json"                       # (each book's translator)
+    data = json.loads(path.read_text(encoding="utf-8"))
+    translator = {"Vendidad": "James Darmesteter (1880)", "Yashts": "James Darmesteter (1883)",
+                  "Sirozahs": "James Darmesteter (1883)", "Nyayeshes": "James Darmesteter (1883)",
+                  "Bundahishn": "E. W. West (1880)"}
+    data["book_sources"] = {b: f"trans. {translator.get(b, 'L. H. Mills (1887)')}, Sacred Books of the East"
+                            for b in out}
+    path.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
 
 
 # ── Jain ────────────────────────────────────────────────────────────────────

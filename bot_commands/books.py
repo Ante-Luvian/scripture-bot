@@ -777,7 +777,8 @@ BOOKS_TREE = [
         "Daniel (4Q114)",
     ]),
     ("🔥 Zoroastrian", [
-        ("The Avesta", ["Gathas", "Yasna", "Yashts", "Vendidad"]),
+        ("The Avesta", ["Gathas", "Yasna", "Visperad", "Yashts", "Vendidad", "Avesta Fragments"]),
+        ("Khorda Avesta", ["Nyayeshes", "Gahs", "Afrinagans", "Sirozahs"]),
         ("Pahlavi Texts", ["Bundahishn"]),
     ]),
     ("🪯 Sikh", [

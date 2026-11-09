@@ -382,6 +382,13 @@ ALIASES: dict[str, str] = {
     # Zoroastrian (Avesta, Bundahishn)
     "videvdad": "Vendidad", "vendidad": "Vendidad", "yasht": "Yashts", "yashts": "Yashts", "yasts": "Yashts",
     "bundahis": "Bundahishn", "bundahishn": "Bundahishn", "bundahism": "Bundahishn",
+    "visperad": "Visperad", "visparad": "Visperad", "vispered": "Visperad", "vispa ratavo": "Visperad",
+    "sirozah": "Sirozahs", "sirozahs": "Sirozahs", "siroza": "Sirozahs", "sirozas": "Sirozahs", "si rozah": "Sirozahs",
+    "nyayesh": "Nyayeshes", "nyayeshes": "Nyayeshes", "nyayis": "Nyayeshes", "nyaish": "Nyayeshes",
+    "niyayesh": "Nyayeshes", "niyaishes": "Nyayeshes", "nyayish": "Nyayeshes",
+    "afrinagan": "Afrinagans", "afrinagans": "Afrinagans", "afringan": "Afrinagans", "afringans": "Afrinagans",
+    "gah": "Gahs", "gahs": "Gahs", "geh": "Gahs",
+    "avesta fragments": "Avesta Fragments", "avestan fragments": "Avesta Fragments",
     # Sikh
     "granth": "Guru Granth Sahib", "guru granth": "Guru Granth Sahib", "adi granth": "Guru Granth Sahib",
     "sggs": "Guru Granth Sahib", "japji sahib": "Japji", "jap ji": "Japji", "jupji": "Japji", "jup": "Japji",

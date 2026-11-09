@@ -56,7 +56,7 @@ QUIZ_POOLS = {
     "buddhist":  ["Dhammapada", "Sutta Nipata", "Diamond Sutra", "Lotus Sutra", "Jataka", "Questions of King Milinda"],
     "chinese":   ["Tao Te Ching", "Analects", "I Ching", "Zhuangzi", "Mencius"],
     "jain":      ["Akaranga Sutra", "Sutrakritanga", "Uttaradhyayana Sutra", "Kalpa Sutra"],
-    "zoroastrian": ["Gathas", "Yasna", "Yashts", "Vendidad", "Bundahishn"],
+    "zoroastrian": ["Gathas", "Yasna", "Yashts", "Vendidad", "Bundahishn", "Visperad", "Nyayeshes"],
     "classical": ["Iliad", "Odyssey", "Aeneid", "Republic", "Meditations", "Enchiridion of Epictetus",
                   "Works and Days", "Enneads", "Nicomachean Ethics", "Corpus Hermeticum",
                   # from the Perseus library

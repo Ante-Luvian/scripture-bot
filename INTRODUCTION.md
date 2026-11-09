@@ -78,7 +78,7 @@ Browse all of it with `!books`, or let me pick something at random with `!discov
 
 <!-- texts: chinese -->**China and Japan** — the **Tao Te Ching** and the **Zhuangzi** (`!verse Zhuangzi 2`, the butterfly dream is at its end); Confucius's **Analects** (`!verse Analects 2.4`), **Mencius** (by book, part and chapter: `!verse Mencius 6.1.2`), the **Great Learning** and the **Doctrine of the Mean**; the **I Ching**; and Shinto's sacred histories, the **Kojiki** and the **Nihongi**.
 
-<!-- pack: comparative -->**Persia, the Americas and old Europe** — the **Zoroastrian** scriptures: the **Gathas** (Zarathustra's own hymns), the **Yasna**, the **Yashts**, the **Vendidad** and the **Bundahishn**, the Zoroastrian account of creation; the Maya **Popol Vuh**; the Finnish **Kalevala**; and the Welsh **Mabinogion**.
+<!-- pack: comparative -->**Persia, the Americas and old Europe** — the **Zoroastrian** scriptures: the **Gathas** (Zarathustra's own hymns), the **Yasna** and **Visperad** (the worship services), the **Yashts**, the **Vendidad**, the everyday prayers of the **Khorda Avesta** (the **Nyayeshes**, **Gahs**, **Afrinagans** and **Sirozahs**) and the **Bundahishn**, the Zoroastrian account of creation; the Maya **Popol Vuh**; the Finnish **Kalevala**; and the Welsh **Mabinogion**.
 
 <!-- pack: comparative -->`!search` and `!theme` know each of these as a tradition: `in:sikh`, `in:jain`, `in:shinto`, `in:zoroastrian`, `in:mesoamerican`, `in:finnish`, `in:celtic`.
 
