@@ -462,8 +462,20 @@ jasoncolavito.com), Robson's Christ in Islam (build_islamic.py), and scripts/bui
 FROM THE LIBRARY ITSELF: each saying regex-extracted from our copy of the Father who quotes it (the build fails if
 it's gone; tests/test_agrapha.py opens every cited passage). To add one, add a SAYINGS row; don't type sayings in.
 Infancy gospels: we have the main six (ANF 8); the Armenian (Terian 2008, copyright), Latin Arundel/Hereford (Latin
-only) and Syriac lives of Mary (scans) have no free English -- don't chase. Still to do from the inventory below: pseudepigrapha.com's Pseudo-Methodius, Words of Gad the Seer, Slavonic Adam and Eve; the rest of
-the Jewish pseudepigrapha and the earlychristianwritings gaps. **Inventory of what's still missing (2026-11-09):** gnosis.org -- only Marcion's
+only) and Syriac lives of Mary (scans) have no free English -- don't chase. **The inventory below is now done
+(2026-11-10, all live with changelogs)** except what follows. build_pseudepigrapha.py also has Pseudo-Methodius (Greek
+and Latin = Garstad), Gad the Seer, Slavonic Adam and Eve, and six books from outside pseudepigrapha.com: Joseph and
+Aseneth (Cook, markgoodacre.org/wp/aseneth/cook_translation/, a chapter a page), and from TheoDoor's Word files at
+tohdee.github.io (modernised thees; a comma after every clause-opening "for", undone by untic()) the Apocalypse of
+Abraham (Box; no verse numbers, so sentence groups), Testament of Job (it is KOHLER's 1897 translation, not James's;
+the file inherits OCR slips, checked against the Kohut volume's text layer -> JOB_SLIPS), Lives of the Prophets
+(Torrey) and Apocalypse of Elijah (Alcock; verses = Steindorff pages 19-43); Zephaniah (Wintermute) from the Archive's
+2010 copy of userpages.burgoyne.com/bdespain (chapters 13-14 = Clement's quotation and the Sahidic fragment). TheoDoor
+has more Word files of pseudepigrapha -- look there first for the next ones. Marcion's Gospel and the fragment gospels,
+Muratorian Canon, prologues, Abercius, Scillitans are in too. **Held back:** Testaments of Isaac and Jacob (Gaselee
+1927 scan), Brooks's longer Joseph and Asenath (1918 scan), Apollonius (Conybeare scan) -- the owner decides on OCR;
+no usable English online for the Didascalia (every transcription damaged), Carpus, the Monarchian prologues.
+**Inventory of what's still missing (2026-11-09):** gnosis.org -- only Marcion's
 reconstructed Gospel. earlyjewishwritings -- 2 Baruch (Charles 1913, pseudepigrapha.com/pseudepigrapha/2Baruch.html),
 3 Baruch (same site), Pseudo-Philo (sacred-texts bib/bap, James 1917), Apocalypse of Abraham (Box 1918: only scans
 found; pseudepigrapha.com's is a modern unknown translation), Joseph and Aseneth (Brooks 1918 not found online;
