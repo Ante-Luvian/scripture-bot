@@ -47,6 +47,31 @@ import pytest
     ("Apocalypse of Pseudo-Methodius (Latin) 1:1", "Surely it ought to be known that when they left paradise"),
     ("Latin Pseudo-Methodius 14:23", "Amen."),
     ("Apocalypse of Methodius 14:22", "the grace and love for mankind of our Lord"),
+    ("Joseph and Aseneth 1:1", "It came to pass in the first year of the seven years of plenty"),
+    ("Aseneth 1:13", "Are you not king of all the earth?"),                           # (printed as a second 12)
+    ("Asenath 4:3", "And they took out all the good things"),                        # (no number on the page)
+    ("Aseneth 12:2", "“O Lord, God of the ages, that didst give to all the breath of life,\nThat didst bring"),  # (a list)
+    ("Aseneth 13:1", "Look upon my orphanhood, O Lord"),                             # (the page: "ophanhood")
+    ("Aseneth 24:5", "And Pharaoh’s son was overjoyed"),                             # ("5.And")
+    ("Aseneth 29:11", "And Joseph was king of Egypt for forty-eight years."),
+    ("Apocalypse of Abraham 1:1", "*The Book of the Revelation of Abraham, the son of Terah"),
+    ("Apocalypse of Abraham 17:3", "Eternal, mighty, Holy, El, God only – Supreme!\nYou who are self-originated"),
+    ("Apocalypse of Abraham 29:12", "See, Abraham, what you have seen,\nAnd [hear] what you have heard"),
+    ("Testament of Job 1:1", "*Book of Job, called Jobab, his life and the transcript of his Testament*"),
+    ("Testament of Job 5:14", "that it should not be brought to me, insisting that she should only have"),   # (a lost line)
+    ("Testament of Job 7:4", "the king of Teman, and Bildad, and Sophar"),            # (the copy: "Balad")
+    ("Testament of Job 10:23", "*Chorus*\n“Our sins are forgiven"),
+    ("Testament of Job 12:19", "To our Lord be glory. Amen."),
+    ("Lives of the Prophets 1:1", "*Isaiah*\nHe was of Jerusalem."),
+    ("Lives of the Prophets 23:4", "Upon his death he was buried in Samaria."),
+    ("Apocalypse of Zephaniah 1:1", "… dead. We will bury him like any man."),
+    ("Apocalypse of Zephaniah 7:11", "in my (own) language …\n*two pages missing*"),
+    ("Apocalypse of Zephaniah 4:9", "because [thou] are pure before him"),
+    ("Apocalypse of Zephaniah 13:1", "And a spirit took me and brought me up into the fifth heaven"),
+    ("Apocalypse of Zephaniah 14:1", "I saw a soul which five thousand angels punished and guarded."),
+    ("Apocalypse of Elijah 19", "The word of the Lord happened to me, saying, “Son of man"),
+    ("Apocalypse of Elijah 35", "He will not overcome them, the son of lawlessness."),        # ("law-" "lessness")
+    ("Apocalypse of Elijah 43", "and with Christ a thousand years."),                          # (page 44's words)
 ])
 def test_passages(lookup, ref, words):
     result = lookup.get_verse(ref)
@@ -77,6 +102,32 @@ def test_no_site_furniture(lookup):
     # Gad's verses run on through the book (the page has no chapter XI heading)
     gad = charles["Words of Gad the Seer"]
     assert [int(v) for vs in gad.values() for v in vs] == list(range(1, 376))
+    # the six of 2026-11-10: whole books, chapters in order, no footnote marks, markers or page furniture
+    for book, chapters in (("Joseph and Aseneth", 29), ("Apocalypse of Abraham", 32), ("Testament of Job", 12),
+                           ("Lives of the Prophets", 23), ("Apocalypse of Zephaniah", 14), ("Apocalypse of Elijah", 1)):
+        assert list(charles[book]) == [str(n) for n in range(1, chapters + 1)], book
+        for verses in charles[book].values():
+            for text in verses.values():
+                assert not re.search(r"@@|\[\d+\]|  |<|>|&\w+;|\bPage \d|tohdee|Goodacre", text), (book, text[:100])
+                assert text.count("*") % 2 == 0, (book, text[:100])
+    # Job's verses run on as the print numbers them; the copy's he-for-be and time-for-the slips are put right
+    job = charles["Testament of Job"]
+    assert [len(job[str(c)]) for c in range(1, 13)] == [28, 17, 37, 28, 24, 31, 39, 26, 20, 26, 29, 19]
+    assert not any(re.search(r"\b(?:should|would|not) he (?:firmly|robbed|found)\b|\bsaving\b|for time", t)
+                   for vs in job.values() for t in vs.values())
+    assert "Kohler" in lookup.get_verse("Testament of Job 1:1")["source"]
+    # Elijah: one chapter numbered by Steindorff's pages 19-43, every verse a whole sentence or more
+    elijah = charles["Apocalypse of Elijah"]["1"]
+    assert list(elijah) == [str(n) for n in range(19, 44)]
+    assert all(re.search(r"[.!?”\]]$", t) for t in elijah.values()), [t[-40:] for t in elijah.values()]
+    # Aseneth: Cook's numbers, with the one the page leaves out (28:13) not guessed at
+    aseneth = charles["Joseph and Aseneth"]
+    assert "13" not in aseneth["28"] and "14" in aseneth["28"]
+    assert list(aseneth["12"]) == [str(n) for n in range(1, 13)]
+    # the "for," the Word files put after a clause-opening "for" is gone; "For, behold" keeps its comma
+    for book in ("Apocalypse of Abraham", "Testament of Job", "Lives of the Prophets", "Apocalypse of Elijah"):
+        for verses in charles[book].values():
+            assert not any(re.search(r"(?<![A-Za-z] )\b[Ff]or, (?!behold\b|lo\b|for\b)", t) for t in verses.values()), book
     # Meqabyan: the editor's chapter summaries ("Chapter 5: An extended attack on...") are not in the verses
     meq = lookup._data["charles"]
     for book, count in (("1 Meqabyan", 36), ("2 Meqabyan", 21), ("3 Meqabyan", 10)):

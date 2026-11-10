@@ -13,16 +13,25 @@ Also (2026-11-10) from the same site: Charles's Slavonic Life of Adam and Eve, M
 the Apocalypse of Pseudo-Methodius, Greek and Latin (the page names no translator; its own PDF is Garstad's 2012
 Dumbarton Oaks edition, which it matches word for word).
 
+And (2026-11-10) six more from elsewhere, none of them on that site: Joseph and Aseneth (David Cook's translation, from
+Mark Goodacre's pages); the Apocalypse of Abraham (Box), the Testament of Job (Kohler), the Lives of the Prophets
+(after Torrey) and the Apocalypse of Elijah (Alcock), from TheoDoor's Word files (tohdee.github.io), which modernise
+the thees and thous; and the Apocalypse of Zephaniah (Wintermute), from a page of 2010 the Internet Archive kept.
+Each builder's docstring says how its verses are numbered.
+
 Charles's section titles over the chapters ("1-4. Announcement of the coming Destruction") and the Wesley
 Center's notices are left out.
 
     python scripts/build_pseudepigrapha.py
 """
 import html
+import io
 import json
 import re
 import time
+import urllib.error
 import urllib.request
+import zipfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
@@ -368,6 +377,373 @@ def gad_the_seer() -> dict:
     return book
 
 
+BROWSER = {"User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
+                         "Chrome/126.0 Safari/537.36"}
+THEODOOR = "https://tohdee.github.io/"
+
+
+def cached(name: str, url: str) -> bytes:
+    """A file from another site, kept in the cache (asked for as a browser where the plain request is refused)."""
+    CACHE.mkdir(parents=True, exist_ok=True)
+    f = CACHE / name
+    if not f.exists():
+        try:
+            data = urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=60).read()
+        except urllib.error.HTTPError:
+            data = urllib.request.urlopen(urllib.request.Request(url, headers=BROWSER), timeout=60).read()
+        f.write_bytes(data)
+        time.sleep(1)
+    return f.read_bytes()
+
+
+def docx_paragraphs(name: str, url: str) -> list:
+    """A Word file's paragraphs as (kind, text): "head" for a centred one, "line" for an indented one (verse set
+    line by line), "text" for the rest."""
+    xml = zipfile.ZipFile(io.BytesIO(cached(name, url))).read("word/document.xml").decode("utf-8")
+    out = []
+    for p in re.findall(r"(?s)<w:p[ >].*?</w:p>", xml):
+        runs = re.sub(r"<w:(?:tab|br)\b[^>]*/>", "<w:t> </w:t>", p)
+        text = html.unescape("".join(re.findall(r"(?s)<w:t(?: [^>]*)?>(.*?)</w:t>", runs))).replace("\xa0", " ")
+        if not text.strip():
+            continue
+        ppr = re.search(r"(?s)<w:pPr>(.*?)</w:pPr>", p)
+        ppr = ppr.group(1) if ppr else ""
+        kind = ("head" if '<w:jc w:val="center"/>' in ppr
+                else "line" if re.search(r"<w:ind [^>]*w:left=", ppr) else "text")
+        out.append((kind, text))
+    return out
+
+
+def untic(text: str) -> str:
+    """Without the comma these Word files set after every "for" that opens a clause ("for, the Egyptians held him
+    in honour"), which is the files' habit, not the translators'. "For, behold" keeps its comma."""
+    return re.sub(r"(?<![A-Za-z] )\b([Ff]or), (?!behold\b|lo\b|for\b)", r"\1 ", text)
+
+
+def fix_slips(paras: list, slips: dict, book: str) -> list:
+    """The paragraphs with each slip put right; the build stops unless every slip is found exactly once."""
+    seen, out = dict.fromkeys(slips, 0), []
+    for kind, text in paras:
+        for slip, right in slips.items():
+            seen[slip] += text.count(slip)
+            text = text.replace(slip, right)
+        out.append((kind, text))
+    expect(set(seen.values()) == {1}, f"{book}: slips not found once each {[s for s, n in seen.items() if n != 1]}")
+    return out
+
+
+def counted_verses(text: str, stop: str = "", skips: list = None) -> dict:
+    """Verses numbered in the text, like running_verses, but keeping the text's line breaks; `stop` is what stands
+    after a number (Cook's "2. And the top storey"). Given a `skips` list, a number may also jump ahead (a text
+    that lacks verses its numbering counts), and each jump is added to the list."""
+    verses, current = {}, 0
+    for piece in re.split(rf"(?:(?<=\s)|^)(\d{{1,2}}){re.escape(stop)}\s+(?=[A-Z“‘(\[])" if skips is not None
+                          else rf"(?:(?<=\s)|^)(\d{{1,2}}){re.escape(stop)}\s+(?=\S)", text):
+        if piece.isdigit() and (int(piece) == current + 1 or (skips is not None and current < int(piece) <= current + 12)):
+            if int(piece) != current + 1:
+                skips.append(f"{current}->{piece}")
+            current = int(piece)
+            verses[str(current)] = ""
+        elif current == 0:
+            expect(not piece.strip(), f"text before verse 1: {piece[:50]!r}")
+        else:
+            verses[str(current)] += f"{piece}{stop} " if piece.isdigit() else piece
+    return {v: re.sub(r" *\n *", "\n", re.sub(r"[ \t]+", " ", t)).strip() for v, t in verses.items()}
+
+
+SENTENCE_END = r"(?:(?<=[.!?])|(?<=[.!?][\"'”’)\]]))\s+(?=[A-Z\"“‘(\[])"
+
+
+def sentence_groups(paras: list, size: int = 450, longest: int = 600) -> list:
+    """Paragraphs, with any longer than `longest` cut into runs of whole sentences of about `size` characters (as in
+    build_world_texts.py), for a text printed without verse numbers; a short last run joins the one before it."""
+    out = []
+    for p in paras:
+        if len(p) <= longest:
+            out.append(p)
+            continue
+        runs, run = [], ""
+        for s in re.split(SENTENCE_END, p):
+            if run and len(run) + len(s) > size:
+                runs.append(run)
+                run = s
+            else:
+                run = f"{run} {s}".strip()
+        if run and runs and len(run) < 120:
+            runs[-1] += " " + run
+        elif run:
+            runs.append(run)
+        out += runs
+    return out
+
+
+# Slips in the Word file of the Testament of Job (most of them an older web copy's misreadings of the print: he for
+# be, time for the, saving for saying), each checked against Kohler's printed text. 5:14 had lost a line.
+JOB_SLIPS = {
+    "us all how will I know": "us all? How will I know", "archangel of the God": "archangel of God",
+    "the archangel, said": "the archangel said", "that he Lord": "that the Lord",
+    "should he firmly": "should be firmly", "who would, take": "who would take", "to time poor": "to the poor",
+    "would he robbed": "would be robbed", "servants of the poor.": "servants of the poor?",
+    "the bread that it should only have":
+        "the bread that it should not be brought to me, insisting that she should only have",
+    "live on there for": "live on these for", "behold the memory": "behold your memory",
+    "been for nothing 4": "been for nothing? 4", "Behold, her who": "Behold her who", "and Balad,": "and Bildad,",
+    "for time first time": "for the first time", "people of the East. 8": "people of the East.” 8",
+    "Wither, then": "Whither, then", "challenges it saving": "challenges us saying",
+    "And I said, “Upon what": "And he said, “Upon what", "prohibited it, saving": "prohibited it, saying",
+    "not he found": "not be found", "darkness. and not": "darkness, and not",
+    "and declare unto me": "and you declare unto me", "on account of, the": "on account of the",
+    "= Kassia, and": "= Kassia), and", "this, he came He": "this, came He",
+    "been taken off the leader": "been taken off, the leader", "man of God? 14": "man of God?” 14",
+    "his year’s he": "his years he", "Lord by glory": "Lord be glory",
+}
+
+
+def testament_of_job() -> dict:
+    """The Testament of Job in Kaufmann Kohler's translation (Semitic Studies in Memory of Alexander Kohut, 1897;
+    the copies online give it to M. R. James, who edited the Greek that year), from TheoDoor's Word file, which
+    modernises the thees and thous: its 12 chapters, verses numbered in the running text, Eliphaz's hymn in chapter
+    10 line by line. The title leads 1:1 in italics."""
+    paras = docx_paragraphs("theodoor_TJb.docx", THEODOOR + "Eaaa-Ttm/A308-TJb.docx")
+    title = paras[2][1].strip()
+    expect(title.startswith("Book of Job, called Jobab"), f"Job: title {title[:40]!r}")
+    chapters, ch = {}, None
+    for kind, text in fix_slips(paras[3:], JOB_SLIPS, "Job"):
+        m = re.fullmatch(r"\s*Chapter (\d+)\s*", text)
+        if kind == "head" and m:
+            ch = m.group(1)
+            chapters[ch] = ""
+        elif kind == "head":
+            expect(text.strip() == "Chorus", f"Job: heading {text[:40]!r}")
+            chapters[ch] += " @@CHORUS@@"
+        elif kind == "line":                          # (a line of the hymn; its half-lines set off by wide spaces)
+            chapters[ch] += "\n" + re.sub(r" {2,}", "\n", text.strip())
+        else:
+            chapters[ch] += " " + text.strip()
+    expect(list(chapters) == [str(n) for n in range(1, 13)], f"Job chapters {list(chapters)}")
+    book = {}
+    for ch, text in chapters.items():
+        verses = counted_verses(text.replace("“ ", "“"))
+        for v in list(verses):
+            if verses[v].endswith("@@CHORUS@@"):       # (the heading over the hymn's last verse)
+                verses[v] = verses[v][:-len("@@CHORUS@@")].strip()
+                verses[str(int(v) + 1)] = "*Chorus*\n" + verses[str(int(v) + 1)]
+        book[ch] = {v: untic(t) for v, t in verses.items()}
+    expect("@@" not in json.dumps(book), "Job: a marker left in the text")
+    book["1"]["1"] = f"*{title}*\n" + book["1"]["1"]
+    return book
+
+
+# slips in the Word file of the Apocalypse of Abraham: thees its modernising missed, a split word, a stray footnote
+# mark and two quotation marks
+ABRAHAM_SLIPS = {
+    "give thee the proper": "give you the proper", "able-neither": "able neither", "surf ace": "surface",
+    "”1 And": "” And", "which dwelleth": "which dwells", "listen to thy voice": "listen to your voice",
+    "is in your, so": "is in you, so", "generation of men.": "generation of men.”",
+    "“Yet may God reveal": "Yet may God reveal",
+}
+
+
+def apocalypse_of_abraham() -> dict:
+    """The Apocalypse of Abraham in G. H. Box's translation (1918), from TheoDoor's Word file, which modernises the
+    thees and thous: Box's 32 chapters. He printed no verse numbers, so a verse here is a paragraph of his, or a run
+    of whole sentences of a long one; the songs (chapters 7, 17 and 29) are a verse each, line by line. His section
+    titles are left out, his brackets (words not in every manuscript) kept; the book's own title leads 1:1."""
+    paras = docx_paragraphs("theodoor_AAb.docx", THEODOOR + "Ebbb-Aap/B306-AAb.docx")
+    title, chapters, ch = [], {}, None
+    for kind, text in fix_slips(paras[2:], ABRAHAM_SLIPS, "Abraham"):
+        text = re.sub(r"\s+", " ", text).strip()
+        m = re.fullmatch(r"Chapter (\d+)", text)
+        if kind == "head":
+            if m:
+                ch = m.group(1)
+                chapters[ch] = []
+        elif ch is None:
+            title.append(text)
+        elif kind == "line" and chapters[ch] and chapters[ch][-1][0] == "line":
+            chapters[ch][-1][1] += "\n" + text
+        else:
+            if text.startswith("See, Abraham, what you have seen"):      # (five lines printed as one)
+                text = re.sub(r"(?<=[,.]) (?=(?:And|Go) )", "\n", text)
+            chapters[ch].append([kind, text])
+    expect(len(title) == 1 and title[0].startswith("The Book of the Revelation of Abraham"), f"Abraham: title {title}")
+    expect(list(chapters) == [str(n) for n in range(1, 33)], f"Abraham chapters {list(chapters)}")
+    book = {}
+    for ch, blocks in chapters.items():
+        verses = []
+        for kind, text in blocks:
+            verses += [text] if kind == "line" else sentence_groups([text])
+        book[ch] = {str(n): untic(v) for n, v in enumerate(verses, start=1)}
+    book["1"]["1"] = f"*{title[0]}*\n" + book["1"]["1"]
+    return book
+
+
+def lives_of_the_prophets() -> dict:
+    """The Lives of the Prophets, adapted from Charles Cutler Torrey's translation (1946), from TheoDoor's Word
+    file: a chapter for each of the 23 prophets, his name leading its first verse in italics; verses numbered in
+    the running text."""
+    paras = docx_paragraphs("theodoor_LtP.docx", THEODOOR + "Eccc-Han/C301-LtP.docx")
+    title = paras[2][1].strip()
+    expect(title.startswith("The Names of the Prophets"), f"Lives: title {title[:40]!r}")
+    names, chunks, ch = {}, {}, None
+    for _, text in paras[3:]:
+        m = re.fullmatch(r"\s*(\d+) – (.+?)\s*", text)
+        if m:
+            ch = m.group(1)
+            names[ch], chunks[ch] = m.group(2), ""
+        else:
+            chunks[ch] += " " + text
+    expect(list(chunks) == [str(n) for n in range(1, 24)], f"Lives chapters {list(chunks)}")
+    book = {}
+    for ch, text in chunks.items():
+        book[ch] = {v: untic(t.replace("'", "’")) for v, t in counted_verses(text).items()}
+        book[ch]["1"] = f"*{names[ch]}*\n" + book[ch]["1"]
+    book["1"]["1"] = f"*{title}*\n" + book["1"]["1"]
+    return book
+
+
+def apocalypse_of_elijah() -> dict:
+    """The Apocalypse of Elijah, the Akhmimic Coptic text in Anthony Alcock's translation (2013), from TheoDoor's
+    Word file. Alcock sets it out by the pages of Steindorff's edition (19 to 44), which break in the middle of
+    sentences; here it is one chapter whose verse numbers are those pages, each sentence left whole on the page
+    where it begins (so the few words of page 44 end verse 43)."""
+    paras = [re.sub(r"\s+", " ", t).strip() for _, t in docx_paragraphs("theodoor_AEj.docx", THEODOOR + "Ebbb-Aap/B304-AEj.docx")]
+    expect("Anthony Alcock" in paras[1] and len(paras) == 55 and paras[54] == "The Apocalypse of Elijah",
+           f"Elijah: {len(paras)} paragraphs, {paras[1][:40]!r}")
+    pages = {}
+    for head, text in zip(paras[2:54:2], paras[3:54:2]):
+        m = re.fullmatch(r"Page (\d+)", head)
+        expect(m is not None, f"Elijah: page heading {head[:40]!r}")
+        pages[int(m.group(1))] = re.sub(r"\s+\]", "]", text)
+    expect(list(pages) == list(range(19, 45)), f"Elijah pages {list(pages)}")
+    for n in range(19, 44):
+        if re.search(r"[.!?][”’\])]*$|\[the next line is unreadable\]$", pages[n]):
+            continue
+        rest = re.match(r".*?[.!?][”’\])]*(?=\s+[A-Z“‘\[(]|$)", pages[n + 1])       # (the sentence's other half)
+        expect(rest is not None, f"Elijah: no sentence end on page {n + 1}")
+        pages[n] = (pages[n][:-1] if pages[n].endswith("-") else pages[n] + " ") + rest.group(0)   # ("law-" "lessness")
+        pages[n + 1] = pages[n + 1][rest.end():].strip()
+    expect(not pages.pop(44), "Elijah: page 44 has more than the end of a sentence")
+    verses = {str(n): untic(text) for n, text in pages.items()}
+    expect(all(verses.values()), "Elijah: an empty page")
+    verses["19"] = ("*The Coptic text of Achmim, numbered by the pages of Steindorff’s edition (19 to 43); "
+                    "[…] is a gap in the papyrus*\n") + verses["19"]
+    return {"1": verses}
+
+
+def joseph_and_aseneth() -> dict:
+    """Joseph and Aseneth in David Cook's translation (in H. F. D. Sparks, The Apocryphal Old Testament, 1984, of
+    Philonenko's shorter Greek text), from Mark Goodacre's Aseneth pages, a chapter a page: Cook's 29 chapters and
+    his verse numbers ("2. And the top storey"); without the footnotes and their marks."""
+    base, book, jumps = "https://markgoodacre.org/wp/aseneth/cook_translation/", {}, {}
+    typos = dict.fromkeys(ASENETH_TYPOS, 0)
+    for n in range(1, 30):
+        page = cached(f"goodacre_cook_{n:02d}.html", base if n == 1 else f"{base}{n}/").decode("utf-8")
+        page = re.sub(r"(?is)<(script|style)\b.*?</\1>", "", page)
+        head = re.search(r'(?is)<h2 class="wp-block-heading[^>]*>\s*Joseph\s*(?:&amp;|&#0?38;|and)\s*Aseneth:\s*([IVXL]+)\s*</h2>', page)
+        expect(head is not None and roman(head.group(1)) == n, f"Aseneth: page {n} is not chapter {n}")
+        body = page[head.end():]
+        end = next((m for m in (re.search(p, body) for p in (r'(?i)<ol\b[^>]*class="[^"]*footnote',
+                                                            r'(?i)<p class="post-nav-links', r"(?i)</div>")) if m), None)
+        expect(end is not None, f"Aseneth {n}: no end")
+        # paragraphs, and numbered lists (Aseneth's prayer in 12 is one, a verse an item); an indented paragraph or a
+        # list item is verse, set line by line, so it starts on a line of its own
+        text = ""
+        blocks = r'(?is)<p\b([^>]*)>(.*?)</p>|<ol class="wp-block-list"(?: start="(\d+)")?>(.*?)</ol>'
+        for m in re.finditer(blocks, body[:end.start()]):
+            if m.group(4) is not None:
+                for k, item in enumerate(re.findall(r"(?is)<li>(.*?)</li>", m.group(4)), start=int(m.group(3) or 1)):
+                    text += f"\n{k}. " + plain(re.sub(r"(?i)<br\s*/?>", " @@BR@@ ", item))
+            else:
+                para = plain(re.sub(r"(?i)<br\s*/?>", " @@BR@@ ", m.group(2)))
+                text += ("\n" if "padding" in m.group(1) else " ") + para
+        text = re.sub(r"\s*@@BR@@\s*", "\n", re.sub(r"\s*\[\d+\]", "", text)).strip()
+        text = re.sub(r"(?<=\s)(\d{1,2})\.(?=[A-Z])", r"\1. ", text)          # ("5.And")
+        for slip, right in ASENETH_SLIPS.get(n, ()):
+            expect(text.count(slip) == 1, f"Aseneth {n}: {slip!r}")
+            text = text.replace(slip, right)
+        for slip, right in ASENETH_TYPOS.items():
+            text, k = re.subn(rf"\b{slip}\b", right, text)
+            typos[slip] += k
+        skips = []
+        book[str(n)] = counted_verses(text, stop=".", skips=skips)
+        if skips:
+            jumps[str(n)] = skips
+    expect(all(typos.values()), f"Aseneth: typos not found {[t for t, k in typos.items() if not k]}")
+    # (28:13 has no number on the page: not guessed at)
+    expect(jumps == {"28": ["12->14"]}, f"Aseneth: verse numbers jump {jumps}")
+    # (11 is a single verse in the shorter text: Aseneth's soliloquies are only in the longer)
+    expect([n for n, vs in book.items() if len(vs) < 2] == ["11"], f"Aseneth: short chapters")
+    return book
+
+
+# verse numbers the Aseneth pages lost or misprint: 1:13 printed as a second "12."; 4:3, 10:11 and 13:5 have none
+# (13:5 is the next of the "Lo, ..." verses; 4:3 and 10:11 open with the next sentence); and a line of 8:10
+ASENETH_SLIPS = {
+    1: [("yourself? 12. Are you not", "yourself? 13. Are you not")],
+    4: [("bride of God. And they took out", "bride of God. 3. And they took out")],
+    8: [("this virgin, And renew", "this virgin,\nAnd renew")],                  # (a line break lost)
+    10: [("died). And Aseneth took off", "died). 11. And Aseneth took off")],
+    13: [("with ashes. Lo, the floor", "with ashes. 5. Lo, the floor")],
+}
+# typing slips in the Aseneth pages
+ASENETH_TYPOS = {"ophanhood": "orphanhood", "jewellry": "jewellery", "Fo lo": "For lo", "irridescent": "iridescent",
+                 "Schechem": "Shechem"}
+
+
+def apocalypse_of_zephaniah() -> dict:
+    """The Apocalypse of Zephaniah in O. S. Wintermute's translation (in Charlesworth, The Old Testament
+    Pseudepigrapha, 1983), from a page of 2010 kept by the Internet Archive: the Akhmimic text by its 12 chapters and
+    verses, then the two shorter remains as chapters of their own -- 13, the quotation in Clement of Alexandria
+    (Wintermute's "A"), and 14, the Sahidic fragment (his "B", verses 1-9). The scene headings and his note on the
+    lost pages are left out; where pages are missing says so in italics; his <supplied words> are in [brackets]."""
+    page = cached("zephaniah_wintermute.html", "http://web.archive.org/web/20100330084339id_/"
+                  "http://userpages.burgoyne.com/bdespain/progress/progzeph.htm")
+    try:
+        page = page.decode("utf-8")
+    except UnicodeDecodeError:
+        page = page.decode("cp1252")
+    page = re.sub(r"\s+", " ", page)
+    start, end = re.search(r"(?i)<h3>\s*Clement", page), re.search(r"(?i)<div class=\"?nav\b", page)
+    expect(start and end and start.start() < end.start(), "Zephaniah: no text")
+    body = re.sub(r"(?is)<h4>.*?</h4>", " ", page[start.start():end.start()])     # (the scene headings)
+    body, gaps = re.subn(r"(?is)<i><b>two pages missing</b></i>\s*\(In the missing pages.*?arrival of a boat\.\)",
+                         " @@two pages missing@@ ", body)
+    body, more = re.subn(r"(?is)<b><i>four pages missing</i></b>", " @@four pages missing@@ ", body)
+    expect(gaps == 1 and more == 1, f"Zephaniah: the notes of missing pages ({gaps}, {more})")
+    parts = re.split(r"(?is)<h3>(.*?)</h3>", body)
+    expect([plain(h) for h in parts[1::2]] == ["Clement, Stromata 5.11.77", "Sahidic fragment", "Akhmimic Text"],
+           f"Zephaniah: sections {[plain(h) for h in parts[1::2]]}")
+
+    def text_of(fragment: str) -> str:
+        text = re.sub(r"<([^<>@]+)>", r"[\1]", plain(fragment)).replace("… ”", "…”")  # (&lt;thou&gt;: supplied)
+        return re.sub(r"\s*@@(.+?)@@\s*", r"\n*\1*", text).strip()
+
+    def verses_of(fragment: str) -> dict:
+        pieces = re.split(r"(?i)<sub>(\d+)</sub>", fragment)
+        verses = {v: text_of(t) for v, t in zip(pieces[1::2], pieces[2::2])}
+        lead = text_of(pieces[0])
+        if lead:                                      # ("…" before 8:1, where the text takes up again)
+            verses["1"] = f"{lead} {verses['1']}"
+        expect(list(verses) == [str(n) for n in range(1, len(verses) + 1)], f"Zephaniah: verses {list(verses)}")
+        return verses
+
+    clement, sahidic, akhmimic = parts[2::2]
+    book = {}
+    chapters = re.split(r"(?i)<b>(\d+)</b>", akhmimic)
+    for ch, chunk in zip(chapters[1::2], chapters[2::2]):
+        book[ch] = verses_of(chunk)
+    expect(list(book) == [str(n) for n in range(1, 13)], f"Zephaniah chapters {list(book)}")
+    a = re.split(r"(?i)<b>A</b>", clement)
+    b = re.split(r"(?i)<b>B</b>", sahidic)
+    expect(len(a) == 2 and len(b) == 2 and not plain(a[0]) and not plain(b[0]), "Zephaniah: fragments A and B")
+    book["1"]["1"] = "*The Akhmimic Coptic text, which opens in the middle of a burial*\n" + book["1"]["1"]
+    book["13"] = {"1": "*As Clement of Alexandria quotes it (Stromata 5.11.77)*\n" + text_of(a[1])}
+    book["14"] = verses_of(b[1])
+    book["14"]["1"] = "*The Sahidic Coptic fragment*\n" + book["14"]["1"]
+    return book
+
+
 def main() -> None:
     james = james_more()
     for name, chapters in james.items():
@@ -378,6 +754,9 @@ def main() -> None:
              "Book of Jasher": jasher(), "Georgian Book of Adam": book_of_adam(),
              "Slavonic Life of Adam and Eve": slavonic_adam(), "Words of Gad the Seer": gad_the_seer()}
     books["Apocalypse of Pseudo-Methodius"], books["Apocalypse of Pseudo-Methodius (Latin)"] = pseudo_methodius()
+    books.update({"Joseph and Aseneth": joseph_and_aseneth(), "Apocalypse of Abraham": apocalypse_of_abraham(),
+                  "Testament of Job": testament_of_job(), "Lives of the Prophets": lives_of_the_prophets(),
+                  "Apocalypse of Zephaniah": apocalypse_of_zephaniah(), "Apocalypse of Elijah": apocalypse_of_elijah()})
     sources = {"2 Baruch": "trans. R. H. Charles (1913); ends at 85:2 (the rest is not online)", "3 Baruch": "trans. H. Maldwyn Hughes (1913)",
                "Biblical Antiquities": "Pseudo-Philo, trans. M. R. James (1917)",
                "4 Baruch": "trans. Robert A. Kraft and Ann Elizabeth Purintun (1972)",
@@ -386,7 +765,13 @@ def main() -> None:
                "Slavonic Life of Adam and Eve": "ed. R. H. Charles (1913)",
                "Words of Gad the Seer": "trans. Meir Bar-Ilan",
                "Apocalypse of Pseudo-Methodius": "the Greek, trans. Benjamin Garstad (2012)",
-               "Apocalypse of Pseudo-Methodius (Latin)": "the Latin, trans. Benjamin Garstad (2012)"}
+               "Apocalypse of Pseudo-Methodius (Latin)": "the Latin, trans. Benjamin Garstad (2012)",
+               "Joseph and Aseneth": "trans. David Cook (1984)",
+               "Apocalypse of Abraham": "trans. G. H. Box (1918), lightly modernised",
+               "Testament of Job": "trans. Kaufmann Kohler (1897), lightly modernised",
+               "Lives of the Prophets": "adapted from Charles Cutler Torrey (1946)",
+               "Apocalypse of Zephaniah": "trans. O. S. Wintermute (1983)",
+               "Apocalypse of Elijah": "trans. Anthony Alcock (2013), lightly edited"}
     for name, chapters in books.items():
         print(f"  {name}: {len(chapters)} chapters, {sum(map(len, chapters.values()))} verses")
     OUT.write_text(json.dumps({"source": "ed. R. H. Charles (1913)", "book_sources": sources, "books": books},

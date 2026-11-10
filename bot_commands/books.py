@@ -63,6 +63,8 @@ BOOKS_TREE = [
             "2 Baruch", "3 Baruch", "4 Baruch", "Biblical Antiquities", "Georgian Book of Adam",
             "Slavonic Life of Adam and Eve", "Book of Jasher", "Words of Gad the Seer",
             "Apocalypse of Pseudo-Methodius", "Apocalypse of Pseudo-Methodius (Latin)",
+            "Joseph and Aseneth", "Apocalypse of Abraham", "Testament of Job", "Lives of the Prophets",
+            "Apocalypse of Zephaniah", "Apocalypse of Elijah",
         ]),
         ("Ethiopian Orthodox Canon", ["1 Meqabyan", "2 Meqabyan", "3 Meqabyan"]),
         ("New Testament Apocrypha (Ante-Nicene Fathers VIII)", [
