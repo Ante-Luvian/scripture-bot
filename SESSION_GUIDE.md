@@ -456,8 +456,13 @@ scripts/build_islamic.py (sacred-texts isl/: Ghazali x2, Attar, Sa'di x3, Jami, 
 Tarjuman, Barnabas, the Shiite documents, Salisbury's two Isma'ili texts; Hujwiri's Kashf from the owner's Gutenberg
 EPUB in ~/Downloads). Islam's leftovers, not worth chasing now (owner): Redhouse's full Masnavi I, Zeb-un-Nissa, the
 Maqamat, al-Ma'arri, Iqbal, sacred-texts' "Prophets, Their Lives and Their Stories"; more hadith needs a source.
-2 Baruch ends at 85:2 everywhere online (the rest only in scans: ask before transcribing). Still to do from the
-inventory below: pseudepigrapha.com's Pseudo-Methodius, Words of Gad the Seer, Slavonic Adam and Eve; the rest of
+2 Baruch ends at 85:2 everywhere online (the rest only in scans: ask before transcribing). Also done 2026-11-10:
+scripts/build_toledot.py (Toledot Yeshu: Wagenseil/Foote-Wheeler from ftarchives.net, Strasbourg/Mead from
+jasoncolavito.com), Robson's Christ in Islam (build_islamic.py), and scripts/build_agrapha.py -- the Agrapha compiled
+FROM THE LIBRARY ITSELF: each saying regex-extracted from our copy of the Father who quotes it (the build fails if
+it's gone; tests/test_agrapha.py opens every cited passage). To add one, add a SAYINGS row; don't type sayings in.
+Infancy gospels: we have the main six (ANF 8); the Armenian (Terian 2008, copyright), Latin Arundel/Hereford (Latin
+only) and Syriac lives of Mary (scans) have no free English -- don't chase. Still to do from the inventory below: pseudepigrapha.com's Pseudo-Methodius, Words of Gad the Seer, Slavonic Adam and Eve; the rest of
 the Jewish pseudepigrapha and the earlychristianwritings gaps. **Inventory of what's still missing (2026-11-09):** gnosis.org -- only Marcion's
 reconstructed Gospel. earlyjewishwritings -- 2 Baruch (Charles 1913, pseudepigrapha.com/pseudepigrapha/2Baruch.html),
 3 Baruch (same site), Pseudo-Philo (sacred-texts bib/bap, James 1917), Apocalypse of Abraham (Box 1918: only scans
