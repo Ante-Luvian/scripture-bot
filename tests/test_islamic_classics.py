@@ -20,6 +20,9 @@ import pytest
     ("Salaman and Absal 1:1", "Oh Thou whose Memory quickens Lovers"),
     ("Hadiqa 1:1", "*ON THE KNOWLEDGE OF GOD.*\nOf himself no one can know Him"),
     ("Scroll of Wisdom 1:1", "In the Name of God, the Merciful and Compassionate"),
+    ("Kashf al-Mahjub 0:1", "In the Name of God, the Merciful, the Compassionate."),
+    ("Kashf al-Mahjub 1:1", "God hath said, describing the savants"),
+    ("Hujwiri 25:1", ""),
     ("Dua Kumayl 2", "O Lord I ask You by Your mercy that befell on everything"),
     ("Dua Abu Hamza 2", "O my Lord do not chasten me with Your punishment"),
     ("Adages of Imam Ali 1:1", "Satisfaction is an infinite money."),
@@ -37,7 +40,7 @@ def test_no_site_furniture(lookup):
     for corpus, book in (("sufi", "Alchemy of Happiness"), ("sufi", "Niche for Lights"), ("sufi", "Bird Parliament"),
                          ("sufi", "Bustan"), ("quran", "Gospel of Barnabas"), ("sufi", "Gulistan"),
                          ("sufi", "Secret Rose Garden"), ("sufi", "Tarjuman al-Ashwaq"), ("sufi", "Salaman and Absal"),
-                         ("sufi", "Hadiqat al-Haqiqat"), ("sufi", "Scroll of Wisdom")):
+                         ("sufi", "Hadiqat al-Haqiqat"), ("sufi", "Scroll of Wisdom"), ("sufi", "Kashf al-Mahjub")):
         for verses in lookup._data[corpus][book].values():
             for text in verses.values():
                 assert not re.search(r"sacred-texts|Next:|Previous|\bIndex\b|Buy this Book|\{p\.|\[p\. |\[\d+\]|"

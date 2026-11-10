@@ -1012,7 +1012,7 @@ _CATEGORY_BOOKS = {
     "☘️ Celtic":            {"Mabinogion"},
     "🌹 Sufi":              {"Divan of Hafiz","Masnavi","Rubaiyat","Alchemy of Happiness","Niche for Lights",
                              "Bird Parliament","Bustan","Gulistan","Scroll of Wisdom","Salaman and Absal",
-                             "Secret Rose Garden","Hadiqat al-Haqiqat","Tarjuman al-Ashwaq"},
+                             "Secret Rose Garden","Hadiqat al-Haqiqat","Tarjuman al-Ashwaq","Kashf al-Mahjub"},
     "🌍 Baháʼí":            {
         "Kitab-i-Aqdas", "The Hidden Words (Arabic)", "The Hidden Words (Persian)",
         "Gleanings from the Writings of Baha'u'llah", "Prayers and Meditations",

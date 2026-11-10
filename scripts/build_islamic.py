@@ -241,6 +241,54 @@ def hadiqa() -> dict:
     return {k: v for k, v in out.items() if v}
 
 
+KASHF_EPUB = Path.home() / "Downloads" / "pg64786-images-3.epub"     # (the owner's copy of Project Gutenberg 64786)
+
+
+def kashf_al_mahjub() -> dict:
+    """Hujwiri's Kashf al-Mahjub ("The Unveiling of the Veiled", the oldest Persian treatise on Sufism), trans.
+    R. A. Nicholson (1911), from the Gutenberg EPUB: his introduction (0) and twenty-five chapters, a paragraph a
+    verse, the sub-headings in italics over the paragraph after; Nicholson's preface, footnotes, index and
+    Gutenberg's licence left out. (Chapter XIV runs on into the next file; another file is only footnotes.)"""
+    import zipfile
+    z = zipfile.ZipFile(KASHF_EPUB)
+    files = sorted((n for n in z.namelist() if re.search(r"-h-\d+\.htm\.xhtml$", n)),
+                   key=lambda n: int(re.search(r"-h-(\d+)", n).group(1)))
+    out, current = {}, None
+    for name in files:
+        page = z.read(name).decode("utf-8")
+        page = re.sub(r'(?is)<div class="footnote".*?</div>', "", page)
+        page = re.sub(r'(?is)<a[^>]*href="[^"]*#f\d+"[^>]*>.*?</a>|<a id="r\d+"\s*/>', "", page)
+        page = re.sub(r'(?is)<span class="x-ebookmaker-pageno"[^>]*>\s*</span>', "", page)
+        page = re.sub(r"(?is)<(head|style)\b.*?</\1>", "", page)
+        page = re.sub(r"(?is)<h2[^>]*>(.*?)</h2>", lambda m: "<p>@@CH " + m.group(1) + "</p>", page)
+        page = re.sub(r"(?is)<h[34][^>]*>(.*?)</h[34]>", lambda m: "<p>## " + m.group(1) + "</p>", page)
+        for chunk in re.split(r"(?i)<p\b[^>]*>", page):
+            text = re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", " ", chunk))).strip()
+            text = re.sub(r"\s+(?=[,.;:!?)”’])|(?<=[(“‘])\s+", "", text)
+            text = re.sub(r"\s*\((?:see )?pp?\. \d+(?:[-–]\d+)?\)", "", text)   # (his references to his own pages)
+            if not text:
+                continue
+            if text.startswith("@@CH "):
+                head = text[5:]
+                m = re.match(r"CHAPTER ([IVXL]+)\.", head)
+                if head.startswith("INTRODUCTION"):
+                    current = "0"
+                elif m:
+                    current = str(roman(m.group(1)))
+                else:
+                    current = None                    # (the preface, contents, index, licence)
+                if current is not None:
+                    out[current] = []
+                continue
+            if current is not None:
+                out[current].append(text)
+    book = {}
+    for ch, ps in out.items():
+        book[ch] = verses(ps)
+    expect(list(book) == [str(n) for n in range(0, 26)], f"Kashf chapters {list(book)}")
+    return book
+
+
 # ── the Shi'ite documents: Taher Al-Shemaly's translations for the site (2007), and the Alawite Book ──
 ARABIC = re.compile(r"[؀-ۿ]")
 NOTE = re.compile(r"\s*\[[^\[\]]{25,}\]")          # (his own long remarks in brackets; short glosses stay)
@@ -364,6 +412,7 @@ BUILDERS = {
     "Gulistan": (gulistan, "Sa'di, trans. Edward Rehatsek (1888)", OUT),
     "Tarjuman al-Ashwaq": (tarjuman, "Ibn Arabi, trans. R. A. Nicholson (1911)", OUT),
     "Hadiqat al-Haqiqat": (hadiqa, "Sana'i, trans. J. Stephenson (1910)", OUT),
+    "Kashf al-Mahjub": (kashf_al_mahjub, "Hujwiri, trans. R. A. Nicholson (1911)", OUT),
     "Dua Kumayl": (dua_kumayl, "trans. Taher Al-Shemaly (2007)", QURAN_OUT),
     "Dua Abu Hamza": (dua_abu_hamza, "trans. Taher Al-Shemaly (2007)", QURAN_OUT),
     "Adages of Imam Ali": (adages_of_ali, "trans. Taher Al-Shemaly (2007)", QURAN_OUT),

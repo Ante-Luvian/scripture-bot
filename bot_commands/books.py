@@ -547,6 +547,7 @@ BOOKS_TREE = [
             "Salaman and Absal", "Secret Rose Garden", "Hadiqat al-Haqiqat", "Tarjuman al-Ashwaq",
         ]),
         ("Al-Ghazali", ["Alchemy of Happiness", "Niche for Lights"]),
+        ("Hujwiri", ["Kashf al-Mahjub"]),
         ("Other Islamic Writings", ["Gospel of Barnabas"]),
         ("Hadith", [
             ("The Six Books (Kutub al-Sittah)", [
