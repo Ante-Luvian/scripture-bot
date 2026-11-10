@@ -9,6 +9,10 @@ of the Old Testament (1913) as pseudepigrapha.com has them, into data/charles/ps
     set each verse number in the line where the verse begins -- "the first full sentence following the number" --
     so a verse can open a few words early, and 10:2 falls empty: "into a fourth 2 3 heaven".)
 
+Also (2026-11-10) from the same site: Charles's Slavonic Life of Adam and Eve, Meir Bar-Ilan's Words of Gad the Seer, and
+the Apocalypse of Pseudo-Methodius, Greek and Latin (the page names no translator; its own PDF is Garstad's 2012
+Dumbarton Oaks edition, which it matches word for word).
+
 Charles's section titles over the chapters ("1-4. Announcement of the coming Destruction") and the Wesley
 Center's notices are left out.
 
@@ -263,6 +267,107 @@ def james_more() -> dict:
     return books
 
 
+def slavonic_adam() -> dict:
+    """The Slavonic Life of Adam and Eve (Charles 1913, ii. 134-136): chapters xxviii-xl, verse numbers at the start
+    of the page's lines. The site prints xxix as "xxxix", so the chapters are numbered in order, not by their
+    numerals; Charles's closing note (the rest runs parallel to the Apocalypse of Moses) stays, in italics."""
+    page = fetch("pseudepigrapha/slanev.htm")
+    page = page[page.find("<hr>") + 4:]
+    page = page[:page.find("Scanned and Edited")]
+    page = re.sub(r"(?is)<hr>.*", "", page)
+    paras = [p for p in re.split(r"(?i)<p>", page) if plain(p)]
+    note = plain(paras.pop())
+    expect(note.startswith("(Passage follows exactly parallel"), f"Slavonic Adam: last paragraph {note[:40]!r}")
+    chapters, numerals = [], []
+    for p in paras:
+        m = re.match(r"\s*([xvil]+)\s*(?=\d)", p)
+        if m:
+            numerals.append(m.group(1))
+            chapters.append(p[m.end():])
+        else:
+            chapters[-1] += " " + p                   # ("But Adam said:" opens a paragraph inside xxxv)
+    expect(numerals[0] == "xxviii" and len(numerals) == 13, f"Slavonic Adam: chapters {numerals}")
+    book = {}
+    for n, chunk in enumerate(chapters, start=28):
+        parts = re.split(r"(?i)(?:^|<br>)\s*(\d+)\s*", chunk)
+        book[str(n)] = {v: plain(t).replace("archangcl", "archangel") for v, t in zip(parts[1::2], parts[2::2]) if plain(t)}
+    last = book["40"]
+    last[max(last, key=int)] += f"\n*{note}*"
+    return book
+
+
+# OCR slips in the page, checked against the printed edition (its PDF): "fo!!eth" is italic "falleth", "lzdes" Izdes
+METHODIUS_SLIPS = {"hls": "his", "lshmael": "Ishmael", "oflsrael": "of Israel", "lsrael": "Israel", "lzdes": "Izdes", "folleth": "falleth",
+                   "depair": "despair"}
+# typing slips in the Words of Gad the Seer page (a letter dropped or swapped; the sense is never in doubt)
+GAD_SLIPS = {"shackels": "shackles", "stoped": "stopped", "wunds": "wounds", "tje": "the", "oice": "voice",
+             "becuse": "because", "ick": "sick", "iIsrael": "Israel", "plegue": "plague", "peole": "people",
+             "peope": "people", "magisty": "majesty", "presereveth": "preserveth", "reevenge": "revenge",
+             "they loins": "thy loins", "side o the": "side of the", "hand if impurity": "hand of impurity",
+             "he poke": "he spoke", "Mose": "Moses", "kingdome": "kingdom", "sone of man": "son of man",
+             "manor of store": "manner of store", "an alter": "an altar", "Swear to my": "Swear to me",
+             "thevoice": "the voice"}
+
+
+def pseudo_methodius() -> tuple:
+    """The Apocalypse of Pseudo-Methodius, the Greek and the Latin side by side (the page's two columns: its own
+    PDF is Benjamin Garstad's Dumbarton Oaks edition, 2012, Greek first, then Latin). Verses by the anchors
+    ("C1.4", and "C1.4a" for the Latin); the page's titles over each column lead verse 1 in italics."""
+    page = fetch("pseudepigrapha/ApocalypseOfPseudoMethodius_01.html")
+    titles = [plain(t) for t in re.findall(r'(?is)<TD Align="center" Width="50%">(.*?)</TD>', page)]
+    expect(len(titles) == 2 and titles[0].startswith("AN ACCURATE RELATION"), f"Pseudo-Methodius titles {titles}")
+    greek, latin = {}, {}
+    parts = re.split(r'(?is)<FONT Color="blue"><A ID="C(\d+)\.(\d+)(a?)">[^<]*</A></FONT>', page)
+    for ch, v, a, chunk in zip(parts[1::4], parts[2::4], parts[3::4], parts[4::4]):
+        chunk = re.split(r"(?i)</TD>", chunk)[0]
+        text = plain(chunk)
+        text = re.sub(r"\b(of|if|himself|patriarch)(?=(?:the|his|Adam|brute|heart|all|godliness|he|openly)\b|[A-Z])",
+                      r"\1 ", text)                                       # (the scan's slips: "ofthe", "ofJoppa")
+        for slip, word in METHODIUS_SLIPS.items():
+            text = re.sub(rf"\b{slip}\b", word, text)
+        text = text.replace("{or}", "or")
+        (latin if a else greek).setdefault(ch, {})[v] = text
+    for book, title in ((greek, titles[0]), (latin, titles[1])):
+        expect(list(book) == [str(n) for n in range(1, 15)], f"Pseudo-Methodius chapters {list(book)}")
+        title = title[0] + title[1:].lower().replace("methodius", "Methodius").replace("patara", "Patara").replace("adam", "Adam").replace("saint", "Saint")
+        book["1"]["1"] = f"*{title}*\n" + book["1"]["1"]
+    return greek, latin
+
+
+def gad_the_seer() -> dict:
+    """The Words of Gad the Seer, Meir Bar-Ilan's translation of Cambridge MS Oo.1.20 (copied at Cochin): chapters by
+    the Roman numerals on lines of their own (the page has no "XI", so X runs on to XII), verses numbered straight
+    through the book. Five numbers misprinted on the page (343-347 for 243-247, 376 for 367) are put in order;
+    "265b" is the last line of 265. Psalm verses keep their lines."""
+    page = fetch("WordsOfTheSeerGad.html")
+    title = re.search(r"<b>Words\s+of Gad the Seer</b>", page)
+    expect(title is not None, "Gad: no title")
+    page = page[title.end():]
+    lines = [plain(p) for p in re.findall(r"(?is)<p\b[^>]*>(.*?)</p>", page)]
+    lines = [re.sub(r",(?=[A-Za-z])", ", ", l) for l in lines if l]
+    for slip, word in GAD_SLIPS.items():
+        lines = [re.sub(rf"\b{slip}\b", word, l) for l in lines]
+    book, chapter, prev, fixed = {}, None, 0, []
+    for line in lines:
+        if re.fullmatch(r"[IVXL]+", line):
+            chapter = str(roman(line))
+            book[chapter] = {}
+            continue
+        m = re.match(r"(\d+)(b?)\s+(.*)", line)
+        if m and m.group(2):                          # ("265b")
+            book[chapter][str(prev)] += "\n" + m.group(3)
+        elif m:
+            if int(m.group(1)) != prev + 1:
+                fixed.append(m.group(1))
+            prev += 1
+            book[chapter][str(prev)] = m.group(3)
+        else:
+            book[chapter][str(prev)] += "\n" + line
+    expect(fixed == ["343", "344", "345", "346", "347", "376"], f"Gad: numbers out of order {fixed}")
+    expect(prev == 375 and list(book) == [str(n) for n in (*range(1, 11), 12, 13, 14)], f"Gad: {list(book)}, {prev}")
+    return book
+
+
 def main() -> None:
     james = james_more()
     for name, chapters in james.items():
@@ -270,12 +375,18 @@ def main() -> None:
     (ROOT / "data" / "nt_apocrypha" / "james_apocrypha_more.json").write_text(json.dumps(
         {"source": "trans. M. R. James (1924)", "books": james}, ensure_ascii=False, indent=1), encoding="utf-8")
     books = {"2 Baruch": baruch2(), "3 Baruch": baruch3(), "4 Baruch": baruch4(), "Biblical Antiquities": pseudo_philo(),
-             "Book of Jasher": jasher(), "Georgian Book of Adam": book_of_adam()}
+             "Book of Jasher": jasher(), "Georgian Book of Adam": book_of_adam(),
+             "Slavonic Life of Adam and Eve": slavonic_adam(), "Words of Gad the Seer": gad_the_seer()}
+    books["Apocalypse of Pseudo-Methodius"], books["Apocalypse of Pseudo-Methodius (Latin)"] = pseudo_methodius()
     sources = {"2 Baruch": "trans. R. H. Charles (1913); ends at 85:2 (the rest is not online)", "3 Baruch": "trans. H. Maldwyn Hughes (1913)",
                "Biblical Antiquities": "Pseudo-Philo, trans. M. R. James (1917)",
                "4 Baruch": "trans. Robert A. Kraft and Ann Elizabeth Purintun (1972)",
                "Book of Jasher": "anonymous translation (1840; Parry reprint, 1887)",
-               "Georgian Book of Adam": "trans. Jean-Pierre Mahé"}
+               "Georgian Book of Adam": "trans. Jean-Pierre Mahé",
+               "Slavonic Life of Adam and Eve": "ed. R. H. Charles (1913)",
+               "Words of Gad the Seer": "trans. Meir Bar-Ilan",
+               "Apocalypse of Pseudo-Methodius": "the Greek, trans. Benjamin Garstad (2012)",
+               "Apocalypse of Pseudo-Methodius (Latin)": "the Latin, trans. Benjamin Garstad (2012)"}
     for name, chapters in books.items():
         print(f"  {name}: {len(chapters)} chapters, {sum(map(len, chapters.values()))} verses")
     OUT.write_text(json.dumps({"source": "ed. R. H. Charles (1913)", "book_sources": sources, "books": books},

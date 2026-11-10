@@ -31,6 +31,22 @@ import pytest
     ("2 Meqabyan 1:1", "This is a book that describes how Meqabis met with Israel"),
     ("3 Meqabyan 10:28", "Prepare goodly Work - that you might cross from death toward Life"),
     ("3 Meqabyan 10:29", "the third book that speaks the words of Meqabyan are fulfilled"),
+    ("Slavonic Life of Adam and Eve 28:1", "And we sat together before the gate of paradise"),
+    ("Slavonic Adam 29:1", "Rise up! my lord, that we may seek us food"),         # (printed "xxxix")
+    ("Slavonic Adam 35:1", "But Adam said: 'Eve, since thou repentest of"),          # (a paragraph inside xxxv)
+    ("Slavonic Adam 40:1", "*(Passage follows exactly parallel to Apocalypsis Mosis"),
+    ("Words of Gad the Seer 1:1", "In the thirty-first year of King David in Jerusalem"),
+    ("Gad the Seer 10:243", "The eyes of all look to you expectantly"),               # (printed "343")
+    ("Gad the Seer 14:367", "And the man dressed in linen cried like a ram’s horn"),  # (printed "376")
+    ("Gad the Seer 10:265", "Happy is he who waiteth (for the time)"),                # ("265b")
+    ("Gad the Seer 1:63", "And I lifted up my voice"),                                # (the page: "oice")
+    ("Apocalypse of Pseudo-Methodius 1:1", "Know that when Adam and Eve left Paradise they were virgins"),
+    ("Apocalypse of Pseudo-Methodius 1:2", "[Adam knew his wife Eve"),
+    ("Apocalypse of Pseudo-Methodius 4:5", "his descendant Izdes took his own mother"),
+    ("Apocalypse of Pseudo-Methodius 13:39", "then sudden destruction falleth upon them"),
+    ("Apocalypse of Pseudo-Methodius (Latin) 1:1", "Surely it ought to be known that when they left paradise"),
+    ("Latin Pseudo-Methodius 14:23", "Amen."),
+    ("Apocalypse of Methodius 14:22", "the grace and love for mankind of our Lord"),
 ])
 def test_passages(lookup, ref, words):
     result = lookup.get_verse(ref)
@@ -47,6 +63,20 @@ def test_no_site_furniture(lookup):
             for text in verses.values():
                 assert not re.search(r"Wesley|Copyright|finish$|Gen\. \d+:\d+|p\. \d+|Next:|(?<!\.)\s[,;:]", text)    # (". . . ," is Charles's gap), (book, text[:100])
     assert "ends at 85:2" in lookup.get_verse("2 Baruch 1:1")["source"]
+    # the Greek and Latin Pseudo-Methodius are the page's two columns, kept apart; the verse prophecy keeps its alias
+    greek, latin = charles["Apocalypse of Pseudo-Methodius"], charles["Apocalypse of Pseudo-Methodius (Latin)"]
+    assert list(greek) == list(latin) == [str(n) for n in range(1, 15)]
+    assert greek["1"]["1"] != latin["1"]["1"]
+    assert "Garstad" in lookup.get_verse("Apocalypse of Pseudo-Methodius 1:1")["source"]
+    assert lookup.get_verse("pseudo-methodius 326")["reference"].startswith("The Revelations of Methodius")
+    for book in ("Apocalypse of Pseudo-Methodius", "Apocalypse of Pseudo-Methodius (Latin)", "Words of Gad the Seer",
+                 "Slavonic Life of Adam and Eve"):
+        for verses in charles[book].values():
+            for text in verses.values():
+                assert not re.search(r"\b(?:of|if)(?:the|his|all|[A-Z])\w*|\bl(?:shmael|srael|zdes)\b|\boice\b|\d+[ab]?\s*$", text), (book, text[:100])
+    # Gad's verses run on through the book (the page has no chapter XI heading)
+    gad = charles["Words of Gad the Seer"]
+    assert [int(v) for vs in gad.values() for v in vs] == list(range(1, 376))
     # Meqabyan: the editor's chapter summaries ("Chapter 5: An extended attack on...") are not in the verses
     meq = lookup._data["charles"]
     for book, count in (("1 Meqabyan", 36), ("2 Meqabyan", 21), ("3 Meqabyan", 10)):
