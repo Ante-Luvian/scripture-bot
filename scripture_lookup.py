@@ -992,6 +992,12 @@ ALIASES: dict[str, str] = {
     "jewish antiquities": "Jewish Antiquities",
     "antiquities": "Jewish Antiquities",
     "ant": "Jewish Antiquities",
+    "toledot yeshu": "Toledot Yeshu", "toledoth yeshu": "Toledot Yeshu", "toldoth jeshu": "Toledot Yeshu",
+    "toledot": "Toledot Yeshu", "toldot yeshu": "Toledot Yeshu", "sepher toldoth jeshu": "Toledot Yeshu",
+    "jewish life of christ": "Toledot Yeshu", "toledot yeshu strasbourg": "Toledot Yeshu: Strasbourg Manuscript",
+    "strasbourg toledot": "Toledot Yeshu: Strasbourg Manuscript",
+    "christ in islam": "Christ in Islam", "sayings of jesus in islam": "Christ in Islam",
+    "islamic sayings of jesus": "Christ in Islam", "muslim jesus": "Christ in Islam",
     "jewish war": "Jewish War",
     "war": "Jewish War",
     "bj": "Jewish War",
@@ -2457,6 +2463,7 @@ class ScriptureLookup:
                 "josephus.json",
                 "philo.json",
                 "legends_of_the_jews.json",
+                "toledot_yeshu.json",            # (scripts/build_toledot.py)
             ],
             "bahai": [
                 "kitab_i_aqdas.json",

@@ -23,6 +23,8 @@ import pytest
     ("Kashf al-Mahjub 0:1", "In the Name of God, the Merciful, the Compassionate."),
     ("Kashf al-Mahjub 1:1", "God hath said, describing the savants"),
     ("Hujwiri 25:1", ""),
+    ("Christ in Islam 3:1", "*Moral And Religious Sayings*\nA., 1; M., 7.--Jesus (God bless him and grant him peace!) said"),
+    ("Islamic Sayings of Jesus 5:1", "God (Exalted is He!) said to Jesus"),
     ("Ismaili Treatise 1", "In the name of God, the Merciful, the Compassionate. Praise be to God, who confirms"),
     ("Risala of al-Jufi 1", "except me and my brother"),
     ("Dua Kumayl 2", "O Lord I ask You by Your mercy that befell on everything"),

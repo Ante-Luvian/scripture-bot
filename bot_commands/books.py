@@ -231,6 +231,7 @@ BOOKS_TREE = [
             # (Ginzberg's retelling of the legends from all of these, Creation to Esther)
             "Legends of the Jews",
         ]),
+        ("Toledot Yeshu", ["Toledot Yeshu", "Toledot Yeshu: Strasbourg Manuscript"]),
         ("Maimonides", [
             ("Mishneh Torah — Book 1: HaMadda", [
                 "Mishneh Torah, Foundations of the Torah",
@@ -548,7 +549,7 @@ BOOKS_TREE = [
         ]),
         ("Al-Ghazali", ["Alchemy of Happiness", "Niche for Lights"]),
         ("Hujwiri", ["Kashf al-Mahjub"]),
-        ("Other Islamic Writings", ["Gospel of Barnabas"]),
+        ("Other Islamic Writings", ["Gospel of Barnabas", "Christ in Islam"]),
         ("Hadith", [
             ("The Six Books (Kutub al-Sittah)", [
                 "Sahih al-Bukhari",

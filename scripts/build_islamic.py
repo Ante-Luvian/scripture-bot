@@ -311,6 +311,31 @@ def risala_jufi() -> dict:
     return {"1": {str(i): p for i, p in enumerate(body, 1)}}
 
 
+def christ_in_islam() -> dict:
+    """The sayings and stories of Jesus in Islamic tradition, collected and trans. James Robson, "Christ in Islam"
+    (1929): his seven chapters (the Qur'an's passages, traditional stories, moral and religious sayings, ascetic
+    sayings, God's words to Jesus, other passages, stories of Jesus), a saying a verse, each with Robson's line
+    on the Arabic source it comes from ("Th., p. 247.--"); his introduction left out."""
+    ps = paras("isl/cii/cii.htm")
+    out, current, title = {}, None, ""
+    for p in ps:
+        m = re.fullmatch(r"## CHAPTER ([IVX]+)", p)
+        if m:
+            current = str(roman(m.group(1)))
+            out[current] = {}
+            title = ""
+            continue
+        if current is None:
+            continue
+        if p.startswith("## ") or not out[current] and p.isupper() and len(p) < 60:      # (the chapter's title)
+            title = p.lstrip("# ").strip().title().replace("Korân", "Korân")
+            continue
+        out[current][str(len(out[current]) + 1)] = (f"*{title}*\n" if title else "") + p
+        title = ""
+    expect(list(out) == [str(n) for n in range(1, 8)], f"Christ in Islam chapters {list(out)}")
+    return out
+
+
 # ── the Shi'ite documents: Taher Al-Shemaly's translations for the site (2007), and the Alawite Book ──
 ARABIC = re.compile(r"[؀-ۿ]")
 NOTE = re.compile(r"\s*\[[^\[\]]{25,}\]")          # (his own long remarks in brackets; short glosses stay)
@@ -435,6 +460,7 @@ BUILDERS = {
     "Tarjuman al-Ashwaq": (tarjuman, "Ibn Arabi, trans. R. A. Nicholson (1911)", OUT),
     "Hadiqat al-Haqiqat": (hadiqa, "Sana'i, trans. J. Stephenson (1910)", OUT),
     "Kashf al-Mahjub": (kashf_al_mahjub, "Hujwiri, trans. R. A. Nicholson (1911)", OUT),
+    "Christ in Islam": (christ_in_islam, "coll. and trans. James Robson (1929)", QURAN_OUT),
     "An Ismaili Treatise": (ismaili_treatise, "trans. Edward E. Salisbury (1851)", QURAN_OUT),
     "Risala of al-Jufi": (risala_jufi, "trans. Edward E. Salisbury (1851)", QURAN_OUT),
     "Dua Kumayl": (dua_kumayl, "trans. Taher Al-Shemaly (2007)", QURAN_OUT),
