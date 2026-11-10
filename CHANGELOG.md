@@ -14,6 +14,9 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-11-10 · The oldest Persian book on Sufism
+- 📖 **The *Kashf al-Mahjub* ("The Unveiling of the Veiled")** by Hujwiri, written in Lahore around 1070: the oldest treatise on Sufism in Persian, and still one of the best introductions to it. It tells what Sufism is and isn't, gives the lives and sayings of the great early masters from the first caliphs onward, and then lifts eleven "veils" in turn, among them the knowledge of God, prayer, fasting, the pilgrimage, companionship, and listening to music and poetry. Translated by R. A. Nicholson (1911). Hujwiri's introduction is chapter 0: `!verse Kashf al-Mahjub 1:1`. You'll find it under ☪️ Islamic, next to al-Ghazali.
+
 ## 2026-11-10 · The Ethiopian Maccabees, the great Sufi poets, and prayers of Ali
 - 🇪🇹 **The three books of Meqabyan**, the "Ethiopian Maccabees". They are scripture in the Ethiopian and Eritrean Orthodox churches, and despite the name they have nothing to do with the Greek books of Maccabees: they tell of the Maccabean martyrs who defied the idol-worshipping king Tseerutsaydan, and preach on judgement and resurrection. `!verse 1 Meqabyan 1`. They're under 👼 Apocrypha / Pseudepigrapha, in a new "Ethiopian Orthodox Canon" group.
 - 💡 **Two books of al-Ghazali** (died 1111), the theologian who brought Sufi mysticism into the heart of Sunni Islam: *The Alchemy of Happiness*, on knowing yourself and God (`!verse Alchemy of Happiness 1:1`), and *The Niche for Lights*, his reading of the Qur'an's Light Verse.
