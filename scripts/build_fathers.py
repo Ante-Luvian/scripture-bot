@@ -806,6 +806,7 @@ def anf9_apocrypha() -> dict:
         "The Testament of Abraham: Second Version": _work("anf09", "Version II", numbered=True, drop=("Version II",)),
         "The Acts of Xanthippe and Polyxena": _work("anf09", "Life and Conduct of the Holy Women, Xanthippe, Polyxena, and Rebecca.", numbered=True),
         "The Narrative of Zosimus": _work("anf09", "The Narrative of Zosimus Concerning the Life of the Blessed.", numbered=True),
+        "The Apocalypse of Sedrach": _work("anf09", "The Apocalypse of Sedrach.", "The Apocalypse of Sedrach", numbered=True),
     }
 
 

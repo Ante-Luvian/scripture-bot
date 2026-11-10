@@ -797,6 +797,8 @@ ALIASES: dict[str, str] = {
     "acts of paul and thecla": "Acts of Paul and Thecla", "paul and thecla": "Acts of Paul and Thecla",
     "thecla": "Acts of Paul and Thecla",
     "acts of thomas": "Acts of Thomas", "acts of philip": "The Acts of Philip",    # (James's whole text, not ANF's)
+    "apocalypse of sedrach": "The Apocalypse of Sedrach", "sedrach": "The Apocalypse of Sedrach",
+    "history of the rechabites": "The Narrative of Zosimus", "rechabites": "The Narrative of Zosimus",
     "acts of judas thomas": "Acts of Thomas", "hymn of the pearl": "Acts of Thomas", "hymn of the soul": "Acts of Thomas",
     "acts of john": "Acts of John", "virtues of john": "Virtues of John", "virtutes iohannis": "Virtues of John",
     "acts of andrew": "Acts of Andrew", "acts of paul": "Acts of Paul", "martyrdom of paul": "Acts of Paul",
