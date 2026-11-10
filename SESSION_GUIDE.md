@@ -475,6 +475,10 @@ has more Word files of pseudepigrapha -- look there first for the next ones. Mar
 Muratorian Canon, prologues, Abercius, Scillitans are in too. **Held back:** Testaments of Isaac and Jacob (Gaselee
 1927 scan), Brooks's longer Joseph and Asenath (1918 scan), Apollonius (Conybeare scan) -- the owner decides on OCR;
 no usable English online for the Didascalia (every transcription damaged), Carpus, the Monarchian prologues.
+Also (2026-11-10, owner's request) scripts/build_budge.py: Budge's Kebra Nagast, Cave of Treasures and Book of the
+Bee from sacred-texts -> data/charles/budge.json (small capitals recased, the Cave's [NOTES] and headings dropped by
+bracket depth). The Book of the Cock's only English is David Blocker's 2024 PDF on Academia.edu (login needed):
+build it only if the owner downloads it to ~/Downloads.
 **Inventory of what's still missing (2026-11-09):** gnosis.org -- only Marcion's
 reconstructed Gospel. earlyjewishwritings -- 2 Baruch (Charles 1913, pseudepigrapha.com/pseudepigrapha/2Baruch.html),
 3 Baruch (same site), Pseudo-Philo (sacred-texts bib/bap, James 1917), Apocalypse of Abraham (Box 1918: only scans
