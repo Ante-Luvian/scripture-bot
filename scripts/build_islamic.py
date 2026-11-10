@@ -151,6 +151,7 @@ def main(names: list) -> None:
                              else {"source": "sacred-texts.com", "book_sources": {}, "books": {}})
         book = fn()
         expect(all(book.values()), f"{name}: an empty chapter")
+        payloads[out]["source"] = "various translators"           # (each book's own is in book_sources)
         payloads[out]["books"][name] = book
         payloads[out]["book_sources"][name] = source
         print(f"  {name}: {len(book)} chapters, {sum(map(len, book.values()))} passages")
