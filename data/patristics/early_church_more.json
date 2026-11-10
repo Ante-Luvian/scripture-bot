@@ -1,0 +1,95 @@
+{
+ "source": "early Christian writings",
+ "book_sources": {
+  "Muratorian Canon": "trans. S. D. F. Salmond (ANF 5, 1886)",
+  "Marcionite Prologues": "trans. F. C. Burkitt (1906)",
+  "Anti-Marcionite Prologues": "trans. Roger Pearse (2006)",
+  "Inscription of Abercius": "trans. Johannes Quasten (1950)",
+  "Passion of the Scillitan Martyrs": "trans. J. Armitage Robinson (ANF 9, 1896)"
+ },
+ "books": {
+  "Muratorian Canon": {
+   "1": {
+    "1": "...those things at which he was present he placed thus. The third book of the Gospel, that according to Luke, the well-known physician Luke wrote in his own name in order after the ascension of Christ, and when Paul had associated him with himself as one studious of right. Nor did he himself see the Lord in the flesh; and he, according as he was able to accomplish it, began his narrative with the nativity of John. The fourth Gospel is that of John, one of the disciples. When his fellow disciples and bishops entreated him, he said, Fast now with me for the space of three days, and let us recount to each other whatever may be revealed to each of us. On the same night it was revealed to Andrew, one of the apostles, that John should narrate all things in his own name as they called them to mind. And hence, although different points are taught us in the several books of the Gospels, there is no difference as regards the faith of believers, inasmuch as in all of them all things are related under one imperial Spirit, which concern the Lord's nativity, His passion, His resurrection, His conversation with His disciples, and His twofold advent,— the first in the humiliation of rejection, which is now past, and the second in the glory of royal power, which is yet in the future. What marvel is it, then, that John brings forward these several things [ 1 John 1:1 ] so constantly in his epistles also, saying in his own person, What we have seen with our eyes, and heard with our ears, and our hands have handled, that have we written. For thus he professes himself to be not only the eye-witness, but also the hearer; and besides that, the historian of all the wondrous facts concerning the Lord in their order.",
+    "2": "Moreover, the Acts of all the Apostles are comprised by Luke in one book, and addressed to the most excellent Theophilus, because these different events took place when he was present himself; and he shows this clearly— i.e., that the principle on which he wrote was, to give only what fell under his own notice— by the omission of the passion of Peter, and also of the journey of Paul, when he went from the city— Rome— to Spain.",
+    "3": "As to the epistles of Paul, again, to those who will understand the matter, they indicate of themselves what they are, and from what place or with what object they were directed. He wrote first of all, and at considerable length, to the Corinthians, to check the schism of heresy; and then to the Galatians, to forbid circumcision; and then to the Romans on the rule of the Oid Testament Scriptures, and also to show them that Christ is the first object in these—which it is needful for us to discuss severally, as the blessed Apostle Paul, following the rule of his predecessor John, writes to no more than seven churches by name, in this order: the first to the Corinthians, the second to the Ephesians, the third to the Philippians, the fourth to the Colossians, the fifth to the Galatians, the sixth to the Thessalonians, the seventh to the Romans. Moreover, though he writes twice to the Corinthians and Thessalonians for their correction, it is yet shown— i.e., by this sevenfold writing— that there is one Church spread abroad through the whole world. And John too, indeed, in the Apocalypse, although he writes only to seven churches, yet addresses all. He wrote, besides these, one to Philemon, and one to Titus, and two to Timothy, in simple personal affection and love indeed; but yet these are hallowed in the esteem of the Catholic Church, and in the regulation of ecclesiastical discipline. There are also in circulation one to the Laodiceans, and another to the Alexandrians, forged under the name of Paul, and addressed against the heresy of Marcion; and there are also several others which cannot be received into the Catholic Church, for it is not suitable for gall to be mingled with honey.",
+    "4": "The Epistle of Jude, indeed, and two belonging to the above-named John—or bearing the name of John—are reckoned among the Catholic epistles. And the book of Wisdom, written by the friends of Solomon in his honour. We receive also the Apocalypse of John and that of Peter, though some among us will not have this latter read in the Church. The Pastor , moreover, did Hermas write very recently in our times in the city of Rome, while his brother bishop Plus sat in the chair of the Church of Rome. And therefore it also ought to be read; but it cannot be made public in the Church to the people, nor placed among the prophets, as their number is complete, nor among the apostles to the end of time. Of the writings of Arsinous, called also Valentinus, or of Miltiades, we receive nothing at all. Those are rejected too who wrote the new Book of Psalms for Marcion, together with Basilides and the founder of the Asian Cataphrygians."
+   }
+  },
+  "Marcionite Prologues": {
+   "1": {
+    "1": "*To the Galatians*\nGalatians are Greeks. These accepted the word of truth first from the apostle, but after his departure were tempted by false apostles to turn to the law and circumcision. These the apostle recalls to the faith of the truth, writing to them from Ephesus.",
+    "2": "*To the Corinthians*\nCorinthians are of Achaia. And these similarly heard the word of truth from the apostle and were perverted variously by false apostles, some by the wordy eloquence of philosophy, others brought in by the sect of the Jewish law. These the apostle recalls to true evangelical wisdom, writing to them from Ephesus by Timothy.",
+    "3": "*To the Romans*\nRomans are in the parts of Italy. These were reached beforehand by false apostles, and under the name of our Lord Jesus Christ had been brought in to the law and the prophets. These the apostle recalls to the true evangelical faith, writing to them from Corinth.",
+    "4": "*To the Thessalonians*\nThessalonians are Macedonians, who having accepted the word of truth persevered in the faith even in persecution from their fellow-citizens. Moreover, also, they received not the things said by false apostles. These the apostle praises, writing to them from Athens.",
+    "5": "*To the Colossians*\nColossians ---- these also like the Laodiceans are of Asia, and they had been reached beforehand by pseudo-apostles, nor did the apostle himself come to them. But these also by a letter he corrects, for they had heard the word from Archippus, who also accepted a ministry unto them. Therefore the apostle already in custody writes to them from Ephesus.",
+    "6": "*To the Philippians*\nPhilippians are Macedonians. These having accepted the word of truth persevered in the faith, nor did they receive false apostles. These the apostle praises, writing to them from Rome out of prison by Epaphroditus.",
+    "7": "*To Philemon*\nTo Philemon he sends a private letter for Onesimus his slave, and writes to him from Rome out of prison."
+   }
+  },
+  "Anti-Marcionite Prologues": {
+   "1": {
+    "1": "*Mark*\n... Mark recorded, who was called Colobodactylus, because he had fingers that were too small for the height of the rest of his body. He himself was the interpreter of Peter. After the death of Peter himself, the same man wrote this gospel in the parts of Italy.",
+    "2": "*Luke*\nIndeed Luke was an Antiochene Syrian, a doctor by profession, a disciple of the apostles: later however he followed Paul until his martyrdom, serving the Lord blamelessly. He never had a wife, he never fathered children, and died at the age of eighty-four, full of the Holy Spirit, in Boetia. Therefore --- although gospels had already been written ---- indeed by Matthew in Judaea but by Mark in Italy ---- moved by the Holy Spirit he wrote down this gospel in the parts of Achaia, signifying in the preface that the others were written before his, but also that it was of the greatest importance for him to expound with the greatest diligence the whole series of events in his narration for the Greek believers, so that they would not be led astray by the lure of Jewish fables, or, seduced by the fables of the heretics and stupid solicitations, fall away from the truth. And so at once at the start he took up the extremely necessary [story] from the birth of John, who is the beginning of the gospel, the forerunner of our Lord Jesus Christ, and was a companion in the perfecting of the people, likewise in the introducing of baptism and a companion in martyrdom. Of this disposition the prophet Malachi, one of the twelve, certainly makes mention. And indeed afterwards the same Luke wrote the Acts of the Apostles. Later the apostle John wrote the Apocalypse on the island of Patmos, and then the Gospel in Asia.",
+    "3": "*John*\nThe Gospel of John was revealed and given to the churches by John while still in the body, just as Papias of Hieropolis, the close disciple of John, related in the exoterics, that is, in the last five books. Indeed he wrote down the gospel, while John was dictating carefully. But the heretic Marcion, after being condemned by him because he was teaching the opposite to him [John], was expelled by John. But he [Marcion] had brought writings or letters to him [John] from the brothers which were in Pontus."
+   }
+  },
+  "Inscription of Abercius": {
+   "1": {
+    "1": "The citizens of an eminent city, I made this (tomb)",
+    "2": "In my lifetime, that I might have here a resting-place for my body.",
+    "3": "Abercius by name, I am a disciple of the chaste shepherd,",
+    "4": "Who feedeth His flocks of sheep on mountains and plains,",
+    "5": "Who hath great eyes that look on all sides.",
+    "6": "He taught me … faithful writings.",
+    "7": "He sent me to Rome, to behold a kingdom",
+    "8": "And to see a queen with golden robe and golden shoes.",
+    "9": "There I saw a people bearing the splendid seal.",
+    "10": "And I saw the plain of Syria and all the cities, even Nisibis,",
+    "11": "Having crossed the Euphrates. And everywhere I had associates",
+    "12": "Having Paul as a companion, everywhere faith led the way",
+    "13": "And set before me food the fish from the spring",
+    "14": "Mighty and pure, whom a spotless Virgin caught,",
+    "15": "And gave this to friends to eat, always",
+    "16": "Having sweet wine and giving the mixed cup with bread.",
+    "17": "These words, I, Abercius, standing by, ordered to be inscribed.",
+    "18": "In truth, I was in the course of my seventy-second year.",
+    "19": "Let him who understands and believes this pray for Abercius.",
+    "20": "But no man shall place another tomb upon mine.",
+    "21": "If one do so, he shall pay to the treasury of the Romans two thousand pieces of gold,",
+    "22": "And to my beloved fatherland Hieropolis, one thousand pieces of gold."
+   }
+  },
+  "Passion of the Scillitan Martyrs": {
+   "1": {
+    "1": "When Praesens, for the second time, and Claudianus were the consuls, on the seventeenth day of July, at Carthage, there were set in the judgment-hall Speratus, Nartzalus, Cittinus, Donata, Secunda and Vestia.",
+    "2": "Saturninus the proconsul said: Ye can win the indulgence of our lord the Emperor, if ye return to a sound mind.",
+    "3": "Speratus said: We have never done ill, we have not lent ourselves to wrong, we have never spoken ill, but when ill-treated we have given thanks; because we pay heed to OUR EMPEROR, Saturninus the proconsul said: We too are religious, and our religion is simple, and we swear by the genius of our lord the Emperor, and pray for his welfare, as ye also ought to do.",
+    "4": "Speratus said: If thou wilt peaceably lend me thine ears, I can tell thee the mystery of simplicity.",
+    "5": "Saturninus said: I will not lend mine ears to thee, when thou beginnest to speak evil things of our sacred rites; but rather swear thou by the genius of our lord the Emperor.",
+    "6": "Speratus said: The empire of this world I know not; but rather I serve that God, whom no man hath seen, nor with these eyes can see. I have committed no theft; but if I have bought anything I pay the tax; because I know my Lord, the King of kings and Emperor of all nations.",
+    "7": "Saturninus the proconsul said to the rest: Cease to be of this persuasion.",
+    "8": "Speratus said: It is an ill persuasion to do murder, to speak false witness.",
+    "9": "Saturninus the proconsul said: Be not partakers of this folly.",
+    "10": "Cittinus said: We have none other to fear, save only our Lord God, who is in heaven.",
+    "11": "Donata said: Honour to Caesar as Caesar: but fear to God.",
+    "12": "Vestia said: I am a Christian.",
+    "13": "Secunda said: What I am, that I wish to be.",
+    "14": "Saturninus the proconsul said to Speratus: Dost thou persist in being a Christian?",
+    "15": "Speratus said: I am a Christian. And with him they all agreed.",
+    "16": "Saturninus the proconsul said: Will ye have a space to consider?",
+    "17": "Speratus said: In a matter so straightforward there is no considering.",
+    "18": "Saturninus the proconsul said: What are the things in your chest?",
+    "19": "Speratus said: Books and epistles of Paul, a just man.",
+    "20": "Saturninus the proconsul said: Have a delay of thirty days and bethink yourselves.",
+    "21": "Speratus said a second time: I am a Christian. And with him they all agreed.",
+    "22": "Saturninus the proconsul read out the decree from the tablet: Speratus, Nartzalus, Cittinus, Donata, Vestia, Secunda and the rest having confessed that they live according to the Christian rite, since after opportunity offered them of returning to the custom of the Romans they have obstinately persisted, it is determined that they be put to the sword.",
+    "23": "Speratus said: We give thanks to God.",
+    "24": "Nartzalus said: To-day we are martyrs in heaven; thanks be to God.",
+    "25": "Saturninus the proconsul ordered it to be declared by the herald: Speratus, Nartzalus, Cittinus, Veturius, Felix, Aquilinus, Laetantius, Januaria, Generosa, Vestia, Donata and Secunda, I have ordered to be executed.",
+    "26": "They all said: Thanks be to God.",
+    "27": "And so they all together were crowned with martyrdom; and they reign with the Father and the Son and the Holy Ghost, for ever and ever. Amen."
+   }
+  }
+ }
+}

@@ -104,6 +104,11 @@ BOOKS_TREE = [
             "Apocalypse of Thomas", "Ethiopic Apocalypse of Peter", "Letter to Theodore",
             "Epistle of the Apostles", "Epistle to the Laodiceans", "Correspondence of Paul and Seneca",
         ]),
+        ("Lost Gospels in Fragments", [
+            "Gospel according to the Hebrews", "Gospel of the Nazoreans", "Gospel of the Ebionites",
+            "Gospel according to the Egyptians", "Egerton Gospel", "Oxyrhynchus Gospel 840", "Oxyrhynchus Gospel 1224",
+            "Fayoum Gospel Fragment", "Preaching of Peter",
+        ]),
         ("Sayings of Jesus Outside the Gospels", ["Agrapha"]),
     ]),
     ("✡️ Rabbinic & Kabbalistic", [
@@ -1176,6 +1181,10 @@ BOOKS_TREE = [
             "Ignatius to Polycarp",
             "Polycarp to the Philippians","Martyrdom of Polycarp",
             "Epistle of Barnabas","Didache","Shepherd of Hermas",
+        ]),
+        ("Early Church Documents", [
+            "Muratorian Canon", "Marcionite Prologues", "Anti-Marcionite Prologues",
+            "Inscription of Abercius", "Passion of the Scillitan Martyrs",
         ]),
         ("Dionysius the Areopagite", [
             "Divine Names","Mystical Theology",

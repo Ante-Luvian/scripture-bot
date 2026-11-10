@@ -932,6 +932,9 @@ _CATEGORY_BOOKS = {
         "Acts of John","Virtues of John","Acts of Andrew","Acts of Paul","Third Corinthians","Acts of Peter",
         "Acts of Peter: Peter's Daughter","Acts of Thomas","Questions of Bartholomew","Apocalypse of Thomas",
         "Ethiopic Apocalypse of Peter","Letter to Theodore",
+        "Gospel according to the Hebrews","Gospel of the Nazoreans","Gospel of the Ebionites",
+        "Gospel according to the Egyptians","Egerton Gospel","Oxyrhynchus Gospel 840","Oxyrhynchus Gospel 1224",
+        "Fayoum Gospel Fragment","Preaching of Peter",
     },
     "✡️ Halakha/Kabbalah": {
         "Zohar","Berakhot","Shabbat","Sanhedrin","Avot","Bava Kamma",
@@ -960,6 +963,8 @@ _CATEGORY_BOOKS = {
         "Homilies on Matthew","Homilies on John","Homilies on Romans",
         "Epistle of Barnabas","Didache","Shepherd of Hermas",
         "1 Clement","2 Clement","Catechetical Lectures",
+        "Muratorian Canon","Marcionite Prologues","Anti-Marcionite Prologues","Inscription of Abercius",
+        "Passion of the Scillitan Martyrs",
         "Imitation of Christ","Rule of Benedict","Inferno","Purgatorio","Paradiso",
     },
     "🧿 Gnostic/Hermetic":  {

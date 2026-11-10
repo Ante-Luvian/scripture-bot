@@ -817,6 +817,23 @@ ALIASES: dict[str, str] = {
     "epistle of the apostles": "Epistle of the Apostles", "epistula apostolorum": "Epistle of the Apostles",
     "laodiceans": "Epistle to the Laodiceans", "epistle to the laodiceans": "Epistle to the Laodiceans",
     "paul and seneca": "Correspondence of Paul and Seneca", "letters of paul and seneca": "Correspondence of Paul and Seneca",
+    "gospel of the hebrews": "Gospel according to the Hebrews", "gospel according to the hebrews": "Gospel according to the Hebrews",
+    "hebrews gospel": "Gospel according to the Hebrews", "gospel of the nazoreans": "Gospel of the Nazoreans",
+    "gospel of the nazarenes": "Gospel of the Nazoreans", "nazoreans": "Gospel of the Nazoreans",
+    "gospel of the ebionites": "Gospel of the Ebionites", "ebionites": "Gospel of the Ebionites",
+    "gospel of the egyptians": "Gospel according to the Egyptians", "gospel according to the egyptians": "Gospel according to the Egyptians",
+    "egerton gospel": "Egerton Gospel", "egerton": "Egerton Gospel", "papyrus egerton 2": "Egerton Gospel",
+    "oxyrhynchus 840": "Oxyrhynchus Gospel 840", "p. oxy. 840": "Oxyrhynchus Gospel 840", "poxy 840": "Oxyrhynchus Gospel 840",
+    "oxyrhynchus 1224": "Oxyrhynchus Gospel 1224", "p. oxy. 1224": "Oxyrhynchus Gospel 1224", "poxy 1224": "Oxyrhynchus Gospel 1224",
+    "fayoum fragment": "Fayoum Gospel Fragment", "fayyum fragment": "Fayoum Gospel Fragment", "fayoum": "Fayoum Gospel Fragment",
+    "fayyum": "Fayoum Gospel Fragment", "preaching of peter": "Preaching of Peter", "kerygma petrou": "Preaching of Peter",
+    "muratorian canon": "Muratorian Canon", "muratorian fragment": "Muratorian Canon", "muratorian": "Muratorian Canon",
+    "canon muratorianus": "Muratorian Canon", "marcionite prologues": "Marcionite Prologues",
+    "anti-marcionite prologues": "Anti-Marcionite Prologues", "anti marcionite prologues": "Anti-Marcionite Prologues",
+    "abercius": "Inscription of Abercius", "inscription of abercius": "Inscription of Abercius",
+    "epitaph of abercius": "Inscription of Abercius", "scillitan martyrs": "Passion of the Scillitan Martyrs",
+    "acts of the scillitan martyrs": "Passion of the Scillitan Martyrs", "scillitans": "Passion of the Scillitan Martyrs",
+    "passion of the scillitan martyrs": "Passion of the Scillitan Martyrs",
     "apocalypse of sedrach": "The Apocalypse of Sedrach", "sedrach": "The Apocalypse of Sedrach",
     "history of the rechabites": "The Narrative of Zosimus", "rechabites": "The Narrative of Zosimus",
     "acts of judas thomas": "Acts of Thomas", "hymn of the pearl": "Acts of Thomas", "hymn of the soul": "Acts of Thomas",
@@ -2382,6 +2399,7 @@ class ScriptureLookup:
             "nt_apocrypha": ["anf8_apocrypha.json", "anf9_apocrypha.json",
                              "james_apocrypha.json",      # (M. R. James, 1924: scripts/build_gnosis.py james)
                              "james_apocrypha_more.json",     # (scripts/build_pseudepigrapha.py)
+                             "gospel_fragments.json",         # (scripts/build_early_christian.py)
                              "agrapha.json"],                 # (scripts/build_agrapha.py, from the library's own texts)
             "apostolic_fathers": [
                 "1_clement.json",
@@ -2758,6 +2776,7 @@ class ScriptureLookup:
                 "ancient_syriac_documents.json",
                 "remains_of_the_second_and_third_centuries.json",
                 "anatolius_and_minor_writers.json",
+                "early_church_more.json",        # Muratorian Canon, prologues, Abercius, Scillitans (build_early_christian.py)
                 # ── The Philokalia (scripts/build_philokalia.py) ──────────
                 "philokalia.json",
                 # ── Budge's Paradise of the Holy Fathers, from Wikisource (scripts/build_paradise.py)
