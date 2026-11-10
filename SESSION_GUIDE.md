@@ -445,8 +445,24 @@ data/nt_apocrypha/james_apocrypha.json). James's pages mix his notes with the te
 paragraphs by their openings (each must match, so a site change fails loudly), and THOMAS_BRACKETS puts back the
 bracketed words the site garbles (checked word-for-word against the 1924 scan at gospelstudies.org.uk -- an OCR'd
 scan, used only to order words already there). data/patristics/theodotus.json was Clement's Eclogae under a wrong
-name: now "Selections from the Prophetic Scriptures". To do, in order: Marcion's Gospel (gnosis.org/library/
-marcionsection.htm, a reconstruction with citations to strip); the Jewish
+name: now "Selections from the Prophetic Scriptures". Also done: `mani` (40 Turfan hymns/fragments/parables, Mandaean
+prayers, Haran Gawaita) and `cathar` (Valentinus, Ptolemy on John, Heracleon; Secret Supper, Two Principles, Cathar
+Ritual in English); scripts/build_philo_more.py (Philo's On Dreams, Hypothetica, Providence, Fragments). A U+FFFD
+scan found 566 broken characters (Philo, Ephrem, Cyril, Zadokite...) -- mended, and tests/test_no_broken_characters.py
+now guards every data file. **Inventory of what's still missing (2026-11-09):** gnosis.org -- only Marcion's
+reconstructed Gospel. earlyjewishwritings -- 2 Baruch (Charles 1913, pseudepigrapha.com/pseudepigrapha/2Baruch.html),
+3 Baruch (same site), Pseudo-Philo (sacred-texts bib/bap, James 1917), Apocalypse of Abraham (Box 1918: only scans
+found; pseudepigrapha.com's is a modern unknown translation), Joseph and Aseneth (Brooks 1918 not found online;
+pseudepigrapha.com has Sparks's AOT and an Old French version), Testament of Job (Kohler 1897), Apocalypses of Elijah,
+Zephaniah, Sedrach (ANF 10), Testaments of Isaac and Jacob, Lives of the Prophets, Ladder of Jacob, 5 Maccabees,
+Jasher; the Hellenistic fragments (Eupolemus, Artapanus...) are inside Praeparatio Evangelica already. History of the
+Rechabites = ANF's Narrative of Zosimus (needs an alias). earlychristianwritings -- the gospel fragments (Egerton,
+Oxyrhynchus 840/1224, Fayyum, Hebrews/Ebionites/Nazoreans/Egyptians, Preaching of Peter -- James 1924 has them),
+Epistle of the Apostles (James, pseudepigrapha.com/apocrypha_nt/episaps.htm), Laodiceans and Paul-Seneca, the martyr
+acts (Carpus, Apollonius, Scillitan), Muratorian Canon, Marcionite/Monarchian prologues, Didascalia, Abercius.
+Islam -- sacred-texts isl/: Ghazali (Alchemy of Happiness, Mishkat al-Anwar), Attar's Bird Parliament, Sa'di's
+Gulistan and Bustan, Jami's Salaman and Absal, Ibn Arabi's Tarjuman, Shabistari's Secret Rose Garden, Sana'i, Shiite
+Documents, Isma'ili materials, Gospel of Barnabas; Hujwiri's Kashf al-Mahjub elsewhere. Then the Jewish
 pseudepigrapha (2-4 Baruch, Apocalypse of Abraham, Joseph and Aseneth, Testament of Job, Lives of the Prophets...);
 the church orders (Didascalia...); more Islam (Riyad as-Salihin, Ghazali, Hujwiri, Attar, a sira); the Dead Sea
 Scrolls (gnosis.org/library/dss/dss.htm may help).
