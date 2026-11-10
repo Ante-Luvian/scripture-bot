@@ -40,14 +40,18 @@ def fetch(path: str) -> str:
     if not cached.exists():
         cached.write_bytes(urllib.request.urlopen(urllib.request.Request(SITE + path, headers=UA), timeout=60).read())
         time.sleep(1)
-    return cached.read_bytes().decode("utf-8", errors="replace")
+    raw = cached.read_bytes()
+    try:
+        return raw.decode("utf-8")
+    except UnicodeDecodeError:                  # (some pages are Windows-1252: Heracleon's quotation marks)
+        return raw.decode("cp1252", errors="replace")
 
 
 def paragraphs(fragment: str) -> list:
     out = []
     for p in re.split(r"(?i)<p\b[^>]*>", fragment):
         p = re.sub(r"(?i)<br\s*/?>", " ", p)
-        text = re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", "", p))).strip()
+        text = re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", "", p)).replace("\xad", "")).strip()  # (soft hyphens)
         if text and not re.fullmatch(r"[\s ]*", text):
             out.append(text)
     return out
@@ -247,7 +251,7 @@ def segment(paras: list, start: str, end: str = None, drop: tuple = ()) -> list:
     return out
 
 
-def by_number(paras: list, numerals: str = "arabic", titles: tuple = ()) -> dict:
+def by_number(paras: list, numerals: str = "arabic", titles: tuple = (), inline: bool = True) -> dict:
     """James's sections: a paragraph opening with its number ("18 Now John", "XVII. And", "(144) My Lord",
     "Greek. 16-17 And") opens it, and the unnumbered ones after it are its own, a line each; a number in the
     running text that comes before the next paragraph's ("2 And they shall become sons of perdition. 3 And
@@ -276,7 +280,7 @@ def by_number(paras: list, numerals: str = "arabic", titles: tuple = ()) -> dict
         title = ""
     # a whole paragraph of James's brackets after a number ("XVII. [This episode, inserted most abruptly...]")
     verses = {k: re.sub(r"^\[[^\[\]]*[\])]\s*(?:\n|$)", "", v).strip() for k, v in verses.items()}
-    if numerals == "arabic":
+    if numerals == "arabic" and inline:
         keys, split = list(verses), {}
         for k, following in zip(keys, keys[1:] + [None]):
             parts = re.split(r"(?<=[.;:,?!’”'\"\)\]\s])\s*(?<!\S)(\d{1,3})\s+(?=[A-Za-z“\"‘'(\[])", verses[k])
@@ -483,6 +487,168 @@ def james() -> None:
     write("james_apocrypha.json", books, sources, JAMES, folder="nt_apocrypha")
 
 
+# gnosis.org's short Manichaean texts from Central Asia (Turfan) and elsewhere, in its index's order; the Coptic
+# psalms it also has (Taste and Know, Light Your Lamps...) are Allberry's, already in (manichaean_psalms.json)
+MANI_SHORT = [
+    ("3messarch.htm", "The Hymn on the Third Messenger and the Archons"), ("hymnfa.htm", "Hymn to the Father of Greatness"),
+    ("hymncapt.htm", "The Hymn about the Captivity of Light"), ("invjesus.htm", "Invocation of Jesus the Splendor"),
+    ("hymn2c.htm", "Hymn on the Second Coming of Jesus"), ("hymnfs.htm", "Hymn on the Fate of the Living Soul"),
+    ("hymnexh.htm", "Hymn Exhorting the Soul to Remembrance"), ("hymntlivs.htm", "Hymn to the Living Soul"),
+    ("hymn3mess.htm", "Hymn to the Third Messenger"), ("hymnmani.htm", "Hymn in Praise of Mani"),
+    ("hymncm.htm", "Commemorative Hymn for Mar Zaku"), ("homeuch.htm", "Homily on the Correct Preparations for the Sacred Meal"),
+    ("invocang.htm", "Invocation of the Angels"), ("invocbar.htm", "The Invocation of Bar Simus"),
+    ("invocgod.htm", "Invocation of the Gods in the Moon"), ("confpr.htm", "A Confessional Prayer for the Elect"),
+    ("hymnend.htm", "The Hymn on the End of the World"), ("hymnbody.htm", "The Hymn on Body-and-Soul"),
+    ("funerh.htm", "The Funerary Hymn"), ("hymnssoul.htm", "Hymns to the Soul"),
+    ("hymndom.htm", "Hymn in Honor of the Dominions of Light"), ("parthhymn.htm", "Verses from a Parthian Hymn"),
+    ("crucihymn.htm", "The Crucifixion Hymn"), ("praislesser.htm", "The Praise of the Lesser Ones"),
+    ("praisegreater.htm", "The Praise of the Greater Ones"), ("wwf.htm", "We Would Fulfill: Mani's Hymn to Jesus, the King"),
+    ("praisejesus.htm", "The Praise of Jesus the Life-giver"), ("unps.htm", "Untitled Psalm Fragment"),
+    ("kins.htm", "Come to Me, My Kinsman, the Light, My Guide"), ("primal.htm", "The Hymn of the First Primal Man"),
+    ("salvat.htm", "Salvation of the Soul"),
+    ("livgosp.htm", "The Opening Words of the Living Gospel"), ("epistmar.html", "The Sweet Teaching of the Sinless (Letter to Mar Ammo)"),
+    ("fund.htm", "From the Fundamental Epistle of Mani"), ("keph.htm", "From the Kephalaia: The Three Blows Struck at the Enemy"),
+    ("parabaud.htm", "Parables about the Auditors"), ("parafarm.htm", "Parable about the Farmer"),
+    ("parapear.htm", "Parable of the Pearl-Borer"), ("paramonk.htm", "The Parable of the Monk and the Girl"),
+    ("parsnak.htm", "The Parable about the Two Snakes"),
+]
+MANDA_SHORT = [
+    ("tmes.htm", "The Messenger of Light Creates the Way of Salvation"), ("adamd.htm", "The Deliverance of Adam"),
+    ("adamb.htm", "The Baptism of Adam"), ("tsod.htm", "The Soul's Deliverance"), ("bap.htm", "Bliss and Peace"),
+    ("thesou.htm", "The Soul in its Coat of All Colors"), ("wrap.htm", "Wrapped in Sleep"),
+    ("tsoa.htm", "The Song of Ascent"), ("inst.htm", "Instruction of Adam by an Uthra"),
+]
+# a page's own line on what the text is ("- A Manichaean hymn in Parthian.", "A fragment of a writing ascribed to Mani")
+ABOUT = re.compile(r"(?:.*?\s[-–]\s)?((?:A |An )?(?:Manichaean|fragment|hymn|text|liturgical|Turkish)[^.]*\b(?:in|to) [A-Z]\w+[^.]*\.|"
+                   r"(?:A )?[Hh]ymn ascribed to Mani[^.]*\.)$")
+
+
+def short_text(path: str, title: str) -> list:
+    """One of gnosis.org's short pages: its title in italics, the line saying what it is and in what language (if
+    any) the same, then its paragraphs; without the site's navigation and footer, or a paragraph only of dots."""
+    paras = page_paragraphs("library/" + path)
+    nav = [i for i, p in enumerate(paras) if re.match(r"## (?:Gnosis? Archive|Archive) \|", p)]
+    expect(bool(nav), f"{path}: no navigation")
+    out, about = [], None
+    for p in paras[nav[0] + 1:]:
+        if out and (p.startswith("## |") or "GNOSTIC SOCIETY LIBRARY" in p or p.startswith("## Archive |")):
+            break                                               # (the footer, the navigation again)
+        if (p.startswith("##") or re.fullmatch(r"[\s.…]*", p) or p.startswith("Here ends the")
+                or p.startswith(("(Source document", "(From the Ginza"))):        # (the site's notes on its sources)
+            continue
+        key = lambda s: re.sub(r"\W+", "", re.sub(r"(?i)^the\s+", "", s)).lower()[:18]
+        if (not out and about is None and len(p) < 160 and key(p).startswith(key(title)[:12])
+                or not out and p.startswith(("Verses from a", "Hymn in Praise of Jesus, the King"))):
+            # the page's own heading: its title again, then what it is ("- a hymn ascribed to Mani, in Parthian.")
+            words, names = p.split(), {w.lower().strip(",.:") for w in title.split()} | {"the", "great"}
+            while words and words[0].lower().strip(",.:") in names:
+                words.pop(0)
+            rest = re.split(r"\s[-–]\s", " ".join(words))[-1].lstrip("-–, ").strip()     # ("Mâr Zaku - A Manichaean")
+            rest = re.sub(r'^"[^"]*"\s*', "", rest)                                         # ('"Pearl-borer" A ...')
+            about = rest[:1].upper() + rest[1:]
+            continue
+        if not out and ABOUT.fullmatch(p.strip()) and len(p) < 120:
+            about = (about + " " if about else "") + p.strip()
+            continue
+        out.append(p)
+    expect(bool(out), f"{path}: no text")
+    head = f"*{title}*" + (f"\n*{about.strip()}*" if about else "")
+    return [head + "\n" + out[0]] + out[1:]
+
+
+def manichaean_mandaean() -> None:
+    books = {
+        "Manichaean Hymns and Fragments": {str(i): {str(j): p for j, p in enumerate(short_text(path, title), 1)}
+                                           for i, (path, title) in enumerate(MANI_SHORT, 1)},
+        "Mandaean Prayers": {str(i): {str(j): p for j, p in enumerate(short_text(path, title), 1)}
+                             for i, (path, title) in enumerate(MANDA_SHORT, 1)},
+    }
+    p = page_paragraphs("library/haran.htm")
+    books["Haran Gawaita"] = {"1": by_paragraph(segment(p, "My Lord be praised. In the name of the Great Life", "## Archive"))}
+    sources = {"Manichaean Hymns and Fragments": "various translators (Gnostic Society Library)",
+               "Mandaean Prayers": "various translators (Gnostic Society Library)",
+               "Haran Gawaita": "trans. E. S. Drower (1953)"}
+    for name, chapters in books.items():
+        print(f"  {name}: {len(chapters)} chapters, {sum(map(len, chapters.values()))} passages")
+    write("manichaean_mandaean_more.json", books, sources, "Gnostic Society Library")
+
+
+def valentinians_and_cathars() -> None:
+    """Valentinus's fragments and his psalm, Ptolemy's commentary on the prologue of John, Heracleon's fragments
+    (quoted by Origen and Clement), and the Cathars' scripture and rites in English: the Secret Supper
+    (Interrogatio Iohannis, in M. R. James's translation), the Book of the Two Principles, and the Cathar Ritual's
+    confession and its rite for handing on the Lord's Prayer. (The site's Consolamentum and the Ritual's other
+    parts are only in Occitan; its Vision of Isaiah is the Ascension of Isaiah's, already in.)"""
+    books, sources = {}, {}
+    # Valentinus: a verse a fragment, its title over it; then the psalm, without the site's words on it or the
+    # "later teacher's" explanation (Hippolytus's)
+    p = page_paragraphs("library/valentinus/Fragments_Valentinus.htm")
+    verses, title, on = {}, "", False
+    for x in p:
+        m = re.match(r"## (?:Fragment (\d+): (.+)|(Summer Harvest: A Psalm By Valentinus))$", x)
+        if x.startswith("## Explanation By a Later Teacher"):
+            break
+        if m:
+            on, title = True, m.group(2) or m.group(3)
+            continue
+        if on and not x.startswith(("##", "This hymn was written")):
+            n = str(len(verses) + 1) if title else str(len(verses))
+            if title:
+                verses[n] = f"*{title}*\n{x}"
+                title = ""
+            else:
+                verses[n] += "\n" + x
+    expect(len(verses) == 8, f"Valentinus: {len(verses)} fragments")
+    books["Fragments of Valentinus"] = {"1": verses}
+    sources["Fragments of Valentinus"] = "trans. Bentley Layton (1987)"
+    p = page_paragraphs("library/ptl.htm")
+    books["Ptolemy's Commentary on John"] = {"1": by_paragraph(segment(p, "John, the disciple of the Lord", "## Archive"))}
+    sources["Ptolemy's Commentary on John"] = "trans. Bentley Layton (1987)"
+    # Heracleon: by the fragment numbers ("Fragment 17, on John 4:12-15 (In John 4:13, ..."), the verse it's on in
+    # italics; 29, 36 and 38 are not on the page
+    p = page_paragraphs("library/fragh.htm")
+    frags = {}
+    for x in p:
+        m = re.match(r"Fragment (\d+), on ((?:John|Matthew|Luke) [\d:\-ab]+(?: continued)?)\s*", x)
+        if m:
+            frags[m.group(1)] = f"*On {m.group(2)}*\n" + x[m.end():]
+    expect(len(frags) == 47 and "50" in frags, f"Heracleon: {len(frags)} fragments")
+    books["Fragments of Heracleon"] = {"1": frags}
+    sources["Fragments of Heracleon"] = "comp. David Brons (Gnostic Society Library)"
+    # the Cathars
+    p = page_paragraphs("library/Interrogatio_Johannis.html")
+    books["The Secret Supper"] = {"1": by_paragraph(segment(p, "I, John, your brother and partaker in tribulation", "##"))}
+    sources["The Secret Supper"] = JAMES
+    p = page_paragraphs("library/cathar-two-principles.htm")
+    parts, current = {}, None
+    for x in segment(p, "Part 1. On Free Will", "## Archive"):
+        m = re.match(r"Part ([IVX]+|\d+)\. ", x)
+        if m:
+            current = str(int(m.group(1)) if m.group(1).isdigit() else roman(m.group(1)))
+            parts[current] = [f"*{x}*"]
+            continue
+        if x.startswith("[In the manuscript"):                     # (the editors' note)
+            continue
+        x = x.replace('us." 84 And to the Galatians', 'us." And to the Galatians')    # (a stray note number)
+        parts[current].append(re.sub(r"^\[(\d+)\.?\]\s*", r"\1 ", x))
+    expect(list(parts) == [str(n) for n in range(1, 8)], f"Two Principles parts {list(parts)}")
+    books["Book of the Two Principles"] = {}
+    for k, v in parts.items():
+        heading, rest = v[0], v[1:]
+        chapter = by_number(rest, inline=False)
+        first = next(iter(chapter))
+        chapter[first] = heading + "\n" + chapter[first]
+        books["Book of the Two Principles"][k] = chapter
+    sources["Book of the Two Principles"] = "trans. Walter L. Wakefield and Austin P. Evans (1969)"
+    service = segment(page_paragraphs("library/appa.htm"), "We have come before God", "The Occitan text is found")
+    traditio = segment(page_paragraphs("library/traditio.htm"), "...You must realize", "The following original Occitan text")
+    books["Cathar Ritual"] = {"1": by_paragraph(service), "2": by_paragraph(traditio)}
+    sources["Cathar Ritual"] = "Lyon Ritual, unattributed translation (Gnostic Society Library)"
+    for name, chapters in books.items():
+        print(f"  {name}: " + ", ".join(f"{c} ({len(v)})" for c, v in chapters.items()))
+    write("valentinian_cathar.json", books, sources, "Gnostic Society Library")
+
+
 def write(file: str, books: dict, sources: dict, source: str, folder: str = "gnostic") -> None:
     path = ROOT / "data" / folder / file
     path.write_text(json.dumps({"source": source, "book_sources": sources, "books": books}, ensure_ascii=False,
@@ -509,6 +675,10 @@ if __name__ == "__main__":
         nag_hammadi_more()
     if not only or "james" in only:
         james()
+    if not only or "mani" in only:
+        manichaean_mandaean()
+    if not only or "cathar" in only:
+        valentinians_and_cathars()
     if not only or "fragments" in only:
         books, sources = {}, {}
         books["Gospel of Mary"] = gospel_of_mary()

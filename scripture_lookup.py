@@ -840,6 +840,22 @@ ALIASES: dict[str, str] = {
     "first apocalypse of james": "The First Apocalypse of James", "1 apocalypse of james": "The First Apocalypse of James",
     "the first apocalypse of james": "The First Apocalypse of James", "1 apoc james": "The First Apocalypse of James",
     "pistis sophia": "Pistis Sophia", "faith wisdom": "Pistis Sophia", "askew codex": "Pistis Sophia",
+    "manichaean hymns": "Manichaean Hymns and Fragments", "manichaean hymns and fragments": "Manichaean Hymns and Fragments",
+    "turfan hymns": "Manichaean Hymns and Fragments", "manichaean fragments": "Manichaean Hymns and Fragments",
+    "mani's parables": "Manichaean Hymns and Fragments", "kephalaia": "Manichaean Hymns and Fragments",
+    "mandaean prayers": "Mandaean Prayers", "mandaean hymns": "Mandaean Prayers",
+    "valentinus": "Fragments of Valentinus", "fragments of valentinus": "Fragments of Valentinus",
+    "summer harvest": "Fragments of Valentinus", "heracleon": "Fragments of Heracleon",
+    "fragments of heracleon": "Fragments of Heracleon", "ptolemy on john": "Ptolemy's Commentary on John",
+    "ptolemys commentary on john": "Ptolemy's Commentary on John", "secret supper": "The Secret Supper",
+    "the secret supper": "The Secret Supper", "interrogatio iohannis": "The Secret Supper",
+    "interrogatio johannis": "The Secret Supper", "questions of john": "The Secret Supper",
+    "book of the two principles": "Book of the Two Principles", "two principles": "Book of the Two Principles",
+    "cathar ritual": "Cathar Ritual", "lyon ritual": "Cathar Ritual",
+    "haran gawaita": "Haran Gawaita", "haran gawaitha": "Haran Gawaita",
+    "hypostasis of the archons": "The Substance of the Archons", "reality of the rulers": "The Substance of the Archons",
+    "holy book of the great invisible spirit": "The Sacred Book of the Great Unseen Spirit",
+    "concept of our great power": "The Idea of Our Great Power", "authoritative teaching": "The Authentic Logos",
     "gospel of mary": "Gospel of Mary", "gospel of mary magdalene": "Gospel of Mary", "gmary": "Gospel of Mary",
     "untitled text": "Untitled Text of the Bruce Codex", "bruce codex": "Untitled Text of the Bruce Codex",
     "untitled text of the bruce codex": "Untitled Text of the Bruce Codex",
@@ -2437,6 +2453,8 @@ class ScriptureLookup:
                 "nag_hammadi_more.json",     # (the tractates Zinner's lacks: scripts/build_gnosis.py)
                 "pistis_sophia.json",
                 "gnostic_fragments.json",    # (the Berlin and Bruce codices, the teachers quoted by the Fathers)
+                "manichaean_mandaean_more.json",   # (the Turfan hymns, Mani's parables, Mandaean prayers)
+                "valentinian_cathar.json",         # (Valentinus, Heracleon, Ptolemy on John; the Cathars)
                 "gospel_of_thomas.json",
                 "manichaean_psalms.json",
             ],

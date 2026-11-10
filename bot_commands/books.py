@@ -929,6 +929,7 @@ BOOKS_TREE = [
         ("Mandaean", [
             "Ginza Rba",
             "Book of John",
+            "Mandaean Prayers", "Haran Gawaita",
         ]),
         ("The Nag Hammadi Library (trans. Samuel Zinner)", [
             "The Prayer of Paul, the Apostle", "The Secret Book of James",
@@ -959,14 +960,16 @@ BOOKS_TREE = [
         ("Berlin and Bruce Codices", ["Gospel of Mary", "Untitled Text of the Bruce Codex", "First Book of Ieou"]),
         ("The Gnostic Teachers, in the Church Fathers", [
             "Ptolemy's Letter to Flora", "Fragments of Basilides", "Epiphanes, On Righteousness", "The Naassene Psalm",
-            "Excerpts from Theodotus",
+            "Excerpts from Theodotus", "Fragments of Valentinus", "Ptolemy's Commentary on John", "Fragments of Heracleon",
         ]),
+        ("Cathar (12th-13th century)", ["The Secret Supper", "Book of the Two Principles", "Cathar Ritual"]),
         ("Manichaean (trans. C.R.C. Allberry, 1938)", [
             "Manichaean Psalms to Jesus",
             "Manichaean Bema Psalms",
             "Manichaean Psalms of Thomas",
             "Manichaean Psalms (Separate)",
         ]),
+        ("Manichaean Hymns from Central Asia, and Fragments", ["Manichaean Hymns and Fragments"]),
     ]),
     ("🔮 Magic & Esotericism", [
         ("Agrippa", ["Three Books of Occult Philosophy", "Fourth Book of Occult Philosophy"]),
