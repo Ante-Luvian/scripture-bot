@@ -797,6 +797,11 @@ ALIASES: dict[str, str] = {
     "acts of paul and thecla": "Acts of Paul and Thecla", "paul and thecla": "Acts of Paul and Thecla",
     "thecla": "Acts of Paul and Thecla",
     "acts of thomas": "Acts of Thomas", "acts of philip": "The Acts of Philip",    # (James's whole text, not ANF's)
+    "2 baruch": "2 Baruch", "ii baruch": "2 Baruch", "syriac apocalypse of baruch": "2 Baruch",
+    "syriac baruch": "2 Baruch", "apocalypse of baruch": "2 Baruch", "3 baruch": "3 Baruch", "iii baruch": "3 Baruch",
+    "greek apocalypse of baruch": "3 Baruch", "greek baruch": "3 Baruch",
+    "biblical antiquities": "Biblical Antiquities", "pseudo-philo": "Biblical Antiquities", "pseudo philo": "Biblical Antiquities",
+    "liber antiquitatum biblicarum": "Biblical Antiquities", "biblical antiquities of philo": "Biblical Antiquities",
     "apocalypse of sedrach": "The Apocalypse of Sedrach", "sedrach": "The Apocalypse of Sedrach",
     "history of the rechabites": "The Narrative of Zosimus", "rechabites": "The Narrative of Zosimus",
     "acts of judas thomas": "Acts of Thomas", "hymn of the pearl": "Acts of Thomas", "hymn of the soul": "Acts of Thomas",
@@ -2321,7 +2326,8 @@ class ScriptureLookup:
             "kjv":     ["kjv_canon.json", "kjv_apocrypha.json"],
             "lds":     ["book_of_mormon.json", "doctrine_and_covenants.json", "pearl_of_great_price.json"],
             "brenton": ["brenton_extras.json"],
-            "charles": ["book_of_enoch.json", "book_of_jubilees.json", "testaments_of_twelve_patriarchs.json", "assumption_of_moses.json", "ascension_of_isaiah.json", "sibylline_oracles.json", "letter_of_aristeas.json", "books_of_adam_and_eve.json", "zadokite_fragments.json", "secrets_of_enoch.json", "forgotten_books_of_eden.json", "3_enoch.json", "hekhalot_rabbati.json"],
+            "charles": ["book_of_enoch.json", "book_of_jubilees.json", "testaments_of_twelve_patriarchs.json", "assumption_of_moses.json", "ascension_of_isaiah.json", "sibylline_oracles.json", "letter_of_aristeas.json", "books_of_adam_and_eve.json", "zadokite_fragments.json", "secrets_of_enoch.json", "forgotten_books_of_eden.json", "3_enoch.json", "hekhalot_rabbati.json",
+                        "pseudepigrapha_more.json"],       # (2-3 Baruch, Pseudo-Philo: scripts/build_pseudepigrapha.py)
             "nt_apocrypha": ["anf8_apocrypha.json", "anf9_apocrypha.json",
                              "james_apocrypha.json"],     # (M. R. James, 1924: scripts/build_gnosis.py james)
             "apostolic_fathers": [

@@ -923,6 +923,7 @@ _CATEGORY_BOOKS = {
         "Assumption of Moses","Ascension of Isaiah","Sibylline Oracles",
         "Letter of Aristeas","Vita Adae et Evae","Apocalypse of Moses",
         "Fragments of a Zadokite Work","2 Enoch","First Book of Adam and Eve","Second Book of Adam and Eve","Odes of Solomon",
+        "2 Baruch","3 Baruch","Biblical Antiquities","The Apocalypse of Sedrach",
         "The Protevangelium of James","The Gospel of Pseudo-Matthew","Gospel of Thomas: First Greek Form",
         "The Arabic Gospel of the Infancy of the Saviour","Acts of Pilate: First Greek Form",
         "Acts of Paul and Thecla","Revelation of Paul",
