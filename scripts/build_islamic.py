@@ -130,6 +130,117 @@ def gospel_of_barnabas() -> dict:
     return out
 
 
+ROMAN = {"I": 1, "V": 5, "X": 10, "L": 50, "C": 100}
+
+
+def roman(numeral: str) -> int:
+    values = [ROMAN[c] for c in numeral]
+    return sum(-v if i + 1 < len(values) and v < values[i + 1] else v for i, v in enumerate(values))
+
+
+def salaman_and_absal() -> dict:
+    """Jami's Salaman and Absal, Edward FitzGerald's version (1879 text): its numbered sections, a stanza a verse;
+    the plates' captions ("Click to enlarge"), his preface, life of Jami, appendix and notes left out."""
+    out = {}
+    for p, l in pages("saab"):
+        m = re.match(r"([IVXL]+)\b", l)
+        if not m or l.startswith("Index"):
+            continue
+        ps = [x for x in paras(p) if x != "Click to enlarge" and not x.startswith(("## ", "The several Spellings"))]
+        if ps:
+            out[str(roman(m.group(1)))] = {str(i): x for i, x in enumerate(ps, 1)}
+    expect(len(out) >= 25 and "1" in out, f"Salaman and Absal: {len(out)} sections")
+    return out
+
+
+def secret_rose_garden() -> dict:
+    """Mahmud Shabistari's Secret Rose Garden (Gulshan-i Raz), trans. Florence Lederer (1920): its fourteen parts
+    and the epilogue (15), each part's own headings over the stanzas after them."""
+    picks = [(p, l) for p, l in pages("srg") if l.startswith(("Part ", "Epilogue"))]
+    expect(len(picks) == 15, f"Rose Garden: {[l for _, l in picks]}")
+    return {str(n): verses([x for x in paras(p) if x != "IN THE NAME OF GOD, THE COMPASSIONATE, THE MERCIFUL"],
+                           drop_heads=2 if n < 15 else 1) for n, (p, _) in enumerate(picks, 1)}
+
+
+def scroll_of_wisdom() -> dict:
+    """Sa'di's Scroll of Wisdom (the Pand-nama), trans. Arthur N. Wollaston (1906): a chapter for each of its
+    sections, its title in italics over it."""
+    idx = pages("ssw")
+    start = next(i for i, (_, l) in enumerate(idx) if l.startswith("Sadi's Scroll of Wisdom"))
+    picks = [(p, l) for p, l in idx[start:] if not l.startswith(("Next", "«", "Index"))]
+    out = {str(n): verses([x for x in paras(p) if not x.lstrip("_").strip().startswith("Printed by")])
+           for n, (p, _) in enumerate(picks, 1)}                     # (the printer's imprint at the end)
+    return {k: v for k, v in out.items() if v}
+
+
+def gulistan() -> dict:
+    """Sa'di's Gulistan (the Rose Garden), trans. Edward Rehatsek (1888), from the archive's plain text: its eight
+    chapters, a verse each story; the verses of poetry in it kept as lines."""
+    text = w.sacred_text("isl/gulistan.txt")
+    text = re.sub(r"\s*-THE END-\s*\.?", "", text)
+    parts = re.split(r"(?m)^\s*CHAPTER ([IVX]+)\s*$", text)
+    expect(len(parts) == 17, f"Gulistan: {len(parts) // 2} chapters")
+    out = {}
+    for num, chunk in zip(parts[1::2], parts[2::2]):
+        stories = re.split(r"(?m)^\s*(?:Story|Maxim) (\d+)\s*$", chunk)             # (VIII is maxims)
+        title = stories[0].strip().splitlines()[0].strip().title()
+        book = {}
+        for n, body in zip(stories[1::2], stories[2::2]):
+            lines, para = [], []
+            for line in body.rstrip().splitlines():
+                if not line.strip():
+                    continue
+                if line.startswith("        "):          # (a line of verse)
+                    if para:
+                        lines.append(" ".join(para))
+                        para = []
+                    lines.append(line.strip())
+                elif line.startswith("  ") and para:      # (a new paragraph)
+                    lines.append(" ".join(para))
+                    para = [line.strip()]
+                else:
+                    para.append(line.strip())
+            if para:
+                lines.append(" ".join(para))
+            book[n] = "\n".join(lines)
+        if book:
+            book["1"] = f"*{title}*\n" + book["1"]
+        out[str(roman(num))] = book
+    expect(list(out) == [str(n) for n in range(1, 9)], f"Gulistan chapters {list(out)}")
+    return out
+
+
+def tarjuman() -> dict:
+    """Ibn Arabi's Tarjuman al-Ashwaq (The Interpreter of Desires), trans. R. A. Nicholson (1911): its sixty-one
+    odes, by their numbered verses; Nicholson's commentary under each (from Ibn Arabi's own) left out."""
+    out = {}
+    for p, l in pages("taa"):
+        if not re.fullmatch(r"[IVXL]+", l):
+            continue
+        ps = paras(p)
+        head = next((re.fullmatch(r"## ([IVXL]+)\.?", x) for x in ps if re.fullmatch(r"## ([IVXL]+)\.?", x)), None)
+        l = head.group(1) if head else l                # (the index lists XXXIV as "XXIV"; the page's heading is right)
+        lines = {}
+        for x in ps:
+            m = re.match(r"(\d{1,2})\.\s+(.*)", x, re.S)
+            if m and int(m.group(1)) == len(lines) + 1:
+                lines[m.group(1)] = m.group(2).strip()
+        if lines:
+            out[str(roman(l))] = lines
+    expect(len(out) == 61, f"Tarjuman: {len(out)} odes")
+    return out
+
+
+def hadiqa() -> dict:
+    """Sana'i's Hadiqat al-Haqiqat (The Enclosed Garden of the Truth), the first book, trans. J. Stephenson (1910):
+    a chapter for each of its headed sections; Stephenson's introduction and Sana'i's prose preface left out."""
+    idx = pages("egt")
+    start = next(i for i, (_, l) in enumerate(idx) if l.startswith("The First Book of the Had"))
+    picks = [(p, l) for p, l in idx[start + 1:] if not l.startswith(("Next", "«", "Index"))]
+    out = {str(n): verses(paras(p)) for n, (p, _) in enumerate(picks, 1)}
+    return {k: v for k, v in out.items() if v}
+
+
 QURAN_OUT = ROOT / "data" / "quran" / "islamic_more.json"
 # (name: builder, citation, file -- the Sufi works on the Sufi shelf's file, the rest with the Islamic books)
 BUILDERS = {
@@ -138,6 +249,12 @@ BUILDERS = {
     "Bird Parliament": (bird_parliament, "Attar, trans. Edward FitzGerald (1889)", OUT),
     "Bustan": (bustan, "Sa'di, trans. A. Hart Edwards (1911)", OUT),
     "Gospel of Barnabas": (gospel_of_barnabas, "trans. Lonsdale and Laura Ragg (1907)", QURAN_OUT),
+    "Salaman and Absal": (salaman_and_absal, "Jami, trans. Edward FitzGerald", OUT),
+    "Secret Rose Garden": (secret_rose_garden, "Shabistari, trans. Florence Lederer (1920)", OUT),
+    "Scroll of Wisdom": (scroll_of_wisdom, "Sa'di, trans. Arthur N. Wollaston (1906)", OUT),
+    "Gulistan": (gulistan, "Sa'di, trans. Edward Rehatsek (1888)", OUT),
+    "Tarjuman al-Ashwaq": (tarjuman, "Ibn Arabi, trans. R. A. Nicholson (1911)", OUT),
+    "Hadiqat al-Haqiqat": (hadiqa, "Sana'i, trans. J. Stephenson (1910)", OUT),
 }
 
 

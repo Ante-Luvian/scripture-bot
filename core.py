@@ -1011,7 +1011,8 @@ _CATEGORY_BOOKS = {
     "🦢 Finnish":           {"Kalevala"},
     "☘️ Celtic":            {"Mabinogion"},
     "🌹 Sufi":              {"Divan of Hafiz","Masnavi","Rubaiyat","Alchemy of Happiness","Niche for Lights",
-                             "Bird Parliament","Bustan"},
+                             "Bird Parliament","Bustan","Gulistan","Scroll of Wisdom","Salaman and Absal",
+                             "Secret Rose Garden","Hadiqat al-Haqiqat","Tarjuman al-Ashwaq"},
     "🌍 Baháʼí":            {
         "Kitab-i-Aqdas", "The Hidden Words (Arabic)", "The Hidden Words (Persian)",
         "Gleanings from the Writings of Baha'u'llah", "Prayers and Meditations",
