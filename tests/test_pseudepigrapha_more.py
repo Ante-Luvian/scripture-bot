@@ -17,6 +17,15 @@ import pytest
     ("Pseudo-Philo 29:1", "the people appointed Zebul ruler"),                            # ("XXIX And": no stop)
     ("Apocalypse of Sedrach 1:1", "Beloved, let us prefer nothing in honour except sincere love"),
     ("History of the Rechabites 1:1", ""),
+    ("4 Baruch 1:1", "Jeremiah, my chosen one, arise and depart from this city"),        # (the longer version)
+    ("Paraleipomena Jeremiou 9:32", "This is the stone that was the ally of Jeremiah"),
+    ("Jasher 1:1", "And God said, Let us make man in our image"),
+    ("Jasher 2:32", "And the wives of Lamech heard what Lamech had done"),            # (run on in the source)
+    ("Georgian Book of Adam 1:1", "when Adam went out from paradise with his wife Eve"),
+    ("Epistle of the Apostles 1", "The book which Jesus Christ revealed unto his disciples"),
+    ("Epistula Apostolorum 41", "He answered and said unto us: Go and preach"),     # (run on in the source)
+    ("Laodiceans 6", "And now are my bonds seen of all men"),                         # (printed as a second 5)
+    ("Paul and Seneca 10", "*TO SENECA, PAUL, greeting*"),
 ])
 def test_passages(lookup, ref, words):
     result = lookup.get_verse(ref)
@@ -26,7 +35,9 @@ def test_passages(lookup, ref, words):
 
 def test_no_site_furniture(lookup):
     charles = lookup._data["charles"]
-    for book in ("2 Baruch", "3 Baruch", "Biblical Antiquities"):
+    assert "It is not easy to imagine" not in lookup.get_verse("Laodiceans 20")["text"]      # (James's comment)
+    assert "In those days the Lord spoke to Jeremiah" not in lookup.get_verse("4 Baruch 1:1")["text"]   # (shorter)
+    for book in ("2 Baruch", "3 Baruch", "4 Baruch", "Biblical Antiquities", "Book of Jasher", "Georgian Book of Adam"):
         for verses in charles[book].values():
             for text in verses.values():
                 assert not re.search(r"Wesley|Copyright|finish$|Gen\. \d+:\d+|p\. \d+|Next:|(?<!\.)\s[,;:]", text)    # (". . . ," is Charles's gap), (book, text[:100])

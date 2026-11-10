@@ -60,7 +60,7 @@ BOOKS_TREE = [
             "2 Enoch", "3 Enoch",                     # (3 Enoch: a machine translation, its source says so)
             "Hekhalot Rabbati", "Sar Torah", "Chapter of Rabbi Nehuniah",       # (the same manuscript's, likewise)
             "First Book of Adam and Eve", "Second Book of Adam and Eve", "Odes of Solomon",
-            "2 Baruch", "3 Baruch", "Biblical Antiquities",
+            "2 Baruch", "3 Baruch", "4 Baruch", "Biblical Antiquities", "Georgian Book of Adam", "Book of Jasher",
         ]),
         ("New Testament Apocrypha (Ante-Nicene Fathers VIII)", [
             ("Infancy Gospels", [
@@ -99,6 +99,7 @@ BOOKS_TREE = [
             "Acts of John", "Virtues of John", "Acts of Andrew", "Acts of Paul", "Third Corinthians",
             "Acts of Peter", "Acts of Peter: Peter's Daughter", "Acts of Thomas", "Questions of Bartholomew",
             "Apocalypse of Thomas", "Ethiopic Apocalypse of Peter", "Letter to Theodore",
+            "Epistle of the Apostles", "Epistle to the Laodiceans", "Correspondence of Paul and Seneca",
         ]),
     ]),
     ("✡️ Rabbinic & Kabbalistic", [
