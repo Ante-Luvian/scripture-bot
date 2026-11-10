@@ -567,6 +567,7 @@ BOOKS_TREE = [
         ]),
         ("Shi'ite", ["Nahj al-Balagha", "Sahifa Sajjadiyya", "Sahifa Alawiyya", "Adages of Imam Ali", "Dua Kumayl",
                      "Dua Abu Hamza", "The Battle of Karbala"]),
+        ("Isma'ili", ["An Ismaili Treatise", "Risala of al-Jufi"]),
     ]),
     # Greek and Latin, each by kind, straight under the 🏛️ Classical menu (the owner, 2026-11-01); the Perseus authors are filed into these shelves by
     # PERSEUS_PLACES below, not kept on a shelf of their own

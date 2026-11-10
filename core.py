@@ -940,6 +940,7 @@ _CATEGORY_BOOKS = {
         "Jami at-Tirmidhi","Sunan an-Nasa'i","Sunan Ibn Majah",
         "Muwatta Malik","Forty Hadith of Nawawi","Divan of Hafiz","Nahj al-Balagha","Sahifa Sajjadiyya",
         "Gospel of Barnabas","Sahifa Alawiyya","Adages of Imam Ali","Dua Kumayl","Dua Abu Hamza","The Battle of Karbala",
+        "An Ismaili Treatise","Risala of al-Jufi",
     },
     "🏛️ Classical":        {
         "Enneads","Republic","Iliad","Odyssey","Theology of Plato",

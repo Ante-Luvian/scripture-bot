@@ -23,6 +23,8 @@ import pytest
     ("Kashf al-Mahjub 0:1", "In the Name of God, the Merciful, the Compassionate."),
     ("Kashf al-Mahjub 1:1", "God hath said, describing the savants"),
     ("Hujwiri 25:1", ""),
+    ("Ismaili Treatise 1", "In the name of God, the Merciful, the Compassionate. Praise be to God, who confirms"),
+    ("Risala of al-Jufi 1", "except me and my brother"),
     ("Dua Kumayl 2", "O Lord I ask You by Your mercy that befell on everything"),
     ("Dua Abu Hamza 2", "O my Lord do not chasten me with Your punishment"),
     ("Adages of Imam Ali 1:1", "Satisfaction is an infinite money."),
@@ -51,7 +53,9 @@ def test_no_site_furniture(lookup):
     assert "Printed by" not in str(lookup._data["sufi"]["Scroll of Wisdom"])
     assert len(lookup._data["sufi"]["Tarjuman al-Ashwaq"]) == 61
     # the Shi'ite documents: the English only, without the translator's foreword and signature or "***"
-    for book in ("Dua Kumayl", "Dua Abu Hamza", "Adages of Imam Ali", "The Battle of Karbala", "Sahifa Alawiyya"):
+    for book in ("Dua Kumayl", "Dua Abu Hamza", "Adages of Imam Ali", "The Battle of Karbala", "Sahifa Alawiyya",
+                 "An Ismaili Treatise", "Risala of al-Jufi"):
+        assert not re.search(r"[†‡§‖¶]|INTRODUCTORY NOTE|Dr\. Henry W\. De Forest", str(lookup._data["quran"][book])), book
         for verses in lookup._data["quran"][book].values():
             for text in verses.values():
                 assert not re.search(r"[؀-ۿ]|Taher|Kuwait|\*\*\*|humble translation", text), (book, text[:100])

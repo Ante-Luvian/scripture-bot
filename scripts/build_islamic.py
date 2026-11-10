@@ -289,6 +289,28 @@ def kashf_al_mahjub() -> dict:
     return book
 
 
+SYMBOLS = re.compile(r"\s?[*†‡§‖¶]+(?=[\s,.;:!?)\"”’'—]|$)")      # (Salisbury's footnote marks: "the Sâbiḳ,‖ the")
+
+
+def ismaili_treatise() -> dict:
+    """An Isma'ili treatise on the emanation of all things from God's Amr, trans. Edward E. Salisbury (Journal of
+    the American Oriental Society, 1851), from the archive's journals; a paragraph a verse, his notes and their
+    marks left out."""
+    ps = paras("journals/jaos/isma1-4.htm")
+    start = next(i for i, p in enumerate(ps) if p.startswith("In the name of God"))
+    body = [SYMBOLS.sub("", p).strip() for p in ps[start:] if p != "Next" and not p.startswith("## ")]
+    return {"1": {str(i): p for i, p in enumerate(body, 1)}}
+
+
+def risala_jufi() -> dict:
+    """Two fragments of the Risala of Khalid ibn Zayd al-Ju'fi, Isma'ili teaching given as al-Baqir's and al-Sadiq's
+    answers to Khalid, trans. Edward E. Salisbury (1851); his introductory note left out."""
+    ps = paras("journals/jaos/isma2.htm")
+    start = next(i for i, p in enumerate(ps) if p.startswith("## TRANSLATION"))
+    body = [SYMBOLS.sub("", p).strip() for p in ps[start + 1:] if not p.startswith("## ") and p != "Next"]
+    return {"1": {str(i): p for i, p in enumerate(body, 1)}}
+
+
 # ── the Shi'ite documents: Taher Al-Shemaly's translations for the site (2007), and the Alawite Book ──
 ARABIC = re.compile(r"[؀-ۿ]")
 NOTE = re.compile(r"\s*\[[^\[\]]{25,}\]")          # (his own long remarks in brackets; short glosses stay)
@@ -413,6 +435,8 @@ BUILDERS = {
     "Tarjuman al-Ashwaq": (tarjuman, "Ibn Arabi, trans. R. A. Nicholson (1911)", OUT),
     "Hadiqat al-Haqiqat": (hadiqa, "Sana'i, trans. J. Stephenson (1910)", OUT),
     "Kashf al-Mahjub": (kashf_al_mahjub, "Hujwiri, trans. R. A. Nicholson (1911)", OUT),
+    "An Ismaili Treatise": (ismaili_treatise, "trans. Edward E. Salisbury (1851)", QURAN_OUT),
+    "Risala of al-Jufi": (risala_jufi, "trans. Edward E. Salisbury (1851)", QURAN_OUT),
     "Dua Kumayl": (dua_kumayl, "trans. Taher Al-Shemaly (2007)", QURAN_OUT),
     "Dua Abu Hamza": (dua_abu_hamza, "trans. Taher Al-Shemaly (2007)", QURAN_OUT),
     "Adages of Imam Ali": (adages_of_ali, "trans. Taher Al-Shemaly (2007)", QURAN_OUT),

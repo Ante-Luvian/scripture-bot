@@ -14,6 +14,9 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-11-10 · Two Isma'ili writings
+- 🔷 **Two writings of the Isma'ilis**, the branch of Shi'ite Islam (today led by the Aga Khan) known for its teaching of the hidden, inner meaning of religion. *An Isma'ili Treatise* tells how all things flow out of God through his Command, the Universal Intelligence and the Soul (`!verse Ismaili Treatise 1`). The *Risala of al-Ju'fi* gives teachings that the Imams al-Baqir and al-Sadiq are said to have taught their disciple Khalid ibn Zayd, on the Imams, the Prophet and Ali, and the spiritual world (`!verse Risala of al-Jufi 1`). Both were translated by Edward E. Salisbury in 1851, and you'll find them under ☪️ Islamic, in a new Isma'ili group.
+
 ## 2026-11-10 · The oldest Persian book on Sufism
 - 📖 **The *Kashf al-Mahjub* ("The Unveiling of the Veiled")** by Hujwiri, written in Lahore around 1070: the oldest treatise on Sufism in Persian, and still one of the best introductions to it. It tells what Sufism is and isn't, gives the lives and sayings of the great early masters from the first caliphs onward, and then lifts eleven "veils" in turn, among them the knowledge of God, prayer, fasting, the pilgrimage, companionship, and listening to music and poetry. Translated by R. A. Nicholson (1911). Hujwiri's introduction is chapter 0: `!verse Kashf al-Mahjub 1:1`. You'll find it under ☪️ Islamic, next to al-Ghazali.
 
