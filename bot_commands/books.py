@@ -542,7 +542,11 @@ BOOKS_TREE = [
             "Divan of Hafiz",
             "Masnavi",
             "Rubaiyat",
+            "Bird Parliament",
+            "Bustan",
         ]),
+        ("Al-Ghazali", ["Alchemy of Happiness", "Niche for Lights"]),
+        ("Other Islamic Writings", ["Gospel of Barnabas"]),
         ("Hadith", [
             ("The Six Books (Kutub al-Sittah)", [
                 "Sahih al-Bukhari",

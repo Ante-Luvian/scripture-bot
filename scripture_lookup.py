@@ -899,6 +899,12 @@ ALIASES: dict[str, str] = {
     "analects": "Analects", "lunyu": "Analects", "confucius": "Analects",
     "divan of hafiz": "Divan of Hafiz", "hafiz": "Divan of Hafiz", "hafez": "Divan of Hafiz",
     "divan": "Divan of Hafiz", "diwan": "Divan of Hafiz",
+    "alchemy of happiness": "Alchemy of Happiness", "kimiya-yi saadat": "Alchemy of Happiness",
+    "kimiya": "Alchemy of Happiness", "niche for lights": "Niche for Lights", "mishkat al-anwar": "Niche for Lights",
+    "mishkat": "Niche for Lights", "niche of lights": "Niche for Lights",
+    "bird parliament": "Bird Parliament", "conference of the birds": "Bird Parliament",
+    "mantiq al-tayr": "Bird Parliament", "bustan": "Bustan", "bostan": "Bustan", "the orchard": "Bustan",
+    "gospel of barnabas": "Gospel of Barnabas", "barnabas gospel": "Gospel of Barnabas",
     "i ching": "I Ching", "yijing": "I Ching", "yi jing": "I Ching", "iching": "I Ching", "yi king": "I Ching",
     "atharva veda": "Atharva Veda", "atharvaveda": "Atharva Veda", "atharva": "Atharva Veda",
     "divine names": "Divine Names", "the divine names": "Divine Names",
@@ -2366,7 +2372,8 @@ class ScriptureLookup:
                 "liturgy_of_st_dionysius.json",
             ],
             "quran": ["quran_pickthall.json",
-                      "nahj_al_balagha.json", "sahifa_sajjadiyya.json"],     # (Shi'ite: scripts/build_shia.py)
+                      "nahj_al_balagha.json", "sahifa_sajjadiyya.json",      # (Shi'ite: scripts/build_shia.py)
+                      "islamic_more.json"],                                  # (scripts/build_islamic.py)
             "classical": [
                 "golden_verses.json",
                 "orphic_hymns.json",
@@ -2503,6 +2510,7 @@ class ScriptureLookup:
                 "hafiz_bell.json",
                 "masnavi_whinfield.json",
                 "rubaiyat_fitzgerald.json",
+                "islamic_classics.json",      # (Ghazali, Attar, Sa'di...: scripts/build_islamic.py)
             ],
             "sikh": ["guru_granth_sahib.json"],
             "jain": ["jaina_sutras.json"],

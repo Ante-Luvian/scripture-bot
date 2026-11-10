@@ -939,6 +939,7 @@ _CATEGORY_BOOKS = {
         "Quran","Sahih al-Bukhari","Sahih Muslim","Sunan Abu Dawud",
         "Jami at-Tirmidhi","Sunan an-Nasa'i","Sunan Ibn Majah",
         "Muwatta Malik","Forty Hadith of Nawawi","Divan of Hafiz","Nahj al-Balagha","Sahifa Sajjadiyya",
+        "Gospel of Barnabas",
     },
     "🏛️ Classical":        {
         "Enneads","Republic","Iliad","Odyssey","Theology of Plato",
@@ -1009,7 +1010,8 @@ _CATEGORY_BOOKS = {
     "🌽 Mesoamerican":      {"Popol Vuh"},
     "🦢 Finnish":           {"Kalevala"},
     "☘️ Celtic":            {"Mabinogion"},
-    "🌹 Sufi":              {"Divan of Hafiz","Masnavi","Rubaiyat"},
+    "🌹 Sufi":              {"Divan of Hafiz","Masnavi","Rubaiyat","Alchemy of Happiness","Niche for Lights",
+                             "Bird Parliament","Bustan"},
     "🌍 Baháʼí":            {
         "Kitab-i-Aqdas", "The Hidden Words (Arabic)", "The Hidden Words (Persian)",
         "Gleanings from the Writings of Baha'u'llah", "Prayers and Meditations",
