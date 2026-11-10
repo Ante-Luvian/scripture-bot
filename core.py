@@ -974,7 +974,7 @@ _CATEGORY_BOOKS = {
         "Fragments of Basilides","Epiphanes, On Righteousness","The Naassene Psalm","Excerpts from Theodotus",
         "Manichaean Hymns and Fragments","Mandaean Prayers","Haran Gawaita",
         "Fragments of Valentinus","Ptolemy's Commentary on John","Fragments of Heracleon","The Secret Supper",
-        "Book of the Two Principles","Cathar Ritual",
+        "Book of the Two Principles","Cathar Ritual","Gospel of Marcion",
         "The Prayer of Paul, the Apostle","The Secret Book of James",
         "Treatise on the Resurrection","The Tripartite Tractate",
         "The Substance of the Archons","On the Origin of the World",

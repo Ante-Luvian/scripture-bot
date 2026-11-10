@@ -817,6 +817,8 @@ ALIASES: dict[str, str] = {
     "epistle of the apostles": "Epistle of the Apostles", "epistula apostolorum": "Epistle of the Apostles",
     "laodiceans": "Epistle to the Laodiceans", "epistle to the laodiceans": "Epistle to the Laodiceans",
     "paul and seneca": "Correspondence of Paul and Seneca", "letters of paul and seneca": "Correspondence of Paul and Seneca",
+    "gospel of marcion": "Gospel of Marcion", "marcion's gospel": "Gospel of Marcion", "marcions gospel": "Gospel of Marcion",
+    "marcion gospel": "Gospel of Marcion", "evangelion": "Gospel of Marcion", "gospel of the lord": "Gospel of Marcion",
     "gospel of the hebrews": "Gospel according to the Hebrews", "gospel according to the hebrews": "Gospel according to the Hebrews",
     "hebrews gospel": "Gospel according to the Hebrews", "gospel of the nazoreans": "Gospel of the Nazoreans",
     "gospel of the nazarenes": "Gospel of the Nazoreans", "nazoreans": "Gospel of the Nazoreans",
@@ -2540,6 +2542,7 @@ class ScriptureLookup:
                 "gnostic_fragments.json",    # (the Berlin and Bruce codices, the teachers quoted by the Fathers)
                 "manichaean_mandaean_more.json",   # (the Turfan hymns, Mani's parables, Mandaean prayers)
                 "valentinian_cathar.json",         # (Valentinus, Heracleon, Ptolemy on John; the Cathars)
+                "marcion_gospel.json",             # (Marcion's Gospel, reconstructed: build_gnosis.py marcion)
                 "gospel_of_thomas.json",
                 "manichaean_psalms.json",
             ],

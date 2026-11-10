@@ -984,6 +984,7 @@ BOOKS_TREE = [
             "Ptolemy's Letter to Flora", "Fragments of Basilides", "Epiphanes, On Righteousness", "The Naassene Psalm",
             "Excerpts from Theodotus", "Fragments of Valentinus", "Ptolemy's Commentary on John", "Fragments of Heracleon",
         ]),
+        ("Marcion (Reconstructed)", ["Gospel of Marcion"]),
         ("Cathar (12th-13th century)", ["The Secret Supper", "Book of the Two Principles", "Cathar Ritual"]),
         ("Manichaean (trans. C.R.C. Allberry, 1938)", [
             "Manichaean Psalms to Jesus",

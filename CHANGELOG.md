@@ -14,6 +14,17 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-11-10 · The Gospel of Marcion, the first Christian Bible's only gospel
+- 📜 **The Gospel of Marcion**, reconstructed. Marcion was a shipowner from the Black Sea coast who came to Rome about the year 140 and taught that the Father of Jesus was not the God of the Old Testament but a higher, unknown God of pure kindness. The Church expelled him in 144, and he founded churches of his own that lasted for centuries. He was also the first person we know of to draw up a fixed list of Christian scripture: ten letters of Paul and a single gospel, with no Old Testament at all.
+- That gospel is lost. But the writers who attacked him, above all Tertullian and Epiphanius, quoted it line by line to refute it, and from their quotations scholars have pieced most of it back together. It is close to the Gospel of Luke, only shorter, and keeps Luke's chapter and verse numbers so the two can be compared. This is J. H. Hill's reconstruction (1891), revised by Daniel Mahar to follow the German scholar Theodor Zahn.
+- What to look for:
+  - **It has no birth story, no John the Baptist and no baptism.** There are no chapters 1 to 3; Jesus simply comes down from heaven as a grown man: `!verse Gospel of Marcion 4:31`.
+  - **The Lord's Prayer asks for the Spirit:** "Father, let thy Holy Spirit come upon us" (`!verse Gospel of Marcion 11:2-4`).
+  - **A famous saying is turned around.** In Luke not one tittle of *the law* can fail; here it is "one tittle of *my words*" (`!verse Gospel of Marcion 16:16-17`).
+  - **The risen Jesus still has flesh and bones** (`!verse Gospel of Marcion 24:39`), a verse Marcion's opponents made much of, since he taught that Christ's body only seemed real.
+- How to read it: gaps in the verse numbers are verses nobody quotes, so we can't tell what Marcion had there. Words in square brackets are less certain, and *(Zahn omits)* marks a passage Zahn thought was not in Marcion's gospel at all (`!verse Gospel of Marcion 5:15`). `!verse Marcion's Gospel 6:20-23` works too.
+- It's in `!books` under 🧿 Gnostic & Esoteric → 🧿 Gnostic → "Marcion (Reconstructed)".
+
 ## 2026-11-10 · Lost gospels in fragments, and five early church documents
 - 📜 **Lost gospels that survive only in pieces.** The early Church knew gospels besides the four in the Bible. Most are lost, and all we have is what early writers quoted from them or scraps of papyrus dug up in Egypt. Here are those pieces, most in M. R. James's translation (1924), under 👼 Apocrypha / Pseudepigrapha → "Lost Gospels in Fragments":
   - the **Gospel according to the Hebrews**, used by Jewish Christians, where Jesus calls the Holy Spirit "my mother" (`!verse Gospel of the Hebrews 5`), with the **Gospel of the Nazoreans** and the **Gospel of the Ebionites**, two related Jewish-Christian gospels;

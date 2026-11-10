@@ -656,6 +656,72 @@ def write(file: str, books: dict, sources: dict, source: str, folder: str = "gno
     print(f"  {path.name}: " + ", ".join(f"{b} ({sum(map(len, c.values()))})" for b, c in books.items()))
 
 
+def marcion() -> None:
+    """Marcion's Gospel (the "Gospel of the Lord"), reconstructed from Tertullian and Epiphanius: J. H. Hill's
+    1891 text after Hahn, revised by Daniel Mahar after Zahn, as gnosis.org gives it in six sections. It is
+    Luke's Gospel as Marcion had it, in the King James wording, so it keeps Luke's chapters and verses (4:31 is
+    its opening, "3:1/4:31"). The web editor's section titles are left out; "Zahn omits" stays as an
+    italic note before the bracketed words Zahn doubts; the links to the Fathers, and the notes marking verses
+    left out ("[ 4:38-39 unattested]", "[ -vv.35;37]"), don't -- the gaps in the numbering show those."""
+    book, chapter, verse, pending, notes = {}, None, None, [], 0
+
+    def add(text: str) -> None:
+        nonlocal pending
+        if pending:
+            text = "\n".join(pending) + "\n" + text
+            pending = []
+        old = book[chapter].get(verse)
+        book[chapter][verse] = f"{old} {text}" if old else text
+
+    for n in range(1, 7):
+        page = fetch(f"library/marcion/Gospel{n}.html")
+        first = re.search(r'(?i)<p[^>]*>\s*(?:<!--LINE1-->)?\s*<a HREF="(?:Gospel\d\.html)?#', page)
+        expect(first is not None, f"Marcion {n}: no contents list")
+        page = page[first.end():]                                                     # (the section's contents)
+        page = re.split(r"(?i)<hr>\s*(?:<p align=\"center\">)?\s*<a href=\"[^\"]*marcionsection", page)[0]
+        page = re.sub(r'(?is)<a HREF="(?:Tert|Epip)[^"]*">.*?</a>', "", page)          # (links to the Fathers)
+        blocks = re.findall(r"(?is)<p([^>]*)>(.*?)</p>", "<p>" + page)
+        for attrs, block in blocks[1:]:                     # (the first is the contents)
+            lines = [re.sub(r"\s+", " ", html.unescape(re.sub(r"<[^>]+>", "", l))).strip()
+                     for l in re.split(r"(?i)<br\s*/?>", block)]
+            if "center" in attrs.lower():       # (the web editor's section titles -- "Those Dopey Disciples" -- not kept)
+                continue
+            for l in lines:
+                l = re.sub(r"\[\s*-\s*\d+[a-z]?\s*\]\s*", "", l)                  # ("[-41c]", "34[-34c]", "[ - 9b]")
+                l = re.sub(r"\s+([;:,?!.])", r"\1", l).replace(",which", ", which")
+                for slip, word in (("neccess", "necess"), ("were sking", "were asking"), ("hopeded", "hoped")):
+                    l = l.replace(slip, word)                                     # (the page's typing slips)
+                if not l or l.startswith(";") or re.fullmatch(r"\[[^\]]*(?:unattested|uncertain|-\s*v)[^\]]*\]\.?|\[\s*-[\d\s:;\-v.]*\]", l):
+                    continue
+                if l.startswith("Zahn omits"):
+                    pending.append("*(" + l.rstrip(":").replace(" - ", " — ") + ")*")
+                    notes += 1
+                    continue
+                m = re.match(r"(?:\d+:\d+/)?(?:(\d+):\s*)?(\[?)(\d+)\s+(?=\S)", l)
+                if m and not l.startswith("+"):
+                    if m.group(1):
+                        chapter = m.group(1)
+                        book.setdefault(chapter, {})
+                    expect(chapter is not None, f"Marcion {n}: a verse before any chapter: {l[:40]}")
+                    verse = m.group(3)
+                    l = m.group(2) + l[m.end():]
+                elif l.startswith("+"):                                             # ("+4:27 ...": moved here)
+                    l = re.sub(r"^\+(\d+:\d+)\s*", r"(\1) ", l)
+                expect(verse is not None, f"Marcion {n}: text before any verse: {l[:40]}")
+                add(l)
+    expect(not pending, f"Marcion: notes left over {pending}")
+    expect(list(book) == [str(c) for c in range(4, 25)] and notes > 10, f"Marcion chapters {list(book)}, {notes}")
+    for verses in book.values():
+        for v in list(verses):
+            verses[v] = re.sub(r"\s+", " ", verses[v].replace("\n", "\x00")).replace("\x00", "\n").strip()
+    # (kept in Marcion's order, not sorted: his Gospel opens at 4:31 and comes to Nazareth, 4:16, after it)
+    expect(list(book["4"])[0] == "31", f"Marcion: opens at {list(book['4'])[0]}")
+    print(f"  Gospel of Marcion: {len(book)} chapters, {sum(map(len, book.values()))} verses")
+    write("marcion_gospel.json", {"Gospel of Marcion": book},
+          {"Gospel of Marcion": "reconstructed by J. H. Hill (1891), revised by Daniel Mahar after Zahn"},
+          "Gnostic Society Library")
+
+
 def nag_hammadi_more() -> None:
     books, sources = {}, {}
     for path, name in NHL_MISSING:
@@ -679,6 +745,8 @@ if __name__ == "__main__":
         manichaean_mandaean()
     if not only or "cathar" in only:
         valentinians_and_cathars()
+    if not only or "marcion" in only:
+        marcion()
     if not only or "fragments" in only:
         books, sources = {}, {}
         books["Gospel of Mary"] = gospel_of_mary()
