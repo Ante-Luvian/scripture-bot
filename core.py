@@ -939,7 +939,7 @@ _CATEGORY_BOOKS = {
         "Quran","Sahih al-Bukhari","Sahih Muslim","Sunan Abu Dawud",
         "Jami at-Tirmidhi","Sunan an-Nasa'i","Sunan Ibn Majah",
         "Muwatta Malik","Forty Hadith of Nawawi","Divan of Hafiz","Nahj al-Balagha","Sahifa Sajjadiyya",
-        "Gospel of Barnabas",
+        "Gospel of Barnabas","Sahifa Alawiyya","Adages of Imam Ali","Dua Kumayl","Dua Abu Hamza","The Battle of Karbala",
     },
     "🏛️ Classical":        {
         "Enneads","Republic","Iliad","Odyssey","Theology of Plato",

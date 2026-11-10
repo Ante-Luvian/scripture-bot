@@ -20,6 +20,12 @@ import pytest
     ("Salaman and Absal 1:1", "Oh Thou whose Memory quickens Lovers"),
     ("Hadiqa 1:1", "*ON THE KNOWLEDGE OF GOD.*\nOf himself no one can know Him"),
     ("Scroll of Wisdom 1:1", "In the Name of God, the Merciful and Compassionate"),
+    ("Dua Kumayl 2", "O Lord I ask You by Your mercy that befell on everything"),
+    ("Dua Abu Hamza 2", "O my Lord do not chasten me with Your punishment"),
+    ("Adages of Imam Ali 1:1", "Satisfaction is an infinite money."),
+    ("Adages of Imam Ali 11:212", "Your life is attached to anxiety · life is not passed without worries."),
+    ("Karbala 1:1", "When Al-Husayn (PUH) got into the morning of the day of Ashurah"),
+    ("Alawite Book 1:2", "All praise is due to Allah except Whom there is no god"),
 ])
 def test_passages(lookup, ref, words):
     result = lookup.get_verse(ref)
@@ -41,3 +47,8 @@ def test_no_site_furniture(lookup):
     assert "Click to enlarge" not in str(lookup._data["sufi"]["Salaman and Absal"])
     assert "Printed by" not in str(lookup._data["sufi"]["Scroll of Wisdom"])
     assert len(lookup._data["sufi"]["Tarjuman al-Ashwaq"]) == 61
+    # the Shi'ite documents: the English only, without the translator's foreword and signature or "***"
+    for book in ("Dua Kumayl", "Dua Abu Hamza", "Adages of Imam Ali", "The Battle of Karbala", "Sahifa Alawiyya"):
+        for verses in lookup._data["quran"][book].values():
+            for text in verses.values():
+                assert not re.search(r"[؀-ۿ]|Taher|Kuwait|\*\*\*|humble translation", text), (book, text[:100])

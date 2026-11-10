@@ -241,6 +241,115 @@ def hadiqa() -> dict:
     return {k: v for k, v in out.items() if v}
 
 
+# ── the Shi'ite documents: Taher Al-Shemaly's translations for the site (2007), and the Alawite Book ──
+ARABIC = re.compile(r"[؀-ۿ]")
+NOTE = re.compile(r"\s*\[[^\[\]]{25,}\]")          # (his own long remarks in brackets; short glosses stay)
+
+
+def joined(ps: list) -> list:
+    """Paragraphs the page broke mid-sentence ("...the Living, the" / "Self-existing, the everlasting") joined."""
+    out = []
+    for p in ps:
+        if out and not re.search(r"[.!?:;'\"’”)\]]\s*$|the Merciful\s*$", out[-1]):
+            out[-1] += " " + p
+        else:
+            out.append(p)
+    return out
+
+
+def dua_kumayl() -> dict:
+    """The Du'a Kumayl, taught by Ali to Kumayl ibn Ziyad: the English, without the Arabic beside it; its lines,
+    wrapped mid-phrase on the page ("of his" / "descendants"), rejoined, and a verse begun at each invocation
+    ("O Lord...", "O Allah...")."""
+    ps = paras("isl/kumayl/kum.htm")
+    text = next(p for p in ps if p.startswith("In the name of Allah, the Beneficent"))
+    lines = []
+    for l in text.split("\n"):
+        l = l.strip()
+        if not l or l == "*" or ARABIC.search(l):
+            continue
+        if lines and (l[:1].islower() or len(lines[-1].split()) <= 2):
+            lines[-1] += " " + l
+        else:
+            lines.append(l)
+    sections, cur = [], []
+    for l in lines:
+        if re.match(r"O (?:Lord|Allah|my|You|God|Master)\b|My (?:Lord|God|Master)\b", l) and cur:
+            sections.append("\n".join(cur))
+            cur = []
+        cur.append(l)
+    if cur:
+        sections.append("\n".join(cur))
+    expect(len(sections) > 10, f"Kumayl: {len(sections)} sections")
+    return {"1": {str(i): NOTE.sub("", s).strip() for i, s in enumerate(sections, 1)}}
+
+
+def dua_abu_hamza() -> dict:
+    """The Du'a of Abu Hamza al-Thumali, taught by Imam Zayn al-Abidin, read on the nights of Ramadan: a paragraph
+    a verse; the translator's foreword and pronunciation guide left out."""
+    ps = paras("isl/hmz/hmz.htm")
+    start = next(i for i, p in enumerate(ps) if p.startswith("In the name of Allah"))
+    body = [NOTE.sub("", re.sub(r"\s*\n\s*", " ", p)).strip() for p in ps[start:]]
+    return {"1": {str(i): p for i, p in enumerate(body, 1) if p}}
+
+
+def adages_of_ali() -> dict:
+    """2500 Adages of Imam Ali (the Ghurar al-Hikam's sayings, as a modern Arabic selection arranges them): a
+    chapter for each of its subjects, the sayings by their numbers (which run through the book)."""
+    idx = pages("adg")
+    picks = [(p, l) for p, l in idx if l.startswith(("Adages of imam", "His adages", "Potic Adages", "Poetic Adages"))]
+    expect(len(picks) >= 10, f"Adages: {[l for _, l in picks]}")
+    out = {}
+    for n, (p, label) in enumerate(picks, 1):
+        text = "\n".join(paras(p))
+        sayings = {}
+        for num, saying in re.findall(r"(?m)^(\d{1,4})\.\s+(.*?)(?=\n\d{1,4}\.\s|\Z)", text, re.S):
+            saying = re.sub(r"\s*\*{3}\s*", " · ", saying)            # (the poems' half-lines: "anxiety *** life")
+            sayings[num] = NOTE.sub("", re.sub(r"\s*\n\s*", " ", saying)).strip()
+        if sayings:
+            first = next(iter(sayings))
+            title = re.sub(r"\s*\(puh\)", "", label).strip()
+            sayings[first] = f"*{title[:1].upper() + title[1:]}*\n" + sayings[first]
+            out[str(n)] = sayings
+    expect(sum(map(len, out.values())) > 2000, f"Adages: {sum(map(len, out.values()))} sayings")
+    return out
+
+
+def battle_of_karbala() -> dict:
+    """The Battle of Karbala as Shi'ites read it on Ashura (in the telling of Abdul-Zahra al-Ka'bi): its two
+    parts, a paragraph a verse, the elegies in it kept as lines."""
+    picks = [(p, l) for p, l in pages("hus") if l in ("The First Part", "The Second Part")]
+    expect(len(picks) == 2, f"Karbala: {[l for _, l in picks]}")
+    out = {}
+    for n, (p, _) in enumerate(picks, 1):
+        ps = [x for x in paras(p) if not x.startswith(("The First Part", "The Second Part", "Taher Al-Shemaly"))]
+        out[str(n)] = {str(i): NOTE.sub("", x).strip() for i, x in enumerate(ps, 1)}
+    return out
+
+
+def sahifa_alawiyya() -> dict:
+    """The Alawite Book (al-Sahifa al-Alawiyya), the prayers ascribed to Ali, in an unnamed translator's English
+    (the site's volunteer found it, he says, the work "as it seems, of an Indian scholar"): a chapter each
+    prayer, its title in italics over it."""
+    idx = pages("sal")
+    start = next(i for i, (_, l) in enumerate(idx) if l == "Introduction")
+    picks = [(p, l) for p, l in idx[start + 1:] if not l.startswith(("Next", "«", "Index"))]
+    out = {}
+    for n, (p, _) in enumerate(picks, 1):
+        ps = [x for x in paras(p) if not x.startswith(("Submitter:", "## "))]
+        cut = next((i for i, x in enumerate(ps) if x.startswith("In the name of Allah")), 0)
+        title = " ".join(ps[:cut]).strip()
+        body = joined(ps[cut:]) if cut else joined(ps)
+        if not body:
+            continue
+        verses_ = {str(i): NOTE.sub("", x).strip() for i, x in enumerate(body, 1)}
+        if title:
+            verses_["1"] = f"*{title}*\n" + verses_["1"]
+        out[str(n)] = verses_
+    expect(len(out) > 150, f"Alawite Book: {len(out)} prayers")
+    return out
+
+
 QURAN_OUT = ROOT / "data" / "quran" / "islamic_more.json"
 # (name: builder, citation, file -- the Sufi works on the Sufi shelf's file, the rest with the Islamic books)
 BUILDERS = {
@@ -255,6 +364,11 @@ BUILDERS = {
     "Gulistan": (gulistan, "Sa'di, trans. Edward Rehatsek (1888)", OUT),
     "Tarjuman al-Ashwaq": (tarjuman, "Ibn Arabi, trans. R. A. Nicholson (1911)", OUT),
     "Hadiqat al-Haqiqat": (hadiqa, "Sana'i, trans. J. Stephenson (1910)", OUT),
+    "Dua Kumayl": (dua_kumayl, "trans. Taher Al-Shemaly (2007)", QURAN_OUT),
+    "Dua Abu Hamza": (dua_abu_hamza, "trans. Taher Al-Shemaly (2007)", QURAN_OUT),
+    "Adages of Imam Ali": (adages_of_ali, "trans. Taher Al-Shemaly (2007)", QURAN_OUT),
+    "The Battle of Karbala": (battle_of_karbala, "Abdul-Zahra al-Ka'bi, trans. Taher Al-Shemaly (2007)", QURAN_OUT),
+    "Sahifa Alawiyya": (sahifa_alawiyya, "unattributed translation", QURAN_OUT),
 }
 
 
