@@ -477,8 +477,10 @@ Muratorian Canon, prologues, Abercius, Scillitans are in too. **Held back:** Tes
 no usable English online for the Didascalia (every transcription damaged), Carpus, the Monarchian prologues.
 Also (2026-11-10, owner's request) scripts/build_budge.py: Budge's Kebra Nagast, Cave of Treasures and Book of the
 Bee from sacred-texts -> data/charles/budge.json (small capitals recased, the Cave's [NOTES] and headings dropped by
-bracket depth). The Book of the Cock's only English is David Blocker's 2024 PDF on Academia.edu (login needed):
-build it only if the owner downloads it to ~/Downloads.
+bracket depth). The Book of the Cock: the owner downloaded David Blocker's 2024 PDF (~/Downloads/123597409.pdf, 217
+pages) and then decided to SKIP it (2026-11-10): the text sits in ~25 differently shaped synopsis tables beside the
+Gospels, mixed with essays and footnotes, so it needs page-image work, and it's an amateur English of Piovanelli's
+French. Don't raise it again unless the owner does.
 **Inventory of what's still missing (2026-11-09):** gnosis.org -- only Marcion's
 reconstructed Gospel. earlyjewishwritings -- 2 Baruch (Charles 1913, pseudepigrapha.com/pseudepigrapha/2Baruch.html),
 3 Baruch (same site), Pseudo-Philo (sacred-texts bib/bap, James 1917), Apocalypse of Abraham (Box 1918: only scans
