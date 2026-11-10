@@ -449,7 +449,16 @@ name: now "Selections from the Prophetic Scriptures". Also done: `mani` (40 Turf
 prayers, Haran Gawaita) and `cathar` (Valentinus, Ptolemy on John, Heracleon; Secret Supper, Two Principles, Cathar
 Ritual in English); scripts/build_philo_more.py (Philo's On Dreams, Hypothetica, Providence, Fragments). A U+FFFD
 scan found 566 broken characters (Philo, Ephrem, Cyril, Zadokite...) -- mended, and tests/test_no_broken_characters.py
-now guards every data file. **Inventory of what's still missing (2026-11-09):** gnosis.org -- only Marcion's
+now guards every data file. **Done since (2026-11-10, all with changelogs):** scripts/build_pseudepigrapha.py (2-4 Baruch, Pseudo-Philo, Jasher,
+Georgian Adam; James's Epistle of the Apostles, Laodiceans, Paul-Seneca); Sedrach (build_fathers' ANF 9 list);
+scripts/build_meqabyan.py (from the owner's PDF in ~/Downloads -- pseudepigrapha.com's is in Rastafari patois);
+scripts/build_islamic.py (sacred-texts isl/: Ghazali x2, Attar, Sa'di x3, Jami, Shabistari, Sana'i, Ibn Arabi's
+Tarjuman, Barnabas, the Shiite documents, Salisbury's two Isma'ili texts; Hujwiri's Kashf from the owner's Gutenberg
+EPUB in ~/Downloads). Islam's leftovers, not worth chasing now (owner): Redhouse's full Masnavi I, Zeb-un-Nissa, the
+Maqamat, al-Ma'arri, Iqbal, sacred-texts' "Prophets, Their Lives and Their Stories"; more hadith needs a source.
+2 Baruch ends at 85:2 everywhere online (the rest only in scans: ask before transcribing). Still to do from the
+inventory below: pseudepigrapha.com's Pseudo-Methodius, Words of Gad the Seer, Slavonic Adam and Eve; the rest of
+the Jewish pseudepigrapha and the earlychristianwritings gaps. **Inventory of what's still missing (2026-11-09):** gnosis.org -- only Marcion's
 reconstructed Gospel. earlyjewishwritings -- 2 Baruch (Charles 1913, pseudepigrapha.com/pseudepigrapha/2Baruch.html),
 3 Baruch (same site), Pseudo-Philo (sacred-texts bib/bap, James 1917), Apocalypse of Abraham (Box 1918: only scans
 found; pseudepigrapha.com's is a modern unknown translation), Joseph and Aseneth (Brooks 1918 not found online;
