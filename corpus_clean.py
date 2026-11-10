@@ -394,6 +394,7 @@ def clean_text(text: str, rel: str) -> str:
     before = None
     while before != text:                               # "&amp;gt;" -> "&gt;" -> ">"
         before, text = text, html.unescape(text)
+    text = text.replace("\xad", "")                     # soft hyphens (invisible, but they break search)
     text = CSS.sub("", text)
     text = EDITOR_NOTE.sub("", text)
     text = TAIL.sub("", text)

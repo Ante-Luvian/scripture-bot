@@ -941,6 +941,10 @@ ALIASES: dict[str, str] = {
     "questions on genesis i": "Questions on Genesis I",
     "questions on genesis ii": "Questions on Genesis II",
     "questions on genesis iii": "Questions on Genesis III",
+    "on dreams i": "On Dreams I", "on dreams ii": "On Dreams II", "philo on dreams": "On Dreams I",
+    "de somniis": "On Dreams I", "hypothetica": "Hypothetica", "apology for the jews": "Hypothetica",
+    "on providence i": "On Providence I", "on providence ii": "On Providence II",
+    "philo on providence": "On Providence II", "fragments of philo": "Fragments of Philo",
     # ── Josephus ───────────────────────────────────────────────────────────────
     "josephus": "Jewish Antiquities",  # default
     "jewish antiquities": "Jewish Antiquities",

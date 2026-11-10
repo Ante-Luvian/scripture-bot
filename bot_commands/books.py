@@ -387,6 +387,8 @@ BOOKS_TREE = [
             "Questions on Genesis I",
             "Questions on Genesis II",
             "Questions on Genesis III",
+            "On Dreams I", "On Dreams II", "Hypothetica", "On Providence I", "On Providence II",
+            "Fragments of Philo",
         ]),
         ("Josephus", [
             "Jewish Antiquities","Jewish War","Against Apion","Life",
