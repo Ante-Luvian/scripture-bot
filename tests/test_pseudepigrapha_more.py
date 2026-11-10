@@ -26,6 +26,11 @@ import pytest
     ("Epistula Apostolorum 41", "He answered and said unto us: Go and preach"),     # (run on in the source)
     ("Laodiceans 6", "And now are my bonds seen of all men"),                         # (printed as a second 5)
     ("Paul and Seneca 10", "*TO SENECA, PAUL, greeting*"),
+    ("1 Meqabyan 1:1", "There was a man whose name was called Tseerutsaydan"),
+    ("1 Meqabyan 2:1", "There was a man born from the tribe of Benjamin whose name was called Maccaebeus"),
+    ("2 Meqabyan 1:1", "This is a book that describes how Meqabis met with Israel"),
+    ("3 Meqabyan 10:28", "Prepare goodly Work - that you might cross from death toward Life"),
+    ("3 Meqabyan 10:29", "the third book that speaks the words of Meqabyan are fulfilled"),
 ])
 def test_passages(lookup, ref, words):
     result = lookup.get_verse(ref)
@@ -42,3 +47,9 @@ def test_no_site_furniture(lookup):
             for text in verses.values():
                 assert not re.search(r"Wesley|Copyright|finish$|Gen\. \d+:\d+|p\. \d+|Next:|(?<!\.)\s[,;:]", text)    # (". . . ," is Charles's gap), (book, text[:100])
     assert "ends at 85:2" in lookup.get_verse("2 Baruch 1:1")["source"]
+    # Meqabyan: the editor's chapter summaries ("Chapter 5: An extended attack on...") are not in the verses
+    meq = lookup._data["charles"]
+    for book, count in (("1 Meqabyan", 36), ("2 Meqabyan", 21), ("3 Meqabyan", 10)):
+        assert list(meq[book]) == [str(n) for n in range(1, count + 1)], book
+        for verses in meq[book].values():
+            assert not any(re.search(r"\bChapter \d+:", t) for t in verses.values()), book

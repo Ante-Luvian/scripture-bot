@@ -802,6 +802,10 @@ ALIASES: dict[str, str] = {
     "greek apocalypse of baruch": "3 Baruch", "greek baruch": "3 Baruch",
     "biblical antiquities": "Biblical Antiquities", "pseudo-philo": "Biblical Antiquities", "pseudo philo": "Biblical Antiquities",
     "liber antiquitatum biblicarum": "Biblical Antiquities", "biblical antiquities of philo": "Biblical Antiquities",
+    "1 meqabyan": "1 Meqabyan", "2 meqabyan": "2 Meqabyan", "3 meqabyan": "3 Meqabyan", "meqabyan": "1 Meqabyan",
+    "i meqabyan": "1 Meqabyan", "ii meqabyan": "2 Meqabyan", "iii meqabyan": "3 Meqabyan",
+    "1 ethiopian maccabees": "1 Meqabyan", "2 ethiopian maccabees": "2 Meqabyan", "3 ethiopian maccabees": "3 Meqabyan",
+    "1 makabian": "1 Meqabyan", "2 makabian": "2 Meqabyan", "3 makabian": "3 Meqabyan",
     "4 baruch": "4 Baruch", "iv baruch": "4 Baruch", "paraleipomena jeremiou": "4 Baruch",
     "paralipomena of jeremiah": "4 Baruch", "rest of the words of baruch": "4 Baruch",
     "jasher": "Book of Jasher", "book of jasher": "Book of Jasher", "sefer hayashar": "Book of Jasher",
@@ -2334,7 +2338,8 @@ class ScriptureLookup:
             "lds":     ["book_of_mormon.json", "doctrine_and_covenants.json", "pearl_of_great_price.json"],
             "brenton": ["brenton_extras.json"],
             "charles": ["book_of_enoch.json", "book_of_jubilees.json", "testaments_of_twelve_patriarchs.json", "assumption_of_moses.json", "ascension_of_isaiah.json", "sibylline_oracles.json", "letter_of_aristeas.json", "books_of_adam_and_eve.json", "zadokite_fragments.json", "secrets_of_enoch.json", "forgotten_books_of_eden.json", "3_enoch.json", "hekhalot_rabbati.json",
-                        "pseudepigrapha_more.json"],       # (2-3 Baruch, Pseudo-Philo: scripts/build_pseudepigrapha.py)
+                        "pseudepigrapha_more.json",        # (2-3 Baruch, Pseudo-Philo: scripts/build_pseudepigrapha.py)
+                        "meqabyan.json"],                  # (the Ethiopian Maccabees: scripts/build_meqabyan.py)
             "nt_apocrypha": ["anf8_apocrypha.json", "anf9_apocrypha.json",
                              "james_apocrypha.json",      # (M. R. James, 1924: scripts/build_gnosis.py james)
                              "james_apocrypha_more.json"],    # (scripts/build_pseudepigrapha.py)

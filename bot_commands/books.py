@@ -62,6 +62,7 @@ BOOKS_TREE = [
             "First Book of Adam and Eve", "Second Book of Adam and Eve", "Odes of Solomon",
             "2 Baruch", "3 Baruch", "4 Baruch", "Biblical Antiquities", "Georgian Book of Adam", "Book of Jasher",
         ]),
+        ("Ethiopian Orthodox Canon", ["1 Meqabyan", "2 Meqabyan", "3 Meqabyan"]),
         ("New Testament Apocrypha (Ante-Nicene Fathers VIII)", [
             ("Infancy Gospels", [
                 "The Protevangelium of James", "The Gospel of Pseudo-Matthew",
