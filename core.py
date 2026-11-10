@@ -926,7 +926,7 @@ _CATEGORY_BOOKS = {
         "2 Baruch","3 Baruch","Biblical Antiquities","The Apocalypse of Sedrach","4 Baruch","Book of Jasher",
         "Georgian Book of Adam","Slavonic Life of Adam and Eve","Words of Gad the Seer","Apocalypse of Pseudo-Methodius",
         "Joseph and Aseneth","Apocalypse of Abraham","Testament of Job","Lives of the Prophets",
-        "Apocalypse of Zephaniah","Apocalypse of Elijah",
+        "Apocalypse of Zephaniah","Apocalypse of Elijah","Kebra Nagast","Cave of Treasures","Book of the Bee",
         "Apocalypse of Pseudo-Methodius (Latin)","1 Meqabyan","2 Meqabyan","3 Meqabyan","Epistle of the Apostles","Epistle to the Laodiceans","Correspondence of Paul and Seneca","Agrapha",
         "The Protevangelium of James","The Gospel of Pseudo-Matthew","Gospel of Thomas: First Greek Form",
         "The Arabic Gospel of the Infancy of the Saviour","Acts of Pilate: First Greek Form",

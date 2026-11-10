@@ -64,9 +64,9 @@ BOOKS_TREE = [
             "Slavonic Life of Adam and Eve", "Book of Jasher", "Words of Gad the Seer",
             "Apocalypse of Pseudo-Methodius", "Apocalypse of Pseudo-Methodius (Latin)",
             "Joseph and Aseneth", "Apocalypse of Abraham", "Testament of Job", "Lives of the Prophets",
-            "Apocalypse of Zephaniah", "Apocalypse of Elijah",
+            "Apocalypse of Zephaniah", "Apocalypse of Elijah", "Cave of Treasures", "Book of the Bee",
         ]),
-        ("Ethiopian Orthodox Canon", ["1 Meqabyan", "2 Meqabyan", "3 Meqabyan"]),
+        ("Ethiopian Orthodox Canon", ["1 Meqabyan", "2 Meqabyan", "3 Meqabyan", "Kebra Nagast"]),
         ("New Testament Apocrypha (Ante-Nicene Fathers VIII)", [
             ("Infancy Gospels", [
                 "The Protevangelium of James", "The Gospel of Pseudo-Matthew",

@@ -821,6 +821,11 @@ ALIASES: dict[str, str] = {
     "vitae prophetarum": "Lives of the Prophets", "apocalypse of zephaniah": "Apocalypse of Zephaniah",
     "apocalypse of sophonias": "Apocalypse of Zephaniah", "apocalypse of elijah": "Apocalypse of Elijah",
     "apocalypse of elias": "Apocalypse of Elijah", "coptic apocalypse of elijah": "Apocalypse of Elijah",
+    "kebra nagast": "Kebra Nagast", "kebra negast": "Kebra Nagast", "kebra negest": "Kebra Nagast",
+    "glory of kings": "Kebra Nagast", "the glory of kings": "Kebra Nagast",
+    "cave of treasures": "Cave of Treasures", "the cave of treasures": "Cave of Treasures",
+    "book of the cave of treasures": "Cave of Treasures", "mearath gazze": "Cave of Treasures",
+    "book of the bee": "Book of the Bee", "the book of the bee": "Book of the Bee",
     "epistle of the apostles": "Epistle of the Apostles", "epistula apostolorum": "Epistle of the Apostles",
     "laodiceans": "Epistle to the Laodiceans", "epistle to the laodiceans": "Epistle to the Laodiceans",
     "paul and seneca": "Correspondence of Paul and Seneca", "letters of paul and seneca": "Correspondence of Paul and Seneca",
@@ -2404,7 +2409,8 @@ class ScriptureLookup:
             "brenton": ["brenton_extras.json"],
             "charles": ["book_of_enoch.json", "book_of_jubilees.json", "testaments_of_twelve_patriarchs.json", "assumption_of_moses.json", "ascension_of_isaiah.json", "sibylline_oracles.json", "letter_of_aristeas.json", "books_of_adam_and_eve.json", "zadokite_fragments.json", "secrets_of_enoch.json", "forgotten_books_of_eden.json", "3_enoch.json", "hekhalot_rabbati.json",
                         "pseudepigrapha_more.json",        # (2-3 Baruch, Pseudo-Philo: scripts/build_pseudepigrapha.py)
-                        "meqabyan.json"],                  # (the Ethiopian Maccabees: scripts/build_meqabyan.py)
+                        "meqabyan.json",                   # (the Ethiopian Maccabees: scripts/build_meqabyan.py)
+                        "budge.json"],                     # (Kebra Nagast, Cave of Treasures, Bee: scripts/build_budge.py)
             "nt_apocrypha": ["anf8_apocrypha.json", "anf9_apocrypha.json",
                              "james_apocrypha.json",      # (M. R. James, 1924: scripts/build_gnosis.py james)
                              "james_apocrypha_more.json",     # (scripts/build_pseudepigrapha.py)
