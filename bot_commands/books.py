@@ -102,6 +102,7 @@ BOOKS_TREE = [
             "Apocalypse of Thomas", "Ethiopic Apocalypse of Peter", "Letter to Theodore",
             "Epistle of the Apostles", "Epistle to the Laodiceans", "Correspondence of Paul and Seneca",
         ]),
+        ("Sayings of Jesus Outside the Gospels", ["Agrapha"]),
     ]),
     ("✡️ Rabbinic & Kabbalistic", [
         ("Mishnah", [

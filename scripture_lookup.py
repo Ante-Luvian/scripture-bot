@@ -992,6 +992,8 @@ ALIASES: dict[str, str] = {
     "jewish antiquities": "Jewish Antiquities",
     "antiquities": "Jewish Antiquities",
     "ant": "Jewish Antiquities",
+    "agrapha": "Agrapha", "agraphon": "Agrapha", "unwritten sayings": "Agrapha",
+    "unknown sayings of jesus": "Agrapha", "lost sayings of jesus": "Agrapha",
     "toledot yeshu": "Toledot Yeshu", "toledoth yeshu": "Toledot Yeshu", "toldoth jeshu": "Toledot Yeshu",
     "toledot": "Toledot Yeshu", "toldot yeshu": "Toledot Yeshu", "sepher toldoth jeshu": "Toledot Yeshu",
     "jewish life of christ": "Toledot Yeshu", "toledot yeshu strasbourg": "Toledot Yeshu: Strasbourg Manuscript",
@@ -2372,7 +2374,8 @@ class ScriptureLookup:
                         "meqabyan.json"],                  # (the Ethiopian Maccabees: scripts/build_meqabyan.py)
             "nt_apocrypha": ["anf8_apocrypha.json", "anf9_apocrypha.json",
                              "james_apocrypha.json",      # (M. R. James, 1924: scripts/build_gnosis.py james)
-                             "james_apocrypha_more.json"],    # (scripts/build_pseudepigrapha.py)
+                             "james_apocrypha_more.json",     # (scripts/build_pseudepigrapha.py)
+                             "agrapha.json"],                 # (scripts/build_agrapha.py, from the library's own texts)
             "apostolic_fathers": [
                 "1_clement.json",
                 "2_clement.json",
