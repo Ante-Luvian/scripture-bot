@@ -14,6 +14,11 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-11-11 · Greek and Roman plays: who's speaking
+- 🎭 **The Greek and Roman plays are easier to follow.** In Sophocles, Euripides, Aeschylus, Aristophanes, Plautus, Terence and Lucian's dialogues, each speaker's name now stands in **bold** above their lines, and stage directions (*Enter Hyllus.*, *Lies down*) are in *italics*, so you can tell at a glance who is talking and what is happening. Try `!verse Trachiniae 61-72`.
+- 🛠️ **Fixed: speeches with no speaker.** When a stage direction came between a character's name and their first words, the name got stuck to the end of the passage before, and the speech itself had no name. Aristophanes' *Clouds* opened with nobody saying "Ah me! Ah me!" Now the name and the stage direction lead the speech. Try `!verse Clouds 1`.
+- 🔢 **A few passage numbers have moved.** Some Plautus plays and Lucian dialogues have no line numbers of their own, so the bot numbers them a paragraph at a time. A speaker's name used to count as a passage by itself. It now goes with the speech it introduces, so passage numbers in those works have moved down.
+
 ## 2026-11-11 · Every command, on every server
 - ⚙️ **`!packs` is gone** (and `/setup packs`). It let admins switch off groups of commands for their server, like the Rosary, Jewish learning or divination. Now every server simply has every command, so nothing is ever missing. If your server had switched a group off, those commands work again, and they're back in the `/` menu.
 - 🙏 **Nothing is held back any more.** A server that had chosen only some churches' commands didn't get the others' prayers (`!prayer hail mary` said it didn't know one), Latin chant in the hymn of the day, or every church's calendar in `!today`. Every server now gets all of them. Try `!prayer list`.

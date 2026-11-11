@@ -97,12 +97,12 @@
  "Iphigenia at Aulis": {
   "file": "canonical-greekLit/data/tlg0006/tlg018/tlg0006.tlg018.perseus-grc2.xml",
   "lang": "grc",
-  "match": 0.994
+  "match": 0.995
  },
  "Rhesus": {
   "file": "canonical-greekLit/data/tlg0006/tlg019/tlg0006.tlg019.perseus-grc2.xml",
   "lang": "grc",
-  "match": 0.993
+  "match": 0.994
  },
  "Theseus": {
   "file": "canonical-greekLit/data/tlg0007/tlg001/tlg0007.tlg001.perseus-grc2.xml",
@@ -1467,7 +1467,7 @@
  "The Double Indictment": {
   "file": "canonical-greekLit/data/tlg0062/tlg026/tlg0062.tlg026.perseus-grc2.xml",
   "lang": "grc",
-  "match": 0.895
+  "match": 0.919
  },
  "On Sacrifices": {
   "file": "canonical-greekLit/data/tlg0062/tlg027/tlg0062.tlg027.perseus-grc2.xml",
@@ -2057,7 +2057,7 @@
  "Amphitryon, or Jupiter in Disguise": {
   "file": "canonical-latinLit/data/phi0119/phi001/phi0119.phi001.perseus-lat2.xml",
   "lang": "lat",
-  "match": 0.996
+  "match": 0.994
  },
  "Asinaria, or The Ass-Dealer": {
   "file": "canonical-latinLit/data/phi0119/phi002/phi0119.phi002.perseus-lat2.xml",
@@ -2072,7 +2072,7 @@
  "Bacchides, or The Twin Sisters": {
   "file": "canonical-latinLit/data/phi0119/phi004/phi0119.phi004.perseus-lat2.xml",
   "lang": "lat",
-  "match": 0.883
+  "match": 0.886
  },
  "Captivi: The Captives": {
   "file": "canonical-latinLit/data/phi0119/phi005/phi0119.phi005.perseus-lat2.xml",
@@ -2122,7 +2122,7 @@
  "Poenulus, or The Young Carthaginian": {
   "file": "canonical-latinLit/data/phi0119/phi015/phi0119.phi015.perseus-lat2.xml",
   "lang": "lat",
-  "match": 0.952
+  "match": 0.95
  },
  "Pseudolus, or The Cheat": {
   "file": "canonical-latinLit/data/phi0119/phi016/phi0119.phi016.perseus-lat2.xml",
@@ -2137,7 +2137,7 @@
  "Stichus, or The Parasite Rebuffed": {
   "file": "canonical-latinLit/data/phi0119/phi018/phi0119.phi018.perseus-lat2.xml",
   "lang": "lat",
-  "match": 0.983
+  "match": 0.98
  },
  "Trinummus: The Three Pieces of Money": {
   "file": "canonical-latinLit/data/phi0119/phi019/phi0119.phi019.perseus-lat2.xml",

@@ -258,8 +258,9 @@ The list below is kept as a record only.
   (not found on Gutenberg; search elsewhere).
 - Luminarium has ~40 short Middle English lyrics (luminarium.org/medlit/mltexts.htm) not yet added
   (some duplicate Sisam's: Alysoun, the Maid of the Moor).
-- An agent found that the Perseus plays (data/classical/perseus) run speaker names into the text; not
-  fixed (a separate task).
+- The Perseus plays and dialogues (perseus_tei.split_leaf): a speaker's name opens their speech, in bold, and stage
+  directions are in italics (2026-11-08, 2026-11-11). A name whose words are lost (the Cyclops's `<gap>`s) is
+  left out. Rebuilding: `build_perseus.py` then `clean_corpora.py` (it turns the Beta Code Greek back into Greek).
 
 **Deliberately left out:** prose (Chaucer's Boece, the Testament of Love, Jack Upland, Mandeville);
 Gower's Latin verses and sidenotes; Skelton's Latin poems and the poems only attributed to him; Sisam's

@@ -79,7 +79,17 @@ def events(el):
             yield ("speaker", name)
         return
     elif tag == "stage":
-        yield ("break",)                                # (a stage direction is its own line)
+        # (a stage direction is its own line, in italics; split_leaf keeps one that comes between a speaker's name
+        # and the speech with the speech: "Strepsiades. (sitting up in his bed). [line 1] Ah me!")
+        yield ("stage", True)
+        if el.text:
+            yield ("text", el.text.replace("\n", " "))
+        for child in el:
+            yield from events(child)
+            if child.tail:
+                yield ("text", child.tail.replace("\n", " "))
+        yield ("stage", False)
+        return
     # (the file's own line breaks are just spacing; real breaks come from the structure)
     if el.text and tag not in ("head",):
         yield ("text", el.text.replace("\n", " "))
@@ -99,6 +109,15 @@ def tidy(s: str) -> str:
     return re.sub(r" ([,.;:!?])", r"\1", out).strip()
 
 
+def speaker_line(name: str) -> str:
+    """A speaker's name on a line of its own, in bold: "Strepsiades." -> "**Strepsiades**"."""
+    name = name.strip().rstrip(".:,").strip().replace("*", "")
+    if name.isupper():                                  # (Lucian's "LYCINUS")
+        name = re.sub(r"\b(Of|The|And|To)\b", lambda w: w.group(1).lower(), name.title())
+        name = name[0].upper() + name[1:]
+    return f"\n**{name}**\n" if name else ""
+
+
 def split_leaf(el, unit: str) -> list:
     """[(marker n or None, text)] for one cited division, cut at its markers."""
     # (a marker without a number -- Lucan's translator marks every line "tr" -- is no place to cut)
@@ -111,22 +130,39 @@ def split_leaf(el, unit: str) -> list:
                   if u in units]
     cut = max(candidates, key=units.count) if candidates else None
     pieces, key, buf, speaker = [], None, [], None
+    stage, held = None, []              # (the stage direction being read; those held with a speaker's name)
     for e in evs:
         if e[0] == "mark" and e[1] == cut:
             if "".join(buf).strip() or key is not None:
                 pieces.append((key, "".join(buf)))
             key, buf = e[2], []
         elif e[0] == "speaker":
+            buf.extend(held)        # (a name with no words -- the Cyclops's lost lines, "<gap reason="lost"/>" -- goes)
+            held = []
             speaker = e[1]                              # (held until the speech's first words, past any marker)
+        elif e[0] == "stage":
+            if e[1]:
+                stage = []
+                continue
+            words = tidy(" ".join("".join(stage).split()))
+            stage = None
+            if words:
+                line = f"\n*{words}*\n" if "*" not in words else f"\n{words}\n"
+                (held if speaker else buf).append(line)
+        elif stage is not None:
+            if e[0] == "text":
+                stage.append(e[1])
+            elif e[0] == "break":
+                stage.append(" ")
         elif e[0] == "text":
             if speaker and e[1].strip():
-                buf.append(f"\n{speaker}\n")
-                speaker = None
+                buf.append(speaker_line(speaker))
+                buf.extend(held)
+                speaker, held = None, []
             buf.append(e[1])
         elif e[0] == "break":
             buf.append("\n")
-    if speaker:
-        buf.append(f"\n{speaker}\n")
+    buf.extend(held)                                    # (and so does one whose words were lost at the end)
     pieces.append((key, "".join(buf)))
     pieces = [(k, tidy(t)) for k, t in pieces]
     pieces = [(k, t) for k, t in pieces if t]
@@ -166,7 +202,14 @@ def passages(path: Path) -> list:
         pieces = split_leaf(el, unit)
         if len(pieces) == 1 and pieces[0][0] is None and len(pieces[0][1]) > 3000:
             # a long division with no numbered parts (Claudian's poems): a verse per paragraph
-            paras = [p for p in pieces[0][1].split("\n") if p.strip()]
+            paras = []
+            for p in (p for p in pieces[0][1].split("\n") if p.strip()):
+                # (a speaker's name, and a stage direction after it, lead their speech: "**Silenus**",
+                # "*(mounted on his Ass.)*", "’Tis a wonder..." is one passage)
+                if paras and re.fullmatch(r"\*\*[^*]+\*\*(\n\*[^*\n]+\*)*", paras[-1]):
+                    paras[-1] += "\n" + p
+                else:
+                    paras.append(p)
             pieces = [(str(i), p) for i, p in enumerate(paras, 1)]
         for n, text in pieces:
             out.append((levels + ([(unit, n)] if n is not None else []), text))

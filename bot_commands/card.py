@@ -289,7 +289,8 @@ def _render_verse_card(reference: str, text: str, source: str, question: str = "
     # Strip Discord markdown verse-number markers (e.g. "**[1]** ") and any
     # stray bold asterisks — meaningful in an embed, just noise in a plain image.
     quote_text = re.sub(r"\*\*\[\d+\]\*\*\s*", "", text.strip())
-    quote_text = quote_text.replace("**", "").strip()
+    quote_text = quote_text.replace("**", "")
+    quote_text = re.sub(r"(?m)^\*([^*\n]+)\*$", r"\1", quote_text).strip()   # (a play's stage directions, in italics)
     if len(quote_text) > MAX_CHARS:
         quote_text = quote_text[:MAX_CHARS - 1] + "…"
     is_rtl = _is_rtl_script(quote_text)
@@ -573,6 +574,7 @@ def _render_compare_card(reference: str, entries: list[tuple[str, str]]):
     y = TOP
     for i, (label, text) in enumerate(entries):
         clean = re.sub(r"\*\*\[\d+\]\*\*\s*", "", text.strip()).replace("**", "")
+        clean = re.sub(r"(?m)^\*([^*\n]+)\*$", r"\1", clean)
         if len(clean) > 260:
             clean = clean[:257] + "…"
 

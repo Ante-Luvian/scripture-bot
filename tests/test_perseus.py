@@ -33,13 +33,28 @@ def test_a_speakers_name_opens_their_speech():
     """Not the end of the speech before (perseus_tei.split_leaf): "…to my misfortune.\nNurse" was line 45 of the
     Trachiniae, and line 49 began mid-air; the Cyclops's scene heading ran into "Silenus" (2026-11-08)."""
     trach = json.loads((PERSEUS / "tlg0011.json").read_text(encoding="utf-8"))["books"]["Trachiniae"]["1"]
-    assert not trach["45"].endswith("Nurse") and trach["49"].startswith("Nurse\nDeianeira, my mistress")
+    assert not trach["45"].endswith("**Nurse**") and trach["49"].startswith("**Nurse**\nDeianeira, my mistress")
     cyclops = json.loads((PERSEUS / "tlg0006.json").read_text(encoding="utf-8"))["books"]["The Cyclops"]["1"]
-    assert cyclops["0"].endswith("cave of the Cyclops.") and cyclops["1"].startswith("Silenus\nO Bromius")
+    assert cyclops["0"].endswith("cave of the Cyclops.*") and cyclops["1"].startswith("**Silenus**\nO Bromius")
     names = {"Chorus", "Nurse", "Hyllus", "Deianeira", "Silenus", "Cyclops", "Odysseus"}
     for passages in (trach, cyclops):
-        assert not [k for k, t in passages.items() if t.rsplit("\n", 1)[-1] in names], "a name left at a speech's end"
+        assert not [k for k, t in passages.items() if t.rsplit("\n", 1)[-1].strip("*") in names], \
+            "a name left at a speech's end"
 
+
+def test_speakers_in_bold_stage_directions_in_italics():
+    """A stage direction between a speaker's name and the speech stays with the speech: the Clouds's
+    "Strepsiades. (sitting up in his bed)." came before line 1's marker, so it ended the scene heading (verse 0) and
+    "Ah me!" had no speaker (2026-11-11). Names in bold, stage directions in italics, Lucian's capitals made names."""
+    clouds = json.loads((PERSEUS / "tlg0019.json").read_text(encoding="utf-8"))["books"]["Clouds"]["1"]
+    assert clouds["0"].startswith("*Scene:") and "Strepsiades**" not in clouds["0"]
+    assert clouds["1"].startswith("**Strepsiades**\n*(sitting up in his bed).*\nAh me!")
+    assert clouds["10"].endswith("\n*Lies down, and then almost immediately starts up again.*")
+    trach = json.loads((PERSEUS / "tlg0011.json").read_text(encoding="utf-8"))["books"]["Trachiniae"]["1"]
+    assert trach["60"].endswith("\n*Enter Hyllus.*") and trach["61"].startswith("**Deianeira**\n")
+    lucian = json.loads((PERSEUS / "tlg0062.json").read_text(encoding="utf-8"))["books"]
+    assert any(t.startswith("**Philo**\n") for b in lucian.values() for c in b.values() for t in c.values())
+    assert not any("**PHILO**" in t for b in lucian.values() for c in b.values() for t in c.values())
 
 def test_names(lookup):
     index = json.loads((PERSEUS / "index.json").read_text(encoding="utf-8"))
