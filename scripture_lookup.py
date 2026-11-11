@@ -1033,6 +1033,10 @@ ALIASES: dict[str, str] = {
     "toledot": "Toledot Yeshu", "toldot yeshu": "Toledot Yeshu", "sepher toldoth jeshu": "Toledot Yeshu",
     "jewish life of christ": "Toledot Yeshu", "toledot yeshu strasbourg": "Toledot Yeshu: Strasbourg Manuscript",
     "strasbourg toledot": "Toledot Yeshu: Strasbourg Manuscript",
+    "sirat rasul allah": "Sirat Rasul Allah", "sira": "Sirat Rasul Allah", "sirah": "Sirat Rasul Allah",
+    "seerah": "Sirat Rasul Allah", "ibn ishaq": "Sirat Rasul Allah", "ibn hisham": "Sirat Rasul Allah",
+    "sira of ibn ishaq": "Sirat Rasul Allah", "life of muhammad": "Sirat Rasul Allah",
+    "life of the prophet": "Sirat Rasul Allah", "sirat rasulullah": "Sirat Rasul Allah",
     "stories of the prophets": "Stories of the Prophets", "qisas al-anbiya": "Stories of the Prophets",
     "qisas al anbiya": "Stories of the Prophets", "qasas al-anbiya": "Stories of the Prophets",
     "ibn kathir stories of the prophets": "Stories of the Prophets",
@@ -2444,7 +2448,8 @@ class ScriptureLookup:
             "quran": ["quran_pickthall.json",
                       "nahj_al_balagha.json", "sahifa_sajjadiyya.json",      # (Shi'ite: scripts/build_shia.py)
                       "islamic_more.json",                                   # (scripts/build_islamic.py)
-                      "stories_of_the_prophets.json"],                       # (scripts/build_stories_prophets.py)
+                      "stories_of_the_prophets.json",                        # (scripts/build_stories_prophets.py)
+                      "sira_rehatsek.json"],                                 # (Ibn Ishaq: scripts/build_sira.py)
             "classical": [
                 "golden_verses.json",
                 "orphic_hymns.json",

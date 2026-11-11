@@ -90,6 +90,30 @@ def test_stories(lookup, ref, words):
     assert words in result["text"], (ref, result["text"][:200])
 
 
+@pytest.mark.parametrize("ref, words", [
+    ("Sirat Rasul Allah 1:1", "*His Ancestry and Early Life*\nIt is recorded that when the mother of the apostle"),
+    ("Sira 1:3", "on the thirteenth day of the month of Rabi in the year of the Elephant [c. 570]."),   # (slips)
+    ("Ibn Ishaq 3:1", "*The Revelation*\nAs the time approached"),               # (not its heading in capitals)
+    ("Sira 13:1", "*Badr*\nWhen the apostle of Allah arrived near Badr"),
+    ("Life of Muhammad 26:29", "Then Allah roused them again under Abu Bakr."),
+])
+def test_sira(lookup, ref, words):
+    result = lookup.get_verse(ref)
+    assert result.get("found"), ref
+    assert words in result["text"], (ref, result["text"][:200])
+    assert "Rehatsek" in result["source"]
+
+
+def test_sira_clean(lookup):
+    book = lookup._data["quran"]["Sirat Rasul Allah"]
+    assert list(book) == [str(n) for n in range(1, 27)]
+    text = " ".join(t for vs in book.values() for t in vs.values())
+    # Edwardes's introduction and footnotes are not Ibn Ishaq's
+    assert "accretion of myth" not in text and "The year of an invasion by the Abyssinians" not in text
+    assert not re.search(r"\b[A-Z]{4,} [A-Z]{2,}|­|  |<|>|religlion|punnish", text)
+    assert text.count("*") % 2 == 0
+
+
 def test_stories_clean(lookup):
     book = lookup._data["quran"]["Stories of the Prophets"]
     assert list(book) == [str(n) for n in range(1, 30)]

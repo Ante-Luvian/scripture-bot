@@ -14,6 +14,14 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-11-10 · Tidier shelves in !books
+- 📚 **Shelves are now grouped by what the books are, not by who translated them.** The 🧿 Gnostic shelf used to be sorted by translator and edition ("The Nag Hammadi Library (trans. Samuel Zinner)", "Manichaean (trans. C.R.C. Allberry, 1938)"…). Now it's sorted by school: **Thomas**, **Sethian**, **Valentinian** (with the Valentinian teachers the Church Fathers quoted), **Hermetic**, **Other Nag Hammadi Writings**, **Other Gnostic Writings**, **Marcionite**, **Manichaean**, **Mandaean** and **Cathar**. Where scholars disagree about a text's school, it's under "Other".
+- The **New Testament Apocrypha** were split into two shelves by translation; they're now one, by kind: Infancy Gospels, Pilate and the Descent into Hell, Acts of the Apostles, Epistles, and Revelations and the Passing of Mary. The translator and date are still shown under every passage you read.
+
+## 2026-11-10 · The earliest life of the Prophet Muhammad
+- 🕌 **Ibn Ishaq's Life of the Prophet** (*Sirat Rasul Allah*), the oldest surviving biography of Muhammad, written in Medina and Baghdad in the 700s and kept in the edition of Ibn Hisham. This is Edward Rehatsek's English, the first ever made (finished in 1891), in Michael Edwardes's shortened version, in 26 chapters from Muhammad's birth to his death: the marriage to Khadija, the Night Journey on the winged beast Buraq (`!verse Sira 5:1`), the Hijra to Medina, the battle of Badr (`!verse Sira 13:1`), the conquest of Mecca and his last illness. `!verse Ibn Ishaq 1` works too, and it's in `!books` under ☪️ Islamic → Other Islamic Writings.
+- The online copy it comes from has two small gaps, where a chapter breaks off in mid-sentence; they're marked […].
+
 ## 2026-11-10 · More hadith, the Stories of the Prophets, and commentary on every verse of the Quran
 - 📜 **Five more hadith collections.** Hadith are the reports of what the Prophet Muhammad said and did, the second source of Islamic teaching after the Quran. Alongside Bukhari, Muslim and the other ten already here, you can now read:
   - **Riyad as-Salihin** ("Gardens of the Righteous"), al-Nawawi's selection of 1,896 hadith on living well, probably the hadith book Muslims read most: `!verse Riyad as-Salihin 1` is "deeds are judged by intentions";

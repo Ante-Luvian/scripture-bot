@@ -40,7 +40,7 @@ BOOKS_TREE = [
         ]),
     ]),
     ("👼 Apocrypha / Pseudepigrapha", [
-        ("Apocrypha (KJV)", [
+        ("Old Testament Apocrypha", [
             "1 Esdras","2 Esdras","Tobit","Judith","Additions to Esther",
             "Wisdom of Solomon","Sirach","Baruch","Epistle of Jeremiah",
             "Song of the Three Children","Susanna","Bel and the Dragon",
@@ -67,7 +67,8 @@ BOOKS_TREE = [
             "Apocalypse of Zephaniah", "Apocalypse of Elijah", "Cave of Treasures", "Book of the Bee",
         ]),
         ("Ethiopian Orthodox Canon", ["1 Meqabyan", "2 Meqabyan", "3 Meqabyan", "Kebra Nagast"]),
-        ("New Testament Apocrypha (Ante-Nicene Fathers VIII)", [
+        # (grouped by kind, not by translation: the translator and date are on each passage's credit line)
+        ("New Testament Apocrypha", [
             ("Infancy Gospels", [
                 "The Protevangelium of James", "The Gospel of Pseudo-Matthew",
                 "The Gospel of the Nativity of Mary", "The History of Joseph the Carpenter",
@@ -93,23 +94,24 @@ BOOKS_TREE = [
                 "Martyrdom of the Holy and Glorious Apostle Bartholomew",
                 "Acts of the Holy Apostle Thaddaeus",
                 "Acts of the Holy Apostle and Evangelist John the Theologian",
+                "Acts of John", "Virtues of John", "Acts of Andrew", "Acts of Paul", "Acts of Peter",
+                "Acts of Peter: Peter's Daughter", "Acts of Thomas",
+            ]),
+            ("Epistles", [
+                "Epistle of the Apostles", "Third Corinthians", "Epistle to the Laodiceans",
+                "Correspondence of Paul and Seneca",
             ]),
             ("Revelations & the Passing of Mary", [
                 "Revelation of Moses", "Revelation of Esdras", "Revelation of Paul", "Revelation of John",
+                "Ethiopic Apocalypse of Peter", "Apocalypse of Thomas", "Questions of Bartholomew",
                 "The Book of John Concerning the Falling Asleep of Mary",
                 "The Passing of Mary: First Latin Form", "The Passing of Mary: Second Latin Form",
             ]),
         ]),
-        ("New Testament Apocrypha (trans. M. R. James, 1924)", [
-            "Acts of John", "Virtues of John", "Acts of Andrew", "Acts of Paul", "Third Corinthians",
-            "Acts of Peter", "Acts of Peter: Peter's Daughter", "Acts of Thomas", "Questions of Bartholomew",
-            "Apocalypse of Thomas", "Ethiopic Apocalypse of Peter", "Letter to Theodore",
-            "Epistle of the Apostles", "Epistle to the Laodiceans", "Correspondence of Paul and Seneca",
-        ]),
         ("Lost Gospels in Fragments", [
             "Gospel according to the Hebrews", "Gospel of the Nazoreans", "Gospel of the Ebionites",
             "Gospel according to the Egyptians", "Egerton Gospel", "Oxyrhynchus Gospel 840", "Oxyrhynchus Gospel 1224",
-            "Fayoum Gospel Fragment", "Preaching of Peter",
+            "Fayoum Gospel Fragment", "Preaching of Peter", "Letter to Theodore",
         ]),
         ("Sayings of Jesus Outside the Gospels", ["Agrapha"]),
     ]),
@@ -559,7 +561,7 @@ BOOKS_TREE = [
         ]),
         ("Al-Ghazali", ["Alchemy of Happiness", "Niche for Lights"]),
         ("Hujwiri", ["Kashf al-Mahjub"]),
-        ("Other Islamic Writings", ["Stories of the Prophets", "Gospel of Barnabas", "Christ in Islam"]),
+        ("Other Islamic Writings", ["Sirat Rasul Allah", "Stories of the Prophets", "Gospel of Barnabas", "Christ in Islam"]),
         ("Hadith", [
             ("The Six Books (Kutub al-Sittah)", [
                 "Sahih al-Bukhari",
@@ -951,60 +953,53 @@ BOOKS_TREE = [
             "Fables of Gay and Cowper",
         ]),
     ]),
+    # By school (the owner, 2026-11-10: not by translator or edition -- those are on each passage's credit line).
+    # The Nag Hammadi tractates follow the usual scholarly grouping (as in Meyer's Nag Hammadi Scriptures); a text
+    # whose school is disputed goes under Other rather than being forced into one.
     ("🧿 Gnostic", [
-        ("Gospel of Thomas (trans. Lambdin)", [
-            "Gospel of Thomas",
+        ("Thomas", ["Gospel of Thomas", "The Book of Thomas the Contender"]),
+        ("Sethian", [
+            "The Secret Book of John", "The Substance of the Archons", "On the Origin of the World",
+            "The Sacred Book of the Great Unseen Spirit", "The Apocalypse of Adam",
+            "Trimorphic Protennoia (Three Forms of Primal Thought)", "The Thought of Norea", "Melchizedek",
+            "The Three Steles of Seth", "Zostrianos", "Allogenes (The Stranger)", "Marsanes",
+            "Untitled Text of the Bruce Codex",
         ]),
-        ("Mandaean", [
-            "Ginza Rba",
-            "Book of John",
-            "Mandaean Prayers", "Haran Gawaita",
+        ("Valentinian", [
+            "The Gospel of Truth", "The Gospel of Philip", "The Tripartite Tractate", "Treatise on the Resurrection",
+            "The Interpretation of Knowledge", "A Valentinian Exposition and Liturgical Readings",
+            "The Prayer of Paul, the Apostle", "Fragments of Valentinus", "Ptolemy's Letter to Flora",
+            "Ptolemy's Commentary on John", "Fragments of Heracleon", "Excerpts from Theodotus",
         ]),
-        ("The Nag Hammadi Library (trans. Samuel Zinner)", [
-            "The Prayer of Paul, the Apostle", "The Secret Book of James",
-            "Treatise on the Resurrection", "The Tripartite Tractate",
-            "The Substance of the Archons", "On the Origin of the World",
-            "The Exegesis on the Soul", "The Book of Thomas the Contender",
-            "The Sacred Book of the Great Unseen Spirit", "Eugnostos the Blessed",
-            "The Sophia of Jesus Christ", "The Dialogue of the Savior",
-            "The Apocalypse of Paul", "The Second Apocalypse of James",
-            "The Apocalypse of Adam", "The Acts of Peter and the Twelve Apostles",
-            "The Thunder, Perfect Mind", "The Authentic Logos",
-            "The Idea of Our Great Power", "The Discourse on the Eighth and Ninth",
-            "The Prayer of Thanksgiving", "Excerpt from the Perfect Discourse",
-            "The Paraphrase of Shem", "The Second Discourse of the Great Seth",
-            "The Apocalypse of Peter", "The Teachings of Silvanus",
-            "The Three Steles of Seth", "Zostrianos", "The Letter of Peter to Philip",
-            "Melchizedek", "The Thought of Norea", "The Testimony of Truth",
-            "Marsanes", "The Interpretation of Knowledge",
-            "A Valentinian Exposition and Liturgical Readings",
-            "Allogenes (The Stranger)", "Hypsiphrone", "The Sentences of Sextus",
-            "Trimorphic Protennoia (Three Forms of Primal Thought)",
-            "Corpus Hermeticum XIII, On Rebirth", "The Act of Peter",
+        ("Other Gnostic Writings", [
+            "Pistis Sophia", "First Book of Ieou", "Gospel of Mary", "Fragments of Basilides",
+            "Epiphanes, On Righteousness", "The Naassene Psalm",
         ]),
-        ("More of Nag Hammadi (Coptic Gnostic Library Project)", [
-            "The Secret Book of John", "The Gospel of Truth", "The Gospel of Philip", "The First Apocalypse of James",
+        ("Hermetic", [
+            "The Discourse on the Eighth and Ninth", "The Prayer of Thanksgiving",
+            "Excerpt from the Perfect Discourse", "Corpus Hermeticum XIII, On Rebirth",
         ]),
-        ("Pistis Sophia (trans. G. R. S. Mead, 1921)", ["Pistis Sophia"]),
-        ("Berlin and Bruce Codices", ["Gospel of Mary", "Untitled Text of the Bruce Codex", "First Book of Ieou"]),
-        ("The Gnostic Teachers, in the Church Fathers", [
-            "Ptolemy's Letter to Flora", "Fragments of Basilides", "Epiphanes, On Righteousness", "The Naassene Psalm",
-            "Excerpts from Theodotus", "Fragments of Valentinus", "Ptolemy's Commentary on John", "Fragments of Heracleon",
+        ("Other Nag Hammadi Writings", [
+            "The Secret Book of James", "The First Apocalypse of James", "The Second Apocalypse of James",
+            "Eugnostos the Blessed", "The Sophia of Jesus Christ", "The Dialogue of the Savior",
+            "The Apocalypse of Paul", "The Apocalypse of Peter", "The Letter of Peter to Philip",
+            "The Second Discourse of the Great Seth", "The Paraphrase of Shem", "The Testimony of Truth",
+            "The Exegesis on the Soul", "The Thunder, Perfect Mind", "The Authentic Logos",
+            "The Idea of Our Great Power", "Hypsiphrone", "The Acts of Peter and the Twelve Apostles",
+            "The Act of Peter", "The Teachings of Silvanus", "The Sentences of Sextus",
         ]),
-        ("Marcion (Reconstructed)", ["Gospel of Marcion"]),
-        ("Cathar (12th-13th century)", ["The Secret Supper", "Book of the Two Principles", "Cathar Ritual"]),
-        ("Manichaean (trans. C.R.C. Allberry, 1938)", [
-            "Manichaean Psalms to Jesus",
-            "Manichaean Bema Psalms",
-            "Manichaean Psalms of Thomas",
-            "Manichaean Psalms (Separate)",
+        ("Marcionite", ["Gospel of Marcion"]),
+        ("Manichaean", [
+            "Manichaean Psalms to Jesus", "Manichaean Bema Psalms", "Manichaean Psalms of Thomas",
+            "Manichaean Psalms (Separate)", "Manichaean Hymns and Fragments",
         ]),
-        ("Manichaean Hymns from Central Asia, and Fragments", ["Manichaean Hymns and Fragments"]),
+        ("Mandaean", ["Ginza Rba", "Book of John", "Mandaean Prayers", "Haran Gawaita"]),
+        ("Cathar", ["The Secret Supper", "Book of the Two Principles", "Cathar Ritual"]),
     ]),
     ("🔮 Magic & Esotericism", [
         ("Agrippa", ["Three Books of Occult Philosophy", "Fourth Book of Occult Philosophy"]),
         ("Pico della Mirandola", ["Oration on the Dignity of Man"]),
-        ("Marsilio Ficino (machine translation)", ["Three Books on Life", "Ficino's Apology",
+        ("Marsilio Ficino", ["Three Books on Life", "Ficino's Apology",
                                                    "On the Tranquillity of Life", "Antidote against Epidemics",
                                                    "On the Regimen of Life According to the Seasons"]),
         # (the Lesser Key's five parts after the Key: they're Solomonic books too)
@@ -1372,7 +1367,7 @@ BOOKS_TREE = [
             ("The Physiologus (beasts and their Christian meanings)", ["Physiologus"]),
         ]),
         ("Christian Mystics", [
-            ("Anonymous (14th Century)", ["Cloud of Unknowing"]),
+            ("Anonymous", ["Cloud of Unknowing"]),
             ("Julian of Norwich", ["Revelations of Divine Love"]),
             ("Brother Lawrence", ["Practice of the Presence of God"]),
         ]),

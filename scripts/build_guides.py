@@ -145,7 +145,7 @@ NOTES = {
                    "`!verse John 7:53-8:11`, or a whole chapter `!verse Psalm 23`. Add a translation's short name "
                    "for another of the 40-odd translations, `!verse John 3:16 ESV`, or several to compare them, "
                    "`!verse John 3:16 KJV ESV NKJV`; `!translations` lists them all.",
-    "Apocrypha (KJV)": "The Epistle of Jeremiah is chapter 6 of Baruch in the King James Bible: "
+    "Old Testament Apocrypha":"The Epistle of Jeremiah is chapter 6 of Baruch in the King James Bible: "
                        "`!verse Epistle of Jeremiah 1:5` and `!verse Baruch 6:5` are the same verse.",
     "Mishnah": "Tractate, chapter and mishnah: `!verse Berakhot 1:1`. These come from Sefaria's online library.",
     "Tosefta": "Tractate, chapter and halakhah: `!verse Tosefta Berakhot 1:1` (from Sefaria).",
