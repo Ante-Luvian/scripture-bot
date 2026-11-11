@@ -27,7 +27,6 @@ from core import (
     log,
     lookup,
     record_special_stat,
-    tradition_enabled,
 )
 from core import ROOT
 
@@ -932,9 +931,6 @@ def _plain(text: str) -> str:
 @bot.command(name="shakespeare", aliases=["bard", "sortesshakespeare"])
 async def cmd_shakespeare(ctx, *, question: str = ""):
     """Shakespeare by lot: dice for the play, act, scene and line. Usage: !shakespeare [optional question]"""
-    if not tradition_enabled(ctx.guild.id if ctx.guild else None, "shakespeare"):
-        await ctx.send("Shakespeare is turned off on this server.")
-        return
     lot = shakespeare_lot()
     if lot is None:
         await ctx.send("⚠️ Shakespeare isn't loaded.")
@@ -991,9 +987,6 @@ def _sonnet_title(book: str, chap: str, line: str) -> str:
 async def cmd_sonnet(ctx, *, query: str = ""):
     """One of Shakespeare's sonnets, or stanzas of his other poems. Usage: !sonnet · !sonnet 18 · !sonnet venus
     (or lucrece, phoenix) · !sonnet [a question]"""
-    if not tradition_enabled(ctx.guild.id if ctx.guild else None, "shakespeare"):
-        await ctx.send("Shakespeare is turned off on this server.")
-        return
     if not _shakespeare().get(SONNETS):
         await ctx.send("⚠️ Shakespeare isn't loaded.")
         return
@@ -1389,10 +1382,6 @@ async def cmd_odin(ctx, *, query: str = ""):
 async def _odin_norse(ctx, query: str) -> None:
     """!odin norse: one of Odin's stanzas with its Old Norse beside it (the Edda's, Eiríksmál's, and all but one of
     his riddles). A question after it is ignored, as the Norse view has no place for one."""
-    guild = getattr(ctx, "guild", None)
-    if not tradition_enabled(guild.id if guild else None, "norse"):
-        await ctx.send("The Norse texts are turned off on this server.")
-        return
     norse = _edda_norse()
     pool = [(p, s) for p, s in _odin_stanzas() if s in norse.get(p, {})]
     if not pool:
@@ -1421,10 +1410,6 @@ async def _odin_norse(ctx, query: str) -> None:
 
 async def send_edda(ctx, query: str, question: "str | None" = None, chosen: "tuple | None" = None) -> None:
     """!edda's reply (and !odin's, with the stanza chosen and the question given apart)."""
-    guild = getattr(ctx, "guild", None)
-    if not tradition_enabled(guild.id if guild else None, "norse"):
-        await ctx.send("The Norse texts are turned off on this server.")
-        return
     if not _edda():
         await ctx.send("⚠️ The Poetic Edda isn't loaded.")
         return

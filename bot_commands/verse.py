@@ -33,11 +33,8 @@ from core import (
     _send_result,
     bot,
     passage_pages,
-    guild_corpora,
-    guild_traditions,
     log,
     lookup,
-    tradition_enabled,
 )
 
 # ── Prefix command  !verse ─────────────────────────────────────────────────────
@@ -183,7 +180,7 @@ class PassageButton(discord.ui.DynamicItem[discord.ui.Button], template=r"pnav:(
 
     async def callback(self, interaction: discord.Interaction):
         await interaction.response.defer()
-        result = hidden_in_guild(interaction, await asyncio.to_thread(lookup.get_verse, self.ref))
+        result = await asyncio.to_thread(lookup.get_verse, self.ref)
         buttons = _study_buttons(result) + art_buttons(result) + commentary_buttons(result) + passage_buttons(result)
         if result.get("found") and not result.get("pages") and len(passage_pages(result["text"])) == 1:
             view = discord.ui.View(timeout=None)
@@ -223,18 +220,7 @@ def _guild_id(ctx):
     return ctx.guild.id if getattr(ctx, "guild", None) else None
 
 
-def hidden_in_guild(ctx, result: dict) -> dict:
-    """`result`, or, when it's from a tradition this server has turned off, the reply for a
-    book I don't have: the server chose not to see those texts, so they stay out of sight."""
-    if not result.get("found") or tradition_enabled(_guild_id(ctx), result.get("tradition")):
-        return result
-    book = result.get("book") or re.sub(r"\s+[\d¶].*$", "", result.get("reference", ""))
-    return {"found": False, "error": f"Unknown book: **{discord.utils.escape_markdown(str(book))}**",
-            "suggestions": []}
-
-
 async def _send_with_study(ctx, result: dict):
-    result = hidden_in_guild(ctx, result)
     buttons = (_study_buttons(result) + art_buttons(result)    # 🖼️ Doré · 🎨 Blake, wherever the passage has one
                + zoroastrian.term_buttons(result)               # 🔤 the Avesta's untranslated words
                + commentary_buttons(result)                     # 📖 the Qur'an commentaries
@@ -248,7 +234,7 @@ async def verse_prefix(ctx, *, reference: str = ""):
 
     # No reference — fully random verse
     if not ref:
-        result = lookup.random_verse(traditions=guild_traditions(_guild_id(ctx)))
+        result = lookup.random_verse()
         log.info(f"RNG  random_verse          → {result.get('reference', '?')} (user: {ctx.author})")
         await _send_with_study(ctx, result)
         return
@@ -276,9 +262,8 @@ async def verse_prefix(ctx, *, reference: str = ""):
             await _send_with_study(ctx, r1)
             await _send_with_study(ctx, r2)
         else:
-            # Just "Bible" — random from OT + NT (+ the Apocrypha, where the server has it)
-            apocrypha = BIBLE_APOCRYPHA if "apocrypha" in guild_traditions(_guild_id(ctx)) else []
-            result = lookup.random_verse_from_books(BIBLE_OT + BIBLE_NT + apocrypha)
+            # Just "Bible" — random from OT + NT + the Apocrypha
+            result = lookup.random_verse_from_books(BIBLE_OT + BIBLE_NT + BIBLE_APOCRYPHA)
             await _send_with_study(ctx, result)
         return
 
@@ -389,9 +374,9 @@ async def search_prefix(ctx, *, query: str = ""):
     m = re.search(r"(?:^|\s)in:(\S+)", query, flags=re.IGNORECASE)
     if m:
         key = tradition(m.group(1))
-        if key not in guild_traditions(_guild_id(ctx)):
+        if key not in TRADITIONS:
             await ctx.send(f"I don't know the tradition **{discord.utils.escape_markdown(m.group(1))}**. Try one of: "
-                           + ", ".join(f"`in:{k}`" for k in TRADITIONS if k in guild_traditions(_guild_id(ctx))))
+                           + ", ".join(f"`in:{k}`" for k in TRADITIONS))
             return
         label, corpora = TRADITIONS[key]
         where = f" in {label}"
@@ -400,10 +385,7 @@ async def search_prefix(ctx, *, query: str = ""):
             await ctx.send("What should I search for? For example: `!search emptiness in:buddhist`")
             return
 
-    # Local corpus search — show overview first (only in the traditions this server has)
-    allowed = guild_corpora(_guild_id(ctx))
-    if allowed is not None:
-        corpora = allowed & frozenset(corpora) if corpora else allowed
+    # Local corpus search — show overview first
     async with ctx.typing():
         by_corpus = (await asyncio.to_thread(lookup.search_by_corpus, query, corpora))
 
@@ -461,8 +443,6 @@ async def cmd_theme(ctx, *, query: str = ""):
     import asyncio
     async with ctx.typing():
         passages = await asyncio.to_thread(lookup.theme_passages, query)
-    shown = {TRADITIONS[k][0] for k in guild_traditions(_guild_id(ctx))}
-    passages = [(label, hit) for label, hit in passages if label in shown]
     if not passages:
         await ctx.send(f"I couldn't find **{discord.utils.escape_markdown(query)}** in any tradition. "
                        f"A theme is a word or two, like `!theme mercy`.")
@@ -590,7 +570,7 @@ def _build_corpus_results_embed(query: str, corpus_label: str, hits: list,
 @bot.command(name="discover")
 async def cmd_discover(ctx):
     """Random passage from any loaded tradition — scripture, patristics, classical texts, and more."""
-    result = lookup.random_verse(traditions=guild_traditions(_guild_id(ctx)))
+    result = lookup.random_verse()
     log.info(f"RNG  discover               → {result.get('reference', '?')} (user: {ctx.author})")
     await _send_result(ctx, result)
-
+

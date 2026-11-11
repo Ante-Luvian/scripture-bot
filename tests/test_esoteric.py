@@ -12,15 +12,10 @@ def _text(lookup, book):
 def test_the_magic_books_come_with_the_gnostic_texts_not_opt_in(bot_module):
     """They were an opt-in tradition at first, and the owner's own server (which chose its traditions) never saw
     them in !books; the owner wants them with the Gnostic texts, wherever those are."""
-    import core
+    from scripture_lookup import TRADITIONS
     from bot_commands import books
-    assert "esoteric" in core.TRADITIONS["gnostic"][1]
-    core._update_guild_config(1, traditions=None)
-    core._update_guild_config(2, traditions=["christian", "gnostic"])
-    core._update_guild_config(3, traditions=["christian"])
-    for guild, sees in ((1, True), (2, True), (3, False)):
-        names = [name for name, _ in books.tree_for(guild)[1]]
-        assert ("🔮 Magic & Esotericism" in names) is sees, guild
+    assert "esoteric" in TRADITIONS["gnostic"][1]
+    assert "🔮 Magic & Esotericism" in [name for name, _ in books.BOOKS_TREE]       # (every server: 2026-11-11)
 
 
 @pytest.mark.parametrize("ref, words", [

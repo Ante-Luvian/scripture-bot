@@ -14,6 +14,10 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-11-11 · The whole library on every server
+- 📚 **Every server now has every book.** Until now, a server's admins could pick which religions' texts the bot would show, and the rest were hidden from `!verse`, `!search`, `!books` and the rest (as if the bot didn't have them). That choice is gone: the whole library is open everywhere. If your server had picked only some traditions, you'll now also find the others, for example `!books buddhist` or `!verse Gita 2:47`.
+- ⚙️ **Setting up a server still chooses its commands.** `!serversetup` (or `/setup traditions`) still asks what your server is for, and uses the answers to decide which extra commands to offer, like the Rosary, the Torah portion or the Islamic prayer times, so your `/` menu stays tidy. `!packs` (or `/setup packs`) still switches one group of commands on or off, for example `!packs divination off`. It no longer takes a tradition's name, since texts can't be switched off any more.
+
 ## 2026-11-11 · Saints and mystics: Anselm to Pascal
 Twenty-three classics of Catholic Christianity are now in the library, from the Middle Ages to the 1600s. Each is the full text in a standard English translation, read with `!verse` like any other book. Look for them in `!books` under ✝️ Christianity.
 - 🏰 **Medieval Christianity** has two new shelves and a fuller one:

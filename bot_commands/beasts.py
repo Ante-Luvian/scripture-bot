@@ -22,8 +22,7 @@ import unicodedata
 
 import discord
 
-from core import bot, log, lookup, tradition_enabled
-from scripture_lookup import CORPUS_TRADITION
+from core import bot, log, lookup
 
 PAGE = 1500                                          # characters a page, never splitting a paragraph
 # key -> (book, emoji, colour, footer source, the word for its parts)
@@ -183,11 +182,6 @@ async def send_beast(ctx, key: str, query: str = "") -> None:
     book, _, _, _, part = BOOKS[key]
     if not chapters(key):
         await ctx.send(f"⚠️ {book} isn't loaded.")
-        return
-    guild = getattr(ctx, "guild", None)
-    tradition = CORPUS_TRADITION.get(_where(key)[0])
-    if not tradition_enabled(guild.id if guild else None, tradition):
-        await ctx.send(f"{book} is among the texts this server has turned off.")
         return
     q = query.strip()[:80]
     if _fold(q) in ("list", "all", "contents", "chapters", "beasts", "index"):

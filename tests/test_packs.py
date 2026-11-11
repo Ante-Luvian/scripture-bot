@@ -1,4 +1,5 @@
-"""Packs: a server keeps only the commands and traditions it chose (core.PACKS, bot_commands/packs.py)."""
+"""Packs: a server keeps only the commands it chose (core.PACKS, bot_commands/packs.py). Every server has every
+tradition's texts: the per-server traditions filter was removed on 2026-11-11."""
 import asyncio
 import types
 
@@ -31,8 +32,7 @@ def ctx_in(guild_id, command=None):
 
 def protestant(packs):
     """A Protestant server that answered: Christianity, Protestant, no divination."""
-    packs.save_choices(GUILD, packs.packs_for({"bible", "christian"}, packs.CHURCHES["protestant"][1], False),
-                       {"bible", "christian"})
+    packs.save_choices(GUILD, packs.packs_for({"bible", "christian"}, packs.CHURCHES["protestant"][1], False))
 
 
 def test_every_pack_command_is_real_and_has_a_slash_version(bot_module):
@@ -50,13 +50,12 @@ def test_every_pack_command_is_real_and_has_a_slash_version(bot_module):
 def test_pack_names_never_clash_with_traditions():
     import core
     from scripture_lookup import TRADITIONS
-    assert not set(core.PACKS) & set(TRADITIONS)        # so !packs jewish can only mean the texts
+    assert not set(core.PACKS) & set(TRADITIONS)        # (!packs jewish is no pack: it gets the usage)
 
 
 def test_a_server_that_never_chose_has_everything(bot_module):
     import core
     assert core.guild_packs(GUILD) == frozenset(core.PACKS)
-    assert core.guild_corpora(GUILD) is None
     assert all(core.command_enabled(GUILD, name) for name in core.PACK_OF)
 
 
@@ -95,36 +94,21 @@ def test_a_turned_off_command_is_ignored_without_a_reply(bot_module, packs):
     assert asyncio.run(core._pack_check(types.SimpleNamespace(guild=None, command=rosary)))   # DMs: everything
 
 
-def test_a_turned_off_tradition_is_a_book_i_dont_have(bot_module, packs, lookup):
-    from bot_commands import verse
+def test_every_server_has_every_text(bot_module, packs):
+    """Whatever a server chose, every tradition's texts are there (the owner, 2026-11-11)."""
+    import core
     protestant(packs)
-    gita = lookup.get_verse("Gita 2:47")
-    assert gita["found"] and gita["tradition"] == "hindu"
-    hidden = verse.hidden_in_guild(ctx_in(GUILD), gita)
-    assert not hidden["found"] and hidden["error"].startswith("Unknown book")
-    john = lookup.get_verse("John 3:16")
-    assert john["tradition"] == "bible" and verse.hidden_in_guild(ctx_in(GUILD), john) is john
-    augustine = lookup.random_verse_from_book("Confessions")
-    assert verse.hidden_in_guild(ctx_in(GUILD), dict(augustine, tradition=lookup.tradition_of(augustine)))["found"]
+    assert not hasattr(core, "guild_traditions") and not hasattr(core, "tradition_enabled")
+    ctx = ctx_in(GUILD)
+    asyncio.run(bot_module.bot.get_command("search").callback(ctx, query="nirvana in:buddhist"))
+    assert "don't know the tradition" not in str(ctx.sent[-1].get("content"))
+    from bot_commands import books
+    assert "🕉️ Hindu" in [name for name, _ in books.BOOKS_TREE]
 
 
 def test_online_libraries_are_tagged_too(lookup):
     quran = lookup.get_verse("Quran 1:1")                 # our own Pickthall, offline
     assert quran["found"] and quran["tradition"] == "islamic"
-
-
-def test_random_and_search_stay_in_the_servers_traditions(bot_module, packs, lookup):
-    import core
-    protestant(packs)
-    allowed = core.guild_traditions(GUILD)
-    assert allowed == {"bible", "christian"}
-    for _ in range(40):
-        assert lookup.tradition_of(lookup.random_verse(traditions=allowed)) in allowed
-    corpora = core.guild_corpora(GUILD)
-    assert "kjv" in corpora and "reformation" in corpora and "dharmic" not in corpora
-    ctx = ctx_in(GUILD)
-    asyncio.run(bot_module.bot.get_command("search").callback(ctx, query="nirvana in:buddhist"))
-    assert "don't know the tradition" in ctx.sent[-1]["content"]
 
 
 def test_help_and_the_introduction_leave_out_what_a_server_turned_off(bot_module, packs):
@@ -135,7 +119,8 @@ def test_help_and_the_introduction_leave_out_what_a_server_turned_off(bot_module
     menu = "".join(str([(f.name, f.value) for f in m["embed"].fields]) + (m["embed"].footer.text or "")
                    for m in ctx.sent if m.get("embed"))                   # (every page: !help can run to two)
     assert "!vov" in menu and "!verse" in menu and "!hymn" in menu
-    for gone in ("!rosary", "!ccc", "!iching", "!tarot", "!parsha", "!salah", "!help gita", "!icon", "!story"):
+    assert "!help gita" in menu                                     # (a tradition's texts: never turned off)
+    for gone in ("!rosary", "!ccc", "!iching", "!tarot", "!parsha", "!salah", "!icon", "!story"):
         assert gone not in menu, gone
     ctx = ctx_in(GUILD)
     asyncio.run(bot_module.bot.get_command("help").callback(ctx, topic="rosary"))
@@ -143,7 +128,8 @@ def test_help_and_the_introduction_leave_out_what_a_server_turned_off(bot_module
 
     intro = "\n".join(body for _, body in changelog.intro_sections(GUILD))
     assert "!vov" in intro and "Daily Office" in intro and "Church Fathers" in intro
-    for gone in ("!rosary", "Hinduism", "Catholic teaching", "Rabbinic", "!troparion", "For centuries", "!tarot"):
+    assert "Hinduism" in intro and "Rabbinic" in intro                # (the library's texts: every server)
+    for gone in ("!rosary", "Catholic teaching", "!troparion", "For centuries", "!tarot"):
         assert gone not in intro, gone
     assert not any("Oracles" in title or "Orthodox" in title or "Jewish" in title
                    for title, _ in changelog.intro_sections(GUILD))
@@ -165,10 +151,11 @@ def test_packs_command_switches_one_thing(bot_module, packs, monkeypatch):
     protestant(packs)
     run = bot_module.bot.get_command("packs").callback
     asyncio.run(run(ctx_in(GUILD), "divination", "on"))
-    asyncio.run(run(ctx_in(GUILD), "hindu", "on"))
     asyncio.run(run(ctx_in(GUILD), "protestant", "off"))
     assert "divination" in core.guild_packs(GUILD) and "protestant" not in core.guild_packs(GUILD)
-    assert "hindu" in core.guild_traditions(GUILD)
+    ctx = ctx_in(GUILD)
+    asyncio.run(run(ctx, "hindu", "on"))                  # (a tradition: its texts are always here)
+    assert "Usage" in ctx.sent[-1]["content"]
     ctx = ctx_in(GUILD)
     asyncio.run(run(ctx, "nonsense", "on"))
     assert "Usage" in ctx.sent[-1]["content"]
@@ -222,7 +209,6 @@ def test_the_wizard_walks_through_the_questions(bot_module, packs, monkeypatch):
     assert final["view"] is None and "All set" in final["embed"].title
     assert core.guild_packs(GUILD) == {"church", "protestant", "saints", "catholic_devotion", "jewish_learning",
                                        "comparative"}
-    assert core.guild_traditions(GUILD) == {"bible", "christian", "jewish"}
     assert applied
 
 

@@ -1,9 +1,9 @@
 """
-What a server has: its packs of commands and the traditions whose texts it sees (core.PACKS,
-core.guild_packs, core.guild_traditions). When the bot joins a server it asks the admins what
-the server is for -- which traditions, which church, whether to include divination -- and
-switches off the rest; `!serversetup` (/setup traditions) asks again, and `!packs` switches one
-pack or tradition on or off.
+What a server has: its packs of commands (core.PACKS, core.guild_packs). When the bot joins a
+server it asks the admins what the server is for -- which traditions, which church, whether to
+include divination -- and switches off the commands that don't go with the answers;
+`!serversetup` (/setup traditions) asks again, and `!packs` switches one pack on or off. Every
+server has every text: the answers no longer hide any (2026-11-11; it was a legacy feature).
 
 A switched-off pack's slash commands also leave that server's / menu. Discord can't hide a
 global command in one server, so the pack commands are registered server by server instead
@@ -13,7 +13,6 @@ import discord
 from discord import app_commands
 from discord.ext import commands
 
-from scripture_lookup import TRADITIONS, tradition
 from core import (
     PACK_OF,
     PACKS,
@@ -22,13 +21,12 @@ from core import (
     bot,
     command_enabled,
     guild_packs,
-    guild_traditions,
     log,
 )
 
 # ── The choices ────────────────────────────────────────────────────────────────
 
-# Every tradition but the Bible (which every server has), as the setup menu offers them
+# The traditions the setup asks about (the Bible goes without saying): the answers choose the command packs
 TRADITION_CHOICES = {
     "christian": ("Christianity", "⛪", "The Church Fathers, medieval and Reformation writers"),
     "apocrypha": ("Apocrypha", "👼", "Enoch, Jubilees, the Septuagint, the NT apocrypha"),
@@ -88,9 +86,8 @@ def packs_for(traditions: set, church_packs: set, divination: bool) -> set:
     return packs
 
 
-def save_choices(guild_id: int, packs: set, traditions: set) -> None:
-    _update_guild_config(guild_id, packs=sorted(packs & set(PACKS)),
-                         traditions=sorted((set(traditions) | {"bible"}) & set(TRADITIONS)))
+def save_choices(guild_id: int, packs: set) -> None:
+    _update_guild_config(guild_id, packs=sorted(packs & set(PACKS)))
 
 
 # ── Slash commands, server by server ────────────────────────────────────────────
@@ -162,15 +159,12 @@ def _fields(embed: discord.Embed, name: str, items: list, sep: str) -> None:
 
 
 def summary_embed(guild_id: int, title: str = "⚙️ What this server has") -> discord.Embed:
-    packs, traditions = guild_packs(guild_id), guild_traditions(guild_id)
+    packs = guild_packs(guild_id)
     embed = discord.Embed(title=title, color=discord.Color.dark_gold())
     _fields(embed, "Commands", [f"{'✅' if key in packs else '▫️'} **{label}** (`{key}`) — {description}"
                                 for key, (label, description, _) in PACKS.items()], "\n")
-    _fields(embed, "Texts in !verse, !search, !theme and !discover",
-            ["✅ **Bible** (always)\n" + f"{'✅' if k in traditions else '▫️'} {name} (`{k}`)"
-             for k, (name, _, _) in list(TRADITION_CHOICES.items())[:1]]
-            + [f"{'✅' if k in traditions else '▫️'} {name} (`{k}`)"
-               for k, (name, _, _) in list(TRADITION_CHOICES.items())[1:]], " · ")
+    embed.add_field(name="Texts", value="The whole library, every tradition's texts, is here on every server.",
+                    inline=False)
     embed.set_footer(text="Admins: !packs <name> on|off switches one · !serversetup (or /setup traditions) "
                           "asks the questions again · the Bible, study tools and games are always here")
     return embed
@@ -188,7 +182,7 @@ class SetupWizard(discord.ui.View):
     def __init__(self, guild_id: int, author_id: int = None):
         super().__init__(timeout=900)
         self.guild_id, self.author_id = guild_id, author_id
-        self.traditions = set(guild_traditions(guild_id)) - {"bible"} if configured(guild_id) else set()
+        self.traditions: set = set()
         self.church_packs: set = set()
         self.message = None
         self.show_traditions()
@@ -217,8 +211,9 @@ class SetupWizard(discord.ui.View):
         self._button("Next ▶", discord.ButtonStyle.primary, self.after_traditions)
         self._button("Everything", discord.ButtonStyle.secondary, self.everything)
         self.question = ("**1. Which traditions is this server for?** I'm a library of sacred texts from all over "
-                         "the world. Pick the ones you want; the rest stay out of sight. The Bible is always here.\n"
-                         "*Everything* keeps the whole library, for comparative religion.")
+                         "the world, and all of it stays here whatever you pick: this chooses the commands I offer "
+                         "(the daily prayers, the Torah portion, prayer times...).\n"
+                         "*Everything* turns on every command, for comparative religion.")
 
     def show_church(self) -> None:
         self.clear_items()
@@ -263,7 +258,7 @@ class SetupWizard(discord.ui.View):
         await self._show(interaction)
 
     async def everything(self, interaction: discord.Interaction) -> None:
-        await self.finish(interaction, set(PACKS), set(TRADITIONS))
+        await self.finish(interaction, set(PACKS))
 
     def _church(self, key):
         async def callback(interaction: discord.Interaction):
@@ -285,12 +280,11 @@ class SetupWizard(discord.ui.View):
 
     def _divination(self, wanted: bool):
         async def callback(interaction: discord.Interaction):
-            await self.finish(interaction, packs_for(self.traditions | {"bible"}, self.church_packs, wanted),
-                              self.traditions | {"bible"})
+            await self.finish(interaction, packs_for(self.traditions | {"bible"}, self.church_packs, wanted))
         return callback
 
-    async def finish(self, interaction: discord.Interaction, packs: set, traditions: set) -> None:
-        save_choices(self.guild_id, packs, traditions)
+    async def finish(self, interaction: discord.Interaction, packs: set) -> None:
+        save_choices(self.guild_id, packs)
         self.stop()
         await interaction.response.edit_message(
             embed=summary_embed(self.guild_id, "✅ All set — here's what this server has"), view=None)
@@ -377,45 +371,38 @@ async def cmd_serversetup(ctx):
 
 
 def resolve(name: str):
-    """("pack", key) or ("texts", key) for what an admin typed, or None."""
+    """The pack an admin typed, or None."""
     name = name.strip().lower().replace(" ", "_")
-    if name in PACKS:
-        return "pack", name
-    if name in ("bible",):
-        return None
-    key = tradition(name.replace("_", " "))
-    return ("texts", key) if key and key != "bible" else None
+    return name if name in PACKS else None
 
 
 @bot.command(name="packs", aliases=["pack"])
 @commands.guild_only()
 @commands.has_permissions(administrator=True)
 async def cmd_packs(ctx, name: str = "", state: str = ""):
-    """(Admins) Switch one pack of commands, or one tradition's texts, on or off.
-    Usage: !packs  |  !packs divination off  |  !packs hindu on"""
+    """(Admins) Switch one pack of commands on or off.
+    Usage: !packs  |  !packs divination off  |  !packs saints on"""
     if not name:
         await ctx.send(embed=summary_embed(ctx.guild.id))
         return
     found = resolve(name)
     state = state.lower()
     if found is None or state not in ("on", "off"):
-        await ctx.send("Usage: `!packs <name> on` or `!packs <name> off`, where the name is a pack ("
-                       + ", ".join(f"`{k}`" for k in PACKS) + ") or a tradition (`hindu`, `buddhist`, `jewish`…). "
-                       "`!packs` alone shows them all.")
+        await ctx.send("Usage: `!packs <name> on` or `!packs <name> off`, where the name is a pack of commands ("
+                       + ", ".join(f"`{k}`" for k in PACKS) + "). `!packs` alone shows them all. (Every server "
+                       "has every tradition's texts; only commands can be switched off.)")
         return
-    kind, key = found
-    packs, traditions = set(guild_packs(ctx.guild.id)), set(guild_traditions(ctx.guild.id))
-    target = packs if kind == "pack" else traditions
-    (target.add if state == "on" else target.discard)(key)
-    save_choices(ctx.guild.id, packs, traditions)
-    label = PACKS[key][0] if kind == "pack" else TRADITION_CHOICES[key][0]
+    key = found
+    packs = set(guild_packs(ctx.guild.id))
+    (packs.add if state == "on" else packs.discard)(key)
+    save_choices(ctx.guild.id, packs)
+    label = PACKS[key][0]
     await ctx.send(f"{'✅' if state == 'on' else '▫️'} **{label}** is now {state} in this server.")
     await apply(ctx.guild)
 
 
 async def pack_name_autocomplete(interaction: discord.Interaction, current: str):
     current = current.lower()
-    names = [(f"{label} (commands)", key) for key, (label, _, _) in PACKS.items()]
-    names += [(f"{name} (texts)", key) for key, (name, _, _) in TRADITION_CHOICES.items()]
+    names = [(label, key) for key, (label, _, _) in PACKS.items()]
     return [app_commands.Choice(name=label[:100], value=key)
             for label, key in names if current in label.lower() or current in key][:25]

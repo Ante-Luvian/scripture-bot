@@ -51,7 +51,6 @@ def test_the_collections(fable):
     for code in fable.COLLECTIONS:
         for n in fable.numbers(code):
             assert all(len(p) <= 4096 for p in fable.pages(n, code)), (code, n)
-    assert fable.tradition_of("") == fable.tradition_of("ph") == "classical" and fable.tradition_of("lf") == "ballads"
 
 
 def test_old_buttons_still_mean_aesop(fable):

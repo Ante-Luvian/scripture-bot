@@ -18,7 +18,7 @@ import unicodedata
 import discord
 
 from bot_commands import illustrations
-from core import bot, log, lookup, tradition_enabled
+from core import bot, log, lookup
 
 BOOK = "Grimm's Household Tales"
 SOURCE = "trans. Margaret Hunt (1884)"
@@ -196,10 +196,6 @@ async def send_tale(ctx, query: str = "") -> None:
         return
     if not tales():
         await ctx.send("⚠️ The Grimms' tales aren't loaded.")
-        return
-    guild = getattr(ctx, "guild", None)
-    if not tradition_enabled(guild.id if guild else None, "ballads"):
-        await ctx.send("The folk tales and ballads are turned off on this server.")
         return
     if _fold(q) in ("list", "all", "titles", "index", "contents"):
         await ctx.send(**list_message(0))

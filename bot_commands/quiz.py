@@ -17,7 +17,7 @@ import discord
 from discord import app_commands
 from discord.ext import commands, tasks
 
-from core import ROOT, _atomic_write_json, _load_guild_config, _update_guild_config, bot, guild_traditions, log, lookup
+from core import ROOT, _atomic_write_json, _load_guild_config, _update_guild_config, bot, log, lookup
 from scripture_lookup import BIBLE_NT, BIBLE_OT, TRADITIONS, tradition
 
 QUIZ_SCORES_PATH = ROOT / "data" / "quiz_scores.json"
@@ -302,15 +302,13 @@ async def cmd_quiz(ctx, *, mode: str = ""):
         await ctx.send(embed=leaderboard_embed(guild.id if guild else None),
                        allowed_mentions=discord.AllowedMentions.none())
         return
-    guild = getattr(ctx, "guild", None)
-    allowed = guild_traditions(guild.id if guild else None)
     key = tradition(mode) if mode not in ("", "hard") else None
-    if mode and mode != "hard" and key != "bible" and (key not in QUIZ_POOLS or key not in allowed):
+    if mode and mode != "hard" and key != "bible" and key not in QUIZ_POOLS:
         await ctx.send("Pick a quiz: `!quiz` (the Bible), `!quiz hard` (many traditions), or one tradition: "
-                       + ", ".join(f"`!quiz {k}`" for k in QUIZ_POOLS if k in allowed) + ".")
+                       + ", ".join(f"`!quiz {k}`" for k in QUIZ_POOLS) + ".")
         return
     hard = mode == "hard"
-    question = make_question(hard, tradition=key if key in QUIZ_POOLS else "", traditions=allowed)
+    question = make_question(hard, tradition=key if key in QUIZ_POOLS else "")
     if question is None:
         await ctx.send("⚠️ I couldn't come up with a question just now — try again.")
         return

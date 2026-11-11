@@ -16,7 +16,6 @@ from core import (
     _build_embed,
     bot,
     lookup,
-    tradition_enabled,
 )
 
 # ── Auto-detection ─────────────────────────────────────────────────────────────
@@ -100,7 +99,7 @@ def find_verses(content: str, limit: int = 3, guild_id=None) -> list:
         else:
             result = lookup.get_verse(ref)
 
-        if result["found"] and tradition_enabled(guild_id, result.get("tradition")):
+        if result["found"]:
             replies.append((_build_embed(result), result))
 
     out = []

@@ -11,7 +11,7 @@ import logging
 import re
 import time
 import traceback
-from scripture_lookup import BIBLE_NT, BIBLE_OT, TRADITIONS, ScriptureLookup
+from scripture_lookup import BIBLE_NT, BIBLE_OT, ScriptureLookup
 from pathlib import Path
 from discord.ext import commands
 from hadith_lookup import get_hadith_section
@@ -655,13 +655,13 @@ def _update_guild_config(guild_id: int, **kwargs) -> None:
 # (!features -- per-server opt-ins for 📌-reaction bookmarks, bookmark export and !plan streaks --
 # went with the bookmarks on 2026-11-08; the streak is simply always shown now.)
 
-# ── Packs: which commands, and which traditions' texts, a server has ─────────────
-# Chosen when the bot joins a server (bot_commands/packs.py asks its admins what traditions
-# they want) or later with /setup traditions and !packs. A server that never chose has
-# everything, so nothing changed for the servers the bot was already in. A command in a
-# turned-off pack drops out of that server's / menu and is ignored when typed; a turned-off
-# tradition's texts are left out of !verse, !search, !theme and !discover as though the bot
-# didn't have them. Commands in no pack (the Bible, study tools, games...) are always there.
+# ── Packs: which commands a server has ───────────────────────────────────────────
+# Chosen when the bot joins a server (bot_commands/packs.py asks its admins what the server is
+# for) or later with /setup traditions and !packs. A server that never chose has everything. A
+# command in a turned-off pack drops out of that server's / menu and is ignored when typed.
+# Commands in no pack (the Bible, study tools, games...) are always there. Every server has
+# every text: the per-server choice of traditions' texts was removed on 2026-11-11 (the owner
+# called it an unsupported legacy feature).
 PACKS = {
     "church": ("⛪ Christian worship & study", "Hymns, creeds, prayers, the church year and the Church Fathers' commentary",
                   frozenset({"creed", "hymn", "hymnlist", "midi", "hymnday", "prayer", "today", "catena",
@@ -705,23 +705,6 @@ def command_enabled(guild_id, name: str) -> bool:
     return pack is None or guild_id is None or pack in guild_packs(guild_id)
 
 
-def guild_traditions(guild_id) -> frozenset:
-    """The TRADITIONS keys whose texts this server has (the Bible always)."""
-    if guild_id is None:
-        return frozenset(TRADITIONS)
-    chosen = _load_guild_config().get(str(guild_id), {}).get("traditions")
-    if chosen is None:
-        return frozenset(TRADITIONS)
-    chosen = frozenset(chosen) | {"bible"}
-    if chosen >= frozenset(TRADITIONS) - ADDED_TRADITIONS:   # (it ticked them all: it has the new ones too)
-        chosen |= ADDED_TRADITIONS
-    return chosen & frozenset(TRADITIONS)
-
-
-# Traditions added after servers began choosing theirs: a server that chose every one there was gets these too
-ADDED_TRADITIONS = frozenset({"ballads", "arthurian", "english", "shakespeare"})
-
-
 def pack_enabled(guild_id, pack: str) -> bool:
     return pack in guild_packs(guild_id)
 
@@ -731,36 +714,22 @@ def guild_calendars(guild_id, wanted: list) -> list:
     server's choices; all of `wanted` if none do (a server that chose only "church" still gets a calendar)."""
     if guild_id is None:
         return list(wanted)
-    packs, traditions = guild_packs(guild_id), guild_traditions(guild_id)
+    packs = guild_packs(guild_id)
     has = {"catholic": bool({"catholic_devotion", "catholic_teaching"} & packs),
            "anglican": "protestant" in packs,
            "orthodox": "orthodox" in packs,
-           "jewish": "jewish_learning" in packs or "jewish" in traditions,
-           "islamic": "islamic_prayer" in packs or "islamic" in traditions}
+           "jewish": "jewish_learning" in packs,
+           "islamic": "islamic_prayer" in packs}
     kept = [w for w in wanted if has.get(w, True)]
     return kept or list(wanted)
 
 
-def tradition_enabled(guild_id, key) -> bool:
-    return key is None or key in guild_traditions(guild_id)
-
-
-def guild_corpora(guild_id):
-    """The corpora holding this server's traditions, or None when it has them all."""
-    keys = guild_traditions(guild_id)
-    if keys == frozenset(TRADITIONS):
-        return None
-    return frozenset(corpus for key in keys for corpus in TRADITIONS[key][1])
-
-
-# Lines in !help and the introduction about a command or tradition a server has turned off are
-# left out there. A line goes when the commands it names (`!rosary`, `/vov`, `!help jewish`) are
-# all off, or when it's marked <!-- texts: hindu --> or <!-- pack: orthodox --> (for paragraphs
-# that name no command) and that one is off. The markers themselves never show.
-_MARKER = re.compile(r"<!--\s*(texts|pack):\s*(\w+)\s*-->\s*")
+# Lines in !help and the introduction about a command a server has turned off are left out
+# there. A line goes when the commands it names (`!rosary`, `/vov`) are all off, or when it's
+# marked <!-- pack: orthodox --> (for paragraphs that name no command) and that pack is off.
+# The markers themselves never show.
+_MARKER = re.compile(r"<!--\s*(pack):\s*(\w+)\s*-->\s*")
 _MENTION = re.compile(r"!help\s+([a-z]+)|(?<![\w/:.])[!/]([a-z]+)\b")
-_HELP_TOPIC_TRADITION = {"gita": "hindu", "ane": "neareast", "sikh": "sikh", "buddhist": "buddhist",
-                         "jewish": "jewish", "islamic": "islamic"}
 
 
 def _mention_enabled(name: str, guild_id):
@@ -768,10 +737,7 @@ def _mention_enabled(name: str, guild_id):
     command = bot.get_command(name)
     if command is not None and name.endswith("setup") and bot.get_command(name[:-5]) is not None:
         command = bot.get_command(name[:-5])      # !saintsetup goes with !saint
-    if command is not None:
-        return command_enabled(guild_id, command.name)
-    key = _HELP_TOPIC_TRADITION.get(name)
-    return None if key is None else tradition_enabled(guild_id, key)
+    return None if command is None else command_enabled(guild_id, command.name)
 
 
 def for_guild(text: str, guild_id) -> str:
@@ -780,8 +746,6 @@ def for_guild(text: str, guild_id) -> str:
     for line in text.split("\n"):
         keep = True
         for kind, key in _MARKER.findall(line):
-            if kind == "texts" and not tradition_enabled(guild_id, key):
-                keep = False
             if kind == "pack" and key in PACKS and key not in guild_packs(guild_id):
                 keep = False
         line = _MARKER.sub("", line)

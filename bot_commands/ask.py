@@ -25,7 +25,7 @@ import urllib.request
 import discord
 from discord.ext import commands
 
-from core import ROOT, _load_guild_config, _update_guild_config, bot, bot_is_owner, log, lookup, tradition_enabled
+from core import ROOT, _load_guild_config, _update_guild_config, bot, bot_is_owner, log, lookup
 
 ASK_USAGE_PATH = ROOT / "data" / "ask_usage.json"          # {"day": "YYYY-MM-DD", "count": n, "cap": n}
 # Sonnet since 2026-11-01, at the owner's word, after Haiku answered a magic question from Deuteronomy and the
@@ -90,12 +90,6 @@ def _named(book: str, shelves: list, question: str) -> bool:
     q = question.lower()
     names = [book] + shelves[-1:]                    # (the nearest shelf is the author's: "Plotinus", "Origen")
     return any(len(n) >= 4 and re.search(rf"\b{re.escape(n.lower())}\b", q) for n in names)
-
-
-def _tradition(corpus: str):
-    from scripture_lookup import CORPUS_TRADITION
-    return {"hadith": CORPUS_TRADITION.get("quran"), "sefaria": "jewish", "catholic": "christian"}.get(corpus) \
-        or CORPUS_TRADITION.get(corpus)
 
 
 # the Catholic shelf: the Catechism and the Code of Canon Law (data/catechism.json, canon.json, which !ccc and
@@ -262,8 +256,7 @@ def find_passages(question: str, guild_id=None, index=None, limit: int = PASSAGE
     for corpus, book, chap, verse in rows:
         if book not in named:
             named[book] = _named(book, index.shelves.get(book, []), question)
-        if per_book[book] >= (PER_NAMED_BOOK if named[book] else PER_BOOK) \
-                or not tradition_enabled(guild_id, _tradition(corpus)):
+        if per_book[book] >= (PER_NAMED_BOOK if named[book] else PER_BOOK):
             continue
         text = index.text((corpus, book, chap, verse))
         same = re.sub(r"\W", "", text.lower())[:200]           # (a text the library holds twice, under two titles)
@@ -337,9 +330,9 @@ SHELVES = {"bible": ("kjv",), "apocrypha": ("nt_apocrypha", "charles"), "fathers
 def sefaria_passages(searches: list, guild_id) -> list:
     """The best of the bot's Jewish shelf for the searches, by Sefaria's own search (a passage once, though Sefaria
     has it in several translations), each read through the lookup as !verse would show it; [] if Sefaria is slow
-    or down, or the server hasn't the Jewish shelf."""
+    or down."""
     from concurrent.futures import ThreadPoolExecutor
-    if not searches or not tradition_enabled(guild_id, "jewish"):
+    if not searches:
         return []
     body = {"size": 30, "_source": ["ref"],
             "query": {"bool": {"must": {"match": {"exact": {"query": " ".join(searches)}}},
@@ -427,7 +420,7 @@ def gather(question: str, guild_id, plan: dict, index=None) -> list:
     PLANNED), then the best the searches find."""
     corpora = plan.get("corpora") or CORPORA
     out, refs = [], set()
-    catholic = _catholic_books() if "catholic" in corpora and tradition_enabled(guild_id, "christian") else {}
+    catholic = _catholic_books() if "catholic" in corpora else {}
     for ref in plan.get("references", []):
         if len(out) == PLANNED:
             break
@@ -444,7 +437,7 @@ def gather(question: str, guild_id, plan: dict, index=None) -> list:
         if not r.get("found") or not r.get("text"):
             continue
         corpus = _corpus_of(r)
-        if corpus not in corpora or not tradition_enabled(guild_id, _tradition(corpus)):
+        if corpus not in corpora:
             continue
         out.append({"reference": r["reference"], "text": _excerpt(_clean(r["text"]), _terms(question),
                                                                   max(PASSAGE_CHARS))})

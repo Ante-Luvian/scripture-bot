@@ -7,7 +7,7 @@ reference (`!xref John 3:16`), a date (`!saint 25 July`). A command whose bare f
 import datetime
 import random
 
-from core import BIBLE_NT, BIBLE_OT, guild_traditions, lookup, random_input
+from core import BIBLE_NT, BIBLE_OT, lookup, random_input
 
 ALREADY_RANDOM = ""                   # (the command's own bare form is a random one)
 
@@ -116,15 +116,13 @@ def _hymn_shelf() -> str:
 
 def _quiz(ctx) -> str:
     from bot_commands.quiz import QUIZ_POOLS
-    have = set(guild_traditions(_guild_id(ctx)))
-    return random.choice(["", "hard"] + [k for k in QUIZ_POOLS if k in have])
+    from scripture_lookup import TRADITIONS
+    return random.choice(["", "hard"] + [k for k in QUIZ_POOLS if k in TRADITIONS])
 
 
 def _book(ctx) -> str:
-    from bot_commands.books import _hidden_book, _leaves, tree_for
-    guild_id = _guild_id(ctx)
-    _, sections = tree_for(guild_id)
-    return random.choice([b for b in _leaves(sections) if isinstance(b, str) and not _hidden_book(guild_id, b)])
+    from bot_commands.books import BOOKS_TREE, _leaves
+    return random.choice([b for b in _leaves(BOOKS_TREE) if isinstance(b, str)])
 
 
 for _name, _picker in (("icon", _icon), ("journey", _journey), ("kings", _king), ("measure", _measure),

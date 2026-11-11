@@ -547,8 +547,8 @@ async def setup_traditions(interaction: discord.Interaction):
     await interaction.response.send_message(embed=wizard.embed(), view=wizard, ephemeral=True)
 
 
-@setup_group.command(name="packs", description="(Admins) Switch one pack of commands, or one tradition's texts, on or off")
-@app_commands.describe(name="Which pack or tradition (leave empty to see them all)", state="on or off")
+@setup_group.command(name="packs", description="(Admins) Switch one pack of commands on or off")
+@app_commands.describe(name="Which pack (leave empty to see them all)", state="on or off")
 @app_commands.choices(state=[app_commands.Choice(name="on", value="on"), app_commands.Choice(name="off", value="off")])
 @_ADMIN
 async def setup_packs(interaction: discord.Interaction, name: str = "", state: str = ""):

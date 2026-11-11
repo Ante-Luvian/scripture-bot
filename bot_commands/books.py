@@ -9,8 +9,6 @@ from hadith_lookup import get_hadith_section
 from scripture_lookup import HIDDEN_BOOKS, ScriptureLookup
 from core import (
     _HADITH_DISPLAY_TO_KEY,
-    guild_traditions,
-    tradition_enabled,
     _make_chapter_nav_buttons,
     _send_result,
     bot,
@@ -1902,51 +1900,9 @@ _SUPERGROUP_ORDER = [
     ]),
     ("📜 English Literature", ["⚔️ Arthurian Legend", "📜 Medieval English Poetry", "🎭 Shakespeare"]),
 ]
-# ── a server sees only the sections of the traditions it chose ──────────────
-
-# sections read from online libraries, whose books aren't stored here to tell
-_ONLINE_SECTIONS = {"📚 Rabbinic Literature": "jewish", "✨ Jewish Mysticism": "jewish", "🕍 Medieval Judaism": "jewish",
-                    "☪️ Islamic": "islamic", "📖 The Bible": "bible"}
-
-
-def _section_traditions() -> dict:
-    """{section: the TRADITIONS key most of its books belong to}."""
-    import collections
-    from scripture_lookup import CORPUS_TRADITION
-    out = dict(_ONLINE_SECTIONS)
-    for section, contents in BOOKS_TREE:
-        if section in out:
-            continue
-        found = collections.Counter(CORPUS_TRADITION.get(lookup._resolve_exact(leaf)[0]) for leaf in _leaves(contents))
-        found.pop(None, None)
-        out[section] = found.most_common(1)[0][0] if found else None
-    return out
-
-
-_SECTION_TRADITION = _section_traditions()
-
-
-def tree_for(guild_id) -> tuple:
-    """(the top-level browsing tree, the sections) this server sees."""
-    allowed = guild_traditions(guild_id)
-    sections = [(n, c) for n, c in BOOKS_TREE if _SECTION_TRADITION.get(n) in allowed | {None}]
-    if len(sections) == len(BOOKS_TREE):
-        return ROOT_BOOKS_TREE, BOOKS_TREE
-    names = {n for n, _ in sections}
-    root = [(group, [(n, c) for n, c in subs if n in names]) for group, subs in _ROOT_GROUPS]
-    return _open_lone([(group, subs) for group, subs in root if subs]), sections
-
-
 def _open_lone(root: list) -> list:
     """A group holding just one shelf of its own name opens that shelf, not a list of one."""
     return [subs[0] if len(subs) == 1 and subs[0][0] == group else (group, subs) for group, subs in root]
-
-
-def _hidden_book(guild_id, name) -> bool:
-    """A book of a tradition this server turned off."""
-    from scripture_lookup import CORPUS_TRADITION
-    corpus = lookup._resolve_exact(name)[0]
-    return corpus is not None and not tradition_enabled(guild_id, CORPUS_TRADITION.get(corpus))
 
 
 _books_tree_by_name = {name: contents for name, contents in BOOKS_TREE}
@@ -3179,8 +3135,7 @@ def _book_by_name(query: str) -> "tuple[str, tuple | None] | None":
 async def list_books(ctx, *, section: str = ""):
     """Browse available scripture collections. Use !books <author> to list their works."""
     top_label = "Available Scripture"
-    guild_id = getattr(getattr(ctx, "guild", None), "id", None)
-    top_node, sections = tree_for(guild_id)
+    top_node, sections = ROOT_BOOKS_TREE, BOOKS_TREE
 
     if section.strip():
         # 1. Try BOOKS_TREE section match first; then a tradition by any of its names ("christian", "islam",
@@ -3201,8 +3156,6 @@ async def list_books(ctx, *, section: str = ""):
             author_result = _author_works_node(q, fuzzy=False)
             if author_result is None and not exact_book:
                 author_result = _author_works_node(q)
-            if author_result and any(_hidden_book(guild_id, w) for w in _leaves(author_result[1])):
-                author_result = None                         # (an author of a tradition the server hasn't)
             if author_result:
                 author_name, works = author_result
                 embed = discord.Embed(
@@ -3222,7 +3175,7 @@ async def list_books(ctx, *, section: str = ""):
                 embed.description = "\n".join(lines) or "No works found."
                 embed.set_footer(text="!verse <work> <ch>:<v> to look up a passage")
                 await ctx.send(embed=embed)
-            elif (book := _book_by_name(section.strip())) is not None and not _hidden_book(guild_id, book[0]):
+            elif (book := _book_by_name(section.strip())) is not None:
                 # 3. A single book ("Genesis", "Jn", "Confessions"): straight to its chapters
                 book_name, options = book
                 if options is None:

@@ -17,7 +17,7 @@ import re
 import discord
 from discord import app_commands
 
-from core import bot, log, lookup, tradition_enabled
+from core import bot, log
 from bot_commands import people
 
 COLOR = discord.Color.from_rgb(150, 50, 40)
@@ -304,14 +304,9 @@ def stops(key: str) -> list:
     return [(place(slug), ref, note) for slug, ref, _, note in JOURNEYS[key][3]]
 
 
-def tradition_of(key: str) -> "str | None":
-    """The tradition of the text a journey is told in (the Bible's, the classics, medieval English poetry)."""
-    return lookup.get_verse(JOURNEYS[key][3][0][1]).get("tradition")
-
-
 def allowed(guild_id) -> list:
-    """The journeys whose texts this server has turned on."""
-    return [k for k in JOURNEYS if tradition_enabled(guild_id, tradition_of(k))]
+    """The journeys (every server has them all)."""
+    return list(JOURNEYS)
 
 
 def journey_embed(key: str) -> discord.Embed:

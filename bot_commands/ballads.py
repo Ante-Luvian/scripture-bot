@@ -21,7 +21,7 @@ import unicodedata
 
 import discord
 
-from core import ROOT, bot, log, lookup, tradition_enabled
+from core import ROOT, bot, log, lookup
 
 BOOK = "Child Ballads"
 SOURCE = "Francis James Child, The English and Scottish Popular Ballads (1882–98)"
@@ -261,10 +261,6 @@ def list_message(page: int = 0) -> dict:
 async def send_ballad(ctx, query: str = "") -> None:
     if not versions():
         await ctx.send("⚠️ The ballads aren't loaded.")
-        return
-    guild = getattr(ctx, "guild", None)
-    if not tradition_enabled(guild.id if guild else None, "ballads"):
-        await ctx.send("The folk ballads are turned off on this server.")
         return
     q = query.strip()[:80]
     if _fold(q) in ("list", "all", "titles", "index", "contents"):

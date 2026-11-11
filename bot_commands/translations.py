@@ -12,15 +12,9 @@ from poem_lookup import classify_scripture, is_drb_reference, lookup_pair, parse
 from strongs_lookup import get_definition as get_local_strongs_definition, search_by_word as strongs_search_by_word
 from core import (
     _check_search_cooldown,
-    guild_traditions,
     bot,
     lookup,
-    tradition_enabled,
 )
-
-# what !parallel offers a server without the Greek and Roman texts
-_BIBLE_ONLY_PARALLEL = ("`!parallel John 3:16` — a Bible verse beside the original: the Greek of the New Testament, "
-                        "the Hebrew of the Old.")
 
 # ── !compare — verse in multiple translations, paginated ─────────────────────
 
@@ -1123,8 +1117,6 @@ async def _edda_parallel(ctx, ref: str) -> bool:
     """!parallel for a stanza of the Poetic Edda: Bellows's English beside Guðni Jónsson's Old Norse (the owner,
     2026-11-08). True if the reference was the Edda's (and answered). On servers with the Norse texts only."""
     from bot_commands import oracles                        # (here, not at the top: oracles is the larger module)
-    if not tradition_enabled(getattr(getattr(ctx, "guild", None), "id", None), "norse"):
-        return False
     found = oracles._edda_stanza(ref)
     if not found:
         return False
@@ -1135,10 +1127,8 @@ async def _edda_parallel(ctx, ref: str) -> bool:
 @bot.command(name="parallel", aliases=["par"])
 async def cmd_parallel(ctx, *, reference: str = ""):
     """Look up a Bible verse or classical text in parallel languages. !parallel works for a list."""
-    classical = "classical" in guild_traditions(getattr(getattr(ctx, "guild", None), "id", None))
     if not reference or reference.strip().lower() in ("works", "list", "help"):
-        embed = discord.Embed(title="📜 Classical Poetry & Prose" if classical else "📜 Parallel texts",
-                              description=poem_list_works() if classical else _BIBLE_ONLY_PARALLEL,
+        embed = discord.Embed(title="📜 Classical Poetry & Prose", description=poem_list_works(),
                               color=discord.Color.dark_gold())
         await ctx.send(embed=embed)
         return
@@ -1191,7 +1181,7 @@ async def poem_slash(interaction: discord.Interaction,
                      reference: str, parallel: bool = False):
     await interaction.response.defer()
     ctx = await bot.get_context(interaction)
-    if reference.strip().lower() in ("works", "list", "help") or "classical" not in guild_traditions(interaction.guild_id):
+    if reference.strip().lower() in ("works", "list", "help"):
         await cmd_parallel(ctx, reference=reference)        # (the same answers as the typed command)
         return
     spec = parse_poem_ref(reference.strip())

@@ -1,6 +1,6 @@
 """The shared commands follow a server's choices too: a Protestant server isn't offered the Hail Mary by
-!prayer, Latin chant by !hymnday, the Orthodox calendar by !today, the Apocrypha at random, or the
-Buddhist scriptures in !books, !cloud and !parallel."""
+!prayer, Latin chant by !hymnday or the Orthodox calendar by !today. (Texts are never hidden: every server has
+the whole library.)"""
 import asyncio
 import datetime
 import types
@@ -13,8 +13,7 @@ GUILD = 5151
 @pytest.fixture
 def protestant(bot_module):
     from bot_commands import packs
-    packs.save_choices(GUILD, packs.packs_for({"bible", "christian"}, packs.CHURCHES["protestant"][1], False),
-                       {"bible", "christian"})
+    packs.save_choices(GUILD, packs.packs_for({"bible", "christian"}, packs.CHURCHES["protestant"][1], False))
     return GUILD
 
 
@@ -63,35 +62,16 @@ def test_today_keeps_the_servers_calendars(bot_module, protestant):
     assert core.guild_calendars(protestant, ["orthodox"]) == ["orthodox"]          # asked for by name: still given
 
 
-def test_random_bible_without_the_apocrypha(bot_module, protestant, lookup):
-    from scripture_lookup import BIBLE_APOCRYPHA
-    import core
-    allowed = core.guild_traditions(protestant)
-    for _ in range(80):
-        r = lookup.random_verse(traditions=allowed)
-        assert r["book"] not in BIBLE_APOCRYPHA
-
-
-def test_books_shows_only_the_servers_sections(bot_module, protestant):
+def test_every_text_on_every_server(bot_module, protestant):
+    """The per-server traditions filter was removed (the owner, 2026-11-11): a Protestant server still has the
+    Buddhist scriptures in !books and !cloud, and the classics in !parallel."""
     from bot_commands import books
-    root, sections = books.tree_for(protestant)
-    names = {n for n, _ in sections}
-    assert "📖 The Bible" in names and "⛪ The Early Church" in names
-    assert "☸️ Buddhist" not in names and "📚 Rabbinic Literature" not in names
-    assert all(subs for _, subs in root)
-    assert books.tree_for(None)[0] is books.ROOT_BOOKS_TREE
     ctx = ctx_in(protestant)
     asyncio.run(books.list_books.callback(ctx, section="Dhammapada"))
-    assert "not found" in ctx.sent[-1]["content"]
-
-
-def test_cloud_and_parallel(bot_module, protestant):
+    assert "not found" not in str(ctx.sent[-1].get("content"))
     ctx = ctx_in(protestant)
     asyncio.run(bot_module.bot.get_command("cloud").callback(ctx, book="Dhammapada"))
-    assert "don't know a book" in ctx.sent[-1]["content"]
+    assert "don't know a book" not in str(ctx.sent[-1].get("content"))
     ctx = ctx_in(protestant)
     asyncio.run(bot_module.bot.get_command("parallel").callback(ctx, reference="works"))
-    assert "John 3:16" in ctx.sent[-1]["embed"].description and "Iliad" not in ctx.sent[-1]["embed"].description
-    ctx = ctx_in(protestant)
-    asyncio.run(bot_module.bot.get_command("parallel").callback(ctx, reference="Il. 6.440"))
-    assert "Couldn't parse" in ctx.sent[-1]["content"]
+    assert "Iliad" in ctx.sent[-1]["embed"].description

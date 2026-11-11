@@ -148,15 +148,14 @@ text}}}}`, string keys (README "Data").
 - `corpus_dirs` in `ScriptureLookup.__init__`: corpus folder → list of files (a missing file only warns).
 - `CORPUS_PRIORITY`: the order books are looked up in.
 - `TRADITIONS` ("english": ("📜 Medieval English poetry", ("english",))) and `TRADITION_ALIASES`;
-  `CORPUS_TRADITION` follows. A new tradition also needs `bot_commands/packs.py` `TRADITION_CHOICES`
-  (the setup menu) and, so servers that chose everything get it, `core.ADDED_TRADITIONS`.
+  `CORPUS_TRADITION` follows (for `!search ... in:<tradition>` and `!theme`). Every server sees every
+  tradition: the per-server traditions filter was removed 2026-11-11 (only command packs are per server).
 - `ALIASES` (lower-case keys → book name). Check new titles don't collide: an exact title wins, but
   short words ("Proverbs", "Truth", "Patience") can be taken; name such poems inside a collection
   ("Chaucer's Shorter Poems" part 13 is *Truth*).
 - `source_map` in `_get_verse` (corpus → fallback credit).
 - `bot_commands/books.py` `BOOKS_TREE` (the `!books` shelves) and `_SUPERGROUP_ORDER`.
-- INTRODUCTION.md paragraph with a `<!-- texts: corpus -->` marker (shown only to servers with that
-  tradition), README "Data" paragraph, and tests (copy tests/test_english.py's shape).
+- INTRODUCTION.md paragraph, README "Data" paragraph, and tests (copy tests/test_english.py's shape).
 
 **Line-chunked books** (cited by line, like Homer): passages keyed `"part.firstline"` (`"1.233"`,
 `"3.1"`), each `{"1": text}`. Regrouped on load into part → {first line: passage}; `!verse Book 3:240`
@@ -305,8 +304,7 @@ changed (else compare `books` with HEAD); never OCR or proofread scan images wit
   never translator, edition, series or site; a faith goes where its own followers would put it; no "Also in the
   library" catch-all (list books by their real names, not display labels, or they're filed twice). A long author
   is split by `SUBGROUPS` (Plutarch, Lucian, Demosthenes; `_arrange`); an author whose works are in groups must be
-  in the `nested` set of `_author_works_node` or `!books <author>` misses them. The traditions setting is
-  unsupported legacy (owner): don't work around it.
+  in the `nested` set of `_author_works_node` or `!books <author>` misses them.
 - *Classical in !books* is two sections, `🏛️ Greek` and `🦅 Latin`, which the 🏛️ Classical menu opens to directly
   (the owner: no "Classical inside Classical", no Perseus shelf). Perseus authors are filed into them by
   `PERSEUS_PLACES` / `SHELF_ORDER` in books.py; an unplaced one lands on Greek → "More" (a test fails).

@@ -24,8 +24,7 @@ import unicodedata
 import discord
 
 from bot_commands import card, illustrations
-from core import bot, log, lookup, tradition_enabled
-from scripture_lookup import CORPUS_TRADITION
+from core import bot, log, lookup
 
 # code (in the buttons' ids: "" for Aesop, as before) -> (book, short name, what to call for it)
 COLLECTIONS = {
@@ -75,10 +74,6 @@ def fables() -> dict:
     return chapters("")
 
 
-def tradition_of(code: str) -> "str | None":
-    return CORPUS_TRADITION.get(_find_book(COLLECTIONS[code][0])[0])
-
-
 def source(code: str) -> str:
     return lookup._book_sources.get(COLLECTIONS[code][0], "")
 
@@ -126,8 +121,8 @@ def numbers(code: str = "") -> list:
 
 
 def collections_for(guild_id) -> list:
-    """The codes of the collections loaded here and allowed on this server."""
-    return [c for c in COLLECTIONS if chapters(c) and tradition_enabled(guild_id, tradition_of(c))]
+    """The codes of the collections loaded here."""
+    return [c for c in COLLECTIONS if chapters(c)]
 
 
 # ── finding ─────────────────────────────────────────────────────────────────
@@ -319,17 +314,13 @@ async def send_fable(ctx, query: str = "") -> None:
     if not any(chapters(c) for c in COLLECTIONS):
         await ctx.send("⚠️ The fables aren't loaded.")
         return
-    if not allowed:
-        await ctx.send("The fables are among the Greek and Roman texts and the folk tales, which this server has "
-                       "turned off.")
-        return
     q = query.strip()
     if _fold(q) in ("collections", "books", "sources"):
         await ctx.send(**collections_message(allowed))
         return
     code, rest = collection_named(q)
     if code is not None and code not in allowed:
-        await ctx.send(f"{COLLECTIONS[code][0]} are among the texts this server has turned off.")
+        await ctx.send(f"⚠️ {COLLECTIONS[code][0]} aren't loaded.")
         return
     if _fold(rest) in ("list", "all", "titles", "index", "contents"):
         await ctx.send(**list_message(0, code or ""))
@@ -337,7 +328,7 @@ async def send_fable(ctx, query: str = "") -> None:
     if re.fullmatch(r"#?\d{1,4}", rest):
         c, n = code or "", int(rest.lstrip("#"))
         if c not in allowed:
-            await ctx.send("Aesop's Fables are among the Greek and Roman texts, which this server has turned off.")
+            await ctx.send(f"⚠️ {COLLECTIONS[c][0]} aren't loaded.")
             return
         if str(n) not in chapters(c):
             await ctx.send(f"{COLLECTIONS[c][0]} are numbered 1 to {max(numbers(c))}.")

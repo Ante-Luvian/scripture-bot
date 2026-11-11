@@ -127,12 +127,3 @@ def test_the_reference_reader(lookup):
     assert lookup.get_verse("Child 2:17")["reference"] == "Child 2A:17"
     assert lookup.get_verse("child ballads 84B")["text"].startswith("**[1]** *Bonny Barbara Allen*")
     assert not lookup.get_verse("Child 400")["found"]
-
-
-def test_a_server_with_every_tradition_gets_the_ballads(monkeypatch):
-    import core
-    from scripture_lookup import TRADITIONS
-    every_old = [k for k in TRADITIONS if k not in core.ADDED_TRADITIONS]
-    monkeypatch.setattr(core, "_load_guild_config", lambda: {"1": {"traditions": every_old},
-                                                             "2": {"traditions": ["bible", "christian"]}})
-    assert core.tradition_enabled(1, "ballads") and not core.tradition_enabled(2, "ballads")
