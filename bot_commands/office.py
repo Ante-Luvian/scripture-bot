@@ -14,18 +14,29 @@ import asyncio
 import datetime
 import functools
 import html
+import json
 import re
 import shutil
 from pathlib import Path
 
 import discord
 
-from core import ROOT, bot, log
+from discord.ext import commands, tasks
+
+from core import ROOT, _atomic_write_json, _load_guild_config, _update_guild_config, bot, log
 
 ENGINE = ROOT / "vendor" / "divinum-officium"
 SCRIPTS = ENGINE / "web" / "cgi-bin" / "horas"
 TEXTS = ENGINE / "web" / "www" / "horas"
 VERSION = "Divino Afflatu - 1954"
+# the rubrics one can ask for (key -> the engine's version, what we call it); the key goes in a button's custom_id
+RUBRICS = {"da": ("Divino Afflatu - 1954", "Divino Afflatu, 1911–1954"),
+           "1570": ("Tridentine - 1570", "Tridentine, 1570"), "1910": ("Tridentine - 1906", "Tridentine, before 1911"),
+           "1955": ("Reduced - 1955", "the 1955 simplification"), "1960": ("Rubrics 1960 - 1960", "the 1960 rubrics"),
+           "monastic": ("Monastic - 1963", "the Monastic Breviary (1963)")}
+RUBRIC_WORDS = {"1954": "da", "divino": "da", "afflatu": "da", "da": "da", "1911": "da", "1570": "1570",
+                "tridentine": "1570", "trent": "1570", "1910": "1910", "1906": "1910", "1955": "1955",
+                "1960": "1960", "1962": "1960", "monastic": "monastic", "benedictine": "monastic"}
 COLOR = discord.Color.dark_red()
 PAGE = 3900
 HOURS = {   # what people type -> (the engine's name, ours)
@@ -55,6 +66,13 @@ def available() -> bool:
 
 # ── the day and the hour asked for ──────────────────────────────────────────
 
+def rubrics_of(args: str) -> "tuple[str, str]":
+    """(the rubrics' key, the rest): "vespers 1960 tomorrow" -> ("1960", "vespers tomorrow"); Divino Afflatu if none."""
+    words = args.split()
+    key = next((RUBRIC_WORDS[w.lower()] for w in words if w.lower() in RUBRIC_WORDS), "da")
+    return key, " ".join(w for w in words if w.lower() not in RUBRIC_WORDS)
+
+
 def parse(args: str, today: datetime.date) -> "tuple[str, datetime.date] | str":
     """(hour, date) from "vespers tomorrow", "matins 2026-12-25", "25 December", or an error message."""
     words = args.lower().replace(",", " ").split()
@@ -78,19 +96,21 @@ def parse(args: str, today: datetime.date) -> "tuple[str, datetime.date] | str":
             except ValueError:
                 pass
     return ("I didn't understand that. Try `!office` (Lauds today), `!office vespers`, `!office compline tomorrow` "
-            "or `!office matins 2026-12-25`. The hours: matins, lauds, prime, terce, sext, none, vespers, compline.")
+            "or `!office matins 2026-12-25`. The hours: matins, lauds, prime, terce, sext, none, vespers, compline. "
+            "Other rubrics: add `1570`, `1910`, `1955`, `1960` or `monastic`.")
 
 
 # ── running the engine ──────────────────────────────────────────────────────
 
-def query(hour: str, day: datetime.date) -> str:
-    return (f"date1={day.month:02d}-{day.day:02d}-{day.year}&command=pray{HOURS[hour][0]}&version={VERSION}"
+def query(hour: str, day: datetime.date, rubrics: str = "da") -> str:
+    return (f"date1={day.month:02d}-{day.day:02d}-{day.year}&command=pray{HOURS[hour][0]}"
+            f"&version={RUBRICS[rubrics][0]}"
             f"&testmode=regular&lang1=English&lang2=English&votive=&nofancychars=1")
 
 
-async def run(hour: str, day: datetime.date) -> str:
+async def run(hour: str, day: datetime.date, rubrics: str = "da") -> str:
     """The engine's page for the hour (it reads its texts by paths relative to its own folder)."""
-    proc = await asyncio.create_subprocess_exec(perl(), "officium.pl", query(hour, day), cwd=str(SCRIPTS),
+    proc = await asyncio.create_subprocess_exec(perl(), "officium.pl", query(hour, day, rubrics), cwd=str(SCRIPTS),
                                                 stdout=asyncio.subprocess.PIPE, stderr=asyncio.subprocess.PIPE)
     out, err = await asyncio.wait_for(proc.communicate(), timeout=60)
     if err.strip():
@@ -177,7 +197,7 @@ def parse_hour(page: str) -> "tuple[str, list[str]]":
     day = ""
     if m:
         name, _, rank = strip(m[1]).partition(" ~ ")
-        name = re.sub(r"\s+[IVX]+\. of \w+$", "", name)                              # ("IV. of November": the week)
+        name = re.sub(r"\s+[IVX]+\. (?:of \w+|\w+is)$", "", name)          # ("IV. of November", "IV. Novembris")
         day = english(name)
         if rank:
             day += f" · {RANKS.get(rank.strip(), next((v for k, v in RANKS.items() if rank.startswith(k)), rank))}"
@@ -212,53 +232,57 @@ def pages_of(sections: list) -> list:
 _CACHE: dict = {}
 
 
-async def hour_pages(hour: str, day: datetime.date) -> "tuple[str, list[str]]":
-    key = (HOURS[hour][1], day)
+async def hour_pages(hour: str, day: datetime.date, rubrics: str = "da") -> "tuple[str, list[str]]":
+    key = (HOURS[hour][1], day, rubrics)
     if key not in _CACHE:
         if len(_CACHE) > 64:
             _CACHE.clear()
-        name, sections = parse_hour(await run(hour, day))
+        name, sections = parse_hour(await run(hour, day, rubrics))
         _CACHE[key] = (name, pages_of(sections))
     return _CACHE[key]
 
 
-def embed_for(hour: str, day: datetime.date, name: str, pages: list, page: int) -> discord.Embed:
+def embed_for(hour: str, day: datetime.date, name: str, pages: list, page: int, rubrics: str = "da") -> discord.Embed:
     title = f"🕯️ {HOURS[hour][1]} · {day.strftime('%A')} {day.day} {day.strftime('%B %Y')}"
     embed = discord.Embed(title=title[:256], color=COLOR, description=pages[page][:4096])
     if name:
         embed.add_field(name="The day", value=name[:1024], inline=False)
-    embed.set_footer(text=f"The Roman Breviary ({VERSION.split(' - ')[0]}), from Divinum Officium · "
-                          f"page {page + 1} of {len(pages)}")
+    book = "The Monastic Breviary" if rubrics == "monastic" else f"The Roman Breviary ({RUBRICS[rubrics][1]})"
+    embed.set_footer(text=f"{book}, from Divinum Officium · page {page + 1} of {len(pages)}")
     return embed
 
 
 class OfficePage(discord.ui.DynamicItem[discord.ui.Button], template=r"doff:(?P<hour>[a-z]+):(?P<day>\d{8}):"
-                                                                            r"(?P<page>\d+):(?P<dir>[pn])"):
+                                                                            r"(?P<page>\d+):(?P<dir>[pn])"
+                                                                            r"(?::(?P<rub>[a-z0-9]+))?"):
     """◀ ▶ through an hour's pages; the hour is worked out again when pressed (after a restart, too)."""
 
-    def __init__(self, hour: str, day: datetime.date, page: int, direction: str, disabled: bool = False):
+    def __init__(self, hour: str, day: datetime.date, page: int, direction: str, disabled: bool = False,
+                 rubrics: str = "da"):
         super().__init__(discord.ui.Button(emoji="◀️" if direction == "p" else "▶️", style=discord.ButtonStyle.secondary,
-                                           custom_id=f"doff:{hour}:{day:%Y%m%d}:{page}:{direction}", disabled=disabled))
-        self.hour, self.day, self.page, self.direction = hour, day, page, direction
+                                           custom_id=f"doff:{hour}:{day:%Y%m%d}:{page}:{direction}:{rubrics}",
+                                           disabled=disabled))
+        self.hour, self.day, self.page, self.direction, self.rubrics = hour, day, page, direction, rubrics
 
     @classmethod
     async def from_custom_id(cls, interaction, item, match):
+        rubrics = match["rub"] if match["rub"] in RUBRICS else "da"         # (buttons made before the choice: "da")
         return cls(match["hour"], datetime.datetime.strptime(match["day"], "%Y%m%d").date(), int(match["page"]),
-                   match["dir"])
+                   match["dir"], rubrics=rubrics)
 
     async def callback(self, interaction: discord.Interaction):
-        name, pages = await hour_pages(self.hour, self.day)
+        name, pages = await hour_pages(self.hour, self.day, self.rubrics)
         page = max(0, min(len(pages) - 1, self.page + (1 if self.direction == "n" else -1)))
-        await interaction.response.edit_message(embed=embed_for(self.hour, self.day, name, pages, page),
-                                                view=view_for(self.hour, self.day, page, len(pages)))
+        await interaction.response.edit_message(embed=embed_for(self.hour, self.day, name, pages, page, self.rubrics),
+                                                view=view_for(self.hour, self.day, page, len(pages), self.rubrics))
 
 
-def view_for(hour: str, day: datetime.date, page: int, total: int) -> "discord.ui.View | None":
+def view_for(hour: str, day: datetime.date, page: int, total: int, rubrics: str = "da") -> "discord.ui.View | None":
     if total < 2:
         return None
     view = discord.ui.View(timeout=None)
-    view.add_item(OfficePage(hour, day, page, "p", disabled=page == 0))
-    view.add_item(OfficePage(hour, day, page, "n", disabled=page >= total - 1))
+    view.add_item(OfficePage(hour, day, page, "p", disabled=page == 0, rubrics=rubrics))
+    view.add_item(OfficePage(hour, day, page, "n", disabled=page >= total - 1, rubrics=rubrics))
     return view
 
 
@@ -267,6 +291,7 @@ def _today() -> datetime.date:
 
 
 async def send_office(ctx, args: str) -> None:
+    rubrics, args = rubrics_of(args)
     parsed = parse(args, _today())
     if isinstance(parsed, str):
         await ctx.send(parsed)
@@ -276,18 +301,143 @@ async def send_office(ctx, args: str) -> None:
         return
     hour, day = parsed
     async with ctx.typing():
-        name, pages = await hour_pages(hour, day)
+        name, pages = await hour_pages(hour, day, rubrics)
     if not pages:
         await ctx.send(f"I couldn't put together {HOURS[hour][1]} for {day:%d %B %Y}.")
         return
-    await ctx.send(embed=embed_for(hour, day, name, pages, 0), view=view_for(hour, day, 0, len(pages)))
+    await ctx.send(embed=embed_for(hour, day, name, pages, 0, rubrics), view=view_for(hour, day, 0, len(pages), rubrics))
 
 
 @bot.command(name="office", aliases=["breviary", "hours", "divineoffice"])
 async def cmd_office(ctx, *, args: str = ""):
     """An hour of the Divine Office (the Roman Breviary) for today or another day.
-    Usage: !office  |  !office vespers  |  !office compline tomorrow  |  !office matins 2026-12-25"""
+    Usage: !office  |  !office vespers  |  !office compline tomorrow  |  !office matins 2026-12-25
+           !office vespers 1960  |  !office lauds monastic  (also 1570, 1910, 1955; Divino Afflatu if none)"""
     await send_office(ctx, args)
 
 
 bot.add_dynamic_items(OfficePage)
+
+
+# ── the daily post (!daily office) ──────────────────────────────────────────
+# Per server in guild_config.json: office_channel_id, office_time ("HH:MM" UTC), office_hour, office_rubrics.
+OFFICE_PATH = ROOT / "data" / "office.json"          # {"posted": {guild: "date hour"}}: a restart doesn't post twice
+DEFAULT_TIME, DEFAULT_HOUR = "06:00", "lauds"
+
+
+def _load_state() -> dict:
+    try:
+        return json.loads(OFFICE_PATH.read_text(encoding="utf-8")) if OFFICE_PATH.exists() else {}
+    except ValueError:
+        return {}
+
+
+async def post_office(guild_id, channel, day: datetime.date, hour: str, rubrics: str, force: bool = False) -> bool:
+    state = _load_state()
+    mark = f"{day.isoformat()} {hour}"
+    if state.get("posted", {}).get(str(guild_id)) == mark and not force:
+        return False
+    name, pages = await hour_pages(hour, day, rubrics)
+    if not pages:
+        return False
+    await channel.send(embed=embed_for(hour, day, name, pages, 0, rubrics), view=view_for(hour, day, 0, len(pages), rubrics))
+    state.setdefault("posted", {})[str(guild_id)] = mark
+    _atomic_write_json(OFFICE_PATH, state)
+    return True
+
+
+async def run_daily_office(client, day: datetime.date, current_hm: str) -> int:
+    if not available():
+        return 0
+    posted = 0
+    for guild_id, g in _load_guild_config().items():
+        channel_id = g.get("office_channel_id")
+        if not channel_id or g.get("office_time", DEFAULT_TIME) != current_hm:
+            continue
+        channel = client.get_channel(int(channel_id))
+        if channel is None:
+            continue
+        try:
+            posted += await post_office(guild_id, channel, day, g.get("office_hour", DEFAULT_HOUR),
+                                        g.get("office_rubrics", "da"))
+        except Exception:
+            log.exception(f"Failed to post the Divine Office for guild {guild_id}")
+    return posted
+
+
+@tasks.loop(minutes=1)
+async def daily_office_task():
+    now = datetime.datetime.now(datetime.timezone.utc)
+    await run_daily_office(bot, now.date(), f"{now.hour:02d}:{now.minute:02d}")
+
+
+@daily_office_task.before_loop
+async def _before_daily_office():
+    await bot.wait_until_ready()
+
+
+@bot.command(name="officesetup", hidden=True)                         # (!daily office)
+@commands.has_permissions(administrator=True)
+async def cmd_officesetup(ctx, action: str = "", *, arg: str = ""):
+    """Post an hour of the Divine Office in a channel each day.
+    Usage: !officesetup                  — show this server's settings
+           !officesetup channel #chan    — post it there each day
+           !officesetup time 06:00       — at that time (24h UTC)
+           !officesetup hour vespers     — which hour (Lauds unless set)
+           !officesetup rubrics 1960     — which Breviary (1570, 1910, 1954, 1955, 1960, monastic)
+           !officesetup test             — post today's now
+           !officesetup off              — stop the daily post"""
+    if not ctx.guild:
+        await ctx.send("This command only works in a server.")
+        return
+    g = _load_guild_config().get(str(ctx.guild.id), {})
+    channel_id, time_hm = g.get("office_channel_id"), g.get("office_time", DEFAULT_TIME)
+    hour, rubrics = g.get("office_hour", DEFAULT_HOUR), g.get("office_rubrics", "da")
+    action, arg = action.strip().lower(), arg.strip()
+    if not action:
+        embed = discord.Embed(title=f"🕯️ The Divine Office — {ctx.guild.name}", color=COLOR)
+        embed.add_field(name="Channel", value=f"<#{channel_id}>" if channel_id else "*not set — no daily post*")
+        embed.add_field(name="Time (UTC)", value=time_hm)
+        embed.add_field(name="Hour", value=HOURS[hour][1])
+        embed.add_field(name="Rubrics", value=RUBRICS[rubrics][1])
+        embed.set_footer(text="!daily office channel #chan · time HH:MM · hour vespers · rubrics 1960 · test · off")
+        await ctx.send(embed=embed)
+    elif action == "off":
+        _update_guild_config(ctx.guild.id, office_channel_id=None)
+        await ctx.send("The daily Divine Office post is off for this server. (`!office` still works.)")
+    elif action == "channel":
+        channel = ctx.message.channel_mentions[0] if ctx.message.channel_mentions else None
+        if channel is None:
+            await ctx.send("Mention a channel: `!daily office channel #prayer`")
+            return
+        _update_guild_config(ctx.guild.id, office_channel_id=channel.id)
+        await ctx.send(f"{HOURS[hour][1]} will be posted in {channel.mention} each day at {time_hm} UTC.")
+    elif action == "time":
+        m = re.match(r"^(\d{1,2}):(\d{2})$", arg)
+        if not m or not (0 <= int(m.group(1)) <= 23 and 0 <= int(m.group(2)) <= 59):
+            await ctx.send("Use 24-hour UTC time: `!daily office time 06:00`")
+            return
+        hm = f"{int(m.group(1)):02d}:{int(m.group(2)):02d}"
+        _update_guild_config(ctx.guild.id, office_time=hm)
+        await ctx.send(f"The daily office will be posted at **{hm} UTC**.")
+    elif action == "hour":
+        if arg.lower() not in HOURS:
+            await ctx.send("Which hour? matins, lauds, prime, terce, sext, none, vespers or compline.")
+            return
+        _update_guild_config(ctx.guild.id, office_hour=arg.lower())
+        await ctx.send(f"The daily post will be **{HOURS[arg.lower()][1]}**.")
+    elif action == "rubrics":
+        key = RUBRIC_WORDS.get(arg.lower())
+        if key is None:
+            await ctx.send("Which Breviary? `1570`, `1910`, `1954` (Divino Afflatu), `1955`, `1960` or `monastic`.")
+            return
+        _update_guild_config(ctx.guild.id, office_rubrics=key)
+        await ctx.send(f"The daily post will follow **{RUBRICS[key][1]}**.")
+    elif action == "test":
+        if not available():
+            await ctx.send("The Divine Office isn't set up on this bot yet.")
+            return
+        channel = bot.get_channel(int(channel_id)) if channel_id else ctx.channel
+        await post_office(ctx.guild.id, channel, _today(), hour, rubrics, force=True)
+    else:
+        await ctx.send("Unknown option. Use `channel`, `time`, `hour`, `rubrics`, `test`, or `off`.")

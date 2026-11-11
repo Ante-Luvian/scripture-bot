@@ -204,6 +204,7 @@
    "divineoffice",
    "hours"
   ],
+  "officesetup": [],
   "oracle": [],
   "oraclesetup": [
    "oracleconfig"

@@ -156,6 +156,7 @@ async def on_ready():
     daily_quiz_task.start()
     daily_versle_task.start()
     daily_hymn_task.start()
+    office.daily_office_task.start()      # (!daily office)
     daily_saint_task.start()
     daily_astro_task.start()
     angelus_task.start()

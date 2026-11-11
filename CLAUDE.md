@@ -20,7 +20,7 @@ corpora are built (scripts/build_english.py's toolkit, scripts/inspect_corpus.py
   the shared `C:\Python314\Lib\site-packages` (`pip install` as admin), not the user site; and
   changing the service itself (`sc.exe config`, `nssm set`) needs the owner in an admin PowerShell.
 - Never commit the runtime state files in `data/` (stats, guild_*, user_prefs,
-  reading_plans, subscribers, versle, hymnday, saintday, angelus, troparion, deluge, learning). `.gitignore` covers them.
+  reading_plans, subscribers, versle, hymnday, office, saintday, angelus, troparion, deluge, learning). `.gitignore` covers them.
 - Never commit audio or images a script can rebuild (the chant in `data/hymns/audio/sung/` and
   `more/`, the chanted psalms, scores, Doré crops); `.gitignore` covers them. The repo was 1.1 GB,
   mostly re-rendered chant, until the history was rewritten on 2026-10-19 to drop it. Downloaded

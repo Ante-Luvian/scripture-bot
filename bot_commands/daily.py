@@ -24,6 +24,7 @@ KINDS = {
     "troparion": ("☦️ The troparia of the day", "troparionsetup", "troparion", ("troparia",)),
     "learning":  ("✡️ The day's Jewish learning", "learningsetup", "learning", ("jewish",)),
     "roz":       ("🔥 The Zoroastrian day (!roz)", "rozsetup", "rozday", ("zoroastrian", "parsi")),
+    "office":    ("🕯️ An hour of the Divine Office (!office)", "officesetup", "office", ("breviary", "hours")),
 }
 _BY_NAME = {name: kind for kind, (_, _, _, others) in KINDS.items() for name in (kind, *others)}
 
@@ -58,7 +59,7 @@ async def cmd_daily(ctx, kind: str = "", action: str = "", *, arg: str = ""):
     Usage: !daily                         — what this server posts each day, and where
            !daily saint channel #saints   — post the saint of the day there
            !daily saint time 07:30        — at that time (UTC); also test, off, and !daily saint alone
-    Kinds: votd, oracle, quiz, versle, hymn, saint, astro, angelus, troparion, learning, roz."""
+    Kinds: votd, oracle, quiz, versle, hymn, saint, astro, angelus, troparion, learning, roz, office."""
     if not kind:
         await ctx.send(embed=overview(ctx.guild.id), allowed_mentions=discord.AllowedMentions.none())
         return

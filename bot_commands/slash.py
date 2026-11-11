@@ -441,12 +441,17 @@ async def hymnday_slash(interaction: discord.Interaction, date: str = ""):
 
 
 @bot.tree.command(name="office", description="An hour of the Divine Office (the Roman Breviary) for today or another day")
-@app_commands.describe(hour="Which hour (Lauds if empty)", date="Another day, as YYYY-MM-DD, 'tomorrow' or '25 December'")
+@app_commands.describe(hour="Which hour (Lauds if empty)", date="Another day, as YYYY-MM-DD, 'tomorrow' or '25 December'",
+                       rubrics="Which Breviary (Divino Afflatu, 1911-1954, if empty)")
 @app_commands.choices(hour=[app_commands.Choice(name=n, value=n.lower()) for n in
-                            ("Matins", "Lauds", "Prime", "Terce", "Sext", "None", "Vespers", "Compline")])
-async def office_slash(interaction: discord.Interaction, hour: str = "lauds", date: str = ""):
+                            ("Matins", "Lauds", "Prime", "Terce", "Sext", "None", "Vespers", "Compline")],
+                      rubrics=[app_commands.Choice(name=n, value=v) for n, v in (
+                          ("Divino Afflatu (1911-1954)", "1954"), ("Tridentine (1570)", "1570"),
+                          ("Tridentine (before 1911)", "1910"), ("Simplified (1955)", "1955"),
+                          ("1960 rubrics", "1960"), ("Monastic (1963)", "monastic"))])
+async def office_slash(interaction: discord.Interaction, hour: str = "lauds", date: str = "", rubrics: str = ""):
     ctx = await _slash_ctx(interaction)
-    await _command("office")(ctx, args=f"{hour} {date}".strip())
+    await _command("office")(ctx, args=f"{hour} {date} {rubrics}".strip())
 
 
 # ── /setup: the admins' settings, one group ──────────────────────────────────
@@ -528,6 +533,9 @@ _daily("angelus", "angelussetup", "The Angelus at chosen hours", ("show", "chann
        "For 'time': one or more HH:MM, UTC (06:00 12:00 18:00)")
 _daily("learning", "learningsetup", "The day's Jewish learning", ("show", "channel", "time", "test", "off"))
 _daily("troparion", "troparionsetup", "The day's Orthodox troparia", ("show", "channel", "time", "test", "off"))
+_daily("office", "officesetup", "An hour of the Divine Office each day",
+       ("show", "channel", "time", "hour", "rubrics", "test", "off"),
+       "For 'time' (HH:MM, UTC), 'hour' (lauds, vespers...) or 'rubrics' (1954, 1960, monastic...)")
 _daily("roz", "rozsetup", "The Zoroastrian day: its being, festivals and gahs", ("show", "channel", "time", "test", "off"))
 
 
@@ -561,7 +569,7 @@ bot.tree.add_command(setup_group)
 
 # the slash form of each admin command, for the tests and !help
 SETUP_SUBCOMMANDS = {"votdsetup": "votd", "oraclesetup": "oracle", "quizsetup": "quiz", "verslesetup": "versle",
-                     "hymndaysetup": "hymnday", "saintsetup": "saint", "angelussetup": "angelus",
+                     "hymndaysetup": "hymnday", "saintsetup": "saint", "angelussetup": "angelus", "officesetup": "office",
                      "astrosetup": "astro",
                      "learningsetup": "learning", "troparionsetup": "troparion", "rozsetup": "roz", "daily": "daily",
                      "changelogsetup": "changelog", "changelogintro": "intro"}

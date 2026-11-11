@@ -58,3 +58,32 @@ def test_the_hours(office):
     assert all(len(p) <= 4096 and p.count("*") % 2 == 0 for p in pages)
     _, matins = asyncio.run(office.hour_pages("matins", datetime.date(2026, 11, 15)))
     assert len(matins) > 5
+
+
+@pytest.mark.parametrize("args, key, rest", [
+    ("vespers 1960 tomorrow", "1960", "vespers tomorrow"), ("compline", "da", "compline"),
+    ("lauds Monastic", "monastic", "lauds"), ("matins 1570 25 December", "1570", "matins 25 December"),
+])
+def test_rubrics(office, args, key, rest):
+    assert office.rubrics_of(args) == (key, rest)
+
+
+@pytest.mark.skipif("not __import__('bot_commands.office', fromlist=['x']).available()",
+                    reason="needs Perl and vendor/divinum-officium")
+def test_daily_post_once_a_day(office):
+    """!daily office: the chosen hour and rubrics in the chosen channel, once a day even across restarts."""
+    import core
+    sent = []
+
+    class Channel:
+        async def send(self, **kw):
+            sent.append(kw)
+    core._update_guild_config(7, office_channel_id=99, office_time="05:30", office_hour="vespers",
+                              office_rubrics="1960")
+    client = type("C", (), {"get_channel": lambda self, i: Channel() if i == 99 else None})()
+    day = datetime.date(2026, 11, 15)
+    assert asyncio.run(office.run_daily_office(client, day, "05:29")) == 0
+    assert asyncio.run(office.run_daily_office(client, day, "05:30")) == 1
+    assert asyncio.run(office.run_daily_office(client, day, "05:30")) == 0          # (already posted today)
+    embed = sent[0]["embed"]
+    assert embed.title.startswith("🕯️ Vespers") and "1960" in embed.footer.text
