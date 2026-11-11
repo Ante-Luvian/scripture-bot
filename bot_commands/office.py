@@ -204,7 +204,12 @@ def parse_hour(page: str) -> "tuple[str, list[str]]":
         for com in re.findall(r"(?is)Commemoratio:</SPAN>\s*<FONT[^>]*>(.*?)</FONT>", m[2]):
             day += f"\nCommemoration: {english(strip(com))}"
     cells = re.findall(r"(?is)<TD VALIGN='TOP' WIDTH='100%' ID='\w+?\d+'>(.*?)</TD>", page)
-    return day, [t for t in (text_of(c) for c in cells) if t]
+    sections = []
+    for t in (text_of(c) for c in cells):
+        if not t or re.match(r"[^\n]*\{omit\}", t):                      # ("Weekday Intercessions{omit}": not today)
+            continue
+        sections.append(re.sub(r"\s*\{[^}\n]*\}", "", t))
+    return day, sections
 
 
 def pages_of(sections: list) -> list:
@@ -229,7 +234,32 @@ def pages_of(sections: list) -> list:
     return pages
 
 
+def summary_of(sections: list) -> dict:
+    """What a card shows of the hour: its psalms, its Scripture readings, and Matins' lessons by whose they are."""
+    text = "\n".join(sections)
+    psalms = []
+    for p in re.findall(r"\*(?:‡ )?Psalm (\d+)(?:\([^)]*\))?\*", text):
+        if p not in psalms:
+            psalms.append(p)
+    refs = []
+    for r in re.findall(r"(?m)^\*((?:\d )?[A-Z][a-z]+\.? \d+:[\d,\- ]+)\*\s*$", text):
+        if r not in refs:
+            refs.append(r.strip())
+    lessons = []
+    for line in text.split("\n"):
+        s = line.replace("*", "").strip()
+        if re.match(r"(Lesson from |Homily (?:by|of) |Sermon (?:by|of) |From the (?:Sermons?|Homil|Book|Treatise|"
+                    r"Commentary|Exposition|Holy Gospel)|From (?:a|the) .* (?:by|of) St)", s) and len(s) < 160:
+            s = re.sub(r"\s+", " ", s).rstrip(".:,")
+            if s not in lessons:
+                lessons.append(s)
+    gospel = next((r for r in refs if re.match(r"(Matt|Mark|Luke|John|Mt|Mk|Lk|Jn)\b", r)), None)
+    lessons = [f"{s} ({gospel})" if gospel and s.startswith("From the Holy Gospel") else s for s in lessons]
+    return {"psalms": psalms, "refs": refs, "lessons": lessons}
+
+
 _CACHE: dict = {}
+_SUMMARY: dict = {}
 
 
 async def hour_pages(hour: str, day: datetime.date, rubrics: str = "da") -> "tuple[str, list[str]]":
@@ -239,7 +269,23 @@ async def hour_pages(hour: str, day: datetime.date, rubrics: str = "da") -> "tup
             _CACHE.clear()
         name, sections = parse_hour(await run(hour, day, rubrics))
         _CACHE[key] = (name, pages_of(sections))
+        _SUMMARY[key] = summary_of(sections)
     return _CACHE[key]
+
+
+def card_for(hour: str, day: datetime.date, name: str, summary: dict, rubrics: str = "da") -> discord.Embed:
+    """The daily post: the hour, the day and what it prays, with Open to read it."""
+    title = f"🕯️ {HOURS[hour][1]} · {day.strftime('%A')} {day.day} {day.strftime('%B %Y')}"
+    embed = discord.Embed(title=title[:256], color=COLOR, description=name[:4096] or None)
+    if summary.get("psalms"):
+        embed.add_field(name="Psalms", value=", ".join(summary["psalms"])[:1024], inline=False)
+    if summary.get("lessons"):
+        embed.add_field(name="Lessons", value="\n".join(summary["lessons"])[:1024], inline=False)
+    elif summary.get("refs"):
+        embed.add_field(name="Reading", value=", ".join(summary["refs"])[:1024], inline=False)
+    book = "The Monastic Breviary" if rubrics == "monastic" else f"The Roman Breviary ({RUBRICS[rubrics][1]})"
+    embed.set_footer(text=f"{book}, from Divinum Officium · press 📖 to pray it")
+    return embed
 
 
 def embed_for(hour: str, day: datetime.date, name: str, pages: list, page: int, rubrics: str = "da") -> discord.Embed:
@@ -275,6 +321,32 @@ class OfficePage(discord.ui.DynamicItem[discord.ui.Button], template=r"doff:(?P<
         page = max(0, min(len(pages) - 1, self.page + (1 if self.direction == "n" else -1)))
         await interaction.response.edit_message(embed=embed_for(self.hour, self.day, name, pages, page, self.rubrics),
                                                 view=view_for(self.hour, self.day, page, len(pages), self.rubrics))
+
+
+class OfficeOpen(discord.ui.DynamicItem[discord.ui.Button], template=r"dopen:(?P<hour>[a-z]+):(?P<day>\d{8}):"
+                                                                            r"(?P<rub>[a-z0-9]+)"):
+    """📖 on a daily post: the whole hour, page by page, for whoever pressed it (only they see it)."""
+
+    def __init__(self, hour: str, day: datetime.date, rubrics: str = "da"):
+        super().__init__(discord.ui.Button(emoji="📖", label=f"Pray {HOURS[hour][1]}",
+                                           style=discord.ButtonStyle.primary,
+                                           custom_id=f"dopen:{hour}:{day:%Y%m%d}:{rubrics}"))
+        self.hour, self.day, self.rubrics = hour, day, rubrics
+
+    @classmethod
+    async def from_custom_id(cls, interaction, item, match):
+        rubrics = match["rub"] if match["rub"] in RUBRICS else "da"
+        return cls(match["hour"], datetime.datetime.strptime(match["day"], "%Y%m%d").date(), rubrics)
+
+    async def callback(self, interaction: discord.Interaction):
+        await interaction.response.defer(ephemeral=True, thinking=True)
+        name, pages = await hour_pages(self.hour, self.day, self.rubrics)
+        if not pages:
+            await interaction.followup.send("I couldn't put that hour together.", ephemeral=True)
+            return
+        await interaction.followup.send(embed=embed_for(self.hour, self.day, name, pages, 0, self.rubrics),
+                                        view=view_for(self.hour, self.day, 0, len(pages), self.rubrics) or discord.utils.MISSING,
+                                        ephemeral=True)
 
 
 def view_for(hour: str, day: datetime.date, page: int, total: int, rubrics: str = "da") -> "discord.ui.View | None":
@@ -316,7 +388,7 @@ async def cmd_office(ctx, *, args: str = ""):
     await send_office(ctx, args)
 
 
-bot.add_dynamic_items(OfficePage)
+bot.add_dynamic_items(OfficePage, OfficeOpen)
 
 
 # ── the daily post (!daily office) ──────────────────────────────────────────
@@ -340,7 +412,10 @@ async def post_office(guild_id, channel, day: datetime.date, hour: str, rubrics:
     name, pages = await hour_pages(hour, day, rubrics)
     if not pages:
         return False
-    await channel.send(embed=embed_for(hour, day, name, pages, 0, rubrics), view=view_for(hour, day, 0, len(pages), rubrics))
+    view = discord.ui.View(timeout=None)
+    view.add_item(OfficeOpen(hour, day, rubrics))
+    await channel.send(embed=card_for(hour, day, name, _SUMMARY.get((HOURS[hour][1], day, rubrics), {}), rubrics),
+                       view=view)
     state.setdefault("posted", {})[str(guild_id)] = mark
     _atomic_write_json(OFFICE_PATH, state)
     return True

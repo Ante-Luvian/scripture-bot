@@ -85,5 +85,19 @@ def test_daily_post_once_a_day(office):
     assert asyncio.run(office.run_daily_office(client, day, "05:29")) == 0
     assert asyncio.run(office.run_daily_office(client, day, "05:30")) == 1
     assert asyncio.run(office.run_daily_office(client, day, "05:30")) == 0          # (already posted today)
-    embed = sent[0]["embed"]
-    assert embed.title.startswith("🕯️ Vespers") and "1960" in embed.footer.text
+    card = sent[0]["embed"]                                   # (a card: the day, psalms, reading; 📖 opens the hour)
+    assert card.title.startswith("🕯️ Vespers") and "1960" in card.footer.text and "Sixth Sunday" in card.description
+    assert any(f.name == "Psalms" for f in card.fields)
+    button = sent[0]["view"].children[0].item
+    assert button.custom_id == "dopen:vespers:20261115:1960" and "Vespers" in button.label
+
+
+@pytest.mark.skipif("not __import__('bot_commands.office', fromlist=['x']).available()",
+                    reason="needs Perl and vendor/divinum-officium")
+def test_summary_and_no_omitted_sections(office):
+    name, pages = asyncio.run(office.hour_pages("matins", datetime.date(2026, 11, 15)))
+    summary = office._SUMMARY[("Matins", datetime.date(2026, 11, 15), "da")]
+    assert summary["psalms"][:3] == ["1", "2", "3"]
+    assert "From the Holy Gospel according to Matthew (Matt 13:31-35)" in summary["lessons"]
+    assert any("Augustine" in l for l in summary["lessons"]) and any("Jerome" in l for l in summary["lessons"])
+    assert not any("{omit}" in p or "{" in p for p in pages)
