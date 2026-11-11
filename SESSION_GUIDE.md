@@ -254,7 +254,7 @@ The list below is kept as a record only.
 - Gutenberg candidates not yet built: *Erthe upon Erthe* (#33768, printed from 24 MSS: pick one),
   Hall's *Early Middle English Selections* (#26413, extracts), Wright's *Political Songs* (#61511,
   mixed English/French/Latin: English only), Pollard's *Fifteenth Century Prose and Verse* (#30851),
-  Percy's *Reliques* (#45939-41), *The Interlude of Wealth and Health* (#17270), Skeat's *Kingis Quair*
+  *The Interlude of Wealth and Health* (#17270), Skeat's *Kingis Quair*
   (not found on Gutenberg; search elsewhere).
 - Luminarium has ~40 short Middle English lyrics (luminarium.org/medlit/mltexts.htm) not yet added
   (some duplicate Sisam's: Alysoun, the Maid of the Moor).
