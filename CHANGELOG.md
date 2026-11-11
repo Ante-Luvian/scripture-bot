@@ -14,6 +14,11 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-11-11 · Two more Qur'an commentaries
+The **📖 Commentary** button under a Qur'an verse now has two more commentaries in its menu:
+- **Asbab al-Nuzul** ("the occasions of revelation") by al-Wahidi, an 11th-century scholar. It tells the story behind a verse: what had happened, or who had asked what, when the verse was revealed. It covers only the verses it has a story for, so it appears under those verses alone. Try `!verse Quran 2:6`, then **📖 Commentary**, then pick it from the menu.
+- **Tafsir al-Tustari**, by Sahl al-Tustari (died 896), one of the earliest Sufi (mystical) commentaries. It reads the verses for their inner, spiritual meaning. Try `!verse Quran 2:255`.
+
 ## 2026-11-11 · Three ancient texts, rescued from old scans
 These had never been typed up anywhere online, only photographed in old library books. Each one has been converted to text and checked by eye against every page of the original.
 - ✝️ **The Acts of Apollonius**, the trial of a Roman Christian put to death under the Emperor Commodus, around AD 185. Before the Senate he defends his faith in a speech that mocks the idols ("The Egyptians do homage to an onion in their folly") and answers the Prefect calmly to the end. It survives in an old Armenian translation, in F. C. Conybeare's English (1894). The verses follow the speech's numbered sections: try `!verse Acts of Apollonius 1:30`. It's in `!books` under ⛪ The Early Church → Early Church Documents, beside the Scillitan Martyrs.

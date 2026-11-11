@@ -157,3 +157,17 @@ def test_stories_clean(lookup):
         for text in verses.values():
             assert not re.search(r"islambas|disbeliveers|\bfourty\b|postrate|  ", text), (ch, text[:100])
             assert text.count("*") % 2 == 0 and len(text) < 2000, (ch, text[:100])
+
+
+@pytest.mark.skipif(not (ROOT / "data" / "tafsir" / "wahidi.json").exists(), reason="python scripts/fetch_tafsir.py --altafsir")
+def test_wahidi_and_tustari(bot_module):
+    """(2026-11-11) From altafsir.com itself: al-Wahidi's occasions of revelation, only for the verses it has a story
+    for, each kept once over the verses it covers; al-Tustari's Sufi commentary."""
+    from bot_commands import tafsir
+    assert {"wahidi", "tustari"} <= set(tafsir.available())
+    assert [label for label, _ in tafsir.entries("wahidi", 2, 1, 6)] == ["2:1–2", "2:6"]
+    assert "Abu Jahl" in tafsir.entries("wahidi", 2, 6, 6)[0][1]
+    assert tafsir.entries("tustari", 2, 255, 255)[0][1].startswith("God, There is no god except Him")
+    for key in ("wahidi", "tustari"):
+        text = str(tafsir.tafsir(key))
+        assert "\ufffd" not in text and "<script" not in text and "http" not in text

@@ -1,10 +1,13 @@
 """
 The 📖 Commentary button under Qur'an verses in !verse: what the classical commentators (tafsir) say about them.
-Three English commentaries, downloaded into data/tafsir/ by scripts/fetch_tafsir.py:
+Five English commentaries, downloaded into data/tafsir/ by scripts/fetch_tafsir.py:
 
     Tafsir al-Jalalayn (al-Mahalli and al-Suyuti, trans. Feras Hamza) -- short, a gloss on every verse;
     Tafsir Ibn Kathir (abridged) -- long, one commentary on a run of verses, with the hadith it cites;
-    Tanwir al-Miqbas, attributed to Ibn 'Abbas (trans. Mokrane Guezzou).
+    Tanwir al-Miqbas, attributed to Ibn 'Abbas (trans. Mokrane Guezzou);
+    al-Wahidi's Asbab al-Nuzul, the occasions on which verses were revealed (trans. Mokrane Guezzou) -- only the
+    verses it has a story for (2026-11-11);
+    the Sufi commentary of Sahl al-Tustari (trans. Annabel and Ali Keeler) -- selected verses (2026-11-11).
 
 The reply is posted for everyone (the owner, 2026-11-11), opens on the Jalalayn, and has a menu to switch
 commentary, ◀ ▶ through its pages when it has more than one, and buttons to the verse before and after. Every control
@@ -18,7 +21,7 @@ import discord
 from core import ROOT, bot
 
 TAFSIR_DIR = ROOT / "data" / "tafsir"
-ORDER = ["jalalayn", "ibnkathir", "ibnabbas"]
+ORDER = ["jalalayn", "ibnkathir", "ibnabbas", "wahidi", "tustari"]
 COLOR = discord.Color.dark_green()
 PAGE = 3500
 _DATA: dict = {}

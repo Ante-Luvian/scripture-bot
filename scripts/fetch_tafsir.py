@@ -15,6 +15,7 @@ and Ibn Kathir come from its copies of quran.com's QUL, which are clean.
 Each file: {"name", "source", "surahs": {surah: {ayah: text}}} -- an ayah with nothing of its own isn't there.
 
     python scripts/fetch_tafsir.py
+    python scripts/fetch_tafsir.py --altafsir   (al-Wahidi and al-Tustari from altafsir.com; ~12,500 pages, hours)
 """
 import json
 import re
@@ -106,8 +107,110 @@ def build(key: str) -> dict:
     return {"name": name, "source": source, "surahs": surahs}
 
 
+# ── altafsir.com itself (2026-11-11): its pages are clean where spa5k's copies of them are not. A page holds one
+# verse's commentary; most verses have none, and which do can't be known without asking, so every verse is asked
+# for (resumably: scripts/.cache/altafsir/<key>_<surah>.json). The pages mix UTF-8 with stray Windows-1252 bytes
+# (the dashes and quotes), read as such.
+ALTAFSIR = {
+    "wahidi": (86, "Asbab al-Nuzul", "al-Wahidi, trans. Mokrane Guezzou"),
+    "tustari": (93, "Tafsir al-Tustari", "Sahl al-Tustari, trans. Annabel Keeler and Ali Keeler"),
+    "qushayri": (108, "Lata'if al-Isharat", "al-Qushayri, trans. Kristin Zahra Sands"),
+    "kashani": (107, "Tafsir al-Kashani", "al-Kashani, trans. Feras Hamza"),
+}
+AYAHS = [7, 286, 200, 176, 120, 165, 206, 75, 129, 109, 123, 111, 43, 52, 99, 128, 111, 110, 98, 135, 112, 78, 118,
+         64, 77, 227, 93, 88, 69, 60, 34, 30, 73, 54, 45, 83, 182, 88, 75, 85, 54, 53, 89, 59, 37, 35, 38, 29, 18, 45,
+         60, 49, 62, 55, 78, 96, 29, 22, 24, 13, 14, 11, 11, 18, 12, 12, 30, 52, 52, 44, 28, 28, 20, 56, 40, 31, 50,
+         40, 46, 42, 29, 19, 36, 25, 22, 17, 19, 26, 30, 20, 15, 21, 11, 8, 8, 19, 5, 8, 8, 11, 11, 8, 3, 9, 5, 4, 7,
+         3, 6, 3, 5, 4, 5, 6]
+assert sum(AYAHS) == 6236 and len(AYAHS) == 114
+
+
+def _cp1252(err):
+    return err.object[err.start:err.end].decode("cp1252", "replace"), err.end
+
+
+def altafsir_page(no: int, surah: int, ayah: int) -> str:
+    import codecs
+    import html as htmllib
+    codecs.register_error("cp1252-fallback", _cp1252)
+    url = (f"https://www.altafsir.com/Tafasir.asp?tMadhNo=0&tTafsirNo={no}&tSoraNo={surah}&tAyahNo={ayah}"
+           f"&tDisplay=yes&LanguageID=2")
+    for attempt in range(5):
+        try:
+            raw = urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=90).read()
+            break
+        except Exception:
+            time.sleep(10 * (attempt + 1))
+    else:
+        raise SystemExit(f"altafsir {no} {surah}:{ayah}: no answer")
+    page = raw.decode("utf-8", "cp1252-fallback")
+    expect("ArraySoraAyah" in page, f"altafsir {no} {surah}:{ayah}: not one of its pages")
+    m = re.search(r"(?s)<font class='TextResultEnglish'>(.*?)<hr size='1'><span class='CopyRight'>", page)
+    if "id=AyahText" not in page or not m:                    # (a verse with no commentary)
+        return ""
+    # (the site's pages carry someone's injected <script> tags: none of that, and nothing like a link, may get in)
+    body = re.sub(r"(?is)<script\b.*?</script>|<script\b[^>]*>", "", m.group(1))
+    body = re.sub(r"(?is)<span[^>]*font-family:\s*Andalus[^>]*>.*?</span>", "", body)   # (Arabic, mis-encoded)
+    body = re.sub(r"(?i)<br\s*/?>", "\n", body)
+    text = tidy(htmllib.unescape(re.sub(r"<[^>]+>", "", body)))
+    expect(not re.search(r"(?i)https?:|www\.|\.js\b|jsdelivr|<\w", text), f"altafsir {no} {surah}:{ayah}: {text[:80]!r}")
+    return text
+
+
+def fetch_altafsir(key: str, workers: int = 3) -> None:
+    from concurrent.futures import ThreadPoolExecutor
+    no = ALTAFSIR[key][0]
+    cache = CACHE.parent / "altafsir"
+    cache.mkdir(parents=True, exist_ok=True)
+    for surah, count in enumerate(AYAHS, start=1):
+        f = cache / f"{key}_{surah}.json"
+        if f.exists():
+            continue
+        with ThreadPoolExecutor(workers) as pool:
+            texts = list(pool.map(lambda a: (time.sleep(0.4), altafsir_page(no, surah, a))[1], range(1, count + 1)))
+        f.write_text(json.dumps({str(a): t for a, t in enumerate(texts, start=1) if t}, ensure_ascii=False),
+                     encoding="utf-8")
+        print(f"  {key} {surah}: {sum(1 for t in texts if t)} of {count}", flush=True)
+
+
+def build_altafsir(key: str) -> dict:
+    """An altafsir commentary from its fetched pages: a passage the site shows under each verse it covers is kept
+    once, on its first verse, with the verses it covers (as Ibn Kathir's)."""
+    no, name, source = ALTAFSIR[key]
+    cache = CACHE.parent / "altafsir"
+    surahs = {}
+    for s, count in enumerate(AYAHS, start=1):
+        f = cache / f"{key}_{s}.json"
+        expect(f.exists(), f"{key} {s}: not fetched (python scripts/fetch_tafsir.py --altafsir {key})")
+        pages = {int(a): tidy(t) for a, t in json.loads(f.read_text(encoding="utf-8")).items() if t.strip()}
+        verses, last = {}, None
+        for a in sorted(pages):
+            if last and pages[a] == verses[last]["text"] and a == verses[last]["to"] + 1:
+                verses[last]["to"] = a
+                continue
+            verses[a] = {"text": pages[a], "to": a}
+            last = a
+        surahs[str(s)] = {str(a): (v["text"] if v["to"] == a else {"text": v["text"], "to": v["to"]})
+                          for a, v in verses.items()}
+    return {"name": name, "source": source, "surahs": surahs}
+
+
+# The altafsir commentaries in the 📖 Commentary menu. (Kashani's and al-Qushayri's pages came back empty to this
+# script on 2026-11-11 -- the site serves them only to browsers -- and al-Qushayri's one page seen had lost its
+# commas; left out.)
+ALTAFSIR_BUILT = ["wahidi", "tustari"]
+
+
 def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
+    if sys.argv[1:2] == ["--altafsir"]:
+        for key in sys.argv[2:] or ALTAFSIR_BUILT:
+            fetch_altafsir(key)
+        for key in ALTAFSIR_BUILT:
+            data = build_altafsir(key)
+            print(f"  {data['name']}: {sum(len(v) for v in data['surahs'].values())} entries")
+            (OUT / f"{key}.json").write_text(json.dumps(data, ensure_ascii=False), encoding="utf-8")
+        return
     for key in EDITIONS:
         data = build(key)
         n = sum(len(v) for v in data["surahs"].values())

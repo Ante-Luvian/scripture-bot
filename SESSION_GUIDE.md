@@ -500,7 +500,7 @@ Islam (2026-11-10): five more hadith (Riyad as-Salihin, al-Adab al-Mufrad, Shama
 `scripts/fetch_hadith.py --other` from AhmedBaset/hadith-json -- LOCAL_ONLY in hadith_lookup (no CDN fallback; sections
 from the file); the 📖 Commentary button under Qur'an verses (bot_commands/tafsir.py; data from scripts/fetch_tafsir.py:
 Jalalayn and Ibn Kathir from spa5k/tafsir_api's QUL copies, Ibn 'Abbas mended -- its altafsir copies are scrambled or
-full of U+FFFD, so Wahidi/Tustari/Qushayri/Kashani were left out; altafsir.com itself might give clean ones); Ibn
+full of U+FFFD, so Wahidi/Tustari were then fetched from altafsir.com itself, 2026-11-11: `fetch_tafsir.py --altafsir`, one page a verse, ~12,500 requests; the site's pages carry an injected <script> (it looks hacked) which the fetcher strips and guards against; Kashani and Qushayri pages come back empty to the script (served to browsers only -- don't work around it) and Qushayri had lost its commas, so both are out); Ibn
 Kathir's Stories of the Prophets (scripts/build_stories_prophets.py, from the 2004 typeset PDF). Still missing: Ibn
 Ishaq's Sira -- Guillaume is only Archive OCR and the owner said NO OCR.
 **Inventory of what's still missing (2026-11-09):** gnosis.org -- only Marcion's
