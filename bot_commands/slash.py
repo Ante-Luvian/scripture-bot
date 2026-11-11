@@ -539,14 +539,6 @@ async def setup_intro(interaction: discord.Interaction, fresh: bool = False):
     await _command("changelogintro")(await _slash_ctx(interaction), arg="fresh" if fresh else "")
 
 
-@setup_group.command(name="traditions", description="(Admins) Choose what this server is for: its traditions, church and extras")
-@_ADMIN
-async def setup_traditions(interaction: discord.Interaction):
-    from bot_commands.packs import SetupWizard
-    wizard = SetupWizard(interaction.guild_id, interaction.user.id)
-    await interaction.response.send_message(embed=wizard.embed(), view=wizard, ephemeral=True)
-
-
 @setup_group.command(name="packs", description="(Admins) Switch one pack of commands on or off")
 @app_commands.describe(name="Which pack (leave empty to see them all)", state="on or off")
 @app_commands.choices(state=[app_commands.Choice(name="on", value="on"), app_commands.Choice(name="off", value="off")])
@@ -569,4 +561,4 @@ SETUP_SUBCOMMANDS = {"votdsetup": "votd", "oraclesetup": "oracle", "quizsetup": 
                      "astrosetup": "astro",
                      "learningsetup": "learning", "troparionsetup": "troparion", "rozsetup": "roz", "daily": "daily",
                      "changelogsetup": "changelog", "changelogintro": "intro",
-                     "serversetup": "traditions", "packs": "packs"}
+                     "packs": "packs"}

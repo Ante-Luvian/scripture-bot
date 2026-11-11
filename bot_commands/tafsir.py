@@ -6,8 +6,9 @@ Three English commentaries, downloaded into data/tafsir/ by scripts/fetch_tafsir
     Tafsir Ibn Kathir (abridged) -- long, one commentary on a run of verses, with the hadith it cites;
     Tanwir al-Miqbas, attributed to Ibn 'Abbas (trans. Mokrane Guezzou).
 
-The reply is private (ephemeral), opens on the Jalalayn, and has a menu to switch commentary and ◀ ▶ through
-its pages. The button carries the reference, so it works after a restart.
+The reply is posted for everyone (the owner, 2026-11-11), opens on the Jalalayn, and has a menu to switch
+commentary, ◀ ▶ through its pages when it has more than one, and buttons to the verse before and after. Every control
+carries its state in its custom_id, so they all work after a restart.
 """
 import json
 import re
@@ -100,49 +101,96 @@ def embed_for(key: str, ref: str, pages: list, page: int) -> discord.Embed:
     return embed
 
 
-class CommentaryView(discord.ui.View):
-    """The private reply: a menu of commentaries and ◀ ▶ through the pages. (Not persistent: an ephemeral
-    message doesn't outlive the session, and a timed-out view must hold no dynamic items.)"""
+# How many verses each surah has (for the ▶ next verse at a surah's end)
+AYAH_COUNTS = [7, 286, 200, 176, 120, 165, 206, 75, 129, 109, 123, 111, 43, 52, 99, 128, 111, 110, 98, 135, 112, 78,
+               118, 64, 77, 227, 93, 88, 69, 60, 34, 30, 73, 54, 45, 83, 182, 88, 75, 85, 54, 53, 89, 59, 37, 35, 38, 29,
+               18, 45, 60, 49, 62, 55, 78, 96, 29, 22, 24, 13, 14, 11, 11, 18, 12, 12, 30, 52, 52, 44, 28, 28, 20, 56,
+               40, 31, 50, 40, 46, 42, 29, 19, 36, 25, 22, 17, 19, 26, 30, 20, 15, 21, 11, 8, 8, 19, 5, 8, 8, 11, 11, 8,
+               3, 9, 5, 4, 7, 3, 6, 3, 5, 4, 5, 6]
 
-    def __init__(self, ref: str, parsed: tuple, key: str):
-        super().__init__(timeout=900)
-        self.ref, self.parsed, self.key, self.page = ref, parsed, key, 0
-        self.pages = pages_of(key, *parsed)
-        menu = discord.ui.Select(placeholder="Another commentary…", row=0, options=[
-            discord.SelectOption(label=tafsir(k)["name"], value=k, description=tafsir(k)["source"][:100],
-                                 default=k == key) for k in available()])
-        menu.callback = self.switch
-        self.add_item(menu)
-        self.menu = menu
-        self.prev = discord.ui.Button(label="◀", style=discord.ButtonStyle.secondary, row=1)
-        self.next = discord.ui.Button(label="▶", style=discord.ButtonStyle.secondary, row=1)
-        self.prev.callback, self.next.callback = self.back, self.forward
-        self.add_item(self.prev)
-        self.add_item(self.next)
-        self.refresh()
 
-    def refresh(self):
-        self.prev.disabled = self.page <= 0
-        self.next.disabled = self.page >= len(self.pages) - 1
-        for o in self.menu.options:
-            o.default = o.value == self.key
+def ref_of(surah: int, first: int, last) -> str:
+    if last is None:
+        return f"Quran {surah}"
+    return f"Quran {surah}:{first}" + (f"–{last}" if last != first else "")
 
-    async def show(self, interaction: discord.Interaction):
-        self.refresh()
-        await interaction.response.edit_message(embed=embed_for(self.key, self.ref, self.pages, self.page), view=self)
 
-    async def switch(self, interaction: discord.Interaction):
-        self.key, self.page = self.menu.values[0], 0
-        self.pages = pages_of(self.key, *self.parsed)
-        await self.show(interaction)
+def reply(key: str, surah: int, first: int, last, page: int = 0) -> dict:
+    """The commentary message (public, 2026-11-11: the owner wants everyone to see it): its embed and its controls --
+    a menu of commentaries, ◀ ▶ through the pages when there's more than one, and the verses either side. Every
+    control is a DynamicItem carrying its whole state, so they all still work after a restart."""
+    keys = available()
+    key = key if key in keys else keys[0]
+    pages = pages_of(key, surah, first, last)
+    page = max(0, min(page, len(pages) - 1))
+    view = discord.ui.View(timeout=None)
+    view.add_item(CommentaryMenu(key, surah, first, last))
+    b = "" if last is None else str(last)
+    if len(pages) > 1:
+        view.add_item(CommentaryNav(key, surah, first, b, page - 1, "p", "◀ Page", page <= 0))
+        view.add_item(CommentaryNav(key, surah, first, b, page + 1, "n", "Page ▶", page >= len(pages) - 1))
+    if last is not None:
+        covered = max([last] + [int(re.split(r"[:–]", label)[-1]) for label, _ in entries(key, surah, first, last)])
+        if first > 1:
+            view.add_item(CommentaryNav(key, surah, first - 1, str(first - 1), 0, "v", f"◀ {surah}:{first - 1}"))
+        if covered < AYAH_COUNTS[surah - 1]:
+            view.add_item(CommentaryNav(key, surah, covered + 1, str(covered + 1), 0, "w", f"{surah}:{covered + 1} ▶"))
+    return {"embed": embed_for(key, ref_of(surah, first, last), pages, page), "view": view}
 
-    async def back(self, interaction: discord.Interaction):
-        self.page = max(0, self.page - 1)
-        await self.show(interaction)
 
-    async def forward(self, interaction: discord.Interaction):
-        self.page = min(len(self.pages) - 1, self.page + 1)
-        await self.show(interaction)
+_STATE = r"(?P<s>\d{1,3}):(?P<a>\d{1,3}):(?P<b>\d{0,3})"
+
+
+def _state(match) -> tuple:
+    s, a = int(match["s"]), int(match["a"])
+    return s, a, int(match["b"]) if match["b"] else None
+
+
+class CommentaryNav(discord.ui.DynamicItem[discord.ui.Button],
+                    template=r"tafn:(?P<key>[a-z]{1,20}):" + _STATE + r":(?P<p>\d{1,3}):(?P<tag>[pnvw])"):
+    """◀ ▶ through a commentary's pages, or to the verse before or after."""
+
+    def __init__(self, key, surah, first, last: str, page, tag, label="▶", disabled=False):
+        super().__init__(discord.ui.Button(label=label, style=discord.ButtonStyle.secondary, row=1, disabled=disabled,
+                                           custom_id=f"tafn:{key}:{surah}:{first}:{last}:{max(page, 0)}:{tag}"))
+        self.key, self.surah, self.first, self.page = key, surah, first, max(page, 0)
+        self.last = int(last) if last else None
+
+    @classmethod
+    async def from_custom_id(cls, interaction, item, match):
+        s, a, b = _state(match)
+        return cls(match["key"], s, a, "" if b is None else str(b), int(match["p"]), match["tag"])
+
+    async def callback(self, interaction: discord.Interaction):
+        if not available():
+            await interaction.response.send_message("The commentaries aren't available right now.", ephemeral=True)
+            return
+        await interaction.response.edit_message(**reply(self.key, self.surah, self.first, self.last, self.page))
+
+
+class CommentaryMenu(discord.ui.DynamicItem[discord.ui.Select], template=r"tafk:" + _STATE):
+    """The menu of commentaries."""
+
+    def __init__(self, key, surah, first, last):
+        super().__init__(discord.ui.Select(
+            placeholder="Another commentary…", row=0,
+            custom_id=f"tafk:{surah}:{first}:{'' if last is None else last}",
+            options=[discord.SelectOption(label=tafsir(k)["name"], value=k, description=tafsir(k)["source"][:100],
+                                          default=k == key) for k in available()] or
+                    [discord.SelectOption(label="(none)", value="none")]))
+        self.surah, self.first, self.last = surah, first, last
+
+    @classmethod
+    async def from_custom_id(cls, interaction, item, match):
+        s, a, b = _state(match)
+        return cls("", s, a, b)
+
+    async def callback(self, interaction: discord.Interaction):
+        values = (interaction.data or {}).get("values") or []
+        if not available() or not values:
+            await interaction.response.send_message("The commentaries aren't available right now.", ephemeral=True)
+            return
+        await interaction.response.edit_message(**reply(values[0], self.surah, self.first, self.last))
 
 
 class CommentaryButton(discord.ui.DynamicItem[discord.ui.Button], template=r"tafsir:(?P<ref>Quran [0-9:–-]{1,12})"):
@@ -162,12 +210,10 @@ class CommentaryButton(discord.ui.DynamicItem[discord.ui.Button], template=r"taf
         if not parsed or not keys:
             await interaction.response.send_message("The commentaries aren't available right now.", ephemeral=True)
             return
-        view = CommentaryView(self.ref, parsed, keys[0])
-        await interaction.response.send_message(embed=embed_for(view.key, self.ref, view.pages, 0), view=view,
-                                                ephemeral=True)
+        await interaction.response.send_message(**reply(keys[0], *parsed))
 
 
-bot.add_dynamic_items(CommentaryButton)
+bot.add_dynamic_items(CommentaryButton, CommentaryNav, CommentaryMenu)
 
 
 def commentary_buttons(result: dict) -> list:

@@ -14,6 +14,11 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-11-11 · Qur'an commentary for everyone, and no more setup questions
+- 📖 **The Qur'an commentary is now posted for everyone.** Pressing **📖 Commentary** under a Qur'an verse (try `!verse Quran 2:255`) used to show the commentary only to you. Now the whole channel sees it, so you can read and discuss it together.
+- ◀ ▶ **New buttons to step to the verse before or after**, like **◀ 2:254** and **2:256 ▶**, so you can read the commentary verse by verse. The old ◀ ▶ arrows turned pages, so on a short commentary with only one page they were greyed out and seemed to do nothing. Now page buttons only appear when there are pages to turn. The buttons also keep working after the bot restarts.
+- ⚙️ **`!serversetup` is gone**, along with `/setup traditions` and the "Set me up" button on the welcome message. It asked admins a series of questions about what their server was for. Everything is now simply on. Admins who want a tidier `/` menu can still switch off a group of commands with `!packs`, for example `!packs divination off`.
+
 ## 2026-11-11 · The whole library on every server
 - 📚 **Every server now has every book.** Until now, a server's admins could pick which religions' texts the bot would show, and the rest were hidden from `!verse`, `!search`, `!books` and the rest (as if the bot didn't have them). That choice is gone: the whole library is open everywhere. If your server had picked only some traditions, you'll now also find the others, for example `!books buddhist` or `!verse Gita 2:47`.
 - ⚙️ **Setting up a server still chooses its commands.** `!serversetup` (or `/setup traditions`) still asks what your server is for, and uses the answers to decide which extra commands to offer, like the Rosary, the Torah portion or the Islamic prayer times, so your `/` menu stays tidy. `!packs` (or `/setup packs`) still switches one group of commands on or off, for example `!packs divination off`. It no longer takes a tradition's name, since texts can't be switched off any more.

@@ -78,6 +78,42 @@ def test_commentary_button():
             assert len(page) <= 4096 and "`" not in page and "�" not in page
 
 
+@needs_tafsir
+def test_commentary_reply_is_public_and_steps_verse_to_verse(bot_module):
+    """(2026-11-11) The owner: the commentary should be seen by everyone, and ◀ ▶ "don't do anything" (they were
+    page arrows, greyed out on a one-page commentary). Now the page arrows show only when there are pages to turn,
+    and buttons go to the verse before and after; every control is persistent."""
+    import asyncio
+    import types
+    from bot_commands import tafsir
+    message = tafsir.reply("ibnabbas", 58, 21, 21)
+    labels = [getattr(getattr(c, "item", c), "label", None) for c in message["view"].children]
+    assert "◀ Page" not in labels and "◀ 58:20" in labels and "58:22 ▶" in labels
+    assert all(c.item.custom_id for c in message["view"].children)
+    ids = [c.item.custom_id for c in message["view"].children]
+    assert len(ids) == len(set(ids))
+    assert "58:23 ▶" not in [getattr(c.item, "label", None) for c in tafsir.reply("ibnabbas", 58, 22, 22)["view"].children]
+    long = tafsir.reply("ibnkathir", 2, 1, 20)
+    assert "Page ▶" in [getattr(c.item, "label", None) for c in long["view"].children]
+    edits, sent = [], []
+
+    class Response:
+        async def edit_message(self, **kw): edits.append(kw)
+        async def send_message(self, *a, **kw): sent.append(kw)
+    nxt = next(c.item for c in message["view"].children if getattr(c.item, "label", None) == "58:22 ▶")
+    item = asyncio.run(tafsir.CommentaryNav.from_custom_id(
+        None, None, tafsir.CommentaryNav.__discord_ui_compiled_template__.fullmatch(nxt.custom_id)))
+    asyncio.run(item.callback(types.SimpleNamespace(response=Response())))
+    assert "58:22" in edits[-1]["embed"].title
+    button = tafsir.CommentaryButton("Quran 2:255")
+    asyncio.run(button.callback(types.SimpleNamespace(response=Response())))
+    assert sent and not sent[-1].get("ephemeral")
+    menu = asyncio.run(tafsir.CommentaryMenu.from_custom_id(
+        None, None, tafsir.CommentaryMenu.__discord_ui_compiled_template__.fullmatch("tafk:2:255:255")))
+    asyncio.run(menu.callback(types.SimpleNamespace(response=Response(), data={"values": ["ibnkathir"]})))
+    assert "Ibn Kathir" in edits[-1]["embed"].title
+
+
 @pytest.mark.parametrize("ref, words", [
     ("Stories of the Prophets 1:1", "*Prophet Adam*\n*Informing the Angels About Adam*\nAllah the Almighty revealed:"),
     ("Stories of the Prophets 3:1", "*Prophet Nuh (Noah)*"),                  # (its heading in a smaller type)

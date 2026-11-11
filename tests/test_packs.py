@@ -31,8 +31,8 @@ def ctx_in(guild_id, command=None):
 
 
 def protestant(packs):
-    """A Protestant server that answered: Christianity, Protestant, no divination."""
-    packs.save_choices(GUILD, packs.packs_for({"bible", "christian"}, packs.CHURCHES["protestant"][1], False))
+    """A Protestant server: the church commands and the Prayer Book's, nothing else."""
+    packs.save_choices(GUILD, {"church", "protestant"})
 
 
 def test_every_pack_command_is_real_and_has_a_slash_version(bot_module):
@@ -57,27 +57,6 @@ def test_a_server_that_never_chose_has_everything(bot_module):
     import core
     assert core.guild_packs(GUILD) == frozenset(core.PACKS)
     assert all(core.command_enabled(GUILD, name) for name in core.PACK_OF)
-
-
-@pytest.mark.parametrize("church, answer, on, off", [
-    ("protestant", None, {"church", "protestant"}, {"saints", "catholic_devotion", "orthodox", "divination"}),
-    ("anglican", "low", {"protestant"}, {"saints", "catholic_devotion"}),
-    ("anglican", "broad", {"protestant", "saints"}, {"catholic_devotion"}),
-    ("anglican", "high", {"protestant", "saints", "catholic_devotion"}, {"catholic_teaching", "orthodox"}),
-    ("catholic", None, {"saints", "catholic_devotion", "catholic_teaching"}, {"protestant", "orthodox"}),
-    ("orthodox", None, {"saints", "orthodox"}, {"protestant", "catholic_teaching"}),
-])
-def test_the_answers_choose_the_packs(packs, church, answer, on, off):
-    church_packs = packs.ANGLICAN[answer][1] if answer else packs.CHURCHES[church][1]
-    chosen = packs.packs_for({"bible", "christian"}, church_packs, False)
-    assert on <= chosen and not off & chosen
-    assert "comparative" not in chosen and "jewish_learning" not in chosen
-
-
-def test_other_traditions_bring_their_own_packs(packs):
-    assert packs.packs_for({"bible", "jewish"}, set(), False) == {"jewish_learning", "comparative"}
-    assert packs.packs_for({"bible", "islamic", "sufi"}, set(), True) == {"islamic_prayer", "comparative", "divination"}
-    assert packs.packs_for({"bible"}, set(), False) == set()
 
 
 def test_a_turned_off_command_is_ignored_without_a_reply(bot_module, packs):
@@ -179,40 +158,7 @@ def test_each_server_gets_only_its_slash_commands(bot_module, packs, monkeypatch
     assert sorted(added) == ["hymn", "vov"]
 
 
-def test_the_wizard_walks_through_the_questions(bot_module, packs, monkeypatch):
-    import core
-    applied = []
-
-    async def apply(guild):
-        applied.append(guild)
-    monkeypatch.setattr(packs, "apply", apply)
-
-    class Response:
-        async def edit_message(self, **kw): self.last = kw
-        async def defer(self): pass
-
-    def press(label):
-        button = next(item for item in wizard.children if getattr(item, "label", None) == label)
-        interaction = types.SimpleNamespace(response=Response(), guild=None)
-        asyncio.run(button.callback(interaction))
-        return interaction.response.last
-
-    wizard = packs.SetupWizard(GUILD)
-    wizard.traditions = {"christian", "jewish"}
-    press("Next ▶")
-    assert "Which church" in wizard.question
-    press("Anglican")
-    assert "How high church" in wizard.question
-    press("High church / Anglo-Catholic")
-    assert "divination" in wizard.question
-    final = press("No thanks")
-    assert final["view"] is None and "All set" in final["embed"].title
-    assert core.guild_packs(GUILD) == {"church", "protestant", "saints", "catholic_devotion", "jewish_learning",
-                                       "comparative"}
-    assert applied
-
-
-def test_welcome_offers_the_setup(bot_module, packs, monkeypatch):
+def test_welcome_has_no_setup_questions(bot_module, packs, monkeypatch):
     sent = []
 
     async def no_sync(guild, tree=None):
@@ -228,5 +174,6 @@ def test_welcome_offers_the_setup(bot_module, packs, monkeypatch):
 
     guild = types.SimpleNamespace(system_channel=Channel(), me=object(), text_channels=[], id=GUILD)
     asyncio.run(packs.welcome(guild))
-    assert isinstance(sent[0]["view"], packs.WelcomeView)
-    assert "Set me up" in sent[0]["embed"].description
+    assert "view" not in sent[0] and "Set me up" not in sent[0]["embed"].description     # (removed 2026-11-11)
+    assert "!packs" in sent[0]["embed"].description
+    assert bot_module.bot.get_command("serversetup") is None

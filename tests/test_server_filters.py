@@ -13,7 +13,7 @@ GUILD = 5151
 @pytest.fixture
 def protestant(bot_module):
     from bot_commands import packs
-    packs.save_choices(GUILD, packs.packs_for({"bible", "christian"}, packs.CHURCHES["protestant"][1], False))
+    packs.save_choices(GUILD, {"church", "protestant"})
     return GUILD
 
 

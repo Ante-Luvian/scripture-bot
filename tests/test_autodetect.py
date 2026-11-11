@@ -93,7 +93,7 @@ def test_welcome_message_points_to_the_setup_commands(autodetect, bot_module, mo
     for sub in ("changelog", "intro", "votd", "quiz"):
         assert f"/setup {sub}" in text
         assert setup.get_command(sub) is not None                    # and it's real
-    assert "Set me up" in text and setup.get_command("traditions") is not None
+    assert "Set me up" not in text and setup.get_command("traditions") is None      # (removed 2026-11-11)
 
 
 def test_ordinary_chat_gets_no_reply(autodetect, monkeypatch):

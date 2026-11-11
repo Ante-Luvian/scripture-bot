@@ -129,7 +129,7 @@ HELP_MENU = [
         "`angelus`, `troparion`, `learning`, `roz`), then `time 07:00`, `test`, `off`",
         '`!changelogsetup #channel` — where I post my updates · `!changelog` — recent updates',
         '`!changelogintro` — post my introduction there (`fresh` clears my old posts first)',
-        '`!serversetup` — what this server is for · `!packs` — turn packs on/off',
+        '`!packs` — turn groups of commands on or off for this server',
     ]),
     ("🏛️ Ancient Languages & Strong's", [
         'Append to `!verse`: `OE` `WLC` `LXX` `TR` `VULG` `peshitta` `CSL`',
