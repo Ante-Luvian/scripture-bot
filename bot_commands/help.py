@@ -1022,7 +1022,8 @@ async def cmd_help(ctx, *, topic: str = ""):
             "Ibn Ishaq's *Sira*, the earliest life of Muhammad (abridged, trans. Rehatsek): `!verse Sira 3:1` "
             "(the first revelation). Ibn Kathir's *Stories of the Prophets*, Adam to Muhammad: "
             "`!verse Stories of the Prophets 12:1` (Joseph). Under any Qur'an verse, **📖 Commentary** shows "
-            "what al-Jalalayn, Ibn Kathir and Ibn 'Abbas say about it."
+            "what al-Jalalayn, Ibn Kathir and Ibn 'Abbas say about it, with al-Wahidi's occasions of revelation "
+            "and the Sufi readings of al-Tustari and al-Kashani."
         ), inline=False)
         await ctx.send(embed=embed)
         return

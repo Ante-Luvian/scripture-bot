@@ -171,3 +171,20 @@ def test_wahidi_and_tustari(bot_module):
     for key in ("wahidi", "tustari"):
         text = str(tafsir.tafsir(key))
         assert "\ufffd" not in text and "<script" not in text and "http" not in text
+
+
+@pytest.mark.skipif(not (ROOT / "data" / "tafsir" / "kashani.json").exists(), reason="python scripts/fetch_tafsir.py --altafsir")
+def test_kashani_whole_and_paged_commentaries(bot_module):
+    """(2026-11-11) altafsir.com splits a long commentary into pages of ~2,300 characters: all of them are kept.
+    Kashani's 1:1 runs to three; al-Wahidi's 2:115 to two (it was cut at the first)."""
+    from bot_commands import tafsir
+    assert "kashani" in tafsir.available()
+    basmala = tafsir.entries("kashani", 1, 1, 1)[0][1]
+    assert basmala.startswith("In the Name of God: the name of a thing") and "I seek refuge in You from You" in basmala
+    assert "the Negus died" in tafsir.entries("wahidi", 2, 115, 115)[0][1]
+    text = str(tafsir.tafsir("kashani"))
+    assert "\ufffd" not in text and "<script" not in text and "http" not in text
+    assert "\u00cc" not in text and "Qur\u02be\u0101n" in text                    # (the site's hamza, put right)
+    # Hamza's English Kashani stops at surah 18: past it, the menu says so rather than "nothing on these verses"
+    embed = tafsir.embed_for("kashani", "Quran 19:1", [], 0)
+    assert "goes only as far as surah 18" in embed.description

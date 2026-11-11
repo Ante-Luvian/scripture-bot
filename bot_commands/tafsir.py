@@ -1,13 +1,14 @@
 """
 The 📖 Commentary button under Qur'an verses in !verse: what the classical commentators (tafsir) say about them.
-Five English commentaries, downloaded into data/tafsir/ by scripts/fetch_tafsir.py:
+Six English commentaries, downloaded into data/tafsir/ by scripts/fetch_tafsir.py:
 
     Tafsir al-Jalalayn (al-Mahalli and al-Suyuti, trans. Feras Hamza) -- short, a gloss on every verse;
     Tafsir Ibn Kathir (abridged) -- long, one commentary on a run of verses, with the hadith it cites;
     Tanwir al-Miqbas, attributed to Ibn 'Abbas (trans. Mokrane Guezzou);
     al-Wahidi's Asbab al-Nuzul, the occasions on which verses were revealed (trans. Mokrane Guezzou) -- only the
     verses it has a story for (2026-11-11);
-    the Sufi commentary of Sahl al-Tustari (trans. Annabel and Ali Keeler) -- selected verses (2026-11-11).
+    the Sufi commentary of Sahl al-Tustari (trans. Annabel and Ali Keeler) -- selected verses (2026-11-11);
+    the Sufi commentary of al-Kashani (trans. Feras Hamza), long, a page or more on most verses (2026-11-11).
 
 The reply is posted for everyone (the owner, 2026-11-11), opens on the Jalalayn, and has a menu to switch
 commentary, ◀ ▶ through its pages when it has more than one, and buttons to the verse before and after. Every control
@@ -21,7 +22,7 @@ import discord
 from core import ROOT, bot
 
 TAFSIR_DIR = ROOT / "data" / "tafsir"
-ORDER = ["jalalayn", "ibnkathir", "ibnabbas", "wahidi", "tustari"]
+ORDER = ["jalalayn", "ibnkathir", "ibnabbas", "wahidi", "tustari", "kashani"]
 COLOR = discord.Color.dark_green()
 PAGE = 3500
 _DATA: dict = {}
@@ -95,8 +96,13 @@ def pages_of(key: str, surah: int, first: int, last) -> list:
 
 def embed_for(key: str, ref: str, pages: list, page: int) -> discord.Embed:
     data = tafsir(key)
+    empty = "This commentary has nothing on these verses."
+    parsed = parse(ref)
+    if not pages and data.get("covers") and parsed and parsed[0] > data["covers"]:
+        # (Hamza's English Kashani goes only to surah 18)
+        empty = f"This translation of {data.get('name', key)} goes only as far as surah {data['covers']}."
     embed = discord.Embed(title=f"📖 {data.get('name', key)} on {ref}", color=COLOR,
-                          description=pages[page] if pages else "This commentary has nothing on these verses.")
+                          description=pages[page] if pages else empty)
     footer = data.get("source", "")
     if len(pages) > 1:
         footer += f" · page {page + 1} of {len(pages)}"

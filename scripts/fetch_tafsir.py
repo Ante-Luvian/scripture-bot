@@ -15,7 +15,7 @@ and Ibn Kathir come from its copies of quran.com's QUL, which are clean.
 Each file: {"name", "source", "surahs": {surah: {ayah: text}}} -- an ayah with nothing of its own isn't there.
 
     python scripts/fetch_tafsir.py
-    python scripts/fetch_tafsir.py --altafsir   (al-Wahidi and al-Tustari from altafsir.com; ~12,500 pages, hours)
+    python scripts/fetch_tafsir.py --altafsir   (al-Wahidi, al-Tustari and al-Kashani from altafsir.com; hours)
 """
 import json
 import re
@@ -117,6 +117,11 @@ ALTAFSIR = {
     "qushayri": (108, "Lata'if al-Isharat", "al-Qushayri, trans. Kristin Zahra Sands"),
     "kashani": (107, "Tafsir al-Kashani", "al-Kashani, trans. Feras Hamza"),
 }
+FIRST_FETCH_SOUND = {"wahidi", "tustari"}   # (scripts/.cache/altafsir/: which verses have commentary, first pages)
+DENSE = {"kashani"}
+# the surahs a commentary's English on altafsir.com goes to: Hamza's Kashani there stops after al-Kahf (18); every
+# later surah's pages are empty (checked 2026-11-11 at 19, 20, 21, 24, 36, 50, 55, 67, 78, 93, 96, 103 and 112)
+COVERS = {"kashani": 18}           # commentaries on nearly every verse: a surah with nothing means the site failed
 AYAHS = [7, 286, 200, 176, 120, 165, 206, 75, 129, 109, 123, 111, 43, 52, 99, 128, 111, 110, 98, 135, 112, 78, 118,
          64, 77, 227, 93, 88, 69, 60, 34, 30, 73, 54, 45, 83, 182, 88, 75, 85, 54, 53, 89, 59, 37, 35, 38, 29, 18, 45,
          60, 49, 62, 55, 78, 96, 29, 22, 24, 13, 14, 11, 11, 18, 12, 12, 30, 52, 52, 44, 28, 28, 20, 56, 40, 31, 50,
@@ -129,12 +134,14 @@ def _cp1252(err):
     return err.object[err.start:err.end].decode("cp1252", "replace"), err.end
 
 
-def altafsir_page(no: int, surah: int, ayah: int) -> str:
+def altafsir_page(no: int, surah: int, ayah: int, page: int = 1) -> "tuple[str, int]":
+    """(the text of one page of a verse's commentary, how many pages it has). A long commentary is split into pages
+    of ~2,300 characters ("&Page=2&Size=1"); each page links to all the others, so the highest is the count."""
     import codecs
     import html as htmllib
     codecs.register_error("cp1252-fallback", _cp1252)
     url = (f"https://www.altafsir.com/Tafasir.asp?tMadhNo=0&tTafsirNo={no}&tSoraNo={surah}&tAyahNo={ayah}"
-           f"&tDisplay=yes&LanguageID=2")
+           f"&tDisplay=yes" + (f"&Page={page}&Size=1" if page > 1 else "") + "&LanguageID=2")
     for attempt in range(5):
         try:
             raw = urllib.request.urlopen(urllib.request.Request(url, headers=UA), timeout=90).read()
@@ -143,33 +150,56 @@ def altafsir_page(no: int, surah: int, ayah: int) -> str:
             time.sleep(10 * (attempt + 1))
     else:
         raise SystemExit(f"altafsir {no} {surah}:{ayah}: no answer")
-    page = raw.decode("utf-8", "cp1252-fallback")
-    expect("ArraySoraAyah" in page, f"altafsir {no} {surah}:{ayah}: not one of its pages")
-    m = re.search(r"(?s)<font class='TextResultEnglish'>(.*?)<hr size='1'><span class='CopyRight'>", page)
-    if "id=AyahText" not in page or not m:                    # (a verse with no commentary)
-        return ""
+    html_ = raw.decode("utf-8", "cp1252-fallback")
+    expect("ArraySoraAyah" in html_, f"altafsir {no} {surah}:{ayah}: not one of its pages")
+    # (the text ends at the copyright line, or -- Kashani's pages -- at the paging links)
+    m = re.search(r"(?s)<font class='TextResultEnglish'>(.*?)(?:<hr size='1'><span class='CopyRight'>|<LABEL\b)", html_)
+    if "id=AyahText" not in html_ or not m:                   # (a verse with no commentary)
+        return "", 0
+    pages = max([page] + [int(x) for x in re.findall(r"InnerLink_onchange\(\d+,(\d+),\d+\)", html_)])
     # (the site's pages carry someone's injected <script> tags: none of that, and nothing like a link, may get in)
     body = re.sub(r"(?is)<script\b.*?</script>|<script\b[^>]*>", "", m.group(1))
     body = re.sub(r"(?is)<span[^>]*font-family:\s*Andalus[^>]*>.*?</span>", "", body)   # (Arabic, mis-encoded)
     body = re.sub(r"(?i)<br\s*/?>", "\n", body)
     text = tidy(htmllib.unescape(re.sub(r"<[^>]+>", "", body)))
     expect(not re.search(r"(?i)https?:|www\.|\.js\b|jsdelivr|<\w", text), f"altafsir {no} {surah}:{ayah}: {text[:80]!r}")
-    return text
+    return text, pages
+
+
+def altafsir_verse(no: int, surah: int, ayah: int) -> str:
+    """A verse's whole commentary: its pages joined."""
+    text, pages = altafsir_page(no, surah, ayah)
+    parts = [text] if text else []
+    for p in range(2, pages + 1):
+        time.sleep(0.4)
+        more, _ = altafsir_page(no, surah, ayah, p)
+        expect(more, f"altafsir {no} {surah}:{ayah}: page {p} of {pages} empty")
+        parts.append(more)
+    return "\n\n".join(parts)
 
 
 def fetch_altafsir(key: str, workers: int = 3) -> None:
+    """Every verse's commentary, all its pages (scripts/.cache/altafsir2/). Where the first fetch (2026-11-11, first
+    pages only, scripts/.cache/altafsir/) already found which verses have commentary, only those are asked again."""
     from concurrent.futures import ThreadPoolExecutor
     no = ALTAFSIR[key][0]
-    cache = CACHE.parent / "altafsir"
+    cache, first = CACHE.parent / "altafsir2", CACHE.parent / "altafsir"
     cache.mkdir(parents=True, exist_ok=True)
     for surah, count in enumerate(AYAHS, start=1):
         f = cache / f"{key}_{surah}.json"
-        if f.exists():
+        if f.exists() or surah > COVERS.get(key, 114):
             continue
+        old = first / f"{key}_{surah}.json"
+        # (only where that first fetch was sound: Kashani's came back empty, and read as "no commentary anywhere"
+        # it asked for nothing)
+        ayahs = sorted(int(a) for a in json.loads(old.read_text(encoding="utf-8"))) \
+            if old.exists() and key in FIRST_FETCH_SOUND else range(1, count + 1)
         with ThreadPoolExecutor(workers) as pool:
-            texts = list(pool.map(lambda a: (time.sleep(0.4), altafsir_page(no, surah, a))[1], range(1, count + 1)))
-        f.write_text(json.dumps({str(a): t for a, t in enumerate(texts, start=1) if t}, ensure_ascii=False),
-                     encoding="utf-8")
+            texts = list(pool.map(lambda a: (time.sleep(0.4), altafsir_verse(no, surah, a))[1], ayahs))
+        # (the site sometimes answers with pages that have no text at all, which look like verses without commentary:
+        # a whole surah of Kashani's came back so on 2026-11-11. He comments on nearly every verse, so stop, unsaved.)
+        expect(key not in DENSE or any(texts), f"{key} {surah}: every page empty -- the site isn't answering; rerun")
+        f.write_text(json.dumps({str(a): t for a, t in zip(ayahs, texts) if t}, ensure_ascii=False), encoding="utf-8")
         print(f"  {key} {surah}: {sum(1 for t in texts if t)} of {count}", flush=True)
 
 
@@ -177,12 +207,16 @@ def build_altafsir(key: str) -> dict:
     """An altafsir commentary from its fetched pages: a passage the site shows under each verse it covers is kept
     once, on its first verse, with the verses it covers (as Ibn Kathir's)."""
     no, name, source = ALTAFSIR[key]
-    cache = CACHE.parent / "altafsir"
+    cache = CACHE.parent / "altafsir2"
     surahs = {}
     for s, count in enumerate(AYAHS, start=1):
         f = cache / f"{key}_{s}.json"
+        if s > COVERS.get(key, 114):
+            continue
         expect(f.exists(), f"{key} {s}: not fetched (python scripts/fetch_tafsir.py --altafsir {key})")
-        pages = {int(a): tidy(t) for a, t in json.loads(f.read_text(encoding="utf-8")).items() if t.strip()}
+        # (the site's transliterations write the hamza as "Ì": "QurÌān", "ḥaqāÌiq" -> "Qurʾān", "ḥaqāʾiq")
+        pages = {int(a): tidy(t.replace("Ì", "ʾ")) for a, t in json.loads(f.read_text(encoding="utf-8")).items()
+                 if t.strip()}
         verses, last = {}, None
         for a in sorted(pages):
             if last and pages[a] == verses[last]["text"] and a == verses[last]["to"] + 1:
@@ -192,13 +226,15 @@ def build_altafsir(key: str) -> dict:
             last = a
         surahs[str(s)] = {str(a): (v["text"] if v["to"] == a else {"text": v["text"], "to": v["to"]})
                           for a, v in verses.items()}
-    return {"name": name, "source": source, "surahs": surahs}
+    out = {"name": name, "source": source, "surahs": surahs}
+    if key in COVERS:
+        out["covers"] = COVERS[key]                   # (the last surah it has: bot_commands/tafsir.py says so past it)
+    return out
 
 
-# The altafsir commentaries in the 📖 Commentary menu. (Kashani's and al-Qushayri's pages came back empty to this
-# script on 2026-11-11 -- the site serves them only to browsers -- and al-Qushayri's one page seen had lost its
-# commas; left out.)
-ALTAFSIR_BUILT = ["wahidi", "tustari"]
+# The altafsir commentaries in the 📖 Commentary menu. (Kashani's pages looked empty at first, 2026-11-11: their text
+# ends at the paging links, not the copyright line. Al-Qushayri's one page seen had lost its commas: left out.)
+ALTAFSIR_BUILT = ["wahidi", "tustari", "kashani"]
 
 
 def main() -> None:
