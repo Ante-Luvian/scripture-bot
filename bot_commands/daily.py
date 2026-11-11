@@ -24,7 +24,8 @@ KINDS = {
     "troparion": ("☦️ The troparia of the day", "troparionsetup", "troparion", ("troparia",)),
     "learning":  ("✡️ The day's Jewish learning", "learningsetup", "learning", ("jewish",)),
     "roz":       ("🔥 The Zoroastrian day (!roz)", "rozsetup", "rozday", ("zoroastrian", "parsi")),
-    "office":    ("🕯️ An hour of the Divine Office (!office)", "officesetup", "office", ("breviary", "hours")),
+    "office":    ("🕯️ The hours of the Divine Office, as they come (!office)", "officesetup", "office",
+                  ("breviary", "hours")),
 }
 _BY_NAME = {name: kind for kind, (_, _, _, others) in KINDS.items() for name in (kind, *others)}
 

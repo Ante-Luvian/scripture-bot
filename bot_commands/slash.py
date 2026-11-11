@@ -533,9 +533,9 @@ _daily("angelus", "angelussetup", "The Angelus at chosen hours", ("show", "chann
        "For 'time': one or more HH:MM, UTC (06:00 12:00 18:00)")
 _daily("learning", "learningsetup", "The day's Jewish learning", ("show", "channel", "time", "test", "off"))
 _daily("troparion", "troparionsetup", "The day's Orthodox troparia", ("show", "channel", "time", "test", "off"))
-_daily("office", "officesetup", "An hour of the Divine Office each day",
-       ("show", "channel", "time", "hour", "rubrics", "test", "off"),
-       "For 'time' (HH:MM, UTC), 'hour' (lauds, vespers...) or 'rubrics' (1954, 1960, monastic...)")
+_daily("office", "officesetup", "Each hour of the Divine Office as it comes round",
+       ("show", "channel", "zone", "hours", "rubrics", "test", "off"),
+       "For 'zone' (hours from UTC: -5), 'hours' (lauds vespers compline, or all) or 'rubrics' (1954, 1960...)")
 _daily("roz", "rozsetup", "The Zoroastrian day: its being, festivals and gahs", ("show", "channel", "time", "test", "off"))
 
 

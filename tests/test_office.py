@@ -70,26 +70,30 @@ def test_rubrics(office, args, key, rest):
 
 @pytest.mark.skipif("not __import__('bot_commands.office', fromlist=['x']).available()",
                     reason="needs Perl and vendor/divinum-officium")
-def test_daily_post_once_a_day(office):
-    """!daily office: the chosen hour and rubrics in the chosen channel, once a day even across restarts."""
+def test_each_hour_as_it_comes(office):
+    """!daily office: each chosen hour at its traditional time in the server's zone, once (across restarts), as a card
+    with 📖 to open it; the day is the server's day."""
     import core
     sent = []
 
     class Channel:
         async def send(self, **kw):
             sent.append(kw)
-    core._update_guild_config(7, office_channel_id=99, office_time="05:30", office_hour="vespers",
+    core._update_guild_config(7, office_channel_id=99, office_zone=-5, office_hours=["vespers", "compline"],
                               office_rubrics="1960")
     client = type("C", (), {"get_channel": lambda self, i: Channel() if i == 99 else None})()
-    day = datetime.date(2026, 11, 15)
-    assert asyncio.run(office.run_daily_office(client, day, "05:29")) == 0
-    assert asyncio.run(office.run_daily_office(client, day, "05:30")) == 1
-    assert asyncio.run(office.run_daily_office(client, day, "05:30")) == 0          # (already posted today)
-    card = sent[0]["embed"]                                   # (a card: the day, psalms, reading; 📖 opens the hour)
-    assert card.title.startswith("🕯️ Vespers") and "1960" in card.footer.text and "Sixth Sunday" in card.description
-    assert any(f.name == "Psalms" for f in card.fields)
+    utc = lambda h, m=0: datetime.datetime(2026, 11, 15, h, m)              # (UTC-5: 18:00 there is 23:00 here)
+    assert asyncio.run(office.run_office_hours(client, utc(18))) == 0          # (13:00 there: no hour chosen)
+    assert asyncio.run(office.run_office_hours(client, utc(23))) == 1          # (18:00 there: Vespers)
+    assert asyncio.run(office.run_office_hours(client, utc(23))) == 0          # (already posted)
+    card = sent[0]["embed"]
+    assert card.title.startswith("🕯️ Vespers · Sunday 15 November") and "1960" in card.footer.text
+    assert "Sixth Sunday" in card.description and any(f.name == "Psalms" for f in card.fields)
     button = sent[0]["view"].children[0].item
     assert button.custom_id == "dopen:vespers:20261115:1960" and "Vespers" in button.label
+    # Compline at 21:00 there is 02:00 UTC the next day: still Sunday's Compline
+    assert asyncio.run(office.run_office_hours(client, datetime.datetime(2026, 11, 16, 2, 0))) == 1
+    assert sent[1]["embed"].title.startswith("🕯️ Compline · Sunday 15 November")
 
 
 @pytest.mark.skipif("not __import__('bot_commands.office', fromlist=['x']).available()",

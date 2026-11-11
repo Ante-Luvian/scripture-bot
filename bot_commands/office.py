@@ -391,10 +391,14 @@ async def cmd_office(ctx, *, args: str = ""):
 bot.add_dynamic_items(OfficePage, OfficeOpen)
 
 
-# ── the daily post (!daily office) ──────────────────────────────────────────
-# Per server in guild_config.json: office_channel_id, office_time ("HH:MM" UTC), office_hour, office_rubrics.
-OFFICE_PATH = ROOT / "data" / "office.json"          # {"posted": {guild: "date hour"}}: a restart doesn't post twice
-DEFAULT_TIME, DEFAULT_HOUR = "06:00", "lauds"
+# ── the hours as they come (!daily office) ──────────────────────────────────
+# A server's channel gets each hour at its traditional time, as a card (the day, psalms, readings) with 📖 to pray it.
+# Per server in guild_config.json: office_channel_id, office_hours ([hour, ...]; all eight unless chosen),
+# office_zone (hours from UTC the times are reckoned in), office_rubrics.
+OFFICE_PATH = ROOT / "data" / "office.json"   # {"posted": {guild: {hour: date}}}: a restart doesn't post one twice
+TIMES = {"matins": "00:00", "lauds": "06:00", "prime": "07:00", "terce": "09:00", "sext": "12:00", "none": "15:00",
+         "vespers": "18:00", "compline": "21:00"}       # (the traditional hours, in the server's own time)
+ALL_HOURS = list(TIMES)
 
 
 def _load_state() -> dict:
@@ -406,8 +410,10 @@ def _load_state() -> dict:
 
 async def post_office(guild_id, channel, day: datetime.date, hour: str, rubrics: str, force: bool = False) -> bool:
     state = _load_state()
-    mark = f"{day.isoformat()} {hour}"
-    if state.get("posted", {}).get(str(guild_id)) == mark and not force:
+    done = state.setdefault("posted", {}).setdefault(str(guild_id), {})
+    if not isinstance(done, dict):                   # (the once-a-day form: {guild: "date hour"})
+        done = state["posted"][str(guild_id)] = {}
+    if done.get(hour) == day.isoformat() and not force:
         return False
     name, pages = await hour_pages(hour, day, rubrics)
     if not pages:
@@ -416,34 +422,42 @@ async def post_office(guild_id, channel, day: datetime.date, hour: str, rubrics:
     view.add_item(OfficeOpen(hour, day, rubrics))
     await channel.send(embed=card_for(hour, day, name, _SUMMARY.get((HOURS[hour][1], day, rubrics), {}), rubrics),
                        view=view)
-    state.setdefault("posted", {})[str(guild_id)] = mark
+    done[hour] = day.isoformat()
     _atomic_write_json(OFFICE_PATH, state)
     return True
 
 
-async def run_daily_office(client, day: datetime.date, current_hm: str) -> int:
+def local_now(utc: datetime.datetime, zone: float) -> datetime.datetime:
+    return utc + datetime.timedelta(hours=zone)
+
+
+async def run_office_hours(client, utc: datetime.datetime) -> int:
+    """Post each server's hours whose time has come (in the server's own time); the day is the server's day."""
     if not available():
         return 0
     posted = 0
     for guild_id, g in _load_guild_config().items():
         channel_id = g.get("office_channel_id")
-        if not channel_id or g.get("office_time", DEFAULT_TIME) != current_hm:
+        if not channel_id:
             continue
-        channel = client.get_channel(int(channel_id))
-        if channel is None:
-            continue
-        try:
-            posted += await post_office(guild_id, channel, day, g.get("office_hour", DEFAULT_HOUR),
-                                        g.get("office_rubrics", "da"))
-        except Exception:
-            log.exception(f"Failed to post the Divine Office for guild {guild_id}")
+        now = local_now(utc, float(g.get("office_zone", 0)))
+        hm = f"{now.hour:02d}:{now.minute:02d}"
+        for hour in g.get("office_hours") or ALL_HOURS:
+            if TIMES.get(hour) != hm:
+                continue
+            channel = client.get_channel(int(channel_id))
+            if channel is None:
+                continue
+            try:
+                posted += await post_office(guild_id, channel, now.date(), hour, g.get("office_rubrics", "da"))
+            except Exception:
+                log.exception(f"Failed to post {hour} for guild {guild_id}")
     return posted
 
 
 @tasks.loop(minutes=1)
 async def daily_office_task():
-    now = datetime.datetime.now(datetime.timezone.utc)
-    await run_daily_office(bot, now.date(), f"{now.hour:02d}:{now.minute:02d}")
+    await run_office_hours(bot, datetime.datetime.now(datetime.timezone.utc).replace(tzinfo=None))
 
 
 @daily_office_task.before_loop
@@ -451,68 +465,89 @@ async def _before_daily_office():
     await bot.wait_until_ready()
 
 
+def _zone_text(zone: float) -> str:
+    return "UTC" if not zone else f"UTC{'+' if zone > 0 else '−'}{abs(zone):g}"
+
+
 @bot.command(name="officesetup", hidden=True)                         # (!daily office)
 @commands.has_permissions(administrator=True)
 async def cmd_officesetup(ctx, action: str = "", *, arg: str = ""):
-    """Post an hour of the Divine Office in a channel each day.
-    Usage: !officesetup                  — show this server's settings
-           !officesetup channel #chan    — post it there each day
-           !officesetup time 06:00       — at that time (24h UTC)
-           !officesetup hour vespers     — which hour (Lauds unless set)
-           !officesetup rubrics 1960     — which Breviary (1570, 1910, 1954, 1955, 1960, monastic)
-           !officesetup test             — post today's now
-           !officesetup off              — stop the daily post"""
+    """Post each hour of the Divine Office in a channel as it comes round.
+    Usage: !officesetup                       — show this server's settings
+           !officesetup channel #chan         — post the hours there
+           !officesetup zone -5               — reckon the hours in your time (hours from UTC)
+           !officesetup hours lauds vespers   — only these hours (all eight unless chosen; "all" for all)
+           !officesetup rubrics 1960          — which Breviary (1570, 1910, 1954, 1955, 1960, monastic)
+           !officesetup test                  — post the hour that's next now
+           !officesetup off                   — stop posting"""
     if not ctx.guild:
         await ctx.send("This command only works in a server.")
         return
     g = _load_guild_config().get(str(ctx.guild.id), {})
-    channel_id, time_hm = g.get("office_channel_id"), g.get("office_time", DEFAULT_TIME)
-    hour, rubrics = g.get("office_hour", DEFAULT_HOUR), g.get("office_rubrics", "da")
+    channel_id, zone = g.get("office_channel_id"), float(g.get("office_zone", 0))
+    hours, rubrics = g.get("office_hours") or ALL_HOURS, g.get("office_rubrics", "da")
     action, arg = action.strip().lower(), arg.strip()
     if not action:
         embed = discord.Embed(title=f"🕯️ The Divine Office — {ctx.guild.name}", color=COLOR)
-        embed.add_field(name="Channel", value=f"<#{channel_id}>" if channel_id else "*not set — no daily post*")
-        embed.add_field(name="Time (UTC)", value=time_hm)
-        embed.add_field(name="Hour", value=HOURS[hour][1])
+        embed.add_field(name="Channel", value=f"<#{channel_id}>" if channel_id else "*not set — nothing posted*")
+        embed.add_field(name="Time zone", value=_zone_text(zone))
         embed.add_field(name="Rubrics", value=RUBRICS[rubrics][1])
-        embed.set_footer(text="!daily office channel #chan · time HH:MM · hour vespers · rubrics 1960 · test · off")
+        embed.add_field(name="Hours", value="\n".join(f"{HOURS[h][1]} — {TIMES[h]}" for h in hours), inline=False)
+        embed.set_footer(text="!daily office channel #chan · zone -5 · hours lauds vespers · rubrics 1960 · test · off")
         await ctx.send(embed=embed)
     elif action == "off":
         _update_guild_config(ctx.guild.id, office_channel_id=None)
-        await ctx.send("The daily Divine Office post is off for this server. (`!office` still works.)")
+        await ctx.send("The hours are no longer posted in this server. (`!office` still works.)")
     elif action == "channel":
         channel = ctx.message.channel_mentions[0] if ctx.message.channel_mentions else None
         if channel is None:
             await ctx.send("Mention a channel: `!daily office channel #prayer`")
             return
         _update_guild_config(ctx.guild.id, office_channel_id=channel.id)
-        await ctx.send(f"{HOURS[hour][1]} will be posted in {channel.mention} each day at {time_hm} UTC.")
-    elif action == "time":
-        m = re.match(r"^(\d{1,2}):(\d{2})$", arg)
-        if not m or not (0 <= int(m.group(1)) <= 23 and 0 <= int(m.group(2)) <= 59):
-            await ctx.send("Use 24-hour UTC time: `!daily office time 06:00`")
+        await ctx.send(f"Each hour will be posted in {channel.mention} as it comes round "
+                       f"({', '.join(f'{HOURS[h][1]} {TIMES[h]}' for h in hours)}, {_zone_text(zone)}). "
+                       f"Set your time zone with `!daily office zone -5`.")
+    elif action in ("zone", "timezone", "tz", "time"):
+        m = re.fullmatch(r"(?:utc|gmt)?\s*([+-−]?\d{1,2}(?:[.:](?:5|30|45|75))?)", arg.lower().replace(" ", ""))
+        if not m:
+            await ctx.send("Give your time zone as hours from UTC: `!daily office zone -5` (New York in winter), "
+                           "`zone 1` (Paris), `zone 5:30` (India).")
             return
-        hm = f"{int(m.group(1)):02d}:{int(m.group(2)):02d}"
-        _update_guild_config(ctx.guild.id, office_time=hm)
-        await ctx.send(f"The daily office will be posted at **{hm} UTC**.")
-    elif action == "hour":
-        if arg.lower() not in HOURS:
-            await ctx.send("Which hour? matins, lauds, prime, terce, sext, none, vespers or compline.")
+        z = m[1].replace("−", "-")
+        h, _, frac = z.partition(":") if ":" in z else z.partition(".")
+        value = float(h) + (float(f"0.{frac}") if "." in z else (int(frac) / 60 if frac else 0)) * (-1 if h.startswith("-") else 1)
+        if not -12 <= value <= 14:
+            await ctx.send("Time zones run from UTC−12 to UTC+14.")
             return
-        _update_guild_config(ctx.guild.id, office_hour=arg.lower())
-        await ctx.send(f"The daily post will be **{HOURS[arg.lower()][1]}**.")
+        _update_guild_config(ctx.guild.id, office_zone=value)
+        await ctx.send(f"The hours will be reckoned in **{_zone_text(value)}**.")
+    elif action in ("hours", "hour"):
+        words = [w.lower() for w in re.split(r"[\s,]+", arg) if w]
+        if words == ["all"]:
+            chosen = ALL_HOURS
+        else:
+            chosen = [h for h in ALL_HOURS if any(HOURS.get(w, ("", ""))[1] == HOURS[h][1] for w in words)]
+        if not chosen:
+            await ctx.send("Which hours? `!daily office hours lauds vespers compline`, or `all`. The hours: "
+                           + ", ".join(ALL_HOURS) + ".")
+            return
+        _update_guild_config(ctx.guild.id, office_hours=chosen)
+        await ctx.send("Posting " + ", ".join(f"**{HOURS[h][1]}** ({TIMES[h]})" for h in chosen) + ".")
     elif action == "rubrics":
         key = RUBRIC_WORDS.get(arg.lower())
         if key is None:
             await ctx.send("Which Breviary? `1570`, `1910`, `1954` (Divino Afflatu), `1955`, `1960` or `monastic`.")
             return
         _update_guild_config(ctx.guild.id, office_rubrics=key)
-        await ctx.send(f"The daily post will follow **{RUBRICS[key][1]}**.")
+        await ctx.send(f"The hours will follow **{RUBRICS[key][1]}**.")
     elif action == "test":
         if not available():
             await ctx.send("The Divine Office isn't set up on this bot yet.")
             return
+        now = local_now(datetime.datetime.now(datetime.timezone.utc).replace(tzinfo=None), zone)
+        hm = f"{now.hour:02d}:{now.minute:02d}"
+        hour = next((h for h in hours if TIMES[h] > hm), hours[0])
         channel = bot.get_channel(int(channel_id)) if channel_id else ctx.channel
-        await post_office(ctx.guild.id, channel, _today(), hour, rubrics, force=True)
+        await post_office(ctx.guild.id, channel, now.date(), hour, rubrics, force=True)
     else:
-        await ctx.send("Unknown option. Use `channel`, `time`, `hour`, `rubrics`, `test`, or `off`.")
+        await ctx.send("Unknown option. Use `channel`, `zone`, `hours`, `rubrics`, `test`, or `off`.")
