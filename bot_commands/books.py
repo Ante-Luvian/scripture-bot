@@ -684,14 +684,6 @@ BOOKS_TREE = [
         ]),
         ("Platonists", [
             # his Platonist and religious essays; all of him (the Lives too) is under Lives, Essays & Satire
-            ("Plutarch", [
-                "Isis and Osiris", "The Ε at Delphi", "The Oracle at Delphi no Longer Given in Verse",
-                "The Obsolesence of Oracles", "Plutarch's Platonic questions",
-                "Concerning the procreation of the soul as discoursed in Timaeus",
-                "A Discourse Concerning Socrates's Daemon", "Concerning Such Whom God is Slow to Punish",
-                "Concerning the Face which Appears in the Orb Of the Moon", "Of Fate", "Superstition",
-                "On Moral Virtue", "Of Love",
-            ]),
             ("Middle Platonists", [
                 "The Doctrine of Plato (Alcinous)", "Dissertations of Maximus of Tyre",
                 "Taurus on the Eternity of the World", "Celsus Against the Christians",
@@ -1124,14 +1116,12 @@ BOOKS_TREE = [
             "The Story of Ahikar",
         ]),
         ("Pre-Islamic Arabic", [
+            # (by the books' own names: display labels here weren't counted as listing them, so the same seven
+            # odes were shelved a second time under "Also in the library")
             ("The Mu'allaqat — Seven Suspended Odes", [
-                "Muallaqat 1 — Imru' al-Qais (60 stanzas)",
-                "Muallaqat 2 — Tarafa ibn al-'Abd (33 stanzas)",
-                "Muallaqat 3 — Zuhayr ibn Abi Sulma (34 stanzas)",
-                "Muallaqat 4 — Labid ibn Rabi'ah (32 stanzas)",
-                "Muallaqat 5 — Antara ibn Shaddad (36 stanzas)",
-                "Muallaqat 6 — Amr ibn Kulthum (29 stanzas)",
-                "Muallaqat 7 — Al-Harith ibn Hilliza (24 stanzas)",
+                "Muallaqat: Imru' al-Qais", "Muallaqat: Tarafa ibn al-'Abd", "Muallaqat: Zuhayr ibn Abi Sulma",
+                "Muallaqat: Labid ibn Rabi'ah", "Muallaqat: Antara ibn Shaddad", "Muallaqat: Amr ibn Kulthum",
+                "Muallaqat: Al-Harith ibn Hilliza",
             ]),
         ]),
     ]),
@@ -1190,9 +1180,9 @@ BOOKS_TREE = [
                 "Ignatius to the Romans","Ignatius to the Philadelphians","Ignatius to the Smyrnaeans",
                 "Ignatius to Polycarp",
             ]),
-            ("Polycarp", ["Polycarp to the Philippians","Martyrdom of Polycarp"]),
+            ("Polycarp", ["Polycarp to the Philippians","Martyrdom of Polycarp","The Martydom of St. Polycarp"]),
             ("Barnabas", ["Epistle of Barnabas"]),
-            "Didache","Shepherd of Hermas","Epistle to Diognetus","Fragments (Papias)",
+            "Didache","The Didache, or Teaching of the Twelve Apostles","Shepherd of Hermas","Epistle to Diognetus","Fragments (Papias)",
         ]),
         ("Apologists", [
             ("Justin Martyr", [
@@ -1510,7 +1500,6 @@ PERSEUS_PLACES = {
         "Stoics": ["Epictetus"],
         "Myth & Geography": ["Apollodorus", "Strabo", "Pausanias"],
         "Science & Astrology": ["Hippocrates", "Galen", "Aretaeus", "Euclid"],
-        "Early Christian": ["Didache", "Martyrium Polycarpi"],
     },
     "Latin": {
         "Epic": ["Virgil", "Ovid", "Lucan", "Claudian"],
@@ -1526,15 +1515,197 @@ PERSEUS_PLACES = {
 }
 
 
+# Authors too long for one list (16 buttons a page), in the groups their works fall into: Plutarch's Lives in his own
+# pairs, the Moralia, Lucian and Demosthenes by subject (the owner, 2026-11-10). A title not named here goes in "Other
+# Works" at the end, so none can drop off the shelf.
+SUBGROUPS = {
+    "Plutarch": [
+        ("Parallel Lives", [
+            ("Theseus and Romulus", ["Theseus", "Romulus", "Comparison of Theseus and Romulus"]),
+            ("Lycurgus and Numa", ["Lycurgus", "Numa", "Comparison of Lycurgus and Numa"]),
+            ("Solon and Publicola", ["Solon", "Publicola", "Comparison of Solon and Publicola"]),
+            ("Themistocles and Camillus", ["Themistocles", "Camillus"]),
+            ("Pericles and Fabius Maximus", ["Pericles", "Fabius Maximus", "Comparison of Pericles and Fabius Maximus"]),
+            ("Alcibiades and Coriolanus", ["Alcibiades", "Caius Marcius Coriolanus",
+                                           "Comparison of Alcibiades and Coriolanus"]),
+            ("Timoleon and Aemilius Paulus", ["Timoleon", "Aemilius Paulus", "Comparison of Timoleon and Aemilius"]),
+            ("Pelopidas and Marcellus", ["Pelopidas", "Marcellus", "Comparison of Pelopidas and Marcellus"]),
+            ("Aristides and Cato the Elder", ["Aristides", "Marcus Cato", "Comparison of Aristides and Marcus Cato"]),
+            ("Philopoemen and Flamininus", ["Philopoemen", "Titus Flamininus", "Comparison of Philopoemen and Titus"]),
+            ("Pyrrhus and Marius", ["Pyrrhus", "Caius Marius"]),
+            ("Lysander and Sulla", ["Lysander", "Sulla", "Comparison of Lysander and Sulla"]),
+            ("Cimon and Lucullus", ["Cimon", "Lucullus", "Comparison of Lucullus and Cimon"]),
+            ("Nicias and Crassus", ["Nicias", "Crassus", "Comparison of Nicias and Crassus"]),
+            ("Sertorius and Eumenes", ["Sertorius", "Eumenes", "Comparison of Sertorius and Eumenes"]),
+            ("Agesilaus and Pompey", ["Plutarch: Agesilaus", "Pompey", "Comparison of Agesilaus and Pompey"]),
+            ("Alexander and Caesar", ["Alexander", "Caesar"]),
+            ("Phocion and Cato the Younger", ["Phocion", "Cato the Younger"]),
+            ("Agis and Cleomenes and the Gracchi", ["Agis and Cleomenes", "Tiberius and Caius Gracchus",
+                                                    "Comparison of Agis and Cleomenes and the Gracchi"]),
+            ("Demosthenes and Cicero", ["Demosthenes", "Cicero", "Comparison of Demosthenes and Cicero"]),
+            ("Demetrius and Antony", ["Plutarch: Demetrius", "Antony", "Comparison of Demetrius and Antony"]),
+            ("Dion and Brutus", ["Dion", "Brutus", "Comparison of Dion and Brutus"]),
+            "Aratus", "Artaxerxes", "Plutarch: Galba", "Plutarch: Otho",
+        ]),
+        ("Moralia", [
+            ("Education and Conduct", [
+                "The Education of Children", "How the Young Man Should Study Poetry", "On Listening to Lectures",
+                "How to Tell a Flatterer from a Friend", "How a Man May Become Aware of His Progress in Virtue",
+                "How To Profit By One's Enemies", "On Having Many Friends", "Advice About Keeping Well",
+            ]),
+            ("Virtues and Vices", [
+                "Chance", "Virtue and Vice", "Can Virtue Be Taught?", "On Moral Virtue", "On the Control of Anger",
+                "On Tranquillity of Mind", "On Brotherly Love", "On Affection for Offspring",
+                "Whether vice be sufficient to cause unhappiness",
+                "Whether the Affections of the Soul are Worse Than Those of the Body", "Concerning Talkativeness",
+                "On Being a Busybody", "Of the Love of Wealth", "Of Bashfulness", "Of Envy and Hatred",
+                "How a Man May Inoffensively Praise Himself Without Being Liable to Envy",
+                "Against Running in Debt, or Taking up Money Upon Usury",
+            ]),
+            ("Love, Marriage and Consolation", [
+                "Advice to Bride and Groom", "Of Love", "Five Tragical Histories of Love",
+                "A Letter of Condolence to Apollonius", "Plutarch's Consolatory Letter to His Wife",
+                "Of Banishment, or Flying One's Country",
+            ]),
+            ("Religion and the Gods", [
+                "Superstition", "Isis and Osiris", "The Ε at Delphi", "The Oracle at Delphi no Longer Given in Verse",
+                "The Obsolesence of Oracles", "Concerning Such Whom God is Slow to Punish", "Of Fate",
+                "A Discourse Concerning Socrates's Daemon",
+            ]),
+            ("Philosophy", [
+                "Plutarch's Platonic questions", "Concerning the procreation of the soul as discoursed in Timaeus",
+                "The contradictions of the Stoics", "A breviate of a discourse", "Of common conceptions",
+                "That it is Not Possible to Live Pleasurably According to the Doctrine of Epicurus", "Against Colotes",
+                "Whether 'Twere Rightly Said",
+            ]),
+            ("Politics", [
+                "That a Philosopher Ought to Converse Especially with Men in Power", "To an Uneducated Ruler",
+                "Whether an Old Man Should Engage in Public Affairs", "Precepts of Statecraft",
+                "Of the Three Sorts of Government",
+            ]),
+            ("Nature and Animals", [
+                "Plutarch's Natural Questions", "Concerning the Face which Appears in the Orb Of the Moon",
+                "On the Principle of Cold", "Whether fire or water is most useful", "Whether land or sea animals are cleverer",
+                "Beasts are rational", "On the eating of flesh I", "On the eating of flesh II",
+            ]),
+            ("History, Sayings and Literature", [
+                "Sayings of Kings and Commanders", "Sayings of Spartans", "The Ancient Customs of the Spartans",
+                "Sayings of Spartan Women", "Bravery of Women", "The Roman Questions", "The Greek Questions",
+                "Greek and Roman Parallel Stories", "On the Fortunes of the Romans",
+                "On the Fortune or the Virtue of Alexander I and II", "Were the Athenians More Famous in War or in Wisdom?",
+                "The Lives of the Ten Orators", "Summary of a Comparison Between Aristophanes and Menander",
+                "Of Herodotus's Malice", "The Dinner of the Seven Wise Men", "Symposiacs",
+            ]),
+        ]),
+    ],
+    "Lucian": [
+        ("Introductions and Declamations", [
+            "Phalaris", "Hippias, or the Bath", "Dionysus: an Introduction", "Heracles: an Introduction",
+            "Amber, or the Swan", "The Fly", "The Hall", "My Native Land", "Octogenerians",
+            "The Consonants at Law Sigma Vs. Tau", "The Tyrannicide", "Disowned", "Herodotus or Aëtion",
+            "Zeuxis or Antiochus", "Lucian: Harmonides", "Lucian: Harmonides II", "Lucian: The Scythian or Consul",
+            "Lucian: The Scythian or Consul II", "To one who said \"You're a Prometheus in words.\"", "The Dipsads",
+            "A Slip of the Tongue in Greeting", "The Dream or Lucian’s Career",
+        ]),
+        ("The Gods", [
+            "Zeus Catechized", "Zeus Rants", "Prometheus", "On Sacrifices", "The Judgement of the Goddesses",
+            "The Parliament of the Gods", "A Conversation with Cronus", "A conversation with Hesiod",
+            "Lucian: Dialogues of the Gods", "Lucian: Dialogues of the Gods II", "Timon, or the Misanthrope",
+            "The Goddesse of Surrye",
+        ]),
+        ("Journeys and Fantasies", [
+            "A True Story", "Icaromenippus, or the Sky-man", "Menippus, or the Descent Into Hades",
+            "Charon, or the Inspectors", "The Downward Journey, or the Tyrant", "Dialogues of the Dead",
+            "The Dream, or the Cock", "The ship or the wishes",
+        ]),
+        ("Philosophers and Charlatans", [
+            "Nigrinus", "Demonax", "Philosophies for Sale", "The Dead Come to Life, or the Fisherman",
+            "The Double Indictment", "The Carousal, or the Lapiths", "The Parasite Tychiades",
+            "The Lover of Lies, or the Doubter Tychiades", "Alexander the False Prophet", "The Passing of Peregrinus",
+            "The Runaways", "The Eunuch", "Astrology",
+        ]),
+        ("Letters, Learning and Society", [
+            "Slander: on not Being Quick to Put Faith in it", "The Ignorant Book Collector",
+            "On Salaried Posts in Great Houses", "Anacharsis, or Athletics", "On Funerals",
+            "A Professor of Public Speaking", "Essays in Portraiture", "Essays in Portraiture Defended",
+            "Toxaris, or Friendship", "The Dance", "Lexiphanes", "The Mistaken Critic, or a Discourse on the Word",
+            "How to write history", "The Purist Purized", "Dialogues of the Courtesans",
+        ]),
+    ],
+    "Demosthenes": [
+        ("Speeches to the Assembly", [
+            "First Olynthiac", "Second Olynthiac", "Third Olynthiac", "First Philippic", "Demosthenes: On the Peace",
+            "Second Philippic", "On Halonnesus", "On the Chersonese", "Third Philippic", "Fourth Philippic",
+            "Answer to Philip’s Letter", "Philip’s Letter", "On Organization", "On the Navy-Boards",
+            "For the Liberty of the Rhodians", "For the People of Megalopolis", "On the Treaty with Alexander",
+            "On the Trierarchic Crown",
+        ]),
+        ("Public Trials", [
+            "On the Crown", "Demosthenes: On the Embassy", "Against Leptines", "Against Meidias", "Against Androtion",
+            "Against Aristocrates", "Against Timocrates", "Against Aristogeiton I", "Against Aristogeiton II",
+        ]),
+        ("Against His Guardians", [
+            "Against Aphobus I", "Against Aphobus II", "Against Aphobus III", "Demosthenes: Against Onetor",
+            "Demosthenes: Against Onetor II",
+        ]),
+        ("Speeches for Apollodorus", [
+            "Demosthenes: Apollodorus Against Stephanus", "Demosthenes: Apollodorus Against Stephanus II",
+            "Apollodorus Against Timotheus in the Matter of a Debt",
+            "Apollodorus Against Polycles for Expenses Incurred while Serving as Trierarch",
+            "Apollodorus Against Callippus", "Apollodorus Against Nicostratus in the Matter of Slaves of Aresthusius",
+            "Theomnestus and Apollodorus Against Neaera",
+        ]),
+        ("Other Private Lawsuits", [
+            "Plea of Demo Against Zenothemis", "Unknown Pleader Against Apaturius",
+            "Plea of Chrysipus and Partner Against Phormio", "Androcles Against Lacritus",
+            "A Friend Pleading for Phormio", "Nicobulus Against Pantaenetus",
+            "One of the Sons of Aristaechmus Against Nausimachus and Xenopeithes", "Mantitheus Against Boeotus I",
+            "Mantitheus Against Boeotus II",
+            "An Unknown Pleader Against Spudias in the Matter of a Marriage Proposal",
+            "Unknown Pleader Against Phaenippus", "Sositheus Against Macartatus in Regard to the Estate of Hagnias",
+            "Aristodemus Against Leochares Regarding the Estate of Archiades",
+            "Unknown Pleader Against Evergus and Mnesibulus", "Callistratus Against Olympiodorus",
+            "Ariston Against Conon", "The Son of Teisias Against Callicles",
+            "Dareius Against Dionysodorus in the Matter of a Loan", "Euxitheus Against Eubulides",
+            "Epichares Against Theocrines",
+        ]),
+        ("Other Writings", ["The Funeral Speech", "The Erotic Essay", "Exordia", "Demosthenes: Letters"]),
+    ],
+}
+# Plutarch's essays our copies have outside Perseus (once listed under Platonists, where they repeated the Moralia)
+PLUTARCH_ELSEWHERE = ["Isis and Osiris"]
+
+
+def _arrange(works: list, plan: list) -> list:
+    """An author's works in the plan's groups (titles the plan names but the library lacks are left out); any
+    the plan doesn't name, at the end under "Other Works"."""
+    remaining = list(works)
+
+    def build(items):
+        out = []
+        for item in items:
+            if isinstance(item, tuple):
+                inner = build(item[1])
+                if inner:
+                    out.append((item[0], inner))
+            elif item in remaining:
+                remaining.remove(item)
+                out.append(item)
+        return out
+    arranged = build(plan)
+    return arranged + ([("Other Works", remaining)] if remaining else [])
+
+
 def _place_perseus(authors: list) -> None:
     """File the Perseus authors into the Greek and Latin shelves: beside a same-named author's own entry (Virgil's
-    Eclogues next to the Aeneid), else as their own; a shelf the tree hasn't, added at the end of that language."""
+    Eclogues next to the Aeneid), else as their own; a shelf the tree hasn't, added at the end of that language.
+    The authors in SUBGROUPS go in their groups."""
     by_name = dict(authors)
-    plutarch = by_name.get("Plutarch")                # (141 titles: the Lives, then the essays, the Moralia)
-    if plutarch and "The Education of Children" in plutarch:
-        cut = plutarch.index("The Education of Children")
-        by_name["Plutarch"] = None
-        by_name["Plutarch: Parallel Lives"], by_name["Plutarch: Moralia"] = plutarch[:cut], plutarch[cut:]
+    if by_name.get("Plutarch"):
+        by_name["Plutarch"] = by_name["Plutarch"] + PLUTARCH_ELSEWHERE
+    for author, plan in SUBGROUPS.items():
+        if by_name.get(author):
+            by_name[author] = _arrange(by_name[author], plan)
     classical = {"Greek": dict(BOOKS_TREE)["🏛️ Greek"], "Latin": dict(BOOKS_TREE)["🦅 Latin"]}
     placed = set()
     for language, shelves in PERSEUS_PLACES.items():
@@ -1545,7 +1716,7 @@ def _place_perseus(authors: list) -> None:
                 group = []
                 groups.append((shelf, group))
             for name in names:
-                for key in ([f"{name}: Parallel Lives", f"{name}: Moralia"] if name == "Plutarch" else [name]):
+                for key in [name]:
                     works = by_name.get(key)
                     if not works:
                         continue
@@ -1568,11 +1739,11 @@ def _place_perseus(authors: list) -> None:
 
 
 # Perseus authors the tree has already (Aristotle's Poetics is on his own shelf, from aristotle_perseus.json)
-PERSEUS_ELSEWHERE = {"Aristotle"}
+PERSEUS_ELSEWHERE = {"Aristotle", "Didache", "Martyrium Polycarpi"}     # (the last two: with the Apostolic Fathers)
 SHELF_ORDER = {
     "Greek": ["Epic & Hymns", "Lyric Poetry", "Drama", "Historians", "Oratory", "Presocratics & Pythagoreans",
-              "Plato", "Aristotle", "Stoics", "Platonists", "Hermetic & Oracles", "Lives, Essays & Satire",
-              "Myth & Geography", "Science & Astrology", "Fables", "Early Christian", "More"],
+              "Plato", "Aristotle", "Stoics", "Platonists", "Oracles", "Lives, Essays & Satire",
+              "Myth & Geography", "Science & Astrology", "Fables", "More"],
     "Latin": ["Epic", "Poetry", "Drama", "Historians", "Oratory & Rhetoric", "Philosophy", "Letters & Essays",
               "Novels & Satire", "Myth & Legend", "Science", "Farming & Practical Arts", "Fables & Proverbs", "Astrology"],
 }
@@ -2259,12 +2430,14 @@ def _book_detail_embed(book_name: str) -> discord.Embed:
                 f"Or: `!parallel Baal {ep_num}.1` for English + Ugaritic"
             )
             return embed
-    # Mu'allaqat: "Muallaqat 1 — Imru' al-Qais (61 stanzas)"
-    if book_name.startswith("Muallaqat ") and " — " in book_name:
-        import re as _re
-        m = _re.match(r"Muallaqat (\d+) — (.+?) \((\d+) stanzas\)", book_name)
-        if m:
-            ode_num, poet, stanza_count = m.group(1), m.group(2), m.group(3)
+    # Mu'allaqat: "Muallaqat: Imru' al-Qais", the first of the seven (cited by number: Muallaqat 1:5)
+    if book_name.startswith("Muallaqat: "):
+        odes = ["Imru' al-Qais", "Tarafa ibn al-'Abd", "Zuhayr ibn Abi Sulma", "Labid ibn Rabi'ah",
+                "Antara ibn Shaddad", "Amr ibn Kulthum", "Al-Harith ibn Hilliza"]
+        poet = book_name[len("Muallaqat: "):]
+        corpus, name = lookup._resolve_exact(book_name)
+        if poet in odes and name:
+            ode_num, stanza_count = odes.index(poet) + 1, sum(len(v) for v in lookup._data[corpus][name].values())
             roman = ["I","II","III","IV","V","VI","VII"][int(ode_num)-1]
             embed.title = f"🌙 The Mu\'allaqat — Ode {roman}"
             embed.description = (
@@ -2918,7 +3091,10 @@ def _author_works_node(author_name: str, fuzzy: bool = True) -> tuple | None:
             if src:
                 source_books[src].append(book_name)
 
-    # Collect tree author nodes (tuples with string-only children)
+    # Collect tree author nodes (tuples with string-only children, or an author whose works are in groups of their
+    # own: Plutarch's Lives and Moralia, Swedenborg's, Maimonides's)
+    nested = set(SUBGROUPS) | {"Swedenborg", "Maimonides"}
+
     def collect_tree_authors(tree):
         authors = {}
         for item in tree:
@@ -2926,7 +3102,9 @@ def _author_works_node(author_name: str, fuzzy: bool = True) -> tuple | None:
                 name, contents = item
                 has_strings = any(isinstance(x, str) for x in contents)
                 has_tuples  = any(isinstance(x, tuple) for x in contents)
-                if has_strings and not has_tuples:
+                if name in nested:
+                    authors[name] = list(dict.fromkeys(authors.get(name, []) + list(_leaves(contents))))
+                elif has_strings and not has_tuples:
                     # one author on several shelves ("Plutarch" in Platonic, "Plutarch: Moralia" in Perseus): all of him
                     who = name.split(":")[0].strip()
                     authors[who] = list(dict.fromkeys(authors.get(who, []) + list(contents)))

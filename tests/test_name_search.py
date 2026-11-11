@@ -49,7 +49,10 @@ def test_classical_is_greek_and_latin_by_kind(books):
     assert "Thucydides" in dict(greek["Historians"]) and "Sophocles" in dict(greek["Drama"])
     assert "Tacitus" in dict(latin["Historians"]) and "Plautus" in dict(latin["Drama"])
     assert {"Aeneid", "Eclogues", "Georgics"} <= set(dict(latin["Epic"])["Virgil"])   # (beside the Aeneid)
-    plutarch = dict(greek["Lives, Essays & Satire"])
-    assert "Theseus" in plutarch["Plutarch: Parallel Lives"] and "Of Fate" in plutarch["Plutarch: Moralia"]
+    plutarch = dict(dict(greek["Lives, Essays & Satire"])["Plutarch"])      # (one Plutarch: his Lives by their pairs,
+    pairs = {g[0]: g[1] for g in plutarch["Parallel Lives"] if isinstance(g, tuple)}   # the Moralia by subject,
+    assert "Theseus" in pairs["Theseus and Romulus"] and "Aratus" in plutarch["Parallel Lives"]   # 2026-11-10)
+    assert "Of Fate" in dict(plutarch["Moralia"])["Religion and the Gods"]
+    assert "Other Works" not in dict(plutarch["Moralia"])                    # (every essay in a subject)
     assert len(books._author_works_node("plutarch")[1]) >= 141                  # (all of him, from every shelf)
     assert "More" not in greek and "More" not in latin                          # (every author placed)
