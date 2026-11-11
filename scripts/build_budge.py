@@ -102,12 +102,13 @@ def blocks(page: str) -> list:
 
 
 def sentences(p: str) -> list:
-    """A paragraph's sentences, never broken inside brackets or parentheses or after "i.e." ("(i.e. Light)")."""
+    """A paragraph's sentences, never broken inside brackets or parentheses or after "i.e." ("(i.e. Light)") --
+    unless a bracket the text never closes has held them together for 1,000 characters."""
     out = []
     for piece in re.split(SENTENCE_END, p):
         prev = out[-1] if out else ""
-        if prev and (prev.count("(") > prev.count(")") or prev.count("[") > prev.count("]")
-                     or re.search(r"\b(?:i\.e|e\.g|viz|cf|Mâr|St)\.$", prev)):
+        if prev and len(prev) < 1000 and (prev.count("(") > prev.count(")") or prev.count("[") > prev.count("]")
+                                          or re.search(r"\b(?:i\.e|e\.g|viz|cf|Mâr|St)\.$", prev)):
             out[-1] = f"{prev} {piece}"
         else:
             out.append(piece)

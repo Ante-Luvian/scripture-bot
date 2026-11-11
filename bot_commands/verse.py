@@ -18,6 +18,7 @@ from bot_commands.church import (
 from bot_commands.dore import ArtButton, art_buttons
 from bot_commands.illustrations import PictureButton
 from bot_commands import zoroastrian
+from bot_commands.tafsir import CommentaryButton, commentary_buttons
 from bot_commands.reference import (
     cmd_notes,
     cmd_xref,
@@ -155,6 +156,9 @@ def _study_view_from_message(message, pressed_custom_id: str) -> discord.ui.View
             p = PassageButton.__discord_ui_compiled_template__.fullmatch(getattr(component, "custom_id", None) or "")
             if p:                                       # (and ◀ Previous · Next ▶ · 📖 Whole chapter)
                 view.add_item(PassageButton(p["kind"], p["ref"]))
+            t = CommentaryButton.__discord_ui_compiled_template__.fullmatch(getattr(component, "custom_id", None) or "")
+            if t:                                       # (and the Qur'an's 📖 Commentary)
+                view.add_item(CommentaryButton(t["ref"]))
     return view
 
 
@@ -180,7 +184,7 @@ class PassageButton(discord.ui.DynamicItem[discord.ui.Button], template=r"pnav:(
     async def callback(self, interaction: discord.Interaction):
         await interaction.response.defer()
         result = hidden_in_guild(interaction, await asyncio.to_thread(lookup.get_verse, self.ref))
-        buttons = _study_buttons(result) + art_buttons(result) + passage_buttons(result)
+        buttons = _study_buttons(result) + art_buttons(result) + commentary_buttons(result) + passage_buttons(result)
         if result.get("found") and not result.get("pages") and len(passage_pages(result["text"])) == 1:
             view = discord.ui.View(timeout=None)
             for b in buttons:
@@ -233,6 +237,7 @@ async def _send_with_study(ctx, result: dict):
     result = hidden_in_guild(ctx, result)
     buttons = (_study_buttons(result) + art_buttons(result)    # 🖼️ Doré · 🎨 Blake, wherever the passage has one
                + zoroastrian.term_buttons(result)               # 🔤 the Avesta's untranslated words
+               + commentary_buttons(result)                     # 📖 the Qur'an commentaries
                + passage_buttons(result))
     await _send_result(ctx, result, extra_buttons=buttons)
 

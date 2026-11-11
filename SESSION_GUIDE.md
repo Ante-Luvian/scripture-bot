@@ -481,6 +481,13 @@ bracket depth). The Book of the Cock: the owner downloaded David Blocker's 2024 
 pages) and then decided to SKIP it (2026-11-10): the text sits in ~25 differently shaped synopsis tables beside the
 Gospels, mixed with essays and footnotes, so it needs page-image work, and it's an amateur English of Piovanelli's
 French. Don't raise it again unless the owner does.
+Islam (2026-11-10): five more hadith (Riyad as-Salihin, al-Adab al-Mufrad, Shama'il, Bulugh, Mishkat) via
+`scripts/fetch_hadith.py --other` from AhmedBaset/hadith-json -- LOCAL_ONLY in hadith_lookup (no CDN fallback; sections
+from the file); the 📖 Commentary button under Qur'an verses (bot_commands/tafsir.py; data from scripts/fetch_tafsir.py:
+Jalalayn and Ibn Kathir from spa5k/tafsir_api's QUL copies, Ibn 'Abbas mended -- its altafsir copies are scrambled or
+full of U+FFFD, so Wahidi/Tustari/Qushayri/Kashani were left out; altafsir.com itself might give clean ones); Ibn
+Kathir's Stories of the Prophets (scripts/build_stories_prophets.py, from the 2004 typeset PDF). Still missing: Ibn
+Ishaq's Sira -- Guillaume is only Archive OCR and the owner said NO OCR.
 **Inventory of what's still missing (2026-11-09):** gnosis.org -- only Marcion's
 reconstructed Gospel. earlyjewishwritings -- 2 Baruch (Charles 1913, pseudepigrapha.com/pseudepigrapha/2Baruch.html),
 3 Baruch (same site), Pseudo-Philo (sacred-texts bib/bap, James 1917), Apocalypse of Abraham (Box 1918: only scans

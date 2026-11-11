@@ -17,6 +17,10 @@ Available English collections:
   Forty Hadith Dehlawi→ eng-dehlawi   (hadiths 1–40)
   Forty Hadith Qudsi  → eng-qudsi     (hadiths 1–40)
 
+And five from sunnah.com via hadith-json, read only from data/hadith/ (LOCAL_ONLY; scripts/fetch_hadith.py):
+  Riyad as-Salihin (1–1896), Al-Adab al-Mufrad (1–1326), Shama'il Muhammadiyah (1–402), Bulugh al-Maram
+  (1–1767), Mishkat al-Masabih (1–4428)
+
 Citation format: !verse <Collection> <number>
   e.g. !verse Bukhari 1  |  !verse Sunan Abu Dawud 1035  |  !verse Nawawi 1
 
@@ -58,6 +62,28 @@ def local_collection(collection_key: str) -> dict:
                 found = {}
         _LOCAL[collection_key] = found
     return _LOCAL[collection_key]
+
+_LOCAL_SECTIONS: dict = {}                                           # collection key -> (names, {section: [numbers]})
+
+
+def local_section(collection_key: str, section: int) -> dict | None:
+    """One section of a downloaded collection whose file records its sections (the LOCAL_ONLY ones)."""
+    if collection_key not in _LOCAL_SECTIONS:
+        names, members = {}, {}
+        path = LOCAL_DIR / f"eng-{collection_key}.json"
+        try:
+            data = json.loads(path.read_text(encoding="utf-8"))
+            names = (data.get("metadata") or {}).get("section") or {}
+            for h in data.get("hadiths", []):
+                members.setdefault(int(h.get("section") or 0), []).append(int(h["hadithnumber"]))
+        except (ValueError, OSError, KeyError, TypeError):
+            pass
+        _LOCAL_SECTIONS[collection_key] = (names, members)
+    names, members = _LOCAL_SECTIONS[collection_key]
+    texts = local_collection(collection_key)
+    items = [(n, texts[n]) for n in members.get(section, []) if n in texts]
+    return {"name": names.get(str(section), ""), "hadiths": items} if items else None
+
 
 # In-memory cache: section files keyed as "collection:sec:N" → list of hadith dicts
 _COLLECTION_CACHE: dict[str, list] = {}
@@ -133,7 +159,24 @@ HADITH_COLLECTIONS: dict[str, str] = {
     "hadith qudsi": "qudsi",
     "forty hadith qudsi": "qudsi",
     "40 hadith qudsi": "qudsi",
+
+    # The five from sunnah.com via hadith-json (scripts/fetch_hadith.py), read only from disk
+    "riyad as-salihin": "riyad", "riyad as salihin": "riyad", "riyadh as-salihin": "riyad",
+    "riyad us saliheen": "riyad", "riyad-us-saliheen": "riyad", "riyadus salihin": "riyad",
+    "riyad al-salihin": "riyad", "riyad": "riyad", "gardens of the righteous": "riyad",
+    "al-adab al-mufrad": "adab", "adab al-mufrad": "adab", "al adab al mufrad": "adab", "adab al mufrad": "adab",
+    # (not "adab" alone: the fuzzy match would take "Adam 3" for it)
+    "shama'il muhammadiyah": "shamail", "shamail muhammadiyah": "shamail", "shama'il": "shamail",
+    "shamail": "shamail", "shamail tirmidhi": "shamail", "shama'il at-tirmidhi": "shamail",
+    "al-shamail al-muhammadiyya": "shamail",
+    "bulugh al-maram": "bulugh", "bulugh al maram": "bulugh", "bulugh": "bulugh",
+    "mishkat al-masabih": "mishkat", "mishkat al masabih": "mishkat", "mishkat ul masabih": "mishkat",
+    # (not "mishkat" alone: that is al-Ghazali's Mishkat al-Anwar, the Niche for Lights)
 }
+
+# Collections read only from data/hadith/ (the CDN doesn't have them): no network fallback, and their sections
+# come from the file's own metadata (scripts/fetch_hadith.py)
+LOCAL_ONLY = {"riyad", "adab", "shamail", "bulugh", "mishkat"}
 
 # Display names for each collection key
 COLLECTION_DISPLAY: dict[str, str] = {
@@ -147,6 +190,11 @@ COLLECTION_DISPLAY: dict[str, str] = {
     "nawawi":            "Forty Hadith of Nawawi",
     "dehlawi":           "Forty Hadith of Dehlawi",
     "qudsi":             "Forty Hadith Qudsi",
+    "riyad":             "Riyad as-Salihin",
+    "adab":              "Al-Adab al-Mufrad",
+    "shamail":           "Shama'il Muhammadiyah",
+    "bulugh":            "Bulugh al-Maram",
+    "mishkat":           "Mishkat al-Masabih",
 }
 
 # Total hadith counts per collection (for display in !books)
@@ -161,6 +209,11 @@ COLLECTION_COUNTS: dict[str, int] = {
     "nawawi":   42,
     "dehlawi":  40,
     "qudsi":    40,
+    "riyad":    1896,
+    "adab":     1326,
+    "shamail":  402,
+    "bulugh":   1767,
+    "mishkat":  4428,
 }
 
 # Section (book) counts per collection
@@ -175,6 +228,11 @@ COLLECTION_BOOK_COUNTS: dict[str, int] = {
     "nawawi":   1,
     "dehlawi":  1,
     "qudsi":    1,
+    "riyad":    20,
+    "adab":     57,
+    "shamail":  57,
+    "bulugh":   16,
+    "mishkat":  25,
 }
 
 
@@ -222,6 +280,12 @@ def fetch_hadith(collection_key: str, number: int) -> dict:
     text = local_collection(collection_key).get(number)
     if text:
         return {"found": True, "reference": f"{display_name} {number}", "text": text, "source": display_name}
+    if collection_key in LOCAL_ONLY:                  # (not on the CDN: nothing to fall back to)
+        total = COLLECTION_COUNTS.get(collection_key)
+        if not local_collection(collection_key):
+            return {"found": False, "error": f"{display_name} isn't available right now.", "suggestions": []}
+        return {"found": False, "error": f"{display_name} has hadith 1 to {total}; there's no number {number}.",
+                "suggestions": []}
 
     # ── Strategy 1: per-hadith file ──────────────────────────────────────────
     # e.g. eng-bukhari/1.json → {"hadithnumber":1,"text":"Narrated..."}
@@ -318,6 +382,8 @@ def get_hadith_section(collection_key: str, section: int) -> dict | None:
     Fetch one whole section ("book") of a collection.
     Returns {"name": str, "hadiths": [(number, text), ...]} or None.
     """
+    if collection_key in LOCAL_ONLY:
+        return local_section(collection_key, section)
     cache_key = f"{collection_key}:secfull:{section}"
     if cache_key not in _COLLECTION_CACHE:
         url = f"{HADITH_CDN}eng-{collection_key}/sections/{section}.json"

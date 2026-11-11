@@ -83,6 +83,8 @@ data/ask_usage.json
 
 # the hadith collections, downloaded (scripts/fetch_hadith.py)
 data/hadith/
+# the Qur'an commentaries, downloaded (scripts/fetch_tafsir.py)
+data/tafsir/
 
 # Aquinas's Summa, downloaded for asking the library (scripts/fetch_summa.py rebuilds it)
 data/summa.json

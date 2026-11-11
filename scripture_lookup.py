@@ -1033,6 +1033,9 @@ ALIASES: dict[str, str] = {
     "toledot": "Toledot Yeshu", "toldot yeshu": "Toledot Yeshu", "sepher toldoth jeshu": "Toledot Yeshu",
     "jewish life of christ": "Toledot Yeshu", "toledot yeshu strasbourg": "Toledot Yeshu: Strasbourg Manuscript",
     "strasbourg toledot": "Toledot Yeshu: Strasbourg Manuscript",
+    "stories of the prophets": "Stories of the Prophets", "qisas al-anbiya": "Stories of the Prophets",
+    "qisas al anbiya": "Stories of the Prophets", "qasas al-anbiya": "Stories of the Prophets",
+    "ibn kathir stories of the prophets": "Stories of the Prophets",
     "christ in islam": "Christ in Islam", "sayings of jesus in islam": "Christ in Islam",
     "islamic sayings of jesus": "Christ in Islam", "muslim jesus": "Christ in Islam",
     "jewish war": "Jewish War",
@@ -2440,7 +2443,8 @@ class ScriptureLookup:
             ],
             "quran": ["quran_pickthall.json",
                       "nahj_al_balagha.json", "sahifa_sajjadiyya.json",      # (Shi'ite: scripts/build_shia.py)
-                      "islamic_more.json"],                                  # (scripts/build_islamic.py)
+                      "islamic_more.json",                                   # (scripts/build_islamic.py)
+                      "stories_of_the_prophets.json"],                       # (scripts/build_stories_prophets.py)
             "classical": [
                 "golden_verses.json",
                 "orphic_hymns.json",

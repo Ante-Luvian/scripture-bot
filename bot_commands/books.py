@@ -559,7 +559,7 @@ BOOKS_TREE = [
         ]),
         ("Al-Ghazali", ["Alchemy of Happiness", "Niche for Lights"]),
         ("Hujwiri", ["Kashf al-Mahjub"]),
-        ("Other Islamic Writings", ["Gospel of Barnabas", "Christ in Islam"]),
+        ("Other Islamic Writings", ["Stories of the Prophets", "Gospel of Barnabas", "Christ in Islam"]),
         ("Hadith", [
             ("The Six Books (Kutub al-Sittah)", [
                 "Sahih al-Bukhari",
@@ -574,6 +574,11 @@ BOOKS_TREE = [
                 "Forty Hadith of Nawawi",
                 "Forty Hadith of Dehlawi",
                 "Forty Hadith Qudsi",
+                "Riyad as-Salihin",
+                "Al-Adab al-Mufrad",
+                "Shama'il Muhammadiyah",
+                "Bulugh al-Maram",
+                "Mishkat al-Masabih",
             ]),
         ]),
         ("Shi'ite", ["Nahj al-Balagha", "Sahifa Sajjadiyya", "Sahifa Alawiyya", "Adages of Imam Ali", "Dua Kumayl",
@@ -2023,6 +2028,7 @@ _HADITH_BOOKS = {
     "Sahih al-Bukhari", "Sahih Muslim", "Sunan Abu Dawud",
     "Jami at-Tirmidhi", "Sunan an-Nasa'i", "Sunan Ibn Majah",
     "Muwatta Malik", "Forty Hadith of Nawawi", "Forty Hadith of Dehlawi", "Forty Hadith Qudsi",
+    "Riyad as-Salihin", "Al-Adab al-Mufrad", "Shama'il Muhammadiyah", "Bulugh al-Maram", "Mishkat al-Masabih",
 }
 
 # Total hadith counts and book counts per collection (one copy, kept in hadith_lookup)

@@ -14,6 +14,16 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-11-10 · More hadith, the Stories of the Prophets, and commentary on every verse of the Quran
+- 📜 **Five more hadith collections.** Hadith are the reports of what the Prophet Muhammad said and did, the second source of Islamic teaching after the Quran. Alongside Bukhari, Muslim and the other ten already here, you can now read:
+  - **Riyad as-Salihin** ("Gardens of the Righteous"), al-Nawawi's selection of 1,896 hadith on living well, probably the hadith book Muslims read most: `!verse Riyad as-Salihin 1` is "deeds are judged by intentions";
+  - **al-Adab al-Mufrad**, al-Bukhari's book on manners: kindness to parents, neighbours, guests (`!verse Al-Adab al-Mufrad 1`);
+  - the **Shama'il**, al-Tirmidhi's portrait of the Prophet: how he looked, dressed, ate and laughed (`!verse Shama'il Muhammadiyah 1`);
+  - **Bulugh al-Maram** and **Mishkat al-Masabih**, two classic handbooks gathering the hadith on each part of Muslim life (`!verse Mishkat al-Masabih 1`).
+  They're numbered as on sunnah.com, so a number you find cited there works here. Browse them in `!books` under ☪️ Islamic → Hadith.
+- 📖 **A Commentary button under every Quran verse.** Look up a verse, such as `!verse Quran 2:255` (the Throne Verse), and press 📖 **Commentary** to see what the classical commentators said about it. It opens on the *Tafsir al-Jalalayn*, a short verse-by-verse explanation written in 15th-century Cairo, and a menu switches to **Ibn Kathir** (the most widely read commentary, long, with the hadith it draws on) or the commentary handed down under the name of **Ibn 'Abbas**, the Prophet's cousin. Only you see the reply, so it doesn't fill the channel.
+- 🌟 **Ibn Kathir's Stories of the Prophets**, the 14th-century retelling of the lives of 29 prophets, from Adam and Noah through Abraham, Joseph, Moses, David and Jesus to Muhammad, drawn from the Quran and the hadith. A chapter for each prophet: `!verse Stories of the Prophets 12:1` begins Joseph's story. It's in `!books` under ☪️ Islamic → Other Islamic Writings.
+
 ## 2026-11-10 · The Kebra Nagast, the Cave of Treasures and the Book of the Bee
 Three books that Eastern Christians have treasured for centuries alongside the Bible, all in E. A. Wallis Budge's translations. None of them has verse numbers in print, so each verse here is one of Budge's paragraphs, or a few sentences of a long one.
 - 👑 **The Kebra Nagast** ("The Glory of Kings"), Ethiopia's national epic, written down in the 1300s. The Queen of Sheba visits King Solomon, returns home carrying his son, and that son, Bayna-Leḥkem (better known as Menelik), later goes to Jerusalem and brings the Ark of the Covenant back to Ethiopia, where the Ethiopian Church believes it still is. Ethiopia's emperors traced their line to him. Try `!verse Kebra Nagast 21` for the Queen of Sheba and `!verse Kebra Nagast 48` for the taking of the Ark. It's in `!books` under 👼 Apocrypha / Pseudepigrapha → "Ethiopian Orthodox Canon". `!verse Glory of Kings 32:2` works too.

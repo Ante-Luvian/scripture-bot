@@ -116,6 +116,7 @@ from bot_commands import (  # noqa: F401
     slash,
     stories,
     stats,
+    tafsir,
     tarot,
     translations,
     verse,

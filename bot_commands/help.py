@@ -1014,15 +1014,22 @@ async def cmd_help(ctx, *, topic: str = ""):
             "`!verse Forty Hadith of Nawawi 1`  *(1–42)*\n"
             "`!verse Forty Hadith of Dehlawi 1`  *(1–40)*\n"
             "`!verse Forty Hadith Qudsi 1`  *(1–40: God's words, in the Prophet's)*\n"
+            "`!verse Riyad as-Salihin 1`  *(1–1,896)*\n"
+            "`!verse Al-Adab al-Mufrad 1`  *(1–1,326: manners)*\n"
+            "`!verse Shama'il Muhammadiyah 1`  *(1–402: the Prophet described)*\n"
+            "`!verse Bulugh al-Maram 1`  *(1–1,767)*\n"
+            "`!verse Mishkat al-Masabih 1`  *(1–4,428)*\n"
         ), inline=True)
         embed.add_field(name="Aliases", value=(
             "`Bukhari`, `Muslim`, `Abu Dawud`, `Tirmidhi`\n"
             "`Nasai`, `Ibn Majah`, `Muwatta`, `Nawawi`\n"
-            "`Dehlawi`, `Shah Waliullah`, `Qudsi`"
+            "`Dehlawi`, `Shah Waliullah`, `Qudsi`\n"
+            "`Riyad`, `Shamail`, `Bulugh`"
         ), inline=True)
-        embed.add_field(name="Sira & Islamic Biography", value=(
-            "The Sira (Ibn Ishaq/Ibn Hisham) and Stories of the Prophets (Ibn Kathir) "
-            "aren't available yet."
+        embed.add_field(name="Stories of the Prophets & Commentary", value=(
+            "Ibn Kathir's *Stories of the Prophets*, Adam to Muhammad: `!verse Stories of the Prophets 12:1` "
+            "(Joseph). Under any Qur'an verse, **📖 Commentary** shows what al-Jalalayn, Ibn Kathir and "
+            "Ibn 'Abbas say about it. Ibn Ishaq's Sira has no usable English text online yet."
         ), inline=False)
         await ctx.send(embed=embed)
         return

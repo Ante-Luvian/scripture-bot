@@ -945,7 +945,7 @@ _CATEGORY_BOOKS = {
         "Quran","Sahih al-Bukhari","Sahih Muslim","Sunan Abu Dawud",
         "Jami at-Tirmidhi","Sunan an-Nasa'i","Sunan Ibn Majah",
         "Muwatta Malik","Forty Hadith of Nawawi","Divan of Hafiz","Nahj al-Balagha","Sahifa Sajjadiyya",
-        "Gospel of Barnabas","Christ in Islam","Sahifa Alawiyya","Adages of Imam Ali","Dua Kumayl","Dua Abu Hamza","The Battle of Karbala",
+        "Gospel of Barnabas","Christ in Islam","Stories of the Prophets","Sahifa Alawiyya","Adages of Imam Ali","Dua Kumayl","Dua Abu Hamza","The Battle of Karbala",
         "An Ismaili Treatise","Risala of al-Jufi",
     },
     "🏛️ Classical":        {
@@ -1062,6 +1062,11 @@ _HADITH_DISPLAY_TO_KEY: dict[str, str] = {
     "Forty Hadith of Nawawi":   "nawawi",
     "Forty Hadith of Dehlawi":  "dehlawi",
     "Forty Hadith Qudsi":       "qudsi",
+    "Riyad as-Salihin":         "riyad",
+    "Al-Adab al-Mufrad":        "adab",
+    "Shama'il Muhammadiyah":    "shamail",
+    "Bulugh al-Maram":          "bulugh",
+    "Mishkat al-Masabih":       "mishkat",
 }
 
 # ── Helpers ────────────────────────────────────────────────────────────────────
