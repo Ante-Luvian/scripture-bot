@@ -501,14 +501,14 @@ JOB_SLIPS = {
 
 def testaments_of_isaac_and_jacob() -> dict:
     """The Testaments of Isaac and Jacob, from the Bohairic Coptic, trans. S. Gaselee, in G. H. Box's Testament of
-    Abraham (1927): scripts/sources/testaments_isaac_jacob.txt, OCR of the scan proofread against every page image
+    Abraham (1927): scripts/transcripts/testaments_isaac_jacob.txt, OCR of the scan proofread against every page image
     (2026-11-11, the owner's go-ahead). Gaselee's Greek loanwords in brackets after the English "(γάρ)", the
     manuscript's folio numbers and his footnotes are left out; a printer's slip or two mended ("Isaac they father").
     A paragraph is a verse, a long one runs of whole sentences."""
     import sys
     sys.path.insert(0, str(Path(__file__).resolve().parent))
     from build_budge import groups
-    text = (Path(__file__).resolve().parent / "sources" / "testaments_isaac_jacob.txt").read_text(encoding="utf-8")
+    text = (Path(__file__).resolve().parent / "transcripts" / "testaments_isaac_jacob.txt").read_text(encoding="utf-8")
     out = {}
     for block in re.split(r"(?m)^## ", text)[1:]:
         title, _, body = block.partition("\n")

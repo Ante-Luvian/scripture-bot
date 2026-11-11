@@ -19,7 +19,7 @@ data/patristics/early_church_more.json:
     1906) and the 'Anti-Marcionite' prologues to the Gospels (Roger Pearse, 2006) from tertullian.org, and the
     Muratorian Canon -- taken from the library's own copy of ANF 5 (data/patristics/caius.json, where it sits as
     Caius's "Fragments" and can't be reached by that name). And the Acts of Apollonius (F. C. Conybeare, 1894,
-    from the Armenian), from scripts/sources/acts_of_apollonius.tsv: OCR of the 1894 scan, proofread against every
+    from the Armenian), from scripts/transcripts/acts_of_apollonius.tsv: OCR of the 1894 scan, proofread against every
     page image (2026-11-11, the owner's go-ahead), a verse for each of Harnack's sections, the prologue as verse 0.
 
     python scripts/build_early_christian.py
@@ -340,7 +340,7 @@ def scillitan() -> dict:
 
 
 def apollonius() -> dict:
-    rows = (Path(__file__).resolve().parent / "sources" / "acts_of_apollonius.tsv").read_text(encoding="utf-8")
+    rows = (Path(__file__).resolve().parent / "transcripts" / "acts_of_apollonius.tsv").read_text(encoding="utf-8")
     verses = dict(line.split("\t", 1) for line in rows.splitlines() if line.strip())
     expect(list(verses) == [str(n) for n in range(0, 48)], f"Apollonius: {list(verses)[:3]}...")
     return {"Acts of Apollonius": {"1": verses}}
