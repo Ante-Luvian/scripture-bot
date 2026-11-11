@@ -1393,6 +1393,7 @@ BOOKS_TREE = [
         ]),
     ]),
     ("🏰 Medieval Christianity", [
+        ("Liturgy", ["Readings from the Breviary"]),
         ("Byzantine", [
             ("Cosmas Indicopleustes", ["The Christian Topography"]),
             ("Photius of Constantinople", ["Bibliotheca (Codices 1-165)"]),

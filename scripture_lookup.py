@@ -1787,6 +1787,9 @@ ALIASES: dict[str, str] = {
     "nisibene hymns": "Nisibene Hymns",
     "dialogues": "Dialogues",
     "pastoral rule": "Pastoral Rule", "regula pastoralis": "Pastoral Rule",
+    # The Breviary's readings from the Fathers (scripts/build_breviary.py)
+    "breviary": "Readings from the Breviary", "breviary readings": "Readings from the Breviary",
+    "readings from the roman breviary": "Readings from the Breviary", "matins readings": "Readings from the Breviary",
     # Aquinas's Catena Aurea (scripts/build_catena_aurea.py): a book a Gospel
     **{f"{pre} {g.lower()}": f"Catena Aurea on {g}" for g in ("Matthew", "Mark", "Luke", "John")
        for pre in ("catena aurea", "catena aurea on", "golden chain", "golden chain on", "aquinas on", "catena aurea in")},
@@ -2755,7 +2758,8 @@ class ScriptureLookup:
                 "ephrem_the_syrian.json",
                 "gregory_the_great.json",
                 "gregory_moralia.json",
-                "catena_aurea.json",             # Aquinas, ed. Newman (scripts/build_catena_aurea.py)          # Morals on Job, Library of the Fathers (scripts/build_moralia.py)
+                "catena_aurea.json",
+                "breviary_readings.json",        # the Roman Breviary's Matins readings (scripts/build_breviary.py)             # Aquinas, ed. Newman (scripts/build_catena_aurea.py)          # Morals on Job, Library of the Fathers (scripts/build_moralia.py)
                 # ── Ante-Nicene (ANF epub) ────────────────────────────────
                 "alexander_of_alexandria.json",
                 "alexander_of_lycopolis.json",
