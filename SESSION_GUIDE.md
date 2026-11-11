@@ -297,6 +297,16 @@ changed (else compare `books` with HEAD); never OCR or proofread scan images wit
   labelled so; the owner accepted it), the Solomonic books, grimoires, Dee, Lilly/Sepharial, Swedenborg, the
   magical papyri and Mithras Liturgy, 46 alchemy treatises. Builders: build_esoteric/papyri/mithraic/pico/
   alchemy/ficino.py.
+- *The !books map (2026-11-10, the owner's):* top menu ✝️ Christianity (Bible, Apocrypha, Early Church, Medieval,
+  Reformation and After incl. Swedenborg, LDS) · ✡️ Judaism (Second Temple: Pseudepigrapha in Charlesworth's
+  divisions, DSS, Philo, Josephus; Rabbinic; Jewish Mysticism; Medieval) · ☪️ Islamic · ✴️ Bahá'í · 🧿 Gnostic
+  (Mandaeans here) & Esoteric · 🏛️ Classical · 🌙 Ancient Near East & Iran (🔥 Iranian Religions = Zoroastrian +
+  Yazidi) · 🪷 Dharmic & Asian (🕉️ Hindu) · 🌍 Folk · 📜 English Literature. Rules: groups by kind/school/era/author,
+  never translator, edition, series or site; a faith goes where its own followers would put it; no "Also in the
+  library" catch-all (list books by their real names, not display labels, or they're filed twice). A long author
+  is split by `SUBGROUPS` (Plutarch, Lucian, Demosthenes; `_arrange`); an author whose works are in groups must be
+  in the `nested` set of `_author_works_node` or `!books <author>` misses them. The traditions setting is
+  unsupported legacy (owner): don't work around it.
 - *Classical in !books* is two sections, `🏛️ Greek` and `🦅 Latin`, which the 🏛️ Classical menu opens to directly
   (the owner: no "Classical inside Classical", no Perseus shelf). Perseus authors are filed into them by
   `PERSEUS_PLACES` / `SHELF_ORDER` in books.py; an unplaced one lands on Greek → "More" (a test fails).

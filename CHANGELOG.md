@@ -14,6 +14,22 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-11-10 · A new map for the whole library
+The library in `!books` has been rearranged so that every book sits with others of its kind, and every faith sits where its own followers would put it. Nothing has been removed: all the same books are there, and every `!verse` reference works as before. The main menu is now ✝️ Christianity · ✡️ Judaism · ☪️ Islamic · ✴️ Bahá'í · 🧿 Gnostic & Esoteric · 🏛️ Classical · 🌙 Ancient Near East & Iran · 🪷 Dharmic & Asian · 🌍 Folk Myth & Fairy Stories · 📜 English Literature.
+- ✡️ **Judaism, by era.** Four shelves instead of a grab bag:
+  - 📜 **Second Temple Judaism:** the writings from roughly 300 BC to AD 100. That covers the **Pseudepigrapha** (Jewish books written under the names of ancient figures like Enoch and Abraham), now sorted the way the standard modern edition sorts them: apocalypses, testaments, legends and retellings of scripture, wisdom, and psalms and prayers. It also has the **Dead Sea Scrolls**, sorted by kind (community rules, hymns, commentaries, Bible manuscripts), plus Philo and Josephus. Try `!books pseudepigrapha`.
+  - 📚 **Rabbinic Literature:** the Mishnah, Talmuds, Midrash and Targums.
+  - ✨ **Jewish Mysticism:** the Zohar and Kabbalah, and the Hekhalot texts, the earliest Jewish mystical writings about ascents to God's heavenly palaces (`!books jewish mysticism`).
+  - 🕍 **Medieval Judaism:** Maimonides and other medieval works.
+- ✴️ **The Bahá'í Faith now has its own place** in the main menu instead of sharing one with Islam. Bahá'ís see their faith as a religion of its own, and Muslims agree it isn't part of Islam (`!books baha'i`).
+- ☪️ **Islam** opens straight to its books, now grouped as Quran, Hadith, Life of the Prophet, Sufism (al-Ghazali, Hujwiri and the Persian poets), Shi'ite, Isma'ili and other writings.
+- 🔥 **Iranian Religions:** the Zoroastrian scriptures (the Avesta and the later Persian books) and the **Yazidi** texts now share a shelf, under 🌙 Ancient Near East & Iran. Yazidism has deep roots in old Iranian religion (`!books iranian religions`).
+- The **Mandaeans**, the one ancient Gnostic religion still practised today, stay with the 🧿 Gnostics. **Emanuel Swedenborg**, whose followers form a Christian church, moved from the magic shelf to ✝️ Christianity → Reformation and After.
+- 🔮 **Magic & Esotericism** is regrouped: the Hermetica (the Greek writings attributed to Hermes Trismegistus), Renaissance magic (Ficino, Pico, Agrippa, John Dee), grimoires and Solomonic magic, the magical papyri, alchemy and astrology.
+- 🏛️ **Long author lists are easier to browse.** Plutarch's *Parallel Lives* now come in his own pairs (each Greek life with the Roman life he matched it with, and his comparison of the two), and his essays, the *Moralia*, by subject. Lucian is sorted by subject, and Demosthenes by kind of speech (to the Assembly, the great public trials, private lawsuits). Try `!books plutarch` or `!books demosthenes`.
+- 🕉️ The Hindu scriptures' shelf is now called **Hindu** (it used to be "Dharmic"), and the ballads and fables moved to 🌍 Folk Myth & Fairy Stories.
+- **Fixed:** searching `!books` for some authors whose works sit in groups found only part of them, or the wrong author's works. `!books swedenborg` and `!books maimonides` now show everything we have, and `!books plutarch` shows all of Plutarch (it would have shown only three works by a later imitator). The seven pre-Islamic Arabic odes (the Mu'allaqat) also appeared twice on their shelf; now they're listed once.
+
 ## 2026-11-10 · The Church Fathers, rearranged by era
 - 📚 The big "Patristics & Church History" shelf in `!books` (over 600 books) is now three shelves under ✝️ Christianity, by era:
   - ⛪ **The Early Church:** the Apostolic Fathers, the Apologists, the Greek and the Latin Fathers before and after the Council of Nicaea (325), the Syriac, Armenian and Arabic writers, the Church historians, the desert monks and monastic writers (the Sayings of the Desert Fathers, Cassian, the Philokalia, the Rule of Benedict), the councils, canons and early liturgies, and other early documents.
