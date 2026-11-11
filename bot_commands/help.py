@@ -79,6 +79,9 @@ HELP_MENU = [
     ('📜 Creeds', [
         '`!creed apostle` / `nicene` / `athanasius` — traditional English · `!help creed`',
     ]),
+    ('🕯️ The Divine Office', [
+        "`!office` — an hour of the Roman Breviary for today: `!office vespers`, `!office compline tomorrow`, `!office matins 2026-12-25`",
+    ]),
     ('📖 Anglican Daily Office', [
         '`!bcp` — psalms, lessons, and collect for Morning/Evening Prayer (`!bcp morning`, `!bcp evening`) · `!help bcp`',
         '`!bcp psalm` — the appointed Coverdale psalms · `!bcp collect` — the Collect of the Day',

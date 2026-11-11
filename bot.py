@@ -101,6 +101,7 @@ from bot_commands import (  # noqa: F401
     liturgy,
     measures,
     memorize,
+    office,
     oracles,
     people,
     personal,

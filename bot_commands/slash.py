@@ -440,6 +440,15 @@ async def hymnday_slash(interaction: discord.Interaction, date: str = ""):
     await _command("hymnday")(ctx, when=date)
 
 
+@bot.tree.command(name="office", description="An hour of the Divine Office (the Roman Breviary) for today or another day")
+@app_commands.describe(hour="Which hour (Lauds if empty)", date="Another day, as YYYY-MM-DD, 'tomorrow' or '25 December'")
+@app_commands.choices(hour=[app_commands.Choice(name=n, value=n.lower()) for n in
+                            ("Matins", "Lauds", "Prime", "Terce", "Sext", "None", "Vespers", "Compline")])
+async def office_slash(interaction: discord.Interaction, hour: str = "lauds", date: str = ""):
+    ctx = await _slash_ctx(interaction)
+    await _command("office")(ctx, args=f"{hour} {date}".strip())
+
+
 # ── /setup: the admins' settings, one group ──────────────────────────────────
 # Discord allows a bot 100 slash commands, and a group counts as one, so the twelve admin
 # commands that were /votdsetup, /oraclesetup... are /setup votd, /setup oracle... (the typed

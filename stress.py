@@ -297,6 +297,9 @@ SHAPED = {"ballad": ["0", "305", "306", "12B", "12b", "12ZZ", "22A", "117", "chi
           "subscribe": ["off", "on", "stop", "maybe"],
           "chant": ["psalm", "psalms", "psalm 0", "psalm 151", "psalm 119 beth", "ps 23 organ", "psalm 23 sing"],
           "hymn": ["list", "list chant", "list zzz", "index harp", "list `"],
+          # (!office: an hour of the Roman Breviary, worked out by Divinum Officium's engine)
+          "office": ["", "vespers", "compline tomorrow", "matins 2026-12-25", "prime 2026-04-05", "none yesterday",
+                     "lauds 31 February", "vespers 2026-13-40", "25 December", "zzz", "matins 1900-01-01"],
           # (!daily: one command for the ten daily-post setups)
           "daily": ["saint", "SAINT", "hymnday", "verse", "astro off", "votd mode full", "votd mode zzz", "nonsense",
                     "saint time 25:99", "angelus time 06:00 12:00 18:00", "quiz kind hard", "oracle kind `x`", "roz",

@@ -88,3 +88,6 @@ data/tafsir/
 
 # Aquinas's Summa, downloaded for asking the library (scripts/fetch_summa.py rebuilds it)
 data/summa.json
+
+# Divinum Officium's engine and texts for !office (bot_commands/office.py); git clone, not ours to track
+vendor/

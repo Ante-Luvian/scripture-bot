@@ -199,6 +199,11 @@
    "woden",
    "wotan"
   ],
+  "office": [
+   "breviary",
+   "divineoffice",
+   "hours"
+  ],
   "oracle": [],
   "oraclesetup": [
    "oracleconfig"
@@ -430,6 +435,7 @@
   "midi",
   "notes",
   "odin",
+  "office",
   "oracle",
   "parallel",
   "pascal",
