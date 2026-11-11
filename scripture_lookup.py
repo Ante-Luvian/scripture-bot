@@ -502,6 +502,32 @@ ALIASES: dict[str, str] = {
     "table talk": "Table Talk", "relics": "A Treatise on Relics",
     "first blast": "The First Blast of the Trumpet", "knox history": "The History of the Reformation in Scotland",
     "history of the reformation": "The History of the Reformation in Scotland",
+    # the medieval and Catholic Reformation classics (scripts/build_catholic_classics.py, 2026-11-10)
+    "pascal": "Pensées", "pensees": "Pensées", "pascal pensees": "Pensées", "pascal's pensees": "Pensées",
+    "trent": "Canons and Decrees of the Council of Trent", "council of trent": "Canons and Decrees of the Council of Trent",
+    "canons of trent": "Canons and Decrees of the Council of Trent", "decrees of trent": "Canons and Decrees of the Council of Trent",
+    "little flowers": "Little Flowers of St. Francis", "fioretti": "Little Flowers of St. Francis",
+    "little flowers of st francis": "Little Flowers of St. Francis", "little flowers of saint francis": "Little Flowers of St. Francis",
+    "stigmata": "Considerations on the Holy Stigmata", "friar juniper": "Life of Friar Juniper",
+     "friar giles": "Sayings of Friar Giles", "brother giles": "Sayings of Friar Giles",
+    "writings of st francis": "Writings of St. Francis", "writings of saint francis": "Writings of St. Francis",
+    "francis of assisi": "Writings of St. Francis", "st francis": "Writings of St. Francis",
+    "dark night": "Dark Night of the Soul", "dark night of the soul": "Dark Night of the Soul",
+    "ascent": "Ascent of Mount Carmel", "ascent of carmel": "Ascent of Mount Carmel",
+    "interior castle": "Interior Castle", "mansions": "Interior Castle",
+    "life of teresa": "Life of St. Teresa", "teresa": "Life of St. Teresa", "teresa of avila": "Life of St. Teresa",
+    "life of st teresa": "Life of St. Teresa", "life of saint teresa": "Life of St. Teresa",
+    "devout life": "Introduction to the Devout Life", "philothea": "Introduction to the Devout Life",
+    "francis de sales": "Introduction to the Devout Life", "de sales": "Introduction to the Devout Life",
+    "spiritual exercises": "Spiritual Exercises", "ignatius": "Spiritual Exercises",
+    "ignatius of loyola": "Spiritual Exercises", "catherine": "Dialogue of Catherine of Siena",
+    "catherine of siena": "Dialogue of Catherine of Siena", "dialogue of catherine": "Dialogue of Catherine of Siena",
+    "eckhart": "Sermons of Meister Eckhart", "meister eckhart": "Sermons of Meister Eckhart",
+    "bonaventure": "The Mind's Road to God", "itinerarium": "The Mind's Road to God", "minds road": "The Mind's Road to God",
+    "mind's road": "The Mind's Road to God", "mind's road to god": "The Mind's Road to God",
+    "bernard": "On Loving God", "de diligendo deo": "On Loving God", "on the love of god": "On Loving God",
+    "proslogion": "Proslogium", "monologion": "Monologium", "gaunilo": "In Behalf of the Fool",
+    "pro insipiente": "In Behalf of the Fool", "reply to gaunilo": "Anselm's Apologetic", "anselm": "Proslogium",
     "latimer": "Sermons of Hugh Latimer", "herbert": "The Temple", "the temple herbert": "The Temple",
     "andrewes": "Private Devotions of Lancelot Andrewes", "serious call": "A Serious Call to a Devout and Holy Life",
     "wesley": "Sermons of John Wesley", "wesley's sermons": "Sermons of John Wesley", "wesley sermons": "Sermons of John Wesley",
@@ -2820,6 +2846,7 @@ class ScriptureLookup:
                 "blake.json",
                 "milton.json",
                 "pilgrims_progress.json",
+                "medieval_writers.json",         # Anselm to Catherine (scripts/build_catholic_classics.py)
             ],
             # the Reformation and its heirs (scripts/build_reformation.py)
             "reformation": [
@@ -2831,6 +2858,7 @@ class ScriptureLookup:
                 "latimer.json",
                 "anglican_divines.json",
                 "wesley.json",
+                "catholic_reformation.json",     # Trent to Pascal (scripts/build_catholic_classics.py)
             ],
         }
         for corpus, filenames in corpus_dirs.items():

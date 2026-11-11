@@ -14,6 +14,21 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-11-11 · Saints and mystics: Anselm to Pascal
+Twenty-three classics of Catholic Christianity are now in the library, from the Middle Ages to the 1600s. Each is the full text in a standard English translation, read with `!verse` like any other book. Look for them in `!books` under ✝️ Christianity.
+- 🏰 **Medieval Christianity** has two new shelves and a fuller one:
+  - **Theologians:** St. Anselm of Canterbury, the monk who tried to prove God exists by reason alone. His *Proslogium* has the famous "ontological argument" (that God is "that than which nothing greater can be conceived"): try `!verse Proslogium 2`. Also his *Monologium*, his *Cur Deus Homo* ("Why God Became Man", books 1 and 2 by chapter: `!verse Cur Deus Homo 1.1`), and the monk Gaunilo's reply *In Behalf of the Fool* with Anselm's answer. Plus St. Bonaventure's *The Mind's Road to God* (`!verse Bonaventure 1`).
+  - **Franciscans:** St. Francis of Assisi's own writings: his Rules, his Testament, his letters and prayers, and the *Canticle of the Sun* (`!verse Writings of St. Francis 19`). And the *Little Flowers of St. Francis*, the much-loved old stories of Francis and his first friars, like the wolf he tamed (`!verse Little Flowers 21`), with the *Considerations on the Holy Stigmata*, the *Life of Friar Juniper* and the *Sayings of Friar Giles*.
+  - **Mystics:** now with St. Bernard of Clairvaux's *On Loving God* (`!verse Bernard 1`), the sermons of Meister Eckhart (`!verse Eckhart 1`) and *The Dialogue* of St. Catherine of Siena (`!verse Catherine of Siena 1`).
+- 🕯️ **Reformation and After → Catholic Writers**, the Catholic side of the 1500s and 1600s:
+  - **The Council of Trent**, the Church's answer to the Protestant Reformation: all its canons and decrees, one session per chapter (`!verse Trent 6` is the decree on justification).
+  - St. Ignatius of Loyola's **Spiritual Exercises**, the retreat manual of the Jesuits (`!verse Spiritual Exercises 7`).
+  - St. Teresa of Ávila's **Interior Castle**, the soul as a castle of seven "mansions" leading to God, by mansion and chapter (`!verse Interior Castle 7.2`), and her **Life**, her own story (`!verse Teresa 1`).
+  - St. John of the Cross: the **Ascent of Mount Carmel** and the **Dark Night of the Soul** by book and chapter (`!verse Dark Night 1.1`), and the **Spiritual Canticle**, his love poem of the soul and God, explained stanza by stanza (`!verse Spiritual Canticle 1`).
+  - St. Francis de Sales's **Introduction to the Devout Life**, by part and chapter (`!verse Devout Life 1.1`).
+  - Blaise Pascal's **Pensées** ("Thoughts"), by the numbers everyone cites them by: `!verse Pascal 233` is his famous wager on God's existence.
+- Only the authors' own words are included; the translators' introductions and footnotes are left out.
+
 ## 2026-11-10 · A new map for the whole library
 The library in `!books` has been rearranged so that every book sits with others of its kind, and every faith sits where its own followers would put it. Nothing has been removed: all the same books are there, and every `!verse` reference works as before. The main menu is now ✝️ Christianity · ✡️ Judaism · ☪️ Islamic · ✴️ Bahá'í · 🧿 Gnostic & Esoteric · 🏛️ Classical · 🌙 Ancient Near East & Iran · 🪷 Dharmic & Asian · 🌍 Folk Myth & Fairy Stories · 📜 English Literature.
 - ✡️ **Judaism, by era.** Four shelves instead of a grab bag:

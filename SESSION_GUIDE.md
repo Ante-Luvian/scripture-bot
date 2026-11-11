@@ -491,6 +491,13 @@ bracket depth). The Book of the Cock: the owner downloaded David Blocker's 2024 
 pages) and then decided to SKIP it (2026-11-10): the text sits in ~25 differently shaped synopsis tables beside the
 Gospels, mixed with essays and footnotes, so it needs page-image work, and it's an amateur English of Piovanelli's
 French. Don't raise it again unless the owner does.
+Catholic classics (2026-11-11): scripts/build_catholic_classics.py -> data/medieval/medieval_writers.json (Anselm,
+Francis's Writings, Little Flowers + companions, Bernard, Bonaventure, Eckhart, Catherine) and
+data/reformation/catholic_reformation.json (Trent from Hanover's Waterworth, Ignatius, Interior Castle from
+sacred-texts; Teresa's Life, John of the Cross, de Sales, Pascal from CCEL ThML). Francis: Robinson's intros dropped
+(the text starts at a page's third heading). Pensées: one chapter per Brunschvicg number. Canticle: Lewis explains
+stanzas 14-15 and 20-21 together, so there is no chapter 21. Not added: Aquinas (!summa exists), Bernard's sermons on the
+Song of Songs, Bellarmine, Suárez, Bossuet, Fénelon (not looked for yet).
 Islam (2026-11-10): five more hadith (Riyad as-Salihin, al-Adab al-Mufrad, Shama'il, Bulugh, Mishkat) via
 `scripts/fetch_hadith.py --other` from AhmedBaset/hadith-json -- LOCAL_ONLY in hadith_lookup (no CDN fallback; sections
 from the file); the 📖 Commentary button under Qur'an verses (bot_commands/tafsir.py; data from scripts/fetch_tafsir.py:

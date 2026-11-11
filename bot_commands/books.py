@@ -1402,7 +1402,20 @@ BOOKS_TREE = [
             ("Jacobus de Voragine", ["The Golden Legend"]),
             "Physiologus",
         ]),
+        ("Theologians", [
+            ("Anselm of Canterbury", ["Proslogium", "Monologium", "In Behalf of the Fool", "Anselm's Apologetic",
+                                      "Cur Deus Homo"]),
+            ("Bonaventure", ["The Mind's Road to God"]),
+        ]),
+        ("Franciscans", [
+            ("Francis of Assisi", ["Writings of St. Francis"]),
+            ("The Little Flowers", ["Little Flowers of St. Francis", "Considerations on the Holy Stigmata",
+                                    "Life of Friar Juniper", "Sayings of Friar Giles"]),
+        ]),
         ("Mystics", [
+            ("Bernard of Clairvaux", ["On Loving God"]),
+            ("Meister Eckhart", ["Sermons of Meister Eckhart"]),
+            ("Catherine of Siena", ["Dialogue of Catherine of Siena"]),
             "Cloud of Unknowing",
             ("Julian of Norwich", ["Revelations of Divine Love"]),
             ("Thomas à Kempis", ["Imitation of Christ"]),
@@ -1443,6 +1456,12 @@ BOOKS_TREE = [
             ("John Wesley", ["Sermons of John Wesley", "A Plain Account of Christian Perfection", "The Journal of John Wesley"]),
         ]),
         ("Catholic Writers", [
+            ("Council of Trent", ["Canons and Decrees of the Council of Trent"]),
+            ("Ignatius of Loyola", ["Spiritual Exercises"]),
+            ("Teresa of Ávila", ["Interior Castle", "Life of St. Teresa"]),
+            ("John of the Cross", ["Ascent of Mount Carmel", "Dark Night of the Soul", "Spiritual Canticle"]),
+            ("Francis de Sales", ["Introduction to the Devout Life"]),
+            ("Blaise Pascal", ["Pensées"]),
             ("Edmund Bonner", ["Bonner's Homilies"]),
             ("Brother Lawrence", ["Practice of the Presence of God"]),
         ]),
