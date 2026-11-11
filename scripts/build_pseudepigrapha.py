@@ -499,6 +499,27 @@ JOB_SLIPS = {
 }
 
 
+def testaments_of_isaac_and_jacob() -> dict:
+    """The Testaments of Isaac and Jacob, from the Bohairic Coptic, trans. S. Gaselee, in G. H. Box's Testament of
+    Abraham (1927): scripts/sources/testaments_isaac_jacob.txt, OCR of the scan proofread against every page image
+    (2026-11-11, the owner's go-ahead). Gaselee's Greek loanwords in brackets after the English "(γάρ)", the
+    manuscript's folio numbers and his footnotes are left out; a printer's slip or two mended ("Isaac they father").
+    A paragraph is a verse, a long one runs of whole sentences."""
+    import sys
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    from build_budge import groups
+    text = (Path(__file__).resolve().parent / "sources" / "testaments_isaac_jacob.txt").read_text(encoding="utf-8")
+    out = {}
+    for block in re.split(r"(?m)^## ", text)[1:]:
+        title, _, body = block.partition("\n")
+        verses = [v for p in body.splitlines() if p.strip() for v in groups(p.strip())]
+        out[title.strip()] = {"1": {str(n): v for n, v in enumerate(verses, start=1)}}
+    expect(list(out) == ["Testament of Isaac", "Testament of Jacob"], f"Isaac and Jacob: {list(out)}")
+    expect(out["Testament of Jacob"]["1"][str(len(out["Testament of Jacob"]["1"]))].endswith("without sin. Amen."),
+           "Testament of Jacob: its end")
+    return out
+
+
 def testament_of_job() -> dict:
     """The Testament of Job in Kaufmann Kohler's translation (Semitic Studies in Memory of Alexander Kohut, 1897;
     the copies online give it to M. R. James, who edited the Greek that year), from TheoDoor's Word file, which
@@ -755,7 +776,8 @@ def main() -> None:
              "Slavonic Life of Adam and Eve": slavonic_adam(), "Words of Gad the Seer": gad_the_seer()}
     books["Apocalypse of Pseudo-Methodius"], books["Apocalypse of Pseudo-Methodius (Latin)"] = pseudo_methodius()
     books.update({"Joseph and Aseneth": joseph_and_aseneth(), "Apocalypse of Abraham": apocalypse_of_abraham(),
-                  "Testament of Job": testament_of_job(), "Lives of the Prophets": lives_of_the_prophets(),
+                  "Testament of Job": testament_of_job(), **testaments_of_isaac_and_jacob(),
+                  "Lives of the Prophets": lives_of_the_prophets(),
                   "Apocalypse of Zephaniah": apocalypse_of_zephaniah(), "Apocalypse of Elijah": apocalypse_of_elijah()})
     sources = {"2 Baruch": "trans. R. H. Charles (1913); ends at 85:2 (the rest is not online)", "3 Baruch": "trans. H. Maldwyn Hughes (1913)",
                "Biblical Antiquities": "Pseudo-Philo, trans. M. R. James (1917)",
@@ -769,6 +791,8 @@ def main() -> None:
                "Joseph and Aseneth": "trans. David Cook (1984)",
                "Apocalypse of Abraham": "trans. G. H. Box (1918), lightly modernised",
                "Testament of Job": "trans. Kaufmann Kohler (1897), lightly modernised",
+               "Testament of Isaac": "trans. S. Gaselee (1927), from the Coptic",
+               "Testament of Jacob": "trans. S. Gaselee (1927), from the Coptic",
                "Lives of the Prophets": "adapted from Charles Cutler Torrey (1946)",
                "Apocalypse of Zephaniah": "trans. O. S. Wintermute (1983)",
                "Apocalypse of Elijah": "trans. Anthony Alcock (2013), lightly edited"}

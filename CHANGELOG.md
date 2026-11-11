@@ -14,6 +14,11 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-11-11 · Three ancient texts, rescued from old scans
+These had never been typed up anywhere online, only photographed in old library books. Each one has been converted to text and checked by eye against every page of the original.
+- ✝️ **The Acts of Apollonius**, the trial of a Roman Christian put to death under the Emperor Commodus, around AD 185. Before the Senate he defends his faith in a speech that mocks the idols ("The Egyptians do homage to an onion in their folly") and answers the Prefect calmly to the end. It survives in an old Armenian translation, in F. C. Conybeare's English (1894). The verses follow the speech's numbered sections: try `!verse Acts of Apollonius 1:30`. It's in `!books` under ⛪ The Early Church → Early Church Documents, beside the Scillitan Martyrs.
+- 📜 **The Testaments of Isaac and Jacob**, companions to the Testament of Abraham, preserved by the Egyptian (Coptic) Church. In each, an angel comes to tell the patriarch his death is near. Isaac is shown the punishments of the wicked and the joys of heaven before he dies, and Jacob blesses his sons and is carried to his fathers. Translated by Stephen Gaselee (1927). Try `!verse Testament of Isaac 1:1` or `!verse Testament of Jacob 1:1`. Both are in `!books` under the Pseudepigrapha's Testaments.
+
 ## 2026-11-11 · !pascal: Pascal's Pensées, one thought at a time
 - 🕯️ **New command: `!pascal`** (or `!pensees`). Blaise Pascal was a 17th-century French mathematician who, near the end of his short life, filled notebooks with thoughts for a defence of Christianity he never finished. Published after his death as the *Pensées* ("Thoughts"), they are some of the most quoted lines ever written about faith, doubt and being human: "The heart has its reasons, which reason does not know."
   - `!pascal` gives a thought at random.

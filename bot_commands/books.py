@@ -121,6 +121,7 @@ BOOKS_TREE = [
                 "Testament of Dan","Testament of Naphtali","Testament of Gad",
                 "Testament of Asher","Testament of Joseph","Testament of Benjamin",
                 "Testament of Job", "The Testament of Abraham: First Version", "The Testament of Abraham: Second Version",
+            "Testament of Isaac", "Testament of Jacob",
                 "Assumption of Moses",
             ]),
             ("Legends and Retellings of Scripture", [
@@ -1387,7 +1388,7 @@ BOOKS_TREE = [
         ]),
         ("Early Church Documents", [
             "Muratorian Canon", "Marcionite Prologues", "Anti-Marcionite Prologues",
-            "Inscription of Abercius", "Passion of the Scillitan Martyrs",
+            "Inscription of Abercius", "Passion of the Scillitan Martyrs", "Acts of Apollonius",
         ]),
     ]),
     ("🏰 Medieval Christianity", [

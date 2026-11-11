@@ -503,6 +503,8 @@ ALIASES: dict[str, str] = {
     "first blast": "The First Blast of the Trumpet", "knox history": "The History of the Reformation in Scotland",
     "history of the reformation": "The History of the Reformation in Scotland",
     # the medieval and Catholic Reformation classics (scripts/build_catholic_classics.py, 2026-11-10)
+    "martyrdom of apollonius": "Acts of Apollonius",
+    "apology of apollonius": "Acts of Apollonius",
     "pascal": "Pensées", "pensees": "Pensées", "pascal pensees": "Pensées", "pascal's pensees": "Pensées",
     "trent": "Canons and Decrees of the Council of Trent", "council of trent": "Canons and Decrees of the Council of Trent",
     "canons of trent": "Canons and Decrees of the Council of Trent", "decrees of trent": "Canons and Decrees of the Council of Trent",

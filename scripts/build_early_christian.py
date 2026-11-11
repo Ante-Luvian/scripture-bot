@@ -18,7 +18,9 @@ data/patristics/early_church_more.json:
     Abercius (Quasten's translation, a verse a line), the 'Marcionite' prologues to Paul's letters (F. C. Burkitt,
     1906) and the 'Anti-Marcionite' prologues to the Gospels (Roger Pearse, 2006) from tertullian.org, and the
     Muratorian Canon -- taken from the library's own copy of ANF 5 (data/patristics/caius.json, where it sits as
-    Caius's "Fragments" and can't be reached by that name).
+    Caius's "Fragments" and can't be reached by that name). And the Acts of Apollonius (F. C. Conybeare, 1894,
+    from the Armenian), from scripts/sources/acts_of_apollonius.tsv: OCR of the 1894 scan, proofread against every
+    page image (2026-11-11, the owner's go-ahead), a verse for each of Harnack's sections, the prologue as verse 0.
 
     python scripts/build_early_christian.py
 """
@@ -337,6 +339,13 @@ def scillitan() -> dict:
     return {"Passion of the Scillitan Martyrs": {"1": {str(i): v for i, v in enumerate(verses, 1)}}}
 
 
+def apollonius() -> dict:
+    rows = (Path(__file__).resolve().parent / "sources" / "acts_of_apollonius.tsv").read_text(encoding="utf-8")
+    verses = dict(line.split("\t", 1) for line in rows.splitlines() if line.strip())
+    expect(list(verses) == [str(n) for n in range(0, 48)], f"Apollonius: {list(verses)[:3]}...")
+    return {"Acts of Apollonius": {"1": verses}}
+
+
 def abercius() -> dict:
     page = body_of(ecw("text/abercius.html"))
     found = re.findall(r"(?m)^\s*(\d{1,2})\. (.+?)\s*(?:<br>|$)", re.sub(r"<(?!br)[^>]+>", "", page))
@@ -407,12 +416,13 @@ def main() -> None:
 
     # (didascalia() is held back: the transcription lost a symbol of Connolly's to "?" some 650 times, and those
     # can't be told from real question marks without the printed book -- waiting on the owner)
-    church = ellipses({**muratorian(), **prologues(), **abercius(), **scillitan()})
+    church = ellipses({**muratorian(), **prologues(), **abercius(), **scillitan(), **apollonius()})
     sources = {"Muratorian Canon": "trans. S. D. F. Salmond (ANF 5, 1886)",
                "Marcionite Prologues": "trans. F. C. Burkitt (1906)",
                "Anti-Marcionite Prologues": "trans. Roger Pearse (2006)",
                "Inscription of Abercius": "trans. Johannes Quasten (1950)",
-               "Passion of the Scillitan Martyrs": "trans. J. Armitage Robinson (ANF 9, 1896)"}
+               "Passion of the Scillitan Martyrs": "trans. J. Armitage Robinson (ANF 9, 1896)",
+               "Acts of Apollonius": "trans. F. C. Conybeare (1894)"}
     for name, chapters in church.items():
         print(f"  {name}: {len(chapters)} chapters, {sum(map(len, chapters.values()))} verses")
     (ROOT / "data" / "patristics" / "early_church_more.json").write_text(json.dumps(

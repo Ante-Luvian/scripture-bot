@@ -5,7 +5,8 @@
   "Marcionite Prologues": "trans. F. C. Burkitt (1906)",
   "Anti-Marcionite Prologues": "trans. Roger Pearse (2006)",
   "Inscription of Abercius": "trans. Johannes Quasten (1950)",
-  "Passion of the Scillitan Martyrs": "trans. J. Armitage Robinson (ANF 9, 1896)"
+  "Passion of the Scillitan Martyrs": "trans. J. Armitage Robinson (ANF 9, 1896)",
+  "Acts of Apollonius": "trans. F. C. Conybeare (1894)"
  },
  "books": {
   "Muratorian Canon": {
@@ -89,6 +90,58 @@
     "25": "Saturninus the proconsul ordered it to be declared by the herald: Speratus, Nartzalus, Cittinus, Veturius, Felix, Aquilinus, Laetantius, Januaria, Generosa, Vestia, Donata and Secunda, I have ordered to be executed.",
     "26": "They all said: Thanks be to God.",
     "27": "And so they all together were crowned with martyrdom; and they reign with the Father and the Son and the Holy Ghost, for ever and ever. Amen."
+   }
+  },
+  "Acts of Apollonius": {
+   "1": {
+    "0": "Christ, Who giveth all things, prepareth a crown of righteousness for those who are well-minded and stand firm by the faith in God; for the chosen ones of God are called to this righteousness, in order that, having fought the good fight with fortitude, they may attain the promises which God, Who lies not, hath promised to those who love Him and believe in Him with their whole soul. One of these also was the blessed martyr and goodly champion of Christ, Apollonius. He had lived a good and ascetic life in the great Rome, and, desirous of the earnest of his heavenly call, he was numbered among the holy martyrs of Christ. The blessed one bore witness before the Senate and Terentius the Prefect, and gave his answers with great boldness, whose memorials are as follows:—",
+    "1": "Terentius, the Prefect, commanded that he should be brought before the Senate, and said to him—“O Apollonius, wherefore dost thou resist the invincible laws and decree of the Emperors, and dost refuse to sacrifice to the gods?”",
+    "2": "Apollonius said—“Because I am a Christian; therefore, I fear God Who made heaven and earth, and sacrifice not to empty idols.”",
+    "3": "The Prefect said—“But thou oughtest to repent of this mind of thine because of the edicts of the Emperors, and take oath by the good fortune of the autocrat Commodus.”",
+    "4": "Apollonius replied—“Hear with understanding this my answer. He who repents of just and good works, in truth such a man is godless and without hope; but he who repents of lawless deeds and of evil thoughts, and returns not again to them, such a one is a lover of God, and hath regard to the hope.",
+    "5": "And I now am firmly resolved in this my mind to keep the beautiful and glorious command of God, which He taught by my Lord Christ, Who knoweth the thoughts of men, and beholdeth whatsoever is done in secret or in the open.",
+    "6": "It is best to swear not at all, but in all things to live in peace and truth; for a great oath is the truth, and for this reason is it a bad and an ill thing to swear by Christ; but because of falsehood is there disbelief, and because of disbelief there is swearing. I am willing to swear in truth by the true God that we, too, love the Emperor, and offer up prayers for his Majesty.”",
+    "7": "The Prefect said—“Come, then, and sacrifice to Apollo, and to the other gods, and to the Emperor’s image.”",
+    "8": "Apollonius said—“As to my change of mind, and as to the oath, I have given thee answer; but as to sacrifices, I and all Christians offer a bloodless sacrifice to God, Lord of heaven and earth, and of the sea, and of every living being, in behalf of the spiritual and rational images who have been appointed by the providence of God to rule over the earth.",
+    "9": "Wherefore, according to the command of the God-given precept, we make our prayers to Him Who dwells in Heaven, Who is the only God, that they may justly rule upon this earth, knowing for certain that he (i.e. Commodus) also is established Emperor, through none other, but only through the one King, God, Who holds every one in His hand.”",
+    "10": "The Prefect said—“Surely thou wast not summoned hither to talk philosophy. I will give thee one day’s respite, that thou mayest consider thine interest and advise thyself concerning thy life.” And he ordered him to be taken to prison.",
+    "11": "And after three days he commanded him to be brought forward, and said to him—“What counsel hast thou formed for thyself?”",
+    "12": "Apollonius answered—“To remain firm in my religion, as I told thee before.”",
+    "13": "The Prefect said—“Because of the decree of the Senate I advise thee to repent and to sacrifice to the gods to whom all the earth gives homage and sacrifices; for it is far better for thee to live among us than to die a miserable death. Methinks thou art not unacquainted with the decree of the Senate.”",
+    "14": "Apollonius said—“I know the command of the Omnipotent God, and I remain firm in my religion; and I do no homage to idols made with hands, which have been fashioned of gold and silver and wood, and which neither see nor hear; because they are the work of men’s hands, and they know not the true service of God.",
+    "15": "But I have learnt to adore the heavenly God, and to do homage to Him alone, Who breathed the breath of life into all men and continually dispenses life unto all.",
+    "16": "And I will not again debase myself and cast myself down into the pit. For it is a great shame to do homage to vile things, and it is a servile action to adore what is vain. And men sin in adoring such things. Foolish were those who invented them, and yet more senseless they that adore them and honour them.",
+    "17": "The Egyptians do homage to an onion in their folly.",
+    "18": "The Athenians unto this very day make and adore the head of an ox in copper, which they call the good fortune of Athens. And this they have even set up in a conspicuous place near to the statue of Zeus and Heracles, in order that they may pray to them.",
+    "19": "And yet what more is this than dried clay or a baked potsherd? Eyes have they, and see not; ears have they, and hear not: hands they have, but draw not things to themselves; feet have they, and walk not; for the mere form bestoweth not real substance; and I think that Socrates also was making ridicule of the Athenians when he swore by the poplar tree, and by the dog, and by dry wood.",
+    "20": "In the first place, men sin against themselves by worshipping them.",
+    "21": "In the second place, they are guilty of impiety towards God, because they do not know the truth. The Egyptians, again, have given the name of God to the onion, and to a wooden mortar, and to the fruits of the field, which we feed upon, and which enter the belly, and pass out into the sweepings; these things have they adored; aye, and they do homage to a fish, and to the dove, and to the dog, and to a stone, and a wolf; and they worship every one of them, the fictions of their own minds.",
+    "22": "In the third place, men sin whenever they pay homage to men and to angels and to demons, naming them gods.”",
+    "23": "The Prefect answered—“You have philosophised enough, and have filled us with admiration; but dost thou not know this, O Apollonius, that it is the decree of the Senate that no one shall be named a Christian anywhere at all?”",
+    "24": "Apollonius answered—“Aye, but it is not possible for a human decree of the Senate to prevail over the decree of God. For so far as men frivolously hate those who benefit them and slay them, just in this wise in many ways men stand aloof from God.",
+    "25": "But know thou this, that God has appointed death, and after death judgment upon all, over kings and poor men, rulers and slaves and freemen, and philosophers and ignorant men.",
+    "26": "But there is a distinction of death (from death); for this reason the disciples of Christ do daily die, torturing their desires, and mortifying them according to the Divine Scriptures. For we have no part at all in dissolute desires, nor do we allow impure sights, nor a lewd glance, nor an ear that listens to evil, lest our souls be wounded thereby.",
+    "27": "But since we live such a fair life, and exercise such good resolutions, we think it no hardship to die for the true God; for whatsoever we are, we are because of God, and for Him we endure tortures, that we may not die miserably the everlasting death.",
+    "28": "And moreover we do not resent having our goods taken from us, because we know that, whether we live or whether we die, we are the Lord’s. Fever, or jaundice, or any other disease can slay a man. I may expect to die from one or the other of these.”",
+    "29": "The Prefect said—“Art thou bent upon death?”",
+    "30": "Apollonius answered—“It is my desire to live in Christ, but I have no fear of death, because of any love of life; for there is not anything that is more estimable than the life eternal, which is the source of deathlessness for the soul that hath lived here a noble life.”",
+    "31": "The Prefect said—“I do not understand thy meaning.”",
+    "32": "Apollonius said—“And what can I do for thee? for the Word of God illumines the heart, as the light gives sight to our eyes.”",
+    "33": "A certain philosopher who was at hand said—“O Apollonius, thou dost insult thyself, for thou art gone exceedingly astray, although thou dost even think to speak profound truths.”",
+    "34": "Apollonius said—“I have learnt to pray and not to insult; but thy dissembling bears witness to the blindness of thy heart, for the truth appears to be an insult only to the senseless.",
+    "35": "The magistrate said—“Tell me plainly what thou didst mean.”",
+    "36": "Apollonius answered—“The Word of God, the Saviour of souls and of bodies, became man in Judæa and fulfilled all righteousness, and was filled gloriously with Divine wisdom, and taught a pure religion, such as beseemed the sons of men, and to put to silence the beginning of sins.",
+    "37": "For He taught us to pacify anger, to moderate desire, to abate and diminish appetite, to put away sorrow, to take part in pity, to increase love, to cast away vain-glory, to abstain from taking vengeance, not to be vindictive, to despise death, not indeed from lawlessness, but as bearing with the lawless; to obey the laws of God, to reverence rulers, to worship God, to intrust the Spirit to immortal God, to look forward to judgment after death, to expect rewards after the resurrection to be given by God to those who have lived in piety.",
+    "38": "Teaching all this by word and deed, along with great firmness, and glorified by all for the benefits which He conferred on them, He was slain at last, as were also before Him philosophers and just men. For the just are seen to be a cause of offence to the unjust.",
+    "39": "As also the Divine Scripture saith: We will bind the just man, because he was a cause of offence to us;",
+    "40": "but also one of the Greek philosophers said: The just man shall be tortured, he shall be spat upon, and last of all he shall be crucified.",
+    "41": "Just as the Athenians passed an unjust sentence of death, and charged him falsely, because they yielded to the mob, so also our Saviour was at last sentenced to death by the lawless: by the lawless who were filled with envy and malice against Him,",
+    "42": "as also against the prophets who were before Him, who spake beforehand concerning Him thus: He shall come and shall do good unto all and shall persuade all men by His goodness even to worship God the Father and Maker of all, in Whom also we believe, rendering homage, because we learned from Him pure commandments, which we knew not, and, therefore, we are no longer in error, but, having lived a good life, we await the hope to come.”",
+    "43": "The magistrate said—“I thought that thou wast changed in the night from that mind of thine.”",
+    "44": "Apollonius said—“And I expected that thy thoughts would be changed in the night and the eyes of thy spirit be opened by my answer: and that thy heart would bear fruit, and that thou wouldst worship God, the Creator of all, and unto Him continually offer thy prayers by means of compassion; for compassion shown to men by men is a bloodless sacrifice and holy unto God.”",
+    "45": "The magistrate said—“I would fain let thee go, but I cannot, because of the decree of the Senate; yet with benevolence I pronounce sentence on thee”; and he ordered him to be beheaded with a sword.",
+    "46": "Apollonius said—“I thank my God for thy sentence.”",
+    "47": "And the executioners straightway led him away and beheaded him, while he continued to glorify the Father and Son and Holy Spirit; to Whom be glory for ever. Amen.”"
    }
   }
  }
