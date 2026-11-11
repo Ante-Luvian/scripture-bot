@@ -14,6 +14,10 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-11-11 · Percy's Reliques
+- 🎻 **Percy's *Reliques of Ancient English Poetry*** is now in the library: 180 old ballads and songs, collected by Bishop Thomas Percy and published in 1765. It's the book that made people care about the old ballads again, and it inspired Wordsworth, Coleridge and Walter Scott. Inside: *Chevy Chase*, *Sir Patrick Spence*, *Barbara Allen*, *Edward, Edward*, ballads of Robin Hood, King Arthur and St George, *The Children in the Wood*, Marlowe's *Come live with me and be my love* with Raleigh's reply, and songs by Shakespeare, Jonson and Lovelace. Each poem is a chapter, numbered in Percy's order, and each stanza is a verse. Try `!verse Percy's Reliques 7` for *Sir Patrick Spence*, or `!books Percy's Reliques` to see them all. It sits on the Ballads & Fables shelf beside Child's ballads (`!ballad`). Many ballads are in both books, often in quite different versions: Percy sometimes polished or "improved" what he found.
+- The text is Henry Wheatley's 1886 edition. The poems are given whole, but the editors' notes about each one are left out.
+
 ## 2026-11-11 · Greek and Roman plays: who's speaking
 - 🎭 **The Greek and Roman plays are easier to follow.** In Sophocles, Euripides, Aeschylus, Aristophanes, Plautus, Terence and Lucian's dialogues, each speaker's name now stands in **bold** above their lines, and stage directions (*Enter Hyllus.*, *Lies down*) are in *italics*, so you can tell at a glance who is talking and what is happening. Try `!verse Trachiniae 61-72`.
 - 🛠️ **Fixed: speeches with no speaker.** When a stage direction came between a character's name and their first words, the name got stuck to the end of the passage before, and the speech itself had no name. Aristophanes' *Clouds* opened with nobody saying "Ah me! Ah me!" Now the name and the stage direction lead the speech. Try `!verse Clouds 1`.

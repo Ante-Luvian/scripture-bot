@@ -950,6 +950,7 @@ BOOKS_TREE = [
     ]),
     ("🎻 Ballads & Fables", [
         "Child Ballads",
+        "Percy's Reliques",
         "Reynard the Fox",
         "Fables of La Fontaine",
         ("The Talking Beasts (the world's fables)", [

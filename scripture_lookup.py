@@ -1632,6 +1632,10 @@ ALIASES: dict[str, str] = {
     # Two books of beasts (scripts/build_beasts.py)
     "bestiary": "Physiologus", "the physiologus": "Physiologus",
     "reynard": "Reynard the Fox", "history of reynard the fox": "Reynard the Fox", "reynart": "Reynard the Fox",
+    # Percy's Reliques (scripts/build_percy.py), a chapter a poem
+    "percy": "Percy's Reliques", "percys reliques": "Percy's Reliques", "percy reliques": "Percy's Reliques",
+    "reliques": "Percy's Reliques", "reliques of ancient english poetry": "Percy's Reliques",
+    "percy's reliques of ancient english poetry": "Percy's Reliques",
     # More fables (scripts/build_fables.py), one chapter a fable
     "fables of phaedrus": "Fables of Phaedrus", "phaedrus fables": "Fables of Phaedrus",   # ("phaedrus": Plato's)
     "la fontaine": "Fables of La Fontaine", "lafontaine": "Fables of La Fontaine",
@@ -2697,7 +2701,8 @@ class ScriptureLookup:
                         "grimm.json",             # the Grimms' tales, Hunt (scripts/build_grimm.py)
                         "la_fontaine.json",       # Thornbury (scripts/build_fables.py)
                         "talking_beasts.json",    # the world's fables, Wiggin and Smith (build_fables.py)
-                        "reynard.json"],          # Caxton, ed. Morley (scripts/build_beasts.py)
+                        "reynard.json",           # Caxton, ed. Morley (scripts/build_beasts.py)
+                        "percy.json"],            # Percy's Reliques, ed. Wheatley (scripts/build_percy.py)
             "norse": [
                 "poetic_edda.json",
                 "old_norse_poems.json",

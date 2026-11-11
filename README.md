@@ -389,6 +389,12 @@ transcriptions (Layamon, the Vulgate Queste, Morien, Libeaus, Launfal, the Tarn 
 Parentheses PDFs are read with PyMuPDF (Mac Roman text, drop capitals as images: `DROP_CAPS`, read on the
 page). Malory's chapters are `book.chapter`, numbered by place (the etext misprints one).
 
+**Percy's Reliques** (`data/ballads/percy.json`, `scripts/build_percy.py`, tradition "ballads"): Thomas Percy's
+*Reliques of Ancient English Poetry* (1765) in Wheatley's 1886 edition, Gutenberg #45939–41. A chapter a poem in
+Percy's order (180), a verse a stanza; the poem's own verse is told from the verse its notes quote by where it
+stands (after a section rule, a part heading or a label), and the notes, the folio-MS versions Wheatley appends and
+the essays are left out. Words the printer starred out keep a "∗" (not Discord's bold `*`).
+
 **Medieval English poetry** (`data/english/`, `scripts/build_english.py`, tradition "english"): the poems in
 their own Middle English (and Scots), from the EETS and Oxford editions on Project Gutenberg (Skeat's Chaucer and
 Chaucerian pieces, Macaulay's Gower, Wright's Piers Plowman, Morris's Pearl poems and Gawayne, Havelok, King
