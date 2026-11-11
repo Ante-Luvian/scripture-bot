@@ -1406,6 +1406,8 @@ BOOKS_TREE = [
             ("Anselm of Canterbury", ["Proslogium", "Monologium", "In Behalf of the Fool", "Anselm's Apologetic",
                                       "Cur Deus Homo"]),
             ("Bonaventure", ["The Mind's Road to God"]),
+            ("Thomas Aquinas", ["Catena Aurea on Matthew", "Catena Aurea on Mark", "Catena Aurea on Luke",
+                                "Catena Aurea on John"]),
         ]),
         ("Franciscans", [
             ("Francis of Assisi", ["Writings of St. Francis"]),

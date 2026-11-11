@@ -1787,6 +1787,9 @@ ALIASES: dict[str, str] = {
     "nisibene hymns": "Nisibene Hymns",
     "dialogues": "Dialogues",
     "pastoral rule": "Pastoral Rule", "regula pastoralis": "Pastoral Rule",
+    # Aquinas's Catena Aurea (scripts/build_catena_aurea.py): a book a Gospel
+    **{f"{pre} {g.lower()}": f"Catena Aurea on {g}" for g in ("Matthew", "Mark", "Luke", "John")
+       for pre in ("catena aurea", "catena aurea on", "golden chain", "golden chain on", "aquinas on", "catena aurea in")},
     # (not bare "moralia", which is Plutarch's, nor "morals", Augustine's "On the Morals of...")
     "morals on job": "Morals on the Book of Job", "moralia in job": "Morals on the Book of Job",
     "moralia in iob": "Morals on the Book of Job", "gregory on job": "Morals on the Book of Job",
@@ -2751,7 +2754,8 @@ class ScriptureLookup:
                 "john_of_damascus.json",
                 "ephrem_the_syrian.json",
                 "gregory_the_great.json",
-                "gregory_moralia.json",          # Morals on Job, Library of the Fathers (scripts/build_moralia.py)
+                "gregory_moralia.json",
+                "catena_aurea.json",             # Aquinas, ed. Newman (scripts/build_catena_aurea.py)          # Morals on Job, Library of the Fathers (scripts/build_moralia.py)
                 # ── Ante-Nicene (ANF epub) ────────────────────────────────
                 "alexander_of_alexandria.json",
                 "alexander_of_lycopolis.json",
