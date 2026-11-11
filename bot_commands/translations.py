@@ -1152,9 +1152,6 @@ async def cmd_parallel(ctx, *, reference: str = ""):
             return
 
         # ── Classical poetry reference ─────────────────────────────────────
-        if not classical:
-            await ctx.send(f"⚠️ Couldn't parse `{ref}`.\nExample: `!parallel John 3:16`")
-            return
         spec = parse_poem_ref(ref_clean)
         if spec is None and (both := await asyncio.to_thread(perseus_parallel, ref_clean)):
             await _send_parallel(ctx, *both)           # a Perseus work, with its Greek or Latin

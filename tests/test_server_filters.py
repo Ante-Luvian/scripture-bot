@@ -75,3 +75,6 @@ def test_every_text_on_every_server(bot_module, protestant):
     ctx = ctx_in(protestant)
     asyncio.run(bot_module.bot.get_command("parallel").callback(ctx, reference="works"))
     assert "Iliad" in ctx.sent[-1]["embed"].description
+    ctx = ctx_in(protestant)                                   # (a classical reference: read, not refused)
+    asyncio.run(bot_module.bot.get_command("parallel").callback(ctx, reference="the the the"))
+    assert ctx.sent                                             # (it once raised NameError here)
