@@ -149,7 +149,8 @@ text}}}}`, string keys (README "Data").
 - `CORPUS_PRIORITY`: the order books are looked up in.
 - `TRADITIONS` ("english": ("📜 Medieval English poetry", ("english",))) and `TRADITION_ALIASES`;
   `CORPUS_TRADITION` follows (for `!search ... in:<tradition>` and `!theme`). Every server sees every
-  tradition: the per-server traditions filter was removed 2026-11-11 (only command packs are per server).
+  tradition: the per-server traditions filter, `!serversetup` and `!packs` were all removed 2026-11-11 (every
+  server has every command and every text; nothing is filtered per server).
 - `ALIASES` (lower-case keys → book name). Check new titles don't collide: an exact title wins, but
   short words ("Proverbs", "Truth", "Patience") can be taken; name such poems inside a collection
   ("Chaucer's Shorter Poems" part 13 is *Truth*).
@@ -403,8 +404,7 @@ changed (else compare `books` with HEAD); never OCR or proofread scan images wit
   `StrongPageButton` (◀ ▶ through a long entry, rebuilt by `strong_entry_message`), `InterlinearFlipButton` (🔁).
 - *The posted introduction:* only edited in place where `guild_config.json` has a `changelog_intro` record (written by
   `!changelogintro`). ℍ𝕐ℙ𝔼ℝℍ𝕀𝕊𝕋𝕆ℝ𝕐's predated the record; the owner ran `!changelogintro fresh` there, so it's tracked
-  now. A line naming only `!daily …` and a pack's command needs a `<!-- pack: x -->` marker, or it shows in servers
-  with that pack off (test_packs caught the troparion, Angelus, hymn-of-the-day and learning lines).
+  now. It's the same text on every server (the `<!-- pack: x -->` markers went with `!packs`, 2026-11-11).
 - *The PDF guides* (scripts/build_guides.py) were one-offs, the owner says: don't offer to rebuild them.
 - *Wikimedia pictures are local copies (2026-11-08):* Wikimedia began refusing full-size originals (429), so `!dore`,
   `!blake` and the 🖌️ buttons showed empty embeds. Each Commons entry now has a `"copy"` (a ≤1200 px JPEG in

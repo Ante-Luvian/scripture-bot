@@ -1,6 +1,6 @@
-"""The shared commands follow a server's choices too: a Protestant server isn't offered the Hail Mary by
-!prayer, Latin chant by !hymnday or the Orthodox calendar by !today. (Texts are never hidden: every server has
-the whole library.)"""
+"""Every server has everything: the per-server traditions setting, !serversetup and !packs were removed at the
+owner's request (2026-11-11). A server that once chose only the Protestant packs still gets the Hail Mary, Latin
+chant, every calendar and the whole library."""
 import asyncio
 import datetime
 import types
@@ -12,8 +12,8 @@ GUILD = 5151
 
 @pytest.fixture
 def protestant(bot_module):
-    from bot_commands import packs
-    packs.save_choices(GUILD, {"church", "protestant"})
+    import core
+    core._update_guild_config(GUILD, packs=["church", "protestant"])        # (a choice saved before the removal)
     return GUILD
 
 
@@ -32,39 +32,33 @@ def ctx_in(guild_id):
     return ctx
 
 
-def test_prayers(bot_module, protestant):
+def test_packs_are_gone(bot_module):
+    import core
+    assert bot_module.bot.get_command("packs") is None and bot_module.bot.get_command("serversetup") is None
+    assert not hasattr(core, "PACKS") and not hasattr(core, "command_enabled")
+    assert bot_module.bot.tree.get_command("setup").get_command("packs") is None
+
+
+def test_every_prayer(bot_module, protestant):
     from bot_commands import prayers
-    assert not prayers.available("hail mary", protestant) and not prayers.available("jesus prayer", protestant)
-    assert prayers.available("our father", protestant) and prayers.available("hail mary", None)
-    listed = prayers.list_embed(protestant)
-    assert "Our Father" in listed.description and "Memorare" not in listed.description
-    assert not any("Orthodox" in f.name for f in listed.fields)
+    listed = prayers.list_embed()
+    assert "Memorare" in listed.description and any("Orthodox" in f.name for f in listed.fields)
     ctx = ctx_in(protestant)
     asyncio.run(prayers.send_prayer(ctx, "hail mary"))
-    assert "don't know a prayer" in ctx.sent[-1]["content"]
+    assert "don't know a prayer" not in str(ctx.sent[-1].get("content"))
 
 
-def test_hymnday_without_latin_chant(bot_module, protestant):
+def test_hymnday_has_the_chant(bot_module):
     from bot_commands import hymnday
     from bot_commands.hymns import shelf
     start = datetime.date(2026, 1, 1)
-    for n in range(0, 365, 3):                       # a year: feasts, seasons and ordinary days
-        hymn, _ = hymnday.hymn_for(start + datetime.timedelta(days=n), latin=False)
-        assert shelf(hymn) != "chant", hymn["title"]
-    message = hymnday.hymnday_message(datetime.date(2026, 5, 24), protestant)       # Pentecost: Veni Creator?
-    assert "Pentecost" in message["content"]
-
-
-def test_today_keeps_the_servers_calendars(bot_module, protestant):
-    import core
-    assert core.guild_calendars(protestant, ["catholic", "anglican", "orthodox", "jewish", "islamic"]) == ["anglican"]
-    assert core.guild_calendars(None, ["catholic", "orthodox"]) == ["catholic", "orthodox"]
-    assert core.guild_calendars(protestant, ["orthodox"]) == ["orthodox"]          # asked for by name: still given
+    kinds = {shelf(hymnday.hymn_for(start + datetime.timedelta(days=n))[0]) for n in range(365)}
+    assert "chant" in kinds
 
 
 def test_every_text_on_every_server(bot_module, protestant):
-    """The per-server traditions filter was removed (the owner, 2026-11-11): a Protestant server still has the
-    Buddhist scriptures in !books and !cloud, and the classics in !parallel."""
+    """A server that chose Protestant packs still has the Buddhist scriptures in !books and !cloud, and the
+    classics in !parallel."""
     from bot_commands import books
     ctx = ctx_in(protestant)
     asyncio.run(books.list_books.callback(ctx, section="Dhammapada"))
@@ -78,3 +72,25 @@ def test_every_text_on_every_server(bot_module, protestant):
     ctx = ctx_in(protestant)                                   # (a classical reference: read, not refused)
     asyncio.run(bot_module.bot.get_command("parallel").callback(ctx, reference="the the the"))
     assert ctx.sent                                             # (it once raised NameError here)
+
+
+def test_old_server_commands_are_cleared(bot_module, monkeypatch):
+    """Pack commands were registered server by server until 2026-11-11: those are cleared at startup, or the
+    server's / menu would show them twice (now that they're global)."""
+    from bot_commands import welcome
+    calls = []
+
+    class Tree:
+        async def sync(self, guild=None):
+            calls.append(("sync", guild))
+            return [1, 2, 3] if guild is None else []
+
+        async def fetch_commands(self, guild=None):
+            return ["old"] if guild == "old" else []
+
+        def clear_commands(self, guild=None):
+            calls.append(("clear", guild))
+    fake = types.SimpleNamespace(tree=Tree(), guilds=["old", "new"])
+    monkeypatch.setattr(welcome, "bot", fake)
+    assert asyncio.run(welcome.sync_all()) == 3
+    assert calls == [("sync", None), ("clear", "old"), ("sync", "old")]

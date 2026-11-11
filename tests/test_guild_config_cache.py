@@ -10,13 +10,13 @@ def test_cached_until_the_file_changes(bot_module, monkeypatch):
     def counting(self, *a, **k):
         reads.append(self)
         return real(self, *a, **k)
-    core._update_guild_config(1, packs=["church"])
+    core._update_guild_config(1, votd_time="07:00")
     monkeypatch.setattr(type(core.GUILD_CONFIG_PATH), "read_text", counting)
     for _ in range(5):
-        assert core._load_guild_config()["1"]["packs"] == ["church"]
+        assert core._load_guild_config()["1"]["votd_time"] == "07:00"
     assert len(reads) <= 1
-    core._update_guild_config(1, packs=["divination"])         # a change is seen at once
-    assert core._load_guild_config()["1"]["packs"] == ["divination"]
+    core._update_guild_config(1, votd_time="08:00")         # a change is seen at once
+    assert core._load_guild_config()["1"]["votd_time"] == "08:00"
 
 
 def test_callers_get_their_own_copy(bot_module):

@@ -102,7 +102,6 @@ from bot_commands import (  # noqa: F401
     measures,
     memorize,
     oracles,
-    packs,
     people,
     personal,
     psalter,
@@ -121,6 +120,7 @@ from bot_commands import (  # noqa: F401
     translations,
     verse,
     votd,
+    welcome,
     zoroastrian,
 )
 
@@ -141,10 +141,9 @@ async def on_ready():
 
     log.info(f"Logged in as {bot.user} (ID: {bot.user.id})")
     log.info(f"Connected to {len(bot.guilds)} guild(s)")
-    # the global slash commands, then each server's pack commands (bot_commands/packs.py)
-    synced = await packs.sync_all()
+    synced = await welcome.sync_all()            # (bot_commands/welcome.py)
     log.info(f"Synced {synced} slash command(s)")
-    bot.add_view(packs.WelcomeView())          # the welcome message's Set me up button
+    bot.add_view(welcome.WelcomeView())          # the welcome message's Set me up button
     log.info(f"Corpora loaded: {', '.join(lookup.corpora_names())}")
 
     # (The one-time move of the old hard-coded VOTD channel into guild_config.json, done long

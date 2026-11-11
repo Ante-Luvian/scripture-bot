@@ -305,8 +305,6 @@ async def on_command_error(ctx, error):
             log.warning(f"Unknown command !{cmd} seen {_UNKNOWN_CMD_THRESHOLD}+ times — suppressing further logs (likely another bot's prefix)")
         # else: silently ignored
         return
-    if isinstance(error, PackDisabled):          # this server turned that command off
-        return
     if isinstance(error, RateLimited):
         if error.first:
             await ctx.send(RATE_MESSAGE, delete_after=10)
@@ -655,123 +653,9 @@ def _update_guild_config(guild_id: int, **kwargs) -> None:
 # (!features -- per-server opt-ins for 📌-reaction bookmarks, bookmark export and !plan streaks --
 # went with the bookmarks on 2026-11-08; the streak is simply always shown now.)
 
-# ── Packs: which commands a server has ───────────────────────────────────────────
-# Chosen when the bot joins a server (bot_commands/packs.py asks its admins what the server is
-# for) or later with /setup traditions and !packs. A server that never chose has everything. A
-# command in a turned-off pack drops out of that server's / menu and is ignored when typed.
-# Commands in no pack (the Bible, study tools, games...) are always there. Every server has
-# every text: the per-server choice of traditions' texts was removed on 2026-11-11 (the owner
-# called it an unsupported legacy feature).
-PACKS = {
-    "church": ("⛪ Christian worship & study", "Hymns, creeds, prayers, the church year and the Church Fathers' commentary",
-                  frozenset({"creed", "hymn", "hymnlist", "midi", "hymnday", "prayer", "today", "catena",
-                             "metrical"})),
-    "protestant": ("✝️ Protestant & Anglican", "The Prayer Book's daily office and collects, and Puritan prayers",
-                   frozenset({"bcp", "vov"})),
-    "saints": ("😇 Saints", "The saint of the day, from Butler's Lives of the Saints, and the sayings of the Desert Fathers",
-               frozenset({"saint", "desert"})),
-    "catholic_devotion": ("📿 Catholic devotions", "The Rosary, the Angelus and Latin chant",
-                          frozenset({"rosary", "angelus", "chant"})),
-    "catholic_teaching": ("📕 Catholic teaching", "The Catechism, canon law and Aquinas's Summa",
-                          frozenset({"ccc", "canon", "summa"})),
-    "orthodox": ("☦️ Orthodox", "Icons, the Divine Liturgy and the day's troparia",
-                 frozenset({"icon", "divineliturgy", "troparion"})),
-    "jewish_learning": ("✡️ Jewish learning", "The Torah portion, Daf Yomi, the day's learning and gematria",
-               frozenset({"parsha", "dafyomi", "learning", "gematria"})),
-    "islamic_prayer": ("☪️ Islamic prayer times", "The five daily prayer times", frozenset({"salah"})),
-    "comparative": ("🌐 Comparative religion", "The same story or theme as the world's traditions tell it",
-                    frozenset({"story", "theme"})),
-    "divination": ("🔮 Divination & esoteric", "Oracles, the I Ching, tarot, the planets, bibliomancy and William Blake",
-                   frozenset({"oracle", "virgil", "homer", "delphi", "iching", "hafez", "gathas", "rumi", "sortesbiblicae",
-                              "tarot", "blake", "planets", "horoscope"})),
-}
-PACK_OF = {command: key for key, (_, _, commands_) in PACKS.items() for command in commands_}
-
-
-class PackDisabled(commands.CheckFailure):
-    """A typed command whose pack this server has turned off: ignored, without a reply."""
-
-
-def guild_packs(guild_id) -> frozenset:
-    if guild_id is None:
-        return frozenset(PACKS)
-    chosen = _load_guild_config().get(str(guild_id), {}).get("packs")
-    return frozenset(PACKS) if chosen is None else frozenset(chosen) & frozenset(PACKS)
-
-
-def command_enabled(guild_id, name: str) -> bool:
-    """Whether this server has the command (anything outside a server, or in no pack, always)."""
-    pack = PACK_OF.get(name)
-    return pack is None or guild_id is None or pack in guild_packs(guild_id)
-
-
-def pack_enabled(guild_id, pack: str) -> bool:
-    return pack in guild_packs(guild_id)
-
-
-def guild_calendars(guild_id, wanted: list) -> list:
-    """The !today calendars (catholic, anglican, orthodox, jewish, islamic) of `wanted` that go with this
-    server's choices; all of `wanted` if none do (a server that chose only "church" still gets a calendar)."""
-    if guild_id is None:
-        return list(wanted)
-    packs = guild_packs(guild_id)
-    has = {"catholic": bool({"catholic_devotion", "catholic_teaching"} & packs),
-           "anglican": "protestant" in packs,
-           "orthodox": "orthodox" in packs,
-           "jewish": "jewish_learning" in packs,
-           "islamic": "islamic_prayer" in packs}
-    kept = [w for w in wanted if has.get(w, True)]
-    return kept or list(wanted)
-
-
-# Lines in !help and the introduction about a command a server has turned off are left out
-# there. A line goes when the commands it names (`!rosary`, `/vov`) are all off, or when it's
-# marked <!-- pack: orthodox --> (for paragraphs that name no command) and that pack is off.
-# The markers themselves never show.
-_MARKER = re.compile(r"<!--\s*(pack):\s*(\w+)\s*-->\s*")
-_MENTION = re.compile(r"!help\s+([a-z]+)|(?<![\w/:.])[!/]([a-z]+)\b")
-
-
-def _mention_enabled(name: str, guild_id):
-    """Whether this server has the command or help topic `name`; None for anything else."""
-    command = bot.get_command(name)
-    if command is not None and name.endswith("setup") and bot.get_command(name[:-5]) is not None:
-        command = bot.get_command(name[:-5])      # !saintsetup goes with !saint
-    return None if command is None else command_enabled(guild_id, command.name)
-
-
-def for_guild(text: str, guild_id) -> str:
-    """`text` as the server `guild_id` should see it (see above); None: every line, unmarked."""
-    lines = []
-    for line in text.split("\n"):
-        keep = True
-        for kind, key in _MARKER.findall(line):
-            if kind == "pack" and key in PACKS and key not in guild_packs(guild_id):
-                keep = False
-        line = _MARKER.sub("", line)
-        if keep and guild_id is not None:
-            states = [state for state in (_mention_enabled(a or b, guild_id) for a, b in _MENTION.findall(line))
-                      if state is not None]
-            keep = not states or any(states)
-        if keep:
-            lines.append(line)
-    return re.sub(r"\n{3,}", "\n\n", "\n".join(lines)).strip()
-
-
-def embed_for_guild(embed: discord.Embed, guild_id) -> discord.Embed:
-    """The embed's fields and footer list (" · "-separated) without what the server turned off."""
-    if guild_id is None:
-        return embed
-    fields = [(f.name, for_guild(f.value, guild_id), f.inline) for f in embed.fields]
-    embed.clear_fields()
-    for name, value, inline in fields:
-        if value:
-            embed.add_field(name=name, value=value, inline=inline)
-    if embed.footer and embed.footer.text and " · " in embed.footer.text:
-        items = [item for item in embed.footer.text.split(" · ") if for_guild(item, guild_id)]
-        embed.set_footer(text=" · ".join(items))
-    return embed
-
+# (Packs -- groups of commands an admin could switch off server by server with !packs -- were removed at the
+# owner's request on 2026-11-11, after the per-server traditions setting and !serversetup: every server
+# has every command and every text.)
 
 @bot.check
 async def _rate_check(ctx) -> bool:
@@ -781,12 +665,6 @@ async def _rate_check(ctx) -> bool:
             raise RateLimited(first)
     return True
 
-
-@bot.check
-async def _pack_check(ctx) -> bool:
-    if ctx.guild is not None and ctx.command is not None and not command_enabled(ctx.guild.id, ctx.command.name):
-        raise PackDisabled()
-    return True
 
 # (Personal bookmarks, !save / !saved, were retired on 2026-11-08: no one had a bookmark saved.)
 

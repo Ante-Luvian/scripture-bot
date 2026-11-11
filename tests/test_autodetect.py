@@ -72,12 +72,7 @@ def test_references_mid_sentence_are_found(autodetect, monkeypatch, text, expect
 
 
 def test_welcome_message_points_to_the_setup_commands(autodetect, bot_module, monkeypatch):
-    from bot_commands import packs
     sent = []
-
-    async def no_sync(guild, tree=None):
-        return 0
-    monkeypatch.setattr(packs, "sync_guild", no_sync)
 
     class Channel:
         def permissions_for(self, member):
@@ -94,6 +89,7 @@ def test_welcome_message_points_to_the_setup_commands(autodetect, bot_module, mo
         assert f"/setup {sub}" in text
         assert setup.get_command(sub) is not None                    # and it's real
     assert "Set me up" not in text and setup.get_command("traditions") is None      # (removed 2026-11-11)
+    assert "!packs" not in text and setup.get_command("packs") is None
 
 
 def test_ordinary_chat_gets_no_reply(autodetect, monkeypatch):

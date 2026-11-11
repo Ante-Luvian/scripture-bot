@@ -22,7 +22,7 @@ def test_the_prefix_only_ones_are_reachable_by_slash(bot_module):
     assert "leaderboard" in [c.value for c in tree.get_command("quiz").parameters[0].choices]
     assert [c.value for c in tree.get_command("bcp").parameters[0].choices] == ["office", "psalm", "collect"]
 # Admin commands; their slash forms are subcommands of /setup (Discord allows 100 slash commands)
-ADMIN_SLASH = {"votdsetup", "oraclesetup", "quizsetup", "verslesetup", "hymndaysetup", "saintsetup", "astrosetup", "angelussetup", "troparionsetup", "learningsetup", "changelogsetup", "changelogintro", "packs", "daily"}
+ADMIN_SLASH = {"votdsetup", "oraclesetup", "quizsetup", "verslesetup", "hymndaysetup", "saintsetup", "astrosetup", "angelussetup", "troparionsetup", "learningsetup", "changelogsetup", "changelogintro", "daily"}
 
 
 @pytest.mark.parametrize("part, period, date, args", [

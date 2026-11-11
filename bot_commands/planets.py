@@ -20,7 +20,7 @@ import discord
 
 from discord.ext import commands, tasks
 
-from core import ROOT, _atomic_write_json, _load_guild_config, _update_guild_config, bot, command_enabled, log, lookup
+from core import ROOT, _atomic_write_json, _load_guild_config, _update_guild_config, bot, log, lookup
 
 EPHEMERIS = ROOT / "data" / "de421.bsp"
 COLOR = discord.Color.from_rgb(40, 50, 110)
@@ -688,8 +688,6 @@ async def run_daily_astro(client, day: dt.date, current_hm: str) -> int:
     for guild_id, g in _load_guild_config().items():
         channel_id = g.get("astro_channel_id")
         if not channel_id or g.get("astro_time", DEFAULT_ASTRO_TIME) != current_hm:
-            continue
-        if not command_enabled(int(guild_id), "planets"):         # the server turned the pack off
             continue
         channel = client.get_channel(int(channel_id))
         if channel is None:

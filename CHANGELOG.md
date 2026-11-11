@@ -14,6 +14,10 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-11-11 · Every command, on every server
+- ⚙️ **`!packs` is gone** (and `/setup packs`). It let admins switch off groups of commands for their server, like the Rosary, Jewish learning or divination. Now every server simply has every command, so nothing is ever missing. If your server had switched a group off, those commands work again, and they're back in the `/` menu.
+- 🙏 **Nothing is held back any more.** A server that had chosen only some churches' commands didn't get the others' prayers (`!prayer hail mary` said it didn't know one), Latin chant in the hymn of the day, or every church's calendar in `!today`. Every server now gets all of them. Try `!prayer list`.
+
 ## 2026-11-11 · Joseph and Asenath: the longer version
 - 💍 **The longer *Joseph and Asenath*** is now in the library, beside the shorter one we already had. This ancient Jewish romance (about the first century) tells how Asenath, the proud daughter of an Egyptian priest, falls for Joseph, smashes her idols and repents in sackcloth for seven days. An angel then visits her with a mysterious honeycomb, and in the second half Pharaoh's son plots to kill Joseph and carry her off. The longer version has the story in full, scenes the shorter one cuts. This is E. W. Brooks's 1918 translation, never typed up online before: it has been converted from a scan of the book and checked by eye against every page. Each of its 29 chapters starts with Brooks's own chapter title. Try `!verse Longer Asenath 16` for the honeycomb. In `!books` it sits beside the shorter version, under the Pseudepigrapha's legends and retellings of scripture.
 

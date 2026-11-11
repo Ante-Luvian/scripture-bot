@@ -203,9 +203,6 @@
   "oraclesetup": [
    "oracleconfig"
   ],
-  "packs": [
-   "pack"
-  ],
   "parallel": [
    "par"
   ],

@@ -7,7 +7,7 @@ import re
 from scripture_lookup import ALIASES, DRB_SUFFIXES, KNOX_SUFFIXES, get_verse_drb, get_verse_knox
 from translation_lookup import TRANSLATION_SUFFIXES, get_translation
 from bot_commands.dore import art_buttons
-from bot_commands.packs import welcome
+from bot_commands.welcome import welcome
 from bot_commands.verse import (
     _study_buttons,
 )
@@ -41,7 +41,7 @@ def _trim_to_book(raw: str) -> str:
 
 @bot.event
 async def on_guild_join(guild: discord.Guild):
-    """Welcome a new server, and ask its admins what it's for (bot_commands/packs.py)."""
+    """Welcome a new server (bot_commands/welcome.py)."""
     await welcome(guild)
 
 

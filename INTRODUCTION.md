@@ -6,10 +6,6 @@ Each section must stay under ~3,800 characters (Discord's embed limit is
 4,096), and every user-facing command must be mentioned somewhere — a test
 checks both. Written for people who have never used the bot.
 
-A server only sees the lines about what it has: a line naming only commands it has turned
-off is left out, and so is one marked `<!-- pack: orthodox -->`
-(for lines that name no command) when that pack is off (core.for_guild).
-
 ## 👋 Hello! I'm ScriptureBot
 I'm a library of sacred and ancient texts that lives in this server. I can look up a verse from the Bible in dozens of translations, show you the original Hebrew and Greek, tell you what the translators were thinking, pray the daily office with you, consult an ancient oracle — and a great deal more, across about **a thousand works** from more than a dozen traditions.
 
@@ -53,7 +49,7 @@ Many of my answers come with buttons underneath. Under a Bible verse you'll see 
 
 **Norse myth and saga** — the **Poetic Edda**, the poems of the gods and heroes (Bellows, 1923): the *Hávamál*, the *Völuspá*, Thor, Loki, Sigurd. `!edda` gives a stanza at random, `!edda havamal` one from that poem, with ◀ ▶ to read on, **🖌️** Collingwood's (1908) and Frølich's (1895) pictures, **🖼️ Card**, **📜 Old Norse** (English and Norse side by side; also `!parallel havamal 139`) and **ᚱ Runes** (the Norse in Viking-Age runes, a modern transcription). `!odin` (`!wotan`, `!woden`) gives only Odin's own words, there and in the sagas (`!odin riddles` is one he asks King Heithrek in disguise, the answer hidden till you click); `!odin norse` one of his stanzas with its Old Norse. Hollander's **Old Norse poems** of the sagas and skalds (1936), from the *Eiríksmál* to the *Sun Song* (`!verse Eiriksmol 1`). Snorri Sturluson's **Prose Edda**, the myths told as Odin's answers to King Gylfi (`!verse Gylfaginning 3`), and his **Heimskringla**, the kings of Norway from Odin on, beginning with the **Ynglinga saga** (`!verse Ynglinga Saga 2`); and the **Völsunga saga**, Sigurd and the dragon (`!verse Volsunga Saga 18`).
 
-<!-- pack: comparative -->**Further afield** — all the **Bahá'í** scriptures (`!books`, `!verse Iqan 213`); and the **ancient Near East**: the Epic of Gilgamesh, the Babylonian creation epic **Enuma Elish** (`!verse Enuma Elish 4`), the Canaanite Baal Cycle, the Egyptian Book of the Dead and Hymn to the Aten, the Wisdom of Ahikar, and the pre-Islamic Arabic Mu'allaqat poems.
+**Further afield** — all the **Bahá'í** scriptures (`!books`, `!verse Iqan 213`); and the **ancient Near East**: the Epic of Gilgamesh, the Babylonian creation epic **Enuma Elish** (`!verse Enuma Elish 4`), the Canaanite Baal Cycle, the Egyptian Book of the Dead and Hymn to the Aten, the Wisdom of Ahikar, and the pre-Islamic Arabic Mu'allaqat poems.
 
 Browse all of it with `!books`, or let me pick something at random with `!discover`.
 
@@ -81,16 +77,16 @@ Browse all of it with `!books`, or let me pick something at random with `!discov
 
 **China and Japan** — the **Tao Te Ching** and the **Zhuangzi** (`!verse Zhuangzi 2`, the butterfly dream is at its end); Confucius's **Analects** (`!verse Analects 2.4`), **Mencius** (by book, part and chapter: `!verse Mencius 6.1.2`), the **Great Learning** and the **Doctrine of the Mean**; the **I Ching**; and Shinto's sacred histories, the **Kojiki** and the **Nihongi**.
 
-<!-- pack: comparative -->**Persia, the Americas and old Europe** — the **Zoroastrian** scriptures: the **Gathas** (Zarathustra's own hymns), the **Yasna** and **Visperad** (the worship services), the **Yashts**, the **Vendidad**, the everyday prayers of the **Khorda Avesta** (the **Nyayeshes**, **Gahs**, **Afrinagans** and **Sirozahs**) and the **Bundahishn**, the Zoroastrian account of creation; the later Persian books: **Arda Viraf** (a priest's journey through heaven and hell), the **Menog-i Khrad** (questions to the Spirit of Wisdom), the **Bahman Yasht** (an apocalypse), Zadspram's and the **Dinkard**'s lives of Zarathustra, and the **Shikand-gumanik Vizar** (a Zoroastrian's arguments against other faiths); and Ferdowsi's **Shahnameh**, the Persian Book of Kings; the **Yazidi** books, *Al-Jilwah* and the *Black Book*; the Maya **Popol Vuh**; the Finnish **Kalevala**; and the Welsh **Mabinogion**.
+**Persia, the Americas and old Europe** — the **Zoroastrian** scriptures: the **Gathas** (Zarathustra's own hymns), the **Yasna** and **Visperad** (the worship services), the **Yashts**, the **Vendidad**, the everyday prayers of the **Khorda Avesta** (the **Nyayeshes**, **Gahs**, **Afrinagans** and **Sirozahs**) and the **Bundahishn**, the Zoroastrian account of creation; the later Persian books: **Arda Viraf** (a priest's journey through heaven and hell), the **Menog-i Khrad** (questions to the Spirit of Wisdom), the **Bahman Yasht** (an apocalypse), Zadspram's and the **Dinkard**'s lives of Zarathustra, and the **Shikand-gumanik Vizar** (a Zoroastrian's arguments against other faiths); and Ferdowsi's **Shahnameh**, the Persian Book of Kings; the **Yazidi** books, *Al-Jilwah* and the *Black Book*; the Maya **Popol Vuh**; the Finnish **Kalevala**; and the Welsh **Mabinogion**.
 
-<!-- pack: comparative -->`!search` and `!theme` know each of these as a tradition: `in:sikh`, `in:jain`, `in:shinto`, `in:zoroastrian`, `in:mesoamerican`, `in:finnish`, `in:celtic`.
+`!search` and `!theme` know each of these as a tradition: `in:sikh`, `in:jain`, `in:shinto`, `in:zoroastrian`, `in:mesoamerican`, `in:finnish`, `in:celtic`.
 
 ## 📖 Reading scripture
 **`!verse`** (or `!v`) is my main command.
 • `!verse John 3:16` — one verse · `!verse Genesis 1:1-5` — a range · `!verse John 7:53-8:11` — across chapters · `!verse Psalm 23` — a whole chapter, in pages
 • `!verse John 3:16 ESV` — in another translation · `!verse John 3:16 KJV ESV NKJV` — several side by side
 • `!verse` — a random verse · `!verse Proverbs` — random from one book · `!verse bible nt` — random from the New Testament
-<!-- pack: comparative -->• Other traditions work the same way: `!verse Quran 2:255`, `!verse Enoch 1:9`, `!verse Berakhot 2a`, `!verse Gilgamesh 11`, `!verse Rig Veda 10.121:9`, `!verse Republic 514a` (Plato by the page-and-section numbers printed in every edition, or a stretch: `!verse Republic 514a-515c`), `!verse Iliad 6.440` (Homer by book and line)
+• Other traditions work the same way: `!verse Quran 2:255`, `!verse Enoch 1:9`, `!verse Berakhot 2a`, `!verse Gilgamesh 11`, `!verse Rig Veda 10.121:9`, `!verse Republic 514a` (Plato by the page-and-section numbers printed in every edition, or a stretch: `!verse Republic 514a-515c`), `!verse Iliad 6.440` (Homer by book and line)
 Abbreviations are fine (`Jn`, `1 Cor`, `Ps`). Bible verses come with the four study buttons, and any passage Gustave Doré engraved or William Blake painted gets a **🖼️ Doré** or **🎨 Blake** button too. Under a passage from any of my texts, **◀ Previous** and **Next ▶** read on and **📖 Whole chapter** opens its chapter.
 A **🖌️** button shows the pictures of the old illustrated editions wherever a passage has one: Beardsley's *Morte d'Arthur*, Crane's *Faerie Queene*, the Boydell Gallery's paintings of Shakespeare, and the Aesop, La Fontaine and Grimm pictures under `!fable` and `!tale`.
 
@@ -160,23 +156,23 @@ A **🖌️** button shows the pictures of the old illustrated editions wherever
 
 ## 🎵 Hymns and psalms to sing
 **`!hymn amazing grace`** — a hymn's words, who wrote them and the tune, and the Bible passages it draws on. Search by title, first line, a line you remember from the words, a topic (`!hymn christmas`) or a passage (`!hymn Psalm 23` finds hymns based on it). `!hymn` alone picks one at random. Two buttons sit under each hymn:
-<!-- pack: church -->• **▶️ Play the tune** — the tune once through, in four parts on an organ, to play right in Discord.
-<!-- pack: church -->• **📖 Read the passages** — the Bible verses behind the hymn.
-<!-- pack: church -->• **🇬🇧 English** — on many Latin chants: a published English translation (the Prayer Book's, Neale's, Caswall's…).
-<!-- pack: church -->• **🎤 Sung** — on the Latin chants: sung in Latin by a synthesised choir.
-<!-- pack: church -->• **🎼 Score** — the chant in square notes, as chant books print it.
+• **▶️ Play the tune** — the tune once through, in four parts on an organ, to play right in Discord.
+• **📖 Read the passages** — the Bible verses behind the hymn.
+• **🇬🇧 English** — on many Latin chants: a published English translation (the Prayer Book's, Neale's, Caswall's…).
+• **🎤 Sung** — on the Latin chants: sung in Latin by a synthesised choir.
+• **🎼 Score** — the chant in square notes, as chant books print it.
 **`!chant pater noster`** — a Latin chant sung, straight away; `!chant` alone sings a random one.
 **`!midi amazing grace`** — just the tune, straight away: I skip the words and post the audio. It searches the same way as `!hymn`; `!midi` alone plays a random one.
-<!-- pack: church -->**`!hymnday`** — the hymn of the day, chosen for the Church year and the same for everyone: on a great feast that feast's hymn (*Veni Creator* at Pentecost, *Vexilla Regis* on Good Friday), in Advent, Lent or Eastertide one of the season's hymns, and the rest of the year an English hymn, a Latin chant and a Sacred Harp song in turn. `!hymnday 2026-12-25` shows another day's. Server admins can have it posted every morning with **`!daily hymn channel #hymns`** (`time 08:00` in UTC, `test`, `off`).
+**`!hymnday`** — the hymn of the day, chosen for the Church year and the same for everyone: on a great feast that feast's hymn (*Veni Creator* at Pentecost, *Vexilla Regis* on Good Friday), in Advent, Lent or Eastertide one of the season's hymns, and the rest of the year an English hymn, a Latin chant and a Sacred Harp song in turn. `!hymnday 2026-12-25` shows another day's. Server admins can have it posted every morning with **`!daily hymn channel #hymns`** (`time 08:00` in UTC, `test`, `off`).
 **`!hymnlist`** — the whole hymnal by title: how many hymns are in each section, then `!hymnlist all` (every title, a page at a time), `!hymnlist chant` (just the Latin chant), `!hymnlist chant sequences`, or `!hymnlist veni` (titles with that word). Pick one from the list to open it.
-<!-- pack: church -->About 290 public-domain hymns and carols, from the Open Hymnal Project and Hymnary.org — and **720 ancient Latin hymns and chants in Gregorian chant**, with their Latin words and the chant melody to play: the hymns of the Church's daily prayer (*Te lucis ante terminum*, *Veni Creator Spiritus*, *Vexilla Regis*, *Pange lingua*), the great sequences (*Dies irae*, *Stabat Mater*, *Victimae paschali laudes*), the *Te Deum*, and the antiphons *Salve Regina*, *Regina caeli* and *Ubi caritas*. And **the whole Sacred Harp**, the American shape-note songbook: 550 songs, each sung in four parts with its words, such as *Idumea*, *Northfield* and *Babylon Is Fallen* (`!hymn Idumea`, `!hymnlist harp`; `!hymn harp` for a random one).
+About 290 public-domain hymns and carols, from the Open Hymnal Project and Hymnary.org — and **720 ancient Latin hymns and chants in Gregorian chant**, with their Latin words and the chant melody to play: the hymns of the Church's daily prayer (*Te lucis ante terminum*, *Veni Creator Spiritus*, *Vexilla Regis*, *Pange lingua*), the great sequences (*Dies irae*, *Stabat Mater*, *Victimae paschali laudes*), the *Te Deum*, and the antiphons *Salve Regina*, *Regina caeli* and *Ubi caritas*. And **the whole Sacred Harp**, the American shape-note songbook: 550 songs, each sung in four parts with its words, such as *Idumea*, *Northfield* and *Babylon Is Fallen* (`!hymn Idumea`, `!hymnlist harp`; `!hymn harp` for a random one).
 
 **`!metrical 23`** — a psalm from the **Scottish Metrical Psalter** of 1650: all 150 Psalms rewritten in rhyme and a steady beat so a whole congregation could sing them, still sung in Scottish churches today (it gave us *The Lord's my shepherd, I'll not want*). I show the psalm with its stanzas numbered by Bible verse, and the tune it's traditionally sung to:
-<!-- pack: church -->• **▶️ Play the tune** — one verse of the tune in four parts on an organ; every stanza is sung to it.
-<!-- pack: church -->• **The tune menu** — play the psalm to any other tune in the same rhythm, since any of them fits the words.
-<!-- pack: church -->• **📖 Read in the KJV** — the same psalm in ordinary prose, to compare.
-<!-- pack: church -->• **Second version** — some psalms (like Psalm 100) have two versions in the Psalter, and this switches between them. Ask for one directly with `!metrical 100b`.
-<!-- pack: church -->Long psalms have buttons to turn the page, or ask for some verses: `!metrical 119:105-112`. Psalm 119 shows its 22 parts under their Hebrew letters (Aleph, Beth, Gimel…), with a menu to jump between them; ask for one by name with `!metrical 119 nun`. You can also search the words (`!metrical shepherd`), list every psalm sung to a tune (`!metrical crimond`), or get a random one with `!metrical`.
+• **▶️ Play the tune** — one verse of the tune in four parts on an organ; every stanza is sung to it.
+• **The tune menu** — play the psalm to any other tune in the same rhythm, since any of them fits the words.
+• **📖 Read in the KJV** — the same psalm in ordinary prose, to compare.
+• **Second version** — some psalms (like Psalm 100) have two versions in the Psalter, and this switches between them. Ask for one directly with `!metrical 100b`.
+Long psalms have buttons to turn the page, or ask for some verses: `!metrical 119:105-112`. Psalm 119 shows its 22 parts under their Hebrew letters (Aleph, Beth, Gimel…), with a menu to jump between them; ask for one by name with `!metrical 119 nun`. You can also search the words (`!metrical shepherd`), list every psalm sung to a tune (`!metrical crimond`), or get a random one with `!metrical`.
 
 ## 🎻 Folk tales and ballads
 
@@ -193,7 +189,7 @@ A **🖌️** button shows the pictures of the old illustrated editions wherever
 
 **`!salah London`** — today's five Muslim prayer times for any city (Fajr at dawn, Dhuhr, Asr, Maghrib at sunset and Isha at night), worked out the way that country's Muslim authorities do. Add the country if a city name is ambiguous: `!salah Cairo, Egypt`.
 
-<!-- pack: protestant -->**The Daily Office** — Morning and Evening Prayer from the Book of Common Prayer (the Canadian 1962 Prayer Book, with Coverdale's Psalter):
+**The Daily Office** — Morning and Evening Prayer from the Book of Common Prayer (the Canadian 1962 Prayer Book, with Coverdale's Psalter):
 • `!bcp` — today's psalms, two readings and collect, for morning or evening depending on the time · `!bcp morning`, `!bcp evening`, `!bcp 2026-12-25`
 • `!bcp psalm` — just today's appointed psalms (`!bcp psalm evening` for the evening ones) · `!bcp collect` — just the Collect (short prayer) of the day
 • `!chant psalm 110` — any psalm chanted in Latin to a Gregorian psalm tone, the way monks sing the Office, by the bot's synthesised choir, with the Latin and the Douay-Rheims English to follow. Add `organ` to hear the melody on the organ instead. Psalm 119 is sung in its 22 sections: `!chant psalm 119 beth`.
@@ -202,37 +198,37 @@ A **🖌️** button shows the pictures of the old illustrated editions wherever
 
 **`!rosary`** — pray the Rosary, a page at a time: the opening prayers, then five decades (an Our Father, ten Hail Marys and a Glory Be), each on one of the day's *mysteries*, events from the lives of Jesus and Mary, with its Bible passage to think on, then the closing prayers. ◀ ▶ move through it, and the *Ave Maria* comes sung. It picks the day's set (the Joyful on Mondays, the Luminous on Thursdays…), or ask for one: `!rosary sorrowful`.
 
-<!-- pack: catholic_devotion -->**`!angelus`** — the Angelus, the short prayer said morning, noon and evening in memory of the angel's message to Mary, in English and Latin, with the *Ave Maria* sung. In Eastertide the *Regina Cæli* ("O Queen of heaven, rejoice!") takes its place, as the Church directs. Admins: **`!daily angelus channel #prayer`** posts it every day at noon UTC, or at the traditional three hours with `time 06:00 12:00 18:00`.
+**`!angelus`** — the Angelus, the short prayer said morning, noon and evening in memory of the angel's message to Mary, in English and Latin, with the *Ave Maria* sung. In Eastertide the *Regina Cæli* ("O Queen of heaven, rejoice!") takes its place, as the Church directs. Admins: **`!daily angelus channel #prayer`** posts it every day at noon UTC, or at the traditional three hours with `time 06:00 12:00 18:00`.
 
 **`!creed`** — the Apostles', Nicene and Athanasian Creeds in traditional English: `!creed nicene`, with `latin` or `greek` for the original (`!creed nicene greek`) or `parallel` for all at once.
 
-<!-- pack: catholic_teaching -->**Catholic teaching**
+**Catholic teaching**
 • `!ccc 1` — a paragraph of the *Catechism of the Catholic Church* (`!ccc 1700-1715` for a range, `!ccc random`)
 • `!canon 1` — a canon of the Code of Canon Law
 • `!summa I.2.3` — an article of St Thomas Aquinas's *Summa Theologica* (Part I, Question 2, Article 3), or `!summa random`
 
 ## 😇 Saints and the Desert Fathers
-<!-- pack: saints -->**`!saint`** — the saint of the day on the traditional calendar, from *Butler's Lives of the Saints*, with a **📖 Golden Legend** button when the medieval *Golden Legend* tells their story too. Look up any saint by name (`!saint George`, `!saint Christopher`; if there are several, like the two Augustines, I'll ask which) or by day (`!saint 25 July`). Admins: `!daily saint channel #saints` posts the day's saint every morning.
+**`!saint`** — the saint of the day on the traditional calendar, from *Butler's Lives of the Saints*, with a **📖 Golden Legend** button when the medieval *Golden Legend* tells their story too. Look up any saint by name (`!saint George`, `!saint Christopher`; if there are several, like the two Augustines, I'll ask which) or by day (`!saint 25 July`). Admins: `!daily saint channel #saints` posts the day's saint every morning.
 
-<!-- pack: saints -->**`!desert`** — a saying of the Desert Fathers, the monks and nuns who went out into the Egyptian desert in the 4th and 5th centuries, from E. A. Wallis Budge's *Paradise of the Holy Fathers*. `!desert` gives one at random; `!desert Poemen` one by or about a particular father (`!desert fathers` lists them all, with how many sayings each has); `!desert topics` shows Budge's chapters, like *Of Humility* or *Of Patient Endurance*, and `!desert humility` picks from one; `!desert 1:303` finds a saying by its number, and `!desert anger` one with those words in it. The **🎲 Another** button draws again from the same father or topic. Also called `!apophthegm`, after the Greek name for these sayings.
+**`!desert`** — a saying of the Desert Fathers, the monks and nuns who went out into the Egyptian desert in the 4th and 5th centuries, from E. A. Wallis Budge's *Paradise of the Holy Fathers*. `!desert` gives one at random; `!desert Poemen` one by or about a particular father (`!desert fathers` lists them all, with how many sayings each has); `!desert topics` shows Budge's chapters, like *Of Humility* or *Of Patient Endurance*, and `!desert humility` picks from one; `!desert 1:303` finds a saying by its number, and `!desert anger` one with those words in it. The **🎲 Another** button draws again from the same father or topic. Also called `!apophthegm`, after the Greek name for these sayings.
 
 ## ☦️ The Orthodox Church
-<!-- pack: orthodox -->The prayers, hymns and holy images of the Eastern Orthodox Church. (Its calendar and fasting days are in `!today orthodox`, and its daily prayers in `!prayer`, with their Greek: `!prayer jesus prayer`, `!prayer trisagion`, `!prayer list`.)
+The prayers, hymns and holy images of the Eastern Orthodox Church. (Its calendar and fasting days are in `!today orthodox`, and its daily prayers in `!prayer`, with their Greek: `!prayer jesus prayer`, `!prayer trisagion`, `!prayer list`.)
 
-<!-- pack: orthodox -->**`!troparion`** — the Orthodox hymns of the day: every day the Orthodox Church remembers its saints and feasts with a short hymn, the *troparion*, and a second, the *kontakion*. I give each, with the *tone* (one of eight melodies) it's sung to, from the Orthodox Church in America. Another day: `!troparion 12-25`. Admins: **`!daily troparion channel #chan`** posts them every morning.
+**`!troparion`** — the Orthodox hymns of the day: every day the Orthodox Church remembers its saints and feasts with a short hymn, the *troparion*, and a second, the *kontakion*. I give each, with the *tone* (one of eight melodies) it's sung to, from the Orthodox Church in America. Another day: `!troparion 12-25`. Admins: **`!daily troparion channel #chan`** posts them every morning.
 
 **`!icon`** — an Orthodox icon with what it shows: on one of the Great Feasts (Christmas, Theophany, Pascha, the Transfiguration…) that feast's icon, otherwise one of the famous icons, like Rublev's *Trinity* or the *Theotokos of Vladimir*. Ask for one: `!icon trinity`, or `!icon list` for them all.
 
 **`!divineliturgy`** — the Divine Liturgy of St John Chrysostom, the service most Orthodox churches celebrate every Sunday, a page at a time in an 1866 English translation: the spoken parts, with what the priest and deacon do in italics. ◀ ▶ turn the pages, and a menu jumps to any part (the Creed, the Cherubic Hymn, Holy Communion…), or ask for one: `!divineliturgy creed`.
 
 ## ✡️ Jewish learning
-<!-- pack: jewish_learning -->Jews around the world study the same texts each day, in cycles that run through whole books. These come from Sefaria's learning calendar, and every text opens in the bot.
+Jews around the world study the same texts each day, in cycles that run through whole books. These come from Sefaria's learning calendar, and every text opens in the bot.
 
 **`!parsha`** — this week's Torah portion: the section of the Five Books of Moses read in synagogue on Shabbat, so that the whole Torah is read in a year. You get what it's about, its seven readings and the passage from the Prophets read with it (the *Haftarah*). Another week: `!parsha 12-25`.
 
 **`!dafyomi`** — today's *Daf Yomi*, "page of the day": one double-sided page of the Talmud a day, finishing all 2,711 in about seven and a half years. I show the page's text.
 
-<!-- pack: jewish_learning -->**`!learning`** — all of the day's cycles at once: the Torah portion, Daf Yomi, a Mishnah, Maimonides, a chapter of the Bible, a passage of Jewish law and more, each with the command to read it. Admins: **`!daily learning channel #chan`** posts it every morning.
+**`!learning`** — all of the day's cycles at once: the Torah portion, Daf Yomi, a Mishnah, Maimonides, a chapter of the Bible, a passage of Jewish law and more, each with the command to read it. Admins: **`!daily learning channel #chan`** posts it every morning.
 
 ## 🎲 Games
 **Play a game:** `!quiz` shows a verse and four buttons — which book is it from? `!quiz hard` mixes traditions (Proverbs? the Quran? the Norse Edda?), and you can quiz yourself on one tradition: `!quiz buddhist`, `!quiz chinese`, `!quiz hindu`, `!quiz classical`, `!quiz norse` and more. `!leaderboard` (or `!quiz leaderboard`) shows this server's top scorers — this week (it starts fresh every Monday) and of all time. Everyone gets one guess; the answer is revealed after a minute. Get three or more right in a row and you'll see your 🔥 streak.
@@ -242,7 +238,7 @@ A **🖌️** button shows the pictures of the old illustrated editions wherever
 **Who Am I?** `!whoami` picks a mystery person from the Bible and gives you one clue to start: how many verses name them and where in the Bible. Press **💡 Next clue** for an easier one: their family, where they were born and died, what their name means, a verse about them with the name hidden, the names of their relatives, and at last the first letter. Anyone in the channel can press **✍️ Guess** (one guess per clue each), and the first right answer wins. Press **🏳️ Give up** to see who it was.
 
 ## 🔮 Oracles
-<!-- pack: divination -->For centuries people have sought guidance by opening a revered book at random or casting lots. I keep several of those traditions alive — for reflection and fun:
+For centuries people have sought guidance by opening a revered book at random or casting lots. I keep several of those traditions alive — for reflection and fun:
 • `!virgil` — the *Sortes Vergilianae*: a random line from Virgil's *Aeneid*, as people did in the Middle Ages
 • `!homer` — I roll three dice and give you the matching answer from the *Homeromanteion*, an oracle preserved on an ancient Egyptian papyrus
 • `!delphi` — one of the maxims carved at the Temple of Apollo at Delphi
@@ -253,11 +249,11 @@ A **🖌️** button shows the pictures of the old illustrated editions wherever
 • `!gathas` — ask Ahura Mazda your question, as Zarathustra does in his hymns ("tell me truly"), and a verse of the *Gathas*, the hymns of the founder of Zoroastrianism, answers. This one is new, not an old custom: the Gathas were chanted, never opened at random
 • `!rumi` — the same with the *Masnavi* of Rumi, the 13th-century Sufi poet: I open it anywhere and read you a few couplets, with the story they come from
 • `!tarot` — draw a card from the Rider tarot of 1909, in Pamela Colman Smith's pictures, with what it means in A. E. Waite's own words (upside down if it falls reversed). `!tarot three` lays three cards side by side in one picture, for the past, the present and the future, with each one's meaning underneath, `!tarot celtic` Waite's ten-card Celtic Cross, and `!tarot the tower` shows any card
-<!-- pack: divination -->• `!planets` — where the Sun, the Moon and the planets are in the zodiac right now (the western, tropical zodiac), worked out from NASA's own planetary tables, with the day's events to the minute: planets in exact aspect, a planet entering a new sign or turning retrograde, the Moon's quarters. `!planets 2026-12-25` for any day from 1900 to 2049. For what the old astrologers made of it, my library has Ptolemy's *Tetrabiblos* and William Lilly (`!verse Lilly 7` is his chapter on Mars)
-<!-- pack: divination -->• `!horoscope` — the day's significant events in the sky, and only those: a planet turning retrograde, the slow planets meeting or changing sign, a new or full moon, the main aspects. Each comes with a short note on what it means and which signs feel it most, in the old astrologer Sepharial's words where he wrote on it, otherwise written by AI from the real sky and labelled so. `!horoscope leo` gives the ones that touch your sign. Admins: `!daily astro channel #astrology` posts `!planets` and `!horoscope` there every morning
+• `!planets` — where the Sun, the Moon and the planets are in the zodiac right now (the western, tropical zodiac), worked out from NASA's own planetary tables, with the day's events to the minute: planets in exact aspect, a planet entering a new sign or turning retrograde, the Moon's quarters. `!planets 2026-12-25` for any day from 1900 to 2049. For what the old astrologers made of it, my library has Ptolemy's *Tetrabiblos* and William Lilly (`!verse Lilly 7` is his chapter on Mars)
+• `!horoscope` — the day's significant events in the sky, and only those: a planet turning retrograde, the slow planets meeting or changing sign, a new or full moon, the main aspects. Each comes with a short note on what it means and which signs feel it most, in the old astrologer Sepharial's words where he wrote on it, otherwise written by AI from the real sky and labelled so. `!horoscope leo` gives the ones that touch your sign. Admins: `!daily astro channel #astrology` posts `!planets` and `!horoscope` there every morning
 
 **Ask a question** by typing it after the command — `!virgil will I find work?` — and I'll show it with the answer.
-<!-- pack: divination -->Every answer has a **🖼️ Card** button that turns it into an image to share.
+Every answer has a **🖼️ Card** button that turns it into an image to share.
 
 ## 🌅 Every day, and just for you
 **`!votd`** — today's Verse of the Day. `!votd ESV` gives it in another translation; `!votd full` adds the ancient translations and a Church Father's commentary; `!votd extended` adds today's calendar too. Servers can have it posted automatically each day. Press **📅 Today's readings** under it to see that day's psalms and Bible readings for morning and evening prayer (from the Book of Common Prayer) — just for you.
@@ -277,6 +273,4 @@ These need the server's Administrator permission.
 • `!daily` — everything I post in this server each day, with the channel and time. Set one up with `!daily votd channel #channel`, then `!daily votd time 04:00` (24-hour, UTC), `!daily votd test` to try it now and `!daily votd off` to stop. Instead of `votd` (the Verse of the Day; `!daily votd mode full` sets its style: `basic`, `full` or `extended`): `oracle` (a daily oracle; `!daily oracle kind virgil`, or `homer`, `delphi`, `iching`, `hafez`, `gathas`, `rumi`, `any`), `quiz` (a question everyone can answer all day, revealed with the next; `kind hard`, `bible` or a tradition), `versle` (the day's puzzle, with yesterday's answer), `hymn`, `saint`, `astro`, `angelus`, `troparion` and `learning`
 • `!changelogsetup #channel` — where I announce my updates (like this channel); `!changelogsetup off` to stop
 • `!changelogintro` — post this introduction, followed by the latest updates, in the updates channel (`!changelogintro fresh` first clears my earlier messages there)
-• `!packs` — the groups of commands this server has (the Rosary and Catechism, the Orthodox liturgy, Jewish learning, prayer times, divination...), and switch one on or off: `!packs divination off`, `!packs saints on`. Everything is on until you switch it off, and the whole library of texts is always here
-
 Below are my most recent updates — new ones will appear here as they happen. Welcome! 📖

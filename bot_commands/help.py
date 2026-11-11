@@ -9,9 +9,6 @@ from bot_commands.books import (
 )
 from core import (
     bot,
-    command_enabled,
-    embed_for_guild,
-    for_guild,
 )
 from bot_commands.votd import (
     DM_DIGEST_TIME,
@@ -130,7 +127,6 @@ HELP_MENU = [
         "`angelus`, `troparion`, `learning`, `roz`), then `time 07:00`, `test`, `off`",
         '`!changelogsetup #channel` — where I post my updates · `!changelog` — recent updates',
         '`!changelogintro` — post my introduction there (`fresh` clears my old posts first)',
-        '`!packs` — turn groups of commands on or off for this server',
     ]),
     ("🏛️ Ancient Languages & Strong's", [
         'Append to `!verse`: `OE` `WLC` `LXX` `TR` `VULG` `peshitta` `CSL`',
@@ -172,21 +168,20 @@ def _more_lines() -> list:
     return lines
 
 
-def menu_embeds(guild_id=None) -> list:
-    """The menu as embeds, each within Discord's limits, leaving out what the server has turned off."""
+def menu_embeds() -> list:
+    """The menu as embeds, each within Discord's limits."""
     sections = HELP_MENU + ([("➕ More", _more_lines())] if _more_lines() else [])
     fields = []
     for name, lines in sections:
-        text = for_guild("\n".join(lines), guild_id)
         chunk = []
-        for line in text.split("\n") if text else []:
+        for line in lines:
             if chunk and len("\n".join(chunk + [line])) > _FIELD:
                 fields.append((name, "\n".join(chunk)))
                 chunk, name = [], f"{name} (continued)"
             chunk.append(line[:_FIELD])
         if chunk:
             fields.append((name, "\n".join(chunk)))
-    footer = for_guild(" · ".join(f"!help {t}" for t in HELP_TOPICS), guild_id).replace("\n", " · ")[:2048]
+    footer = " · ".join(f"!help {t}" for t in HELP_TOPICS)[:2048]
 
     def new(first):
         return discord.Embed(title="📖 ScriptureBot — Help" + ("" if first else " (continued)"),
@@ -208,10 +203,6 @@ def menu_embeds(guild_id=None) -> list:
 async def cmd_help(ctx, *, topic: str = ""):
     """Show help for ScriptureBot commands."""
     topic = topic.strip().lower()
-    guild_id = getattr(getattr(ctx, "guild", None), "id", None)
-    asked = bot.get_command(topic) if topic else None
-    if asked is not None and not command_enabled(guild_id, asked.name):
-        return                                  # a command this server has turned off
 
     # ── Topic-specific help ───────────────────────────────────────────────────
     if topic in ("verse", "v", "scripture"):
@@ -1308,7 +1299,7 @@ async def cmd_help(ctx, *, topic: str = ""):
         return
 
     # ── Main help menu (HELP_MENU, laid out by menu_embeds) ────────────────────
-    for embed in menu_embeds(guild_id):
+    for embed in menu_embeds():
         await ctx.send(embed=embed)
 
 

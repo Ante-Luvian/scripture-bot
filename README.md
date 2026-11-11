@@ -319,8 +319,7 @@ bot_commands/           One module per feature area; each registers its
   oracles.py              !gematria/!virgil/!homer/!delphi/!oracle
   votd.py                 !votd/!votdsetup/!subscribe + the daily task
   personal.py             !plan/!prefer
-  packs.py                !packs: which groups of commands a server has (core.PACKS),
-                          the welcome on joining, pack slash commands registered per server
+  welcome.py              the welcome on joining a server, and the slash-command sync at startup
   quiz.py                 !quiz/!quizsetup + the daily quiz
   memorize.py             !memorize + its DM reviews
   people.py               !who/!place/!tree (map cards: bible_map.py; trees: family_tree.py)

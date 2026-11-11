@@ -548,20 +548,6 @@ async def setup_intro(interaction: discord.Interaction, fresh: bool = False):
     await _command("changelogintro")(await _slash_ctx(interaction), arg="fresh" if fresh else "")
 
 
-@setup_group.command(name="packs", description="(Admins) Switch one pack of commands on or off")
-@app_commands.describe(name="Which pack (leave empty to see them all)", state="on or off")
-@app_commands.choices(state=[app_commands.Choice(name="on", value="on"), app_commands.Choice(name="off", value="off")])
-@_ADMIN
-async def setup_packs(interaction: discord.Interaction, name: str = "", state: str = ""):
-    await _command("packs")(await _slash_ctx(interaction), name, state)
-
-
-@setup_packs.autocomplete("name")
-async def _setup_packs_names(interaction: discord.Interaction, current: str):
-    from bot_commands.packs import pack_name_autocomplete
-    return await pack_name_autocomplete(interaction, current)
-
-
 bot.tree.add_command(setup_group)
 
 # the slash form of each admin command, for the tests and !help
@@ -569,5 +555,4 @@ SETUP_SUBCOMMANDS = {"votdsetup": "votd", "oraclesetup": "oracle", "quizsetup": 
                      "hymndaysetup": "hymnday", "saintsetup": "saint", "angelussetup": "angelus",
                      "astrosetup": "astro",
                      "learningsetup": "learning", "troparionsetup": "troparion", "rozsetup": "roz", "daily": "daily",
-                     "changelogsetup": "changelog", "changelogintro": "intro",
-                     "packs": "packs"}
+                     "changelogsetup": "changelog", "changelogintro": "intro"}

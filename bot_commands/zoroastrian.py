@@ -25,7 +25,7 @@ import re
 import discord
 from discord.ext import commands, tasks
 
-from core import ROOT, _atomic_write_json, _load_guild_config, _update_guild_config, bot, command_enabled, log, lookup
+from core import ROOT, _atomic_write_json, _load_guild_config, _update_guild_config, bot, log, lookup
 
 ROZDAY_PATH = ROOT / "data" / "rozday.json"     # {"posted": {guild id: "YYYY-MM-DD"}}
 DEFAULT_ROZDAY_TIME = "06:00"
@@ -206,8 +206,6 @@ async def run_daily_roz(client, day: datetime.date, current_hm: str) -> int:
     for guild_id, g in _load_guild_config().items():
         channel_id = g.get("rozday_channel_id")
         if not channel_id or g.get("rozday_time", DEFAULT_ROZDAY_TIME) != current_hm:
-            continue
-        if not command_enabled(int(guild_id), "roz"):
             continue
         channel = client.get_channel(int(channel_id))
         if channel is None:

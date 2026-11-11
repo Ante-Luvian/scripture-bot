@@ -5,16 +5,6 @@ import discord
 import pytest
 
 
-def test_the_setup_summary_fits_discord(bot_module):
-    """The last step of !serversetup ("No thanks") failed: the packs' lines outgrew one 1,024-character field."""
-    from bot_commands import packs
-    embed = packs.summary_embed(123)
-    assert all(len(f.value) <= 1024 for f in embed.fields)
-    text = "\n".join(f.value for f in embed.fields)
-    assert all(label in text for label, _, _ in packs.PACKS.values())
-    assert len(embed) <= 6000
-
-
 class _Value:
     id, mention = 42, "<#42>"
 
