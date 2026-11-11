@@ -1787,6 +1787,9 @@ ALIASES: dict[str, str] = {
     "nisibene hymns": "Nisibene Hymns",
     "dialogues": "Dialogues",
     "pastoral rule": "Pastoral Rule", "regula pastoralis": "Pastoral Rule",
+    # (not bare "moralia", which is Plutarch's, nor "morals", Augustine's "On the Morals of...")
+    "morals on job": "Morals on the Book of Job", "moralia in job": "Morals on the Book of Job",
+    "moralia in iob": "Morals on the Book of Job", "gregory on job": "Morals on the Book of Job",
     "letters of gregory the great": "Letters of Gregory the Great",
 
     # ── Extended Patristics (from epub extraction) ─────────────────────────────
@@ -2748,6 +2751,7 @@ class ScriptureLookup:
                 "john_of_damascus.json",
                 "ephrem_the_syrian.json",
                 "gregory_the_great.json",
+                "gregory_moralia.json",          # Morals on Job, Library of the Fathers (scripts/build_moralia.py)
                 # ── Ante-Nicene (ANF epub) ────────────────────────────────
                 "alexander_of_alexandria.json",
                 "alexander_of_lycopolis.json",

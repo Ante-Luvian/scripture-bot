@@ -1334,7 +1334,7 @@ BOOKS_TREE = [
             ("Sidonius Apollinaris", ["Letters"]),
             ("Gennadius of Marseilles", ["Illustrious Men (Supplement to Jerome)"]),
             ("Gildas the Wise", ["The Ruin of Britain","Penitential"]),
-            ("Gregory the Great", ["Dialogues","Pastoral Rule","Letters of Gregory the Great"]),
+            ("Gregory the Great", ["Morals on the Book of Job","Dialogues","Pastoral Rule","Letters of Gregory the Great"]),
             ("Isidore of Seville", ["Chronicon"]),
         ]),
         ("Syriac, Armenian and Arabic Writers", [

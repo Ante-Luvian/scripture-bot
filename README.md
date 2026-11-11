@@ -389,6 +389,12 @@ transcriptions (Layamon, the Vulgate Queste, Morien, Libeaus, Launfal, the Tarn 
 Parentheses PDFs are read with PyMuPDF (Mac Roman text, drop capitals as images: `DROP_CAPS`, read on the
 page). Malory's chapters are `book.chapter`, numbered by place (the etext misprints one).
 
+**Gregory's Morals on Job** (`data/patristics/gregory_moralia.json`, `scripts/build_moralia.py`): the Oxford
+*Library of the Fathers* translation as transcribed by Lectionary Central; a chapter each of Gregory's 35 books (0 his
+letter to Leander and Preface), a verse each numbered paragraph, the Job verse it explains ("Ver. 10.") leading it in
+italics. The transcription's scanning slips ("Ver.l0", "a1ready", "58." for 53) are read right in the builder, before
+`clean_corpora.py`, whose Beta Code rule would otherwise take "1ife" for Greek.
+
 **Percy's Reliques** (`data/ballads/percy.json`, `scripts/build_percy.py`, tradition "ballads"): Thomas Percy's
 *Reliques of Ancient English Poetry* (1765) in Wheatley's 1886 edition, Gutenberg #45939–41. A chapter a poem in
 Percy's order (180), a verse a stanza; the poem's own verse is told from the verse its notes quote by where it
