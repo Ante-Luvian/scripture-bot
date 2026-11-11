@@ -844,6 +844,8 @@ ALIASES: dict[str, str] = {
     "words of gad": "Words of Gad the Seer",
     "joseph and aseneth": "Joseph and Aseneth", "joseph and asenath": "Joseph and Aseneth", "aseneth": "Joseph and Aseneth",
     "asenath": "Joseph and Aseneth", "joseph & aseneth": "Joseph and Aseneth",
+    "longer asenath": "Joseph and Asenath (Longer Text)", "asenath longer": "Joseph and Asenath (Longer Text)",
+    "brooks asenath": "Joseph and Asenath (Longer Text)", "joseph and asenath longer": "Joseph and Asenath (Longer Text)",
     "apocalypse of abraham": "Apocalypse of Abraham", "revelation of abraham": "Apocalypse of Abraham",
     "testament of job": "Testament of Job", "lives of the prophets": "Lives of the Prophets",
     "vitae prophetarum": "Lives of the Prophets", "apocalypse of zephaniah": "Apocalypse of Zephaniah",

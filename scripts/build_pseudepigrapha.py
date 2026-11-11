@@ -499,6 +499,27 @@ JOB_SLIPS = {
 }
 
 
+def joseph_and_asenath_longer() -> dict:
+    """Joseph and Asenath, the longer text, trans. E. W. Brooks (1918, from Batiffol's Greek):
+    scripts/transcripts/joseph_and_asenath_brooks.txt, OCR of the scan proofread against every page image
+    (2026-11-11, the owner's go-ahead). Brooks's 29 chapters, each led by his heading in italics; his footnotes on the
+    versions, and the corner marks of passages the versions omit, left out. A paragraph is a verse, a long one runs of
+    whole sentences. (The library's "Joseph and Aseneth" is David Cook's translation of the shorter text.)"""
+    import sys
+    sys.path.insert(0, str(Path(__file__).resolve().parent))
+    from build_budge import groups
+    text = (Path(__file__).resolve().parent / "transcripts" / "joseph_and_asenath_brooks.txt").read_text(encoding="utf-8")
+    out = {}
+    for n, block in enumerate(re.split(r"(?m)^## ", text)[1:], start=1):
+        head, _, body = block.partition("\n")
+        verses = [v for p in body.splitlines() if p.strip() for v in groups(p.strip())]
+        verses[0] = f"*{head.split('|', 1)[1].strip()}*\n{verses[0]}"
+        out[str(n)] = {str(i): v for i, v in enumerate(verses, start=1)}
+    expect(len(out) == 29 and out["29"][str(len(out["29"]))].endswith("glorifying and praising God."),
+           f"Brooks's Asenath: {len(out)} chapters")
+    return out
+
+
 def testaments_of_isaac_and_jacob() -> dict:
     """The Testaments of Isaac and Jacob, from the Bohairic Coptic, trans. S. Gaselee, in G. H. Box's Testament of
     Abraham (1927): scripts/transcripts/testaments_isaac_jacob.txt, OCR of the scan proofread against every page image
@@ -777,6 +798,7 @@ def main() -> None:
     books["Apocalypse of Pseudo-Methodius"], books["Apocalypse of Pseudo-Methodius (Latin)"] = pseudo_methodius()
     books.update({"Joseph and Aseneth": joseph_and_aseneth(), "Apocalypse of Abraham": apocalypse_of_abraham(),
                   "Testament of Job": testament_of_job(), **testaments_of_isaac_and_jacob(),
+                  "Joseph and Asenath (Longer Text)": joseph_and_asenath_longer(),
                   "Lives of the Prophets": lives_of_the_prophets(),
                   "Apocalypse of Zephaniah": apocalypse_of_zephaniah(), "Apocalypse of Elijah": apocalypse_of_elijah()})
     sources = {"2 Baruch": "trans. R. H. Charles (1913); ends at 85:2 (the rest is not online)", "3 Baruch": "trans. H. Maldwyn Hughes (1913)",
@@ -792,6 +814,7 @@ def main() -> None:
                "Apocalypse of Abraham": "trans. G. H. Box (1918), lightly modernised",
                "Testament of Job": "trans. Kaufmann Kohler (1897), lightly modernised",
                "Testament of Isaac": "trans. S. Gaselee (1927), from the Coptic",
+               "Joseph and Asenath (Longer Text)": "trans. E. W. Brooks (1918)",
                "Testament of Jacob": "trans. S. Gaselee (1927), from the Coptic",
                "Lives of the Prophets": "adapted from Charles Cutler Torrey (1946)",
                "Apocalypse of Zephaniah": "trans. O. S. Wintermute (1983)",

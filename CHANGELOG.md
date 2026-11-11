@@ -14,6 +14,9 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-11-11 · Joseph and Asenath: the longer version
+- 💍 **The longer *Joseph and Asenath*** is now in the library, beside the shorter one we already had. This ancient Jewish romance (about the first century) tells how Asenath, the proud daughter of an Egyptian priest, falls for Joseph, smashes her idols and repents in sackcloth for seven days. An angel then visits her with a mysterious honeycomb, and in the second half Pharaoh's son plots to kill Joseph and carry her off. The longer version has the story in full, scenes the shorter one cuts. This is E. W. Brooks's 1918 translation, never typed up online before: it has been converted from a scan of the book and checked by eye against every page. Each of its 29 chapters starts with Brooks's own chapter title. Try `!verse Longer Asenath 16` for the honeycomb. In `!books` it sits beside the shorter version, under the Pseudepigrapha's legends and retellings of scripture.
+
 ## 2026-11-11 · Two more Qur'an commentaries
 The **📖 Commentary** button under a Qur'an verse now has two more commentaries in its menu:
 - **Asbab al-Nuzul** ("the occasions of revelation") by al-Wahidi, an 11th-century scholar. It tells the story behind a verse: what had happened, or who had asked what, when the verse was revealed. It covers only the verses it has a story for, so it appears under those verses alone. Try `!verse Quran 2:6`, then **📖 Commentary**, then pick it from the menu.

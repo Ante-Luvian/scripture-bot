@@ -125,7 +125,7 @@ BOOKS_TREE = [
                 "Assumption of Moses",
             ]),
             ("Legends and Retellings of Scripture", [
-                "Book of Jubilees", "Biblical Antiquities", "Letter of Aristeas", "Joseph and Aseneth",
+                "Book of Jubilees", "Biblical Antiquities", "Letter of Aristeas", "Joseph and Aseneth", "Joseph and Asenath (Longer Text)",
                 "Vita Adae et Evae", "Apocalypse of Moses", "Revelation of Moses", "Slavonic Life of Adam and Eve",
                 "Georgian Book of Adam", "Ascension of Isaiah", "Lives of the Prophets", "4 Baruch",
                 "The Narrative of Zosimus",

@@ -481,7 +481,7 @@ the file inherits OCR slips, checked against the Kohut volume's text layer -> JO
 2010 copy of userpages.burgoyne.com/bdespain (chapters 13-14 = Clement's quotation and the Sahidic fragment). TheoDoor
 has more Word files of pseudepigrapha -- look there first for the next ones. Marcion's Gospel and the fragment gospels,
 Muratorian Canon, prologues, Abercius, Scillitans are in too. **Held back:** Testaments of Isaac and Jacob (Gaselee
-1927 scan), Brooks's longer Joseph and Asenath (1918 scan), Apollonius (Conybeare scan) -- the owner decides on OCR;
+1927 scan), Brooks's longer Joseph and Asenath (1918 scan), Apollonius (Conybeare scan) -- all three DONE 2026-11-11 (owner's go-ahead): Tesseract + every page checked against its image; the proofread transcripts are committed in scripts/transcripts/ and read by build_early_christian.py / build_pseudepigrapha.py;
 no usable English online for the Didascalia (every transcription damaged), Carpus, the Monarchian prologues.
 Also (2026-11-10, owner's request) scripts/build_budge.py: Budge's Kebra Nagast, Cave of Treasures and Book of the
 Bee from sacred-texts -> data/charles/budge.json (small capitals recased, the Cave's [NOTES] and headings dropped by
