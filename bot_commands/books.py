@@ -39,38 +39,19 @@ BOOKS_TREE = [
             "1 Peter","2 Peter","1 John","2 John","3 John","Jude","Revelation",
         ]),
     ]),
-    ("👼 Apocrypha / Pseudepigrapha", [
+    ("👼 Apocrypha", [
         ("Old Testament Apocrypha", [
             "1 Esdras","2 Esdras","Tobit","Judith","Additions to Esther",
             "Wisdom of Solomon","Sirach","Baruch","Epistle of Jeremiah",
             "Song of the Three Children","Susanna","Bel and the Dragon",
             "Prayer of Manasseh","1 Maccabees","2 Maccabees",
         ]),
-        ("Pseudepigrapha", [
-            "3 Maccabees","4 Maccabees","Psalms of Solomon",
-            "Psalm 151","Psalm 152","Psalm 153","Psalm 154","Psalm 155",
-            "Book of Enoch","Book of Jubilees",
-            "Testament of Reuben","Testament of Simeon","Testament of Levi",
-            "Testament of Judah","Testament of Issachar","Testament of Zebulun",
-            "Testament of Dan","Testament of Naphtali","Testament of Gad",
-            "Testament of Asher","Testament of Joseph","Testament of Benjamin",
-            "Assumption of Moses","Ascension of Isaiah","Sibylline Oracles",
-            "Letter of Aristeas","Vita Adae et Evae","Apocalypse of Moses",
-            "Fragments of a Zadokite Work",
-            "2 Enoch", "3 Enoch",                     # (3 Enoch: a machine translation, its source says so)
-            "Hekhalot Rabbati", "Sar Torah", "Chapter of Rabbi Nehuniah",       # (the same manuscript's, likewise)
-            "First Book of Adam and Eve", "Second Book of Adam and Eve", "Odes of Solomon",
-            "2 Baruch", "3 Baruch", "4 Baruch", "Biblical Antiquities", "Georgian Book of Adam",
-            "Slavonic Life of Adam and Eve", "Book of Jasher", "Words of Gad the Seer",
-            "Apocalypse of Pseudo-Methodius", "Apocalypse of Pseudo-Methodius (Latin)",
-            "Joseph and Aseneth", "Apocalypse of Abraham", "Testament of Job", "Lives of the Prophets",
-            "Apocalypse of Zephaniah", "Apocalypse of Elijah", "Cave of Treasures", "Book of the Bee",
-            # (Jewish works ANF printed among the Christian apocrypha: the Greek Life of Adam and Eve, the Greek
-            # Apocalypse of Ezra, the Testament of Abraham, Sedrach, and Zosimus = the History of the Rechabites)
-            "Revelation of Moses", "Revelation of Esdras", "The Testament of Abraham: First Version",
-            "The Testament of Abraham: Second Version", "The Apocalypse of Sedrach", "The Narrative of Zosimus",
-        ]),
         ("Ethiopian Orthodox Canon", ["1 Meqabyan", "2 Meqabyan", "3 Meqabyan", "Kebra Nagast"]),
+        # (Christian retellings of the Old Testament stories, which the pseudepigrapha shelf used to hold)
+        ("Christian Legends of the Old Testament", [
+            "First Book of Adam and Eve", "Second Book of Adam and Eve", "Cave of Treasures", "Book of the Bee",
+            "Apocalypse of Pseudo-Methodius", "Apocalypse of Pseudo-Methodius (Latin)",
+        ]),
         # The Christian apocrypha as modern collections divide them (Schneemelcher, Elliott): gospels, acts,
         # epistles, apocalypses -- by kind, never by translation (that's on each passage's credit line)
         ("Apocryphal Gospels", [
@@ -128,7 +109,89 @@ BOOKS_TREE = [
             "The Apocalypse of the Virgin", "Questions of Bartholomew",
         ]),
     ]),
-    ("✡️ Rabbinic & Kabbalistic", [
+    # Judaism by era (the owner, 2026-11-10). The pseudepigrapha as Charlesworth's Old Testament Pseudepigrapha divides
+    # them; the Dead Sea Scrolls by kind
+    ("📜 Second Temple Judaism", [
+        ("Pseudepigrapha", [
+            ("Apocalypses", [
+                "Book of Enoch", "2 Enoch", "Sibylline Oracles", "2 Baruch", "3 Baruch", "Apocalypse of Abraham",
+                "Apocalypse of Zephaniah", "Apocalypse of Elijah", "Revelation of Esdras", "The Apocalypse of Sedrach",
+            ]),
+            ("Testaments", [
+                "Testament of Reuben","Testament of Simeon","Testament of Levi",
+                "Testament of Judah","Testament of Issachar","Testament of Zebulun",
+                "Testament of Dan","Testament of Naphtali","Testament of Gad",
+                "Testament of Asher","Testament of Joseph","Testament of Benjamin",
+                "Testament of Job", "The Testament of Abraham: First Version", "The Testament of Abraham: Second Version",
+                "Assumption of Moses",
+            ]),
+            ("Legends and Retellings of Scripture", [
+                "Book of Jubilees", "Biblical Antiquities", "Letter of Aristeas", "Joseph and Aseneth",
+                "Vita Adae et Evae", "Apocalypse of Moses", "Revelation of Moses", "Slavonic Life of Adam and Eve",
+                "Georgian Book of Adam", "Ascension of Isaiah", "Lives of the Prophets", "4 Baruch",
+                "The Narrative of Zosimus",
+            ]),
+            ("Wisdom and Philosophy", ["3 Maccabees", "4 Maccabees"]),
+            ("Psalms, Prayers and Odes", [
+                "Psalms of Solomon", "Psalm 151", "Psalm 152", "Psalm 153", "Psalm 154", "Psalm 155", "Odes of Solomon",
+            ]),
+        ]),
+        ("Dead Sea Scrolls", [
+            ("Rules", ["Community Rule", "Rule of the Congregation", "Damascus Document", "Fragments of a Zadokite Work",
+                       "War Scroll"]),
+            ("Hymns and Liturgy", ["Hodayot", "Rule of Blessings"]),
+            "Pesher Habakkuk",
+            ("Biblical Scrolls", ["Isaiah (1QIsaa)", "Exodus (4Q22)", "Deuteronomy (4Q41)", "Psalms (4Q86)",
+                                  "Daniel (4Q114)"]),
+        ]),
+        ("Philo of Alexandria", [
+            "On the Creation",
+            "Allegorical Interpretation I",
+            "Allegorical Interpretation II",
+            "Allegorical Interpretation III",
+            "On the Cherubim",
+            "On the Birth of Abel",
+            "Worse Attacks the Better",
+            "On the Posterity of Cain",
+            "On the Giants",
+            "On the Unchangeableness of God",
+            "On Husbandry",
+            "On Noah's Work as a Planter",
+            "On Drunkenness",
+            "On Sobriety",
+            "On the Confusion of Tongues",
+            "On the Migration of Abraham",
+            "Who is the Heir of Divine Things",
+            "On Mating",
+            "On Flight and Finding",
+            "On the Change of Names",
+            "On Abraham",
+            "On Joseph",
+            "On the Life of Moses I",
+            "On the Life of Moses II",
+            "The Decalogue",
+            "The Special Laws I",
+            "The Special Laws II",
+            "The Special Laws III",
+            "The Special Laws IV",
+            "On the Virtues",
+            "On Rewards and Punishments",
+            "Every Good Man is Free",
+            "On the Contemplative Life",
+            "On the Eternity of the World",
+            "Flaccus",
+            "On the Embassy to Gaius",
+            "Questions on Genesis I",
+            "Questions on Genesis II",
+            "Questions on Genesis III",
+            "On Dreams I", "On Dreams II", "Hypothetica", "On Providence I", "On Providence II",
+            "Fragments of Philo",
+        ]),
+        ("Josephus", [
+            "Jewish Antiquities","Jewish War","Against Apion","Life",
+        ]),
+    ]),
+    ("📚 Rabbinic Literature", [
         ("Mishnah", [
             ("Seder Zeraim (Agriculture)", [
                 "Berakhot","Peah","Demai","Kilayim","Sheviit",
@@ -256,7 +319,39 @@ BOOKS_TREE = [
             # (Ginzberg's retelling of the legends from all of these, Creation to Esther)
             "Legends of the Jews",
         ]),
-        ("Toledot Yeshu", ["Toledot Yeshu", "Toledot Yeshu: Strasbourg Manuscript"]),
+    ]),
+    ("✨ Jewish Mysticism", [
+        ("Hekhalot", ["3 Enoch", "Hekhalot Rabbati", "Sar Torah", "Chapter of Rabbi Nehuniah"]),   # (3 Enoch, Hekhalot
+                                                                    # Rabbati...: machine translations, as their sources say)
+        ("Zohar", [
+            "Zohar Introduction",
+            "Zohar Bereshit","Zohar Noach","Zohar Lech Lecha",
+            "Zohar Vayera","Zohar Chayei Sarah","Zohar Toldot",
+            "Zohar Vayetze","Zohar Vayishlach","Zohar Vayeshev",
+            "Zohar Miketz","Zohar Vayigash","Zohar Vayechi",
+            "Zohar Shemot","Zohar Vaera","Zohar Bo",
+            "Zohar Beshalach","Zohar Yitro","Zohar Mishpatim",
+            "Zohar Terumah","Zohar Tetzaveh","Zohar Ki Tisa",
+            "Zohar Vayakhel","Zohar Pekudei","Zohar Vayikra",
+            "Zohar Tzav","Zohar Shmini","Zohar Tazria",
+            "Zohar Metzora","Zohar Acharei Mot","Zohar Kedoshim",
+            "Zohar Emor","Zohar Behar","Zohar Bechukotai",
+            "Zohar Bamidbar","Zohar Nasso","Zohar Behaalotcha",
+            "Zohar Shelach Lecha","Zohar Korach","Zohar Chukat",
+            "Zohar Balak","Zohar Pinchas","Zohar Matot",
+            "Zohar Vaetchanan","Zohar Eikev","Zohar Re'eh",
+            "Zohar Shoftim","Zohar Ki Teitzei","Zohar Ki Tavo",
+            "Zohar Vayeilech","Zohar Haazinu","Zohar Vezot Haberachah",
+        ]),
+        ("Other Kabbalah", [
+            "Sefer Yetzirah",
+            "Sefer HaBahir",
+            "Tikkunei Zohar",
+            "Zohar Chadash",
+            "Tanya",
+        ]),
+    ]),
+    ("🕍 Medieval Judaism", [
         ("Maimonides", [
             ("Mishneh Torah — Book 1: HaMadda", [
                 "Mishneh Torah, Foundations of the Torah",
@@ -345,83 +440,8 @@ BOOKS_TREE = [
                 "Mishnah Torah",
             ]),
         ]),
-        ("Kabbalah", [
-            ("Zohar", [
-                "Zohar Introduction",
-                "Zohar Bereshit","Zohar Noach","Zohar Lech Lecha",
-                "Zohar Vayera","Zohar Chayei Sarah","Zohar Toldot",
-                "Zohar Vayetze","Zohar Vayishlach","Zohar Vayeshev",
-                "Zohar Miketz","Zohar Vayigash","Zohar Vayechi",
-                "Zohar Shemot","Zohar Vaera","Zohar Bo",
-                "Zohar Beshalach","Zohar Yitro","Zohar Mishpatim",
-                "Zohar Terumah","Zohar Tetzaveh","Zohar Ki Tisa",
-                "Zohar Vayakhel","Zohar Pekudei","Zohar Vayikra",
-                "Zohar Tzav","Zohar Shmini","Zohar Tazria",
-                "Zohar Metzora","Zohar Acharei Mot","Zohar Kedoshim",
-                "Zohar Emor","Zohar Behar","Zohar Bechukotai",
-                "Zohar Bamidbar","Zohar Nasso","Zohar Behaalotcha",
-                "Zohar Shelach Lecha","Zohar Korach","Zohar Chukat",
-                "Zohar Balak","Zohar Pinchas","Zohar Matot",
-                "Zohar Vaetchanan","Zohar Eikev","Zohar Re'eh",
-                "Zohar Shoftim","Zohar Ki Teitzei","Zohar Ki Tavo",
-                "Zohar Vayeilech","Zohar Haazinu","Zohar Vezot Haberachah",
-            ]),
-            ("Other Kabbalah", [
-                "Sefer Yetzirah",
-                "Sefer HaBahir",
-                "Tikkunei Zohar",
-                "Zohar Chadash",
-                "Tanya",
-            ]),
-        ]),
-    ]),
-    ("🏛️ Hellenistic Judaism", [
-        ("Philo of Alexandria", [
-            "On the Creation",
-            "Allegorical Interpretation I",
-            "Allegorical Interpretation II",
-            "Allegorical Interpretation III",
-            "On the Cherubim",
-            "On the Birth of Abel",
-            "Worse Attacks the Better",
-            "On the Posterity of Cain",
-            "On the Giants",
-            "On the Unchangeableness of God",
-            "On Husbandry",
-            "On Noah's Work as a Planter",
-            "On Drunkenness",
-            "On Sobriety",
-            "On the Confusion of Tongues",
-            "On the Migration of Abraham",
-            "Who is the Heir of Divine Things",
-            "On Mating",
-            "On Flight and Finding",
-            "On the Change of Names",
-            "On Abraham",
-            "On Joseph",
-            "On the Life of Moses I",
-            "On the Life of Moses II",
-            "The Decalogue",
-            "The Special Laws I",
-            "The Special Laws II",
-            "The Special Laws III",
-            "The Special Laws IV",
-            "On the Virtues",
-            "On Rewards and Punishments",
-            "Every Good Man is Free",
-            "On the Contemplative Life",
-            "On the Eternity of the World",
-            "Flaccus",
-            "On the Embassy to Gaius",
-            "Questions on Genesis I",
-            "Questions on Genesis II",
-            "Questions on Genesis III",
-            "On Dreams I", "On Dreams II", "Hypothetica", "On Providence I", "On Providence II",
-            "Fragments of Philo",
-        ]),
-        ("Josephus", [
-            "Jewish Antiquities","Jewish War","Against Apion","Life",
-        ]),
+        "Book of Jasher", "Words of Gad the Seer",
+        ("Toledot Yeshu", ["Toledot Yeshu", "Toledot Yeshu: Strasbourg Manuscript"]),
     ]),
     ("☪️ Islamic", [
         ("Quran", [
@@ -564,17 +584,6 @@ BOOKS_TREE = [
                 "Quran 114 — An-Naas (Mankind, 6v)",
             ]),
         ]),
-        ("Sufi & Persian Poetry", [
-            "Divan of Hafiz",
-            "Masnavi",
-            "Rubaiyat",
-            "Bird Parliament",
-            "Bustan", "Gulistan", "Scroll of Wisdom",
-            "Salaman and Absal", "Secret Rose Garden", "Hadiqat al-Haqiqat", "Tarjuman al-Ashwaq",
-        ]),
-        ("Al-Ghazali", ["Alchemy of Happiness", "Niche for Lights"]),
-        ("Hujwiri", ["Kashf al-Mahjub"]),
-        ("Other Islamic Writings", ["Sirat Rasul Allah", "Stories of the Prophets", "Gospel of Barnabas", "Christ in Islam"]),
         ("Hadith", [
             ("The Six Books (Kutub al-Sittah)", [
                 "Sahih al-Bukhari",
@@ -596,9 +605,19 @@ BOOKS_TREE = [
                 "Mishkat al-Masabih",
             ]),
         ]),
+        ("Life of the Prophet", ["Sirat Rasul Allah", "Stories of the Prophets"]),
+        ("Sufism", [
+            ("Al-Ghazali", ["Alchemy of Happiness", "Niche for Lights"]),
+            ("Hujwiri", ["Kashf al-Mahjub"]),
+            ("Sufi and Persian Poetry", [
+                "Divan of Hafiz", "Masnavi", "Rubaiyat", "Bird Parliament", "Bustan", "Gulistan", "Scroll of Wisdom",
+                "Salaman and Absal", "Secret Rose Garden", "Hadiqat al-Haqiqat", "Tarjuman al-Ashwaq",
+            ]),
+        ]),
         ("Shi'ite", ["Nahj al-Balagha", "Sahifa Sajjadiyya", "Sahifa Alawiyya", "Adages of Imam Ali", "Dua Kumayl",
                      "Dua Abu Hamza", "The Battle of Karbala"]),
         ("Isma'ili", ["An Ismaili Treatise", "Risala of al-Jufi"]),
+        ("Other Islamic Writings", ["Gospel of Barnabas", "Christ in Islam"]),
     ]),
     # Greek and Latin, each by kind, straight under the 🏛️ Classical menu (the owner, 2026-11-01); the Perseus authors are filed into these shelves by
     # PERSEUS_PLACES below, not kept on a shelf of their own
@@ -706,11 +725,7 @@ BOOKS_TREE = [
                 "Divine Names", "Mystical Theology", "On the Heavenly Hierarchy", "On the Ecclesiastical Hierarchy",
             ]),
         ]),
-        ("Hermetic & Oracles", [
-            ("Hermetic", ["Corpus Hermeticum", "Asclepius", "Definitions of Hermes Trismegistus to Asclepius",
-                          "The Emerald Tablet"]),
-            ("Oracles", ["Delphic Maxims", "Oracular Statements", "Chaldaean Oracles"]),
-        ]),
+        ("Oracles", ["Delphic Maxims", "Oracular Statements", "Chaldaean Oracles"]),
         ("Historians", [
             ("Zosimus", ["New History"]),
         ]),
@@ -802,7 +817,7 @@ BOOKS_TREE = [
             "Articles of Faith",
         ]),
     ]),
-    ("🌍 Bahá'í", [
+    ("✴️ Bahá'í", [
         ("The Báb", ["Selections from the Writings of the Bab", "Persian Bayan"]),
         ("Bahá'u'lláh", [
             "Kitab-i-Aqdas", "Questions and Answers (Aqdas)", "Kitab-i-Iqan", "The Hidden Words (Arabic)", "The Hidden Words (Persian)",
@@ -816,34 +831,20 @@ BOOKS_TREE = [
             "A Traveler's Narrative", "Memorials of the Faithful", "Light of the World", "Tablets of the Divine Plan",
             "Tablets to The Hague", "Tablet to Auguste Forel", "Will and Testament of Abdu'l-Baha",
             "Additional Tablets of Abdu'l-Baha", "Additional Prayers of Abdu'l-Baha",
+            ("His Talks", ["Paris Talks", "Promulgation of Universal Peace", "Twelve Table Talks"]),
         ]),
-        ("His Talks", ["Paris Talks", "Promulgation of Universal Peace", "Twelve Table Talks"]),
-        ("Prayers", ["Baha'i Prayers"]),
+        "Baha'i Prayers",
         ("Shoghi Effendi", ["God Passes By", "The World Order of Baha'u'llah", "The Advent of Divine Justice",
                             "The Promised Day Is Come", "Baha'i Administration", "Citadel of Faith",
                             "The Decisive Hour"]),
     ]),
-    ("🏺 Dead Sea Scrolls", [
-        "Hodayot",
-        "Damascus Document",
-        "Community Rule",
-        "War Scroll",
-        "Pesher Habakkuk",
-        "Rule of the Congregation",
-        "Rule of Blessings",
-        "Isaiah (1QIsaa)",
-        "Exodus (4Q22)",
-        "Deuteronomy (4Q41)",
-        "Psalms (4Q86)",
-        "Daniel (4Q114)",
-    ]),
-    ("🔥 Zoroastrian", [
+    ("🔥 Iranian Religions", [
         ("The Avesta", ["Gathas", "Yasna", "Visperad", "Yashts", "Vendidad", "Avesta Fragments"]),
         ("Khorda Avesta", ["Nyayeshes", "Gahs", "Afrinagans", "Sirozahs"]),
         ("Pahlavi Texts", ["Bundahishn", "Arda Viraf", "Menog-i Khrad", "Bahman Yasht", "Selections of Zadspram",
                            "Dinkard", "Shikand-gumanik Vizar", "Dadistan-i Dinik", "Epistles of Manuskihar",
                            "Shayast-la-Shayast", "Sad Dar"]),
-        ("Persian Epic", ["Shahnameh"]),
+        "Shahnameh",
         ("Yazidi", ["Al-Jilwah", "Mashaf Res", "Poem of Sheikh Adi", "Yazidi Prayer", "Yazidi Articles of Faith"]),
     ]),
     ("🪯 Sikh", [
@@ -1010,61 +1011,49 @@ BOOKS_TREE = [
         ("Cathar", ["The Secret Supper", "Book of the Two Principles", "Cathar Ritual"]),
     ]),
     ("🔮 Magic & Esotericism", [
-        ("Agrippa", ["Three Books of Occult Philosophy", "Fourth Book of Occult Philosophy"]),
-        ("Pico della Mirandola", ["Oration on the Dignity of Man"]),
-        ("Marsilio Ficino", ["Three Books on Life", "Ficino's Apology",
-                                                   "On the Tranquillity of Life", "Antidote against Epidemics",
-                                                   "On the Regimen of Life According to the Seasons"]),
+        ("Hermetica", ["Corpus Hermeticum", "Asclepius", "Definitions of Hermes Trismegistus to Asclepius",
+                       "The Emerald Tablet"]),
+        ("Renaissance Magic", [
+            ("Marsilio Ficino", ["Three Books on Life", "Ficino's Apology", "On the Tranquillity of Life",
+                                 "Antidote against Epidemics", "On the Regimen of Life According to the Seasons"]),
+            ("Pico della Mirandola", ["Oration on the Dignity of Man"]),
+            ("Agrippa", ["Three Books of Occult Philosophy", "Fourth Book of Occult Philosophy"]),
+            ("John Dee", ["De Heptarchia Mystica", "The Hieroglyphic Monad", "A Letter Apologeticall"]),
+        ]),
         # (the Lesser Key's five parts after the Key: they're Solomonic books too)
-        ("Solomonic Literature", ["The Key of Solomon", "Goetia", "Theurgia Goetia", "Ars Paulina", "Ars Almadel",
-                                 "Ars Notoria", "Testament of Solomon"]),
-        ("Grimoires", ["Arbatel of Magic", "Heptameron", "The Book of Abramelin", "Sepher Raziel",
-                           "The Sword of Moses", "Pseudomonarchia Daemonum"]),
-        ("John Dee", ["De Heptarchia Mystica", "The Hieroglyphic Monad", "A Letter Apologeticall"]),
+        ("Grimoires and Solomonic Magic", [
+            "The Key of Solomon", "Goetia", "Theurgia Goetia", "Ars Paulina", "Ars Almadel", "Ars Notoria",
+            "Testament of Solomon", "Arbatel of Magic", "Heptameron", "The Book of Abramelin", "Sepher Raziel",
+            "The Sword of Moses", "Pseudomonarchia Daemonum",
+        ]),
         ("Magical Papyri", ["The Demotic Magical Papyrus", "The Demotic Magical Papyrus, Verso", "A Mithraic Ritual"]),
-        ("Alchemy: Paracelsus", ["The Treasure of Treasures for Alchemists", "The Tincture of the Philosophers",
-                                 "The Aurora of the Philosophers", "Coelum Philosophorum"]),
-        ("Alchemy: The Hermetic Museum", [
-            "The Golden Tract", "The Golden Age Restored", "The Sophic Hydrolith", "A Demonstration of Nature",
-            "Flamel's Short Tract", "The Only True Way", "The Glory of the World", "A Tract of Great Price",
-            "The Book of Alze", "The Book of Lambspring", "The Golden Tripod", "The Ordinal of Alchemy",
-            "The Testament of Cremer", "The New Chemical Light", "An Open Entrance to the Closed Palace of the King",
-            "A Subtle Allegory Concerning the Secrets of Alchemy", "The Metamorphosis of Metals",
-            "A Brief Guide to the Celestial Ruby", "The Fount of Chemical Truth", "Helvetius' Golden Calf",
-            "The All-Wise Doorkeeper"]),
-        ("Alchemy: Collectanea Chemica", [
-            "The Secret of the Immortal Liquor Called Alkahest", "Aurum Potabile", "The Oil of Sulphur",
-            "The Stone of the Philosophers and the First Matter", "The Bosom Book of Sir George Ripley",
-            "Preparations of the Sophic Mercury"]),
-        ("Alchemy: Classic Tracts", [
-            "Turba Philosophorum", "The Golden Tractate of Hermes Trismegistus",
-            "Hortulanus' Commentary on the Emerald Tablet", "The Practice of Mary the Prophetess",
-            "The Mirror of Alchemy", "Tract on the Tincture and Oil of Antimony", "The Triumphal Chariot of Antimony",
-            "The Stone of the Philosophers", "The Golden Chain of Homer", "The Six Keys of Eudoxus",
-            "The Hermetic Arcanum", "On the Philadelphian Gold", "Freher's Process in the Philosophical Work",
-            "An Alchemical Mass", "Alchemical Catechism"]),
+        ("Alchemy", [
+            ("Paracelsus", ["The Treasure of Treasures for Alchemists", "The Tincture of the Philosophers",
+                            "The Aurora of the Philosophers", "Coelum Philosophorum"]),
+            ("The Hermetic Museum", [
+                "The Golden Tract", "The Golden Age Restored", "The Sophic Hydrolith", "A Demonstration of Nature",
+                "Flamel's Short Tract", "The Only True Way", "The Glory of the World", "A Tract of Great Price",
+                "The Book of Alze", "The Book of Lambspring", "The Golden Tripod", "The Ordinal of Alchemy",
+                "The Testament of Cremer", "The New Chemical Light", "An Open Entrance to the Closed Palace of the King",
+                "A Subtle Allegory Concerning the Secrets of Alchemy", "The Metamorphosis of Metals",
+                "A Brief Guide to the Celestial Ruby", "The Fount of Chemical Truth", "Helvetius' Golden Calf",
+                "The All-Wise Doorkeeper"]),
+            ("Collectanea Chemica", [
+                "The Secret of the Immortal Liquor Called Alkahest", "Aurum Potabile", "The Oil of Sulphur",
+                "The Stone of the Philosophers and the First Matter", "The Bosom Book of Sir George Ripley",
+                "Preparations of the Sophic Mercury"]),
+            ("Other Tracts", [
+                "Turba Philosophorum", "The Golden Tractate of Hermes Trismegistus",
+                "Hortulanus' Commentary on the Emerald Tablet", "The Practice of Mary the Prophetess",
+                "The Mirror of Alchemy", "Tract on the Tincture and Oil of Antimony", "The Triumphal Chariot of Antimony",
+                "The Stone of the Philosophers", "The Golden Chain of Homer", "The Six Keys of Eudoxus",
+                "The Hermetic Arcanum", "On the Philadelphian Gold", "Freher's Process in the Philosophical Work",
+                "An Alchemical Mass", "Alchemical Catechism"]),
+        ]),
         # (moved from the Christian shelves, 2026-11-01, at the owner's word)
         ("Astrology", [
             ("William Lilly", ["Lilly's Introduction to Astrology", "Lilly's Introduction to Astrology, Appendix"]),
             ("Sepharial", ["Sepharial's Astrology"]),
-        ]),
-        ("Swedenborg", [
-            ("Main Works", [
-                "Heaven and Hell", "Arcana Coelestia", "Divine Love and Wisdom", "Divine Providence",
-                "True Christian Religion", "Conjugial Love", "Apocalypse Revealed", "Apocalypse Explained",
-                "Earths in the Universe", "The New Jerusalem and its Heavenly Doctrine",
-            ]),
-            ("Shorter Works", [
-                "The Last Judgment", "The Last Judgment Continued", "The White Horse", "Doctrine of the Lord",
-                "Doctrine of the Sacred Scripture", "Doctrine of Life", "Doctrine of Faith",
-                "Brief Exposition of the Doctrine of the New Church", "Interaction of the Soul and Body",
-                "Coronis", "Invitation to the New Church",
-            ]),
-            ("Published After His Death", [
-                "Spiritual Diary", "The Last Judgment (Posthumous)", "On the Athanasian Creed", "De Domino",
-                "Prophets and Psalms", "De Verbo", "Divine Love", "Divine Wisdom", "Doctrine of Charity",
-                "De Conjugio", "God the Saviour", "Canons of the New Church",
-            ]),
         ]),
     ]),
     ("🌲 Norse", [
@@ -1146,7 +1135,7 @@ BOOKS_TREE = [
             ]),
         ]),
     ]),
-    ("☸️ Dharmic", [
+    ("🕉️ Hindu", [
         ("Vedas", [
             "Rig Veda",
             "Yajur Veda",
@@ -1467,6 +1456,25 @@ BOOKS_TREE = [
             ("Edmund Bonner", ["Bonner's Homilies"]),
             ("Brother Lawrence", ["Practice of the Presence of God"]),
         ]),
+        # (the New Church counts itself Christian: moved from Magic & Esotericism, 2026-11-10)
+        ("Swedenborg", [
+            ("Main Works", [
+                "Heaven and Hell", "Arcana Coelestia", "Divine Love and Wisdom", "Divine Providence",
+                "True Christian Religion", "Conjugial Love", "Apocalypse Revealed", "Apocalypse Explained",
+                "Earths in the Universe", "The New Jerusalem and its Heavenly Doctrine",
+            ]),
+            ("Shorter Works", [
+                "The Last Judgment", "The Last Judgment Continued", "The White Horse", "Doctrine of the Lord",
+                "Doctrine of the Sacred Scripture", "Doctrine of Life", "Doctrine of Faith",
+                "Brief Exposition of the Doctrine of the New Church", "Interaction of the Soul and Body",
+                "Coronis", "Invitation to the New Church",
+            ]),
+            ("Published After His Death", [
+                "Spiritual Diary", "The Last Judgment (Posthumous)", "On the Athanasian Creed", "De Domino",
+                "Prophets and Psalms", "De Verbo", "Divine Love", "Divine Wisdom", "Doctrine of Charity",
+                "De Conjugio", "God the Saviour", "Canons of the New Church",
+            ]),
+        ]),
         ("Christian Poetry and Allegory", [
             ("George Herbert", ["The Temple"]),
             ("John Milton", ["Paradise Lost", "Paradise Regained", "Samson Agonistes"]),
@@ -1681,28 +1689,34 @@ _ADDED_TO_TREE = _complete_tree(BOOKS_TREE, lookup)
 # classical-philosophical corpora. Reuses the same nested lists/tuples from
 # BOOKS_TREE by reference, so drilling further down is unaffected.
 _SUPERGROUP_ORDER = [
+    # (the owner's map, 2026-11-10: each faith where its own followers would put it -- the Latter-day Saints and
+    # Swedenborg's New Church with Christianity, the Mandaeans with the Gnostics, the Yazidis with the other
+    # Iranian religions, and the Bahá'í Faith on its own, not with Islam)
     ("✝️ Christianity", [
-        "📖 The Bible", "👼 Apocrypha / Pseudepigrapha", "⛪ The Early Church", "🏰 Medieval Christianity",
+        "📖 The Bible", "👼 Apocrypha", "⛪ The Early Church", "🏰 Medieval Christianity",
         "🕯️ Reformation and After", "📯 LDS",
     ]),
     ("✡️ Judaism", [
-        "✡️ Rabbinic & Kabbalistic", "🏛️ Hellenistic Judaism", "🏺 Dead Sea Scrolls",
+        "📜 Second Temple Judaism", "📚 Rabbinic Literature", "✨ Jewish Mysticism", "🕍 Medieval Judaism",
     ]),
-    ("☪️ Islam & Bahá'í", ["☪️ Islamic", "🌍 Bahá'í"]),
+    ("☪️ Islamic", ["☪️ Islamic"]),                         # (a group of one shelf of its name opens it: _open_lone)
+    ("✴️ Bahá'í", ["✴️ Bahá'í"]),
     ("🧿 Gnostic & Esoteric", ["🧿 Gnostic", "🔮 Magic & Esotericism"]),
-    ("🏛️ Classical", ["🏛️ Greek", "🦅 Latin", "🌙 Ancient Near East", "🔥 Zoroastrian"]),
+    ("🏛️ Classical", ["🏛️ Greek", "🦅 Latin"]),
+    ("🌙 Ancient Near East & Iran", ["🌙 Ancient Near East", "🔥 Iranian Religions"]),
     ("🪷 Dharmic & Asian", [
-        "☸️ Dharmic", "☸️ Buddhist", "🤚 Jain", "🪯 Sikh", "☯️ Chinese Classics", "⛩️ Shinto",
+        "🕉️ Hindu", "☸️ Buddhist", "🤚 Jain", "🪯 Sikh", "☯️ Chinese Classics", "⛩️ Shinto",
     ]),
-    ("🌍 Folk Myth & Fairy Stories", ["🌲 Norse", "☘️ Celtic", "🦢 Finnish", "🌽 Mesoamerican", "🧚 Fairy Tales"]),
-    ("📜 English Literature", [
-        "⚔️ Arthurian Legend", "📜 Medieval English Poetry", "🎭 Shakespeare", "🎻 Ballads & Fables",
+    ("🌍 Folk Myth & Fairy Stories", [
+        "🌲 Norse", "☘️ Celtic", "🦢 Finnish", "🌽 Mesoamerican", "🧚 Fairy Tales", "🎻 Ballads & Fables",
     ]),
+    ("📜 English Literature", ["⚔️ Arthurian Legend", "📜 Medieval English Poetry", "🎭 Shakespeare"]),
 ]
 # ── a server sees only the sections of the traditions it chose ──────────────
 
 # sections read from online libraries, whose books aren't stored here to tell
-_ONLINE_SECTIONS = {"✡️ Rabbinic & Kabbalistic": "jewish", "☪️ Islamic": "islamic", "📖 The Bible": "bible"}
+_ONLINE_SECTIONS = {"📚 Rabbinic Literature": "jewish", "✨ Jewish Mysticism": "jewish", "🕍 Medieval Judaism": "jewish",
+                    "☪️ Islamic": "islamic", "📖 The Bible": "bible"}
 
 
 def _section_traditions() -> dict:

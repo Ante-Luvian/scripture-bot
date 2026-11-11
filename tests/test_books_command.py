@@ -32,7 +32,7 @@ def test_collections_and_authors_still_come_first(bot_module):
 
 
 @pytest.mark.parametrize("query, shelf", [
-    ("dharma", "Dharmic & Asian"), ("dharmic", "☸️ Dharmic"), ("hindu", "☸️ Dharmic"), ("christian", "Christianity"),
+    ("dharma", "Dharmic & Asian"), ("dharmic", "🕉️ Hindu"), ("hindu", "🕉️ Hindu"), ("christian", "Christianity"),
     ("jewish", "Judaism"), ("islam", "Islamic"), ("magic", "Gnostic & Esoteric"), ("classical", "🏛️ Classical"),
     ("latin", "🦅 Latin"), ("buddhism", "Buddhist"),
 ])

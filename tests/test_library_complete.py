@@ -8,7 +8,7 @@ import pytest
 SPECIAL_TARGETS = {"Gilgamesh — Tablet First"}
 # collections read from online libraries rather than local files (the path in the !books tree)
 ONLINE = ("Quran", "Hadith", "Mishnah", "Babylonian Talmud", "Jerusalem Talmud", "Tosefta", "Targumim",
-          "Midrash", "Maimonides", "Kabbalah", "Mesopotamian", "Canaanite")
+          "Midrash", "Maimonides", "Kabbalah", "Zohar", "Mesopotamian", "Canaanite")
 
 
 def test_every_alias_names_a_book(lookup):
