@@ -65,10 +65,21 @@ BOOKS_TREE = [
             "Apocalypse of Pseudo-Methodius", "Apocalypse of Pseudo-Methodius (Latin)",
             "Joseph and Aseneth", "Apocalypse of Abraham", "Testament of Job", "Lives of the Prophets",
             "Apocalypse of Zephaniah", "Apocalypse of Elijah", "Cave of Treasures", "Book of the Bee",
+            # (Jewish works ANF printed among the Christian apocrypha: the Greek Life of Adam and Eve, the Greek
+            # Apocalypse of Ezra, the Testament of Abraham, Sedrach, and Zosimus = the History of the Rechabites)
+            "Revelation of Moses", "Revelation of Esdras", "The Testament of Abraham: First Version",
+            "The Testament of Abraham: Second Version", "The Apocalypse of Sedrach", "The Narrative of Zosimus",
         ]),
         ("Ethiopian Orthodox Canon", ["1 Meqabyan", "2 Meqabyan", "3 Meqabyan", "Kebra Nagast"]),
-        # (grouped by kind, not by translation: the translator and date are on each passage's credit line)
-        ("New Testament Apocrypha", [
+        # The Christian apocrypha as modern collections divide them (Schneemelcher, Elliott): gospels, acts,
+        # epistles, apocalypses -- by kind, never by translation (that's on each passage's credit line)
+        ("Apocryphal Gospels", [
+            ("Fragmentary Gospels", [
+                "Gospel according to the Hebrews", "Gospel of the Nazoreans", "Gospel of the Ebionites",
+                "Gospel according to the Egyptians", "The Gospel of Peter", "Egerton Gospel",
+                "Oxyrhynchus Gospel 840", "Oxyrhynchus Gospel 1224", "Fayoum Gospel Fragment",
+                "Letter to Theodore",
+            ]),
             ("Infancy Gospels", [
                 "The Protevangelium of James", "The Gospel of Pseudo-Matthew",
                 "The Gospel of the Nativity of Mary", "The History of Joseph the Carpenter",
@@ -85,35 +96,37 @@ BOOKS_TREE = [
                 "The Death of Pilate, Who Condemned Jesus", "The Narrative of Joseph",
                 "The Avenging of the Saviour",
             ]),
-            ("Acts of the Apostles", [
-                "Acts of the Holy Apostles Peter and Paul", "Acts of Paul and Thecla",
-                "The Acts of Barnabas", "The Acts of Philip",
-                "Acts and Martyrdom of the Holy Apostle Andrew", "Acts of Andrew and Matthias",
-                "Acts of Peter and Andrew", "Acts and Martyrdom of St. Matthew the Apostle",
-                "Various Acts of Thomas", "Consummation of Thomas the Apostle",
-                "Martyrdom of the Holy and Glorious Apostle Bartholomew",
-                "Acts of the Holy Apostle Thaddaeus",
-                "Acts of the Holy Apostle and Evangelist John the Theologian",
-                "Acts of John", "Virtues of John", "Acts of Andrew", "Acts of Paul", "Acts of Peter",
-                "Acts of Peter: Peter's Daughter", "Acts of Thomas",
-            ]),
-            ("Epistles", [
-                "Epistle of the Apostles", "Third Corinthians", "Epistle to the Laodiceans",
-                "Correspondence of Paul and Seneca",
-            ]),
-            ("Revelations & the Passing of Mary", [
-                "Revelation of Moses", "Revelation of Esdras", "Revelation of Paul", "Revelation of John",
-                "Ethiopic Apocalypse of Peter", "Apocalypse of Thomas", "Questions of Bartholomew",
+            ("The Passing of Mary", [
                 "The Book of John Concerning the Falling Asleep of Mary",
                 "The Passing of Mary: First Latin Form", "The Passing of Mary: Second Latin Form",
             ]),
+            ("Sayings of Jesus Outside the Gospels", ["Agrapha"]),
         ]),
-        ("Lost Gospels in Fragments", [
-            "Gospel according to the Hebrews", "Gospel of the Nazoreans", "Gospel of the Ebionites",
-            "Gospel according to the Egyptians", "Egerton Gospel", "Oxyrhynchus Gospel 840", "Oxyrhynchus Gospel 1224",
-            "Fayoum Gospel Fragment", "Preaching of Peter", "Letter to Theodore",
+        ("Apocryphal Acts", [
+            # ("the John cycle": an apostle's acts with the later texts that grew from them; not plain "John",
+            # which is the Gospel)
+            ("John Cycle", ["Acts of John", "Virtues of John",
+                            "Acts of the Holy Apostle and Evangelist John the Theologian"]),
+            ("Peter Cycle", ["Acts of Peter", "Acts of Peter: Peter's Daughter",
+                             "Acts of the Holy Apostles Peter and Paul", "Acts of Peter and Andrew", "Preaching of Peter"]),
+            ("Paul Cycle", ["Acts of Paul", "Acts of Paul and Thecla", "The Acts of Xanthippe and Polyxena"]),
+            ("Andrew Cycle", ["Acts of Andrew", "Acts and Martyrdom of the Holy Apostle Andrew",
+                              "Acts of Andrew and Matthias"]),
+            ("Thomas Cycle", ["Acts of Thomas", "Various Acts of Thomas", "Consummation of Thomas the Apostle"]),
+            ("Other Apostles", [
+                "The Acts of Philip", "The Acts of Barnabas", "Acts and Martyrdom of St. Matthew the Apostle",
+                "Martyrdom of the Holy and Glorious Apostle Bartholomew", "Acts of the Holy Apostle Thaddaeus",
+            ]),
         ]),
-        ("Sayings of Jesus Outside the Gospels", ["Agrapha"]),
+        ("Apocryphal Epistles", [
+            "Epistle of the Apostles", "Third Corinthians", "Epistle to the Laodiceans",
+            "Correspondence of Paul and Seneca",
+        ]),
+        ("Apocryphal Apocalypses", [
+            "Ethiopic Apocalypse of Peter", "The Greek Apocalypse of Peter", "Fragments of the Apocalypse of Peter",
+            "Revelation of Paul", "The Vision of Paul", "Apocalypse of Thomas", "Revelation of John",
+            "The Apocalypse of the Virgin", "Questions of Bartholomew",
+        ]),
     ]),
     ("✡️ Rabbinic & Kabbalistic", [
         ("Mishnah", [

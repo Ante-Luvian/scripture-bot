@@ -14,6 +14,13 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-11-10 · The Christian apocrypha, arranged like a modern edition
+- 📚 The 👼 Apocrypha / Pseudepigrapha shelf in `!books` now divides the early Christian writings that didn't make it into the New Testament the way modern collections of them do, into **Apocryphal Gospels**, **Apocryphal Acts**, **Apocryphal Epistles** and **Apocryphal Apocalypses**.
+  - **Gospels:** the gospels that survive only in fragments (Hebrews, Peter, Egerton…), the infancy gospels, Pilate and the Descent into Hell, the Passing of Mary, and the sayings of Jesus found outside the Gospels.
+  - **Acts:** grouped by apostle (John, Peter, Paul, Andrew, Thomas, and the others), each with the later legends that grew from his story.
+  - **Apocalypses:** the visions of heaven and hell under the names of Peter, Paul, Thomas, John and the Virgin Mary.
+- Ten books that had no proper place, and showed up under an "Also in the library" heading, are now where they belong, among them the **Gospel of Peter**, the **Greek Apocalypse of Peter**, the **Vision of Paul** and the **Acts of Xanthippe and Polyxena**. The Jewish works that had been mixed in with the Christian ones, such as the **Testament of Abraham** and the **Apocalypse of Sedrach**, are now with the other Pseudepigrapha.
+
 ## 2026-11-10 · Tidier shelves in !books
 - 📚 **Shelves are now grouped by what the books are, not by who translated them.** The 🧿 Gnostic shelf used to be sorted by translator and edition ("The Nag Hammadi Library (trans. Samuel Zinner)", "Manichaean (trans. C.R.C. Allberry, 1938)"…). Now it's sorted by school: **Thomas**, **Sethian**, **Valentinian** (with the Valentinian teachers the Church Fathers quoted), **Hermetic**, **Other Nag Hammadi Writings**, **Other Gnostic Writings**, **Marcionite**, **Manichaean**, **Mandaean** and **Cathar**. Where scholars disagree about a text's school, it's under "Other".
 - The **New Testament Apocrypha** were split into two shelves by translation; they're now one, by kind: Infancy Gospels, Pilate and the Descent into Hell, Acts of the Apostles, Epistles, and Revelations and the Passing of Mary. The translator and date are still shown under every passage you read.
