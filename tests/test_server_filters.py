@@ -76,7 +76,7 @@ def test_books_shows_only_the_servers_sections(bot_module, protestant):
     from bot_commands import books
     root, sections = books.tree_for(protestant)
     names = {n for n, _ in sections}
-    assert "📖 The Bible" in names and "⛪ Patristics & Church History" in names
+    assert "📖 The Bible" in names and "⛪ The Early Church" in names
     assert "☸️ Buddhist" not in names and "✡️ Rabbinic & Kabbalistic" not in names
     assert all(subs for _, subs in root)
     assert books.tree_for(None)[0] is books.ROOT_BOOKS_TREE

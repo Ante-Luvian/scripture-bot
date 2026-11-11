@@ -176,12 +176,12 @@ NOTES = {
               "the Dasam Granth by page: `!verse Dasam Granth 1`.",
     "🤚 Jain": "By book, lecture and lesson: `!verse Akaranga Sutra 1.1.1`.",
     "Confucius & Mencius": "`!verse Analects 2.4`; Mencius by book, part and chapter: `!verse Mencius 6.1.2`.",
-    "Medieval Classics": "Dante by canto and line: `!verse Inferno 1.1`.",
+    "Dante": "Dante by canto and line: `!verse Inferno 1.1`.",
     "Swedenborg": "By his own section numbers: `!verse Heaven and Hell 51`.",
-    "The Reformation": "Calvin's Institutes by book, chapter and section: `!verse Calvin's Institutes 1.1.1`.",
+    "Reformers": "Calvin's Institutes by book, chapter and section: `!verse Calvin's Institutes 1.1.1`.",
     "Mesopotamian": "Gilgamesh by tablet and section: `!verse Gilgamesh 11:1`.",
     "Canaanite": "The Baal Cycle by episode and section: `!verse Baal 1:1`.",
-    "Church History": "Bede by book and chapter: `!verse Bede 3.5:1`. The Golden Legend has a chapter for each "
+    "Latin West": "Bede by book and chapter: `!verse Bede 3.5:1`. The Golden Legend has a chapter for each "
                       "life, in its own order (`!verse Golden Legend 54` is St Benedict); "
                       "`!saint` finds a saint's life by name.",
 }

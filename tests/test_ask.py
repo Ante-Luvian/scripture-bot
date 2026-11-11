@@ -24,7 +24,10 @@ def test_it_finds_passages_that_open(ask, small_index, lookup):
         assert lookup.get_verse(p["reference"])["found"], p["reference"]      # (each one !verse can open)
         assert len(p["text"]) <= max(ask.PASSAGE_CHARS) + 2
     books = [p["reference"].rsplit(" ", 1)[0] for p in found]
-    assert all(books.count(b) <= ask.PER_BOOK for b in books)               # (not one book's eight verses)
+    question = "What does Barnabas say about the two ways, of light and of darkness?"
+    for b in books:                                                         # (not one book's eight verses: two,
+        named = ask._named(b, small_index.shelves.get(b, []), question)     #  or five from the one it names --
+        assert books.count(b) <= (ask.PER_NAMED_BOOK if named else ask.PER_BOOK), b   # Barnabas has a shelf now)
 
 
 def test_a_book_or_author_named_may_give_more(ask):

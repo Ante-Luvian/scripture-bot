@@ -14,6 +14,13 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-11-10 · The Church Fathers, rearranged by era
+- 📚 The big "Patristics & Church History" shelf in `!books` (over 600 books) is now three shelves under ✝️ Christianity, by era:
+  - ⛪ **The Early Church:** the Apostolic Fathers, the Apologists, the Greek and the Latin Fathers before and after the Council of Nicaea (325), the Syriac, Armenian and Arabic writers, the Church historians, the desert monks and monastic writers (the Sayings of the Desert Fathers, Cassian, the Philokalia, the Rule of Benedict), the councils, canons and early liturgies, and other early documents.
+  - 🏰 **Medieval Christianity:** Bede, the Golden Legend, the mystics (the Cloud of Unknowing, Julian of Norwich, the Imitation of Christ) and Dante.
+  - 🕯️ **Reformation and After:** the Reformers, the Lutheran, Reformed and other confessions, the Anglicans and Wesley, and Christian poetry and allegory (Herbert, Milton, Bunyan, Blake).
+- Before, the Fathers were sorted by the old book series our copies came from, and about 150 of them sat in a catch-all "Also in the library" list. Now every writer has his place, with all of his works together, including any we have in two translations (both versions of Ignatius's letters are now under Ignatius).
+
 ## 2026-11-10 · The Christian apocrypha, arranged like a modern edition
 - 📚 The 👼 Apocrypha / Pseudepigrapha shelf in `!books` now divides the early Christian writings that didn't make it into the New Testament the way modern collections of them do, into **Apocryphal Gospels**, **Apocryphal Acts**, **Apocryphal Epistles** and **Apocryphal Apocalypses**.
   - **Gospels:** the gospels that survive only in fragments (Hebrews, Peter, Egerton…), the infancy gospels, Pilate and the Descent into Hell, the Passing of Mary, and the sayings of Jesus found outside the Gospels.

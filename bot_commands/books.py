@@ -1188,38 +1188,73 @@ BOOKS_TREE = [
         ("Confucius & Mencius", ["Analects", "Mencius", "Great Learning", "Doctrine of the Mean"]),
         ("The Book of Changes", ["I Ching"]),
     ]),
-    ("⛪ Patristics & Church History", [
+    # The Church's writers by era and language (the owner, 2026-11-10) -- not by the series our copies come from
+    # (the Ante-Nicene and Nicene and Post-Nicene Fathers) or the site (Roger Pearse's). An author's group, named as
+    # his data file is, gathers the rest of his works by itself (_complete_tree), so a group need list only a few.
+    ("⛪ The Early Church", [
         ("Apostolic Fathers", [
-            "1 Clement","2 Clement",
-            "Ignatius to the Ephesians","Ignatius to the Magnesians",
-            "Ignatius to the Trallians","Ignatius to the Romans",
-            "Ignatius to the Philadelphians","Ignatius to the Smyrnaeans",
-            "Ignatius to Polycarp",
-            "Polycarp to the Philippians","Martyrdom of Polycarp",
-            "Epistle of Barnabas","Didache","Shepherd of Hermas",
+            ("Clement of Rome", [
+                "1 Clement","2 Clement","First Epistle","Second Epistle","Recognitions","Clementine Homilies",
+            ]),
+            ("Ignatius of Antioch", [
+                "Ignatius to the Ephesians","Ignatius to the Magnesians","Ignatius to the Trallians",
+                "Ignatius to the Romans","Ignatius to the Philadelphians","Ignatius to the Smyrnaeans",
+                "Ignatius to Polycarp",
+            ]),
+            ("Polycarp", ["Polycarp to the Philippians","Martyrdom of Polycarp"]),
+            ("Barnabas", ["Epistle of Barnabas"]),
+            "Didache","Shepherd of Hermas","Epistle to Diognetus","Fragments (Papias)",
         ]),
-        ("Early Church Documents", [
-            "Muratorian Canon", "Marcionite Prologues", "Anti-Marcionite Prologues",
-            "Inscription of Abercius", "Passion of the Scillitan Martyrs",
-        ]),
-        ("Dionysius the Areopagite", [
-            "Divine Names","Mystical Theology",
-            "On the Heavenly Hierarchy","On the Ecclesiastical Hierarchy",
-            "Letters of Dionysius","Liturgy of St. Dionysius",
-        ]),
-        ("Ante-Nicene Fathers", [
+        ("Apologists", [
             ("Justin Martyr", [
                 "First Apology","Second Apology","Dialogue with Trypho",
                 "Hortatory Address to the Greeks","Discourse to the Greeks",
             ]),
-            ("Irenaeus of Lyons", [
-                "Against Heresies",
-                "Fragments from the Lost Writings of Irenaeus",
-            ]),
+            ("Aristides the Philosopher", ["The Apology"]),
+            ("Athenagoras", ["A Plea for the Christians","The Resurrection of the Dead"]),
+            ("Tatian", ["Address to the Greeks","The Diatessaron"]),
+            ("Theophilus", ["Theophilus to Autolycus"]),
+            ("Minucius Felix", ["Octavius"]),
+            ("Hermias", ["Derision of Gentile Philosophers"]),
+        ]),
+        ("Greek Fathers Before Nicaea", [
+            ("Irenaeus of Lyons", ["Against Heresies","Fragments from the Lost Writings of Irenaeus"]),
             ("Clement of Alexandria", [
                 "Exhortation to the Heathen","The Instructor","Stromateis",
                 "Who is the Rich Man That Shall Be Saved?", "Selections from the Prophetic Scriptures",
             ]),
+            ("Origen", [
+                "De Principiis","Against Celsus","Philocalia",
+                "Commentary on the Gospel of John","Commentary on the Gospel of Matthew",
+            ]),
+            ("Hippolytus", ["The Refutation of All Heresies","The Antichrist","Against the Heresy of Noetus"]),
+            ("Julius Africanus", ["Extant Writings"]),
+            ("Gregory Thaumaturgus", [
+                "The Oration and Panegyric Addressed to Origen","Canonical Epistle","Twelve Topics on the Faith",
+            ]),
+            ("Dionysius the Great", ["Epistles and Epistolary Fragments","Exegetical Fragments","Miscellaneous Fragments"]),
+            ("Methodius", ["The Banquet of the Ten Virgins","Concerning Free Will"]),
+            ("Peter of Alexandria", ["Fragments (Peter of Alexandria)","The Canonical Epistle","The Genuine Acts"]),
+            ("Alexander of Alexandria", ["Epistles on the Arian Heresy and the Deposition of Arius"]),
+            ("Alexander of Lycopolis", ["Of the Manicheans"]),
+            ("Archelaus", ["Acts of the Disputation with the Heresiarch Manes"]),
+            ("Pamphilus", ["Exposition on the Acts of the Apostles"]),
+            ("Malchion", ["Epistle"]),
+            ("Dionysius of Rome", ["Against the Sabellians"]),
+            ("Caius", ["Fragments (Caius)"]),
+            ("Anatolius and Others", [
+                "The Paschal Canon of Anatolius","Fragments of Anatolius on Arithmetic","Fragments of Alexander of Cappadocia",
+                "Epistle of Theonas to Lucianus","Fragments of Phileas","Fragments of Pierius","Fragments of Theognostus",
+            ]),
+            ("Fragments of Early Writers", [
+                "Fragments of Quadratus","Fragments of Aristo of Pella","Fragments of Melito",
+                "Fragments of Hegesippus","Fragments of Dionysius of Corinth","Fragments of Rhodon",
+                "Fragments of Maximus of Jerusalem","Fragments of Claudius Apollinaris","Fragments of Polycrates",
+                "Fragments of Theophilus of Caesarea","Fragments of Serapion of Antioch","Fragments of Apollonius",
+                "Fragments of Pantaenus",
+            ]),
+        ]),
+        ("Latin Fathers Before Nicaea", [
             ("Tertullian", [
                 "Apology","On the Prescription of Heretics","Against Marcion",
                 "On the Soul","On the Resurrection of the Flesh","Against Praxeas",
@@ -1228,80 +1263,32 @@ BOOKS_TREE = [
                 "De Spectaculis (The Shows)","An Answer to the Jews",
                 "Against the Valentinians","On Exhortation to Chastity","On Monogamy",
             ]),
-            ("Origen", [
-                "De Principiis","Against Celsus","Philocalia",
-                "Commentary on the Gospel of John",
-                "Commentary on the Gospel of Matthew",
-            ]),
-            ("Hippolytus", [
-                "The Refutation of All Heresies","The Antichrist",
-                "Against the Heresy of Noetus",
-            ]),
-            ("Athenagoras", [
-                "A Plea for the Christians","The Resurrection of the Dead",
-            ]),
-            ("Tatian", ["Address to the Greeks","The Diatessaron"]),
-            ("Theophilus", ["Theophilus to Autolycus"]),
-            ("Minucius Felix", ["Octavius"]),
+            ("Cyprian of Carthage", ["The Treatises of Cyprian","The Life and Passion of Cyprian"]),
+            ("Novatian", ["Treatise Concerning the Trinity","On the Jewish Meats"]),
+            ("Arnobius", ["Against the Heathen"]),
             ("Lactantius", [
                 "The Divine Institutes","The Epitome of the Divine Institutes",
                 "On the Anger of God","On the Workmanship of God",
                 "Of the Manner In Which the Persecutors Died",
             ]),
-            ("Cyprian of Carthage", [
-                "The Treatises of Cyprian","The Life and Passion of Cyprian",
-            ]),
-            ("Novatian", ["Treatise Concerning the Trinity","On the Jewish Meats"]),
-            ("Methodius", [
-                "The Banquet of the Ten Virgins","Concerning Free Will",
-            ]),
-            ("Dionysius the Great", [
-                "Epistles and Epistolary Fragments",
-                "Exegetical Fragments","Miscellaneous Fragments",
-            ]),
-            ("Arnobius", ["Against the Heathen"]),
-            ("Aphrahat", ["Demonstrations"]),
-            ("Clement of Rome", [
-                "First Epistle","Second Epistle",
-                "Recognitions","Clementine Homilies",
-            ]),
-            ("Julius Africanus", ["Extant Writings"]),
-            ("Gregory Thaumaturgus", [
-                "The Oration and Panegyric Addressed to Origen",
-                "Canonical Epistle","Twelve Topics on the Faith",
-            ]),
+            ("Commodianus", ["Writings"]),
+            ("Victorinus", ["Commentary on the Apocalypse of the Blessed John","On the Creation of the World"]),
+            ("Venantius", ["Poem on Easter"]),
         ]),
-        ("Nicene Fathers", [
-            ("Eusebius of Caesarea", [
-                "Church History","Life of Constantine",
-                "Oration in Praise of Constantine",
-            ]),
+        ("Greek Fathers After Nicaea", [
             ("Athanasius", [
                 "On the Incarnation","Discourses Against the Arians",
                 "On the Decrees of Nicaea","Apologia Contra Arianos",
                 "Life of Antony","Historia Arianorum","De Sententia Dionysii",
                 "Festal Letters of Athanasius", "Letters of Athanasius",
             ]),
-            ("Hilary of Poitiers", [
-                "On the Trinity","On the Councils, or the Faith of the Easterns",
-            ]),
             ("Cyril of Jerusalem", ["Catechetical Lectures"]),
-            ("Basil the Great", [
-                "Hexaemeron","On the Holy Spirit",
-                "Address to Young Men","Letters of Basil",
-            ]),
-            ("Gregory Nazianzen", [
-                "Orations","Orations Against Julian","Letters of Gregory Nazianzen",
-            ]),
+            ("Basil the Great", ["Hexaemeron","On the Holy Spirit","Address to Young Men","Letters of Basil"]),
+            ("Gregory Nazianzen", ["Orations","Orations Against Julian","Letters of Gregory Nazianzen"]),
             ("Gregory of Nyssa", [
                 "On the Soul and the Resurrection","The Great Catechism",
                 "On the Making of Man","Against Eunomius",
                 "On Virginity","Life of Macrina","Letters of Gregory of Nyssa",
-            ]),
-            ("Ambrose", [
-                "On the Christian Faith (De fide)","On the Holy Spirit",
-                "On the Mysteries","On the Duties of the Clergy",
-                "Concerning Virgins","On Repentance","Letters",
             ]),
             ("John Chrysostom", [
                 "On the Priesthood","Homilies on Matthew","Homilies on John",
@@ -1312,12 +1299,43 @@ BOOKS_TREE = [
                 "Homilies on the Statues","Homilies on Titus","Homilies on Philemon",
                 "Commentary on Galatians",
             ]),
-            ("Ephrem the Syrian", [
-                "Discourses to Hypatius","Against Marcion","Against Mani",
-                "On Virginity","Nisibene Hymns",
+            ("Epiphanius of Salamis", ["On Weights and Measures"]),
+            ("Eunomius of Cyzicus", ["The First Apology"]),
+            ("Macarius Magnes", ["Apocriticus"]),
+            ("Asterius of Amasea", ["Sermons"]),
+            ("Theodore of Mopsuestia", [
+                "Commentary on the Nicene Creed","Commentary on the Lord's Prayer and Sacraments",
             ]),
+            ("Nestorius", ["The Bazaar of Heracleides"]),
+            ("Cyril of Alexandria", [
+                "Against Nestorius","Commentary on John","Commentary on Luke",
+                "That Christ is One","Scholia on the Incarnation","Against Julian",
+            ]),
+            ("Theodoret", ["Ecclesiastical History","Letters",'Dialogues ("Eranistes" or "Polymorphus")']),
+            ("Dioscorus of Alexandria", ["Letter to Shenouda"]),
+            ("Leontius of Byzantium", ["Against the Frauds of the Apollinarists"]),
+            ("Severus of Antioch", ["Letters"]),
+            ("Dionysius the Areopagite", [
+                "Divine Names","Mystical Theology","On the Heavenly Hierarchy","On the Ecclesiastical Hierarchy",
+                "Letters of Dionysius","Liturgy of St. Dionysius",
+            ]),
+            ("John of Damascus", ["Exposition of the Orthodox Faith"]),
         ]),
-        ("Post-Nicene Fathers", [
+        ("Latin Fathers After Nicaea", [
+            ("Hilary of Poitiers", ["On the Trinity","On the Councils, or the Faith of the Easterns"]),
+            ("Ambrose", [
+                "On the Christian Faith (De fide)","On the Holy Spirit",
+                "On the Mysteries","On the Duties of the Clergy",
+                "Concerning Virgins","On Repentance","Letters",
+            ]),
+            ("Pacian of Barcelona", ["Letters to Sympronian","Paraenesis on Penance","Discourse on Baptism"]),
+            ("Optatus of Milevis", ["Against the Donatists"]),
+            ("Jerome", [
+                "Letters","Lives of Illustrious Men","Commentary on Daniel",
+                "Against Jovinianus","Against Vigilantius","Against the Pelagians",
+                "The Life of Malchus, the Captive Monk","The Life of S. Hilarion",
+            ]),
+            ("Rufinus", ["Apology (Rufinus)","Commentary on the Apostles' Creed","Prefaces and Other Works"]),
             ("Augustine of Hippo", [
                 "Confessions","City of God","On the Trinity","Enchiridion",
                 "On Christian Doctrine","On Nature and Grace",
@@ -1328,73 +1346,92 @@ BOOKS_TREE = [
                 "Reply to Faustus the Manichaean","On Grace and Free Will",
                 "On Baptism, Against the Donatists","The Harmony of the Gospels",
             ]),
-            ("Jerome", [
-                "Letters","Lives of Illustrious Men","Commentary on Daniel",
-                "Against Jovinianus","Against Vigilantius","Against the Pelagians",
-                "The Life of Malchus, the Captive Monk","The Life of S. Hilarion",
-            ]),
-            ("John Cassian", [
-                "Institutes","Conferences",
-                "On the Incarnation of the Lord (Against Nestorius)",
-            ]),
-            ("Cyril of Alexandria", [
-                "Against Nestorius","Commentary on John","Commentary on Luke",
-                "That Christ is One","Scholia on the Incarnation","Against Julian",
-            ]),
+            ("Possidius", ["Life of St. Augustine"]),
+            ("Sulpitius Severus", ["On the Life of St. Martin","Dialogues","Sacred History"]),
+            ("Pseudo-Hegesippus", ["On the Ruin of Jerusalem"]),
+            ("Vincent of Lérins", ["Commonitory for the Antiquity and Universality of the Catholic Faith"]),
             ("Leo the Great", ["Sermons","Letters of Leo"]),
-            ("Theodoret", [
-                "Ecclesiastical History","Letters",
-                'Dialogues ("Eranistes" or "Polymorphus")',
-            ]),
-            ("Socrates Scholasticus", ["Ecclesiastical History"]),
-            ("Sozomen", ["Ecclesiastical History"]),
-            ("Sulpitius Severus", [
-                "On the Life of St. Martin","Dialogues","Sacred History",
-            ]),
-            ("John of Damascus", [
-                "Exposition of the Orthodox Faith",
-            ]),
-            ("Gregory the Great", [
-                "Dialogues","Pastoral Rule","Letters of Gregory the Great",
-            ]),
-            ("Vincent of Lérins", [
-                "Commonitory for the Antiquity and Universality of the Catholic Faith",
-            ]),
+            ("Salvian", ["On the Government of God"]),
+            ("Sidonius Apollinaris", ["Letters"]),
+            ("Gennadius of Marseilles", ["Illustrious Men (Supplement to Jerome)"]),
+            ("Gildas the Wise", ["The Ruin of Britain","Penitential"]),
+            ("Gregory the Great", ["Dialogues","Pastoral Rule","Letters of Gregory the Great"]),
+            ("Isidore of Seville", ["Chronicon"]),
         ]),
-        ("Church History", [
+        ("Syriac, Armenian and Arabic Writers", [
+            ("Bardesanes", ["The Book of the Laws of Various Countries"]),
+            ("Ancient Syriac Documents", [
+                "The Teaching of Addaeus the Apostle","Extracts Concerning Abgar the King and Addaeus the Apostle",
+                "The Story Concerning the King of Edessa","The Teaching of the Apostles",
+                "The Teaching of Simon Cephas in the City of Rome","Acts of Sharbil","Martyrdom of Barsamya",
+                "Martyrdom of Habib the Deacon","Martyrdom of Shamuna, Guria and Habib",
+                "Letter of Mara, Son of Serapion","Memorial of Ambrose, a Chief Man of Greece",
+            ]),
+            ("Aphrahat", ["Demonstrations"]),
+            ("Ephrem the Syrian", ["Discourses to Hypatius","Against Marcion","Against Mani","On Virginity","Nisibene Hymns"]),
+            ("Mar Jacob", ["Canticle on Edessa","Homily on Guria and Shamuna","Homily on Habib the Martyr"]),
+            ("Philoxenus of Hierapolis", ["13 Ascetic Discourses"]),
+            ("John of Ephesus", ["Ecclesiastical History (Third Part)"]),
+            ("Moses of Chorene", ["History of Armenia"]),
+            ("Timothy I", ["Apology for Christianity to Caliph Al-Mahdi"]),
+            ("Agapius of Hierapolis", ["Universal History"]),
+            ("John bar Penkaye", ["Summary History of the World (Book 15: Rise of Islam)"]),
+        ]),
+        ("Church Historians", [
             ("Eusebius of Caesarea", [
                 "Church History","Life of Constantine","Oration in Praise of Constantine",
                 "Demonstratio Evangelica","Praeparatio Evangelica","Theophania",
             ]),
-            ("Bede the Venerable", [
-                "Ecclesiastical History of the English People",
-            ]),
-            ("Jacobus de Voragine", [
-                "The Golden Legend",
-            ]),
+            ("Socrates Scholasticus", ["Ecclesiastical History"]),
+            ("Sozomen", ["Ecclesiastical History"]),
+            ("Philostorgius", ["Ecclesiastical History (Epitome)"]),
+            ("Evagrius Scholasticus", ["Ecclesiastical History"]),
         ]),
-        ("Medieval Classics", [
-            ("St Benedict", ["Rule of Benedict"]),
-            ("Thomas à Kempis", ["Imitation of Christ"]),
-            ("Dante — The Divine Comedy", ["Inferno", "Purgatorio", "Paradiso"]),
-            ("The Physiologus (beasts and their Christian meanings)", ["Physiologus"]),
+        ("Desert and Monastic", [
+            ("Paradise of the Fathers", [
+                "Sayings of the Desert Fathers","The Paradise of Palladius","The Paradise of Palladius: Book II",
+                "The History of the Monks of Egypt","The Life of St. Anthony (Budge)","The Rule of Pachomius",
+            ]),
+            ("Palladius", ["The Lausiac History","Dialogue on the Life of St. John Chrysostom"]),
+            ("John Cassian", ["Institutes","Conferences","On the Incarnation of the Lord (Against Nestorius)"]),
+            "Rule of Benedict",
+            ("Philokalia", ["A Century of Spiritual Texts (Theodoros the Great Ascetic)"]),
         ]),
-        ("Christian Mystics", [
-            ("Anonymous", ["Cloud of Unknowing"]),
+        ("Councils, Canons and Liturgies", [
+            ("Church Councils", [
+                "Council of Nicaea","Canons of Nicaea","Council of Constantinople under Nectarius",
+                "Canons of Constantinople","Council of Ephesus","Canons of Ephesus","Council of Chalcedon",
+                "Canons of Chalcedon","Canons of the Council in Trullo","Canons of the Second Council of Nicaea",
+                "Apostolic Canons","Canons of Ancyra","Canons of Neocaesarea","Canons of Gangra","Canons of Antioch",
+                "Canons of Laodicea","Canons of Sardica","Canons of Carthage",
+            ]),
+            "Apostolic Constitutions",
+            ("Early Liturgies", ["Liturgy of St. James","Liturgy of St. Mark","Liturgy of Addai and Mari"]),
+        ]),
+        ("Early Church Documents", [
+            "Muratorian Canon", "Marcionite Prologues", "Anti-Marcionite Prologues",
+            "Inscription of Abercius", "Passion of the Scillitan Martyrs",
+        ]),
+    ]),
+    ("🏰 Medieval Christianity", [
+        ("Byzantine", [
+            ("Cosmas Indicopleustes", ["The Christian Topography"]),
+            ("Photius of Constantinople", ["Bibliotheca (Codices 1-165)"]),
+        ]),
+        ("Latin West", [
+            ("Bede the Venerable", ["Ecclesiastical History of the English People"]),
+            ("Jacobus de Voragine", ["The Golden Legend"]),
+            "Physiologus",
+        ]),
+        ("Mystics", [
+            "Cloud of Unknowing",
             ("Julian of Norwich", ["Revelations of Divine Love"]),
-            ("Brother Lawrence", ["Practice of the Presence of God"]),
+            ("Thomas à Kempis", ["Imitation of Christ"]),
         ]),
-        ("John Bunyan", [
-            ("John Bunyan", ["Pilgrim's Progress", "Pilgrim's Progress, Part Two"]),
-        ]),
-        ("John Milton", [
-            ("John Milton", ["Paradise Lost", "Paradise Regained", "Samson Agonistes"]),
-        ]),
-        ("William Blake", [
-            ("William Blake", ["Songs of Innocence", "Songs of Experience", "The Marriage of Heaven and Hell",
-                               "The Book of Thel"]),
-        ]),
-        ("The Reformation", [
+        ("Dante", ["Inferno", "Purgatorio", "Paradiso"]),
+    ]),
+    ("🕯️ Reformation and After", [
+        ("Reformers", [
             ("Martin Luther", [
                 "Ninety-Five Theses", "An Open Letter to the Christian Nobility", "The Babylonian Captivity of the Church",
                 "A Treatise on Christian Liberty", "Treatise on Good Works", "The Bondage of the Will",
@@ -1404,71 +1441,38 @@ BOOKS_TREE = [
             ("John Knox", ["The History of the Reformation in Scotland", "The First Blast of the Trumpet", "A Treatise on Prayer"]),
             ("Hugh Latimer", ["Sermons of Hugh Latimer"]),
         ]),
-        ("The Book of Concord", [
-            ("Lutheran Confessions", [
-                "Preface to the Book of Concord", "Augsburg Confession", "Apology of the Augsburg Confession",
-                "Smalcald Articles", "Treatise on the Power and Primacy of the Pope", "Small Catechism",
-                "Large Catechism", "Formula of Concord, Epitome", "Formula of Concord, Solid Declaration",
-            ]),
+        ("Lutheran Confessions", [
+            "Preface to the Book of Concord", "Augsburg Confession", "Apology of the Augsburg Confession",
+            "Smalcald Articles", "Treatise on the Power and Primacy of the Pope", "Small Catechism",
+            "Large Catechism", "Formula of Concord, Epitome", "Formula of Concord, Solid Declaration",
         ]),
-        ("Protestant Confessions", [
-            ("Reformed", [
-                "Heidelberg Catechism", "Second Helvetic Confession", "Belgic Confession", "Canons of Dort",
-                "Scots Confession", "Westminster Confession of Faith", "Westminster Shorter Catechism",
-                "Westminster Larger Catechism",
-            ]),
-            ("Anglican, Methodist, Baptist", [
-                "Thirty-Nine Articles", "Methodist Articles of Religion", "Second London Baptist Confession",
-            ]),
+        ("Reformed Confessions", [
+            "Heidelberg Catechism", "Second Helvetic Confession", "Belgic Confession", "Canons of Dort",
+            "Scots Confession", "Westminster Confession of Faith", "Westminster Shorter Catechism",
+            "Westminster Larger Catechism",
         ]),
-        ("Anglican Divines & the Wesleys", [
-            ("The Books of Homilies", ["The Book of Homilies, First Book", "The Book of Homilies, Second Book"]),
-            ("Edmund Bonner (Marian, Catholic)", ["Bonner's Homilies"]),
+        ("Anglican, Methodist and Baptist Confessions", [
+            "Thirty-Nine Articles", "Methodist Articles of Religion", "Second London Baptist Confession",
+        ]),
+        ("Anglicans and Methodists", [
+            ("Books of Homilies", ["The Book of Homilies, First Book", "The Book of Homilies, Second Book"]),
             ("Richard Hooker", ["Laws of Ecclesiastical Polity"]),
             ("John Donne", ["Donne's LXXX Sermons", "Donne's Fifty Sermons", "Donne's XXVI Sermons", "Holy Sonnets"]),
-            ("George Herbert", ["The Temple"]),
             ("Lancelot Andrewes", ["Private Devotions of Lancelot Andrewes"]),
             ("Jeremy Taylor", ["Holy Living", "Holy Dying"]),
             ("William Law", ["A Serious Call to a Devout and Holy Life"]),
             ("John Wesley", ["Sermons of John Wesley", "A Plain Account of Christian Perfection", "The Journal of John Wesley"]),
         ]),
-        ("Pearse Collection", [
-            ("Hermias", ["Derision of Gentile Philosophers"]),
-            ("Eunomius of Cyzicus", ["The First Apology"]),
-            ("Philostorgius", ["Ecclesiastical History (Epitome)"]),
-            ("Pacian of Barcelona", [
-                "Letters to Sympronian","Paraenesis on Penance","Discourse on Baptism",
-            ]),
-            ("Macarius Magnes", ["Apocriticus"]),
-            ("Asterius of Amasea", ["Sermons"]),
-            ("Epiphanius of Salamis", ["On Weights and Measures"]),
-            ("Pseudo-Hegesippus", ["On the Ruin of Jerusalem"]),
-            ("Optatus of Milevis", ["Against the Donatists"]),
-            ("Possidius", ["Life of St. Augustine"]),
-            ("Theodore of Mopsuestia", [
-                "Commentary on the Nicene Creed",
-                "Commentary on the Lord's Prayer and Sacraments",
-            ]),
-            ("Nestorius", ["The Bazaar of Heracleides"]),
-            ("Palladius", [
-                "The Lausiac History",
-                "Dialogue on the Life of St. John Chrysostom",
-            ]),
-            ("Salvian", ["On the Government of God"]),
-            ("Sidonius Apollinaris", ["Letters"]),
-            ("Philoxenus of Hierapolis", ["13 Ascetic Discourses"]),
-            ("Evagrius Scholasticus", ["Ecclesiastical History"]),
-            ("Dioscorus of Alexandria", ["Letter to Shenouda"]),
-            ("Gildas the Wise", ["The Ruin of Britain","Penitential"]),
-            ("Leontius of Byzantium", ["Against the Frauds of the Apollinarists"]),
-            ("Severus of Antioch", ["Letters"]),
-            ("John of Ephesus", ["Ecclesiastical History (Third Part)"]),
-            ("Cosmas Indicopleustes", ["The Christian Topography"]),
-            ("Agapius of Hierapolis", ["Universal History"]),
-            ("Photius of Constantinople", ["Bibliotheca (Codices 1-165)"]),
-            ("Timothy I", ["Apology for Christianity to Caliph Al-Mahdi"]),
-            ("Isidore of Seville", ["Chronicon"]),
-            ("John bar Penkaye", ["Summary History of the World (Book 15: Rise of Islam)"]),
+        ("Catholic Writers", [
+            ("Edmund Bonner", ["Bonner's Homilies"]),
+            ("Brother Lawrence", ["Practice of the Presence of God"]),
+        ]),
+        ("Christian Poetry and Allegory", [
+            ("George Herbert", ["The Temple"]),
+            ("John Milton", ["Paradise Lost", "Paradise Regained", "Samson Agonistes"]),
+            ("John Bunyan", ["Pilgrim's Progress", "Pilgrim's Progress, Part Two"]),
+            ("William Blake", ["Songs of Innocence", "Songs of Experience", "The Marriage of Heaven and Hell",
+                               "The Book of Thel"]),
         ]),
     ]),
 ]
@@ -1678,7 +1682,8 @@ _ADDED_TO_TREE = _complete_tree(BOOKS_TREE, lookup)
 # BOOKS_TREE by reference, so drilling further down is unaffected.
 _SUPERGROUP_ORDER = [
     ("✝️ Christianity", [
-        "📖 The Bible", "👼 Apocrypha / Pseudepigrapha", "⛪ Patristics & Church History", "📯 LDS",
+        "📖 The Bible", "👼 Apocrypha / Pseudepigrapha", "⛪ The Early Church", "🏰 Medieval Christianity",
+        "🕯️ Reformation and After", "📯 LDS",
     ]),
     ("✡️ Judaism", [
         "✡️ Rabbinic & Kabbalistic", "🏛️ Hellenistic Judaism", "🏺 Dead Sea Scrolls",
