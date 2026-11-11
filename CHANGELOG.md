@@ -14,6 +14,14 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-11-11 · !pascal: Pascal's Pensées, one thought at a time
+- 🕯️ **New command: `!pascal`** (or `!pensees`). Blaise Pascal was a 17th-century French mathematician who, near the end of his short life, filled notebooks with thoughts for a defence of Christianity he never finished. Published after his death as the *Pensées* ("Thoughts"), they are some of the most quoted lines ever written about faith, doubt and being human: "The heart has its reasons, which reason does not know."
+  - `!pascal` gives a thought at random.
+  - `!pascal 233` gives a thought by its number, the numbering everyone uses. 233 is his famous wager on God's existence.
+  - `!pascal heart reason` finds a thought with those words in it.
+  - **🖼️ Card** turns the thought into a shareable image, and **◀ ▶** step to the thoughts either side.
+  - `/pascal` works too.
+
 ## 2026-11-11 · Qur'an commentary for everyone, and no more setup questions
 - 📖 **The Qur'an commentary is now posted for everyone.** Pressing **📖 Commentary** under a Qur'an verse (try `!verse Quran 2:255`) used to show the commentary only to you. Now the whole channel sees it, so you can read and discuss it together.
 - ◀ ▶ **New buttons to step to the verse before or after**, like **◀ 2:254** and **2:256 ▶**, so you can read the commentary verse by verse. The old ◀ ▶ arrows turned pages, so on a short commentary with only one page they were greyed out and seemed to do nothing. Now page buttons only appear when there are pages to turn. The buttons also keep working after the bot restarts.

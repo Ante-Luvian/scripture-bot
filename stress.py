@@ -287,6 +287,8 @@ SHAPED = {"ballad": ["0", "305", "306", "12B", "12b", "12ZZ", "22A", "117", "chi
           "sonnet": ["0", "1", "154", "155", "#18", "18:5", "-3", "99999999999", "venus", "LUCRECE", "phoenix",
                      "venus lucrece", "the", "will I find love?"],
           "shakespeare": ["will it rain?", "", "hamlet"],
+          "pascal": ["", "233", "0", "925", "12", "#72", "99999999999", "heart reason", "the", "wager", "zzzz", "-3",
+                     "will I be happy?", "pensées"],
           # (2026-11-08: !bcp took over !mp/!ep/!psalm/!collect, !subscribe over
           # !unsubscribe, !chant psalm over !psalm 110 chant, !hymn list over /hymnlist)
           "bcp": ["psalm 23", "psalm 999", "psalm evening 12-25", "psalm morning 13-45", "psalm `x`", "collect 12-25",

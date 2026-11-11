@@ -116,6 +116,9 @@ def _oracle_card_content(kind: str, key: str) -> "tuple[str, str, str] | None":
         text = _unquoted(text)                    # (no quotation marks on the card: the owner, 2026-11-08)
         # (a half-line to a line, the second halves indented: the owner's choice, 2026-11-08)
         return (_edda_title(poem, stanza), _half_lines(_plain(text), mark=True), _edda_source(poem)) if text else None
+    if kind == "pascal":                       # key: the thought's number
+        found = _pascal_thought(key)
+        return (f"Pascal, Pensées {key}", found[1], "trans. W. F. Trotter") if found else None
     if kind == "delphi":                       # key: maxim number
         book, num = "Delphic Maxims", key
     elif kind == "oracle" and "|" in key:      # key "Chaldaean Oracles|12"
@@ -131,7 +134,7 @@ def _oracle_card_content(kind: str, key: str) -> "tuple[str, str, str] | None":
 
 
 class OracleCardButton(discord.ui.DynamicItem[discord.ui.Button],
-                       template=r"ocard:(?P<kind>virgil|homer|delphi|oracle|iching|hafez|gathas|rumi|bard|edda):"
+                       template=r"ocard:(?P<kind>virgil|homer|delphi|oracle|iching|hafez|gathas|rumi|bard|edda|pascal):"
                                 r"(?P<key>.+)"):
     """Renders an oracle answer as a !card-style image. Like the study
     buttons, its custom_id carries what it needs, so it keeps working after a
@@ -157,11 +160,11 @@ class OracleCardButton(discord.ui.DynamicItem[discord.ui.Button],
             return
         question = _question_from(interaction.message)
         style = {"iching": "ink", "hafez": "persian", "gathas": "persian", "rumi": "persian", "edda": "norse",
-                 "bard": "parchment"}.get(self.kind, "classical")
+                 "bard": "parchment", "pascal": "parchment"}.get(self.kind, "classical")
         # (a poem's lines kept whole: the Edda's stanzas, the Sonnets and the long poems; not a play's speech)
         shakespeare_poem = self.kind == "bard" and self.key.split("|")[0] not in _play_lines().get("lines", {})
         # (Shakespeare's poems and the Edda set as a printed poem: upright, flush left, lines indented)
-        buf = await asyncio.to_thread(_render_verse_card, *content, question, style,
+        buf = await asyncio.to_thread(_render_verse_card, *content, question, style, justify=self.kind == "pascal",
                                       verse=self.kind == "edda", poem=shakespeare_poem or self.kind == "edda")
         await interaction.followup.send(file=discord.File(buf, filename="oracle.png"))
 
@@ -194,6 +197,8 @@ def _view_after(message, pressed: str) -> discord.ui.View:
                 button = NorseCardButton(m["key"], disabled=done)
             elif m := PassageButton.__discord_ui_compiled_template__.fullmatch(cid):
                 button = PassageButton(m["kind"], m["ref"])
+            elif m := PascalNav.__discord_ui_compiled_template__.fullmatch(cid):
+                button = PascalNav(m["n"], m["tag"], getattr(c, "label", "") or "▶")
             elif m := illustrations.PictureButton.__discord_ui_compiled_template__.fullmatch(cid):
                 button = illustrations.PictureButton(m["keys"].split(","))
             else:
@@ -1006,6 +1011,105 @@ async def cmd_sonnet(ctx, *, query: str = ""):
     _ask(embed, question)
     _record(ctx, "sonnet", ref)
     await ctx.send(embed=embed, view=_card_view("bard", f"{book}|{chap}|{line}"))
+
+
+# ── !pascal — one of Pascal's Pensées ───────────────────────────────────────
+# A thought at random, by its number (Brunschvicg's, as everyone cites them: !pascal 233 is the wager), or one with
+# the words asked for; 🖼️ Card, and ◀ ▶ to the thoughts either side. The owner's request, 2026-11-11.
+PASCAL_SOURCE = "Blaise Pascal, Pensées, trans. W. F. Trotter"
+
+
+@functools.lru_cache(maxsize=1)
+def _pascal() -> dict:
+    """{number: (its section, its text)} in order, from the library's Pensées (one chapter a thought)."""
+    out, section = {}, ""
+    for n, verses in sorted(lookup._data.get("reformation", {}).get("Pensées", {}).items(), key=lambda kv: int(kv[0])):
+        text = "\n\n".join(verses[v] for v in sorted(verses, key=int))
+        lead = re.match(r"\*(Section [^*\n]+)\*\n", text)
+        if lead:
+            section, text = lead.group(1), text[lead.end():]
+        out[n] = (section, text.strip())
+    return out
+
+
+def _pascal_thought(n: str) -> "tuple[str, str] | None":
+    return _pascal().get(str(n))
+
+
+def _pascal_pick(query: str, rng=random) -> "str":
+    """The number of the thought !pascal's query asks for (a number, or words it must contain; nothing: any), or
+    the reply when there's none."""
+    thoughts = _pascal()
+    q = query.strip()
+    num = re.fullmatch(r"#?(\d{1,6})", q)
+    if num:
+        n = num.group(1).lstrip("0") or "0"
+        if n not in thoughts:
+            return f"Pascal's thoughts are numbered 1 to {max(map(int, thoughts))} (a few numbers are missing): try `!pascal 233`."
+        return n
+    words = [w for w in re.findall(r"[^\W\d_]+", q.lower()) if len(w) > 1][:8]
+    if not words:
+        return rng.choice(list(thoughts))
+    found = [n for n, (_, text) in thoughts.items()
+             if all(re.search(rf"\b{re.escape(w)}", text, re.I) for w in words)]
+    if not found:
+        return f"None of Pascal's thoughts has **{discord.utils.escape_markdown(' '.join(words))[:100]}** in it."
+    return rng.choice(found)
+
+
+def _pascal_message(n: str) -> dict:
+    section, text = _pascal()[n]
+    if len(text) > 4000:                                   # (the longest run past an embed: the rest by !verse)
+        text = text[:text.rfind("\n\n", 0, 3900)] + f"\n\n*… the rest with `!verse Pensées {n}`*"
+    embed = discord.Embed(title=f"🕯️ Pascal, Pensées {n}", description=text, color=discord.Color.dark_gold())
+    embed.set_footer(text=f"{section} · {PASCAL_SOURCE}" if section else PASCAL_SOURCE)
+    numbers = list(_pascal())
+    i = numbers.index(n)
+    view = discord.ui.View(timeout=None)
+    view.add_item(OracleCardButton("pascal", n))
+    if i > 0:
+        view.add_item(PascalNav(numbers[i - 1], "p", f"◀ {numbers[i - 1]}"))
+    if i < len(numbers) - 1:
+        view.add_item(PascalNav(numbers[i + 1], "n", f"{numbers[i + 1]} ▶"))
+    return {"embed": embed, "view": view}
+
+
+class PascalNav(discord.ui.DynamicItem[discord.ui.Button], template=r"pnav:(?P<n>\d{1,3}):(?P<tag>[pn])"):
+    """◀ ▶ to the thought before or after (persistent: the number is in its custom_id)."""
+
+    def __init__(self, n: str, tag: str, label: str = ""):
+        super().__init__(discord.ui.Button(label=label or (f"◀ {n}" if tag == "p" else f"{n} ▶"),
+                                           style=discord.ButtonStyle.secondary, custom_id=f"pnav:{n}:{tag}"))
+        self.n = n
+
+    @classmethod
+    async def from_custom_id(cls, interaction, item, match):
+        return cls(match["n"], match["tag"])
+
+    async def callback(self, interaction: discord.Interaction):
+        if self.n not in _pascal():
+            await interaction.response.send_message("⚠️ I can't find that thought any more.", ephemeral=True)
+            return
+        await interaction.response.edit_message(**_pascal_message(self.n))
+
+
+bot.add_dynamic_items(PascalNav)
+
+
+@bot.command(name="pascal", aliases=["pensees", "pensées"])
+async def cmd_pascal(ctx, *, query: str = ""):
+    """One of Pascal's Pensées: at random, by number (!pascal 233, the wager), or with words in it
+    (!pascal heart reason). 🖼️ Card makes it an image. Usage: !pascal · !pascal 233 · !pascal <words>"""
+    if not _pascal():
+        await ctx.send("⚠️ The Pensées aren't loaded.")
+        return
+    pick = _pascal_pick(query)
+    if pick not in _pascal():
+        await ctx.send(pick)
+        return
+    log.info(f"RNG  pascal                 → {pick} (user: {ctx.author})")
+    _record(ctx, "pascal", f"Pensées {pick}")
+    await ctx.send(**_pascal_message(pick))
 
 
 # ── !edda — a stanza of the Poetic Edda ─────────────────────────────────────

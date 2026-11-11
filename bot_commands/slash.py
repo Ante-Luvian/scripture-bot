@@ -29,6 +29,7 @@ from bot_commands.oracles import (
     cmd_rumi,
     cmd_shakespeare,
     cmd_sonnet,
+    cmd_pascal,
     cmd_edda,
     cmd_odin,
 )
@@ -213,6 +214,14 @@ async def sonnet_slash(interaction: discord.Interaction, which: str = ""):
     await interaction.response.defer()
     ctx = await bot.get_context(interaction)
     await cmd_sonnet(ctx, query=which)
+
+
+@bot.tree.command(name="pascal", description="One of Pascal's Pensées, as a card if you like")
+@app_commands.describe(which="A thought's number (233 is the wager), or words in it; empty for one at random")
+async def pascal_slash(interaction: discord.Interaction, which: str = ""):
+    await interaction.response.defer()
+    ctx = await bot.get_context(interaction)
+    await cmd_pascal(ctx, query=which)
 
 
 @bot.tree.command(name="edda", description="A stanza of the Poetic Edda, the Norse poems of the gods and heroes")

@@ -57,6 +57,7 @@ HELP_MENU = [
         "`!tale` — one of the Grimms' fairy tales, or `!tale rapunzel`, `!tale list` · `!help tale`",
         "`!reynard` — Reynard the Fox, Caxton's medieval beast epic, a chapter at a time · `!help reynard`",
         "`!physiologus` — the Physiologus: beasts and their Christian meanings · `!physiologus pelican`",
+        "`!pascal` (or `!pensees`) — one of Pascal's *Pensées*, with a card · `!pascal 233` · `!pascal heart reason`",
     ]),
     ('⛪ Catholic', [
         '`!ccc` — Catechism · `!help ccc`',

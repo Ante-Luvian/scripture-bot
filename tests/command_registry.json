@@ -215,6 +215,10 @@
    "sidra",
    "torahportion"
   ],
+  "pascal": [
+   "pensees",
+   "pensées"
+  ],
   "physiologus": [
    "beast",
    "bestiary"
@@ -431,6 +435,7 @@
   "odin",
   "oracle",
   "parallel",
+  "pascal",
   "place",
   "plan",
   "planets",
