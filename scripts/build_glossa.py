@@ -23,7 +23,7 @@ LATIN = Path(__file__).resolve().parent / ".cache" / "glossa"
 ENGLISH = Path(__file__).resolve().parent / "glossa" / "english"
 LEMMAS = Path(__file__).resolve().parent / "glossa" / "lemmas"
 OUT = ROOT / "data" / "patristics" / "glossa_ordinaria.json"
-BOOKS = {"40": "Hosea", "41": "Joel", "42": "Amos", "43": "Obadiah", "44": "Jonah", "45": "Micah", "46": "Nahum"}  # Gloss-e's numbers -> the KJV's names (the books translated so far)
+BOOKS = {"40": "Hosea", "41": "Joel", "42": "Amos", "43": "Obadiah", "44": "Jonah", "45": "Micah", "46": "Nahum", "47": "Habakkuk"}  # Gloss-e's numbers -> the KJV's names (the books translated so far)
 LABELS = {"[allegorically]": "Allegorically", "[the moral sense]": "In the moral sense", "[Jerome]": "Jerome",
           "[Haimo]": "Haimo", "[Gregory]": "Gregory"}
 
@@ -84,6 +84,10 @@ MOVES = {
     # long notes the edition files a verse or so early ("How shall he depart", "And they shall beat") go to their verse
     "45_interl5698": (5, 12), "45_interl5699": (5, 12),
     "45_marg3013": (2, 4), "45_marg3041": (4, 3),
+    # the edition's Habakkuk 1:3 carries a doublet of 1:13-14 ("Why lookest thou upon the despisers ... And thou wilt
+    # make men as the fishes of the sea"); the glosses on those words go to the verses that have them
+    **{f"47_interl{n}": (1, 13) for n in range(6053, 6061)},
+    **{f"47_interl{n}": (1, 14) for n in range(6061, 6064)},
 }
 # ... and the words those long notes are about, in the Douay-Rheims's English
 WORDS = {"40_marg2340": "He will revive us after two days: on the third day he will raise us up",
@@ -93,10 +97,16 @@ WORDS = {"40_marg2340": "He will revive us after two days: on the third day he w
          "45_interl5699": "and there shall be no divinations in thee",
          "45_marg3013": "how shall he depart from me, whereas he is returning that will divide our land?",
          "45_marg3041": "and they shall beat their swords into ploughshares, and their spears into spades",
-         "46_interl6006": "her"}
+         "46_interl6006": "her",
+         # (the doublet's own words, so that they follow the notes on the verse's first half)
+         "47_interl6053": "Why lookest thou upon the despisers", "47_interl6054": "Why lookest thou upon the despisers",
+         "47_interl6055": "and holdest thy peace", "47_interl6056": "and holdest thy peace",
+         "47_interl6057": "when … treadeth down", "47_interl6058": "the wicked", "47_interl6059": "the wicked",
+         "47_interl6060": "the man that is more just than himself?",
+         "47_interl6279": "Let rottenness enter into my bones"}   # (a "but" the edition files under no words)
 # ... and those of them that stay where the edition has them: a gloss only on a short word ("eius") that the book's
 # lemmas give in another verse's sense ("his" in Nahum 1:13, "her" in 3:10)
-IN_PLACE = {"46_interl6006"}
+IN_PLACE = {"46_interl6006", "47_interl6279"}
 
 
 def render(notes: list) -> str:

@@ -549,7 +549,7 @@ cite "held to be forged c. 1911". The real scripture, the oral qewls, has no pub
   eBible's own scanning slips ARE fixed (owner: "fix errors you find in ebible"): scripts/drb_fixes.json, ~970 verses,
   each checked against Gutenberg 8300 (scripts/.cache/douay/pg8300.txt) and EntireBible-DR.json; how the list was made
   is in build_drb.py's docstring. Add new finds there, verified the same way, not from memory.
-- Done: Hosea (40), Joel (41), Amos (42), Obadiah (43), Jonah (44), Micah (45), Nahum (46). Order agreed: the minor prophets, then (owner, 2026-11-12) the
+- Done: Hosea (40), Joel (41), Amos (42), Obadiah (43), Jonah (44), Micah (45), Nahum (46), Habakkuk (47). Order agreed: the minor prophets, then (owner, 2026-11-12) the
   Five Megillot, smallest first; then Isaiah, Jeremiah, Ezekiel, Daniel; Joshua-Esther; the Pentateuch; wisdom and
   Apocrypha. ~1,000 Latin words a chapter (Jonah: 4,121 words, 195 glosses).
 - Jerome's prologues (`Prol` chapters) are skipped for now: their page layout differs.

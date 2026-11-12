@@ -59,7 +59,9 @@ CHECKED = {("Hosea", "7", "7", "They were all heated like an oven"), ("Hosea", "
            ("Jonah", "4", "9", "And the Lord said"),
            ("Amos", "1", "5", "and … shall be carried away"), ("Amos", "3", "11", "and … shall be taken away from thee"),
            ("Amos", "6", "1", "ye great men, heads of the people"), ("Obadiah", "1", "13", "Neither shalt thou enter"),
-           ("Micah", "7", "14", "according to the days of old")}
+           ("Micah", "7", "14", "according to the days of old"),
+           ("Habakkuk", "2", "6", "and it shall be said: Woe to him that heapeth together that which is not his own"),
+           ("Habakkuk", "2", "19", "there is no … in the bowels thereof")}
 
 
 def _words(s):
@@ -138,6 +140,17 @@ def test_nahum_whole():
     assert "**“her”** — Alexandria's" in nahum["3"]["10"]
     assert nahum["3"]["10"].index("Alexandria's") < nahum["3"]["10"].index("by the enemy")
     assert "**“his”** — of the Assyrian" in nahum["1"]["13"]
+
+
+def test_habakkuk_doublet_glosses_under_1_13_and_14():
+    """The edition's 1:3 repeats 1:13-14's words; their glosses go to 1:13-14 (after 1:13's own first half), and the
+    KJV's 1:14 has notes."""
+    hab = DATA["books"]["Glossa Ordinaria on Habakkuk"]
+    assert {c: len(v) for c, v in hab.items()} == {"1": 17, "2": 20, "3": 19}
+    assert "despisers" not in hab["1"]["3"] and "fishes of the sea" not in hab["1"]["3"]
+    assert hab["1"]["13"].index("Thy eyes are too pure") < hab["1"]["13"].index("Why lookest thou upon the despisers")
+    assert "Boethius" in hab["1"]["14"]
+    assert "**“Let rottenness enter into my bones”**\n• but" in hab["3"]["16"]
 
 
 def test_every_gloss_in_english_and_clean():
