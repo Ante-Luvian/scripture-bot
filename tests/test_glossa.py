@@ -58,7 +58,8 @@ CHECKED = {("Hosea", "7", "7", "They were all heated like an oven"), ("Hosea", "
            ("Joel", "3", "9", "rouse up the strong"), ("Jonah", "1", "6", "and said to him: Why art thou fast asleep?"),
            ("Jonah", "4", "9", "And the Lord said"),
            ("Amos", "1", "5", "and … shall be carried away"), ("Amos", "3", "11", "and … shall be taken away from thee"),
-           ("Amos", "6", "1", "ye great men, heads of the people"), ("Obadiah", "1", "13", "Neither shalt thou enter")}
+           ("Amos", "6", "1", "ye great men, heads of the people"), ("Obadiah", "1", "13", "Neither shalt thou enter"),
+           ("Micah", "7", "14", "according to the days of old")}
 
 
 def _words(s):
@@ -114,6 +115,19 @@ def test_obadiah_whole():
     assert list(obadiah) == ["1"] and sorted(obadiah["1"], key=int)[-1] == "21"
     assert "the kingdom shall be for the Lord" not in obadiah["1"]["1"]
     assert "**“saviours”**" in obadiah["1"]["21"]
+
+
+def test_micah_on_the_kjvs_numbering():
+    """The Vulgate's Micah 5:11 is the KJV's 5:11-12 (its sorceries are the KJV's 5:12), its 5:12-14 the KJV's
+    5:13-15; the card's Douay-Rheims verse follows."""
+    micah = DATA["books"]["Glossa Ordinaria on Micah"]
+    assert sorted(micah, key=int) == [str(c) for c in range(1, 8)] and "21" not in micah["7"]
+    assert "deceived by others" in micah["5"]["12"] and "deceived by others" not in micah["5"]["11"]
+    assert "graven things" in micah["5"]["13"] and "execute vengeance" in micah["5"]["15"]
+    assert "**“AND THOU, BETHLEHEM Ephrata”**" in micah["5"]["2"]
+    verses = DATA["douay"]["Micah"]["verses"]["5"]
+    assert verses["12"]["ref"] == "5:11" and verses["15"]["ref"] == "5:14"
+    assert "swords into ploughshares" in micah["4"]["3"]
 
 
 def test_every_gloss_in_english_and_clean():

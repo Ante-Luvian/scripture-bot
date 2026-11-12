@@ -23,7 +23,7 @@ LATIN = Path(__file__).resolve().parent / ".cache" / "glossa"
 ENGLISH = Path(__file__).resolve().parent / "glossa" / "english"
 LEMMAS = Path(__file__).resolve().parent / "glossa" / "lemmas"
 OUT = ROOT / "data" / "patristics" / "glossa_ordinaria.json"
-BOOKS = {"40": "Hosea", "41": "Joel", "42": "Amos", "43": "Obadiah", "44": "Jonah"}  # Gloss-e's numbers -> the KJV's names (the books translated so far)
+BOOKS = {"40": "Hosea", "41": "Joel", "42": "Amos", "43": "Obadiah", "44": "Jonah", "45": "Micah"}  # Gloss-e's numbers -> the KJV's names (the books translated so far)
 LABELS = {"[allegorically]": "Allegorically", "[the moral sense]": "In the moral sense", "[Jerome]": "Jerome",
           "[Haimo]": "Haimo", "[Gregory]": "Gregory"}
 
@@ -54,7 +54,15 @@ def amos(c: int, v: int) -> tuple:
     return c, v
 
 
-VERSIFICATION = {"Hosea": hosea, "Amos": amos, "Jonah": jonah}
+def micah(c: int, v: int) -> tuple:
+    """The Vulgate's Micah 5:11 is the KJV's 5:11-12 (the sorceries are the KJV's 5:12), its 5:12-14 the KJV's
+    5:13-15."""
+    if c == 5 and v >= 12:
+        return 5, v + 1
+    return c, v
+
+
+VERSIFICATION = {"Hosea": hosea, "Amos": amos, "Jonah": jonah, "Micah": micah}
 
 # Where a Vulgate verse straddles two of the KJV's, the glosses on the words the KJV puts in the other verse go there
 # (gloss id -> KJV chapter and verse). Hosea 6:1 begins with the end of KJV 5:15 ("In their affliction they will rise
@@ -72,11 +80,19 @@ MOVES = {
     "40_marg2448": (10, 14),
     # the Vulgate's Amos 5:1 ends "is fallen, and it shall rise no more", which the KJV puts in 5:2
     **{f"42_{g}": (5, 2) for g in ("interl4895", "interl4896", "interl4897", "interl4898", "marg2761")},
+    # the notes on the Vulgate's Micah 5:11's sorceries and divinations go to the KJV's 5:12, which has those words; two
+    # long notes the edition files a verse or so early ("How shall he depart", "And they shall beat") go to their verse
+    "45_interl5698": (5, 12), "45_interl5699": (5, 12),
+    "45_marg3013": (2, 4), "45_marg3041": (4, 3),
 }
 # ... and the words those long notes are about, in the Douay-Rheims's English
 WORDS = {"40_marg2340": "He will revive us after two days: on the third day he will raise us up",
          "40_marg2341": "He will revive us after two days: on the third day he will raise us up",
-         "40_marg2451": "and I loved him: and I called … out of Egypt"}
+         "40_marg2451": "and I loved him: and I called … out of Egypt",
+         "45_interl5698": "and I will take away sorceries out of thy hand",
+         "45_interl5699": "and there shall be no divinations in thee",
+         "45_marg3013": "how shall he depart from me, whereas he is returning that will divide our land?",
+         "45_marg3041": "and they shall beat their swords into ploughshares, and their spears into spades"}
 
 
 def render(notes: list) -> str:

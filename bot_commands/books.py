@@ -1395,7 +1395,8 @@ BOOKS_TREE = [
     ("🏰 Medieval Christianity", [
         ("Liturgy", ["Readings from the Breviary"]),
         ("The Glossa Ordinaria", ["Glossa Ordinaria on Hosea", "Glossa Ordinaria on Joel", "Glossa Ordinaria on Amos",
-                                  "Glossa Ordinaria on Obadiah", "Glossa Ordinaria on Jonah"]),
+                                  "Glossa Ordinaria on Obadiah", "Glossa Ordinaria on Jonah",
+                                  "Glossa Ordinaria on Micah"]),
         ("Byzantine", [
             ("Cosmas Indicopleustes", ["The Christian Topography"]),
             ("Photius of Constantinople", ["Bibliotheca (Codices 1-165)"]),
