@@ -68,7 +68,18 @@ CHECKED = {("Hosea", "7", "7", "They were all heated like an oven"), ("Hosea", "
            ("Zechariah", "13", "8", "shall be scattered, and shall perish"),
            ("Zechariah", "14", "8", "And it shall come to pass in that day"),
            ("Malachi", "2", "12", "The Lord will cut off the man that hath done this"),
-           ("Ruth", "2", "2", "that escape the hands of the reapers")}
+           ("Ruth", "2", "2", "that escape the hands of the reapers"),
+           # the Song: the DR's words differ from the KJV's where its verses split differently
+           ("Song of Solomon", "1", "4", "to the odour of thy ointments"),
+           ("Song of Solomon", "1", "11", "chains of gold"),
+           ("Song of Solomon", "2", "10", "Behold my beloved"),
+           ("Song of Solomon", "3", "4", "and I will not let him go, till I bring"),
+           ("Song of Solomon", "5", "1", "with my aromatical spices"),
+           ("Song of Solomon", "6", "1", "thy beloved, O thou most beautiful"),
+           ("Song of Solomon", "7", "8", "and the odour of thy mouth"),
+           # speaker labels for the next verse, hung on the last words of the one before
+           ("Song of Solomon", "3", "6", "till she please"),
+           ("Song of Solomon", "8", "14", "make me hear thy voice")}
 
 
 def _words(s):
@@ -207,6 +218,17 @@ def test_ruth_whole():
     assert "Rabanus" in ruth["1"]["1"] and "whither" not in ruth["1"]["1"]
     assert "whithersoever thou shalt go, I will go" in ruth["1"]["16"]
     assert "ten generations" in ruth["4"]["22"]
+
+
+def test_song_on_the_kjvs_numbering():
+    """The KJV's Song 1:1 is the title, so the Vulgate's chapter 1 and 6 are one verse behind; its 5:17 is the KJV's
+    6:1, and its 5:1 and 7:1 begin with the ends of the KJV's 4:16 and 6:13."""
+    song = DATA["books"]["Glossa Ordinaria on Song of Solomon"]
+    assert sorted(song, key=int) == [str(c) for c in range(1, 9)] and "1" not in song["1"] and "17" not in song["5"]
+    assert "**“Let him kiss me”**" in song["1"]["2"]
+    assert "**“Let my beloved come”**" in song["4"]["16"] and "Let my beloved come" not in song["5"]["1"]
+    assert "**“Whither is … gone”**" in song["6"]["1"] and "13" in song["6"]
+    assert "Flee away, O my beloved" in song["8"]["14"]
 
 
 def test_every_gloss_in_english_and_clean():

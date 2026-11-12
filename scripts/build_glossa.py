@@ -23,7 +23,7 @@ LATIN = Path(__file__).resolve().parent / ".cache" / "glossa"
 ENGLISH = Path(__file__).resolve().parent / "glossa" / "english"
 LEMMAS = Path(__file__).resolve().parent / "glossa" / "lemmas"
 OUT = ROOT / "data" / "patristics" / "glossa_ordinaria.json"
-BOOKS = {"10": "Ruth", "40": "Hosea", "41": "Joel", "42": "Amos", "43": "Obadiah", "44": "Jonah", "45": "Micah", "46": "Nahum", "47": "Habakkuk", "48": "Zephaniah", "49": "Haggai", "50": "Zechariah", "51": "Malachi"}  # Gloss-e's numbers -> the KJV's names (the books translated so far)
+BOOKS = {"10": "Ruth", "30": "Song of Solomon", "40": "Hosea", "41": "Joel", "42": "Amos", "43": "Obadiah", "44": "Jonah", "45": "Micah", "46": "Nahum", "47": "Habakkuk", "48": "Zephaniah", "49": "Haggai", "50": "Zechariah", "51": "Malachi"}  # Gloss-e's numbers -> the KJV's names (the books translated so far)
 LABELS = {"[allegorically]": "Allegorically", "[the moral sense]": "In the moral sense", "[Jerome]": "Jerome",
           "[Haimo]": "Haimo", "[Gregory]": "Gregory"}
 
@@ -69,17 +69,35 @@ def haggai(c: int, v: int) -> tuple:
     return c, v
 
 
-VERSIFICATION = {"Hosea": hosea, "Amos": amos, "Jonah": jonah, "Micah": micah, "Haggai": haggai}
+def song(c: int, v: int) -> tuple:
+    """The KJV's Song 1:1 is the title, so the Vulgate's 1:n is its 1:n+1; the Vulgate's 5:17 is its 6:1, and the
+    Vulgate's 6:n its 6:n+1."""
+    if c == 1:
+        return 1, v + 1
+    if c == 5 and v == 17:
+        return 6, 1
+    if c == 6:
+        return 6, v + 1
+    return c, v
+
+
+VERSIFICATION = {"Hosea": hosea, "Amos": amos, "Jonah": jonah, "Micah": micah, "Haggai": haggai,
+                 "Song of Solomon": song}
 
 # Where a Vulgate verse straddles two of the KJV's, the glosses on the words the KJV puts in the other verse go there
 # (gloss id -> KJV chapter and verse). Hosea 6:1 begins with the end of KJV 5:15 ("In their affliction they will rise
 # early to me"), and Hosea 11:1 with the end of KJV 10:15 ("As the morning passeth, so hath the king of Israel passed
 # away"); two long notes filed under those words are about another verse.
 MOVES = {
-    "49_marg3426": (2, 23),
+    "49_marg3426": (2, 23),     # Haggai: "and will make thee as a signet", on the Vulgate's 2:24, filed under 2:23
     "50_marg3491": (5, 5), "50_marg3492": (5, 5),   # Zechariah: the angel's going forth and "lift up thy eyes", filed under 5:7
-    "50_marg3493": (5, 6),
-    "51_interl7280": (3, 13), "51_interl7281": (3, 13),   # Malachi: "What have we spoken against thee?" ends the KJV's 3:13      # "This is the vessel", filed under 5:8     # Haggai: "and will make thee as a signet", on the Vulgate's 2:24, filed under 2:23
+    "50_marg3493": (5, 6),      # "This is the vessel", filed under 5:8
+    "51_interl7280": (3, 13), "51_interl7281": (3, 13),   # Malachi: "What have we spoken against thee?" ends the KJV's 3:13
+    # Song of Songs: the Vulgate's 5:1 begins with the KJV's 4:16b ("Let my beloved come into his garden"), its 7:1
+    # with the KJV's 6:13b ("What shalt thou see in the Sulamitess")
+    **{f"30_{g}": (4, 16) for g in ("marg1124", "marg1125", "interl2905", "interl2906", "interl2907", "interl2908",
+                                    "interl2909", "marg1126", "interl2910", "interl2911", "interl2912", "interl2913")},
+    **{f"30_{g}": (6, 13) for g in ("interl3129", "interl3130", "interl3131", "marg1216", "marg1217")},
     **{f"40_{g}": (5, 15) for g in ("interl3821", "marg2339", "interl3822", "interl3823", "interl3824", "interl3825")},
     "40_marg2340": (6, 2), "40_marg2341": (6, 2),
     **{f"40_{g}": (10, 15) for g in ("interl4129", "marg2449", "marg2450", "interl4130", "interl4131", "interl4132")},
