@@ -1,95 +1,128 @@
-"""Build data/drb.json, the Douay-Rheims Bible (Challoner; the 1899 American printing), from eBible.org's edition
-(engDRA, USFM): https://ebible.org/find/show.php?id=engDRA
+"""Build data/drb.json, the Douay-Rheims Bible (Challoner; the 1899 John Murphy printing), from drbo.org (Douay-Rheims
+Bible Online, https://www.drbo.org/about.htm), whose text was typed from a hardcopy of that printing.
 
-eBible's text is maintained and numbers the verses as the Vulgate does, which is how the bot keys the Douay-Rheims
-(Psalm 22 is "The Lord ruleth me"; a psalm's title is part of its verse 1). It replaced (2026-11-12) a file pieced
-together from Project Gutenberg's ebook 8300 and an older file of unknown origin, which had lost chapters, run seven
-last verses into the verse before, and had typos ("Jones" for Jonas, "Abrabam", "oountenance").
+drbo.org numbers the verses as the Vulgate does, which is how the bot keys the Douay-Rheims (Psalm 22 is "The Lord
+ruleth me"; a psalm's title is part of its verse 1). It replaced (2026-11-12) eBible.org's engDRA, a scan of the same
+printing with hundreds of slips ("offer leaves" for loaves, "the Lard", "Israel Israel was a child"), which had
+itself replaced a file pieced together from Project Gutenberg's ebook 8300 and an older file of unknown origin.
 
-eBible's text is a scan, with its own slips ("offer leaves" for loaves, "the Lard", "torrent Amen" for Arnon, "and and",
-"Israel Israel was a child" for "Israel passed away. Because Israel was a child", twelve psalm titles left out). Those
-are corrected from scripts/drb_fixes.json ({"Osee 11:1": [[eBible's words, the right words], ...]}), applied after
-parsing; each pair's first half must occur exactly once in eBible's verse, so a fix that no longer fits (eBible
-corrected its file) stops the build instead of going astray. The list (2026-11-12) holds the readings where Project
-Gutenberg's ebook 8300 and data/EntireBible-DR.json, transcriptions independent of eBible's scan, agree with each
-other against eBible; where only Gutenberg differs, the cases where eBible's word is a non-word ("hanks", "Stait") or
-breaks the grammar ("thou has"); and hand fixes from a scan for doubled words. Left as eBible has them: spelling
-(skillful, tunick, Nephtali, gray), Psalm 118's Hebrew letters, and Josue 7:1's "anathema".
+drbo.org's typing slips ("Amen" for Amon, "the sills of" for sins, "Machir beget Galaad", "and and") are corrected
+from scripts/drb_fixes.json, {"Book c:v": [[wrong, right], ...]}: only readings Project Gutenberg's ebook 8300 and
+EntireBible-DR.json agree on, and only where drbo.org's word is plainly a slip (a wrong name, a non-word, a dropped or
+doubled word); where it's a grammatical reading of its own (drbo.org's "Palestines", "to hell") it's left alone. Each
+fix's first half must occur exactly once in its verse, so a fix that no longer fits stops the build instead of going
+astray. TITLES restores psalm titles drbo.org leaves out (Psalms 123-133's "A gradual canticle").
 
-    python scripts/build_drb.py        # downloads the USFM zip into scripts/.cache/douay/ if it isn't there
+    python scripts/build_drb.py        # downloads the chapter pages into scripts/.cache/douay/drbo/ if not there
 """
-import io
+import html
 import json
 import re
 import sys
+import time
 import urllib.request
-import zipfile
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parent.parent
-CACHE = ROOT / "scripts" / ".cache" / "douay" / "engDRA_usfm.zip"
-URL = "https://ebible.org/Scriptures/engDRA_usfm.zip"
+CACHE = ROOT / "scripts" / ".cache" / "douay" / "drbo"
+SITE = "https://www.drbo.org/chapter/"
 OUT = ROOT / "data" / "drb.json"
-FIXES = ROOT / "scripts" / "drb_fixes.json"
 
-# USFM book codes -> the book names drb.json uses (scripture_lookup._KJV_TO_DR maps onto these), in the Douay's order
-BOOKS = {
-    "GEN": "Genesis", "EXO": "Exodus", "LEV": "Leviticus", "NUM": "Numbers", "DEU": "Deuteronomy", "JOS": "Josue",
-    "JDG": "Judges", "RUT": "Ruth", "1SA": "1 Kings", "2SA": "2 Kings", "1KI": "3 Kings", "2KI": "4 Kings",
-    "1CH": "1 Paralipomenon", "2CH": "2 Paralipomenon", "EZR": "1 Esdras", "NEH": "2 Esdras", "TOB": "Tobias",
-    "JDT": "Judith", "EST": "Esther", "JOB": "Job", "PSA": "Psalms", "PRO": "Proverbs", "ECC": "Ecclesiastes",
-    "SNG": "Canticles", "WIS": "Wisdom", "SIR": "Ecclesiasticus", "ISA": "Isaias", "JER": "Jeremias",
-    "LAM": "Lamentations", "BAR": "Baruch", "EZK": "Ezechiel", "DAN": "Daniel", "HOS": "Osee", "JOL": "Joel",
-    "AMO": "Amos", "OBA": "Abdias", "JON": "Jonas", "MIC": "Micheas", "NAM": "Nahum", "HAB": "Habacuc",
-    "ZEP": "Sophonias", "HAG": "Aggeus", "ZEC": "Zacharias", "MAL": "Malachias", "1MA": "1 Machabees",
-    "2MA": "2 Machabees", "MAT": "Matthew", "MRK": "Mark", "LUK": "Luke", "JHN": "John", "ACT": "Acts",
-    "ROM": "Romans", "1CO": "1 Corinthians", "2CO": "2 Corinthians", "GAL": "Galatians", "EPH": "Ephesians",
-    "PHP": "Philippians", "COL": "Colossians", "1TH": "1 Thessalonians", "2TH": "2 Thessalonians",
-    "1TI": "1 Timothy", "2TI": "2 Timothy", "TIT": "Titus", "PHM": "Philemon", "HEB": "Hebrews", "JAS": "James",
-    "1PE": "1 Peter", "2PE": "2 Peter", "1JN": "1 John", "2JN": "2 John", "3JN": "3 John", "JUD": "Jude",
-    "REV": "Apocalypse",
-}
-HEADINGS = re.compile(r"\\(?:id|h|toc\d|mt\d?|cl|ms\d?|s\d?|d)\b")
-
-
-def load() -> dict:
-    """{book code: USFM text}"""
-    if not CACHE.exists():
-        CACHE.parent.mkdir(parents=True, exist_ok=True)
-        urllib.request.urlretrieve(URL, CACHE)
-    out = {}
-    with zipfile.ZipFile(io.BytesIO(CACHE.read_bytes())) as z:
-        for name in z.namelist():
-            m = re.match(r"\d+-(\w+?)engDRA\.usfm$", name)
-            if m:
-                out[m.group(1)] = z.read(name).decode("utf-8-sig")
-    return out
+# drbo.org's book numbers (1-73, the Douay's order) -> the book names drb.json uses
+BOOKS = ["Genesis", "Exodus", "Leviticus", "Numbers", "Deuteronomy", "Josue", "Judges", "Ruth", "1 Kings", "2 Kings",
+         "3 Kings", "4 Kings", "1 Paralipomenon", "2 Paralipomenon", "1 Esdras", "2 Esdras", "Tobias", "Judith",
+         "Esther", "Job", "Psalms", "Proverbs", "Ecclesiastes", "Canticles", "Wisdom", "Ecclesiasticus", "Isaias",
+         "Jeremias", "Lamentations", "Baruch", "Ezechiel", "Daniel", "Osee", "Joel", "Amos", "Abdias", "Jonas",
+         "Micheas", "Nahum", "Habacuc", "Sophonias", "Aggeus", "Zacharias", "Malachias", "1 Machabees", "2 Machabees",
+         "Matthew", "Mark", "Luke", "John", "Acts", "Romans", "1 Corinthians", "2 Corinthians", "Galatians",
+         "Ephesians", "Philippians", "Colossians", "1 Thessalonians", "2 Thessalonians", "1 Timothy", "2 Timothy",
+         "Titus", "Philemon", "Hebrews", "James", "1 Peter", "2 Peter", "1 John", "2 John", "3 John", "Jude",
+         "Apocalypse"]
+FIXES = json.loads((ROOT / "scripts" / "drb_fixes.json").read_text(encoding="utf-8"))
+# Psalm titles drbo.org leaves out (it shows a summary of the psalm instead), as Gutenberg's ebook 8300 has them
+TITLES = {"109": "A psalm for David.", "123": "A gradual canticle.", "124": "A gradual canticle.",
+          "125": "A gradual canticle.", "126": "A gradual canticle of Solomon.", "127": "A gradual canticle.",
+          "128": "A gradual canticle.", "129": "A gradual canticle.", "130": "A gradual canticle of David.",
+          "131": "A gradual canticle.", "132": "A gradual canticle of David.", "133": "A gradual canticle.",
+          "134": "Alleluia.", "135": "Alleluia.", "137": "For David himself.", "138": "Unto the end, a psalm of David.",
+          "142": "A psalm of David, when his son Absalom pursued him.", "144": "Praise, for David himself.",
+          "146": "Alleluia."}
+UA = {"User-Agent": "Mozilla/5.0 (ScriptureBot; building a local copy of the Douay-Rheims)"}
 
 
-def parse(usfm: str) -> dict:
-    """{chapter: {verse: text}}"""
-    usfm = re.sub(r"\\f .*?\\f\*|\\x .*?\\x\*", "", usfm, flags=re.S)            # (it has no notes, but in case)
-    usfm = re.sub(r"\\\+?w ([^|\\]*)\|[^\\]*\\\+?w\*", r"\1", usfm)              # \w word|strong="H1234"\w*
-    book, chapter, verse = {}, None, None
-    for line in usfm.splitlines():
-        if m := re.match(r"\\c (\d+)", line):
-            chapter, verse = book.setdefault(m.group(1), {}), None
-        elif m := re.match(r"\\v (\d+)\S*\s?(.*)", line):
-            verse = m.group(1)
-            if verse in chapter:
-                raise SystemExit(f"duplicate verse {verse}")
-            chapter[verse] = m.group(2)
-        elif verse and not HEADINGS.match(line):
-            chapter[verse] += " " + re.sub(r"^\\\w+\s*", "", line)               # \q1 / \p: a new line, same verse
-    for verses in book.values():
-        for v, text in verses.items():
-            verses[v] = re.sub(r"\s+", " ", re.sub(r"\\\+?\w+\*?", "", text)).strip()
-    return book
+def page(name: str) -> str:
+    f = CACHE / name
+    if not f.exists():
+        CACHE.mkdir(parents=True, exist_ok=True)
+        req = urllib.request.Request(SITE + name, headers=UA)
+        f.write_bytes(urllib.request.urlopen(req, timeout=60).read())
+        time.sleep(0.3)
+    return f.read_text(encoding="latin-1" if b"charset=iso-8859-1" in f.read_bytes()[:2000].lower() else "utf-8")
+
+
+def chapters():
+    """(book number, chapter, page) for every chapter; a book's chapters are the chapter-number links on its first."""
+    for b in range(1, len(BOOKS) + 1):
+        first = page(f"{b:02d}001.htm")
+        last = max([1] + [int(c) for c in re.findall(rf'class=chapnum href="{b:02d}(\d{{3}})\.htm"', first)])
+        for c in range(1, last + 1):
+            yield b, c, first if c == 1 else page(f"{b:02d}{c:03d}.htm")
+
+
+def parse(text: str) -> dict:
+    """{verse: text} from a chapter page (the verse anchors run '<a class=vn ...>&nbsp;N&nbsp;</a>text')."""
+    body = text[text.index("class=textarea"):]
+    body = body[:body.index("</td>")]
+    body = re.sub(r"<p class=note>.*?</p>", "", body, flags=re.S)             # Challoner's notes, after the text
+    body = re.sub(r"<p class=k999>.*?</p>", "", body, flags=re.S)             # "Hebrews Psalm 10": the Hebrew numbering
+    # Psalm 118's Hebrew letters head their stanzas: "BETH. By what doth a young man correct his way?"
+    body = re.sub(r"<p class=k888>([^<]+)</p>\s*<p>\s*(<a class=vn [^>]*>&nbsp;\d+&nbsp;</a>)", r"\2\1. ", body)
+    parts = re.split(r'<a class=vn [^>]*>&nbsp;(\d+)&nbsp;</a>', body)
+    verses = {}
+    for v, raw in zip(parts[1::2], parts[2::2]):
+        t = html.unescape(re.sub(r"<[^>]+>", "", raw))
+        t = re.sub(r"\s+", " ", t).strip().replace("'", "’")
+        if v in verses:
+            raise SystemExit(f"duplicate verse {v}")
+        verses[v] = t
+    return verses
+
+
+def renumber(bible: dict) -> None:
+    """drbo.org numbers Psalm 9's second half (the Hebrew Psalm 10) 101-118, and Psalms 115 and 147 (which the Hebrew
+    joins to the psalm before) from 10 and 12; the bot numbers them on, 9:22-39, 115:1-10 and 147:1-9."""
+    ps = bible["Psalms"]
+    ps["9"] = {str(int(v) - 79 if int(v) > 100 else int(v)): t for v, t in ps["9"].items()}
+    for c in ("115", "147"):
+        first = min(int(v) for v in ps[c])
+        ps[c] = {str(int(v) - first + 1): t for v, t in ps[c].items()}
+
+
+# Seven chapters whose last verse drbo.org runs into the one before (as the old file did): where it begins
+SPLITS = {"Genesis 5": "And Noe, when he was five hundred years old", "2 Kings 13": "And king David ceased to pursue",
+          "Psalms 28": "The Lord will give strength to his people", "Psalms 150": "let every spirit praise the Lord",
+          "Amos 9": "And I will plant them upon their own land", "John 11": "And the chief priests and Pharisees had",
+          "2 Corinthians 1": "not because we exercise dominion"}
+
+
+def split(bible: dict) -> None:
+    for ref, start in SPLITS.items():
+        book, c = ref.rsplit(" ", 1)
+        verses = bible[book][c]
+        last = str(len(verses))
+        text = verses[last]
+        if text.count(start) != 1:
+            raise SystemExit(f"{ref}: {start!r} found {text.count(start)} times in its last verse")
+        i = text.index(start)
+        verses[last], verses[str(len(verses) + 1)] = text[:i].rstrip(), text[i:]
 
 
 def correct(bible: dict) -> None:
-    """Apply scripts/drb_fixes.json to eBible's text; stop if a fix no longer matches."""
-    for ref, edits in json.loads(FIXES.read_text(encoding="utf-8")).items():
+    for c, title in TITLES.items():
+        if bible["Psalms"][c]["1"].startswith(title):
+            raise SystemExit(f"Psalm {c} has its title already")
+        bible["Psalms"][c]["1"] = f"{title} {bible['Psalms'][c]['1']}"
+    for ref, edits in FIXES.items():
         book, cv = ref.rsplit(" ", 1)
         c, v = cv.split(":")
         text = bible[book][c][v]
@@ -103,10 +136,10 @@ def correct(bible: dict) -> None:
 def check(bible: dict) -> list[str]:
     """Every book's chapters and verses run 1..n with no gaps, and no verse is empty."""
     problems = []
-    for book, chapters in bible.items():
-        if sorted(int(c) for c in chapters) != list(range(1, len(chapters) + 1)):
-            problems.append(f"{book}: chapters {sorted(chapters, key=int)}")
-        for c, verses in chapters.items():
+    for book, chapters_ in bible.items():
+        if sorted(int(c) for c in chapters_) != list(range(1, len(chapters_) + 1)):
+            problems.append(f"{book}: chapters {sorted(chapters_, key=int)}")
+        for c, verses in chapters_.items():
             if sorted(int(v) for v in verses) != list(range(1, len(verses) + 1)):
                 problems.append(f"{book} {c}: verses {sorted(verses, key=int)[:5]}... ({len(verses)})")
             problems += [f"{book} {c}:{v} is empty" for v, t in verses.items() if not t]
@@ -114,15 +147,12 @@ def check(bible: dict) -> list[str]:
 
 
 def main() -> None:
-    usfm = load()
-    missing = set(BOOKS) - set(usfm)
-    if missing:
-        raise SystemExit(f"not in the download: {sorted(missing)}")
-    bible = {name: parse(usfm[code]) for code, name in BOOKS.items()}
+    bible = {name: {} for name in BOOKS}
+    for b, c, text in chapters():
+        bible[BOOKS[b - 1]][str(c)] = parse(text)
+    renumber(bible)
+    split(bible)
     correct(bible)
-    for book, chapters in bible.items():  # chapters and verses in numeric order
-        bible[book] = {c: dict(sorted(v.items(), key=lambda kv: int(kv[0])))
-                       for c, v in sorted(chapters.items(), key=lambda kv: int(kv[0]))}
     problems = check(bible)
     if problems:
         print("\n".join(problems))

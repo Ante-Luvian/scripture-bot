@@ -543,12 +543,14 @@ cite "held to be forged c. 1911". The real scripture, the oral qewls, has no pub
   test_every_note_under_the_kjv_verse_it_explains` compares every phrase heading with the KJV verse it sits under and
   that verse's neighbours; Vulgate verses that straddle two KJV verses need `MOVES` (gloss id -> KJV verse), not just
   `VERSIFICATION`. Hand-checked false alarms (DR vs KJV wording) go in its `CHECKED`.
-- data/drb.json is built entirely from eBible.org's Douay-Rheims (engDRA USFM, Vulgate numbering;
-  `scripts/build_drb.py`), since 2026-11-12. The old Gutenberg/unknown-origin file had lost verses and hundreds of
-  typos. The owner was angry that I first only patched it from eBible: when told to change a source, switch wholesale.
-  eBible's own scanning slips ARE fixed (owner: "fix errors you find in ebible"): scripts/drb_fixes.json, ~970 verses,
-  each checked against Gutenberg 8300 (scripts/.cache/douay/pg8300.txt) and EntireBible-DR.json; how the list was made
-  is in build_drb.py's docstring. Add new finds there, verified the same way, not from memory.
+- data/drb.json is built entirely from drbo.org (typed from the 1899 Murphy printing, Vulgate numbering;
+  `scripts/build_drb.py`, pages cached in scripts/.cache/douay/drbo/), since 2026-11-12. Before that, the same day, it
+  was eBible.org's engDRA, a scan with hundreds of slips ("offer leaves"); before that a Gutenberg/unknown-origin file
+  with lost verses. The owner was angry that I first only patched the old file: when told to change a source, switch
+  wholesale. drbo.org's own slips ARE fixed (owner: "fix errors you find"): scripts/drb_fixes.json (~215 verses),
+  only where Gutenberg 8300 (scripts/.cache/douay/pg8300.txt) and EntireBible-DR.json agree AND drbo's word is plainly
+  a slip (wrong name, non-word, dropped/doubled word, "beget" for begot); grammatical readings of drbo's own stay.
+  Psalm titles drbo omits are build_drb.py's TITLES. Add new finds the same way, not from memory.
 - Done: Hosea (40), Joel (41), Amos (42), Obadiah (43), Jonah (44), Micah (45), Nahum (46), Habakkuk (47). Order agreed: the minor prophets, then (owner, 2026-11-12) the
   Five Megillot, smallest first; then Isaiah, Jeremiah, Ezekiel, Daniel; Joshua-Esther; the Pentateuch; wisdom and
   Apocrypha. ~1,000 Latin words a chapter (Jonah: 4,121 words, 195 glosses).
