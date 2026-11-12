@@ -267,7 +267,10 @@ async def hour_pages(hour: str, day: datetime.date, rubrics: str = "da") -> "tup
     if key not in _CACHE:
         if len(_CACHE) > 64:
             _CACHE.clear()
-        name, sections = parse_hour(await run(hour, day, rubrics))
+        page = await run(hour, day, rubrics)
+        # (in a thread: the first english_titles() reads every feast's Latin and English file, which once blocked
+        # the bot past Discord's 10-second heartbeat)
+        name, sections = await asyncio.to_thread(parse_hour, page)
         _CACHE[key] = (name, pages_of(sections))
         _SUMMARY[key] = summary_of(sections)
     return _CACHE[key]
