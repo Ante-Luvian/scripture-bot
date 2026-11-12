@@ -6,6 +6,16 @@ eBible's text is maintained and numbers the verses as the Vulgate does, which is
 together from Project Gutenberg's ebook 8300 and an older file of unknown origin, which had lost chapters, run seven
 last verses into the verse before, and had typos ("Jones" for Jonas, "Abrabam", "oountenance").
 
+eBible's text is a scan, with its own slips ("offer leaves" for loaves, "the Lard", "torrent Amen" for Arnon, "and and",
+"Israel Israel was a child" for "Israel passed away. Because Israel was a child", twelve psalm titles left out). Those
+are corrected from scripts/drb_fixes.json ({"Osee 11:1": [[eBible's words, the right words], ...]}), applied after
+parsing; each pair's first half must occur exactly once in eBible's verse, so a fix that no longer fits (eBible
+corrected its file) stops the build instead of going astray. The list (2026-11-12) holds the readings where Project
+Gutenberg's ebook 8300 and data/EntireBible-DR.json, transcriptions independent of eBible's scan, agree with each
+other against eBible; where only Gutenberg differs, the cases where eBible's word is a non-word ("hanks", "Stait") or
+breaks the grammar ("thou has"); and hand fixes from a scan for doubled words. Left as eBible has them: spelling
+(skillful, tunick, Nephtali, gray), Psalm 118's Hebrew letters, and Josue 7:1's "anathema".
+
     python scripts/build_drb.py        # downloads the USFM zip into scripts/.cache/douay/ if it isn't there
 """
 import io
@@ -20,6 +30,7 @@ ROOT = Path(__file__).resolve().parent.parent
 CACHE = ROOT / "scripts" / ".cache" / "douay" / "engDRA_usfm.zip"
 URL = "https://ebible.org/Scriptures/engDRA_usfm.zip"
 OUT = ROOT / "data" / "drb.json"
+FIXES = ROOT / "scripts" / "drb_fixes.json"
 
 # USFM book codes -> the book names drb.json uses (scripture_lookup._KJV_TO_DR maps onto these), in the Douay's order
 BOOKS = {
@@ -76,6 +87,19 @@ def parse(usfm: str) -> dict:
     return book
 
 
+def correct(bible: dict) -> None:
+    """Apply scripts/drb_fixes.json to eBible's text; stop if a fix no longer matches."""
+    for ref, edits in json.loads(FIXES.read_text(encoding="utf-8")).items():
+        book, cv = ref.rsplit(" ", 1)
+        c, v = cv.split(":")
+        text = bible[book][c][v]
+        for wrong, right in edits:
+            if text.count(wrong) != 1:
+                raise SystemExit(f"{ref}: {wrong!r} found {text.count(wrong)} times in {text!r}")
+            text = text.replace(wrong, right)
+        bible[book][c][v] = text
+
+
 def check(bible: dict) -> list[str]:
     """Every book's chapters and verses run 1..n with no gaps, and no verse is empty."""
     problems = []
@@ -95,6 +119,7 @@ def main() -> None:
     if missing:
         raise SystemExit(f"not in the download: {sorted(missing)}")
     bible = {name: parse(usfm[code]) for code, name in BOOKS.items()}
+    correct(bible)
     for book, chapters in bible.items():  # chapters and verses in numeric order
         bible[book] = {c: dict(sorted(v.items(), key=lambda kv: int(kv[0])))
                        for c, v in sorted(chapters.items(), key=lambda kv: int(kv[0]))}

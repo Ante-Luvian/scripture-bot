@@ -22,6 +22,18 @@ def test_the_old_files_typos_are_gone():
     assert "Abraham" in DRB["Genesis"]["28"]["4"] and "countenance" in DRB["Genesis"]["40"]["7"]
 
 
+def test_ebibles_scanning_slips_are_corrected():
+    """scripts/drb_fixes.json, applied by build_drb.py: eBible had "offer leaves", "Israel Israel was a child",
+    "said me: Buy my held, which is in in the land", "and and", and no title on Psalm 129."""
+    assert "they shall offer loaves without leaven" in DRB["Leviticus"]["7"]["12"]
+    assert "king of Israel passed away. Because Israel was a child" in DRB["Osee"]["11"]["1"]
+    assert "said to me: Buy my field, which is in Anathoth in the land" in DRB["Jeremias"]["32"]["8"]
+    assert "a reproach: and they will not" in DRB["Jeremias"]["6"]["10"]
+    assert DRB["Psalms"]["129"]["1"].startswith("A gradual canticle. Out of the depths")
+    assert "torrent Arnon" in DRB["Deuteronomy"]["2"]["36"] and "comedown" not in DRB["Psalms"]["7"]["17"]
+    assert "of the anathema" in DRB["Josue"]["7"]["1"]                   # the Douay's own word, kept
+
+
 def test_last_verses_no_longer_run_on():
     assert DRB["Amos"]["9"]["15"].startswith("And I will plant them upon their own land")
     assert DRB["Amos"]["9"]["14"].endswith("eat the fruits of them.")
