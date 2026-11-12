@@ -527,6 +527,31 @@ Scrolls (gnosis.org/library/dss/dss.htm may help).
 the Zoroastrian shelf (a new tradition would be hidden on servers with a chosen list). Al-Jilwah and the Black Book
 cite "held to be forged c. 1911". The real scripture, the oral qewls, has no public-domain English.
 
+**The Glossa Ordinaria, translated by us (begun 2026-11-11; the owner's choice for the Old Testament's commentary gap):**
+- Workflow per book: `python scripts/fetch_glossa.py <NN>` (Gloss-e's book number; `fetch_glossa.py list`) puts the Latin
+  in `scripts/.cache/glossa/<NN>.json` (each verse's glosses: id, marg/interl, lemma, latin). Translate every gloss into
+  `scripts/glossa/english/<NN>.json` ({id: English}; plain, faithful, keeping the Glossa's terseness; quotations of
+  Scripture in KJV/Douay wording) and every distinct lemma into `scripts/glossa/lemmas/<NN>.json` ({Latin: English},
+  Douay-Rheims wording; the label lemmas ALLEGORICE/TROPOLOGIAM/HIERONYMUS map to "[allegorically]" etc.). Those two are
+  OUR WORK, the only copy: in git. Then add the book to `BOOKS` and its Vulgate->KJV verse differences to
+  `VERSIFICATION` in `scripts/build_glossa.py`, run it, `clean_corpora.py`, `build_catena_index.py`, add aliases
+  ("glossa <book>") and the shelf entry, test, changelog, ship.
+- Done: Jonah (44). Order agreed: the minor prophets, Isaiah, Jeremiah, Ezekiel, Daniel; then Joshua-Esther; the
+  Pentateuch; wisdom and Apocrypha. ~1,000 Latin words a chapter (Jonah: 4,121 words, 195 glosses).
+- Jerome's prologues (`Prol` chapters) are skipped for now: their page layout differs.
+
+**📖 Commentary under Bible verses (2026-11-11):** `bot_commands/bible_commentary.py` from `data/catena_index.json`
+(`scripts/build_catena_index.py`: the Catena Aurea; commentaries linked by bracketed refs, by the verse they quote
+(`lemmas()`), Recapitulation headings, the Breviary's homilies, the Glossa; Augustine's and Gregory's Latin psalm
+numbering found by testing and renumbered). `!catena` is the same, from the library: catenabible.com, which only
+answered a request disguised as a browser, is no longer used anywhere. Weak spots: Acts (13%), the OT outside the
+Psalms (until the Glossa). Chrysostom's homilies are in the library twice (deduped in the menu, not in the data).
+
+**!office (2026-11-11):** Divinum Officium's own Perl engine, a clone in `vendor/divinum-officium` (gitignored; a
+Sunday 04:00 scheduled task under the owner's account pulls it), run by `C:\Strawberry\perl\bin\perl.exe`. Rubrics
+words (1570, 1910, 1954 default, 1955, 1960, monastic). `!daily office` posts each hour at its traditional time in the
+server's zone, as a card with 📖 Pray. The Breviary readings book (`build_breviary.py`) is from the same project.
+
 ---
 
 ## 7. Where things are
