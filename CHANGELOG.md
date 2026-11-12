@@ -14,6 +14,10 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-11-12 · The Douay-Rheims Bible repaired
+- 📖 **The Douay-Rheims Bible was missing whole chapters, and has been rebuilt.** The Douay-Rheims is the classic Catholic English Bible, translated from the Latin Vulgate; you get it by adding `drb` to a reference. In 25 books some chapters were lost or numbered wrongly: Hosea (called Osee in the Douay) stopped at chapter 11, and asking for Hosea 6 gave you the end of chapter 5. Amos, Zechariah, Ezekiel, Proverbs, Judith, Esther and others had the same fault. About a thousand verses were missing in all. Every book is now complete, from Project Gutenberg's edition of Bishop Challoner's text. Try `!verse Hosea 6:6 drb`, "I desired mercy, and not sacrifice".
+- 📖 **Short book names now work with the Douay-Rheims too.** `!verse Ps 22:1 drb` or `!verse Psalm 50:3 drb` used to say "Book not found in the Douay-Rheims Bible"; only the full name worked. Abbreviations like `Ps`, `Hos`, `Sir` or `1 Sam` work now, as they always have for the King James.
+
 ## 2026-11-11 · The Glossa Ordinaria begins: Jonah
 - 📜 **The *Glossa Ordinaria***, the great commentary of the medieval Church, is coming to the library in English, starting with **Jonah**. In the Middle Ages almost every Bible was copied with the Glossa around it: short notes between the lines and longer ones in the margins, drawn from the Church Fathers, explaining the words, their meaning for Christ and the Church, and their lesson for the soul. It covers every book of the Bible, so it will bring commentary to the many Old Testament books the library had little or nothing on. It has never been translated into English as a whole. This translation was made for ScriptureBot from the Latin of the first printed edition (Strasbourg, 1480), in Martin Morard's modern edition.
 - Press **📖 Commentary** under any verse of Jonah to read it, or browse `!books Glossa Ordinaria on Jonah`. Try `!verse Jonah 1:17`, the great fish. More books will follow.

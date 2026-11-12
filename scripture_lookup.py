@@ -4968,6 +4968,13 @@ def get_verse_drb(reference: str) -> dict:
             if key == drb_name.lower():
                 dr_book = drb_name
                 break
+    if dr_book is None:
+        # The usual abbreviations and singulars ("Ps", "Psalm", "Hos", "Sir"), via the KJV book names
+        canon = ALIASES.get(key)
+        if canon:
+            dr_book = (_KJV_TO_DR.get(canon)
+                       or {"Sirach": "Ecclesiasticus", "Wisdom of Solomon": "Wisdom"}.get(canon)
+                       or (canon if canon in data else None))
 
     if dr_book is None:
         # Special case: KJV 1/2 Esdras are NOT in DR
