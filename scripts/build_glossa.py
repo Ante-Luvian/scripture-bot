@@ -23,7 +23,7 @@ LATIN = Path(__file__).resolve().parent / ".cache" / "glossa"
 ENGLISH = Path(__file__).resolve().parent / "glossa" / "english"
 LEMMAS = Path(__file__).resolve().parent / "glossa" / "lemmas"
 OUT = ROOT / "data" / "patristics" / "glossa_ordinaria.json"
-BOOKS = {"40": "Hosea", "41": "Joel", "42": "Amos", "43": "Obadiah", "44": "Jonah", "45": "Micah", "46": "Nahum", "47": "Habakkuk"}  # Gloss-e's numbers -> the KJV's names (the books translated so far)
+BOOKS = {"40": "Hosea", "41": "Joel", "42": "Amos", "43": "Obadiah", "44": "Jonah", "45": "Micah", "46": "Nahum", "47": "Habakkuk", "48": "Zephaniah"}  # Gloss-e's numbers -> the KJV's names (the books translated so far)
 LABELS = {"[allegorically]": "Allegorically", "[the moral sense]": "In the moral sense", "[Jerome]": "Jerome",
           "[Haimo]": "Haimo", "[Gregory]": "Gregory"}
 
@@ -103,10 +103,11 @@ WORDS = {"40_marg2340": "He will revive us after two days: on the third day he w
          "47_interl6055": "and holdest thy peace", "47_interl6056": "and holdest thy peace",
          "47_interl6057": "when … treadeth down", "47_interl6058": "the wicked", "47_interl6059": "the wicked",
          "47_interl6060": "the man that is more just than himself?",
-         "47_interl6279": "Let rottenness enter into my bones"}   # (a "but" the edition files under no words)
+         "47_interl6279": "Let rottenness enter into my bones",   # (a "but" the edition files under no words)
+         "48_interl6394": "Her princes are in the midst of her"}  # introduces 3:3, under 3:2's last words
 # ... and those of them that stay where the edition has them: a gloss only on a short word ("eius") that the book's
 # lemmas give in another verse's sense ("his" in Nahum 1:13, "her" in 3:10)
-IN_PLACE = {"46_interl6006", "47_interl6279"}
+IN_PLACE = {"46_interl6006", "47_interl6279", "48_interl6394"}
 
 
 def render(notes: list) -> str:

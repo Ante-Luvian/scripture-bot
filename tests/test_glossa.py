@@ -61,7 +61,8 @@ CHECKED = {("Hosea", "7", "7", "They were all heated like an oven"), ("Hosea", "
            ("Amos", "6", "1", "ye great men, heads of the people"), ("Obadiah", "1", "13", "Neither shalt thou enter"),
            ("Micah", "7", "14", "according to the days of old"),
            ("Habakkuk", "2", "6", "and it shall be said: Woe to him that heapeth together that which is not his own"),
-           ("Habakkuk", "2", "19", "there is no … in the bowels thereof")}
+           ("Habakkuk", "2", "19", "there is no … in the bowels thereof"),
+           ("Zephaniah", "3", "19", "and I will get them praise, and a name")}
 
 
 def _words(s):
@@ -151,6 +152,16 @@ def test_habakkuk_doublet_glosses_under_1_13_and_14():
     assert hab["1"]["13"].index("Thy eyes are too pure") < hab["1"]["13"].index("Why lookest thou upon the despisers")
     assert "Boethius" in hab["1"]["14"]
     assert "**“Let rottenness enter into my bones”**\n• but" in hab["3"]["16"]
+
+
+def test_zephaniah_whole():
+    """Zephaniah numbers alike in the Vulgate and the KJV; the gloss that opens 3:3 (filed under 3:2's last words)
+    heads 3:3's notes."""
+    zeph = DATA["books"]["Glossa Ordinaria on Zephaniah"]
+    assert sorted(zeph, key=int) == ["1", "2", "3"] and "20" in zeph["3"]
+    assert zeph["3"]["3"].startswith("**“Her princes are in the midst of her”**\n• After the general rebuke")
+    assert "drew not near" not in zeph["3"]["3"]
+    assert "Chusi" in zeph["1"]["1"]
 
 
 def test_every_gloss_in_english_and_clean():
