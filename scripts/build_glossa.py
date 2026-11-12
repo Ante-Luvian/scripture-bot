@@ -275,6 +275,8 @@ def main():
         for c, verses in latin["chapters"].items():
             for v, glosses in verses.items():
                 for g in glosses:
+                    if not g["latin"].strip():
+                        continue                    # blank in the edition (e.g. Sirach marg1883): nothing to translate
                     text = english.get(g["id"])
                     if not text:
                         missing.append(g["id"])
