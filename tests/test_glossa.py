@@ -88,6 +88,9 @@ CHECKED = {("Hosea", "7", "7", "They were all heated like an oven"), ("Hosea", "
            ("Lamentations", "3", "31", "he shall be filled with reproaches"),
            ("Lamentations", "3", "32", "Caph. For if he hath cast off"),
            ("Lamentations", "4", "4", "the little ones have asked"),
+           # Esther: the DR's wording differs from the KJV's
+           ("Esther", "8", "1", "king Assuerus gave"),
+           ("Esther", "9", "1", "and to revenge themselves"),
            # Ecclesiastes: the DR's wording differs from the KJV's
            ("Ecclesiastes", "1", "10", "Nothing under the sun is new"),
            ("Ecclesiastes", "1", "10", "neither is any man able to say"),
@@ -233,6 +236,14 @@ def test_ruth_whole():
     assert "Rabanus" in ruth["1"]["1"] and "whither" not in ruth["1"]["1"]
     assert "whithersoever thou shalt go, I will go" in ruth["1"]["16"]
     assert "ten generations" in ruth["4"]["22"]
+
+
+def test_esther_stops_before_the_additions():
+    """The Glossa's Esther ends at 10:3, so it needs no renumbering; the Vulgate's additions (10:4-16:24) have no notes."""
+    esther = DATA["books"]["Glossa Ordinaria on Esther"]
+    assert sorted(esther, key=int) == [str(c) for c in range(1, 11)]
+    assert max(esther["10"], key=int) == "3"
+    assert "golden sceptre" in esther["5"]["2"]
 
 
 def test_song_on_the_kjvs_numbering():
