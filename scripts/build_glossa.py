@@ -23,7 +23,7 @@ LATIN = Path(__file__).resolve().parent / ".cache" / "glossa"
 ENGLISH = Path(__file__).resolve().parent / "glossa" / "english"
 LEMMAS = Path(__file__).resolve().parent / "glossa" / "lemmas"
 OUT = ROOT / "data" / "patristics" / "glossa_ordinaria.json"
-BOOKS = {"10": "Ruth", "24": "Esther", "28": "Proverbs", "29": "Ecclesiastes", "30": "Song of Solomon", "31": "Wisdom of Solomon", "35": "Lamentations", "40": "Hosea", "41": "Joel", "42": "Amos", "43": "Obadiah", "44": "Jonah", "45": "Micah", "46": "Nahum", "47": "Habakkuk", "48": "Zephaniah", "49": "Haggai", "50": "Zechariah", "51": "Malachi"}  # Gloss-e's numbers -> the KJV's names (the books translated so far)
+BOOKS = {"10": "Ruth", "24": "Esther", "28": "Proverbs", "29": "Ecclesiastes", "30": "Song of Solomon", "31": "Wisdom of Solomon", "32": "Sirach", "35": "Lamentations", "40": "Hosea", "41": "Joel", "42": "Amos", "43": "Obadiah", "44": "Jonah", "45": "Micah", "46": "Nahum", "47": "Habakkuk", "48": "Zephaniah", "49": "Haggai", "50": "Zechariah", "51": "Malachi"}  # Gloss-e's numbers -> the KJV's names (the books translated so far)
 LABELS = {"[allegorically]": "Allegorically", "[the moral sense]": "In the moral sense", "[Jerome]": "Jerome",
           "[Haimo]": "Haimo", "[Gregory]": "Gregory", "[Paschasius]": "Paschasius", "[mystically]": "Mystically",
           "[historically]": "Historically", "[Gilbert]": "Gilbert", "[Alcuin]": "Alcuin"}
@@ -127,8 +127,34 @@ def wisdom(c: int, v: int) -> tuple:
     return c, v
 
 
-VERSIFICATION = {"Wisdom of Solomon": wisdom, "Proverbs": proverbs,"Hosea": hosea, "Amos": amos, "Jonah": jonah, "Micah": micah, "Haggai": haggai,
+SIRACH = json.loads((Path(__file__).resolve().parent / "glossa" / "versification" / "32.json").read_text(encoding="utf-8"))
+
+
+def sirach(c: int, v: int) -> tuple:
+    """The Vulgate's Ecclesiasticus against the KJV's Sirach: 1,209 of its 1,591 verses number differently (it has lines
+    the KJV lacks, and the two split many verses differently), so scripts/glossa/versification/32.json gives the KJV verse
+    for each Douay-Rheims verse, found by lining the two translations up by their words (monotonic, by word overlap)
+    and checked against the glosses' words. The edition's 29:16-35 differ from the Douay-Rheims's (sirach_douay)."""
+    c, v = sirach_douay(c, v)
+    if str(v) not in SIRACH.get(str(c), {}):
+        return c, v                                 # the edition's empty chapter 52 (no Douay-Rheims verse, no notes)
+    kc, kv = SIRACH[str(c)][str(v)].split(":")
+    return int(kc), int(kv)
+
+
+def sirach_douay(c: int, v: int) -> tuple:
+    """The edition's Ecclesiasticus 29:16-17 are lines the Douay-Rheims has at 17:18-19 ("The alms of a man is as a
+    signet"), kept where they stand; its 29:18 is the Douay-Rheims's 29:16 ("Better than the shield"), and its 29:19-35
+    the Douay-Rheims's 29:18-34."""
+    if c == 29 and v == 18:
+        return 29, 16
+    return (c, v - 1) if c == 29 and v >= 19 else (c, v)
+
+
+VERSIFICATION = {"Sirach": sirach, "Wisdom of Solomon": wisdom, "Proverbs": proverbs,"Hosea": hosea, "Amos": amos, "Jonah": jonah, "Micah": micah, "Haggai": haggai,
                  "Song of Solomon": song, "Ecclesiastes": ecclesiastes}
+# ... and where the edition's own verse numbers differ from the Douay-Rheims's (for the card's Douay-Rheims text)
+DOUAY_NUMBERS = {"Sirach": sirach_douay}
 
 # Where a Vulgate verse straddles two of the KJV's, the glosses on the words the KJV puts in the other verse go there
 # (gloss id -> KJV chapter and verse). Hosea 6:1 begins with the end of KJV 5:15 ("In their affliction they will rise
@@ -177,6 +203,23 @@ MOVES = {
     # under 10:14
     "31_interl3509": (4, 18), "31_interl3605": (6, 17), "31_marg1405": (10, 13),
     "31_interl3973": (16, 5), "31_marg1458": (16, 5), "31_marg1497": (19, 13), "31_marg1500": (19, 22),
+    # Sirach: words the KJV has in the verse before or after the one the Vulgate's verse maps to (the two split many
+    # verses differently), each checked against both; and notes the edition files a verse early ("There is one that
+    # holdeth his peace", 20:5; "With what wisdom shall he be furnished", 38:25)
+    "32_interl4482": (12, 6), "32_marg1713": (17, 3), "32_interl4656": (17, 3), "32_marg1714": (17, 3),
+    "32_interl4764": (19, 5), "32_interl4561": (15, 5), "32_interl4760": (19, 6), "32_interl4761": (19, 6), "32_interl6012": (41, 23), "32_interl6204": (47, 15),
+    "32_interl4240": (6, 35), "32_interl4485": (12, 5), "32_interl4545": (14, 24), "32_interl4618": (16, 11),
+    "32_interl4769": (19, 16), "32_marg1760": (20, 5), "32_interl4923": (22, 8), "32_interl5280": (28, 8),
+    "32_interl5311": (28, 24), "32_marg1908": (28, 24), "32_marg1925": (30, 15),
+    "32_marg1956": (33, 9), "32_marg1959": (33, 14), "32_interl5548": (34, 16), "32_interl5549": (34, 16),
+    "32_interl5599": (35, 17), "32_interl5647": (36, 17), "32_interl5750": (38, 7), "32_interl5764": (38, 12),
+    "32_interl5795": (38, 25),
+    "32_marg2011": (38, 12), "32_interl5924": (40, 5), "32_interl5925": (40, 5), "32_marg2063": (42, 6),
+    "32_marg2070": (42, 18), "32_marg2076": (43, 4), "32_marg2089": (43, 16), "32_interl6129": (44, 20),
+    "32_interl6153": (45, 8), "32_interl6154": (45, 8), "32_interl6155": (45, 8),   # the long robe, breeches, ephod
+    "32_interl6200": (47, 14), "32_interl6201": (47, 14), "32_interl6226": (47, 23), "32_interl6227": (47, 23),
+    "32_interl6283": (50, 4), "32_interl6284": (50, 4), "32_interl6289": (50, 7), "32_marg2146": (50, 14),
+    "32_marg2165": (51, 15),
 }
 # ... and the words those long notes are about, in the Douay-Rheims's English
 WORDS = {"29_marg717": "Better is a child that is poor and wise, than a king that is old and foolish, who knoweth not "
@@ -254,6 +297,10 @@ def douay(name: str, latin: dict, to_kjv, moved_from: dict) -> dict:
     for where, sources in moved_from.items():
         found.setdefault(where, sorted(sources, key=lambda cv: (int(cv[0]), int(cv[1]))))
     out = {}
+    renumber = DOUAY_NUMBERS.get(name)
+    if renumber:
+        found = {k: list(dict.fromkeys(tuple(map(str, renumber(int(c), int(v)))) for c, v in s))
+                 for k, s in found.items()}
     for (kc, kv), sources in sorted(found.items()):
         text = " ".join(dr.get(c, {}).get(v, "") for c, v in sources).strip()
         if text:

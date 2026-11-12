@@ -118,7 +118,32 @@ CHECKED = {("Hosea", "7", "7", "They were all heated like an oven"), ("Hosea", "
            ("Wisdom of Solomon", "8", "6", "who … of those things"),
            ("Wisdom of Solomon", "10", "6", "from the wicked that were perishing"),
            ("Wisdom of Solomon", "11", "6", "thou gavest … to the unjust"),
-           ("Wisdom of Solomon", "15", "18", "things without sense")}
+           ("Wisdom of Solomon", "15", "18", "things without sense"),
+           # Sirach: the DR's wording differs from the KJV's (each compared with both verses by hand)
+           *{("Sirach", c, v, head) for c, v, head in (
+               ("1", "22", "For he that is without fear"), ("4", "5", "Turn not away … from the poor"),
+               ("4", "11", "inspireth life"), ("4", "26", "but submit not thyself to every man for sin"),
+               ("6", "5", "and appeaseth enemies"),
+               ("8", "16", "Quarrel not … and go not into the desert with a bold man"),
+               ("8", "18", "do no matter of counsel"), ("9", "3", "a woman that hath a mind for many"),
+               ("11", "14", "Good things"), ("12", "9", "a friend is known"), ("16", "4", "the tribe of the ungodly"),
+               ("18", "15", "add not grief by an evil word"), ("18", "15", "by an evil word"),
+               ("19", "17", "and therein is to fear God"),
+               ("19", "17", "and the disposition of the law is in all wisdom"),
+               ("20", "5", "There is one that holdeth his peace"), ("20", "17", "are of a false tongue"),
+               ("24", "3", "before all creatures"), ("24", "31", "and my river came near to a sea"),
+               ("24", "33", "and will behold all that sleep"), ("25", "9", "findeth a true friend"),
+               ("25", "18", "and hearing he sighed a little"), ("26", "1", "Happy is the husband"),
+               ("27", "18", "his friend, so also is he that destroyeth"),
+               ("27", "23", "In the sight of thy eyes he will sweeten"), ("30", "18", "Good things that are hidden"),
+               ("32", "19", "My son, … without counsel"), ("33", "8", "the sun being made, and"),
+               ("34", "10", "he that hath been experienced in many things"),
+               ("34", "19", "to the oblations of the unjust"), ("34", "22", "He that sheddeth blood"),
+               ("35", "6", "The oblation of the just"), ("39", "12", "as with a holy transport"),
+               ("39", "15", "and give glory to him"), ("41", "12", "Take care of a good"),
+               ("46", "12", "That their memory might be"),
+               ("49", "2", "He was directed by God unto the repentance of the nation"),
+               ("51", "13", "before I wandered about"), ("51", "17", "I found much … in myself"))}}
 
 
 def _words(s):
@@ -282,6 +307,24 @@ def test_wisdom_on_the_kjvs_numbering():
     assert "Wisdom is better" in wisdom["6"]["1"]
     assert "But thy wrath endured not for ever" in wisdom["16"]["5"]
     assert "For in all things thou didst magnify" in wisdom["19"]["22"]
+
+
+def test_sirach_on_the_kjvs_numbering():
+    """The Vulgate's Ecclesiasticus numbers most verses differently from the KJV's Sirach (scripts/glossa/versification/
+    32.json), so its notes are renumbered, every chapter within the KJV's; the card quotes the Douay-Rheims verse."""
+    sirach = DATA["books"]["Glossa Ordinaria on Sirach"]
+    kjv = json.loads((ROOT / "data" / "kjv" / "kjv_apocrypha.json").read_text(encoding="utf-8"))
+    kjv = kjv.get("books", kjv)["Sirach"]
+    assert sorted(sirach, key=int) == [str(c) for c in range(1, 52)]
+    for c, verses in sirach.items():
+        assert max(map(int, verses)) <= max(map(int, kjv[c])), c
+    assert "In the treasures of wisdom" in sirach["1"]["25"]          # the Vulgate's 1:26
+    assert "and then give place to the physician" in sirach["38"]["12"]   # the end of the Vulgate's 38:11
+    assert "He played with lions" in sirach["47"]["3"]
+    # the edition's 29:18-35 are the Douay-Rheims's 29:16-34 (it has two lines of its own at 29:16-17)
+    douay = DATA["douay"]["Sirach"]
+    assert douay["book"] == "Ecclesiasticus" and douay["verses"]["29"]["14"]["ref"] == "29:18"
+    assert "than the shield" in sirach["29"]["13"] and "the kindness of thy surety" in sirach["29"]["15"]
 
 
 def test_esther_stops_before_the_additions():
