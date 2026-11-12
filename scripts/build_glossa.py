@@ -49,6 +49,46 @@ def hosea(c: int, v: int) -> tuple:
 
 VERSIFICATION = {"Hosea": hosea, "Jonah": jonah}
 
+# Where a Vulgate verse straddles two of the KJV's, the glosses on the words the KJV puts in the other verse go there
+# (gloss id -> KJV chapter and verse). Hosea 6:1 begins with the end of KJV 5:15 ("In their affliction they will rise
+# early to me"), and Hosea 11:1 with the end of KJV 10:15 ("As the morning passeth, so hath the king of Israel passed
+# away"); two long notes filed under those words are about another verse.
+MOVES = {
+    **{f"40_{g}": (5, 15) for g in ("interl3821", "marg2339", "interl3822", "interl3823", "interl3824", "interl3825")},
+    "40_marg2340": (6, 2), "40_marg2341": (6, 2),
+    **{f"40_{g}": (10, 15) for g in ("interl4129", "marg2449", "marg2450", "interl4130", "interl4131", "interl4132")},
+}
+# ... and the words those long notes are about, in the Douay-Rheims's English
+WORDS = {"40_marg2340": "He will revive us after two days: on the third day he will raise us up",
+         "40_marg2341": "He will revive us after two days: on the third day he will raise us up",
+         "40_marg2451": "and I loved him: and I called … out of Egypt"}
+
+
+def render(notes: list) -> str:
+    """A verse's notes, each phrase of the verse once, in the order the edition first explains it, with all its notes
+    under it: the short ones written between the lines first, then the long ones from the margin. A note under a
+    heading ("Jerome", "Allegorically") or under no words stands on its own where it falls."""
+    groups, order = {}, []
+    for i, (words, kind, text) in enumerate(notes):
+        key = words if words and words not in LABELS else i
+        if key not in groups:
+            groups[key] = []
+            order.append(key)
+        groups[key].append((kind != "interl", text))
+    lines = []
+    for key in order:
+        if not isinstance(key, str):
+            words, _, text = notes[key]
+            lines.append(f"*{LABELS[words]}:* {text}" if words in LABELS else text)
+            continue
+        texts = [t for _, t in sorted(groups[key], key=lambda g: g[0])]
+        if len(texts) == 1:
+            lines.append(f"**“{key}”** — {texts[0]}")
+        else:
+            lines.append(f"**“{key}”**")
+            lines.extend(f"• {t}" for t in texts)
+    return "\n".join(lines)
+
 
 def clean(s: str) -> str:
     return re.sub(r"\s*\{t\. [^}]*\}\s*", " ", s).strip()
@@ -61,27 +101,23 @@ def main():
         english = json.loads((ENGLISH / f"{n}.json").read_text(encoding="utf-8"))
         lemmas = json.loads((LEMMAS / f"{n}.json").read_text(encoding="utf-8"))
         to_kjv = VERSIFICATION.get(name, lambda c, v: (c, v))
-        chapters = {}
+        notes = {}                                  # (KJV chapter, verse) -> [(words, kind, English)]
         missing = []
         for c, verses in latin["chapters"].items():
             for v, glosses in verses.items():
-                kc, kv = to_kjv(int(c), int(v))
-                lines = []
                 for g in glosses:
                     text = english.get(g["id"])
                     if not text:
                         missing.append(g["id"])
                         continue
-                    words = lemmas.get(clean(g["lemma"]), "")
-                    if words in LABELS:
-                        lines.append(f"*{LABELS[words]}:* {text}")
-                    elif words:
-                        lines.append(f"**“{words}”** — {text}")
-                    else:
-                        lines.append(text)
-                if lines:
-                    verse = chapters.setdefault(str(kc), {})
-                    verse[str(kv)] = (verse.get(str(kv), "") + "\n" if str(kv) in verse else "") + "\n".join(lines)
+                    words = WORDS.get(g["id"]) or lemmas.get(clean(g["lemma"]), "")
+                    where = MOVES.get(g["id"]) or to_kjv(int(c), int(v))
+                    notes.setdefault(where, []).append((words, g["type"], text, g["id"]))
+        chapters = {}
+        for (kc, kv), verse_notes in sorted(notes.items()):
+            # a note refiled under other words (WORDS) takes its place among that phrase's notes, not where it stood
+            verse_notes.sort(key=lambda note: note[3] in WORDS)
+            chapters.setdefault(str(kc), {})[str(kv)] = render([note[:3] for note in verse_notes])
         if missing:
             raise SystemExit(f"{name}: {len(missing)} glosses not yet in English, e.g. {missing[:3]}")
         books[f"Glossa Ordinaria on {name}"] = chapters

@@ -13,7 +13,27 @@ def test_jonah_on_the_kjvs_numbering():
     jonah = DATA["books"]["Glossa Ordinaria on Jonah"]
     assert jonah["1"]["17"].startswith("**“Now the Lord prepared a great fish")
     assert "2" in jonah and "11" not in jonah["2"] and "10" in jonah["2"]
-    assert jonah["1"]["1"].startswith("**“And it came to pass”** — The conjunction “and” joins this")
+    assert jonah["1"]["1"].startswith("**“And it came to pass”**\n• The conjunction “and” joins this")
+
+
+def test_each_phrase_once_short_notes_first():
+    """Every note on the same words goes under one heading, the interlinear ones before the margin's."""
+    for book in DATA["books"].values():
+        for ch, verses in book.items():
+            for v, text in verses.items():
+                heads = re.findall(r"^\*\*“(.+?)”\*\*", text, re.M)
+                assert len(heads) == len(set(heads)), (ch, v)
+    hosea = DATA["books"]["Glossa Ordinaria on Hosea"]
+    assert "**“Because Israel was a child”**\n• he sets out the benefits" in hosea["11"]["1"]
+
+
+def test_hosea_notes_follow_their_words_across_a_split_verse():
+    """The Vulgate's Hosea 11:1 begins with the end of KJV 10:15, its 6:1 with the end of KJV 5:15."""
+    hosea = DATA["books"]["Glossa Ordinaria on Hosea"]
+    assert "As the morning" not in hosea["11"]["1"] and "**“As the morning”**" in hosea["10"]["15"]
+    assert "Matthew uses this testimony" in hosea["11"]["1"]
+    assert "In their affliction" not in hosea["6"]["1"] and "**“In their affliction”**" in hosea["5"]["15"]
+    assert "salvation is promised on the third day" in hosea["6"]["2"]
 
 
 def test_hosea_on_the_kjvs_numbering():
