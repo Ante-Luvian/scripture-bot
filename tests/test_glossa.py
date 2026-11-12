@@ -97,7 +97,22 @@ CHECKED = {("Hosea", "7", "7", "They were all heated like an oven"), ("Hosea", "
            ("Ecclesiastes", "2", "11", "And when I turned myself"),
            ("Ecclesiastes", "2", "15", "And speaking with my own mind, I perceived that this"),
            ("Ecclesiastes", "3", "20", "and into earth they return together"),
-           ("Ecclesiastes", "7", "14", "enjoy good things"), ("Ecclesiastes", "10", "1", "than a small")}
+           ("Ecclesiastes", "7", "14", "enjoy good things"), ("Ecclesiastes", "10", "1", "than a small"),
+           # Proverbs: the DR's wording differs from the KJV's ...
+           ("Proverbs", "1", "3", "To understand the words of prudence"),
+           ("Proverbs", "2", "4", "If thou shalt seek her as money"),
+           ("Proverbs", "2", "4", "and shalt dig for her as for a treasure"),
+           ("Proverbs", "6", "10", "Thou wilt sleep"),
+           ("Proverbs", "9", "4", "let him come to me. And to the unwise she said"),
+           ("Proverbs", "12", "13", "draweth nigh to the evil man"),
+           ("Proverbs", "12", "16", "but he that dissembleth injuries is wise"),
+           ("Proverbs", "13", "21", "and to the just … shall be repaid"),
+           ("Proverbs", "14", "17", "folly: and the crafty man"),
+           ("Proverbs", "30", "2", "I am the most foolish of men, and the wisdom of men is not with me"),
+           # ... and the Vulgate adds lines the KJV lacks (4:27 "he will bring forward thy ways in peace"; 15:5 "In
+           # abundant justice there is the greatest strength")
+           ("Proverbs", "4", "27", "thy ways in peace"),
+           ("Proverbs", "15", "5", "of the wicked shall be rooted out")}
 
 
 def _words(s):
@@ -236,6 +251,15 @@ def test_ruth_whole():
     assert "Rabanus" in ruth["1"]["1"] and "whither" not in ruth["1"]["1"]
     assert "whithersoever thou shalt go, I will go" in ruth["1"]["16"]
     assert "ten generations" in ruth["4"]["22"]
+
+
+def test_proverbs_on_the_kjvs_numbering():
+    """Proverbs numbers alike in the Vulgate and the KJV but for the Vulgate's 4:28, the end of the KJV's 4:27."""
+    proverbs = DATA["books"]["Glossa Ordinaria on Proverbs"]
+    assert sorted(proverbs, key=int) == [str(c) for c in range(1, 32)] and "28" not in proverbs["4"]
+    assert "thy ways in peace" in proverbs["4"]["27"]
+    assert "a valiant woman" in proverbs["31"]["10"]
+    assert "no need of spoils" in proverbs["31"]["11"]
 
 
 def test_esther_stops_before_the_additions():

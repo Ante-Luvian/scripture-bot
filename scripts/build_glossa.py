@@ -23,7 +23,7 @@ LATIN = Path(__file__).resolve().parent / ".cache" / "glossa"
 ENGLISH = Path(__file__).resolve().parent / "glossa" / "english"
 LEMMAS = Path(__file__).resolve().parent / "glossa" / "lemmas"
 OUT = ROOT / "data" / "patristics" / "glossa_ordinaria.json"
-BOOKS = {"10": "Ruth", "24": "Esther", "29": "Ecclesiastes", "30": "Song of Solomon", "35": "Lamentations", "40": "Hosea", "41": "Joel", "42": "Amos", "43": "Obadiah", "44": "Jonah", "45": "Micah", "46": "Nahum", "47": "Habakkuk", "48": "Zephaniah", "49": "Haggai", "50": "Zechariah", "51": "Malachi"}  # Gloss-e's numbers -> the KJV's names (the books translated so far)
+BOOKS = {"10": "Ruth", "24": "Esther", "28": "Proverbs", "29": "Ecclesiastes", "30": "Song of Solomon", "35": "Lamentations", "40": "Hosea", "41": "Joel", "42": "Amos", "43": "Obadiah", "44": "Jonah", "45": "Micah", "46": "Nahum", "47": "Habakkuk", "48": "Zephaniah", "49": "Haggai", "50": "Zechariah", "51": "Malachi"}  # Gloss-e's numbers -> the KJV's names (the books translated so far)
 LABELS = {"[allegorically]": "Allegorically", "[the moral sense]": "In the moral sense", "[Jerome]": "Jerome",
           "[Haimo]": "Haimo", "[Gregory]": "Gregory", "[Paschasius]": "Paschasius", "[mystically]": "Mystically",
           "[historically]": "Historically", "[Gilbert]": "Gilbert", "[Alcuin]": "Alcuin"}
@@ -82,6 +82,13 @@ def song(c: int, v: int) -> tuple:
     return c, v
 
 
+def proverbs(c: int, v: int) -> tuple:
+    """The Vulgate's Proverbs 4:28 is the end of the KJV's 4:27 ("Make straight the paths of thy feet")."""
+    if c == 4 and v == 28:
+        return 4, 27
+    return c, v
+
+
 def ecclesiastes(c: int, v: int) -> tuple:
     """The Vulgate's Ecclesiastes 4:17 is the KJV's 5:1, so its 5:n is the KJV's 5:n+1; its 7:1 is the KJV's 6:12,
     so its 7:n is the KJV's 7:n-1."""
@@ -94,7 +101,7 @@ def ecclesiastes(c: int, v: int) -> tuple:
     return c, v
 
 
-VERSIFICATION = {"Hosea": hosea, "Amos": amos, "Jonah": jonah, "Micah": micah, "Haggai": haggai,
+VERSIFICATION = {"Proverbs": proverbs, "Hosea": hosea, "Amos": amos, "Jonah": jonah, "Micah": micah, "Haggai": haggai,
                  "Song of Solomon": song, "Ecclesiastes": ecclesiastes}
 
 # Where a Vulgate verse straddles two of the KJV's, the glosses on the words the KJV puts in the other verse go there
@@ -136,6 +143,8 @@ MOVES = {
     # make men as the fishes of the sea"); the glosses on those words go to the verses that have them
     **{f"47_interl{n}": (1, 13) for n in range(6053, 6061)},
     **{f"47_interl{n}": (1, 14) for n in range(6061, 6064)},
+    # Proverbs: the note on "and he shall have no need of spoils" (the end of 31:11), filed under 31:12
+    "28_marg589": (31, 11),
 }
 # ... and the words those long notes are about, in the Douay-Rheims's English
 WORDS = {"29_marg717": "Better is a child that is poor and wise, than a king that is old and foolish, who knoweth not "
@@ -156,7 +165,9 @@ WORDS = {"29_marg717": "Better is a child that is poor and wise, than a king tha
          "47_interl6057": "when … treadeth down", "47_interl6058": "the wicked", "47_interl6059": "the wicked",
          "47_interl6060": "the man that is more just than himself?",
          "47_interl6279": "Let rottenness enter into my bones",   # (a "but" the edition files under no words)
-         "48_interl6394": "Her princes are in the midst of her"}  # introduces 3:3, under 3:2's last words
+         "48_interl6394": "Her princes are in the midst of her",  # introduces 3:3, under 3:2's last words
+         # Proverbs: one Latin "et" is "and" in most verses but "but" in 1:30; "egestas" is "want" except in 13:18
+         "28_interl110": "but", "28_interl111": "but", "28_interl866": "Poverty"}  # introduces 3:3, under 3:2's last words
 # ... and those of them that stay where the edition has them: a gloss only on a short word ("eius") that the book's
 # lemmas give in another verse's sense ("his" in Nahum 1:13, "her" in 3:10)
 IN_PLACE = {"46_interl6006", "47_interl6279", "48_interl6394"}

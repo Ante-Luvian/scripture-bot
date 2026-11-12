@@ -1815,6 +1815,7 @@ ALIASES: dict[str, str] = {
     "glossa ruth": "Glossa Ordinaria on Ruth", "glossa ordinaria ruth": "Glossa Ordinaria on Ruth",
     "glossa on ruth": "Glossa Ordinaria on Ruth",
     **{f"{p} {b}": "Glossa Ordinaria on Esther" for p in ("glossa", "glossa ordinaria", "glossa on") for b in ("esther", "hester")},
+    **{f"{p} {b}": "Glossa Ordinaria on Proverbs" for p in ("glossa", "glossa ordinaria", "glossa on") for b in ("proverbs", "prov", "prv", "pr")},
     **{f"{p} {b}": "Glossa Ordinaria on Song of Solomon" for p in ("glossa", "glossa ordinaria", "glossa on")
        for b in ("song", "song of songs", "song of solomon", "canticles", "canticle of canticles")},
     **{f"{p} {b}": "Glossa Ordinaria on Ecclesiastes" for p in ("glossa", "glossa ordinaria", "glossa on")
