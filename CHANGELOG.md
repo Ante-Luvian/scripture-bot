@@ -4,6 +4,12 @@ What's new, newest first. When the bot starts after an update, she posts any
 entries a server hasn't seen yet to that server's changelog channel
 (`!changelogsetup #channel`); anyone can read recent ones with `!changelog`.
 
+## 2026-11-12 · The Glossa Ordinaria on Genesis
+
+- 📜 **The *Glossa Ordinaria* on Genesis is here, in English.** The Glossa is the medieval Church's great Bible commentary: short notes written between the lines of the Bible and longer ones in the margins, gathered from the Church Fathers — for Genesis chiefly Augustine, Jerome, Isidore, Bede, Rabanus Maurus, Alcuin and Strabo. It reads the stories on several levels: what happened (the creation, the flood, Abraham, Jacob, Joseph); what it points to in Christ and the Church (Isaac carrying the wood is Christ carrying the cross; Joseph sold by his brothers and raising them up in Egypt is Christ); and, in the moral sense, what each story teaches about the soul.
+- All 50 chapters are translated, about 3,100 notes, made for ScriptureBot from the Latin of the first printed edition (1480), with Bible quotations in the Douay-Rheims wording. The Latin Bible numbers the last verses of chapters 49 and 50 one lower than the KJV, so those notes have been moved to the KJV's verse numbers.
+- Press **📖 Commentary** under any verse of Genesis: the Glossa now comes first in the menu, with the other commentaries still there. You can also browse `!books Glossa Ordinaria on Genesis`. Try `!verse Genesis 1:1` ("In the beginning God created heaven, and earth"), `!verse Genesis 22:8` ("God will provide himself a victim") or `!verse Genesis 28:12` (Jacob's ladder).
+
 ## 2026-11-12 · The Glossa Ordinaria on Job
 
 - 📜 **The *Glossa Ordinaria* on Job is here, in English.** The Glossa is the medieval Church's great Bible commentary: short notes written between the lines of the Bible and longer ones in the margins, gathered from the Church Fathers. For Job most of it is drawn from Pope Gregory the Great's *Morals on Job* (about 590), boiled down verse by verse, with Augustine, Jerome and others. It reads the book on three levels: the story of a good man tested; Job as a figure of Christ, who suffered though innocent, and his friends as heretics who speak about God wrongly; and, in the moral sense, what Job's patience teaches anyone who suffers.

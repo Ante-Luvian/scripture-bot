@@ -1394,7 +1394,7 @@ BOOKS_TREE = [
     ]),
     ("🏰 Medieval Christianity", [
         ("Liturgy", ["Readings from the Breviary"]),
-        ("The Glossa Ordinaria", ["Glossa Ordinaria on Ruth", "Glossa Ordinaria on Esther", "Glossa Ordinaria on Job",
+        ("The Glossa Ordinaria", ["Glossa Ordinaria on Genesis", "Glossa Ordinaria on Ruth", "Glossa Ordinaria on Esther", "Glossa Ordinaria on Job",
                                   "Glossa Ordinaria on Proverbs",
                                   "Glossa Ordinaria on Ecclesiastes",
                                   "Glossa Ordinaria on Song of Solomon",

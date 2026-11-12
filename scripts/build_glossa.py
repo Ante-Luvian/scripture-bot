@@ -23,13 +23,14 @@ LATIN = Path(__file__).resolve().parent / ".cache" / "glossa"
 ENGLISH = Path(__file__).resolve().parent / "glossa" / "english"
 LEMMAS = Path(__file__).resolve().parent / "glossa" / "lemmas"
 OUT = ROOT / "data" / "patristics" / "glossa_ordinaria.json"
-BOOKS = {"10": "Ruth", "24": "Esther", "25": "Job","28": "Proverbs", "29": "Ecclesiastes", "30": "Song of Solomon", "31": "Wisdom of Solomon", "32": "Sirach", "35": "Lamentations", "40": "Hosea", "41": "Joel", "42": "Amos", "43": "Obadiah", "44": "Jonah", "45": "Micah", "46": "Nahum", "47": "Habakkuk", "48": "Zephaniah", "49": "Haggai", "50": "Zechariah", "51": "Malachi"}  # Gloss-e's numbers -> the KJV's names (the books translated so far)
+BOOKS = {"03": "Genesis", "10": "Ruth", "24": "Esther", "25": "Job","28": "Proverbs", "29": "Ecclesiastes", "30": "Song of Solomon", "31": "Wisdom of Solomon", "32": "Sirach", "35": "Lamentations", "40": "Hosea", "41": "Joel", "42": "Amos", "43": "Obadiah", "44": "Jonah", "45": "Micah", "46": "Nahum", "47": "Habakkuk", "48": "Zephaniah", "49": "Haggai", "50": "Zechariah", "51": "Malachi"}  # Gloss-e's numbers -> the KJV's names (the books translated so far)
 LABELS = {"[allegorically]": "Allegorically", "[the moral sense]": "In the moral sense", "[Jerome]": "Jerome",
           "[Haimo]": "Haimo", "[Gregory]": "Gregory", "[Paschasius]": "Paschasius", "[mystically]": "Mystically",
           "[historically]": "Historically", "[Gilbert]": "Gilbert", "[Alcuin]": "Alcuin"}
 # (the later books' lemmas give these headings plainly: a source or a sense, not words of the verse)
 LABELS.update({w: w for w in ("Allegorically", "Morally", "Mystically", "Historically", "Jerome", "Gregory", "Bede",
-                              "Augustine", "Strabo", "Isidore", "Alcuin", "Rabanus", "Haimo", "Origen", "Ambrose")})
+                              "Augustine", "Strabo", "Isidore", "Alcuin", "Rabanus", "Haimo", "Origen", "Ambrose",
+                              "Pliny", "Gilbert", "The same", "Otherwise")})
 
 
 def jonah(c: int, v: int) -> tuple:
@@ -82,6 +83,16 @@ def song(c: int, v: int) -> tuple:
         return 6, 1
     if c == 6:
         return 6, v + 1
+    return c, v
+
+
+def genesis(c: int, v: int) -> tuple:
+    """The Vulgate's Genesis 49:31 holds the KJV's 49:31-32 (so its 49:32 is the KJV's 49:33), and its 50:22 holds the
+    KJV's 50:22-23 (so its 50:23-25 are the KJV's 50:24-26)."""
+    if c == 49 and v == 32:
+        return 49, 33
+    if c == 50 and v >= 23:
+        return 50, v + 1
     return c, v
 
 
@@ -169,7 +180,7 @@ def sirach_douay(c: int, v: int) -> tuple:
     return (c, v - 1) if c == 29 and v >= 19 else (c, v)
 
 
-VERSIFICATION = {"Job": job, "Sirach": sirach, "Wisdom of Solomon": wisdom, "Proverbs": proverbs,"Hosea": hosea, "Amos": amos, "Jonah": jonah, "Micah": micah, "Haggai": haggai,
+VERSIFICATION = {"Genesis": genesis, "Job": job, "Sirach": sirach, "Wisdom of Solomon": wisdom, "Proverbs": proverbs,"Hosea": hosea, "Amos": amos, "Jonah": jonah, "Micah": micah, "Haggai": haggai,
                  "Song of Solomon": song, "Ecclesiastes": ecclesiastes}
 # ... and where the edition's own verse numbers differ from the Douay-Rheims's (for the card's Douay-Rheims text)
 DOUAY_NUMBERS = {"Sirach": sirach_douay}
@@ -215,6 +226,9 @@ MOVES = {
     **{f"47_interl{n}": (1, 14) for n in range(6061, 6064)},
     # Proverbs: the note on "and he shall have no need of spoils" (the end of 31:11), filed under 31:12
     "28_marg589": (31, 11),
+    # Genesis: notes the edition files a verse late: Noe begetting Sem, Cham and Japheth (5:32), "And on the third
+    # day" (22:4), and Jacob's twenty years' service and his wages changed ten times (31:41)
+    "03_marg402": (5, 32), "03_marg689": (22, 4), **{f"03_interl{n}": (31, 41) for n in range(1600, 1604)},
     # Job: long notes the edition files a verse or two late, under the next verse ("neither shall his place know him",
     # 7:10; "why hast thou set me opposite", 7:20; "stripped the naked", 22:6; "Who shut up the sea with doors" and
     # "When I made a cloud the garment", 38:8-9; "fourteen thousand sheep", 42:12), and the Vulgate's 30:16 ("And now

@@ -158,7 +158,21 @@ CHECKED = {("Hosea", "7", "7", "They were all heated like an oven"), ("Hosea", "
                ("31", "2", "For what part should … have in me"), ("35", "15", "For he doth not now bring on his fury,"),
                ("36", "30", "he shall cover also the ends of the sea"), ("40", "4", "who hath spoken inconsiderately"),
                ("40", "5", "which I wish I had not said:"), ("41", "11", "Who hath given me before"),
-               ("41", "16", "One is joined to another,"))}}
+               ("41", "16", "One is joined to another,"))},
+           # Genesis: the DR's wording of the verse differs from the KJV's (each read against the DR verse by hand)
+           *{("Genesis", c, v, head) for c, v, head in (
+               ("1", "6", "Let there be a firmament made"), ("2", "7", "man of the slime of the earth:"),
+               ("2", "20", "And Adam called"), ("3", "24", "And he cast out Adam;"), ("3", "24", "And he cast out Adam"),
+               ("4", "8", "And Cain said"), ("7", "11", "the flood gates"), ("10", "14", "Ludim, Anamim, Phetrusim, Capthorim"),
+               ("14", "7", "the same is Cades:"),
+               ("16", "2", "go in unto my handmaid, it may be I may have children of her at least."),
+               ("17", "11", "that it may be for a sign of the covenant between me and you."),
+               ("21", "33", "And Abimelech, and Phicol the general of"), ("24", "63", "the day being now well spent:"),
+               ("25", "25", "and therefore he was called Jacob."), ("26", "20", "But there also … strove"),
+               ("27", "41", "I will kill my brother Jacob."), ("31", "47", "And Laban called it The witness heap:"),
+               ("37", "3", "above all his sons,"), ("38", "12", "to the shearers of his sheep"),
+               ("38", "27", "whereon the midwife tied a scarlet thread, saying:"),
+               ("40", "4", "But the keeper of the prison delivered them"))}}
 
 
 def _words(s):
@@ -356,6 +370,18 @@ def test_job_on_the_kjvs_numbering(bot_module):
     from bot_commands import bible_commentary as B
     assert [label for label, _, _ in B.groups("Job", 1, 1)][0] == "The Glossa Ordinaria"
     assert "a man in the land of Hus" in B.reply("Job", 1, 1)["embed"].description
+
+
+def test_genesis_on_the_kjvs_numbering(bot_module):
+    """The Vulgate's Genesis 49:32 is the KJV's 49:33 and its 50:23-25 the KJV's 50:24-26; the Commentary button on
+    Genesis opens the Glossa first."""
+    gen = DATA["books"]["Glossa Ordinaria on Genesis"]
+    assert sorted(gen, key=int) == [str(c) for c in range(1, 51)]
+    assert "when he had ended the commandments" in gen["49"]["33"] and "32" not in gen["49"]
+    assert "a hundred and ten years old" in gen["50"]["26"]
+    assert "begot Sem, Cham, and Japheth" in gen["5"]["32"]
+    from bot_commands import bible_commentary as B
+    assert [label for label, _, _ in B.groups("Genesis", 1, 1)][0] == "The Glossa Ordinaria"
 
 
 def test_esther_stops_before_the_additions():
