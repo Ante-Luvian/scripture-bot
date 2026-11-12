@@ -16,6 +16,12 @@ def test_every_chapter_has_all_its_verses():
     assert not wrong and set(DRB) == set(COUNTS), wrong
 
 
+def test_the_old_files_typos_are_gone():
+    """It had "Jones" for Jonas, "Abrabam", "oountenance" (Jonas 1:5, Genesis 28:4, 40:7)."""
+    assert "Jonas went down" in DRB["Jonas"]["1"]["5"]
+    assert "Abraham" in DRB["Genesis"]["28"]["4"] and "countenance" in DRB["Genesis"]["40"]["7"]
+
+
 def test_last_verses_no_longer_run_on():
     assert DRB["Amos"]["9"]["15"].startswith("And I will plant them upon their own land")
     assert DRB["Amos"]["9"]["14"].endswith("eat the fruits of them.")

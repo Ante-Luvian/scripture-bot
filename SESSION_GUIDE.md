@@ -543,9 +543,9 @@ cite "held to be forged c. 1911". The real scripture, the oral qewls, has no pub
   test_every_note_under_the_kjv_verse_it_explains` compares every phrase heading with the KJV verse it sits under and
   that verse's neighbours; Vulgate verses that straddle two KJV verses need `MOVES` (gloss id -> KJV verse), not just
   `VERSIFICATION`. Hand-checked false alarms (DR vs KJV wording) go in its `CHECKED`.
-- data/drb.json is checked chapter by chapter against eBible.org's Douay-Rheims (engDRA, same Vulgate numbering;
-  `https://ebible.org/Scriptures/engDRA_usfm.zip`): tests/drb_verse_counts.json. Seven run-on last verses were split
-  (build_drb.py `SPLITS`).
+- data/drb.json is built entirely from eBible.org's Douay-Rheims (engDRA USFM, Vulgate numbering;
+  `scripts/build_drb.py`), since 2026-11-12. The old Gutenberg/unknown-origin file had lost verses and hundreds of
+  typos. The owner was angry that I first only patched it from eBible: when told to change a source, switch wholesale.
 - Done: Hosea (40), Joel (41), Amos (42), Jonah (44). Order agreed: the minor prophets, then (owner, 2026-11-12) the
   Five Megillot, smallest first; then Isaiah, Jeremiah, Ezekiel, Daniel; Joshua-Esther; the Pentateuch; wisdom and
   Apocrypha. ~1,000 Latin words a chapter (Jonah: 4,121 words, 195 glosses).
