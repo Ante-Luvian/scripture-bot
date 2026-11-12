@@ -27,6 +27,13 @@ def test_hosea_on_the_kjvs_numbering():
     assert "Thou art my people" in hosea["2"]["23"]
 
 
+def test_joel_whole():
+    """Joel's three chapters number alike in the Vulgate and the KJV; Pentecost's verse (2:28) is there."""
+    joel = DATA["books"]["Glossa Ordinaria on Joel"]
+    assert sorted(joel, key=int) == ["1", "2", "3"] and "21" in joel["3"]
+    assert joel["2"]["28"].startswith("**“And it shall come to pass after this, that I will pour out my spirit")
+
+
 def test_every_gloss_in_english_and_clean():
     for f in ENGLISH.glob("*.json"):
         for gid, text in json.loads(f.read_text(encoding="utf-8")).items():
