@@ -95,14 +95,6 @@ def check_aladhan():
     return (True, "London") if s.fetch("London") else (False, "no times for London")
 
 
-def check_catena():
-    import bot_commands.church as c
-    result = c._fetch_catena_sections("John 3:16", limit=1)
-    if not result or result.get("error_send"):
-        return False, (result or {}).get("error_send", "nothing came back")[:120]
-    return True, "John 3:16"
-
-
 def check_summa():
     import summa_lookup as s
     return (True, "I.2.3") if _found(s.get_summa(1, 2, 3)) else (False, "Summa I.2.3 failed")
@@ -185,7 +177,6 @@ SOURCES = [
     ("verseoftheday.com", "!votd and the daily verse", check_votd),
     ("oca.org", "!troparion", check_oca),
     ("aladhan.com", "!salah", check_aladhan),
-    ("catenabible.com", "!catena and the Catena button", check_catena),
     ("newadvent.org", "!summa", check_summa),
     ("gematrix.org", "!gematria", check_gematrix),
     ("Church calendars", "!today", check_calendars),

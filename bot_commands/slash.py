@@ -118,7 +118,7 @@ async def canon_slash(interaction: discord.Interaction, number: int):
     embed.set_footer(text="Code of Canon Law (1983)")
     await interaction.followup.send(embed=embed)
 
-@bot.tree.command(name="catena", description="Patristic commentary on a Bible verse from catenabible.com")
+@bot.tree.command(name="catena", description="What the Church Fathers said about a Bible verse")
 @app_commands.describe(reference="e.g. John 3:16 | Romans 8:28 | Matthew 5:3")
 async def catena_slash(interaction: discord.Interaction, reference: str):
     await interaction.response.defer()

@@ -47,11 +47,11 @@ def _labels(buttons):
 
 
 @pytest.mark.parametrize("reference, labels", [
-    ("John 3:16",          ["Notes", "Cross-refs", "Interlinear", "Card", "Catena"]),
-    ("John 3:16–18",       ["Notes", "Cross-refs", "Interlinear", "Card", "Catena"]),
-    ("John 3:1–9",         ["Cross-refs", "Interlinear", "Card", "Catena"]),   # !notes takes up to 5 verses
-    ("John 3:16 (ESV)",    ["Notes", "Cross-refs", "Interlinear", "Card", "Catena"]),
-    ("1 Corinthians 13:4", ["Notes", "Cross-refs", "Interlinear", "Card", "Catena"]),
+    ("John 3:16",          ["Notes", "Cross-refs", "Interlinear", "Card", "Commentary"]),
+    ("John 3:16–18",       ["Notes", "Cross-refs", "Interlinear", "Card", "Commentary"]),
+    ("John 3:1–9",         ["Cross-refs", "Interlinear", "Card", "Commentary"]),   # !notes takes up to 5 verses
+    ("John 3:16 (ESV)",    ["Notes", "Cross-refs", "Interlinear", "Card", "Commentary"]),
+    ("1 Corinthians 13:4", ["Notes", "Cross-refs", "Interlinear", "Card", "Commentary"]),
     ("Psalms 23",          []),   # whole chapter
     ("Quran 1:1",          []),   # not the Bible
     ("Tobit 1:1",          []),   # apocrypha: no NET notes / Strong's
@@ -129,7 +129,7 @@ def test_cross_refs_button_runs_the_real_command(verse):
     edited = interaction.response.edited_view
     assert edited.timeout is None
     assert [(c.item.label, c.item.disabled) for c in edited.children] == [
-        ("Notes", False), ("Cross-refs", True), ("Interlinear", False), ("Card", False), ("Catena", False)]
+        ("Notes", False), ("Cross-refs", True), ("Interlinear", False), ("Card", False), ("Commentary", False)]
     embed = interaction.channel.sent[0]["embed"]
     assert embed.title == "🔗 Cross-references — John 3:16"
 
@@ -153,7 +153,7 @@ def test_verse_command_attaches_study_buttons(verse, monkeypatch, fake_ctx):
     monkeypatch.setattr(verse, "_get_preferred_translation", lambda user_id: None)
     asyncio.run(verse.verse_prefix.callback(fake_ctx, reference="John 3:16"))
     view = fake_ctx.sent[0]["view"]
-    assert [c.item.label for c in view.children] == ["Notes", "Cross-refs", "Interlinear", "Card", "Catena",
+    assert [c.item.label for c in view.children] == ["Notes", "Cross-refs", "Interlinear", "Card", "Commentary",
                                                      "Previous", "Next", "Whole chapter"]
     # A view that times out unregisters its persistent buttons bot-wide
     assert view.timeout is None

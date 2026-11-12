@@ -1297,7 +1297,8 @@ async def cmd_help(ctx, *, topic: str = ""):
         embed = discord.Embed(title="📿 !catena — Patristic Commentary", color=discord.Color.dark_gold())
         embed.description = (
             "`!catena John 3:16` — patristic commentary on a verse\n"
-            "Sourced from catenabible.com"
+            "From the library: Aquinas's *Catena Aurea* on the Gospels, the Fathers' commentaries and homilies, the "
+            "Breviary's homilies, and the Fathers quoting the verse. Also the **📖 Commentary** button under a verse."
         )
         await ctx.send(embed=embed)
         return

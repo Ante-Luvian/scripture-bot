@@ -19,6 +19,7 @@ from bot_commands.dore import ArtButton, art_buttons
 from bot_commands.illustrations import PictureButton
 from bot_commands import zoroastrian
 from bot_commands.tafsir import CommentaryButton, commentary_buttons
+from bot_commands import bible_commentary
 from bot_commands.reference import (
     cmd_notes,
     cmd_xref,
@@ -156,6 +157,10 @@ def _study_view_from_message(message, pressed_custom_id: str) -> discord.ui.View
             t = CommentaryButton.__discord_ui_compiled_template__.fullmatch(getattr(component, "custom_id", None) or "")
             if t:                                       # (and the Qur'an's 📖 Commentary)
                 view.add_item(CommentaryButton(t["ref"]))
+            bc = bible_commentary.Button.__discord_ui_compiled_template__.fullmatch(
+                getattr(component, "custom_id", None) or "")
+            if bc:                                      # (and the Bible's)
+                view.add_item(bible_commentary.Button(bc["ref"]))
     return view
 
 
@@ -212,8 +217,10 @@ def _study_buttons(result: dict) -> list:
         return []
     ref = f"{m['book']} {m['ch']}:{m['v1']}" + (f"-{m['v2']}" if m["v2"] else "")
     span = int(m["v2"] or m["v1"]) - int(m["v1"]) + 1
-    actions = (["notes"] if span <= 5 else []) + ["xref", "inter", "card", "catena"]
-    return [StudyButton(action, ref) for action in actions]
+    actions = (["notes"] if span <= 5 else []) + ["xref", "inter", "card"]
+    # 📖 the Fathers on its first verse, from the library (it replaced 📜 Catena, which read catenabible.com)
+    return [StudyButton(action, ref) for action in actions] + bible_commentary.button_for(m["book"], int(m["ch"]),
+                                                                                           int(m["v1"]))
 
 
 def _guild_id(ctx):

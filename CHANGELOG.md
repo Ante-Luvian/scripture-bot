@@ -14,6 +14,16 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-11-11 · 📖 Commentary under Bible verses
+- 📖 **Bible verses now have a Commentary button**, like the one under Qur'an verses. It shows what the Church Fathers said about the verse, from the bot's own library, with a menu to choose between commentaries:
+  - **The Catena Aurea**: on any verse of the Gospels, St Thomas Aquinas's "Golden Chain" of the Fathers' comments, one Father after another (Chrysostom, Augustine, Jerome, Gregory, Bede…).
+  - **Commentaries and homilies on that book**: Chrysostom's homilies on Matthew and John, Augustine on the Psalms and on John, Origen, Cyril, Gregory on Job, and more.
+  - **The Breviary**: the homily the Church reads at Matins on that Gospel passage.
+  - **Quoted by the Fathers**: where Fathers quote the verse in their other writings.
+- **◀ ▶** buttons turn the pages and step to the verse before or after. Try `!verse John 1:1` or `!verse Matthew 5:3`, then press **📖 Commentary**.
+- Coverage: every verse of the Gospels and nearly all of the Psalms. Most of the rest of the New Testament has at least a quotation, and so do parts of the Old Testament. If a verse has nothing yet, the button doesn't appear.
+- 🔁 **`!catena John 3:16`** shows the same thing, and replaces the old **📜 Catena** button, which fetched its commentary from a website. It now answers faster, and doesn't depend on that site.
+
 ## 2026-11-11 · The hours, as they come round
 - 🕰️ **`!daily office` now posts every hour of the Office at its own time,** not just one a day: Matins at midnight, Lauds at 6 am, Prime at 7, Terce at 9, Sext at noon, None at 3 pm, Vespers at 6 pm and Compline at 9 pm, so a channel follows the Church's day of prayer. Each post is a short card (the hour, the day and its feast, the psalms and readings) with a **📖 Pray** button that opens the whole hour just for you. Set your time zone so the hours fall at the right local times: `!daily office zone -5` (US Eastern in winter), `zone 1` (Paris), `zone 5:30` (India). Only want some hours? `!daily office hours lauds vespers compline`. Start with `!daily office channel #prayer`; `!daily office` shows the settings.
 

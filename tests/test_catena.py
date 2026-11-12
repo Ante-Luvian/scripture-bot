@@ -1,50 +1,42 @@
-"""!catena reads catenabible.com's JSON API (the live check is in test_live.py)."""
-import json
+"""!catena and the 📖 Commentary under a Bible verse: the Fathers from the library (bot_commands/bible_commentary.py),
+no longer catenabible.com (2026-11-11)."""
+import asyncio
 
 
-class _Response:
-    def __init__(self, payload):
-        self.payload = payload
-
-    def read(self):
-        return json.dumps(self.payload).encode("utf-8")
-
-    def __enter__(self):
-        return self
-
-    def __exit__(self, *exc):
-        return False
-
-
-def test_catena_text_keeps_references():
-    from bot_commands.church import _catena_text
-    assert _catena_text('<verseRef>John 3:16</verseRef> "God," He saith, &quot;so loved') == \
-        '(John 3:16) "God," He saith, "so loved'
-
-
-def test_catena_sections_from_the_api(bot_module, monkeypatch):
+def test_the_verse_of_the_days_shape(bot_module):
+    """The Verse of the Day's full mode reads one Father from _fetch_catena_sections."""
     from bot_commands import church
-    index = {"fathers": [
-        {"fatherName": "John Chrysostom", "yearReposed": 407,
-         "entries": [{"paragraphId": "p1", "workTitle": "Homilies on John."}]},
-        {"fatherName": "Augustine of Hippo", "yearReposed": 430,
-         "entries": [{"paragraphId": "p2", "workTitle": "Tractates on John"}]}]}
-    bodies = {"p1": {"commentary": {"text": "<verseRef>John 3:16</verseRef> God so loved the world, He saith."},
-                     "continuation": [{"text": "What He saith is of this kind: marvel not."}]},
-              "p2": {"commentary": {"text": "Love was the reason, and nothing else at all."}, "continuation": []}}
-    asked = []
+    r = church._fetch_catena_sections("John 3:16", 1)
+    assert not r.get("error_send") and len(r["sections"]) == 1 and r["book_raw"] == "John"
+    assert church._fetch_catena_sections("Hezekiah 9:9").get("error_send")
 
-    def fake_urlopen(request, timeout=0):
-        asked.append(request.full_url)
-        if "tab=index" in request.full_url:
-            return _Response(index)
-        return _Response(bodies[request.full_url.rsplit("/", 1)[1]])
 
-    monkeypatch.setattr(church.urllib.request, "urlopen", fake_urlopen)
-    r = church._fetch_catena_sections("John 3:16")
-    assert asked[0] == "https://catenabible.com/api/verse/jn/3/16?tab=index"
-    assert [name for name, _ in r["sections"]] == ["John Chrysostom AD 407", "Augustine of Hippo AD 430"]
-    first = r["sections"][0][1]
-    assert first.startswith("(John 3:16) God so loved") and "marvel not." in first
-    assert first.endswith("— *Homilies on John*")
-    assert len(church._fetch_catena_sections("John 3:16", limit=1)["sections"]) == 1     # what the VOTD uses
+def test_commentary_menu_pages_and_neighbours(bot_module):
+    from bot_commands import bible_commentary as B
+    r = B.reply("Matthew", 5, 3)
+    assert r["embed"].title == "📖 The Catena Aurea on Matthew 5:3"
+    assert r["embed"].description.startswith("*Blessed are the poor in spirit")
+    kinds = [type(c).__name__ for c in r["view"].children]
+    assert kinds[0] == "Menu" and kinds.count("Nav") >= 3                  # (pages, and the verses either side)
+    labels = [o.label for o in r["view"].children[0].item.options]
+    assert labels[0] == "The Catena Aurea" and any("Homilies" in l or "Commentary" in l for l in labels)
+    assert all(len(r["embed"].description) <= 4096 for _ in [0])
+
+
+def test_a_verse_without_commentary_says_so(bot_module):
+    from bot_commands import bible_commentary as B
+    assert B.button_for("Obadiah", 1, 1) == []
+    assert "no commentary" in B.reply("Obadiah", 1, 1)["embed"].description
+
+
+def test_the_button_under_a_verse(bot_module):
+    from bot_commands import verse
+    result = bot_module.lookup.get_verse("John 3:16")
+    ids = [getattr(b, "custom_id", "") or b.item.custom_id for b in verse._study_buttons(result)]
+    assert "bcom:John 3:16" in ids and not any(i.startswith("study:catena") for i in ids)
+
+
+def test_catena_command(bot_module, fake_ctx):
+    from bot_commands import church
+    asyncio.run(church.cmd_catena.callback(fake_ctx, reference="Jn 3:16"))
+    assert fake_ctx.sent and "John 3:16" in fake_ctx.sent[-1]["embed"].title

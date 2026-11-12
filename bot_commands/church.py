@@ -2,12 +2,8 @@
 !catena, !ccc / !canon, !creed, !summa.
 """
 import asyncio
-import concurrent.futures
 import discord
-import json
 import re
-import urllib.error
-import urllib.request
 from discord import app_commands
 from summa_lookup import get_summa, get_summa_random, parse_summa_ref
 from core import (
@@ -19,268 +15,51 @@ from core import (
 )
 from core import ROOT
 
-# ── !catena — Patristic commentary from catenabible.com ──────────────────────
+# ── !catena — the Fathers on a verse, from the library ───────────────────────
+# (Until 2026-11-11 this read catenabible.com, which turns away a request that names itself, so it posed as a
+# browser. Now it's the library's own Fathers -- data/catena_index.json, bot_commands/catena_local.py -- shown as the
+# 📖 Commentary under a Bible verse is: bot_commands/bible_commentary.py.)
 
-# Book name → catenabible.com URL abbreviation
-_CATENA_BOOKS = {
-    # OT
-    "genesis": "gn", "gen": "gn",
-    "exodus": "ex", "exod": "ex",
-    "leviticus": "lv", "lev": "lv",
-    "numbers": "nm", "num": "nm",
-    "deuteronomy": "dt", "deut": "dt",
-    "joshua": "jo", "josh": "jo",
-    "judges": "jg", "judg": "jg",
-    "ruth": "rt",
-    "1 samuel": "1sm", "1sam": "1sm",
-    "2 samuel": "2sm", "2sam": "2sm",
-    "1 kings": "1kgs", "1kgs": "1kgs",
-    "2 kings": "2kgs", "2kgs": "2kgs",
-    "1 chronicles": "1chr", "1chr": "1chr",
-    "2 chronicles": "2chr", "2chr": "2chr",
-    "ezra": "ezr",
-    "nehemiah": "ne", "neh": "ne",
-    "tobit": "tb", "tob": "tb",
-    "judith": "jdt",
-    "esther": "est",
-    "1 maccabees": "1mc", "1macc": "1mc",
-    "2 maccabees": "2mc", "2macc": "2mc",
-    "job": "jb",
-    "psalms": "ps", "psalm": "ps",
-    "proverbs": "prv", "prov": "prv",
-    "ecclesiastes": "eccl", "qoheleth": "eccl",
-    "song of songs": "sg", "song of solomon": "sg", "song": "sg",
-    "wisdom": "wis", "wisdom of solomon": "wis",
-    "sirach": "si", "ecclesiasticus": "si",
-    "isaiah": "is", "isa": "is",
-    "jeremiah": "jer",
-    "lamentations": "lam",
-    "baruch": "bar",
-    "ezekiel": "ez", "ezek": "ez",
-    "daniel": "dn", "dan": "dn",
-    "hosea": "hos",
-    "joel": "jl",
-    "amos": "am",
-    "obadiah": "ob",
-    "jonah": "jon",
-    "micah": "mi",
-    "nahum": "na",
-    "habakkuk": "hb", "hab": "hb",
-    "zephaniah": "zep",
-    "haggai": "hg",
-    "zechariah": "zec",
-    "malachi": "mal",
-    # NT
-    "matthew": "mt", "matt": "mt",
-    "mark": "mk",
-    "luke": "lk",
-    "john": "jn",
-    "acts": "ac", "acts of the apostles": "ac",
-    "romans": "rom",
-    "1 corinthians": "1cor", "1cor": "1cor",
-    "2 corinthians": "2cor", "2cor": "2cor",
-    "galatians": "gal",
-    "ephesians": "eph",
-    "philippians": "phil",
-    "colossians": "col",
-    "1 thessalonians": "1thes", "1thess": "1thes",
-    "2 thessalonians": "2thes", "2thess": "2thes",
-    "1 timothy": "1tm", "1tim": "1tm",
-    "2 timothy": "2tm", "2tim": "2tm",
-    "titus": "ti",
-    "philemon": "phm",
-    "hebrews": "heb",
-    "james": "jas",
-    "1 peter": "1pt", "1pet": "1pt",
-    "2 peter": "2pt", "2pet": "2pt",
-    "1 john": "1jn",
-    "2 john": "2jn",
-    "3 john": "3jn",
-    "jude": "jude",
-    "revelation": "rv", "rev": "rv", "apocalypse": "rv",
-}
-
-def _catena_book_abbr(book_raw: str) -> str | None:
-    """Return the catenabible.com URL abbreviation for a book name."""
-    key = book_raw.strip().lower()
-    if key in _CATENA_BOOKS:
-        return _CATENA_BOOKS[key]
-    # Try stripping leading digit+space for numbered books
-    for k, v in _CATENA_BOOKS.items():
-        if key == k:
-            return v
-    return None
+def _catena_ref(reference: str):
+    """(book, chapter, verse) of a Bible reference ("Jn 3:16", "John 3:16-18" -> its first verse), or None."""
+    from bot_commands import bible_commentary
+    reference = re.sub(r"(\d+:\d+)\s*[-–]\s*\d+$", r"\1", reference.strip())
+    result = lookup.get_verse(reference)
+    if not result.get("found"):
+        return None
+    book, ch, v = bible_commentary.parse(re.sub(r" \([^)]*\)$", "", result.get("reference", "")))
+    return (book, ch, v) if book in bible_commentary.books() and v else None
 
 
-CATENA_MAX = 30                       # passages fetched per verse (John 3:16 has 18)
-
-
-def _catena_text(markup: str) -> str:
-    """A passage's markup as plain text: <verseRef>John 3:16</verseRef> keeps its reference."""
-    import html as html_mod
-    text = re.sub(r"<verseRef>(.*?)</verseRef>", r"(\1)", markup)
-    text = html_mod.unescape(re.sub(r"<[^>]+>", "", text))
-    return re.sub(r"[ \t]+", " ", text).strip()
-
-
-def _fetch_catena_sections(reference: str, limit: int = CATENA_MAX) -> dict:
-    """
-    Pure helper: fetch and parse catenabible.com commentary for a verse.
-
-    Returns a dict with one of:
-      {"error_send": "...user-friendly error message..."}   on failure
-      {"sections": [(name, body), ...], "url": str,
-       "book_raw": str, "chapter": str, "verse": str}       on success
-    """
-    import urllib.request
-    import urllib.error
-    import html as html_mod
-
-    # Strip verse range if user passed one (e.g. "John 3:16-18" → "John 3:16")
-    reference = re.sub(r"(\d+:\d+)[-–]\d+$", r"\1", reference.strip())
-
-    # Parse "Book Chapter:Verse"
-    m = re.match(
-        r"^((?:\d\s*)?[A-Za-z][a-zA-Z\s]+?)\s+(\d+):(\d+)$",
-        reference.strip()
-    )
-    if not m:
-        return {"error_send": f"⚠️ Couldn't parse `{reference}`. Try: `!catena John 3:16`"}
-
-    book_raw, chapter, verse = m.group(1).strip(), m.group(2), m.group(3)
-    abbr = _catena_book_abbr(book_raw)
-    if abbr is None:
-        return {"error_send": f"⚠️ Book `{book_raw}` not found on catenabible.com."}
-
-    url = f"https://catenabible.com/{abbr}/{chapter}/{verse}"
-
-    # The site (rebuilt in 2026 as a JavaScript app) serves its commentary from a JSON API:
-    # the Fathers on a verse (?tab=index), then each passage by its paragraph id.
-    def get_json(api_url):
-        req = urllib.request.Request(api_url, headers={
-            # (the site turns away a user agent that names a bot)
-            "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) "
-                          "Chrome/120.0.0.0 Safari/537.36",
-            "Accept": "application/json"})
-        with urllib.request.urlopen(req, timeout=15) as r:
-            return json.loads(r.read().decode("utf-8"))
-
-    try:
-        index = get_json(f"https://catenabible.com/api/verse/{abbr}/{chapter}/{verse}?tab=index")
-    except urllib.error.HTTPError as e:
-        return {"error_send": f"⚠️ catenabible.com returned HTTP {e.code} for `{reference}`.\nVisit: <{url}>"}
-    except Exception as e:
-        return {"error_send": f"⚠️ Could not reach catenabible.com: {e}"}
-
-    entries = [(father, entry) for father in index.get("fathers", []) for entry in father.get("entries", [])]
-    entries = entries[:limit]
-
-    def passage(item):
-        father, entry = item
-        try:
-            body = get_json(f"https://catenabible.com/api/commentary/{entry['paragraphId']}")
-        except Exception:
-            return None
-        parts = [(body.get("commentary") or {}).get("text", "")]
-        parts += [p.get("text", "") for p in body.get("continuation") or []]
-        text = "\n\n".join(_catena_text(p) for p in parts if p).strip()
-        if len(text) < 20:
-            return None
-        year = father.get("yearReposed")
-        name = f"{father.get('fatherName', 'Unattributed')}" + (f" AD {year}" if year else "")
-        work = entry.get("workTitle") or (body.get("commentary") or {}).get("workTitle")
-        return name, text + (f"\n\n— *{work.rstrip('.')}*" if work else "")
-
-    with concurrent.futures.ThreadPoolExecutor(max_workers=8) as pool:
-        sections = [s for s in pool.map(passage, entries) if s]
-
-    return {
-        "sections": sections,
-        "url": url,
-        "book_raw": book_raw,
-        "chapter": chapter,
-        "verse": verse,
-    }
+def _fetch_catena_sections(reference: str, limit: int = 30) -> dict:
+    """The Fathers on a verse, in the shape the Verse of the Day reads: {"sections": [(who, text)], "book_raw",
+    "chapter", "verse"}, or {"error_send": ...}."""
+    from bot_commands import catena_local
+    found = _catena_ref(reference)
+    if not found:
+        return {"error_send": f"⚠️ Couldn't find `{reference}` in the Bible. Try: `!catena John 3:16`"}
+    book, ch, v = found
+    return {"sections": catena_local.sections(book, ch, v)[:limit], "url": None, "book_raw": book,
+            "chapter": str(ch), "verse": str(v)}
 
 
 @bot.command(name="catena")
 async def cmd_catena(ctx, *, reference: str = ""):
-    """Fetch patristic commentary from catenabible.com. Usage: !catena John 3:16"""
-    # If no reference given, use today's Verse of the Day reference
-    if not reference:
+    """What the Church Fathers said about a Bible verse, from the library. Usage: !catena John 3:16"""
+    import asyncio
+    from bot_commands import bible_commentary
+    if not reference:                                         # (today's Verse of the Day)
         ref_raw, _ = (await asyncio.to_thread(_scrape_votd))
         if ref_raw is None:
-            await ctx.send("⚠️ Could not fetch today's verse reference. Try: `!catena John 3:16`")
+            await ctx.send("Give a verse: `!catena John 3:16`")
             return
         reference = re.sub(r"\s*[-–]\s*\d+$", "", ref_raw.strip())
-
-    import asyncio
-    async with ctx.typing():
-        result = await asyncio.to_thread(_fetch_catena_sections, reference)   # many requests: off the event loop
-
-    if result.get("error_send"):
-        await ctx.send(result["error_send"])
+    found = await asyncio.to_thread(_catena_ref, reference)
+    if not found:
+        shown = discord.utils.escape_markdown(reference.strip()[:60])
+        await ctx.send(f"I couldn't find **{shown}** in the Bible. Try `!catena John 3:16`.")
         return
-
-    sections = result["sections"]
-    url = result["url"]
-    book_raw = result["book_raw"]
-    chapter = result["chapter"]
-    verse = result["verse"]
-
-    if not sections:
-        await ctx.send(f"⚠️ No commentary found for **{book_raw} {chapter}:{verse}**.\nVisit: <{url}>")
-        return
-
-    # ── Get KJV verse text ────────────────────────────────────────────────────
-    ref_label = f"{book_raw.title()} {chapter}:{verse}"
-    kjv_result = (await asyncio.to_thread(lookup.get_verse, f"{book_raw} {chapter}:{verse}"))
-    kjv_text = f"*{kjv_result['text']}*\n\n" if kjv_result.get("found") else ""
-
-    # ── Build paginated view ──────────────────────────────────────────────────
-    def make_embed(idx: int) -> discord.Embed:
-        name, body = sections[idx]
-        # Truncate body at sentence boundary if very long
-        if len(body) > 3200 - len(kjv_text):
-            limit = 3200 - len(kjv_text)
-            trunc = body[:limit]
-            last_period = trunc.rfind(". ")
-            body = (trunc[:last_period + 1] if last_period > 200 else trunc) + " …"
-
-        embed = discord.Embed(
-            title=f"📜 {ref_label} — {name}",
-            description=kjv_text + body,
-            color=discord.Color.dark_gold(),
-            url=url
-        )
-        embed.set_footer(text=f"Commentary {idx + 1} of {len(sections)} — catenabible.com")
-        return embed
-
-    class CatenaView(discord.ui.View):
-        def __init__(self):
-            super().__init__(timeout=120)
-            self.idx = 0
-
-        @discord.ui.button(emoji="◀", style=discord.ButtonStyle.secondary)
-        async def prev(self, interaction: discord.Interaction, button: discord.ui.Button):
-            self.idx = (self.idx - 1) % len(sections)
-            await interaction.response.edit_message(embed=make_embed(self.idx), view=self)
-
-        @discord.ui.button(emoji="▶", style=discord.ButtonStyle.secondary)
-        async def next(self, interaction: discord.Interaction, button: discord.ui.Button):
-            self.idx = (self.idx + 1) % len(sections)
-            await interaction.response.edit_message(embed=make_embed(self.idx), view=self)
-
-        async def on_timeout(self):
-            # Remove buttons when the view expires
-            try:
-                await self.message.edit(view=None)
-            except Exception:
-                pass
-
-    view = CatenaView()
-    msg = await ctx.send(embed=make_embed(0), view=view)
-    view.message = msg
+    await ctx.send(**bible_commentary.reply(*found))
 
 
 # ── Startup ────────────────────────────────────────────────────────────────────

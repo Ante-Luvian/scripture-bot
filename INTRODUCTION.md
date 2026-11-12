@@ -16,7 +16,7 @@ I'm a library of sacred and ancient texts that lives in this server. I can look 
 **4. Right-click any message** (on a phone: press and hold it), choose **Apps**, then **Look up verses** — I'll show you every reference in it (up to five), privately, just for you. Handy for long lists of verses, or older messages.
 
 **Buttons**
-Many of my answers come with buttons underneath. Under a Bible verse you'll see **Notes · Cross-refs · Interlinear · Catena · Card**, which dig deeper into that verse with one click (each is explained below), and **🖼️ Doré** when the passage has one of Doré's engravings. Long answers have **◀ ▶** buttons to turn the page.
+Many of my answers come with buttons underneath. Under a Bible verse you'll see **Notes · Cross-refs · Interlinear · Card · 📖 Commentary**, which dig deeper into that verse with one click (each is explained below), and **🖼️ Doré** when the passage has one of Doré's engravings. Long answers have **◀ ▶** buttons to turn the page.
 
 **Getting help any time**
 `!help` shows every command at a glance, and `!help <command>` explains one in detail — `!help verse`, `!help bcp`, `!help jewish`. The messages below are the full tour: first my library, then every command, grouped by what it's for.
@@ -124,8 +124,8 @@ A **🖌️** button shows the pictures of the old illustrated editions wherever
 **`!xref John 3:16`** — related verses elsewhere in the Bible, from the classic *Treasury of Scripture Knowledge*. (Also the **Cross-refs** button.)
 **`!quoted Isaiah 53:5`** — where the New Testament quotes the Old (or the Book of Enoch and other ancient writings), shown side by side, each labelled as a direct quotation or a looser parallel.
 **`!story flood`**: the same story as different traditions tell it, side by side. The Flood in Genesis, the Epic of Gilgamesh, Ovid, the Quran and the Maya Popol Vuh; also `!story creation`, `humans` (the first people, made from earth), `tower`, `underworld`, `ages` (the golden age and after), `end` and `christ` (pagan texts early Christians read as foretelling Christ, each with the Church Father who read it so). Choose one from the menu to read it in full; `!story` alone lists them.
-**`!cloud Ecclesiastes`** — a book's most distinctive words drawn as a picture, the bigger the word the more it sets that book apart from the rest of its collection: Ecclesiastes is *vanity*, *vexation* and *labour under the sun*, the Song of Solomon *beloved*, *myrrh* and *lilies*. Works for any book in the library (`!cloud Revelation`, `!cloud Tao Te Ching`).
-**`!catena John 3:16`** — what the early Church Fathers said about a verse. (Also the **Catena** button.)
+**`!cloud Ecclesiastes`** — a book's most distinctive words drawn as a picture, the bigger the word the more it sets that book apart from the rest of its collection: Ecclesiastes is *vanity*, *vexation* and *labour under the sun*. Works for any book in the library (`!cloud Revelation`, `!cloud Tao Te Ching`).
+**`!catena John 3:16`** — what the Church Fathers said about a verse. (Also **📖 Commentary** under a Bible verse.)
 
 **The original languages** (Strong's numbers are a standard numbering of every Hebrew and Greek word in the Bible — G for Greek, H for Hebrew):
 • `!strong G26` (or `!strong agape`) — the dictionary entry for a word (here *agapē*, love) · `!strong John 3:16` — a verse with every word numbered

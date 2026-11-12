@@ -95,7 +95,7 @@ def test_one_dm_lists_every_failed_source(health):
 def test_every_source_is_checked(health):
     names = [s[0] for s in health.SOURCES]
     for host in ("bolls.life", "Sefaria", "netbible.org", "SuttaCentral", "BaniDB", "verseoftheday.com",
-                 "oca.org", "aladhan.com", "catenabible.com", "newadvent.org", "gematrix.org"):
+                 "oca.org", "aladhan.com", "newadvent.org", "gematrix.org"):
         assert host in names, host
 
 

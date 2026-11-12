@@ -80,7 +80,7 @@ Prefix commands use `!`; most also have a `/` slash-command version.
 
 | Command | Aliases | What it does |
 |---|---|---|
-| `!verse <ref>` | `!v`, `!scripture` | Look up a verse, range, or chapter. `!verse` alone = random verse; `!verse Enoch` = random verse from a book. Add a translation (`!verse John 3:16 esv`) or several for a side-by-side (`!verse John 3:16 kjv web`). Bible verses come with Notes · Cross-refs · Interlinear · Catena · Card buttons. |
+| `!verse <ref>` | `!v`, `!scripture` | Look up a verse, range, or chapter. `!verse` alone = random verse; `!verse Enoch` = random verse from a book. Add a translation (`!verse John 3:16 esv`) or several for a side-by-side (`!verse John 3:16 kjv web`). Bible verses come with Notes · Cross-refs · Interlinear · Card · 📖 Commentary buttons. |
 | `!search <text> [in:<tradition>]` | `!find` | Full-text search, optionally in one tradition (`TRADITIONS` in scripture_lookup.py) |
 | `!theme <word>` | `!topicacross` | One passage on a theme from each tradition, side by side |
 | `!books [filter]` | | Browse every collection, book, and chapter |
@@ -96,7 +96,7 @@ Prefix commands use `!`; most also have a `/` slash-command version.
 
 | Command | Aliases | What it does |
 |---|---|---|
-| `!catena <ref>` | | Patristic commentary (catenabible.com); also the 📜 Catena button under a Bible verse |
+| `!catena <ref>` | | The Fathers on a verse from the library (`bible_commentary.py`, `catena_local.py`; `data/catena_index.json` from `scripts/build_catena_index.py`): the Catena Aurea, commentaries and homilies on the book, the Breviary's homilies, quotations; also 📖 Commentary under a Bible verse |
 | `!story [name]` | `!stories`, `!myth` | One story across traditions (`stories.py`, curated in `data/stories.json`: a reference and a quotation per passage, both checked against the text by `tests/test_stories.py`); `christ` adds the Church Fathers who read each pagan text as foretelling Christ |
 | `!cloud <book>` | `!wordcloud` | A book's most distinctive words as an image (`cloud.py`, the `wordcloud` package): tf-idf against the other books of its corpus, stopwords (KJV's included) removed |
 | `!saint [name \| day]` | `!saints`, `!saintoftheday` | The saint of the day, or by name/day (`saints.py`, `data/saints/saints.json` from `build_saints.py`): Butler's 1894 abridged Lives, with a 📖 Golden Legend button; Legend-only saints open to the Legend; several of a name give a picker |
@@ -482,7 +482,7 @@ them up separately if you move machines.
 **Online services.** Some commands fetch from the web, so they need internet
 access (local `!verse` lookups don't): bolls.life (translations), netbible.org (`!notes`;
 bolls.life as backup), sefaria.org
-(rabbinic texts), catenabible.com (`!catena`), newadvent.org (`!summa`),
+(rabbinic texts), newadvent.org (`!summa`),
 gematrix.org (`!gematria`), verseoftheday.com (`!votd`), openbible.info (`!xref`),
 deadseascrolls.org.il (`!variants`), and hebcal.com / orthocal.info /
 universalis.com / api.aladhan.com (`!today`).
