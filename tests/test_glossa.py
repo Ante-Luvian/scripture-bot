@@ -58,7 +58,7 @@ CHECKED = {("Hosea", "7", "7", "They were all heated like an oven"), ("Hosea", "
            ("Joel", "3", "9", "rouse up the strong"), ("Jonah", "1", "6", "and said to him: Why art thou fast asleep?"),
            ("Jonah", "4", "9", "And the Lord said"),
            ("Amos", "1", "5", "and … shall be carried away"), ("Amos", "3", "11", "and … shall be taken away from thee"),
-           ("Amos", "6", "1", "ye great men, heads of the people")}
+           ("Amos", "6", "1", "ye great men, heads of the people"), ("Obadiah", "1", "13", "Neither shalt thou enter")}
 
 
 def _words(s):
@@ -106,6 +106,14 @@ def test_amos_on_the_kjvs_numbering():
     assert "Can horses run upon the rocks" in amos["6"]["12"] and "from the entrance of Emath" in amos["6"]["14"]
     assert "**“is fallen”**" in amos["5"]["2"] and "**“is fallen”**" not in amos["5"]["1"]
     assert "And I will plant them" in amos["9"]["15"]
+
+
+def test_obadiah_whole():
+    """Obadiah's one chapter numbers alike in the Vulgate and the KJV (21 verses)."""
+    obadiah = DATA["books"]["Glossa Ordinaria on Obadiah"]
+    assert list(obadiah) == ["1"] and sorted(obadiah["1"], key=int)[-1] == "21"
+    assert "the kingdom shall be for the Lord" not in obadiah["1"]["1"]
+    assert "**“saviours”**" in obadiah["1"]["21"]
 
 
 def test_every_gloss_in_english_and_clean():

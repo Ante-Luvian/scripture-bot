@@ -1796,6 +1796,8 @@ ALIASES: dict[str, str] = {
     "glossa on joel": "Glossa Ordinaria on Joel",
     "glossa amos": "Glossa Ordinaria on Amos", "glossa ordinaria amos": "Glossa Ordinaria on Amos",
     "glossa on amos": "Glossa Ordinaria on Amos",
+    "glossa obadiah": "Glossa Ordinaria on Obadiah", "glossa ordinaria obadiah": "Glossa Ordinaria on Obadiah",
+    "glossa on obadiah": "Glossa Ordinaria on Obadiah", "glossa abdias": "Glossa Ordinaria on Obadiah",
     # The Breviary's readings from the Fathers (scripts/build_breviary.py)
     "breviary": "Readings from the Breviary", "breviary readings": "Readings from the Breviary",
     "readings from the roman breviary": "Readings from the Breviary", "matins readings": "Readings from the Breviary",
