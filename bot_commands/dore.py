@@ -18,6 +18,7 @@ import discord
 
 from bot_commands import illustrations
 from core import ROOT, bot, local_picture, lookup
+from scripture_lookup import SINGLE_CHAPTER_BOOKS
 
 PLATES_PATH = ROOT / "data" / "dore" / "plates.json"
 BLAKE_PATH = ROOT / "data" / "blake" / "art.json"
@@ -82,6 +83,8 @@ def for_result(result: dict, artist: str = "dore") -> list:
     if not m:
         return []
     book = lookup._resolve_book(m["book"])[1] or m["book"]
+    if not m["v1"] and book in SINGLE_CHAPTER_BOOKS:     # "Susanna 36" is verse 36 of its one chapter
+        return for_passage(book, 1, int(m["ch"]), int(m["ch"]), artist)
     start = int(m["v1"]) if m["v1"] else None
     return for_passage(book, int(m["ch"]), start, int(m["v2"]) if m["v2"] else start, artist)
 

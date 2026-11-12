@@ -7,7 +7,7 @@ reference (`!xref John 3:16`), a date (`!saint 25 July`). A command whose bare f
 import datetime
 import random
 
-from core import BIBLE_NT, BIBLE_OT, lookup, random_input
+from core import BIBLE_APOCRYPHA, BIBLE_NT, BIBLE_OT, lookup, random_input
 
 ALREADY_RANDOM = ""                   # (the command's own bare form is a random one)
 
@@ -196,8 +196,8 @@ def _canon() -> str:
     return str(random.choice(sorted(_load_canon())))
 
 
-def _bible_book() -> str:
-    return random.choice(BIBLE_OT + BIBLE_NT)
+def _bible_book() -> str:     # (the deuterocanon too; the Epistle of Jeremiah is held as Baruch 6)
+    return random.choice(BIBLE_OT + BIBLE_NT + [b for b in BIBLE_APOCRYPHA if b != "Epistle of Jeremiah"])
 
 
 def _quotation() -> str:

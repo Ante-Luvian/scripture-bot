@@ -11,7 +11,7 @@ import logging
 import re
 import time
 import traceback
-from scripture_lookup import BIBLE_NT, BIBLE_OT, ScriptureLookup
+from scripture_lookup import BIBLE_APOCRYPHA, BIBLE_NT, BIBLE_OT, ScriptureLookup
 from pathlib import Path
 from discord.ext import commands
 from hadith_lookup import get_hadith_section
@@ -753,10 +753,9 @@ _AUTO_RE = re.compile(
 # ── Stats tracking helpers ───────────────────────────────────────────────────
 
 _CATEGORY_BOOKS = {
-    "📖 Bible":            set(BIBLE_OT + BIBLE_NT),
+    "📖 Bible":            set(BIBLE_OT + BIBLE_NT + BIBLE_APOCRYPHA),     # (the deuterocanon counts as the Bible)
     "👼 Apocrypha":        {
-        "1 Esdras","2 Esdras","Tobit","Judith","Wisdom of Solomon",
-        "Sirach","Baruch","1 Maccabees","2 Maccabees","Book of Enoch",
+        "Book of Enoch",
         "Book of Jubilees","3 Maccabees","4 Maccabees","Psalms of Solomon",
         "Testament of Reuben","Testament of Simeon","Testament of Levi",
         "Testament of Judah","Testament of Issachar","Testament of Zebulun",

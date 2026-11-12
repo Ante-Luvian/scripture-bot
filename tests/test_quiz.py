@@ -16,7 +16,7 @@ def test_bible_question_is_well_formed(quiz, seed):
     q = quiz.make_question(hard=False, rng=random.Random(seed))
     assert q and len(q["choices"]) == 4 and len(set(q["choices"])) == 4
     assert q["answer"] in q["choices"]
-    testament = quiz.BIBLE_OT if q["answer"] in quiz.BIBLE_OT else quiz.BIBLE_NT
+    testament = quiz.OLD_TESTAMENT if q["answer"] in quiz.OLD_TESTAMENT else quiz.BIBLE_NT   # (with the deuterocanon)
     assert all(c in testament for c in q["choices"])      # distractors from the same Testament
     assert q["reference"].startswith(q["answer"])
     assert 25 <= len(q["text"]) <= quiz.MAX_TEXT and "**[" not in q["text"]

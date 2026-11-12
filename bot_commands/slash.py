@@ -57,8 +57,8 @@ def book_suggestions(current: str, limit: int = 25) -> list[str]:
     if re.search(r"\s\d", text):
         return [text[:100]]
     q = text.lower()
-    from scripture_lookup import ALIASES, BIBLE_NT, BIBLE_OT, HIDDEN_BOOKS
-    bible = BIBLE_OT + BIBLE_NT
+    from scripture_lookup import ALIASES, BIBLE_APOCRYPHA, BIBLE_NT, BIBLE_OT, HIDDEN_BOOKS
+    bible = BIBLE_OT + BIBLE_NT + [b for b in BIBLE_APOCRYPHA if b in {v[1] for v in lookup._book_index.values()}]
     others = sorted({v[1] for v in lookup._book_index.values()} - set(bible) - HIDDEN_BOOKS)
     ordered = bible + others
     starts = [b for b in ordered if b.lower().startswith(q)]

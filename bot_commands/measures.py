@@ -19,7 +19,7 @@ import discord
 from discord import app_commands
 
 from core import bot, lookup
-from scripture_lookup import BIBLE_OT
+from scripture_lookup import BIBLE_APOCRYPHA, BIBLE_OT
 
 COLOR = discord.Color.from_rgb(140, 110, 60)
 
@@ -464,7 +464,7 @@ def _unit_for(phrase: str, ref: str) -> "str | None":
     """The unit a KJV word means in this verse ('pound' and 'farthing' depend on where)."""
     keys = find_units(phrase)
     book = re.sub(r"\s*\d+:\d+.*$", "", ref)
-    old = book in BIBLE_OT
+    old = book in BIBLE_OT or book in BIBLE_APOCRYPHA
     if phrase.startswith("piece"):
         if "silver" in phrase:
             # Smith's PIECE OF SILVER: in the Old Testament, shekels are meant. Matthew's thirty

@@ -4873,6 +4873,8 @@ _KJV_TO_DR: dict[str, str] = {
     "Ezra":             "1 Esdras",
     "Nehemiah":         "2 Esdras",
     "Tobit":            "Tobias",
+    "Wisdom of Solomon": "Wisdom",
+    "Sirach":           "Ecclesiasticus",
     "Song of Solomon":  "Canticles",
     "Song of Songs":    "Canticles",
     "Isaiah":           "Isaias",
@@ -4954,6 +4956,9 @@ BIBLE_APOCRYPHA = [
     "Song of the Three Children","Susanna","Bel and the Dragon",
     "Prayer of Manasseh","1 Maccabees","2 Maccabees",
 ]
+# Books of one chapter, whose verses get_verse names without it ("Jude 3", "Susanna 36")
+SINGLE_CHAPTER_BOOKS = {"Obadiah", "Philemon", "2 John", "3 John", "Jude", "Susanna", "Bel and the Dragon",
+                        "Prayer of Manasseh", "Song of the Three Children"}
 
 
 def _load_drb() -> Optional[dict]:

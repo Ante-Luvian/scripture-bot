@@ -4,7 +4,8 @@
 import asyncio
 import discord
 import re
-from scripture_lookup import (BIBLE_APOCRYPHA, BIBLE_NT, BIBLE_OT, DRB_SUFFIXES, KNOX_SUFFIXES, TRADITIONS,
+from scripture_lookup import (BIBLE_APOCRYPHA, BIBLE_NT, BIBLE_OT, DRB_SUFFIXES, KNOX_SUFFIXES, SINGLE_CHAPTER_BOOKS,
+                              TRADITIONS,
                               get_verse_drb, get_verse_knox, tradition)
 from translation_lookup import (TRANSLATION_SUFFIXES, WITHDRAWN, get_parallel, get_random_verse, get_translation,
                                 search_translation)
@@ -74,7 +75,10 @@ async def _send_translation_parallel(ctx_or_interaction, result: dict):
 # shows offers them one click away.
 
 _BIBLE_BOOKS = set(BIBLE_OT + BIBLE_NT)
+_APOCRYPHA = set(BIBLE_APOCRYPHA)
 _STUDY_REF = re.compile(r"^(?P<book>.+?) (?P<ch>\d+):(?P<v1>\d+)(?:[–-](?P<v2>\d+))?(?: \([^)]*\))?$")
+_ONE_CHAPTER_REF = re.compile(r"^(?P<book>" + "|".join(map(re.escape, sorted(SINGLE_CHAPTER_BOOKS)))
+                              + r") (?P<v1>\d+)(?:[–-](?P<v2>\d+))?(?: \([^)]*\))?$")
 
 
 class _ButtonContext:
@@ -212,14 +216,19 @@ def _study_buttons(result: dict) -> list:
     """Notes / Cross-refs / Interlinear / Card / Catena buttons for a Bible verse or
     short range ("John 3:16", "John 3:16–18 (ESV)"); [] for anything else --
     whole chapters, other corpora, errors."""
-    m = _STUDY_REF.match(result.get("reference", "")) if result.get("found") else None
-    if not m or m["book"] not in _BIBLE_BOOKS:
+    found = result.get("reference", "") if result.get("found") else ""
+    m = _STUDY_REF.match(found) or _ONE_CHAPTER_REF.match(found)
+    if not m or m["book"] not in _BIBLE_BOOKS | _APOCRYPHA:
         return []
-    ref = f"{m['book']} {m['ch']}:{m['v1']}" + (f"-{m['v2']}" if m["v2"] else "")
+    ch = m["ch"] if "ch" in m.groupdict() else "1"     # ("Jude 3": a book of one chapter)
+    ref = f"{m['book']} {ch}:{m['v1']}" + (f"-{m['v2']}" if m["v2"] else "")
     span = int(m["v2"] or m["v1"]) - int(m["v1"]) + 1
-    actions = (["notes"] if span <= 5 else []) + ["xref", "inter", "card"]
+    if m["book"] in _APOCRYPHA:     # the NET notes, the cross-references and Strong's tagging cover only the 66 books
+        actions = ["card"]
+    else:
+        actions = (["notes"] if span <= 5 else []) + ["xref", "inter", "card"]
     # 📖 the Fathers on its first verse, from the library (it replaced 📜 Catena, which read catenabible.com)
-    return [StudyButton(action, ref) for action in actions] + bible_commentary.button_for(m["book"], int(m["ch"]),
+    return [StudyButton(action, ref) for action in actions] + bible_commentary.button_for(m["book"], int(ch),
                                                                                            int(m["v1"]))
 
 
@@ -315,9 +324,10 @@ async def verse_prefix(ctx, *, reference: str = ""):
                 result = (await asyncio.to_thread(get_random_verse, suffix))
             await _send_with_study(ctx, result)
             return
-        # Single translation lookup
+        # Single translation lookup (the KJV is held here: bolls.life's copy put Sirach's prologue into 1:1)
         async with ctx.typing():
-            result = (await asyncio.to_thread(get_translation, parts[0].strip(), parts[1]))
+            result = (await asyncio.to_thread(lookup.get_verse, parts[0].strip()) if suffix == "kjv" else
+                      await asyncio.to_thread(get_translation, parts[0].strip(), parts[1]))
         await _send_with_study(ctx, result)
         return
 
@@ -332,7 +342,7 @@ async def verse_prefix(ctx, *, reference: str = ""):
         await ctx.send(WITHDRAWN[preferred.lower()] + "\nYou had it as your default (`!prefer`), so I've "
                        "set you back to the KJV; `!prefer ESV` (or another) picks a new one.")
         preferred = None
-    if preferred:
+    if preferred and preferred.lower() != "kjv":     # (a KJV preference is the local lookup below)
         async with ctx.typing():
             pref_result = (await asyncio.to_thread(get_translation, ref, preferred))
         if pref_result.get("found"):

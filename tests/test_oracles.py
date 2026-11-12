@@ -38,7 +38,7 @@ def test_sortes_biblicae_draws_only_from_the_bible(oracles, monkeypatch, fake_ct
     monkeypatch.setattr(oracles.lookup, "random_verse_from_books",
                         lambda books: seen.append(books) or {"found": False, "error": "x"})
     asyncio.run(oracles.cmd_sortes_biblicae.callback(fake_ctx))
-    assert seen[0] == oracles.BIBLE_OT + oracles.BIBLE_NT   # no apocrypha, no other corpora
+    assert seen[0] == oracles.BIBLE_OT + oracles.BIBLE_APOCRYPHA + oracles.BIBLE_NT   # the deuterocanon too; nothing else
 
 
 @pytest.mark.parametrize("command", ["cmd_virgil", "cmd_homer", "cmd_delphi", "cmd_oracle"])

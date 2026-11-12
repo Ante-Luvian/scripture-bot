@@ -7,7 +7,7 @@ import functools
 import random
 import re
 import runes
-from scripture_lookup import BIBLE_NT, BIBLE_OT
+from scripture_lookup import BIBLE_APOCRYPHA, BIBLE_NT, BIBLE_OT
 from bot_commands import illustrations
 from bot_commands.card import (
     _render_parallel_card,
@@ -555,7 +555,7 @@ async def cmd_oracle(ctx, *, question: str = ""):
 async def cmd_sortes_biblicae(ctx, *, question: str = ""):
     """Sortes Biblicae: open the Bible at random and read the verse your eye
     falls on -- the old practice of bibliomancy. Usage: !sortesbiblicae [optional question]"""
-    result = lookup.random_verse_from_books(BIBLE_OT + BIBLE_NT)
+    result = lookup.random_verse_from_books(BIBLE_OT + BIBLE_APOCRYPHA + BIBLE_NT)
     if not result.get("found"):
         await ctx.send(f"⚠️ {result.get('error', 'Could not open the Bible.')}")
         return

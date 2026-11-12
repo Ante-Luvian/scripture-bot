@@ -446,6 +446,8 @@ def get_net_notes(reference: str) -> dict:
     if not book_id:
         return _err(f"The NET doesn't have a book called **{book_raw}**.")
     canon = _get_canon_name("NET", book_id, book_raw.title())
+    if book_id > 66:   # the Apocrypha: the NET has none, and netbible.org answered Sirach 1:1 with Genesis 1:1's notes
+        return _err(f"The NET Bible has no Apocrypha, so there are no translators' notes on **{canon}**.")
 
     verses, source = _from_netbible(canon, chapter, v1, v2), "netbible"
     if verses is None:

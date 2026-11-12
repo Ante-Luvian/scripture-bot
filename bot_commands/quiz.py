@@ -18,7 +18,10 @@ from discord import app_commands
 from discord.ext import commands, tasks
 
 from core import ROOT, _atomic_write_json, _load_guild_config, _update_guild_config, bot, log, lookup
-from scripture_lookup import BIBLE_NT, BIBLE_OT, TRADITIONS, tradition
+from scripture_lookup import BIBLE_APOCRYPHA, BIBLE_NT, BIBLE_OT, TRADITIONS, tradition
+
+# The Old Testament with the deuterocanon (the Epistle of Jeremiah is held as Baruch 6, so it can't be an answer)
+OLD_TESTAMENT = BIBLE_OT + [b for b in BIBLE_APOCRYPHA if b != "Epistle of Jeremiah"]
 
 QUIZ_SCORES_PATH = ROOT / "data" / "quiz_scores.json"
 ROUND_SECONDS = 60
@@ -115,7 +118,7 @@ def make_question(hard: bool = False, rng: random.Random = random, tradition: st
             result = lookup.random_verse_from_book(book)
             others = [name for _, name in hard_pool if name != answer]
         else:
-            testament = BIBLE_OT if rng.random() < 0.6 else BIBLE_NT
+            testament = OLD_TESTAMENT if rng.random() < 0.6 else BIBLE_NT
             result = lookup.random_verse_from_books(testament)
             answer = result.get("book") or ""
             others = [b for b in testament if b != answer]

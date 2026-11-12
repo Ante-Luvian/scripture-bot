@@ -29,6 +29,12 @@ BOOKS_TREE = [
             "Amos","Obadiah","Jonah","Micah","Nahum","Habakkuk","Zephaniah",
             "Haggai","Zechariah","Malachi",
         ]),
+        # The Catholic and Anglican deuterocanon (the KJV's Apocrypha), between the Testaments as those Bibles have it
+        ("Deuterocanon", [
+            "Tobit","Judith","Additions to Esther","Wisdom of Solomon","Sirach","Baruch","Epistle of Jeremiah",
+            "Song of the Three Children","Susanna","Bel and the Dragon","1 Maccabees","2 Maccabees",
+            "1 Esdras","2 Esdras","Prayer of Manasseh",
+        ]),
         ("New Testament", [
             "Matthew","Mark","Luke","John","Acts","Romans",
             "1 Corinthians","2 Corinthians","Galatians","Ephesians",
@@ -38,12 +44,6 @@ BOOKS_TREE = [
         ]),
     ]),
     ("👼 Apocrypha", [
-        ("Old Testament Apocrypha", [
-            "1 Esdras","2 Esdras","Tobit","Judith","Additions to Esther",
-            "Wisdom of Solomon","Sirach","Baruch","Epistle of Jeremiah",
-            "Song of the Three Children","Susanna","Bel and the Dragon",
-            "Prayer of Manasseh","1 Maccabees","2 Maccabees",
-        ]),
         ("Ethiopian Orthodox Canon", ["1 Meqabyan", "2 Meqabyan", "3 Meqabyan", "Kebra Nagast"]),
         # (Christian retellings of the Old Testament stories, which the pseudepigrapha shelf used to hold)
         ("Christian Legends of the Old Testament", [

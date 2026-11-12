@@ -90,7 +90,7 @@ def find_verses(content: str, limit: int = 3, guild_id=None) -> list:
         suffix_m = re.search(escaped + r"\s+(\S+)", content, re.IGNORECASE)
         suffix = suffix_m.group(1).lower() if suffix_m else ""
 
-        if suffix in TRANSLATION_SUFFIXES:
+        if suffix in TRANSLATION_SUFFIXES and suffix != "kjv":   # (the KJV is held here: the lookup below)
             result = get_translation(ref, suffix)
         elif suffix in DRB_SUFFIXES:
             result = get_verse_drb(ref)

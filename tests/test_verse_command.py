@@ -54,7 +54,10 @@ def _labels(buttons):
     ("1 Corinthians 13:4", ["Notes", "Cross-refs", "Interlinear", "Card", "Commentary"]),
     ("Psalms 23",          []),   # whole chapter
     ("Quran 1:1",          []),   # not the Bible
-    ("Tobit 1:1",          []),   # apocrypha: no NET notes / Strong's
+    ("Tobit 1:1",          ["Card"]),   # apocrypha: no NET notes, cross-references or Strong's
+    ("Sirach 1:1",         ["Card", "Commentary"]),   # (the Glossa Ordinaria on Sirach)
+    ("Jude 3",             ["Notes", "Cross-refs", "Interlinear", "Card"]),   # a book of one chapter
+    ("Susanna 36",         ["Card"]),
     ("Book of Enoch 1:9",  []),
 ])
 def test_study_buttons_only_for_bible_verses(verse, reference, labels):
@@ -157,6 +160,34 @@ def test_verse_command_attaches_study_buttons(verse, monkeypatch, fake_ctx):
                                                      "Previous", "Next", "Whole chapter"]
     # A view that times out unregisters its persistent buttons bot-wide
     assert view.timeout is None
+
+
+@pytest.mark.parametrize("preferred, reference", [("kjv", "Sirach 1:1"), (None, "Sirach 1:1 kjv")])
+def test_the_kjv_comes_from_the_local_text(verse, monkeypatch, fake_ctx, preferred, reference):
+    """A KJV preference (or suffix) went to bolls.life, whose KJV put Sirach's prologue into 1:1 (two pages where
+    the chat lookup gave the verse), with none of the buttons; the KJV is held here."""
+    monkeypatch.setattr(verse, "_get_preferred_translation", lambda user_id: preferred)
+    monkeypatch.setattr(verse, "get_translation", lambda *a: pytest.fail("asked bolls.life for the KJV"))
+    asyncio.run(verse.verse_prefix.callback(fake_ctx, reference=reference))
+    embed, view = fake_ctx.sent[0]["embed"], fake_ctx.sent[0]["view"]
+    assert embed.description == "All wisdom cometh from the Lord, and is with him for ever."
+    assert [c.item.label for c in view.children][:2] == ["Card", "Commentary"]
+
+
+@pytest.mark.parametrize("reference, book", [("Sirach 1:1", "Ecclesiasticus"), ("Wisdom of Solomon 1:1", "Wisdom"),
+                                             ("Ecclesiasticus 1:1", "Ecclesiasticus"), ("Sir 1:1", "Ecclesiasticus")])
+def test_kjv_apocrypha_names_find_the_douay_book(reference, book):
+    """`!verse sirach 1:1 drb` said "Book sirach not found in the Douay-Rheims Bible"."""
+    from scripture_lookup import get_verse_drb
+    result = get_verse_drb(reference)
+    assert result["found"] and result["book"] == book
+
+
+def test_no_net_notes_for_the_apocrypha():
+    """`!notes Sirach 1:1` showed Genesis 1:1's notes (the NET has no Apocrypha); it now says so, offline."""
+    from net_notes_lookup import get_net_notes
+    result = get_net_notes("Sirach 1:1")
+    assert not result["found"] and "no Apocrypha" in result["error"]
 
 
 def test_plain_verse_lookup_sends_result(verse, monkeypatch, fake_ctx):
