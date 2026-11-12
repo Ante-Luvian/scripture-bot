@@ -23,7 +23,7 @@ LATIN = Path(__file__).resolve().parent / ".cache" / "glossa"
 ENGLISH = Path(__file__).resolve().parent / "glossa" / "english"
 LEMMAS = Path(__file__).resolve().parent / "glossa" / "lemmas"
 OUT = ROOT / "data" / "patristics" / "glossa_ordinaria.json"
-BOOKS = {"44": "Jonah"}                       # Gloss-e's numbers -> the KJV's names (the books translated so far)
+BOOKS = {"40": "Hosea", "44": "Jonah"}        # Gloss-e's numbers -> the KJV's names (the books translated so far)
 LABELS = {"[allegorically]": "Allegorically", "[the moral sense]": "In the moral sense", "[Jerome]": "Jerome",
           "[Haimo]": "Haimo", "[Gregory]": "Gregory"}
 
@@ -35,7 +35,19 @@ def jonah(c: int, v: int) -> tuple:
     return c, v
 
 
-VERSIFICATION = {"Jonah": jonah}
+def hosea(c: int, v: int) -> tuple:
+    """The Vulgate's Hosea 2:24 is the end of the KJV's 2:23; its 6:2-3 the KJV's 6:1-2 (its 6:1 begins with the end of
+    the KJV's 5:15, but is mostly the KJV's 6:1); its 14:1 the KJV's 13:16, and its 14:2-10 the KJV's 14:1-9."""
+    if c == 2 and v == 24:
+        return 2, 23
+    if c == 6 and v in (2, 3):
+        return 6, v - 1
+    if c == 14:
+        return (13, 16) if v == 1 else (14, v - 1)
+    return c, v
+
+
+VERSIFICATION = {"Hosea": hosea, "Jonah": jonah}
 
 
 def clean(s: str) -> str:

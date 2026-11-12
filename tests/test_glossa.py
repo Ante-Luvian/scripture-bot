@@ -16,6 +16,17 @@ def test_jonah_on_the_kjvs_numbering():
     assert jonah["1"]["1"].startswith("**“And it came to pass”** — The conjunction “and” joins this")
 
 
+def test_hosea_on_the_kjvs_numbering():
+    """The Vulgate's Hosea 14:1 (Samaria perishes) is the KJV's 13:16, its 14:2-10 the KJV's 14:1-9; its 6:2-3 the KJV's
+    6:1-2; its 2:24 the end of the KJV's 2:23."""
+    hosea = DATA["books"]["Glossa Ordinaria on Hosea"]
+    assert len(hosea) == 14 and "10" not in hosea["14"] and "24" not in hosea["2"]
+    assert hosea["13"]["16"].count("Let Samaria perish") >= 1
+    assert "Return, O Israel" in hosea["14"]["1"] and "Who is wise" in hosea["14"]["9"]
+    assert "he hath taken us" in hosea["6"]["1"] and "He will revive us" in hosea["6"]["2"]
+    assert "Thou art my people" in hosea["2"]["23"]
+
+
 def test_every_gloss_in_english_and_clean():
     for f in ENGLISH.glob("*.json"):
         for gid, text in json.loads(f.read_text(encoding="utf-8")).items():
