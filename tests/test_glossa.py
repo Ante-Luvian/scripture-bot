@@ -112,7 +112,13 @@ CHECKED = {("Hosea", "7", "7", "They were all heated like an oven"), ("Hosea", "
            # ... and the Vulgate adds lines the KJV lacks (4:27 "he will bring forward thy ways in peace"; 15:5 "In
            # abundant justice there is the greatest strength")
            ("Proverbs", "4", "27", "thy ways in peace"),
-           ("Proverbs", "15", "5", "of the wicked shall be rooted out")}
+           ("Proverbs", "15", "5", "of the wicked shall be rooted out"),
+           # Wisdom: the DR's wording differs from the KJV's
+           ("Wisdom of Solomon", "3", "5", "because God hath tried them"),
+           ("Wisdom of Solomon", "8", "6", "who … of those things"),
+           ("Wisdom of Solomon", "10", "6", "from the wicked that were perishing"),
+           ("Wisdom of Solomon", "11", "6", "thou gavest … to the unjust"),
+           ("Wisdom of Solomon", "15", "18", "things without sense")}
 
 
 def _words(s):
@@ -123,8 +129,10 @@ def test_every_note_under_the_kjv_verse_it_explains():
     """Each phrase's words are compared with the KJV verse it's shown under and that verse's neighbours: a phrase that
     fits a neighbour much better means the Latin Bible's numbering (or a verse it splits differently) has put the notes
     under the wrong verse. Check a new book with this before building on it (VERSIFICATION, MOVES)."""
-    kjv = json.loads((ROOT / "data" / "kjv" / "kjv_canon.json").read_text(encoding="utf-8"))
-    kjv = kjv.get("books", kjv)
+    kjv = {}
+    for part in ("kjv_canon.json", "kjv_apocrypha.json"):      # (Wisdom and Sirach are in the KJV's Apocrypha)
+        books = json.loads((ROOT / "data" / "kjv" / part).read_text(encoding="utf-8"))
+        kjv.update(books.get("books", books))
     wrong = []
     for title, chapters in DATA["books"].items():
         name = title.removeprefix("Glossa Ordinaria on ")
@@ -260,6 +268,20 @@ def test_proverbs_on_the_kjvs_numbering():
     assert "thy ways in peace" in proverbs["4"]["27"]
     assert "a valiant woman" in proverbs["31"]["10"]
     assert "no need of spoils" in proverbs["31"]["11"]
+
+
+def test_wisdom_on_the_kjvs_numbering():
+    """The Vulgate's Wisdom has lines the KJV lacks (5:14, 6:1, 6:23) and splits 11:5-6, 17:9 and 19:12 differently, so
+    its notes are renumbered to the KJV's (Wisdom of Solomon, in its Apocrypha), every chapter within the KJV's."""
+    wisdom = DATA["books"]["Glossa Ordinaria on Wisdom of Solomon"]
+    kjv = json.loads((ROOT / "data" / "kjv" / "kjv_apocrypha.json").read_text(encoding="utf-8"))
+    kjv = kjv.get("books", kjv)["Wisdom of Solomon"]
+    assert sorted(wisdom, key=int) == [str(c) for c in range(1, 20)]
+    for c, verses in wisdom.items():
+        assert max(map(int, verses)) <= max(map(int, kjv[c])), c
+    assert "Wisdom is better" in wisdom["6"]["1"]
+    assert "But thy wrath endured not for ever" in wisdom["16"]["5"]
+    assert "For in all things thou didst magnify" in wisdom["19"]["22"]
 
 
 def test_esther_stops_before_the_additions():

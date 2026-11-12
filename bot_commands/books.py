@@ -1397,6 +1397,7 @@ BOOKS_TREE = [
         ("The Glossa Ordinaria", ["Glossa Ordinaria on Ruth", "Glossa Ordinaria on Esther", "Glossa Ordinaria on Proverbs",
                                   "Glossa Ordinaria on Ecclesiastes",
                                   "Glossa Ordinaria on Song of Solomon",
+                                  "Glossa Ordinaria on Wisdom of Solomon",
                                   "Glossa Ordinaria on Lamentations",
                                   "Glossa Ordinaria on Hosea", "Glossa Ordinaria on Joel", "Glossa Ordinaria on Amos",
                                   "Glossa Ordinaria on Obadiah", "Glossa Ordinaria on Jonah",

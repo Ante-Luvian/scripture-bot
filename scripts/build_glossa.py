@@ -23,7 +23,7 @@ LATIN = Path(__file__).resolve().parent / ".cache" / "glossa"
 ENGLISH = Path(__file__).resolve().parent / "glossa" / "english"
 LEMMAS = Path(__file__).resolve().parent / "glossa" / "lemmas"
 OUT = ROOT / "data" / "patristics" / "glossa_ordinaria.json"
-BOOKS = {"10": "Ruth", "24": "Esther", "28": "Proverbs", "29": "Ecclesiastes", "30": "Song of Solomon", "35": "Lamentations", "40": "Hosea", "41": "Joel", "42": "Amos", "43": "Obadiah", "44": "Jonah", "45": "Micah", "46": "Nahum", "47": "Habakkuk", "48": "Zephaniah", "49": "Haggai", "50": "Zechariah", "51": "Malachi"}  # Gloss-e's numbers -> the KJV's names (the books translated so far)
+BOOKS = {"10": "Ruth", "24": "Esther", "28": "Proverbs", "29": "Ecclesiastes", "30": "Song of Solomon", "31": "Wisdom of Solomon", "35": "Lamentations", "40": "Hosea", "41": "Joel", "42": "Amos", "43": "Obadiah", "44": "Jonah", "45": "Micah", "46": "Nahum", "47": "Habakkuk", "48": "Zephaniah", "49": "Haggai", "50": "Zechariah", "51": "Malachi"}  # Gloss-e's numbers -> the KJV's names (the books translated so far)
 LABELS = {"[allegorically]": "Allegorically", "[the moral sense]": "In the moral sense", "[Jerome]": "Jerome",
           "[Haimo]": "Haimo", "[Gregory]": "Gregory", "[Paschasius]": "Paschasius", "[mystically]": "Mystically",
           "[historically]": "Historically", "[Gilbert]": "Gilbert", "[Alcuin]": "Alcuin"}
@@ -101,7 +101,33 @@ def ecclesiastes(c: int, v: int) -> tuple:
     return c, v
 
 
-VERSIFICATION = {"Proverbs": proverbs, "Hosea": hosea, "Amos": amos, "Jonah": jonah, "Micah": micah, "Haggai": haggai,
+def wisdom(c: int, v: int) -> tuple:
+    """The Vulgate's Wisdom against the KJV's (Wisdom of Solomon): 2:25 is the end of the KJV's 2:24; 5:14 is a line
+    the KJV lacks, after 5:13, so 5:15 on is one verse back; 6:1 ("Wisdom is better than strength") and 6:23 are lines
+    the KJV lacks, put with the verses beside them; 9:19 is the end of the KJV's 9:18; the Vulgate's 11:5-6 are the
+    KJV's 11:5; its 17:9 is the KJV's 17:9-10 and its 19:12 the KJV's 19:12-13, so the verses after them are one on."""
+    if c == 2 and v == 25:
+        return 2, 24
+    if c == 5 and v >= 14:
+        return 5, max(13, v - 1)
+    if c == 6:
+        if v == 1:
+            return 6, 1
+        if v <= 22:
+            return 6, v - 1
+        return 6, max(21, v - 2)
+    if c == 9 and v == 19:
+        return 9, 18
+    if c == 11 and v >= 6:
+        return 11, v - 1
+    if c == 17 and v >= 10:
+        return 17, v + 1
+    if c == 19 and v >= 13:
+        return 19, v + 1
+    return c, v
+
+
+VERSIFICATION = {"Wisdom of Solomon": wisdom, "Proverbs": proverbs,"Hosea": hosea, "Amos": amos, "Jonah": jonah, "Micah": micah, "Haggai": haggai,
                  "Song of Solomon": song, "Ecclesiastes": ecclesiastes}
 
 # Where a Vulgate verse straddles two of the KJV's, the glosses on the words the KJV puts in the other verse go there
@@ -145,6 +171,12 @@ MOVES = {
     **{f"47_interl{n}": (1, 14) for n in range(6061, 6064)},
     # Proverbs: the note on "and he shall have no need of spoils" (the end of 31:11), filed under 31:12
     "28_marg589": (31, 11),
+    # Wisdom: words the KJV has in the verse before or after the Vulgate's: "a reproach among the dead" (4:18), "the
+    # care of discipline is love" (6:17), "But thy wrath endured not for ever" (16:5), "for they suffered justly"
+    # (19:13), "For in all things thou didst magnify thy people" (19:22); and the note on Joseph sold (10:13), filed
+    # under 10:14
+    "31_interl3509": (4, 18), "31_interl3605": (6, 17), "31_marg1405": (10, 13),
+    "31_interl3973": (16, 5), "31_marg1458": (16, 5), "31_marg1497": (19, 13), "31_marg1500": (19, 22),
 }
 # ... and the words those long notes are about, in the Douay-Rheims's English
 WORDS = {"29_marg717": "Better is a child that is poor and wise, than a king that is old and foolish, who knoweth not "
@@ -206,7 +238,8 @@ def clean(s: str) -> str:
 DRB = ROOT / "data" / "drb.json"
 DR_NAMES = {"Hosea": "Osee", "Obadiah": "Abdias", "Jonah": "Jonas", "Micah": "Micheas", "Habakkuk": "Habacuc",
             "Zephaniah": "Sophonias", "Haggai": "Aggeus", "Zechariah": "Zacharias", "Malachi": "Malachias",
-            "Song of Solomon": "Canticles", "Isaiah": "Isaias", "Jeremiah": "Jeremias", "Ezekiel": "Ezechiel"}
+            "Song of Solomon": "Canticles", "Isaiah": "Isaias", "Jeremiah": "Jeremias", "Ezekiel": "Ezechiel",
+            "Wisdom of Solomon": "Wisdom", "Sirach": "Ecclesiasticus"}
 
 
 def douay(name: str, latin: dict, to_kjv, moved_from: dict) -> dict:
