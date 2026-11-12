@@ -24,7 +24,8 @@ ENGLISH = Path(__file__).resolve().parent / "glossa" / "english"
 LEMMAS = Path(__file__).resolve().parent / "glossa" / "lemmas"
 OUT = ROOT / "data" / "patristics" / "glossa_ordinaria.json"
 BOOKS = {"44": "Jonah"}                       # Gloss-e's numbers -> the KJV's names (the books translated so far)
-LABELS = {"[allegorically]": "Allegorically", "[the moral sense]": "In the moral sense", "[Jerome]": "Jerome"}
+LABELS = {"[allegorically]": "Allegorically", "[the moral sense]": "In the moral sense", "[Jerome]": "Jerome",
+          "[Haimo]": "Haimo", "[Gregory]": "Gregory"}
 
 
 def jonah(c: int, v: int) -> tuple:
