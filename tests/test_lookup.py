@@ -191,3 +191,14 @@ def test_hermas_part_table_is_contiguous(part, total):
 def test_roman_numbered_books(lookup, raw, book):
     """"I Kings 9" (how Sefaria writes it) gave 2 Kings 9, and "I John" 3 John: a fuzzy match."""
     assert lookup._resolve_book(raw)[1] == book
+
+
+def test_bare_bible_book_opens_chapter_one_of_our_text():
+    """`!verse Job` once came back as Sefaria's whole-book JPS Tanakh, footnotes and all,
+    and `!verse John` said it couldn't read the reference."""
+    from core import lookup
+    for name in ("Job", "Genesis", "John", "Sirach"):
+        r = lookup.get_verse(name)
+        assert r["found"], name
+        assert r["reference"] == f"{name} 1"
+        assert "JPS" not in (r.get("source") or "")

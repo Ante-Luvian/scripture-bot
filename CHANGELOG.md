@@ -4,6 +4,16 @@ What's new, newest first. When the bot starts after an update, she posts any
 entries a server hasn't seen yet to that server's changelog channel
 (`!changelogsetup #channel`); anyone can read recent ones with `!changelog`.
 
+## 2026-11-12 · A book's name on its own opens chapter 1
+
+- **Typing just a book's name now opens its first chapter, in the usual translation.** Until now,
+  `!verse Job` (no chapter or verse) went off to Sefaria, an online Jewish library, and came back
+  with its own English version of the Hebrew Bible, the JPS Tanakh. That's not the translation the
+  bot normally uses, and its footnotes ran into the text ("the Adversarya the Adversary Heb.
+  hassaṭan"). `!verse John`, meanwhile, just said it couldn't read the reference. Now `!verse Job`,
+  `!verse Genesis`, `!verse John` or `!verse Sirach` all open chapter 1 the same way `!verse Job 1`
+  does, with the page buttons to move on through the book.
+
 Format: one `## YYYY-MM-DD · Title` section per notable change (new commands,
 new features, fixes users would notice), with `- ` bullets written for users.
 Once an entry has been announced, don't change its heading — the heading is

@@ -3554,6 +3554,12 @@ class ScriptureLookup:
         ("Jerusalem Talmud Makkot 2:7:2-3:7:1")."""
         if self._parse_reference(ref) is not None:
             return None
+        # A bare name of a book we hold ("Job", "Genesis") opens its first chapter here: Sefaria would
+        # answer with its own whole-book text (the JPS Tanakh), which isn't the reader's translation
+        corpus, book = self._resolve_exact(ref)
+        if book is not None:
+            first = self._get_verse(f"{ref} 1")
+            return first if first.get("found") else None
         import sefaria_lookup
         return sefaria_lookup.fetch_sefaria_any(ref)
 
