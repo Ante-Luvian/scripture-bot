@@ -45,6 +45,10 @@ def groups(book: str, ch: int, v: int) -> list:
             out[0][2].append(f"**{who.replace(' (in the Catena Aurea)', '')}**\n{plain}")
             continue
         rank = next((e[0] for e in entries if e[1] == work or work.startswith("Aquinas")), 3)
+        if who == "The Glossa Ordinaria":
+            out.insert(0 if not out or out[0][0] != "The Catena Aurea" else 1,
+                       ("The Glossa Ordinaria", "The medieval Church's commentary, translated from the Latin", [body]))
+            continue
         if work == "Readings from the Breviary" or rank == 2:
             label = f"{who}: {work}" if work != "Readings from the Breviary" else f"The Breviary: {who}"
             found = next((g for g in out if g[0] == label[:100]), None)

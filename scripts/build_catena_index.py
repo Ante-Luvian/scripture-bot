@@ -106,6 +106,15 @@ def main():
             for v in verses:
                 add(gospel, int(ch), int(v), spans.get(f"{ch}:{v}", int(v)), [1, name, ch, v, 0])
 
+    # rank 2: the Glossa Ordinaria, verse by verse (its books' verses already on the KJV's numbering)
+    gl = PATRISTICS / "glossa_ordinaria.json"
+    if gl.exists():
+        for name, chapters in json.loads(gl.read_text(encoding="utf-8"))["books"].items():
+            book = name.replace("Glossa Ordinaria on ", "")
+            for ch, verses in chapters.items():
+                for v in verses:
+                    add(book, int(ch), int(v), int(v), [2, name, ch, v, 0])
+
     # rank 2: the Breviary's homilies on their Gospel
     br = json.loads((PATRISTICS / "breviary_readings.json").read_text(encoding="utf-8"))
     brname = next(iter(br["books"]))
@@ -140,7 +149,7 @@ def main():
     # ranks 2 and 3: the Fathers' own references
     latin_works, lemma_counts = [], {}
     for f in sorted(PATRISTICS.glob("*.json")):
-        if f.name in SKIP_FILES or f.name in ("catena_aurea.json", "breviary_readings.json"):
+        if f.name in SKIP_FILES or f.name in ("catena_aurea.json", "breviary_readings.json", "glossa_ordinaria.json"):
             continue
         data = json.loads(f.read_text(encoding="utf-8"))
         for work, chapters in data.get("books", {}).items():

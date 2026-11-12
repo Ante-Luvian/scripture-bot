@@ -112,6 +112,9 @@ def sections(book: str, chapter: int, verse: int) -> list:
             continue
         seen_works.add((work, ch))
         who = writer_of().get(work, "")
+        if work.startswith("Glossa Ordinaria on "):
+            out.append(("The Glossa Ordinaria", f"{text}\n\n— *{work}, translated for ScriptureBot*"))
+            continue
         if work == "Readings from the Breviary":
             head = next((l.strip("*") for l in text.split("\n") if l.startswith("*") and not l.startswith("*On ")
                          and re.search(r"Homily|Sermon|From", l)), "")

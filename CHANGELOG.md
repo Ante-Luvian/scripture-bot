@@ -14,6 +14,10 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-11-11 · The Glossa Ordinaria begins: Jonah
+- 📜 **The *Glossa Ordinaria***, the great commentary of the medieval Church, is coming to the library in English, starting with **Jonah**. In the Middle Ages almost every Bible was copied with the Glossa around it: short notes between the lines and longer ones in the margins, drawn from the Church Fathers, explaining the words, their meaning for Christ and the Church, and their lesson for the soul. It covers every book of the Bible, so it will bring commentary to the many Old Testament books the library had little or nothing on. It has never been translated into English as a whole. This translation was made for ScriptureBot from the Latin of the first printed edition (Strasbourg, 1480), in Martin Morard's modern edition.
+- Press **📖 Commentary** under any verse of Jonah to read it, or browse `!books Glossa Ordinaria on Jonah`. Try `!verse Jonah 1:17`, the great fish. More books will follow.
+
 ## 2026-11-11 · More commentary on Paul, Hebrews and Job
 - 📖 **The Commentary button now has far more on St Paul's letters, Hebrews and Job.** St John Chrysostom preached through the whole of Paul's letters, and St Gregory the Great through the Book of Job, verse by verse. Their homilies are now linked to the verses they explain. Before, the button only found a verse where a translator had marked a reference beside it. Now about 84% of the verses of Paul's letters and Hebrews have a commentary, up from about 12%, and so do 38% of Job's, up from 6%. Try `!verse Romans 5:1`, `!verse Galatians 2:20` or `!verse Job 1:21`, then press **📖 Commentary**.
 
