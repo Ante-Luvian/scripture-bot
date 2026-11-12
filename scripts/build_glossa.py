@@ -23,10 +23,13 @@ LATIN = Path(__file__).resolve().parent / ".cache" / "glossa"
 ENGLISH = Path(__file__).resolve().parent / "glossa" / "english"
 LEMMAS = Path(__file__).resolve().parent / "glossa" / "lemmas"
 OUT = ROOT / "data" / "patristics" / "glossa_ordinaria.json"
-BOOKS = {"10": "Ruth", "24": "Esther", "28": "Proverbs", "29": "Ecclesiastes", "30": "Song of Solomon", "31": "Wisdom of Solomon", "32": "Sirach", "35": "Lamentations", "40": "Hosea", "41": "Joel", "42": "Amos", "43": "Obadiah", "44": "Jonah", "45": "Micah", "46": "Nahum", "47": "Habakkuk", "48": "Zephaniah", "49": "Haggai", "50": "Zechariah", "51": "Malachi"}  # Gloss-e's numbers -> the KJV's names (the books translated so far)
+BOOKS = {"10": "Ruth", "24": "Esther", "25": "Job","28": "Proverbs", "29": "Ecclesiastes", "30": "Song of Solomon", "31": "Wisdom of Solomon", "32": "Sirach", "35": "Lamentations", "40": "Hosea", "41": "Joel", "42": "Amos", "43": "Obadiah", "44": "Jonah", "45": "Micah", "46": "Nahum", "47": "Habakkuk", "48": "Zephaniah", "49": "Haggai", "50": "Zechariah", "51": "Malachi"}  # Gloss-e's numbers -> the KJV's names (the books translated so far)
 LABELS = {"[allegorically]": "Allegorically", "[the moral sense]": "In the moral sense", "[Jerome]": "Jerome",
           "[Haimo]": "Haimo", "[Gregory]": "Gregory", "[Paschasius]": "Paschasius", "[mystically]": "Mystically",
           "[historically]": "Historically", "[Gilbert]": "Gilbert", "[Alcuin]": "Alcuin"}
+# (the later books' lemmas give these headings plainly: a source or a sense, not words of the verse)
+LABELS.update({w: w for w in ("Allegorically", "Morally", "Mystically", "Historically", "Jerome", "Gregory", "Bede",
+                              "Augustine", "Strabo", "Isidore", "Alcuin", "Rabanus", "Haimo", "Origen", "Ambrose")})
 
 
 def jonah(c: int, v: int) -> tuple:
@@ -79,6 +82,21 @@ def song(c: int, v: int) -> tuple:
         return 6, 1
     if c == 6:
         return 6, v + 1
+    return c, v
+
+
+def job(c: int, v: int) -> tuple:
+    """The Vulgate's Job 16:5 ("and would wag my head over you") is the end of the KJV's 16:4, so its 16:6-23 are the
+    KJV's 16:5-22; its 39:31-35 are the KJV's 40:1-5, its 40:1-19 the KJV's 40:6-24, its 40:20-28 (the leviathan) the
+    KJV's 41:1-9, and its 41:1-25 the KJV's 41:10-34. Its 42:16 holds the KJV's 42:16-17."""
+    if c == 16 and v >= 5:
+        return 16, 4 if v == 5 else v - 1
+    if c == 39 and v >= 31:
+        return 40, v - 30
+    if c == 40:
+        return (40, v + 5) if v <= 19 else (41, v - 19)
+    if c == 41:
+        return 41, v + 9
     return c, v
 
 
@@ -151,7 +169,7 @@ def sirach_douay(c: int, v: int) -> tuple:
     return (c, v - 1) if c == 29 and v >= 19 else (c, v)
 
 
-VERSIFICATION = {"Sirach": sirach, "Wisdom of Solomon": wisdom, "Proverbs": proverbs,"Hosea": hosea, "Amos": amos, "Jonah": jonah, "Micah": micah, "Haggai": haggai,
+VERSIFICATION = {"Job": job, "Sirach": sirach, "Wisdom of Solomon": wisdom, "Proverbs": proverbs,"Hosea": hosea, "Amos": amos, "Jonah": jonah, "Micah": micah, "Haggai": haggai,
                  "Song of Solomon": song, "Ecclesiastes": ecclesiastes}
 # ... and where the edition's own verse numbers differ from the Douay-Rheims's (for the card's Douay-Rheims text)
 DOUAY_NUMBERS = {"Sirach": sirach_douay}
@@ -197,6 +215,13 @@ MOVES = {
     **{f"47_interl{n}": (1, 14) for n in range(6061, 6064)},
     # Proverbs: the note on "and he shall have no need of spoils" (the end of 31:11), filed under 31:12
     "28_marg589": (31, 11),
+    # Job: long notes the edition files a verse or two late, under the next verse ("neither shall his place know him",
+    # 7:10; "why hast thou set me opposite", 7:20; "stripped the naked", 22:6; "Who shut up the sea with doors" and
+    # "When I made a cloud the garment", 38:8-9; "fourteen thousand sheep", 42:12), and the Vulgate's 30:16 ("And now
+    # my soul fadeth"), which the edition runs into 30:15
+    "25_marg839": (7, 10), "25_marg851": (7, 20), "25_marg1355": (22, 6), "25_marg1974": (38, 8),
+    "25_marg1975": (38, 9), "25_marg2201": (42, 12),
+    "25_interl3072": (30, 16), "25_marg1663": (30, 16), "25_interl3073": (30, 16),
     # Wisdom: words the KJV has in the verse before or after the Vulgate's: "a reproach among the dead" (4:18), "the
     # care of discipline is love" (6:17), "But thy wrath endured not for ever" (16:5), "for they suffered justly"
     # (19:13), "For in all things thou didst magnify thy people" (19:22); and the note on Joseph sold (10:13), filed

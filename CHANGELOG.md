@@ -4,6 +4,12 @@ What's new, newest first. When the bot starts after an update, she posts any
 entries a server hasn't seen yet to that server's changelog channel
 (`!changelogsetup #channel`); anyone can read recent ones with `!changelog`.
 
+## 2026-11-12 · The Glossa Ordinaria on Job
+
+- 📜 **The *Glossa Ordinaria* on Job is here, in English.** The Glossa is the medieval Church's great Bible commentary: short notes written between the lines of the Bible and longer ones in the margins, gathered from the Church Fathers. For Job most of it is drawn from Pope Gregory the Great's *Morals on Job* (about 590), boiled down verse by verse, with Augustine, Jerome and others. It reads the book on three levels: the story of a good man tested; Job as a figure of Christ, who suffered though innocent, and his friends as heretics who speak about God wrongly; and, in the moral sense, what Job's patience teaches anyone who suffers.
+- All 42 chapters are translated, about 3,300 notes, made for ScriptureBot from the Latin of the first printed edition (1480), with Bible quotations in the Douay-Rheims wording. The Latin Bible numbers part of chapter 16 and chapters 39 to 41 differently from the KJV (its leviathan begins in chapter 40), so the notes have been moved to the KJV's verse numbers.
+- Press **📖 Commentary** under any verse of Job: the Glossa now comes first, and Gregory's own *Morals*, which was already there, is still in the menu. You can also browse `!books Glossa Ordinaria on Job`. Try `!verse Job 1:21` ("the Lord gave, and the Lord hath taken away"), `!verse Job 19:25` ("I know that my redeemer liveth") or `!verse Job 38:4` ("Where wast thou when I laid the foundations of the earth?").
+
 ## 2026-11-12 · A book's name on its own gives a random verse again
 
 - **Correction to the last update: `!verse` with just a book's name gives you a random verse from that

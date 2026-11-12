@@ -143,7 +143,22 @@ CHECKED = {("Hosea", "7", "7", "They were all heated like an oven"), ("Hosea", "
                ("39", "15", "and give glory to him"), ("41", "12", "Take care of a good"),
                ("46", "12", "That their memory might be"),
                ("49", "2", "He was directed by God unto the repentance of the nation"),
-               ("51", "13", "before I wandered about"), ("51", "17", "I found much … in myself"))}}
+               ("51", "13", "before I wandered about"), ("51", "17", "I found much … in myself"))},
+           # Job: the DR's wording of the verse differs from the KJV's (each read against the DR verse by hand)
+           *{("Job", c, v, head) for c, v, head in (
+               ("3", "14", "should have rest … with kings"), ("5", "23", "and the beasts of the earth"),
+               ("6", "19", "Consider the paths"), ("8", "7", "that … thy former things"),
+               ("9", "2", "and that man cannot be justified"), ("11", "19", "Thou shalt rest"),
+               ("15", "9", "what dost thou understand"), ("16", "3", "or is it any trouble to thee to speak?"),
+               ("16", "3", "or is it any trouble to thee to speak"), ("16", "4", "I would comfort"),
+               ("16", "9", "He hath gathered together his fury against me, and threatening me he hath gnashed"),
+               ("16", "9", "He hath gathered together his fury"), ("19", "6", "that God hath not … with an equal judgment"),
+               ("19", "29", "Flee then"), ("20", "14", "His bread in his belly"), ("28", "11", "The depths also of rivers"),
+               ("30", "13", "They have destroyed my ways"), ("31", "2", "For what part should God … have"),
+               ("31", "2", "For what part should … have in me"), ("35", "15", "For he doth not now bring on his fury,"),
+               ("36", "30", "he shall cover also the ends of the sea"), ("40", "4", "who hath spoken inconsiderately"),
+               ("40", "5", "which I wish I had not said:"), ("41", "11", "Who hath given me before"),
+               ("41", "16", "One is joined to another,"))}}
 
 
 def _words(s):
@@ -325,6 +340,22 @@ def test_sirach_on_the_kjvs_numbering():
     douay = DATA["douay"]["Sirach"]
     assert douay["book"] == "Ecclesiasticus" and douay["verses"]["29"]["14"]["ref"] == "29:18"
     assert "than the shield" in sirach["29"]["13"] and "the kindness of thy surety" in sirach["29"]["15"]
+
+
+def test_job_on_the_kjvs_numbering(bot_module):
+    """The Vulgate's Job 16:5 is the end of the KJV's 16:4; its 39:31-35 are the KJV's 40:1-5, its 40:1-19 the KJV's
+    40:6-24, its 40:20-28 the KJV's 41:1-9 and its 41 the KJV's 41:10-34; the Commentary button on Job opens it first,
+    before Gregory's Morals."""
+    job = DATA["books"]["Glossa Ordinaria on Job"]
+    assert sorted(job, key=int) == [str(c) for c in range(1, 43)]
+    assert "23" not in job["16"] and "31" not in job["39"] and "25" not in job["40"]
+    assert "**“Canst thou draw out the leviathan with a hook" in job["41"]["1"]
+    assert "**“who hath spoken inconsiderately”**" in job["40"]["4"]
+    assert "neither shall his place know him" in job["7"]["10"] and "days of affliction" in job["30"]["16"]
+    assert "*Morally:*" in "".join(v for c in job.values() for v in c.values())   # a heading, not a quoted phrase
+    from bot_commands import bible_commentary as B
+    assert [label for label, _, _ in B.groups("Job", 1, 1)][0] == "The Glossa Ordinaria"
+    assert "a man in the land of Hus" in B.reply("Job", 1, 1)["embed"].description
 
 
 def test_esther_stops_before_the_additions():
