@@ -551,7 +551,7 @@ cite "held to be forged c. 1911". The real scripture, the oral qewls, has no pub
   only where Gutenberg 8300 (scripts/.cache/douay/pg8300.txt) and EntireBible-DR.json agree AND drbo's word is plainly
   a slip (wrong name, non-word, dropped/doubled word, "beget" for begot); grammatical readings of drbo's own stay.
   Psalm titles drbo omits are build_drb.py's TITLES. Add new finds the same way, not from memory.
-- Done: Hosea (40), Joel (41), Amos (42), Obadiah (43), Jonah (44), Micah (45), Nahum (46), Habakkuk (47), Zephaniah (48), Haggai (49). Order agreed: the minor prophets, then (owner, 2026-11-12) the
+- Done: Hosea (40), Joel (41), Amos (42), Obadiah (43), Jonah (44), Micah (45), Nahum (46), Habakkuk (47), Zephaniah (48), Haggai (49), Zechariah (50). Order agreed: the minor prophets, then (owner, 2026-11-12) the
   Five Megillot, smallest first; then Isaiah, Jeremiah, Ezekiel, Daniel; Joshua-Esther; the Pentateuch; wisdom and
   Apocrypha. ~1,000 Latin words a chapter (Jonah: 4,121 words, 195 glosses).
 - Jerome's prologues (`Prol` chapters) are skipped for now: their page layout differs.

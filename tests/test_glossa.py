@@ -62,7 +62,11 @@ CHECKED = {("Hosea", "7", "7", "They were all heated like an oven"), ("Hosea", "
            ("Micah", "7", "14", "according to the days of old"),
            ("Habakkuk", "2", "6", "and it shall be said: Woe to him that heapeth together that which is not his own"),
            ("Habakkuk", "2", "19", "there is no … in the bowels thereof"),
-           ("Zephaniah", "3", "19", "and I will get them praise, and a name")}
+           ("Zephaniah", "3", "19", "and I will get them praise, and a name"),
+           ("Zechariah", "11", "11", "And it was made void in that day"),
+           ("Zechariah", "13", "1", "and of the unclean woman"),
+           ("Zechariah", "13", "8", "shall be scattered, and shall perish"),
+           ("Zechariah", "14", "8", "And it shall come to pass in that day")}
 
 
 def _words(s):
@@ -174,6 +178,16 @@ def test_haggai_on_the_kjvs_numbering(bot_module):
     assert "signet" not in hag["2"]["22"]
     from bot_commands import bible_commentary as B
     assert "— Douay-Rheims, Aggeus 2:1" in B.reply("Haggai", 1, 15)["embed"].description
+
+def test_zechariah_whole():
+    """Zechariah numbers alike in the Vulgate and the KJV; the notes on the angel going forth and on the vessel, which
+    the edition files under 5:7-8, go to 5:5-6, where those words are."""
+    zech = DATA["books"]["Glossa Ordinaria on Zechariah"]
+    assert sorted(zech, key=int) == [str(c) for c in range(1, 15)]
+    assert zech["5"]["5"].startswith("**“And the angel went forth”**")
+    assert "This is a vessel" in zech["5"]["6"]
+    assert "And the angel went forth" not in zech["5"].get("7", "")
+    assert "bridle of the horse" in zech["14"]["20"]
 
 
 def test_every_gloss_in_english_and_clean():
