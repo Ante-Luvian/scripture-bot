@@ -24,6 +24,26 @@ def books() -> list:
     return list(lookup._data.get("kjv", {}))
 
 
+@functools.lru_cache(maxsize=1)
+def _douay() -> dict:
+    """The Douay-Rheims's words for the verses the Glossa comments on (scripts/build_glossa.py): its notes quote that
+    Bible, and the Latin Bible numbers some verses differently from the KJV."""
+    import json
+    from core import ROOT
+    path = ROOT / "data" / "patristics" / "glossa_ordinaria.json"
+    return json.loads(path.read_text(encoding="utf-8")).get("douay", {}) if path.exists() else {}
+
+
+def douay_verse(book: str, ch: int, v: int) -> str:
+    """The verse in the Douay-Rheims, as the Glossa's card shows it, or '' if the Glossa doesn't cover it."""
+    entry = _douay().get(book, {})
+    found = entry.get("verses", {}).get(str(ch), {}).get(str(v))
+    if not found:
+        return ""
+    where = "" if found["ref"] == f"{ch}:{v}" else f", {entry['book']} {found['ref']}"
+    return f"*{found['text']}*\n— Douay-Rheims{where}"
+
+
 def verse_count(book: str, ch: int) -> int:
     return len(lookup._data.get("kjv", {}).get(book, {}).get(str(ch), {}))
 
@@ -94,7 +114,10 @@ def reply(book: str, ch: int, v: int, g: int = 0, page: int = 0) -> dict:
         label, desc, texts = found[g]
         pages = pages_of(texts)
         page = max(0, min(page, len(pages) - 1))
-        body = (f"*{verse}*\n\n" if verse and page == 0 else "") + pages[page]
+        # the Glossa's notes quote the Douay-Rheims, so its card shows the verse in that Bible's words and numbering
+        shown = douay_verse(book, ch, v) if label == "The Glossa Ordinaria" else ""
+        shown = shown or (f"*{verse}*" if verse else "")
+        body = (f"{shown}\n\n" if shown and page == 0 else "") + pages[page]
         embed = discord.Embed(title=f"📖 {label} on {ref}"[:256], description=body[:4096], color=COLOR)
         embed.set_footer(text=f"{desc}" + (f" · page {page + 1} of {len(pages)}" if len(pages) > 1 else "")
                               + " · from the library's Fathers")

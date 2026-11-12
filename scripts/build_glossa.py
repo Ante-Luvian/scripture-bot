@@ -23,7 +23,7 @@ LATIN = Path(__file__).resolve().parent / ".cache" / "glossa"
 ENGLISH = Path(__file__).resolve().parent / "glossa" / "english"
 LEMMAS = Path(__file__).resolve().parent / "glossa" / "lemmas"
 OUT = ROOT / "data" / "patristics" / "glossa_ordinaria.json"
-BOOKS = {"40": "Hosea", "41": "Joel", "44": "Jonah"}  # Gloss-e's numbers -> the KJV's names (the books translated so far)
+BOOKS = {"40": "Hosea", "41": "Joel", "42": "Amos", "44": "Jonah"}  # Gloss-e's numbers -> the KJV's names (the books translated so far)
 LABELS = {"[allegorically]": "Allegorically", "[the moral sense]": "In the moral sense", "[Jerome]": "Jerome",
           "[Haimo]": "Haimo", "[Gregory]": "Gregory"}
 
@@ -47,7 +47,14 @@ def hosea(c: int, v: int) -> tuple:
     return c, v
 
 
-VERSIFICATION = {"Hosea": hosea, "Jonah": jonah}
+def amos(c: int, v: int) -> tuple:
+    """The Vulgate's Amos 6:10-11 are the KJV's 6:10, and its 6:12-15 the KJV's 6:11-14."""
+    if c == 6 and v >= 11:
+        return 6, v - 1
+    return c, v
+
+
+VERSIFICATION = {"Hosea": hosea, "Amos": amos, "Jonah": jonah}
 
 # Where a Vulgate verse straddles two of the KJV's, the glosses on the words the KJV puts in the other verse go there
 # (gloss id -> KJV chapter and verse). Hosea 6:1 begins with the end of KJV 5:15 ("In their affliction they will rise
@@ -63,6 +70,8 @@ MOVES = {
                                     "marg2343", "interl3846", "interl3847", "marg2344")},
     # the Vulgate's Hosea 10:15 begins with the end of the KJV's 10:14 ("the mother was dashed upon her children")
     "40_marg2448": (10, 14),
+    # the Vulgate's Amos 5:1 ends "is fallen, and it shall rise no more", which the KJV puts in 5:2
+    **{f"42_{g}": (5, 2) for g in ("interl4895", "interl4896", "interl4897", "interl4898", "marg2761")},
 }
 # ... and the words those long notes are about, in the Douay-Rheims's English
 WORDS = {"40_marg2340": "He will revive us after two days: on the third day he will raise us up",
@@ -100,14 +109,41 @@ def clean(s: str) -> str:
     return re.sub(r"\s*\{t\. [^}]*\}\s*", " ", s).strip()
 
 
+DRB = ROOT / "data" / "drb.json"
+DR_NAMES = {"Hosea": "Osee", "Obadiah": "Abdias", "Jonah": "Jonas", "Micah": "Micheas", "Habakkuk": "Habacuc",
+            "Zephaniah": "Sophonias", "Haggai": "Aggeus", "Zechariah": "Zacharias", "Malachi": "Malachias",
+            "Song of Solomon": "Canticles", "Isaiah": "Isaias", "Jeremiah": "Jeremias", "Ezekiel": "Ezechiel"}
+
+
+def douay(name: str, latin: dict, to_kjv, moved_from: dict) -> dict:
+    """The Douay-Rheims's words for each KJV verse the Glossa comments on, since its notes quote that Bible, not the
+    KJV: the Vulgate verse(s) numbered as that KJV verse ({ch: {v: "text"}}); a KJV verse no Vulgate verse maps onto
+    (its words begin a Vulgate verse filed under the one before) gets the Vulgate verse its notes were moved from."""
+    dr = json.loads(DRB.read_text(encoding="utf-8"))[DR_NAMES.get(name, name)]
+    found = {}
+    for c, verses in latin.items():
+        for v in verses:
+            found.setdefault(to_kjv(int(c), int(v)), []).append((c, v))
+    for where, sources in moved_from.items():
+        found.setdefault(where, sorted(sources, key=lambda cv: (int(cv[0]), int(cv[1]))))
+    out = {}
+    for (kc, kv), sources in sorted(found.items()):
+        text = " ".join(dr.get(c, {}).get(v, "") for c, v in sources).strip()
+        if text:
+            refs = ", ".join(f"{c}:{v}" for c, v in sources)
+            out.setdefault(str(kc), {})[str(kv)] = {"ref": refs, "text": text}
+    return out
+
+
 def main():
-    books = {}
+    books, douays = {}, {}
     for n, name in BOOKS.items():
         latin = json.loads((LATIN / f"{n}.json").read_text(encoding="utf-8"))
         english = json.loads((ENGLISH / f"{n}.json").read_text(encoding="utf-8"))
         lemmas = json.loads((LEMMAS / f"{n}.json").read_text(encoding="utf-8"))
         to_kjv = VERSIFICATION.get(name, lambda c, v: (c, v))
         notes = {}                                  # (KJV chapter, verse) -> [(words, kind, English)]
+        moved_from = {}                             # KJV verse -> the Vulgate verses of the notes moved there
         missing = []
         for c, verses in latin["chapters"].items():
             for v, glosses in verses.items():
@@ -118,6 +154,8 @@ def main():
                         continue
                     words = WORDS.get(g["id"]) or lemmas.get(clean(g["lemma"]), "")
                     where = MOVES.get(g["id"]) or to_kjv(int(c), int(v))
+                    if g["id"] in MOVES:
+                        moved_from.setdefault(where, set()).add((c, v))
                     notes.setdefault(where, []).append((words, g["type"], text, g["id"]))
         chapters = {}
         for (kc, kv), verse_notes in sorted(notes.items()):
@@ -127,7 +165,10 @@ def main():
         if missing:
             raise SystemExit(f"{name}: {len(missing)} glosses not yet in English, e.g. {missing[:3]}")
         books[f"Glossa Ordinaria on {name}"] = chapters
-    data = {"source": "trans. for ScriptureBot from the Latin (ed. Morard, 1480/81 text)", "books": books}
+        douays[name] = {"book": DR_NAMES.get(name, name),
+                        "verses": douay(name, latin["chapters"], to_kjv, moved_from)}
+    data = {"source": "trans. for ScriptureBot from the Latin (ed. Morard, 1480/81 text)", "books": books,
+            "douay": douays}
     OUT.write_text(json.dumps(data, ensure_ascii=False, indent=1), encoding="utf-8")
     print(f"{len(books)} books, {sum(len(v) for c in books.values() for v in c.values())} verses -> "
           f"{OUT.relative_to(ROOT)}")

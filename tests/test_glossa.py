@@ -56,7 +56,9 @@ CHECKED = {("Hosea", "7", "7", "They were all heated like an oven"), ("Hosea", "
                                  "enter into the city"),
            ("Joel", "1", "17", "The beasts have rotted in their dung"), ("Joel", "2", "8", "yea, and … through the windows"),
            ("Joel", "3", "9", "rouse up the strong"), ("Jonah", "1", "6", "and said to him: Why art thou fast asleep?"),
-           ("Jonah", "4", "9", "And the Lord said")}
+           ("Jonah", "4", "9", "And the Lord said"),
+           ("Amos", "1", "5", "and … shall be carried away"), ("Amos", "3", "11", "and … shall be taken away from thee"),
+           ("Amos", "6", "1", "ye great men, heads of the people")}
 
 
 def _words(s):
@@ -95,6 +97,17 @@ def test_joel_whole():
     assert joel["2"]["28"].startswith("**“And it shall come to pass after this, that I will pour out my spirit")
 
 
+def test_amos_on_the_kjvs_numbering():
+    """The Vulgate's Amos 6:10-11 are the KJV's 6:10, its 6:12-15 the KJV's 6:11-14; its 5:1 ends with the start of the
+    KJV's 5:2 ("is fallen, and it shall rise no more")."""
+    amos = DATA["books"]["Glossa Ordinaria on Amos"]
+    assert sorted(amos, key=int) == [str(c) for c in range(1, 10)] and "15" not in amos["6"]
+    assert "Is there yet any with thee?" in amos["6"]["10"] and "There is an end" in amos["6"]["10"]
+    assert "Can horses run upon the rocks" in amos["6"]["12"] and "from the entrance of Emath" in amos["6"]["14"]
+    assert "**“is fallen”**" in amos["5"]["2"] and "**“is fallen”**" not in amos["5"]["1"]
+    assert "And I will plant them" in amos["9"]["15"]
+
+
 def test_every_gloss_in_english_and_clean():
     for f in ENGLISH.glob("*.json"):
         for gid, text in json.loads(f.read_text(encoding="utf-8")).items():
@@ -103,6 +116,20 @@ def test_every_gloss_in_english_and_clean():
         for ch, verses in book.items():
             for v, text in verses.items():
                 assert text.count("**") % 2 == 0 and "{t." not in text, (ch, v)
+
+
+def test_glossa_card_shows_the_douay_rheims(bot_module):
+    """The Glossa's notes quote the Douay-Rheims, so its card shows the verse in those words, and by the Latin Bible's
+    number where it differs; other commentaries keep the KJV."""
+    from bot_commands import bible_commentary as B
+    desc = B.reply("Jonah", 1, 3)["embed"].description
+    assert desc.startswith("*And Jonas rose up to flee into Tharsis") and "— Douay-Rheims\n" in desc
+    assert "Tarshish" not in desc.split("— Douay-Rheims")[0]
+    fish = B.reply("Jonah", 1, 17)["embed"].description
+    assert fish.startswith("*Now the Lord prepared a great fish") and "— Douay-Rheims, Jonas 2:1" in fish
+    assert "Amos 6:10, 6:11" in B.reply("Amos", 6, 10)["embed"].description
+    gospel = B.reply("John", 3, 16)["embed"].description
+    assert "Douay-Rheims" not in gospel
 
 
 def test_in_the_commentary_menu(bot_module):

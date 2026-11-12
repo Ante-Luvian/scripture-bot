@@ -546,8 +546,9 @@ cite "held to be forged c. 1911". The real scripture, the oral qewls, has no pub
 - data/drb.json is checked chapter by chapter against eBible.org's Douay-Rheims (engDRA, same Vulgate numbering;
   `https://ebible.org/Scriptures/engDRA_usfm.zip`): tests/drb_verse_counts.json. Seven run-on last verses were split
   (build_drb.py `SPLITS`).
-- Done: Jonah (44). Order agreed: the minor prophets, Isaiah, Jeremiah, Ezekiel, Daniel; then Joshua-Esther; the
-  Pentateuch; wisdom and Apocrypha. ~1,000 Latin words a chapter (Jonah: 4,121 words, 195 glosses).
+- Done: Hosea (40), Joel (41), Amos (42), Jonah (44). Order agreed: the minor prophets, then (owner, 2026-11-12) the
+  Five Megillot, smallest first; then Isaiah, Jeremiah, Ezekiel, Daniel; Joshua-Esther; the Pentateuch; wisdom and
+  Apocrypha. ~1,000 Latin words a chapter (Jonah: 4,121 words, 195 glosses).
 - Jerome's prologues (`Prol` chapters) are skipped for now: their page layout differs.
 
 **📖 Commentary under Bible verses (2026-11-11):** `bot_commands/bible_commentary.py` from `data/catena_index.json`
