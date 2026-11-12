@@ -531,7 +531,9 @@ cite "held to be forged c. 1911". The real scripture, the oral qewls, has no pub
 - Workflow per book: `python scripts/fetch_glossa.py <NN>` (Gloss-e's book number; `fetch_glossa.py list`) puts the Latin
   in `scripts/.cache/glossa/<NN>.json` (each verse's glosses: id, marg/interl, lemma, latin). Translate every gloss into
   `scripts/glossa/english/<NN>.json` ({id: English}; plain, faithful, keeping the Glossa's terseness; quotations of
-  Scripture in KJV/Douay wording) and every distinct lemma into `scripts/glossa/lemmas/<NN>.json` ({Latin: English},
+  Scripture in **Douay-Rheims** wording, the owner's choice (2026-11-12: "it is literally an English translation of the
+  Vulgate"), looked up in data/drb.json, not from memory, and bent to the Glossa's Latin where it quotes loosely; its
+  Septuagint quotations translated as they stand) and every distinct lemma into `scripts/glossa/lemmas/<NN>.json` ({Latin: English},
   Douay-Rheims wording; the label lemmas ALLEGORICE/TROPOLOGIAM/HIERONYMUS map to "[allegorically]" etc.). Those two are
   OUR WORK, the only copy: in git. Then add the book to `BOOKS` and its Vulgate->KJV verse differences to
   `VERSIFICATION` in `scripts/build_glossa.py`, run it, `clean_corpora.py`, `build_catena_index.py`, add aliases
