@@ -138,7 +138,7 @@ def main():
         return latin > own * 2 and latin >= 5
 
     # ranks 2 and 3: the Fathers' own references
-    latin_works = []
+    latin_works, lemma_counts = [], {}
     for f in sorted(PATRISTICS.glob("*.json")):
         if f.name in SKIP_FILES or f.name in ("catena_aurea.json", "breviary_readings.json"):
             continue
@@ -162,6 +162,20 @@ def main():
                         seen.add(key)
                         rank = 2 if on and on == book else 3
                         add(book, ch_n, int(m[3]), int(m[4] or m[3]), [rank, work, ch, v, m.start()])
+            # Chrysostom's homilies on Acts go over their verses again under "Recapitulation, Acts 9:26"
+            if on:
+                for ch, verses in chapters.items():
+                    for v, text in verses.items():
+                        for m in re.finditer(r"Recapitulation,?\s+([1-3]?\s?[A-Z][a-z]+)\s+(\d+):(\d+)(?:\s*[-–]\s*(\d+))?",
+                                             text):
+                            if book_of(m[1]) == on:
+                                add(on, int(m[2]), int(m[3]), int(m[4] or m[3]), [2, work, ch, v, m.start()])
+            # a commentary's own verse, where it quotes it rather than marking it (Chrysostom's homilies, the Morals)
+            if on and on in L._data["kjv"]:
+                found = lemmas(L._data["kjv"][on], chapters, job=(on == "Job"))
+                for (bch, bv), (ch, v) in found:
+                    add(on, bch, bv, bv, [2, work, ch, v, 0])
+                lemma_counts[work] = len(found)
 
     for entries in index.values():
         entries.sort(key=lambda e: (e[0], e[1], int(e[2].split(".")[0]) if e[2].split(".")[0].isdigit() else 0))
@@ -172,6 +186,81 @@ def main():
     print(f"{len(index)} verses, {n} entries {by_rank} -> {OUT.relative_to(ROOT)} ({OUT.stat().st_size // 1024} KB)")
     print(f"book names not resolved ({len(unresolved)}):", unresolved[:60])
     print("Psalms numbered as the Latin Bible numbers them, in:", latin_works)
+    print("verses found by their quotation:", sorted(((n, w) for w, n in lemma_counts.items() if n), reverse=True)[:25])
+
+
+def shingles(s: str, n: int = 3) -> set:
+    w = re.findall(r"[a-z]+", s.lower())
+    return {" ".join(w[i:i + n]) for i in range(len(w) - n + 1)}
+
+
+def lemmas(book: dict, chapters: dict, job: bool = False) -> list:
+    """[((the book's chapter, verse), (the work's chapter, verse))]: the paragraphs of a commentary that take up a verse
+    of its book by quoting it -- a homily's section opening with the verse it explains (Chrysostom), or the Morals'
+    "*Ver. 10.* *Wilt thou bind...*" -- and the paragraphs after it, to the next. The quotation must share at least half
+    of the verse's three-word runs (the translations are near the KJV's) and the search moves on through the book as
+    the commentary does, a little back or well forward from the last verse found, so a stray echo isn't taken."""
+    order = [(int(c), int(v)) for c in sorted(book, key=int) for v in sorted(book[c], key=int)]
+    # (word pairs: the translators' wording differs from the KJV's in small ways -- "You men of Israel, hear these my
+    # words" -- that break longer runs; the search's moving on through the book keeps a chance match out)
+    n = 3 if job else 2
+    sh = [shingles(book[str(c)][str(v)], n) for c, v in order]
+    pos = 0
+    out, current, carried = [], None, 0
+    for wch in sorted(chapters, key=lambda c: [int(x) if x.isdigit() else 0 for x in re.split(r"\D+", c) if x] or [0]):
+        for wv in sorted(chapters[wch], key=lambda x: int(x) if x.isdigit() else 0):
+            text = chapters[wch][wv]
+            hit = None
+            if job:
+                m = re.search(r"\*(?:Chap\. [xvil]+\. ver\.|Ver\.) (\d+)[^*]*\* \*([^*]+)\*", text)
+                if m:
+                    n, q = int(m[1]), shingles(m[2])
+                    best = max(((len(q & sh[i]) / max(1, len(sh[i])), i) for i, (c, v) in enumerate(order)
+                                if v == n and pos - 40 <= i <= pos + 400), default=(0, None))
+                    if best[1] is not None and best[0] >= 0.25:
+                        hit = best[1]
+            elif re.match(r"\*?Ver(?:se)?s?\.\s*\d", text):
+                # "Ver. 19, 20. That I might live..." (Chrysostom on Paul): the verse is given; its chapter is the one
+                # being read or the next, whichever the words agree with better
+                nums = [int(n) for n in re.findall(r"\d+", re.match(r"\*?Ver(?:se)?s?\.\s*([\d,\s–-]+)", text)[1])]
+                q = shingles(text[:400], n)
+                here = order[pos][0] if pos < len(order) else 1
+                options = [i for i, (c, v) in enumerate(order) if v == nums[0] and c in (here, here + 1)]
+                if not options and current is None:
+                    options = [i for i, (c, v) in enumerate(order) if v == nums[0]]
+                if options:
+                    best = max(options, key=lambda i: (len(q & sh[i]), -i))
+                    if not (order[best][0] == here + 1 and not (q & sh[best]) and nums[0] > order[pos][1]):
+                        hit = best
+                    else:
+                        hit = next((i for i in options if order[i][0] == here), best)
+            else:
+                head = shingles(" ".join(re.findall(r"\S+", text)[:70]), n)
+                best = (0, None)
+                for i in range(max(0, pos - 3), min(len(order), pos + 80)):
+                    if len(sh[i]) < 4:
+                        continue
+                    # (shared pairs against the verse's, up to 10: a homily often quotes the start of a long verse only)
+                    score = len(head & sh[i]) / min(len(sh[i]), 10)
+                    if score > best[0]:
+                        best = (score, i)
+                if best[1] is not None and best[0] >= 0.5:
+                    hit = best[1]
+                elif len(head) >= 6:
+                    # (fallen behind -- a section the search missed -- or a homily out of order: anywhere in the
+                    # book, if the quotation is closer still)
+                    far = max(((len(head & s) / min(len(s), 10), i) for i, s in enumerate(sh) if len(s) >= 5),
+                              default=(0, None))
+                    if far[1] is not None and far[0] >= 0.7:
+                        hit = far[1]
+            if hit is not None:
+                pos, current, carried = hit, order[hit], 0
+                out.append((current, (wch, wv)))
+            elif current is not None and carried < 3:
+                carried += 1                                   # (the paragraphs after it explain it too)
+                out.append((current, (wch, wv)))
+        current, carried = None, 0                             # (a new chapter of the work: a new homily)
+    return out
 
 
 def commentary_on(work: str) -> "str | None":
@@ -188,8 +277,7 @@ def commentary_on(work: str) -> "str | None":
         return "Revelation"
     if "psalm" in w:
         return "Psalms"
-    m = re.search(r"(first|second|1|2)?\s*(?:epistle\s+(?:of\s+(?:st\.\s+)?)?)?john", w)
-    if "epistle" in w and "john" in w:
+    if "epistle" in w and "john" in w and "gospel" not in w:
         return "1 John"
     for word, book in (("matthew", "Matthew"), ("mark", "Mark"), ("luke", "Luke"), ("john", "John"),
                        ("acts", "Acts"), ("romans", "Romans"), ("galatians", "Galatians"), ("ephesians", "Ephesians"),
@@ -197,14 +285,10 @@ def commentary_on(work: str) -> "str | None":
                        ("titus", "Titus"), ("philemon", "Philemon"), ("daniel", "Daniel"), ("genesis", "Genesis"),
                        ("isaiah", "Isaiah"), ("song of songs", "Song of Solomon")):
         if word in w:
-            prefix = re.search(rf"(first|second|1|2)\s+(?:epistle\s+(?:to\s+the\s+)?)?{word}", w)
-            if word in ("corinthians", "thessalonians", "timothy"):
-                pass
             return book
     for word, book in (("corinthians", "Corinthians"), ("thessalonians", "Thessalonians"), ("timothy", "Timothy")):
         if word in w:
-            return ("2 " if re.search(r"(second|2)\s+(?:epistle\s+(?:to\s+)?)?", w) and
-                    re.search(rf"(second|2)\b.*{word}", w) else "1 ") + book
+            return ("2 " if re.search(rf"\b(second|2)\b.*{word}", w) else "1 ") + book
     return None
 
 

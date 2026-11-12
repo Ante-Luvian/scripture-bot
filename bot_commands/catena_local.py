@@ -106,8 +106,10 @@ def sections(book: str, chapter: int, verse: int) -> list:
                 body = comment if len(comment) <= EXCERPT * 2 else excerpt(comment, 0)
                 out.append((f"{who} (in the Catena Aurea)", f"{body}\n\n— *Aquinas, {work}*"))
             continue
-        if (work, ch) in seen_works or (rank == 3 and work in {w for w, _ in seen_works}):
+        if rank == 3 and work in {w for w, _ in seen_works}:
             continue                                                 # (one passage a work, for a quotation)
+        if sum(1 for w in seen_works if w == (work, ch)) and rank == 3:
+            continue
         seen_works.add((work, ch))
         who = writer_of().get(work, "")
         if work == "Readings from the Breviary":
@@ -117,8 +119,9 @@ def sections(book: str, chapter: int, verse: int) -> list:
             body = excerpt(text, at + 1)
         else:
             body = excerpt(text, at)
-        if len(body) < 60:
+        if len(body) < 60 or body[:150] in seen_text:                # (the same text twice: a book held twice)
             continue
+        seen_text.add(body[:150])
         out.append((who or work, f"{body}\n\n— *{work}*"))
         if len(out) >= MOST:
             break

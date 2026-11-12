@@ -14,6 +14,9 @@ history (see CLAUDE.md): one change per bullet; say in plain words what's new
 or what was wrong; give an example command to try; explain any term a casual
 reader wouldn't know.
 
+## 2026-11-11 · More commentary on Paul, Hebrews and Job
+- 📖 **The Commentary button now has far more on St Paul's letters, Hebrews and Job.** St John Chrysostom preached through the whole of Paul's letters, and St Gregory the Great through the Book of Job, verse by verse. Their homilies are now linked to the verses they explain. Before, the button only found a verse where a translator had marked a reference beside it. Now about 84% of the verses of Paul's letters and Hebrews have a commentary, up from about 12%, and so do 38% of Job's, up from 6%. Try `!verse Romans 5:1`, `!verse Galatians 2:20` or `!verse Job 1:21`, then press **📖 Commentary**.
+
 ## 2026-11-11 · 📖 Commentary under Bible verses
 - 📖 **Bible verses now have a Commentary button**, like the one under Qur'an verses. It shows what the Church Fathers said about the verse, from the bot's own library, with a menu to choose between commentaries:
   - **The Catena Aurea**: on any verse of the Gospels, St Thomas Aquinas's "Golden Chain" of the Fathers' comments, one Father after another (Chrysostom, Augustine, Jerome, Gregory, Bede…).
