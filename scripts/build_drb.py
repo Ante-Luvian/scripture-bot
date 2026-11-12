@@ -92,6 +92,28 @@ def check(bible: dict) -> list[str]:
     return problems
 
 
+# Chapters whose last verse both Gutenberg and the old file run into the one before it (found on 2026-11-11 by comparing
+# every chapter with eBible.org's Douay-Rheims, engDRA, which has the same verse numbering): (book, chapter, verse) and
+# the words the missing next verse begins with.
+SPLITS = {("Genesis", "5", "31"): "And Noe, when he was five hundred years old",
+          ("2 Kings", "13", "38"): "And king David ceased to pursue after Absalom",
+          ("Psalms", "28", "10"): "The Lord will give strength to his people",
+          ("Psalms", "150", "5"): "let every spirit praise the Lord",
+          ("Amos", "9", "14"): "And I will plant them upon their own land",
+          ("John", "11", "56"): "And the chief priests and Pharisees had given a commandment",
+          ("2 Corinthians", "1", "23"): "not because we lord it over your faith"}
+
+
+def split_merged(bible: dict) -> None:
+    for (book, c, v), start in SPLITS.items():
+        verses = bible[book][c]
+        nxt = str(int(v) + 1)
+        if nxt in verses:
+            continue
+        i = verses[v].index(start)
+        verses[v], verses[nxt] = verses[v][:i].strip(), verses[v][i:].strip()
+
+
 BASE_COMMIT = "afaeb9d"  # the old drb.json, as first committed
 
 
@@ -128,6 +150,7 @@ def overlay_old(bible: dict) -> int:
 def main() -> None:
     bible = parse(load_text())
     kept = overlay_old(bible)
+    split_merged(bible)
     for book, chapters in bible.items():  # chapters and verses in numeric order
         bible[book] = {c: dict(sorted(v.items(), key=lambda kv: int(kv[0])))
                        for c, v in sorted(chapters.items(), key=lambda kv: int(kv[0]))}

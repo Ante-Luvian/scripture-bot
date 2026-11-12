@@ -47,6 +47,47 @@ def test_hosea_on_the_kjvs_numbering():
     assert "Thou art my people" in hosea["2"]["23"]
 
 
+STOP = set("the and that this with from them they their shall will have hath unto upon thee thou thy your you which into "
+           "were what when there for not but his her him all are was".split())
+# Phrases checked by hand that do belong where they are, though their words look more like a neighbouring verse's
+# (the Douay-Rheims and the KJV word it differently, or the edition files a note introducing the next verse there)
+CHECKED = {("Hosea", "7", "7", "They were all heated like an oven"), ("Hosea", "13", "11", "I will give thee a king"),
+           ("Hosea", "11", "10", "because I am God, and not man: the holy one in the midst of thee, and I will not "
+                                 "enter into the city"),
+           ("Joel", "1", "17", "The beasts have rotted in their dung"), ("Joel", "2", "8", "yea, and … through the windows"),
+           ("Joel", "3", "9", "rouse up the strong"), ("Jonah", "1", "6", "and said to him: Why art thou fast asleep?"),
+           ("Jonah", "4", "9", "And the Lord said")}
+
+
+def _words(s):
+    return {w for w in re.findall(r"[a-z]+", s.lower()) if len(w) > 3 and w not in STOP}
+
+
+def test_every_note_under_the_kjv_verse_it_explains():
+    """Each phrase's words are compared with the KJV verse it's shown under and that verse's neighbours: a phrase that
+    fits a neighbour much better means the Latin Bible's numbering (or a verse it splits differently) has put the notes
+    under the wrong verse. Check a new book with this before building on it (VERSIFICATION, MOVES)."""
+    kjv = json.loads((ROOT / "data" / "kjv" / "kjv_canon.json").read_text(encoding="utf-8"))
+    kjv = kjv.get("books", kjv)
+    wrong = []
+    for title, chapters in DATA["books"].items():
+        name = title.removeprefix("Glossa Ordinaria on ")
+        order = [(c, v) for c in kjv[name] for v in kjv[name][c]]
+        for c, verses in chapters.items():
+            for v, text in verses.items():
+                assert (c, v) in order, (name, c, v)
+                i = order.index((c, v))
+                for head in re.findall(r"^\*\*“(.+?)”\*\*", text, re.M):
+                    w = _words(head)
+                    if len(w) < 2 or (name, c, v, head) in CHECKED:
+                        continue
+                    fit = {o: len(w & _words(kjv[name][o[0]][o[1]])) / len(w) for o in order[max(0, i - 1):i + 2]}
+                    best = max(fit, key=fit.get)
+                    if fit[best] > fit[(c, v)] + 0.25:
+                        wrong.append(f"{name} {c}:{v} “{head}” fits {best[0]}:{best[1]}")
+    assert not wrong, wrong
+
+
 def test_joel_whole():
     """Joel's three chapters number alike in the Vulgate and the KJV; Pentecost's verse (2:28) is there."""
     joel = DATA["books"]["Glossa Ordinaria on Joel"]

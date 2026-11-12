@@ -57,6 +57,12 @@ MOVES = {
     **{f"40_{g}": (5, 15) for g in ("interl3821", "marg2339", "interl3822", "interl3823", "interl3824", "interl3825")},
     "40_marg2340": (6, 2), "40_marg2341": (6, 2),
     **{f"40_{g}": (10, 15) for g in ("interl4129", "marg2449", "marg2450", "interl4130", "interl4131", "interl4132")},
+    # the Vulgate's Hosea 6:3 is the KJV's 6:2 up to "we shall live in his sight"; "We shall know, and we shall follow on"
+    # begins the KJV's 6:3
+    **{f"40_{g}": (6, 3) for g in ("interl3841", "interl3842", "interl3843", "interl3844", "interl3845", "marg2342",
+                                    "marg2343", "interl3846", "interl3847", "marg2344")},
+    # the Vulgate's Hosea 10:15 begins with the end of the KJV's 10:14 ("the mother was dashed upon her children")
+    "40_marg2448": (10, 14),
 }
 # ... and the words those long notes are about, in the Douay-Rheims's English
 WORDS = {"40_marg2340": "He will revive us after two days: on the third day he will raise us up",

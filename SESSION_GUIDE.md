@@ -538,6 +538,14 @@ cite "held to be forged c. 1911". The real scripture, the oral qewls, has no pub
   OUR WORK, the only copy: in git. Then add the book to `BOOKS` and its Vulgate->KJV verse differences to
   `VERSIFICATION` in `scripts/build_glossa.py`, run it, `clean_corpora.py`, `build_catena_index.py`, add aliases
   ("glossa <book>") and the shelf entry, test, changelog, ship.
+- **Check the verse sync BEFORE translating far into a book** (the owner, 2026-11-12: "I don't want to have to keep
+  fixing this up after a bunch of work has already been done"). `tests/test_glossa.py::
+  test_every_note_under_the_kjv_verse_it_explains` compares every phrase heading with the KJV verse it sits under and
+  that verse's neighbours; Vulgate verses that straddle two KJV verses need `MOVES` (gloss id -> KJV verse), not just
+  `VERSIFICATION`. Hand-checked false alarms (DR vs KJV wording) go in its `CHECKED`.
+- data/drb.json is checked chapter by chapter against eBible.org's Douay-Rheims (engDRA, same Vulgate numbering;
+  `https://ebible.org/Scriptures/engDRA_usfm.zip`): tests/drb_verse_counts.json. Seven run-on last verses were split
+  (build_drb.py `SPLITS`).
 - Done: Jonah (44). Order agreed: the minor prophets, Isaiah, Jeremiah, Ezekiel, Daniel; then Joshua-Esther; the
   Pentateuch; wisdom and Apocrypha. ~1,000 Latin words a chapter (Jonah: 4,121 words, 195 glosses).
 - Jerome's prologues (`Prol` chapters) are skipped for now: their page layout differs.
