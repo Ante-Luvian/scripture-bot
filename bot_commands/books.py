@@ -1398,7 +1398,8 @@ BOOKS_TREE = [
                                   "Glossa Ordinaria on Obadiah", "Glossa Ordinaria on Jonah",
                                   "Glossa Ordinaria on Micah", "Glossa Ordinaria on Nahum",
                                   "Glossa Ordinaria on Habakkuk", "Glossa Ordinaria on Zephaniah",
-                                  "Glossa Ordinaria on Haggai", "Glossa Ordinaria on Zechariah"]),
+                                  "Glossa Ordinaria on Haggai", "Glossa Ordinaria on Zechariah",
+                                  "Glossa Ordinaria on Malachi"]),
         ("Byzantine", [
             ("Cosmas Indicopleustes", ["The Christian Topography"]),
             ("Photius of Constantinople", ["Bibliotheca (Codices 1-165)"]),

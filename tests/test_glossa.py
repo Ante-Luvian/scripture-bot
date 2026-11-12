@@ -66,7 +66,8 @@ CHECKED = {("Hosea", "7", "7", "They were all heated like an oven"), ("Hosea", "
            ("Zechariah", "11", "11", "And it was made void in that day"),
            ("Zechariah", "13", "1", "and of the unclean woman"),
            ("Zechariah", "13", "8", "shall be scattered, and shall perish"),
-           ("Zechariah", "14", "8", "And it shall come to pass in that day")}
+           ("Zechariah", "14", "8", "And it shall come to pass in that day"),
+           ("Malachi", "2", "12", "The Lord will cut off the man that hath done this")}
 
 
 def _words(s):
@@ -188,6 +189,15 @@ def test_zechariah_whole():
     assert "This is a vessel" in zech["5"]["6"]
     assert "And the angel went forth" not in zech["5"].get("7", "")
     assert "bridle of the horse" in zech["14"]["20"]
+
+def test_malachi_whole():
+    """Malachi has four chapters in the Vulgate as in the KJV; "What have we spoken against thee?", the Douay-Rheims's
+    3:14, ends the KJV's 3:13, and its notes go with it."""
+    mal = DATA["books"]["Glossa Ordinaria on Malachi"]
+    assert sorted(mal, key=int) == ["1", "2", "3", "4"]
+    assert "What have we spoken against thee?" in mal["3"]["13"]
+    assert "What have we spoken against thee?" not in mal["3"].get("14", "")
+    assert "Elias" in mal["4"]["6"] and "Sun of justice" in mal["4"]["2"]
 
 
 def test_every_gloss_in_english_and_clean():

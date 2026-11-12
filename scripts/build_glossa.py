@@ -23,7 +23,7 @@ LATIN = Path(__file__).resolve().parent / ".cache" / "glossa"
 ENGLISH = Path(__file__).resolve().parent / "glossa" / "english"
 LEMMAS = Path(__file__).resolve().parent / "glossa" / "lemmas"
 OUT = ROOT / "data" / "patristics" / "glossa_ordinaria.json"
-BOOKS = {"40": "Hosea", "41": "Joel", "42": "Amos", "43": "Obadiah", "44": "Jonah", "45": "Micah", "46": "Nahum", "47": "Habakkuk", "48": "Zephaniah", "49": "Haggai", "50": "Zechariah"}  # Gloss-e's numbers -> the KJV's names (the books translated so far)
+BOOKS = {"40": "Hosea", "41": "Joel", "42": "Amos", "43": "Obadiah", "44": "Jonah", "45": "Micah", "46": "Nahum", "47": "Habakkuk", "48": "Zephaniah", "49": "Haggai", "50": "Zechariah", "51": "Malachi"}  # Gloss-e's numbers -> the KJV's names (the books translated so far)
 LABELS = {"[allegorically]": "Allegorically", "[the moral sense]": "In the moral sense", "[Jerome]": "Jerome",
           "[Haimo]": "Haimo", "[Gregory]": "Gregory"}
 
@@ -78,7 +78,8 @@ VERSIFICATION = {"Hosea": hosea, "Amos": amos, "Jonah": jonah, "Micah": micah, "
 MOVES = {
     "49_marg3426": (2, 23),
     "50_marg3491": (5, 5), "50_marg3492": (5, 5),   # Zechariah: the angel's going forth and "lift up thy eyes", filed under 5:7
-    "50_marg3493": (5, 6),      # "This is the vessel", filed under 5:8     # Haggai: "and will make thee as a signet", on the Vulgate's 2:24, filed under 2:23
+    "50_marg3493": (5, 6),
+    "51_interl7280": (3, 13), "51_interl7281": (3, 13),   # Malachi: "What have we spoken against thee?" ends the KJV's 3:13      # "This is the vessel", filed under 5:8     # Haggai: "and will make thee as a signet", on the Vulgate's 2:24, filed under 2:23
     **{f"40_{g}": (5, 15) for g in ("interl3821", "marg2339", "interl3822", "interl3823", "interl3824", "interl3825")},
     "40_marg2340": (6, 2), "40_marg2341": (6, 2),
     **{f"40_{g}": (10, 15) for g in ("interl4129", "marg2449", "marg2450", "interl4130", "interl4131", "interl4132")},
