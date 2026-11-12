@@ -164,6 +164,18 @@ def test_zephaniah_whole():
     assert "Chusi" in zeph["1"]["1"]
 
 
+def test_haggai_on_the_kjvs_numbering(bot_module):
+    """The Vulgate's Haggai 2:1 (the work begun on the 24th day) is the KJV's 1:15, its 2:2-24 the KJV's 2:1-23; the
+    signet gloss filed under the Vulgate's 2:23 goes with its words to the KJV's 2:23."""
+    hag = DATA["books"]["Glossa Ordinaria on Haggai"]
+    assert sorted(hag, key=int) == ["1", "2"] and "24" not in hag["2"]
+    assert "twenty-two days between" in hag["1"]["15"]
+    assert "**“And in the seventh month" in hag["2"]["1"] and "signet" in hag["2"]["23"]
+    assert "signet" not in hag["2"]["22"]
+    from bot_commands import bible_commentary as B
+    assert "— Douay-Rheims, Aggeus 2:1" in B.reply("Haggai", 1, 15)["embed"].description
+
+
 def test_every_gloss_in_english_and_clean():
     for f in ENGLISH.glob("*.json"):
         for gid, text in json.loads(f.read_text(encoding="utf-8")).items():

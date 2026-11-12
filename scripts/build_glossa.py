@@ -23,7 +23,7 @@ LATIN = Path(__file__).resolve().parent / ".cache" / "glossa"
 ENGLISH = Path(__file__).resolve().parent / "glossa" / "english"
 LEMMAS = Path(__file__).resolve().parent / "glossa" / "lemmas"
 OUT = ROOT / "data" / "patristics" / "glossa_ordinaria.json"
-BOOKS = {"40": "Hosea", "41": "Joel", "42": "Amos", "43": "Obadiah", "44": "Jonah", "45": "Micah", "46": "Nahum", "47": "Habakkuk", "48": "Zephaniah"}  # Gloss-e's numbers -> the KJV's names (the books translated so far)
+BOOKS = {"40": "Hosea", "41": "Joel", "42": "Amos", "43": "Obadiah", "44": "Jonah", "45": "Micah", "46": "Nahum", "47": "Habakkuk", "48": "Zephaniah", "49": "Haggai"}  # Gloss-e's numbers -> the KJV's names (the books translated so far)
 LABELS = {"[allegorically]": "Allegorically", "[the moral sense]": "In the moral sense", "[Jerome]": "Jerome",
           "[Haimo]": "Haimo", "[Gregory]": "Gregory"}
 
@@ -62,13 +62,21 @@ def micah(c: int, v: int) -> tuple:
     return c, v
 
 
-VERSIFICATION = {"Hosea": hosea, "Amos": amos, "Jonah": jonah, "Micah": micah}
+def haggai(c: int, v: int) -> tuple:
+    """The Vulgate's Haggai 2:1 (the work begun on the 24th day) is the KJV's 1:15, its 2:2-24 the KJV's 2:1-23."""
+    if c == 2:
+        return (1, 15) if v == 1 else (2, v - 1)
+    return c, v
+
+
+VERSIFICATION = {"Hosea": hosea, "Amos": amos, "Jonah": jonah, "Micah": micah, "Haggai": haggai}
 
 # Where a Vulgate verse straddles two of the KJV's, the glosses on the words the KJV puts in the other verse go there
 # (gloss id -> KJV chapter and verse). Hosea 6:1 begins with the end of KJV 5:15 ("In their affliction they will rise
 # early to me"), and Hosea 11:1 with the end of KJV 10:15 ("As the morning passeth, so hath the king of Israel passed
 # away"); two long notes filed under those words are about another verse.
 MOVES = {
+    "49_marg3426": (2, 23),     # Haggai: "and will make thee as a signet", on the Vulgate's 2:24, filed under 2:23
     **{f"40_{g}": (5, 15) for g in ("interl3821", "marg2339", "interl3822", "interl3823", "interl3824", "interl3825")},
     "40_marg2340": (6, 2), "40_marg2341": (6, 2),
     **{f"40_{g}": (10, 15) for g in ("interl4129", "marg2449", "marg2450", "interl4130", "interl4131", "interl4132")},
