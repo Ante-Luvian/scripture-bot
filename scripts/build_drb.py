@@ -5,6 +5,9 @@ chapter 5 missing and 6 keyed as "5" from verse 17, and so on. Gutenberg's text 
 each verse's chapter comes from its own number (two chapter headings, Job 39 and 1 Machabees 2, are missing there).
 Challoner's notes and the chapter summaries are paragraphs without a verse number, and are left out.
 
+Where the old file has the same verse at the same reference (most of them), its wording is kept: see overlay_old().
+Gutenberg's text fills only the verses the old file lost or misplaced.
+
     python scripts/build_drb.py        # downloads pg8300.txt into scripts/.cache/douay/ if it isn't there
 """
 import json
@@ -89,8 +92,42 @@ def check(bible: dict) -> list[str]:
     return problems
 
 
+BASE_COMMIT = "afaeb9d"  # the old drb.json, as first committed
+
+
+def words(s: str) -> list:
+    return re.findall(r"[a-z']+", s.lower())
+
+
+def clean_old(s: str) -> str:
+    s = re.sub(r"\s*\[\s*(?:K\.|Kings|Title:)[^\]]*\]", "", s)   # its cross-references, "[ Kings xxiv.]"
+    s = s.replace("()", "").replace("*", "")                      # its note marks
+    return re.sub(r"\s+", " ", s).strip()
+
+
+def overlay_old(bible: dict) -> int:
+    """Keep the old file's wording wherever its verse is the same verse as Gutenberg's: it is the printing users had
+    read, and Gutenberg's has its own typos ("acbab", "Banli", "languish with the heat of the field" for "beasts").
+    A verse counts as the same when most of its words match; the old file's misnumbered chapters fail that test and
+    keep Gutenberg's text."""
+    import difflib
+    import subprocess
+    old = json.loads(subprocess.run(["git", "show", f"{BASE_COMMIT}:data/drb.json"], cwd=ROOT, capture_output=True,
+                                    check=True).stdout.decode("utf-8"))
+    kept = 0
+    for book, chapters in bible.items():
+        for c, verses in chapters.items():
+            for v, text in verses.items():
+                was = old.get(book, {}).get(c, {}).get(v)
+                if was and difflib.SequenceMatcher(None, words(was), words(text)).ratio() >= 0.6:
+                    verses[v] = clean_old(was)
+                    kept += 1
+    return kept
+
+
 def main() -> None:
     bible = parse(load_text())
+    kept = overlay_old(bible)
     for book, chapters in bible.items():  # chapters and verses in numeric order
         bible[book] = {c: dict(sorted(v.items(), key=lambda kv: int(kv[0])))
                        for c, v in sorted(chapters.items(), key=lambda kv: int(kv[0]))}
@@ -100,7 +137,7 @@ def main() -> None:
         sys.exit(1)
     OUT.write_text(json.dumps(bible, ensure_ascii=False, indent=1), encoding="utf-8")
     verses = sum(len(v) for ch in bible.values() for v in ch.values())
-    print(f"{len(bible)} books, {verses} verses -> {OUT}")
+    print(f"{len(bible)} books, {verses} verses ({kept} in the old file's wording) -> {OUT}")
 
 
 if __name__ == "__main__":
