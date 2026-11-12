@@ -79,7 +79,15 @@ CHECKED = {("Hosea", "7", "7", "They were all heated like an oven"), ("Hosea", "
            ("Song of Solomon", "7", "8", "and the odour of thy mouth"),
            # speaker labels for the next verse, hung on the last words of the one before
            ("Song of Solomon", "3", "6", "till she please"),
-           ("Song of Solomon", "8", "14", "make me hear thy voice")}
+           ("Song of Solomon", "8", "14", "make me hear thy voice"),
+           # Lamentations: the DR's wording differs from the KJV's ("Vide Domine" is one lemma for 1:9's "behold, O
+           # Lord" and 1:11's "see, O Lord")
+           ("Lamentations", "1", "7", "the enemies have seen her"), ("Lamentations", "1", "11", "behold, O Lord"),
+           ("Lamentations", "1", "12", "for he hath made a vintage of me"),
+           ("Lamentations", "2", "19", "give praise in the night"),
+           ("Lamentations", "3", "31", "he shall be filled with reproaches"),
+           ("Lamentations", "3", "32", "Caph. For if he hath cast off"),
+           ("Lamentations", "4", "4", "the little ones have asked")}
 
 
 def _words(s):
@@ -229,6 +237,15 @@ def test_song_on_the_kjvs_numbering():
     assert "**“Let my beloved come”**" in song["4"]["16"] and "Let my beloved come" not in song["5"]["1"]
     assert "**“Whither is … gone”**" in song["6"]["1"] and "13" in song["6"]
     assert "Flee away, O my beloved" in song["8"]["14"]
+
+
+def test_lamentations():
+    """Lamentations numbers its verses as the KJV does; the introduction to the third alphabet, which the edition files
+    under 3:66, is shown at 3:1, and Gilbert's sign-off at 5:22."""
+    lam = DATA["books"]["Glossa Ordinaria on Lamentations"]
+    assert [len(lam[str(c)]) for c in range(1, 6)] == [22, 22, 66, 22, 22]
+    assert "**“Aleph. I am”**" in lam["3"]["1"] and "*Gilbert:*" in lam["3"]["1"] and "Gilbert" not in lam["3"]["66"]
+    assert "deacon of the church of Auxerre" in lam["5"]["22"]
 
 
 def test_every_gloss_in_english_and_clean():
