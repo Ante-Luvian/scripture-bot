@@ -67,7 +67,8 @@ CHECKED = {("Hosea", "7", "7", "They were all heated like an oven"), ("Hosea", "
            ("Zechariah", "13", "1", "and of the unclean woman"),
            ("Zechariah", "13", "8", "shall be scattered, and shall perish"),
            ("Zechariah", "14", "8", "And it shall come to pass in that day"),
-           ("Malachi", "2", "12", "The Lord will cut off the man that hath done this")}
+           ("Malachi", "2", "12", "The Lord will cut off the man that hath done this"),
+           ("Ruth", "2", "2", "that escape the hands of the reapers")}
 
 
 def _words(s):
@@ -198,6 +199,14 @@ def test_malachi_whole():
     assert "What have we spoken against thee?" in mal["3"]["13"]
     assert "What have we spoken against thee?" not in mal["3"].get("14", "")
     assert "Elias" in mal["4"]["6"] and "Sun of justice" in mal["4"]["2"]
+
+def test_ruth_whole():
+    """Ruth numbers alike in the Vulgate and the KJV; the genealogy's note closes the book."""
+    ruth = DATA["books"]["Glossa Ordinaria on Ruth"]
+    assert sorted(ruth, key=int) == ["1", "2", "3", "4"]
+    assert "Rabanus" in ruth["1"]["1"] and "whither" not in ruth["1"]["1"]
+    assert "whithersoever thou shalt go, I will go" in ruth["1"]["16"]
+    assert "ten generations" in ruth["4"]["22"]
 
 
 def test_every_gloss_in_english_and_clean():
