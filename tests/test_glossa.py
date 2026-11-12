@@ -130,6 +130,16 @@ def test_micah_on_the_kjvs_numbering():
     assert "swords into ploughshares" in micah["4"]["3"]
 
 
+def test_nahum_whole():
+    """Nahum numbers alike in the Vulgate and the KJV; the gloss on 3:10's "eius" reads "her" (Alexandria's) there,
+    though the book's lemma for it is 1:13's "his", and stays in its place among that verse's notes."""
+    nahum = DATA["books"]["Glossa Ordinaria on Nahum"]
+    assert {c: len(v) for c, v in nahum.items()} == {"1": 15, "2": 13, "3": 19}
+    assert "**“her”** — Alexandria's" in nahum["3"]["10"]
+    assert nahum["3"]["10"].index("Alexandria's") < nahum["3"]["10"].index("by the enemy")
+    assert "**“his”** — of the Assyrian" in nahum["1"]["13"]
+
+
 def test_every_gloss_in_english_and_clean():
     for f in ENGLISH.glob("*.json"):
         for gid, text in json.loads(f.read_text(encoding="utf-8")).items():

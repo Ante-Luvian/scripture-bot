@@ -23,7 +23,7 @@ LATIN = Path(__file__).resolve().parent / ".cache" / "glossa"
 ENGLISH = Path(__file__).resolve().parent / "glossa" / "english"
 LEMMAS = Path(__file__).resolve().parent / "glossa" / "lemmas"
 OUT = ROOT / "data" / "patristics" / "glossa_ordinaria.json"
-BOOKS = {"40": "Hosea", "41": "Joel", "42": "Amos", "43": "Obadiah", "44": "Jonah", "45": "Micah"}  # Gloss-e's numbers -> the KJV's names (the books translated so far)
+BOOKS = {"40": "Hosea", "41": "Joel", "42": "Amos", "43": "Obadiah", "44": "Jonah", "45": "Micah", "46": "Nahum"}  # Gloss-e's numbers -> the KJV's names (the books translated so far)
 LABELS = {"[allegorically]": "Allegorically", "[the moral sense]": "In the moral sense", "[Jerome]": "Jerome",
           "[Haimo]": "Haimo", "[Gregory]": "Gregory"}
 
@@ -92,7 +92,11 @@ WORDS = {"40_marg2340": "He will revive us after two days: on the third day he w
          "45_interl5698": "and I will take away sorceries out of thy hand",
          "45_interl5699": "and there shall be no divinations in thee",
          "45_marg3013": "how shall he depart from me, whereas he is returning that will divide our land?",
-         "45_marg3041": "and they shall beat their swords into ploughshares, and their spears into spades"}
+         "45_marg3041": "and they shall beat their swords into ploughshares, and their spears into spades",
+         "46_interl6006": "her"}
+# ... and those of them that stay where the edition has them: a gloss only on a short word ("eius") that the book's
+# lemmas give in another verse's sense ("his" in Nahum 1:13, "her" in 3:10)
+IN_PLACE = {"46_interl6006"}
 
 
 def render(notes: list) -> str:
@@ -176,7 +180,7 @@ def main():
         chapters = {}
         for (kc, kv), verse_notes in sorted(notes.items()):
             # a note refiled under other words (WORDS) takes its place among that phrase's notes, not where it stood
-            verse_notes.sort(key=lambda note: note[3] in WORDS)
+            verse_notes.sort(key=lambda note: note[3] in WORDS and note[3] not in IN_PLACE)
             chapters.setdefault(str(kc), {})[str(kv)] = render([note[:3] for note in verse_notes])
         if missing:
             raise SystemExit(f"{name}: {len(missing)} glosses not yet in English, e.g. {missing[:3]}")
