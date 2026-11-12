@@ -193,12 +193,11 @@ def test_roman_numbered_books(lookup, raw, book):
     assert lookup._resolve_book(raw)[1] == book
 
 
-def test_bare_bible_book_opens_chapter_one_of_our_text():
-    """`!verse Job` once came back as Sefaria's whole-book JPS Tanakh, footnotes and all,
-    and `!verse John` said it couldn't read the reference."""
+def test_bare_book_name_is_left_for_a_random_verse():
+    """`!verse Job` gives a random verse of Job (verse.py falls back to random_verse_from_book when the
+    reference can't be read); Sefaria's catch-all once answered first with its whole-book JPS Tanakh."""
     from core import lookup
     for name in ("Job", "Genesis", "John", "Sirach"):
-        r = lookup.get_verse(name)
-        assert r["found"], name
-        assert r["reference"] == f"{name} 1"
-        assert "JPS" not in (r.get("source") or "")
+        assert "Could not parse" in lookup.get_verse(name).get("error", ""), name
+        r = lookup.random_verse_from_book(name)
+        assert r["found"] and "JPS" not in (r.get("source") or ""), name

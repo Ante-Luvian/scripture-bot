@@ -227,6 +227,11 @@ still covers Homer, Dante, Hesiod...). The Faerie Queene and Canterbury Tales ar
 
 ## 6. State of things (2026-10-25)
 
+**Planned, far future (owner, 2026-11-12): the Mikraot Gedolot.** Once the Glossa Ordinaria translation is
+finished, work out with the owner how to bring in the Mikraot Gedolot (the Rabbinic Bible: the Hebrew text
+with Targum, Rashi, Ibn Ezra, Ramban and the rest around it), the Jewish counterpart to the Glossa. Don't
+start it before the Glossa is done.
+
 **Live:** the Arthurian legend (20 translated works + 5 Middle English poems) and the medieval English
 poetry tradition: Chaucer (all the poetry), the Chaucerian pieces, Gower, Piers Plowman and the Crede,
 Pearl/Cleanness/Patience, the Auchinleck manuscript (39 + 2 Arthurian), Havelok, King Horn, Sir Orfeo

@@ -4,6 +4,16 @@ What's new, newest first. When the bot starts after an update, she posts any
 entries a server hasn't seen yet to that server's changelog channel
 (`!changelogsetup #channel`); anyone can read recent ones with `!changelog`.
 
+## 2026-11-12 · A book's name on its own gives a random verse again
+
+- **Correction to the last update: `!verse` with just a book's name gives you a random verse from that
+  book, as it always used to.** `!verse Job`, `!verse Genesis`, `!verse John` or `!verse Sirach` each pick
+  a verse at random from that book, in the bot's usual translation. For a while this had been broken: the
+  bot handed a bare book name to Sefaria, an online Jewish library, which sent back its own English
+  version of the Hebrew Bible (the JPS Tanakh) with footnotes run into the text. The last update stopped
+  that but opened chapter 1 instead of picking a random verse. To read a book from the start, give the
+  chapter: `!verse Job 1`.
+
 ## 2026-11-12 · A book's name on its own opens chapter 1
 
 - **Typing just a book's name now opens its first chapter, in the usual translation.** Until now,
