@@ -87,7 +87,14 @@ CHECKED = {("Hosea", "7", "7", "They were all heated like an oven"), ("Hosea", "
            ("Lamentations", "2", "19", "give praise in the night"),
            ("Lamentations", "3", "31", "he shall be filled with reproaches"),
            ("Lamentations", "3", "32", "Caph. For if he hath cast off"),
-           ("Lamentations", "4", "4", "the little ones have asked")}
+           ("Lamentations", "4", "4", "the little ones have asked"),
+           # Ecclesiastes: the DR's wording differs from the KJV's
+           ("Ecclesiastes", "1", "10", "Nothing under the sun is new"),
+           ("Ecclesiastes", "1", "10", "neither is any man able to say"),
+           ("Ecclesiastes", "2", "11", "And when I turned myself"),
+           ("Ecclesiastes", "2", "15", "And speaking with my own mind, I perceived that this"),
+           ("Ecclesiastes", "3", "20", "and into earth they return together"),
+           ("Ecclesiastes", "7", "14", "enjoy good things"), ("Ecclesiastes", "10", "1", "than a small")}
 
 
 def _words(s):
@@ -237,6 +244,18 @@ def test_song_on_the_kjvs_numbering():
     assert "**“Let my beloved come”**" in song["4"]["16"] and "Let my beloved come" not in song["5"]["1"]
     assert "**“Whither is … gone”**" in song["6"]["1"] and "13" in song["6"]
     assert "Flee away, O my beloved" in song["8"]["14"]
+
+
+def test_ecclesiastes_on_the_kjvs_numbering():
+    """The Vulgate's Ecclesiastes 4:17 is the KJV's 5:1 and its 5:1-19 the KJV's 5:2-20; its 7:1 is the KJV's 6:12 and
+    its 7:2-30 the KJV's 7:1-29. Chapter 1 is there (the edition numbers it differently: tests the fetcher's fix)."""
+    ecc = DATA["books"]["Glossa Ordinaria on Ecclesiastes"]
+    assert [len(ecc[str(c)]) for c in (1, 4, 5, 6, 7)] == [17, 10, 20, 12, 29]
+    assert "**“Vanity of vanities, said Ecclesiastes”**" in ecc["1"]["2"]
+    assert "**“Keep”**" in ecc["5"]["1"] and "**“Speak not any thing rashly”**" in ecc["5"]["2"]
+    assert "**“What needeth a man to seek things that are above him”**" in ecc["6"]["12"]
+    assert "**“A good name is better”**" in ecc["7"]["1"] and "30" not in ecc["7"]
+    assert "The Laodicean says" in ecc["4"]["13"] and "From here to the end of the chapter" in ecc["12"]["1"]
 
 
 def test_lamentations():

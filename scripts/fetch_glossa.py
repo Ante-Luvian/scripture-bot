@@ -57,7 +57,7 @@ def chapter(n: str, ch: str) -> dict:
     for m in re.finditer(r'(?s)<div type="verset" class="verset">(.*?)</div>|<div class="(bible|marg|interl)"><span '
                          r'id="([^"]+)"/>(.*?)</div>', body):
         if m[1] is not None:
-            v = re.search(r"(\d+),(\d+)", text(m[1]))
+            v = re.search(r"(\d*),(\d+)", text(m[1]))        # (Ecclesiastes 1's are "Qo. ,1": no chapter)
             if v:
                 cur = verses.setdefault(v[2], [])
             continue
@@ -93,9 +93,10 @@ def book(n: str) -> dict:
             out["prologues"].append({"id": ch, "title": re.sub(r"^<[^>]*>\s*", "", title),
                                      "latin": "\n".join(x for x in paras if x)})
         else:
-            m = re.search(r"_(\d+)$", ch)
-            if m:
-                out["chapters"][m[1]] = chapter(n, ch)
+            m = re.search(r"_(\d*)$", ch)
+            if m:               # (Ecclesiastes' first chapter is "29_", titled "Capitulum1")
+                num = m[1] or re.sub(r"\D", "", title) or "1"
+                out["chapters"][num] = chapter(n, ch)
     return out
 
 

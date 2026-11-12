@@ -23,10 +23,10 @@ LATIN = Path(__file__).resolve().parent / ".cache" / "glossa"
 ENGLISH = Path(__file__).resolve().parent / "glossa" / "english"
 LEMMAS = Path(__file__).resolve().parent / "glossa" / "lemmas"
 OUT = ROOT / "data" / "patristics" / "glossa_ordinaria.json"
-BOOKS = {"10": "Ruth", "30": "Song of Solomon", "35": "Lamentations", "40": "Hosea", "41": "Joel", "42": "Amos", "43": "Obadiah", "44": "Jonah", "45": "Micah", "46": "Nahum", "47": "Habakkuk", "48": "Zephaniah", "49": "Haggai", "50": "Zechariah", "51": "Malachi"}  # Gloss-e's numbers -> the KJV's names (the books translated so far)
+BOOKS = {"10": "Ruth", "29": "Ecclesiastes", "30": "Song of Solomon", "35": "Lamentations", "40": "Hosea", "41": "Joel", "42": "Amos", "43": "Obadiah", "44": "Jonah", "45": "Micah", "46": "Nahum", "47": "Habakkuk", "48": "Zephaniah", "49": "Haggai", "50": "Zechariah", "51": "Malachi"}  # Gloss-e's numbers -> the KJV's names (the books translated so far)
 LABELS = {"[allegorically]": "Allegorically", "[the moral sense]": "In the moral sense", "[Jerome]": "Jerome",
           "[Haimo]": "Haimo", "[Gregory]": "Gregory", "[Paschasius]": "Paschasius", "[mystically]": "Mystically",
-          "[historically]": "Historically", "[Gilbert]": "Gilbert"}
+          "[historically]": "Historically", "[Gilbert]": "Gilbert", "[Alcuin]": "Alcuin"}
 
 
 def jonah(c: int, v: int) -> tuple:
@@ -82,8 +82,20 @@ def song(c: int, v: int) -> tuple:
     return c, v
 
 
+def ecclesiastes(c: int, v: int) -> tuple:
+    """The Vulgate's Ecclesiastes 4:17 is the KJV's 5:1, so its 5:n is the KJV's 5:n+1; its 7:1 is the KJV's 6:12,
+    so its 7:n is the KJV's 7:n-1."""
+    if c == 4 and v == 17:
+        return 5, 1
+    if c == 5:
+        return 5, v + 1
+    if c == 7:
+        return (6, 12) if v == 1 else (7, v - 1)
+    return c, v
+
+
 VERSIFICATION = {"Hosea": hosea, "Amos": amos, "Jonah": jonah, "Micah": micah, "Haggai": haggai,
-                 "Song of Solomon": song}
+                 "Song of Solomon": song, "Ecclesiastes": ecclesiastes}
 
 # Where a Vulgate verse straddles two of the KJV's, the glosses on the words the KJV puts in the other verse go there
 # (gloss id -> KJV chapter and verse). Hosea 6:1 begins with the end of KJV 5:15 ("In their affliction they will rise
@@ -99,6 +111,10 @@ MOVES = {
     **{f"30_{g}": (4, 16) for g in ("marg1124", "marg1125", "interl2905", "interl2906", "interl2907", "interl2908",
                                     "interl2909", "marg1126", "interl2910", "interl2911", "interl2912", "interl2913")},
     **{f"30_{g}": (6, 13) for g in ("interl3129", "interl3130", "interl3131", "marg1216", "marg1217")},
+    # Ecclesiastes: the notes on 4:9 ("Better therefore that two should be together") filed under 4:8, with the
+    # Laodicean's reading of 4:13-16 (one of Jerome's series on those verses); the introduction to the three readings
+    # of 12:1-7, filed under 11:10; the note on "the conclusion of the discourse" (12:13), filed under 12:14
+    "29_marg715": (4, 9), "29_marg716": (4, 9), "29_marg717": (4, 13), "29_marg800": (12, 1), "29_marg811": (12, 13),
     # Lamentations: Paschasius' and Gilbert's introduction to the third alphabet, filed under 3:66
     **{f"35_{g}": (3, 1) for g in ("marg2712", "marg2713", "marg2714")},
     **{f"40_{g}": (5, 15) for g in ("interl3821", "marg2339", "interl3822", "interl3823", "interl3824", "interl3825")},
@@ -122,7 +138,11 @@ MOVES = {
     **{f"47_interl{n}": (1, 14) for n in range(6061, 6064)},
 }
 # ... and the words those long notes are about, in the Douay-Rheims's English
-WORDS = {"40_marg2340": "He will revive us after two days: on the third day he will raise us up",
+WORDS = {"29_marg717": "Better is a child that is poor and wise, than a king that is old and foolish, who knoweth not "
+                       "to foresee for hereafter",
+         "29_marg800": "Remember thy Creator",
+         "29_marg811": "Let us all … together the conclusion of the discourse",
+         "40_marg2340": "He will revive us after two days: on the third day he will raise us up",
          "40_marg2341": "He will revive us after two days: on the third day he will raise us up",
          "40_marg2451": "and I loved him: and I called … out of Egypt",
          "45_interl5698": "and I will take away sorceries out of thy hand",
