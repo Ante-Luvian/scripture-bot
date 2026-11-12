@@ -69,7 +69,8 @@ def chapter(n: str, ch: str) -> dict:
             continue
         latin = text(inner)
         # the words it explains, as the edition prints them, in capitals before the gloss: "ET FACTUM EST. Ad ea que..."
-        m2 = re.match(r"((?:[A-Z]{1,}[’']?\s*)+)\.\s+(.*)$", latin, re.S) if kind == "marg" else None
+        # (possessive: a long run of capitals with no full stop after it backtracked for minutes, e.g. in Job)
+        m2 = re.match(r"((?:[A-Z]++[’']?\s*+)++)\.\s+(.*)$", latin, re.S) if kind == "marg" else None
         if m2 and len(m2[1].split()) <= 12:
             lemma, latin = m2[1].strip(), m2[2].strip()
         else:
