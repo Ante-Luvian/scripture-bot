@@ -306,6 +306,9 @@ APOCRYPHA_SAME = {"Gazara": "gezer_463", "Jamnia": "jabneh_615", "Askalon": "ash
                   # the KJV's 1 and 2 Esdras: Jewry is Judea, Sion Zion, and Josiah dies at Magiddo (2 Chr 35:22)
                   "Jewry": "judea_657", "Sion": "jerusalem_636", "Magiddo": "megiddo_777",
                   "Carchamis": "carchemish_277",
+                  # the Maccabees' Mount Zion is the temple mount (1 Macc 4:37, 4:60), not Jerusalem at large; the
+                  # Mount Sion of Deuteronomy 4:48 is Hermon, so the name goes to Zion here by rule
+                  "Mount Zion": "mount_zion_860", "Mount Sion": "mount_zion_860",
                   # Bozrah and Bosor in Gilead (1 Macc 5:26) are Bostra, not Edom's Bozrah; Kadesh of 1 Macc 11 is
                   # in Galilee; Judith's Kadesh (1:9) is not named precisely enough to place
                   ("Bozrah", "1 Maccabees"): "bozrah_257", ("Kadesh", "1 Maccabees"): "kedesh_676",
@@ -458,6 +461,7 @@ def apocrypha(places, all_names, people, out, texts, new=None):
         if len(places[top]["verses"]) > person_weight[name]:
             best[name] = top
     found = defaultdict(list)
+    ruled = defaultdict(set)                        # slug -> the names a rule gave it ("Sion" for Jerusalem)
     for text in (nrsv, kjv):
         for book in APOCRYPHA:
             if text is nrsv and book not in text.order or text is kjv and book in nrsv.order:
@@ -465,12 +469,17 @@ def apocrypha(places, all_names, people, out, texts, new=None):
             for c, v, verse in text.order.get(book, []):
                 names = proper_names(verse)
                 pairs = [w for w in names if " " in w or "-" in w]
-                parts = {x for w in pairs if plain(w) in best for x in re.split(r"[ -]", w)}
+                parts = {x for w in pairs if plain(w) in best or plain(w) in fixed for x in re.split(r"[ -]", w)}
                 for w in names:
                     ref = f"{book} {c}:{v}"
-                    rule = [s for s, books in fixed.get(plain(w), []) if books is None or book in books]
+                    # ("Mount Zion": the verse's words give only "Zion")
+                    mount = re.search(r"\bmount " + re.escape(w) + r"\b", verse, re.I)
+                    rule = [s for key in ([plain("Mount " + w)] if mount else []) + [plain(w)]
+                            for s, books in fixed.get(key, []) if books is None or book in books][:1]
                     if rule:
                         slug = rule[0]
+                        if slug and any(s == slug for s, _ in fixed.get(plain(w), [])):
+                            ruled[slug].add(w)          # (so `!place Sion` and `!place Gazara` find it)
                     else:
                         slug = best.get(plain(w))
                         if slug:
@@ -514,6 +523,9 @@ def apocrypha(places, all_names, people, out, texts, new=None):
             if not got or strip_marks(got) in APOCRYPHA_PEOPLE or other_places.get(plain(got), slug) != slug \
                     or strip_marks(got).lower().endswith(GENTILIC) or max(likeness(got, n) for n in names) < 0.7:
                 continue
+            if got not in entry.values() and got not in all_names[slug] and got not in spellings:
+                spellings.append(got)
+        for got in sorted(ruled[slug]):
             if got not in entry.values() and got not in all_names[slug] and got not in spellings:
                 spellings.append(got)
         if spellings:

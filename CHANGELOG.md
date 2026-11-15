@@ -4,6 +4,11 @@ What's new, newest first. When the bot starts after an update, she posts any
 entries a server hasn't seen yet to that server's changelog channel
 (`!changelogsetup #channel`); anyone can read recent ones with `!changelog`.
 
+## 2026-11-15 · Mount Zion in the Maccabees, and Mount Sion
+
+- 🔧 **Fixed: `!place Mount Sion` showed a different mountain.** Sion is the older spelling of Zion (the Douay-Rheims and the KJV's New Testament use it), but the card that came up was the "Mount Sion" of Deuteronomy 4:48, which is another name for Mount Hermon in the far north. Now `!place Mount Sion` shows Mount Zion, and mentions the Hermon one underneath in case that's the one you meant. `!place Sion` finds Jerusalem.
+- 🔧 **Fixed: the Maccabees' Mount Zion was counted as Jerusalem.** When Judas Maccabeus's army "went up to Mount Zion" to cleanse the Temple (1 Maccabees 4:37), the passage map listed Jerusalem. Mount Zion is the hill the Temple stood on, and the bot has its own card for it, so `!place 1 Maccabees 4:36-61` now lists Mount Zion, and Mount Zion's card lists its verses in the Apocrypha.
+
 ## 2026-11-15 · The Apocrypha's own places, passages on the map, and Magdala
 
 - 📍 **`!place` now has the places that only the Apocrypha name**, about 60 of them: Bethulia, Judith's town; Modein, the Maccabees' home; Rages in Media, where Tobias went to fetch the money; Sparta, whose people wrote to the high priest as kinsmen; Persepolis; Daphne near Antioch; and the towns of Gilead on Judas Maccabeus's campaign there (Bosor, Chaspho, Maked, Raphon, Ephron). Where the site is known, the card has a map; the locations come from Pleiades, a scholarly atlas of the ancient world. Many of Judith's towns have never been found, and their cards say so. Try `!place Modein` or `!place Bethulia`.

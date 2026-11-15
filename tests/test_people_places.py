@@ -158,3 +158,12 @@ def test_kjv_spelling_from_its_text(pp):
     magdala = pp.find("places", "Magdala")
     assert pp.data()["places"][magdala[0]]["verses"] == ["Matthew 15:39"]                      # not Migdol
     assert pp.find("places", "Shushan")[0] == pp.find("places", "Susa")[0]
+
+
+def test_mount_sion_is_zion(pp, fake_ctx):
+    # the Douay's and the KJV New Testament's Mount Sion is Zion; Deuteronomy 4:48's Sion (Hermon) comes second
+    assert pp.find("places", "Mount Sion")[:2] == ["mount_zion_860", "mount_sion_856"]
+    assert "Deuteronomy 4:48" in pp._others_note("places", pp.find("places", "Mount Sion"), "place")
+    assert pp.find("places", "Sion")[0] == "jerusalem_636"
+    assert "1 Maccabees 4:37" in pp.data()["places"]["mount_zion_860"]["apocrypha"]           # not Jerusalem
+    assert pp.passage_order("1 Maccabees", (4, 36), (4, 61))[0] == ((4, 37), ["mount_zion_860"])

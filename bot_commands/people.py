@@ -147,8 +147,8 @@ def find(kind: str, query: str, prefix: bool = True) -> list:
         return []
     index = _index(kind)
     slugs = list(index.get(q, []))
-    if not slugs and kind == "places":                   # another Bible's spelling: Galaad, Bethsura, Γαλααδ
-        slugs = list(_spelling_index().get(q, []))
+    if kind == "places":                                # another Bible's spelling: Galaad, Bethsura, Γαλααδ; and
+        slugs += _spelling_index().get(q, [])           # the Douay's Mount Sion is Zion as well as Hermon's Sion
     if not slugs and prefix:
         # "John the Baptist" -> the John whose title has "Baptist"; or a prefix ("Nebuchad")
         slugs = [s for n, ss in index.items() if n.startswith(q) for s in ss]
@@ -468,7 +468,12 @@ def _others_note(kind: str, slugs: list, command: str) -> str:
     rest = slugs[1:6]
     if not rest:
         return ""
-    return (f"Also by this name: " + "; ".join(label(kind, s) for s in rest)
+    def which(s):                                       # "Mount Sion (Deuteronomy 4:48)": Hermon, not Zion
+        e = data()[kind][s]
+        if kind != "places" or "(" in e["name"] or not e["verses"]:
+            return label(kind, s)
+        return f"{e['name']} ({e['verses'][0]})"
+    return (f"Also by this name: " + "; ".join(which(s) for s in rest)
             + (" …" if len(slugs) > 6 else "") + f" — `!{command} <name (which one)>` or `!{command} <name> all`")
 
 
@@ -653,7 +658,8 @@ async def lookup_place(ctx, query: str) -> None:
         return
     if not want_all and _clear_winner("places", slugs):
         note = _others_note("places", slugs, "place")
-        spelled = spelled_as(slugs[0], query) if _norm(query) not in _index("places") else []
+        q = re.sub(r"^(the|saint|st) ", "", _norm(query))
+        spelled = spelled_as(slugs[0], query) if slugs[0] not in _index("places").get(q, []) else []
         if spelled:
             name = re.sub(r"\s*\(.*\)$", "", data()["places"][slugs[0]]["name"])
             note = (f"**{query.strip()}** is how {_and(spelled)} spell{'s' if len(spelled) == 1 else ''} "
