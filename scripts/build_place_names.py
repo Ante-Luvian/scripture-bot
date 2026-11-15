@@ -141,7 +141,9 @@ class Text:
         self.kind, self.names = kind, names or {}
         self.order, self.where = {}, {}
         for book, chapters in books.items():
-            seq = [(c, v, unicodedata.normalize("NFC", chapters[c][v])) for c in sorted(chapters, key=int)
+            # (the KJV joins Beth–zur with an en dash)
+            seq = [(c, v, re.sub(r"(?<=\w)[‐‑–](?=\w)", "-", unicodedata.normalize("NFC", chapters[c][v])))
+                   for c in sorted(chapters, key=int)
                    for v in sorted(chapters[c], key=lambda x: int(re.match(r"\d+", x).group()))]
             self.order[book] = seq
             self.where[book] = {(c, v): i for i, (c, v, _) in enumerate(seq)}
@@ -226,7 +228,7 @@ def spelling(text: Text, refs: list, english: list, kind: str, rivals: dict = No
             s = stem(w)
             forms[s][w] += 1
             stems.add(s)
-        seen.update(stems)
+        seen.update(sorted(stems))                  # (sorted: a tie goes the same way every build)
     need = 0.62 if len(refs) < 3 else 0.5
     if all(len(skeleton(e)) <= 3 for e in english):  # (Hor is not "Porro")
         need = 0.8
@@ -288,13 +290,127 @@ APOCRYPHA = ["Tobit", "Judith", "Baruch", "1 Maccabees", "2 Maccabees", "1 Esdra
 
 
 # a name in the Apocrypha that isn't the place of that name elsewhere: (place, book, or "" for all)
-APOCRYPHA_NOT = {("Arab", ""): "Zabdiel the Arab, a man", ("Berea", ""): "a Berea in Judea, and Beroea (Aleppo)",
+APOCRYPHA_NOT = {("Arab", ""): "Zabdiel the Arab, a man", ("Berea", ""): "a Berea in Judea, not Macedonia's",
                  ("Shur", ""): "Judith's Sur is on the coast", ("Tishbe", ""): "Tobit's Thisbe is in Naphtali",
-                 ("Emmaus", ""): "the Maccabees' Emmaus (Nicopolis) is not Luke's",
                  ("Bethany", ""): "Judith's Betane is not Bethany", ("Gabbatha", ""): "Gabatha, a eunuch",
                  ("Cuthah", "1 Esdras"): "sons of Coutha, temple servants",
-                 ("Elam", "1 Esdras"): "sons of Elam, a family", ("Sur", ""): "Judith's Sur, not the gate of Sur",
+                 ("Elam", "1 Esdras"): "sons of Elam, a family", ("Sur", ""): "Judith's Sur is not the gate of Sur",
                  ("Esau", ""): "the children of Esau, a people", ("Addar", ""): "Adar, the month"}
+# the Apocrypha's names for places the rest of the Bible names otherwise, each pairing borne out by Pleiades (the
+# same site, or the two names under one entry: "Gazara" at Gezer's coordinates, "Hadid/Ad(d)ida", "Scythopolis"
+# at Beth-shan's): name -> slug, or (name, book) -> slug (None: not that place there)
+APOCRYPHA_SAME = {"Gazara": "gezer_463", "Jamnia": "jabneh_615", "Askalon": "ashkelon_103",
+                  "Ascalon": "ashkelon_103", "Scythopolis": "beth-shan_232", "Esdraelon": "valley_of_jezreel_1211",
+                  "Gerizim": "mount_gerizim_836", "Aradus": "arvad_99", "Carnaim": "karnaim_670",
+                  "Adida": "hadid_503", "Adora": "adoraim_28", "Aphairema": "ephraim_401",
+                  # the KJV's 1 and 2 Esdras: Jewry is Judea, Sion Zion, and Josiah dies at Magiddo (2 Chr 35:22)
+                  "Jewry": "judea_657", "Sion": "jerusalem_636", "Magiddo": "megiddo_777",
+                  "Carchamis": "carchemish_277",
+                  # Bozrah and Bosor in Gilead (1 Macc 5:26) are Bostra, not Edom's Bozrah; Kadesh of 1 Macc 11 is
+                  # in Galilee; Judith's Kadesh (1:9) is not named precisely enough to place
+                  ("Bozrah", "1 Maccabees"): "bozrah_257", ("Kadesh", "1 Maccabees"): "kedesh_676",
+                  ("Kadesh", "Judith"): None,
+                  # 1 Maccabees 10:83's Beth-dagon is Dagon's temple in Azotus, neither town of the name
+                  ("Beth-dagon", "1 Maccabees"): None}
+
+# Places only the Apocrypha name: (slug, name, other spellings to look for, kind, Pleiades id or None, books it's
+# looked for in (None: all)). The site is Pleiades's where it has the place under that name and the verses fit it
+# (Daphne "near Antioch", 2 Macc 4:33; Mallus with Tarsus, 4:30; Orthosia reached by ship, 1 Macc 15:37); where
+# Pleiades has no such place, or several that the verses don't choose between (Arbela), the site is left unknown.
+APOCRYPHA_PLACES = [
+    ("rages_a1", "Rages", [], "City", "903104", ["Tobit"]),
+    ("ragau_a2", "Ragau", [], "Region", None, ["Judith"]),
+    ("elymais_a3", "Elymais", [], "Region", "912843", None),
+    ("kaserin_a4", "Kaserin", [], "City", None, ["Tobit"]),
+    ("thisbe_a5", "Thisbe", [], "City", None, ["Tobit"]),
+    ("bethulia_a6", "Bethulia", [], "City", None, ["Judith"]),
+    ("kona_a7", "Kona", [], "City", None, ["Judith"]),
+    ("choba_a8", "Choba", [], "City", None, ["Judith"]),
+    ("cyamon_a9", "Cyamon", [], "City", None, ["Judith"]),
+    ("betomasthaim_a10", "Betomasthaim", [], "City", None, ["Judith"]),
+    ("egrebeh_a11", "Egrebeh", [], "City", None, ["Judith"]),
+    ("chusi_a12", "Chusi", [], "City", None, ["Judith"]),
+    ("mochmur_a13", "Mochmur", [], "River", None, ["Judith"]),
+    ("balbaim_a14", "Balbaim", ["Belmaim"], "City", None, ["Judith"]),   # (the KJV's, Judith 7:3)
+    ("bectileth_a15", "Bectileth", [], "Region", None, ["Judith"]),
+    ("chelous_a16", "Chelous", [], "City", None, ["Judith"]),
+    ("ocina_a17", "Ocina", [], "City", None, ["Judith"]),
+    ("sur_a18", "Sur (Judith)", ["Sur"], "City", None, ["Judith"]),
+    ("sud_a19", "Sud", [], "River", None, ["Baruch"]),
+    ("merran_a20", "Merran", [], "Region", None, ["Baruch"]),
+    ("modein_a21", "Modein", [], "City", "687977", None),
+    ("coelesyria_a22", "Coelesyria", ["Celosyria"], "Region", "678096", None),
+    ("dathema_a23", "Dathema", [], "City", None, ["1 Maccabees"]),
+    ("bosor_a24", "Bosor", [], "City", "678072", ["1 Maccabees"]),
+    ("chaspho_a25", "Chaspho", [], "City", "678089", ["1 Maccabees"]),
+    ("caspin_a26", "Caspin", [], "City", None, ["2 Maccabees"]),
+    ("maked_a27", "Maked", [], "City", "678275", ["1 Maccabees"]),
+    ("alema_a28", "Alema", [], "City", None, ["1 Maccabees"]),
+    ("raphon_a29", "Raphon", [], "City", "678360", ["1 Maccabees"]),
+    ("ephron_a30", "Ephron (in Gilead)", ["Ephron"], "City", "678157", ["1 Maccabees", "2 Maccabees"]),
+    ("maapha_a31", "Maapha", [], "City", None, ["1 Maccabees"]),
+    ("beth-zechariah_a32", "Beth-zechariah", [], "City", None, ["1 Maccabees"]),
+    ("adasa_a33", "Adasa", [], "City", None, ["1 Maccabees"]),
+    ("bethbasi_a34", "Bethbasi", [], "City", None, ["1 Maccabees"]),
+    ("elasa_a35", "Elasa", [], "City", None, ["1 Maccabees"]),
+    ("beth-zaith_a36", "Beth-zaith", [], "City", None, ["1 Maccabees"]),
+    ("caphar-salama_a37", "Caphar-salama", [], "City", None, ["1 Maccabees"]),
+    ("akrabattene_a38", "Akrabattene", [], "Region", None, ["1 Maccabees"]),
+    ("mesaloth_a39", "Mesaloth", [], "City", None, ["1 Maccabees"]),
+    ("arbela_a40", "Arbela", [], "Region", None, ["1 Maccabees"]),
+    ("asphar_a41", "Asphar", [], "Water", None, ["1 Maccabees"]),
+    ("nadabath_a42", "Nadabath", [], "City", None, ["1 Maccabees"]),
+    ("phasiron_a43", "Phasiron", [], "City", None, ["1 Maccabees"]),
+    ("berea_a44", "Berea (in Judea)", ["Berea"], "City", None, ["1 Maccabees"]),
+    ("beroea_a45", "Beroea (Aleppo)", ["Beroea"], "City", "658409", ["2 Maccabees"]),
+    ("sparta_a46", "Sparta", [], "City", "570685", None),
+    ("delos_a47", "Delos", [], "Island", "599587", None),
+    ("myndos_a48", "Myndos", [], "City", "599811", None),
+    ("sicyon_a49", "Sicyon", [], "City", "570668", None),
+    ("caria_a50", "Caria", [], "Region", "599564", None),
+    ("halicarnassus_a51", "Halicarnassus", [], "City", "599636", None),
+    ("phaselis_a52", "Phaselis", [], "City", "639051", None),
+    ("sampsames_a53", "Sampsames", [], "City", None, None),
+    ("orthosia_a54", "Orthosia", [], "City", "668325", None),
+    ("persepolis_a55", "Persepolis", [], "City", "922695", None),
+    ("daphne_a56", "Daphne", [], "City", "658450", ["2 Maccabees"]),
+    ("tripolis_a57", "Tripolis", [], "City", "668394", ["2 Maccabees"]),
+    ("mallus_a58", "Mallus", [], "City", "648702", ["2 Maccabees"]),
+    ("charax_a59", "Charax", [], "City", None, ["2 Maccabees"]),
+]
+APOCRYPHA_PLACES_OUT = ROOT / "data" / "people_places" / "apocrypha_places.json"
+
+
+def pleiades() -> dict:
+    """Pleiades's places by id (its CSV download, cached in scripts/.cache/pleiades/)."""
+    import csv
+    import gzip
+    import io
+    path = cached("https://atlantides.org/downloads/pleiades/dumps/pleiades-places-latest.csv.gz",
+                  "pleiades/pleiades-places-latest.csv.gz")
+    with gzip.open(path) as f:
+        return {r["id"]: r for r in csv.DictReader(io.TextIOWrapper(f, encoding="utf-8"))}
+
+
+def apocrypha_places() -> dict:
+    """APOCRYPHA_PLACES as place records like people_places.json's (their verses are added by apocrypha())."""
+    pl = pleiades()
+    out = {}
+    for slug, name, also, kind, pid, books in APOCRYPHA_PLACES:
+        r = pl.get(pid) if pid else None
+        if pid and not r:
+            raise SystemExit(f"Pleiades has no place {pid} ({name})")
+        located = bool(r and r["reprLat"])
+        out[slug] = {"name": name, "also": also, "kind": kind,
+                     "lat": round(float(r["reprLat"]), 4) if located else None,
+                     "lon": round(float(r["reprLong"]), 4) if located else None,
+                     # (Pleiades's own doubt: "Bosora?", a "rough" location)
+                     "approx": located and ("?" in r["title"] or r["locationPrecision"] != "precise"),
+                     "about": "", "within": [], "verses": [], "weight": 0,
+                     "pleiades": f"https://pleiades.stoa.org/places/{pid}" if pid else "",
+                     "books": books}
+    return out
+
 # people of the Apocrypha whose names are like a place's (Antiochus, Antioch), without the Greek's accents
 APOCRYPHA_PEOPLE = {"Antiochus", "Αντιοχος", "Αντιοχου", "Αντιοχω", "Αντιοχον", "Ptolemæus", "Ptolemaeus",
                     "Ptolemee", "Ptolemy", "Πτολεμαιος", "Πτολεμαιου", "Tobias", "Τωβιας", "Σειραχ", "Sirach",
@@ -305,13 +421,24 @@ def plain(name: str) -> str:
     return re.sub(r"[^a-zæœ]", "", strip_marks(name).lower())
 
 
-def apocrypha(places, all_names, people, out, texts):
+def apocrypha(places, all_names, people, out, texts, new=None):
     """The places the Apocrypha name: a verse of the NRSV's Deuterocanon (or the KJV's Apocrypha, for 1 and 2 Esdras
     and the rest the NRSV's Catholic edition hasn't) that names a place as the NRSV or KJV spells it elsewhere
     (letter for letter, bar case and hyphens), and how each Bible spells it there (the KJV's "Bethsura" and the
     Septuagint's "Βεθσουρά" for Beth-zur). A name that's also a person's is left to the person unless the place is
     named oftener; a word the English also writes in lower case ("There", "Eat") isn't a name."""
     nrsv, kjv = texts["nrsv"], texts["kjv"]
+    new = new or {}
+    places = {**places, **new}
+    all_names = {**all_names, **{s: [re.sub(r"\s*\(.*\)$", "", p["name"]), *p["also"]] for s, p in new.items()}}
+    # the Apocrypha-only places, and the Apocrypha's other names for known ones, before any guessing
+    fixed = defaultdict(list)                       # plain name -> [(slug or None, books or None)]
+    for slug, p in new.items():
+        for n in all_names[slug]:
+            fixed[plain(n)].append((slug, p["books"]))
+    for key, slug in APOCRYPHA_SAME.items():
+        name, book = key if isinstance(key, tuple) else (key, None)
+        fixed[plain(name)].append((slug, [book] if book else None))
     lower = {w for text in (nrsv, kjv) for seq in text.order.values() for _, _, verse in seq
              for w in re.findall(r"\b[a-z]+\b", verse)}
     person_weight = Counter()
@@ -327,7 +454,7 @@ def apocrypha(places, all_names, people, out, texts):
     best = {}
     for name, ranks in index.items():
         slugs = ranks[min(ranks)]
-        top = max(slugs, key=lambda x: len(places[x]["verses"]))
+        top = max(sorted(slugs), key=lambda x: len(places[x]["verses"]))
         if len(places[top]["verses"]) > person_weight[name]:
             best[name] = top
     found = defaultdict(list)
@@ -340,18 +467,42 @@ def apocrypha(places, all_names, people, out, texts):
                 pairs = [w for w in names if " " in w or "-" in w]
                 parts = {x for w in pairs if plain(w) in best for x in re.split(r"[ -]", w)}
                 for w in names:
-                    slug = best.get(plain(w))
                     ref = f"{book} {c}:{v}"
-                    if not slug or w in parts or ref in found[slug]:
-                        continue
-                    name = re.sub(r"\s*\(.*\)$", "", places[slug]["name"])
-                    if (name, "") in APOCRYPHA_NOT or (name, book) in APOCRYPHA_NOT:
+                    rule = [s for s, books in fixed.get(plain(w), []) if books is None or book in books]
+                    if rule:
+                        slug = rule[0]
+                    else:
+                        slug = best.get(plain(w))
+                        if slug:
+                            name = re.sub(r"\s*\(.*\)$", "", places[slug]["name"])
+                            if (name, "") in APOCRYPHA_NOT or (name, book) in APOCRYPHA_NOT:
+                                continue
+                    if not slug or w in parts and not rule or ref in found[slug]:
                         continue
                     found[slug].append(ref)
     other_places = {plain(n): s for s, ns in all_names.items() for n in ns}
+    named = defaultdict(set)                        # verse -> the places named in it ("Choba" is not Kona's)
     for slug, refs in found.items():
+        for r in refs:
+            named[r].update((slug, n) for n in all_names[slug])
+
+    def beside(ref):
+        book, cv = ref.rsplit(" ", 1)
+        c, v = cv.split(":")
+        return set().union(*(named.get(f"{book} {c}:{int(v) + d}", set()) for d in (-1, 0, 1)))
+
+    for slug, refs in found.items():
+        own = {skeleton(n) for n in all_names[slug]}
+        rivals = {r: [n for other, n in beside(r) if other != slug and skeleton(n) not in own] for r in refs}
         entry = out.setdefault(slug, {})
         entry["apocrypha"] = refs
+        if slug in new:                             # the Apocrypha's own spellings are its names here
+            # verse by verse: a verse that names it only as "the fortress" (1 Maccabees 5:29) doesn't count against it
+            got = Counter(s for r in refs if (s := spelling(kjv, [r], all_names[slug], "modern", rivals)))
+            entry["kjv"] = got.most_common(1)[0][0] if got else ""
+            entry["nrsv"] = all_names[slug][0] if any(r.rsplit(" ", 1)[0] in nrsv.order for r in refs) else ""
+            entry = {k: v for k, v in entry.items() if v}
+            out[slug] = entry
         known = [n for n in [*all_names[slug], *(entry.get(k) for k in ("kjv", "latin", "douay", "nrsv"))] if n]
         greek = [entry["greek"]] if entry.get("greek") else []
         spellings = []
@@ -359,7 +510,7 @@ def apocrypha(places, all_names, people, out, texts):
             names = greek + known if key == "greek" else known
             got = spelling(text, [r for r in refs if r.rsplit(" ", 1)[0] in text.order
                                   or text.names.get(r.rsplit(" ", 1)[0]) in text.order],
-                           names, key if key in ("greek", "latin") else "modern")
+                           names, key if key in ("greek", "latin") else "modern", rivals)
             if not got or strip_marks(got) in APOCRYPHA_PEOPLE or other_places.get(plain(got), slug) != slug \
                     or strip_marks(got).lower().endswith(GENTILIC) or max(likeness(got, n) for n in names) < 0.7:
                 continue
@@ -368,6 +519,11 @@ def apocrypha(places, all_names, people, out, texts):
         if spellings:
             entry["apocrypha_spellings"] = spellings
     return found
+
+# where the KJV's text gives only part of the name (it writes "Adami, Nekeb", "Atroth, Shophan", "Baale of Judah"),
+# or another place's (Babylon for Babylonia; Sharon for Acts 9:35's Saron): Theographic's kjvName stands
+KJV_AS_THEOGRAPHIC = {"adami-nekeb_23", "atroth-shophan_119", "baale-judah_139", "babylonia_152", "saron_1063"}
+
 
 def main():
     theo = json.loads((CACHE / "theographic" / "places.json").read_text(encoding="utf-8"))
@@ -379,10 +535,20 @@ def main():
     vul = Text(bolls("VULG"), "latin")
     nrsv = Text(bolls("NRSVCE"), "modern")
     dr = Text(json.loads((ROOT / "data" / "drb.json").read_text(encoding="utf-8")), "douay", DR_NAMES)
+    # the KJV's own spelling from its text: Theographic's kjvName is sometimes another Bible's (Magadan for the
+    # KJV's Magdala), so it is only the fallback
+    kjv_text = Text(json.loads((ROOT / "data" / "kjv" / "kjv_canon.json").read_text(encoding="utf-8"))["books"], "kjv")
+
+    common = {w for text in (nrsv, kjv_text) for seq in text.order.values() for _, _, verse in seq
+              for w in re.findall(r"(?<![\w-])[a-z]+(?![\w-])", verse)}  # words written in lower case ("tower")
 
     def names_of(slug, p):
-        return [n for n in dict.fromkeys([re.sub(r"\s*\(.*\)$", "", p["name"]), *p.get("also", []),
-                                          kjv_name.get(slug, "")]) if n]
+        names = [n for n in dict.fromkeys([re.sub(r"\s*\(.*\)$", "", p["name"]), *p.get("also", []),
+                                           kjv_name.get(slug, "")]) if n]
+        # Theographic's "Tower" for the Tower of Hananel: the whole name first, or a Bible's "Tower" passes for it
+        whole = [n for n in names[1:] if " " not in names[0] and n != names[0]
+                 and re.search(r"\b" + re.escape(names[0]) + r"\b", n, re.I) and plain(names[0]) in common]
+        return [whole[0], *(n for n in names if n != whole[0])] if whole else names
     all_names = {slug: names_of(slug, p) for slug, p in places.items()}
     people = json.loads((ROOT / "data" / "people_places" / "people_places.json").read_text(encoding="utf-8"))["people"]
     # names a compound name can borrow ("the Gate of Benjamin", "the Sea of Galilee"): other places and people
@@ -444,9 +610,11 @@ def main():
                 if lex and proper and n >= max(1, len(group) * 0.3):
                     entry[key] = {"text": lex["lexeme"], "translit": lex.get("transliteration", ""),
                                   "strong": strong}
-        for key, text, group, kind in (("greek", lxx, ot, "greek"), ("latin", vul, refs, "latin"),
-                                       ("douay", dr, refs, "douay"), ("nrsv", nrsv, refs, "modern")):
-            english_text = kind in ("douay", "modern")
+        for key, text, group, kind in (("kjv", kjv_text, [] if slug in KJV_AS_THEOGRAPHIC else refs, "kjv"),
+                                       ("greek", lxx, ot, "greek"),
+                                       ("latin", vul, refs, "latin"), ("douay", dr, refs, "douay"),
+                                       ("nrsv", nrsv, refs, "modern")):
+            english_text = kind in ("douay", "modern", "kjv")
             if not english_text and not foreign_ok:
                 continue
             found = spelling(text, group, match if english_text or not compound else heart, kind, rivals)
@@ -456,18 +624,40 @@ def main():
                 near = " ".join(text.near(r) for r in group).lower()
                 phrase = primary.replace(core(primary), found) if found and core(primary) else ""
                 found = next((x[:1].upper() + x[1:] for x in (primary, phrase) if x and x.lower() in near), None)
+            if found and english_text and plain(found) in common and plain(found) not in {plain(n) for n in english} \
+                    and any(re.search(r"(?<![\w-])" + re.escape(found) + r"(?![\w-])", n, re.I) for n in english):
+                found = None                        # ("Field" for Akeldama, the Field of Blood; not "Iron" for Yiron)
             if found:
                 entry[key] = found
         if "greek" not in entry and "greek_nt" in entry:
             entry["greek"] = entry["greek_nt"]["text"]
+            if entry["greek_nt"].get("translit"):
+                entry["greek_translit"] = entry["greek_nt"]["translit"]
         entry.pop("greek_nt", None)
         if entry:
             out[slug] = entry
     kjv_apocrypha = Text(json.loads((ROOT / "data" / "kjv" / "kjv_apocrypha.json").read_text(encoding="utf-8"))["books"],
                          "modern")
+    new = apocrypha_places()
     found = apocrypha(places, all_names, people, out,
-                      {"nrsv": nrsv, "kjv": kjv_apocrypha, "douay": dr, "latin": vul, "greek": lxx})
+                      {"nrsv": nrsv, "kjv": kjv_apocrypha, "douay": dr, "latin": vul, "greek": lxx}, new)
     print(f"the Apocrypha name {len(found)} places, in {sum(map(len, found.values()))} verses")
+    # the Apocrypha-only places, each with the KJV's words of the verse that first names it
+    missing = [p["name"] for s, p in new.items() if s not in found]
+    if missing:
+        raise SystemExit(f"named in no verse: {', '.join(missing)}")
+    for slug, p in new.items():
+        refs = found[slug]
+        p["weight"] = len(refs)
+        verse = kjv_apocrypha.near(refs[0], 0) if refs[0].rsplit(" ", 1)[0] in kjv_apocrypha.order else ""
+        names = [re.sub(r"\s*\(.*\)$", "", p["name"]), *p["also"], out[slug].get("kjv", "")]
+        # (only if the KJV's verse of that number names it: the KJV numbers some of Tobit and Judith differently)
+        if verse and any(likeness(w, n) >= 0.7 for w in proper_names(verse) for n in names if n):
+            p["about"] = f"Named only in the Apocrypha. {refs[0]} (KJV): “{verse.strip()}”"
+        else:
+            p["about"] = "Named only in the Apocrypha."
+        del p["books"]
+    APOCRYPHA_PLACES_OUT.write_text(json.dumps(new, ensure_ascii=False, indent=0), encoding="utf-8")
     OUT.write_text(json.dumps(out, ensure_ascii=False, indent=0), encoding="utf-8")
     counts = Counter(k for e in out.values() for k in e)
     print(f"{len(out)} of {len(places)} places; {dict(counts)}")

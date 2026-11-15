@@ -5,7 +5,7 @@ built by scripts/build_people_places.py from Theographic Bible Metadata).
   !who Mary               several Marys: pick one from the list
   !place Bethel           where it is (a map card), what happened there, its verses
   !place Galaad           found by any Bible's spelling (Hebrew, Septuagint, Vulgate, Douay-Rheims, NRSV)
-  !place Acts             every place a book names, on one map (!place Genesis 12: a chapter's)
+  !place Acts             every place a book names, on one map (or a passage: !place Genesis 12-13)
 Names in the family lists open with the menu under the card, so you can walk
 a family tree (Ruth -> Obed -> Jesse -> David).
 """
@@ -22,6 +22,7 @@ from core import ROOT, bot, log, lookup
 
 DATA_PATH = ROOT / "data" / "people_places" / "people_places.json"
 NAMES_PATH = ROOT / "data" / "people_places" / "place_names.json"      # scripts/build_place_names.py
+APOCRYPHA_PATH = ROOT / "data" / "people_places" / "apocrypha_places.json"   # the same
 # the Bibles whose spellings a place card shows, in the order it shows them
 NAME_LABELS = [("hebrew", "Hebrew"), ("greek", "Greek"), ("latin", "Latin (Vulgate)"), ("kjv", "KJV"),
                ("douay", "Douay-Rheims"), ("nrsv", "NRSV")]
@@ -38,6 +39,10 @@ def data() -> dict:
         names = json.loads(NAMES_PATH.read_text(encoding="utf-8"))
     except (OSError, ValueError):
         names = {}
+    try:                                                # the places only the Apocrypha name (Bethulia, Modein)
+        d["places"].update(json.loads(APOCRYPHA_PATH.read_text(encoding="utf-8")))
+    except (OSError, ValueError):
+        pass
     for slug, p in d["places"].items():
         p["slug"] = slug
         p["names"] = names.get(slug, {})
@@ -109,25 +114,7 @@ def _spelling_index() -> dict:
             n = _norm(s)
             if n and slug not in index.get(n, []):
                 index.setdefault(n, []).append(slug)
-            if _stem(n) != n and slug not in index.get(_stem(n), []):
-                index.setdefault(_stem(n), []).append(slug)
     return index
-
-
-# Latin and Greek case endings, longest first (a place card shows one case of a declined name)
-_ENDINGS = ("orum", "arum", "ου", "ος", "ον", "ας", "ης", "us", "um", "am", "ae", "is", "em", "es", "α", "η", "a", "i",
-            "o", "e")
-
-
-def _stem(name: str) -> str:
-    """A Latin or Greek name without its case ending: "aegyptum" and "aegyptus" -> "aegypt~" (English names are
-    left alone: only a word of four letters or more loses an ending, and the stem is marked so it can't equal one)."""
-    if " " in name or len(name) < 4:
-        return name
-    for end in _ENDINGS:
-        if name.endswith(end):
-            return name[:-len(end)] + "~"
-    return name
 
 
 def spelled_as(slug: str, query: str) -> list:
@@ -162,8 +149,6 @@ def find(kind: str, query: str, prefix: bool = True) -> list:
     slugs = list(index.get(q, []))
     if not slugs and kind == "places":                   # another Bible's spelling: Galaad, Bethsura, Γαλααδ
         slugs = list(_spelling_index().get(q, []))
-        if not slugs and _stem(q) != q:                  # another case of it: Ægyptus for the Ægyptum shown
-            slugs = list(_spelling_index().get(_stem(q), []))
     if not slugs and prefix:
         # "John the Baptist" -> the John whose title has "Baptist"; or a prefix ("Nebuchad")
         slugs = [s for n, ss in index.items() if n.startswith(q) for s in ss]
@@ -268,7 +253,8 @@ class PersonView(discord.ui.View):
 # ── places ──────────────────────────────────────────────────────────────────
 
 def located_places() -> list:
-    return [dict(p, weight=len(p["verses"])) for p in data()["places"].values() if p["lat"] is not None]
+    return [dict(p, weight=len(p["verses"]) + len(p["apocrypha"])) for p in data()["places"].values()
+            if p["lat"] is not None]
 
 
 def place_embed(slug: str, with_map: bool) -> discord.Embed:
@@ -302,7 +288,11 @@ def place_embed(slug: str, with_map: bool) -> discord.Embed:
                         value=compact_refs(p["apocrypha"], 25), inline=False)
     if with_map:
         embed.set_image(url="attachment://map.png")
-    embed.set_footer(text=f"{SOURCE} · map: Natural Earth")
+    if p["verses"]:
+        source = SOURCE
+    else:                                               # a place only the Apocrypha name: its site from Pleiades
+        source = "Pleiades (the site) · the Apocrypha" if p.get("pleiades") else "the Apocrypha"
+    embed.set_footer(text=f"{source} · map: Natural Earth")
     return embed
 
 
@@ -516,39 +506,91 @@ def _place_books() -> set:
     return {r.rsplit(" ", 1)[0] for p in data()["places"].values() for r in p["verses"] + p["apocrypha"]}
 
 
+_PASSAGE = re.compile(r"^\s*(.+?)(?:\s+(\d{1,3})(?::(\d{1,3}))?(?:\s*[-–—]\s*(\d{1,3})(?::(\d{1,3}))?)?)?\s*$")
+
+
 def book_query(query: str) -> "tuple | None":
-    """"Acts" -> ("Acts", None), "Genesis 12" -> ("Genesis", 12): a book (and chapter) whose places to map."""
-    m = re.match(r"^\s*(.+?)(?:\s+(\d{1,3}))?\s*$", query)
+    """A book, or a passage of one, whose places to map: (book, first (chapter, verse), last (chapter, verse)),
+    None for the whole book. "Acts" -> ("Acts", None, None); "Genesis 12" -> ("Genesis", (12, 0), (12, 999));
+    "1 Maccabees 4:36-61" -> ("1 Maccabees", (4, 36), (4, 61)); "Genesis 12-13", "Acts 13:1-14:28" likewise."""
+    m = _PASSAGE.match(query)
     if not m:
         return None
+    name, c1, v1, x, v2 = m.groups()
     try:
-        corpus, book = lookup._resolve_book(m.group(1))
+        corpus, book = lookup._resolve_book(name)
     except Exception:
         return None
     if book not in _place_books():
         return None
-    return book, int(m.group(2)) if m.group(2) else None
+    if not c1:
+        return book, None, None
+    c1 = int(c1)
+    if v1 is None:                                   # Genesis 12 / Genesis 12-13
+        c2 = int(x) if x and v2 is None else c1
+        return book, (c1, 0), (c2, 999)
+    v1 = int(v1)
+    if x is None:                                    # Genesis 12:8
+        return book, (c1, v1), (c1, v1)
+    if v2 is None:                                   # 1 Maccabees 4:36-61
+        return book, (c1, v1), (c1, int(x))
+    return book, (c1, v1), (int(x), int(v2))         # Acts 13:1-14:28
 
 
-def book_places(book: str, chapter: "int | None" = None) -> list:
-    """[(slug, how many verses of the book, or chapter, name it)], most-named first."""
+def _where(book: str, start, end) -> str:
+    if start is None:
+        return book
+    (c1, v1), (c2, v2) = start, end
+    if v1 == 0:
+        return f"{book} {c1}" if c1 == c2 else f"{book} {c1}-{c2}"
+    if (c1, v1) == (c2, v2):
+        return f"{book} {c1}:{v1}"
+    return f"{book} {c1}:{v1}-{v2}" if c1 == c2 else f"{book} {c1}:{v1}-{c2}:{v2}"
+
+
+def book_places(book: str, start=None, end=None) -> list:
+    """[(slug, how many verses of the book, or of the passage from `start` to `end`, name it)], most-named first."""
     counts = {}
     for slug, p in data()["places"].items():
         for ref in p["verses"] + p["apocrypha"]:
             b, cv = ref.rsplit(" ", 1)
-            if b == book and (chapter is None or cv.split(":")[0] == str(chapter)):
-                counts[slug] = counts.get(slug, 0) + 1
+            if b != book:
+                continue
+            if start is not None:
+                c, v = (int(x) for x in cv.split(":"))
+                if not start <= (c, v) <= end:
+                    continue
+            counts[slug] = counts.get(slug, 0) + 1
     return sorted(counts.items(), key=lambda x: (-x[1], data()["places"][x[0]]["name"]))
 
 
-async def send_book_map(ctx, book: str, chapter: "int | None" = None) -> None:
-    """Every place a book (or one chapter of it) names, on one map, and listed by how often."""
-    where = f"{book} {chapter}" if chapter is not None else book
-    found = book_places(book, chapter)
+def passage_order(book: str, start, end) -> list:
+    """[((chapter, verse), [slug, ...]), ...]: the places of a passage verse by verse, in the verses' order."""
+    verses = {}
+    for slug, p in data()["places"].items():
+        for ref in p["verses"] + p["apocrypha"]:
+            b, cv = ref.rsplit(" ", 1)
+            if b == book:
+                c, v = (int(x) for x in cv.split(":"))
+                if start <= (c, v) <= end:
+                    verses.setdefault((c, v), []).append(slug)
+    return [(cv, sorted(s, key=lambda x: -weight("places", x))) for cv, s in sorted(verses.items())]
+
+async def send_book_map(ctx, book: str, start=None, end=None) -> None:
+    """Every place a book (or a passage of it) names, on one map, and listed by how often."""
+    where = _where(book, start, end)
+    found = book_places(book, start, end)
     if not found:
         count = lookup.chapter_count(book) or 0
-        await ctx.send(f"**{book}** has no chapter {chapter}: it has {count}." if chapter is not None and count and not 1 <= chapter <= count
-                       else f"**{where}** names no places I know of.")
+        bad = start is not None and count and not (1 <= start[0] <= count and 1 <= end[0] <= count) \
+            or start is not None and start > end
+        if bad and start <= end:
+            await ctx.send(f"**{book}** has no chapter {max(start[0], end[0]) if start[0] >= 1 else start[0]}: "
+                           f"it has {count}.")
+        elif bad:
+            await ctx.send(f"**{where}** runs backwards: try `!place {_where(book, end, start)}`.")
+        else:
+            await ctx.send(f"**{where}** names no places I know of.")
         return
     places = data()["places"]
     spots = [dict(places[s], count=n) for s, n in found if places[s]["lat"] is not None]
@@ -561,20 +603,34 @@ async def send_book_map(ctx, book: str, chapter: "int | None" = None) -> None:
         except Exception:
             log.exception(f"Couldn't draw the map for {where}")
     unknown = len(found) - len(spots)
-    lines = [f"**{len(found)} place{'s' if len(found) != 1 else ''}** named in {where}, the most often first"
-             + (f" ({unknown} with no known site, so not on the map)" if unknown else "") + ":"]
-    bare = [re.sub(r"\s*\(.*\)$", "", places[s]["name"]) for s, _ in found]
-    # the plain name, unless two places of that name are on the list (Bethel (of Palestine))
-    listing = " · ".join(f"{b if bare.count(b) == 1 else label('places', s)} ({n})" for b, (s, n) in zip(bare, found))
-    if len(listing) > 3600:
-        listing = listing[:3600].rsplit(" · ", 1)[0] + " …"
-    embed = discord.Embed(title=f"🗺️ The places of {where}", description=lines[0] + "\n" + listing,
+
+    bare = {s: re.sub(r"\s*\(.*\)$", "", places[s]["name"]) for s, _ in found}
+    counts = list(bare.values())
+
+    def name(s):                                    # the plain name, unless the list has two (Bethel (of Palestine))
+        return bare[s] if counts.count(bare[s]) == 1 else label("places", s)
+    listing = ""
+    if start is not None:
+        # a passage: the places verse by verse, in the order they come, if that fits
+        lines = [f"**{c}:{v}** " + ", ".join(name(s) for s in slugs) for (c, v), slugs in passage_order(book, start, end)]
+        listing = "\n".join(lines)
+        if len(listing) <= 3600:
+            head = f"**{len(found)} place{'s' if len(found) != 1 else ''}** named in {where}, in order" \
+                   + (f" ({unknown} with no known site, so not on the map)" if unknown else "") + ":"
+        else:
+            listing = ""
+    if not listing:
+        head = f"**{len(found)} place{'s' if len(found) != 1 else ''}** named in {where}, the most often first" \
+               + (f" ({unknown} with no known site, so not on the map)" if unknown else "") + ":"
+        listing = " · ".join(f"{name(s)} ({n})" for s, n in found)
+        if len(listing) > 3600:
+            listing = listing[:3600].rsplit(" · ", 1)[0] + " …"
+    embed = discord.Embed(title=f"🗺️ The places of {where}", description=head + "\n" + listing,
                           color=PLACE_COLOR)
     if file:
         embed.set_image(url="attachment://map.png")
     embed.set_footer(text=f"{SOURCE} · map: Natural Earth · !place <name> for one of them")
     await ctx.send(embed=embed, **({"file": file} if file else {}))
-
 
 async def lookup_place(ctx, query: str) -> None:
     query = query.strip()
@@ -582,7 +638,7 @@ async def lookup_place(ctx, query: str) -> None:
     query = query[:-4] if want_all else query
     if not query:
         await ctx.send("Usage: `!place <name>` — e.g. `!place Bethel`, `!place Sea of Galilee`, `!place Rome` — "
-                       "or `!place <book>` for a map of every place a book names: `!place Acts`, `!place Genesis 12`.")
+                       "or a book or passage for a map of every place it names: `!place Acts`, `!place 1 Maccabees 4:36-61`.")
         return
     slugs = find("places", query, prefix=False)
     if not slugs:
@@ -628,7 +684,7 @@ async def cmd_place(ctx, *, name: str = ""):
     Usage: !place Bethel
            !place Galaad          (any Bible's spelling: Vulgate, Septuagint, Hebrew, Douay-Rheims)
            !place Acts            (every place a book names, on one map)
-           !place Genesis 12      (a chapter's places)"""
+           !place Genesis 12      (a chapter's places; or a passage: !place 1 Maccabees 4:36-61)"""
     async with ctx.typing():
         await lookup_place(ctx, name)
 

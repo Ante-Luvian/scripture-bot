@@ -47,7 +47,7 @@
 "nrsv": "Abel"
 },
 "abel-beth-maacah_5": {
-"kjv": "Abel-beth-maacah",
+"kjv": "Abel-beth-maachah",
 "latin": "Abeldomum Maacha",
 "douay": "Abeldomum Maacha",
 "nrsv": "Abel-beth-maacah"
@@ -86,7 +86,7 @@
 "nrsv": "Abel-shittim"
 },
 "abiezer_11": {
-"kjv": "Abiezer",
+"kjv": "Abi-ezer",
 "hebrew": {
 "text": "אֲבִיעֶזֶר",
 "translit": "ʼĂbîyʻezer",
@@ -101,10 +101,11 @@
 "kjv": "Abilene",
 "douay": "Abilina",
 "nrsv": "Abilene",
-"greek": "Ἀβιληνή"
+"greek": "Ἀβιληνή",
+"greek_translit": "Abilēnḗ"
 },
 "abronah_13": {
-"kjv": "Abronah",
+"kjv": "Ebronah",
 "hebrew": {
 "text": "עֶבְרֹנָה",
 "translit": "ʻEbrônâh",
@@ -128,7 +129,7 @@
 "nrsv": "Accad"
 },
 "acco_15": {
-"kjv": "Acco",
+"kjv": "Accho",
 "hebrew": {
 "text": "עַכּוֹ",
 "translit": "ʻAkkôw",
@@ -144,7 +145,8 @@
 "latin": "Achaia",
 "douay": "Achaia",
 "nrsv": "Achaia",
-"greek": "Ἀχαΐα"
+"greek": "Ἀχαΐα",
+"greek_translit": "Achaḯa"
 },
 "achshaph_17": {
 "kjv": "Achshaph",
@@ -209,16 +211,15 @@
 },
 "adami-nekeb_23": {
 "kjv": "Adami-nekeb",
-"latin": "Neceb",
-"douay": "Neceb",
+"latin": "Adami",
+"douay": "Adami",
 "nrsv": "Adami-nekeb"
 },
 "addar_24": {
 "kjv": "Adar",
 "latin": "Addar",
 "douay": "Addar",
-"nrsv": "Addar",
-"apocrypha": []
+"nrsv": "Addar"
 },
 "addon_25": {
 "kjv": "Addon",
@@ -264,19 +265,29 @@
 "greek": "Ἀδωραὶ",
 "latin": "Aduram",
 "douay": "Aduram",
-"nrsv": "Adoraim"
+"nrsv": "Adoraim",
+"apocrypha": [
+"1 Maccabees 13:20"
+],
+"apocrypha_spellings": [
+"Adora",
+"Ador",
+"Ἀδωρά"
+]
 },
 "adramyttium_29": {
 "kjv": "Adramyttium",
 "nrsv": "Adramyttium",
-"greek": "Ἀδραμυττηνός"
+"greek": "Ἀδραμυττηνός",
+"greek_translit": "Adramyttēnós"
 },
 "adria_30": {
 "kjv": "Adria",
 "latin": "Adria",
 "douay": "Adria",
 "nrsv": "Adria",
-"greek": "Ἀδρίας"
+"greek": "Ἀδρίας",
+"greek_translit": "Adrías"
 },
 "adullam_31": {
 "kjv": "Adullam",
@@ -307,11 +318,12 @@
 "nrsv": "Adummim"
 },
 "aenon_33": {
-"kjv": "Aenon",
+"kjv": "Ænon",
 "latin": "Ænnon",
 "douay": "Ennon",
 "nrsv": "Aenon",
-"greek": "Αἰνών"
+"greek": "Αἰνών",
+"greek_translit": "Ainṓn"
 },
 "ahava_34": {
 "kjv": "Ahava",
@@ -412,8 +424,7 @@
 "akeldama_43": {
 "kjv": "Akeldama",
 "latin": "Haceldama",
-"douay": "Haceldama",
-"nrsv": "Field"
+"douay": "Haceldama"
 },
 "akrabbim_44": {
 "kjv": "Akrabbim",
@@ -432,10 +443,11 @@
 "latin": "Alexandrina",
 "douay": "Alexandria",
 "nrsv": "Alexandria",
-"greek": "Ἀλεξανδρῖνος"
+"greek": "Ἀλεξανδρῖνος",
+"greek_translit": "Alexandrînos"
 },
 "allammelech_47": {
-"kjv": "Allammelech",
+"kjv": "Alammelech",
 "hebrew": {
 "text": "אַלַּמֶּלֶךְ",
 "translit": "ʼAllammelek",
@@ -447,7 +459,7 @@
 "nrsv": "Allammelech"
 },
 "allon-bacuth_48": {
-"kjv": "Allon-bacuth",
+"kjv": "Allon-bachuth",
 "nrsv": "Allon-bacuth"
 },
 "almon_49": {
@@ -565,7 +577,8 @@
 "latin": "Amphipolim",
 "douay": "Amphipolis",
 "nrsv": "Amphipolis",
-"greek": "Ἀμφίπολις"
+"greek": "Ἀμφίπολις",
+"greek_translit": "Amphípolis"
 },
 "anab_60": {
 "kjv": "Anab",
@@ -644,11 +657,12 @@
 "nrsv": "Anim"
 },
 "antioch_68": {
-"kjv": "Antioch (Syria)",
+"kjv": "Antioch",
 "latin": "Antiochenum",
 "douay": "Antioch",
 "nrsv": "Antioch",
 "greek": "Ἀντιόχεια",
+"greek_translit": "Antiócheia",
 "apocrypha": [
 "1 Maccabees 3:37",
 "1 Maccabees 4:35",
@@ -668,18 +682,20 @@
 ]
 },
 "antioch_69": {
-"kjv": "Antioch (Pisidia)",
+"kjv": "Antioch",
 "latin": "Antiochia",
 "douay": "Antioch",
 "nrsv": "Antioch",
-"greek": "Ἀντιόχεια"
+"greek": "Ἀντιόχεια",
+"greek_translit": "Antiócheia"
 },
 "antipatris_70": {
 "kjv": "Antipatris",
 "latin": "Antipatridem",
 "douay": "Antipatris",
 "nrsv": "Antipatris",
-"greek": "Ἀντιπατρίς"
+"greek": "Ἀντιπατρίς",
+"greek_translit": "Antipatrís"
 },
 "aphek_71": {
 "kjv": "Aphek",
@@ -738,10 +754,11 @@
 "latin": "Apolloniam",
 "douay": "Apollonia",
 "nrsv": "Apollonia",
-"greek": "Ἀπολλωνία"
+"greek": "Ἀπολλωνία",
+"greek_translit": "Apollōnía"
 },
 "appii_forum_427": {
-"kjv": "Appii forum",
+"kjv": "Appii Forum",
 "latin": "Appii",
 "douay": "Appii Forum"
 },
@@ -765,8 +782,7 @@
 },
 "latin": "Arab",
 "douay": "Arab",
-"nrsv": "Arab",
-"apocrypha": []
+"nrsv": "Arab"
 },
 "arabah_79": {
 "kjv": "Arabah",
@@ -815,7 +831,7 @@
 "nrsv": "Aram"
 },
 "aram-maacah_83": {
-"kjv": "Aram-maacah",
+"kjv": "Syria-maachah",
 "latin": "Syria Maacha",
 "douay": "Syria Maacha",
 "nrsv": "Aram-maacah"
@@ -877,14 +893,16 @@
 "latin": "Arimathæa",
 "douay": "Arimathea",
 "nrsv": "Arimathea",
-"greek": "Ἀριμαθαία"
+"greek": "Ἀριμαθαία",
+"greek_translit": "Arimathaía"
 },
 "armageddon_91": {
 "kjv": "Armageddon",
 "latin": "Armagedon",
 "douay": "Armagedon",
 "nrsv": "Harmagedon",
-"greek": "Ἀρμαγεδδών"
+"greek": "Ἀρμαγεδδών",
+"greek_translit": "Armageddṓn"
 },
 "arnon_92": {
 "kjv": "Arnon",
@@ -946,7 +964,7 @@
 "nrsv": "Arpad"
 },
 "arubboth_97": {
-"kjv": "Arubboth",
+"kjv": "Aruboth",
 "hebrew": {
 "text": "אֲרֻבּוֹת",
 "translit": "ʼĂrubbôwth",
@@ -976,7 +994,15 @@
 "strong": "H719"
 },
 "latin": "Aradii",
-"nrsv": "Arvad"
+"nrsv": "Arvad",
+"apocrypha": [
+"1 Maccabees 15:23"
+],
+"apocrypha_spellings": [
+"Aradus",
+"Aradon",
+"Ἄραδον"
+]
 },
 "ashan_100": {
 "kjv": "Ashan",
@@ -1009,10 +1035,20 @@
 "greek": "Ἀσκάλωνος",
 "latin": "Ascalonis",
 "douay": "Ascalon",
-"nrsv": "Ashkelon"
+"nrsv": "Ashkelon",
+"apocrypha": [
+"Judith 2:28",
+"1 Maccabees 10:86",
+"1 Maccabees 11:60",
+"1 Maccabees 12:33"
+],
+"apocrypha_spellings": [
+"Askalon",
+"Ascalonem"
+]
 },
 "ashkenaz_104": {
-"kjv": "Ashkenaz",
+"kjv": "Ashchenaz",
 "hebrew": {
 "text": "אַשְׁכְּנַז",
 "translit": "ʼAshkᵉnaz",
@@ -1044,7 +1080,7 @@
 "nrsv": "Ashtaroth"
 },
 "ashteroth-karnaim_107": {
-"kjv": "Ashteroth-karnaim",
+"kjv": "Ashteroth Karnaim",
 "greek": "Ἀσταρὼθ Καρνάιν",
 "latin": "Astarothcarnaim",
 "douay": "Astarothcarnaim",
@@ -1056,6 +1092,7 @@
 "douay": "Asia",
 "nrsv": "Asia",
 "greek": "Ἀσία",
+"greek_translit": "Asía",
 "apocrypha": [
 "1 Maccabees 8:6",
 "1 Maccabees 11:13",
@@ -1088,7 +1125,8 @@
 "latin": "Asson",
 "douay": "Assos",
 "nrsv": "Assos",
-"greek": "Ἄσσος"
+"greek": "Ἄσσος",
+"greek_translit": "Ássos"
 },
 "assyria_111": {
 "kjv": "Assyria",
@@ -1173,6 +1211,7 @@
 "douay": "Athens",
 "nrsv": "Athens",
 "greek": "Ἀθῆναι",
+"greek_translit": "Athēnai",
 "apocrypha": [
 "2 Maccabees 9:15"
 ]
@@ -1188,7 +1227,8 @@
 "latin": "Attaliam",
 "douay": "Attalia",
 "nrsv": "Attalia",
-"greek": "Ἀττάλεια"
+"greek": "Ἀττάλεια",
+"greek_translit": "Attáleia"
 },
 "aven_121": {
 "kjv": "Aven",
@@ -1206,7 +1246,7 @@
 "nrsv": "Avith"
 },
 "avva_123": {
-"kjv": "Avva",
+"kjv": "Ava",
 "hebrew": {
 "text": "עִוָּה",
 "translit": "ʻIvvâh",
@@ -1217,7 +1257,7 @@
 "nrsv": "Avva"
 },
 "avvim_124": {
-"kjv": "Avvim",
+"kjv": "Avim",
 "latin": "Avim",
 "douay": "Avim",
 "nrsv": "Avvim"
@@ -1292,6 +1332,7 @@
 "douay": "Azotus",
 "nrsv": "Azotus",
 "greek": "Ἄζωτος",
+"greek_translit": "Ázōtos",
 "apocrypha": [
 "Judith 2:28",
 "1 Maccabees 4:15",
@@ -1377,7 +1418,7 @@
 "nrsv": "Baal-perazim"
 },
 "baal-shalishah_147": {
-"kjv": "Baal-shalishah",
+"kjv": "Baal-shalisha",
 "hebrew": {
 "text": "בַּעַל שָׁלִשָׁה",
 "translit": "Baʻal Shâlishâh",
@@ -1630,7 +1671,7 @@
 "nrsv": "Bealoth"
 },
 "bealoth_162": {
-"kjv": "Bealoth",
+"kjv": "Aloth",
 "hebrew": {
 "text": "בְּעָלוֹת",
 "translit": "Bᵉʻâlôwth",
@@ -1641,7 +1682,7 @@
 "nrsv": "Bealoth"
 },
 "beautiful_gate_163": {
-"kjv": "Beautiful gate",
+"kjv": "Beautiful Gate",
 "douay": "Beautiful Gate",
 "nrsv": "Beautiful Gate"
 },
@@ -1664,7 +1705,7 @@
 "nrsv": "Beer-elim"
 },
 "beer-lahai-roi_167": {
-"kjv": "Beer-lahai-roi",
+"kjv": "Lahai-roi",
 "nrsv": "Beer-lahai-roi"
 },
 "beeroth_168": {
@@ -1683,14 +1724,14 @@
 "kjv": "Beeroth Bene-jaakan"
 },
 "beersheba_170": {
-"kjv": "Beersheba",
+"kjv": "Beer-sheba",
 "greek": "Βηρσάβεε",
 "latin": "Bersabee",
 "douay": "Bersabee",
 "nrsv": "Beer-sheba"
 },
 "beeshterah_171": {
-"kjv": "Beeshterah",
+"kjv": "Beesh-terah",
 "hebrew": {
 "text": "בְּעֶשְׁתְּרָה",
 "translit": "Bᵉʻeshtᵉrâh",
@@ -1744,7 +1785,7 @@
 "douay": "Berea",
 "nrsv": "Beroea",
 "greek": "Βέροια",
-"apocrypha": []
+"greek_translit": "Béroia"
 },
 "bered_178": {
 "kjv": "Bered",
@@ -1836,7 +1877,7 @@
 "nrsv": "Beth-arbel"
 },
 "beth-ashbea_190": {
-"kjv": "Beth-ashbea",
+"kjv": "Ashbea",
 "nrsv": "Beth-ashbea"
 },
 "beth-aven_191": {
@@ -1872,7 +1913,7 @@
 "nrsv": "Beth-barah"
 },
 "beth-biri_195": {
-"kjv": "Beth-biri",
+"kjv": "Beth-birei",
 "latin": "Bethberai",
 "douay": "Bethberai",
 "nrsv": "Beth-biri"
@@ -1888,13 +1929,7 @@
 "kjv": "Beth-dagon",
 "latin": "Bethdagon",
 "douay": "Bethdagon",
-"nrsv": "Beth-dagon",
-"apocrypha": [
-"1 Maccabees 10:83"
-],
-"apocrypha_spellings": [
-"Βηθδαγὼν"
-]
+"nrsv": "Beth-dagon"
 },
 "beth-dagon_198": {
 "kjv": "Beth-dagon",
@@ -1914,7 +1949,7 @@
 "nrsv": "Beth-diblathaim"
 },
 "beth-eden_200": {
-"kjv": "Beth-eden",
+"kjv": "Eden",
 "nrsv": "Beth-eden"
 },
 "beth-eked_201": {
@@ -1939,7 +1974,7 @@
 "nrsv": "Beth-gamul"
 },
 "beth-gilgal_208": {
-"kjv": "Beth-gilgal",
+"kjv": "Gilgal",
 "hebrew": {
 "text": "בֵּית הַגִּלְגָּל",
 "translit": "Bêyth hag-Gilgâl",
@@ -1950,7 +1985,7 @@
 "nrsv": "Beth-gilgal"
 },
 "beth-haccherem_209": {
-"kjv": "Beth-haccherem",
+"kjv": "Beth-haccerem",
 "hebrew": {
 "text": "בֵּית הַכֶּרֶם",
 "translit": "Bêyth hak-Kerem",
@@ -1967,7 +2002,7 @@
 "nrsv": "Beth-haggan"
 },
 "beth-haram_211": {
-"kjv": "Beth-haram",
+"kjv": "Beth-aram",
 "greek": "Βαινθαναβρὰ",
 "latin": "Betharan",
 "douay": "Betharan",
@@ -2049,7 +2084,7 @@
 "nrsv": "Beth-lebaoth"
 },
 "beth-maacah_221": {
-"kjv": "Beth-maacah",
+"kjv": "Beth-maachah",
 "greek": "Βαιθμαχά",
 "latin": "Bethmaacha",
 "douay": "Bethmaacha",
@@ -2073,7 +2108,7 @@
 "nrsv": "Beth-meon"
 },
 "beth-millo_224": {
-"kjv": "Beth-millo",
+"kjv": "Millo",
 "greek": "Βηθμααλών",
 "nrsv": "Beth-millo"
 },
@@ -2108,12 +2143,12 @@
 "douay": "Bethsan",
 "nrsv": "Beth-shan",
 "apocrypha": [
+"Judith 3:10",
 "1 Maccabees 5:52",
 "1 Maccabees 12:40",
-"1 Maccabees 12:41"
-],
-"apocrypha_spellings": [
-"Βεθσά"
+"1 Maccabees 12:41",
+"2 Maccabees 12:29",
+"2 Maccabees 12:30"
 ]
 },
 "beth-shean_233": {
@@ -2204,17 +2239,18 @@
 "douay": "Bethania",
 "nrsv": "Bethany",
 "greek": "Βηθανία",
-"apocrypha": []
+"greek_translit": "Bēthanía"
 },
 "bethany_187": {
 "kjv": "Bethany",
 "latin": "Bethania",
 "douay": "Bethania",
 "nrsv": "Bethany",
-"greek": "Βηθανία"
+"greek": "Βηθανία",
+"greek_translit": "Bēthanía"
 },
 "bethel_202": {
-"kjv": "Bethel",
+"kjv": "Beth-el",
 "hebrew": {
 "text": "בֵּית־אֵל",
 "translit": "Bêyth-ʼÊl",
@@ -2226,7 +2262,7 @@
 "nrsv": "Bethel"
 },
 "bethel_203": {
-"kjv": "Bethel",
+"kjv": "Beth-el",
 "hebrew": {
 "text": "בֵּית־אֵל",
 "translit": "Bêyth-ʼÊl",
@@ -2242,7 +2278,7 @@
 "nrsv": "Beth-zatha"
 },
 "bethlehem_218": {
-"kjv": "Bethlehem",
+"kjv": "Beth-lehem",
 "hebrew": {
 "text": "בֵּית לֶחֶם",
 "translit": "Bêyth Lechem",
@@ -2254,7 +2290,7 @@
 "nrsv": "Bethlehem"
 },
 "bethlehem_219": {
-"kjv": "Bethlehem",
+"kjv": "Beth-lehem",
 "hebrew": {
 "text": "בֵּית לֶחֶם",
 "translit": "Bêyth Lechem",
@@ -2273,14 +2309,16 @@
 "latin": "Bethphage",
 "douay": "Bethphage",
 "nrsv": "Bethphage",
-"greek": "Βηθφαγή"
+"greek": "Βηθφαγή",
+"greek_translit": "Bēthphagḗ"
 },
 "bethsaida_231": {
 "kjv": "Bethsaida",
 "latin": "Bethsaida",
 "douay": "Bethsaida",
 "nrsv": "Bethsaida",
-"greek": "Βηθσαϊδά"
+"greek": "Βηθσαϊδά",
+"greek_translit": "Bēthsaïdá"
 },
 "bethuel_240": {
 "kjv": "Bethuel",
@@ -2375,10 +2413,11 @@
 "latin": "Bithyniam",
 "douay": "Bythynia",
 "nrsv": "Bithynia",
-"greek": "Βιθυνία"
+"greek": "Βιθυνία",
+"greek_translit": "Bithynía"
 },
 "biziothiah_251": {
-"kjv": "Biziothiah",
+"kjv": "Bizjothjah",
 "latin": "Baziothia",
 "douay": "Baziothia",
 "nrsv": "Biziothiah"
@@ -2393,7 +2432,7 @@
 "nrsv": "Bochim"
 },
 "bor-ashan_253": {
-"kjv": "Bor-ashan",
+"kjv": "Chor-ashan",
 "latin": "Asan",
 "douay": "Asan",
 "nrsv": "Bor-ashan"
@@ -2429,16 +2468,7 @@
 "greek": "Βοσόρρας",
 "latin": "Bosra",
 "douay": "Bosra",
-"nrsv": "Bozrah",
-"apocrypha": [
-"1 Maccabees 5:26",
-"1 Maccabees 5:28"
-],
-"apocrypha_spellings": [
-"Bosora",
-"Bosor",
-"Βοσσορὰ"
-]
+"nrsv": "Bozrah"
 },
 "bozrah_257": {
 "kjv": "Bozrah",
@@ -2449,7 +2479,15 @@
 },
 "latin": "Bosra",
 "douay": "Bosra",
-"nrsv": "Bozrah"
+"nrsv": "Bozrah",
+"apocrypha": [
+"1 Maccabees 5:26",
+"1 Maccabees 5:28"
+],
+"apocrypha_spellings": [
+"Bosora",
+"Βοσσορὰ"
+]
 },
 "broad_wall_258": {
 "kjv": "Broad Wall",
@@ -2457,10 +2495,10 @@
 "nrsv": "Broad Wall"
 },
 "brook_eshcol_1202": {
-"kjv": "brook Eshcol"
+"kjv": "Brook Eshcol"
 },
 "brook_kidron_688": {
-"kjv": "brook Kidron",
+"kjv": "Brook Kidron",
 "douay": "Brook Cedron"
 },
 "buz_262": {
@@ -2508,11 +2546,12 @@
 "nrsv": "Cabul"
 },
 "caesarea_266": {
-"kjv": "Caesarea",
+"kjv": "Cesarea",
 "latin": "Cæsarea",
 "douay": "Caesarea",
 "nrsv": "Caesarea",
-"greek": "Καισάρεια"
+"greek": "Καισάρεια",
+"greek_translit": "Kaisáreia"
 },
 "caesarea_philippi_267": {
 "kjv": "Caesarea Philippi",
@@ -2556,7 +2595,8 @@
 "latin": "Cana",
 "douay": "Cana",
 "nrsv": "Cana",
-"greek": "Κανᾶ"
+"greek": "Κανᾶ",
+"greek_translit": "Kanâ"
 },
 "canaan_272": {
 "kjv": "Canaan",
@@ -2587,7 +2627,8 @@
 "latin": "Capharnaum",
 "douay": "Capharnaum",
 "nrsv": "Capernaum",
-"greek": "Καπερναούμ"
+"greek": "Καπερναούμ",
+"greek_translit": "Kapernaoúm"
 },
 "caphtor_275": {
 "kjv": "Caphtor",
@@ -2603,7 +2644,8 @@
 "latin": "Cappadociam",
 "douay": "Cappadocia",
 "nrsv": "Cappadocia",
-"greek": "Καππαδοκία"
+"greek": "Καππαδοκία",
+"greek_translit": "Kappadokía"
 },
 "carchemish_277": {
 "kjv": "Carchemish",
@@ -2614,7 +2656,13 @@
 },
 "latin": "Charcamis",
 "douay": "Charcamis",
-"nrsv": "Carchemish"
+"nrsv": "Carchemish",
+"apocrypha": [
+"1 Esdras 1:25"
+],
+"apocrypha_spellings": [
+"Carchamis"
+]
 },
 "carmel_278": {
 "kjv": "Carmel",
@@ -2647,11 +2695,12 @@
 "nrsv": "Casiphia"
 },
 "cenchreae_281": {
-"kjv": "Cenchreae",
+"kjv": "Cenchrea",
 "latin": "Cenchris",
 "douay": "Cenchrae",
 "nrsv": "Cenchreae",
-"greek": "Κεγχρεαί"
+"greek": "Κεγχρεαί",
+"greek_translit": "Kenchreaí"
 },
 "chaldea_282": {
 "kjv": "Chaldea",
@@ -2681,7 +2730,7 @@
 "nrsv": "Chebar"
 },
 "chephar-hammoni_284": {
-"kjv": "Chephar-haammoni",
+"kjv": "Chephar-haammonai",
 "nrsv": "Chephar-ammoni"
 },
 "chephirah_285": {
@@ -2812,7 +2861,8 @@
 "kjv": "Chios",
 "douay": "Chios",
 "nrsv": "Chios",
-"greek": "Χίος"
+"greek": "Χίος",
+"greek_translit": "Chíos"
 },
 "chisloth-tabor_297": {
 "kjv": "Chisloth-tabor",
@@ -2821,7 +2871,7 @@
 "nrsv": "Chisloth-tabor"
 },
 "chitlish_298": {
-"kjv": "Chitlish",
+"kjv": "Kithlish",
 "hebrew": {
 "text": "כִּתְלִישׁ",
 "translit": "Kithlîysh",
@@ -2836,7 +2886,8 @@
 "latin": "Corozain",
 "douay": "Corozain",
 "nrsv": "Chorazin",
-"greek": "Χοραζίν"
+"greek": "Χοραζίν",
+"greek_translit": "Chorazín"
 },
 "cilicia_300": {
 "kjv": "Cilicia",
@@ -2844,6 +2895,7 @@
 "douay": "Cilicia",
 "nrsv": "Cilicia",
 "greek": "Κιλικία",
+"greek_translit": "Kilikía",
 "apocrypha": [
 "Judith 1:7",
 "Judith 1:12",
@@ -2861,7 +2913,8 @@
 "latin": "Cauda",
 "douay": "Cauda",
 "nrsv": "Cauda",
-"greek": "Κλαύδη"
+"greek": "Κλαύδη",
+"greek_translit": "Klaúdē"
 },
 "cnidus_304": {
 "kjv": "Cnidus",
@@ -2869,6 +2922,7 @@
 "douay": "Gnidus",
 "nrsv": "Cnidus",
 "greek": "Κνίδος",
+"greek_translit": "Knídos",
 "apocrypha": [
 "1 Maccabees 15:23"
 ],
@@ -2877,17 +2931,19 @@
 ]
 },
 "colossae_305": {
-"kjv": "Colossae",
+"kjv": "Colosse",
 "latin": "Colossis",
 "douay": "Colossa",
 "nrsv": "Colossae",
-"greek": "Κολοσσαί"
+"greek": "Κολοσσαί",
+"greek_translit": "Kolossaí"
 },
 "coos_308": {
 "kjv": "Coos",
 "douay": "Coos",
 "nrsv": "Cos",
 "greek": "Κώς",
+"greek_translit": "Kṓs",
 "apocrypha": [
 "1 Maccabees 15:23"
 ],
@@ -2901,14 +2957,15 @@
 "latin": "Corinthum",
 "douay": "Corinth",
 "nrsv": "Corinth",
-"greek": "Κόρινθος"
+"greek": "Κόρινθος",
+"greek_translit": "Kórinthos"
 },
 "corner_gate_307": {
-"kjv": "corner gate",
+"kjv": "Corner Gate",
 "nrsv": "Corner Gate"
 },
 "cozeba_309": {
-"kjv": "Cozeba",
+"kjv": "Chozeba",
 "hebrew": {
 "text": "כֹּזְבָא",
 "translit": "Kôzᵉbâʼ",
@@ -2922,6 +2979,7 @@
 "douay": "Crete",
 "nrsv": "Crete",
 "greek": "Κρήτη",
+"greek_translit": "Krḗtē",
 "apocrypha": [
 "1 Maccabees 10:67"
 ],
@@ -2930,7 +2988,7 @@
 ]
 },
 "cun_311": {
-"kjv": "Cun",
+"kjv": "Chun",
 "hebrew": {
 "text": "כּוּן",
 "translit": "Kûwn",
@@ -2990,6 +3048,7 @@
 "douay": "Cyprus",
 "nrsv": "Cyprus",
 "greek": "Κύπρος",
+"greek_translit": "Kýpros",
 "apocrypha": [
 "1 Maccabees 15:23",
 "2 Maccabees 10:13",
@@ -3005,6 +3064,7 @@
 "douay": "Cyrene",
 "nrsv": "Cyrene",
 "greek": "Κυρηναῖος",
+"greek_translit": "Kyrēnaîos",
 "apocrypha": [
 "1 Maccabees 15:23",
 "2 Maccabees 2:23"
@@ -3015,7 +3075,7 @@
 ]
 },
 "dabbesheth_318": {
-"kjv": "Dabbesheth",
+"kjv": "Dabbasheth",
 "hebrew": {
 "text": "דַּבֶּשֶׁת",
 "translit": "Dabbesheth",
@@ -3041,14 +3101,16 @@
 "latin": "Dalmanutha",
 "douay": "Dalmanutha",
 "nrsv": "Dalmanutha",
-"greek": "Δαλμανουθά"
+"greek": "Δαλμανουθά",
+"greek_translit": "Dalmanouthá"
 },
 "dalmatia_321": {
 "kjv": "Dalmatia",
 "latin": "Dalmatiam",
 "douay": "Dalmatia",
 "nrsv": "Dalmatia",
-"greek": "Γαλατία"
+"greek": "Γαλατία",
+"greek_translit": "Galatía"
 },
 "damascus_322": {
 "kjv": "Damascus",
@@ -3131,7 +3193,8 @@
 "latin": "Decapoli",
 "douay": "Decapolis",
 "nrsv": "Decapolis",
-"greek": "Δεκάπολις"
+"greek": "Δεκάπολις",
+"greek_translit": "Dekápolis"
 },
 "dedan_329": {
 "kjv": "Dedan",
@@ -3149,10 +3212,11 @@
 "latin": "Derben",
 "douay": "Derbe",
 "nrsv": "Derbe",
-"greek": "Δέρβη"
+"greek": "Δέρβη",
+"greek_translit": "Dérbē"
 },
 "destruction_301": {
-"kjv": "Destruction"
+"kjv": "City of Destruction"
 },
 "dibon_331": {
 "kjv": "Dibon",
@@ -3302,7 +3366,7 @@
 "nrsv": "Dumah"
 },
 "dung_gate_346": {
-"kjv": "dung gate",
+"kjv": "Dung Gate",
 "douay": "Dung Gate",
 "nrsv": "Dung Gate"
 },
@@ -3322,15 +3386,15 @@
 "kjv": "East"
 },
 "east_gate_349": {
-"kjv": "east gate",
+"kjv": "East Gate",
 "douay": "East Gate",
 "nrsv": "East Gate"
 },
 "east_gate_958": {
-"kjv": "east gate"
+"kjv": "East Gate"
 },
 "ebenezer_350": {
-"kjv": "Ebenezer",
+"kjv": "Eben-ezer",
 "hebrew": {
 "text": "אֶבֶן הָעֵזֶר",
 "translit": "ʼEben hâ-ʻÊzer",
@@ -3340,7 +3404,7 @@
 "nrsv": "Ebenezer"
 },
 "ebez_351": {
-"kjv": "Ebez",
+"kjv": "Abez",
 "hebrew": {
 "text": "אֶבֶץ",
 "translit": "ʼEbets",
@@ -3352,7 +3416,7 @@
 "nrsv": "Ebez"
 },
 "ebron_352": {
-"kjv": "Ebron",
+"kjv": "Hebron",
 "hebrew": {
 "text": "עֶבְרֹן",
 "translit": "ʻEbrôn",
@@ -3398,7 +3462,7 @@
 "nrsv": "Eden"
 },
 "eder_355": {
-"kjv": "Eder",
+"kjv": "Edar",
 "hebrew": {
 "text": "מִגְדַּל־עֵדֶר",
 "translit": "Migdal-ʻÊder",
@@ -3547,7 +3611,7 @@
 ]
 },
 "el-bethel_367": {
-"kjv": "El-bethel",
+"kjv": "El-beth-el",
 "hebrew": {
 "text": "בֵּית־אֵל",
 "translit": "Bêyth-ʼÊl",
@@ -3576,8 +3640,7 @@
 },
 "latin": "Ælam",
 "douay": "Elam",
-"nrsv": "Elam",
-"apocrypha": []
+"nrsv": "Elam"
 },
 "elath_366": {
 "kjv": "Elath",
@@ -3660,7 +3723,7 @@
 "nrsv": "Elon"
 },
 "elonbeth-hanan_374": {
-"kjv": "Elonbeth-hanan",
+"kjv": "Elon-beth-hanan",
 "latin": "Bethanan",
 "douay": "Bethanan",
 "nrsv": "Elon-beth-hanan"
@@ -3673,7 +3736,7 @@
 "nrsv": "Eloth"
 },
 "elteke_377": {
-"kjv": "Elteke",
+"kjv": "Eltekeh",
 "hebrew": {
 "text": "אֶלְתְּקֵא",
 "translit": "ʼEltᵉqêʼ",
@@ -3718,7 +3781,7 @@
 "nrsv": "Eltolad"
 },
 "emek-keziz_381": {
-"kjv": "Emek-keziz",
+"kjv": "Keziz",
 "greek": "Ἀμεκασεὶς",
 "nrsv": "Emek-keziz"
 },
@@ -3728,7 +3791,17 @@
 "douay": "Emmaus",
 "nrsv": "Emmaus",
 "greek": "Ἐμμαούς",
-"apocrypha": []
+"greek_translit": "Emmaoús",
+"apocrypha": [
+"1 Maccabees 3:40",
+"1 Maccabees 3:57",
+"1 Maccabees 4:3",
+"1 Maccabees 9:50"
+],
+"apocrypha_spellings": [
+"Emmaum",
+"Ἐμμαούμ"
+]
 },
 "en-dor_385": {
 "kjv": "En-dor",
@@ -3863,7 +3936,7 @@
 "nrsv": "Enam"
 },
 "eneglaim_386": {
-"kjv": "Eneglaim",
+"kjv": "En-eglaim",
 "hebrew": {
 "text": "עֵין עֶגְלַיִם",
 "translit": "ʻÊyn ʻEglayim",
@@ -3875,7 +3948,7 @@
 "nrsv": "En-eglaim"
 },
 "engedi_389": {
-"kjv": "Engedi",
+"kjv": "En-gedi",
 "hebrew": {
 "text": "עֵין גֶּדִי",
 "translit": "ʻÊyn Gedîy",
@@ -3908,14 +3981,19 @@
 "latin": "Ephesum",
 "douay": "Ephesus",
 "nrsv": "Ephesus",
-"greek": "Ἔφεσος"
+"greek": "Ἔφεσος",
+"greek_translit": "Éphesos"
 },
 "ephraim_401": {
 "kjv": "Ephraim",
 "latin": "Ephrem",
 "douay": "Ephrem",
 "nrsv": "Ephraim",
-"greek": "Ἐφραίμ"
+"greek": "Ἐφραίμ",
+"greek_translit": "Ephraím",
+"apocrypha": [
+"1 Maccabees 11:34"
+]
 },
 "ephrath_403": {
 "kjv": "Ephrath",
@@ -3934,7 +4012,7 @@
 "nrsv": "Ephron"
 },
 "ephron_406": {
-"kjv": "Ephron",
+"kjv": "Ephrain",
 "greek": "Ἐφρὼν",
 "latin": "Ephron",
 "douay": "Ephron",
@@ -3959,15 +4037,14 @@
 "greek": "Ἠσαὺ",
 "latin": "Esau",
 "douay": "Esau",
-"nrsv": "Esau",
-"apocrypha": []
+"nrsv": "Esau"
 },
 "esek_409": {
 "kjv": "Esek",
 "nrsv": "Esek"
 },
 "eshan_410": {
-"kjv": "Eshan",
+"kjv": "Eshean",
 "hebrew": {
 "text": "אֶשְׁעָן",
 "translit": "ʼEshʻân",
@@ -4047,7 +4124,7 @@
 "nrsv": "Etam"
 },
 "eth-kazin_420": {
-"kjv": "Eth-kazin",
+"kjv": "Ittah-kazin",
 "hebrew": {
 "text": "עֵת קָצִין",
 "translit": "ʻÊth Qâtsîyn",
@@ -4119,7 +4196,7 @@
 ]
 },
 "ezem_422": {
-"kjv": "Ezem",
+"kjv": "Azem",
 "hebrew": {
 "text": "עֶצֶם",
 "translit": "ʻEtsem",
@@ -4136,20 +4213,21 @@
 "fair_havens_424": {
 "kjv": "Fair Havens",
 "nrsv": "Fair Havens",
-"greek": "Καλοὶ Λιμένες"
+"greek": "Καλοὶ Λιμένες",
+"greek_translit": "Kaloì Liménes"
 },
 "field_1229": {
-"kjv": "Field",
-"nrsv": "Field"
+"kjv": "Field"
 },
 "fish_gate_426": {
-"kjv": "fish gate",
+"kjv": "Fish Gate",
 "douay": "Fish Gate",
 "nrsv": "Fish Gate"
 },
 "forest_584": {
-"kjv": "Forest",
-"nrsv": "House"
+"kjv": "House of the Forest",
+"douay": "House of the Forest",
+"nrsv": "House of the Forest"
 },
 "gaash_429": {
 "kjv": "Gaash",
@@ -4174,7 +4252,8 @@
 "latin": "Galatiæ",
 "douay": "Galatia",
 "nrsv": "Galatia",
-"greek": "Γαλατία"
+"greek": "Γαλατία",
+"greek_translit": "Galatía"
 },
 "galeed_432": {
 "kjv": "Galeed",
@@ -4232,7 +4311,7 @@
 "nrsv": "Gallim"
 },
 "gamad_435": {
-"kjv": "Gamad",
+"kjv": "Gammadims",
 "nrsv": "Gamad"
 },
 "gareb_436": {
@@ -4247,37 +4326,37 @@
 "nrsv": "Gareb"
 },
 "gate_miphkad_863": {
-"kjv": "gate Miphkad",
+"kjv": "Gate Miphkad",
 "greek": "Μαφεκὰδ"
 },
 "gate_of_benjamin_175": {
-"kjv": "gate of Benjamin",
+"kjv": "Gate of Benjamin",
 "douay": "Gate of Benjamin",
 "nrsv": "Gate of Benjamin"
 },
 "gate_of_ephraim_402": {
-"kjv": "gate of Ephraim",
+"kjv": "Gate of Ephraim",
 "douay": "Gate of Ephraim"
 },
 "gate_of_ephraim_438": {
-"kjv": "gate of Ephraim",
+"kjv": "Gate of Ephraim",
 "douay": "Gate of Ephraim",
 "nrsv": "Gate of Ephraim"
 },
 "gate_of_the_children_of_the_people_932": {
-"kjv": "gate of the children of the people",
+"kjv": "Gate of the Children of the People",
 "douay": "Gate of the Children of the People"
 },
 "gate_of_the_foundation_440": {
-"kjv": "gate of the foundation",
+"kjv": "Gate of the Foundation",
 "nrsv": "Gate of the Foundation"
 },
 "gate_of_the_fountain_428": {
-"kjv": "gate of the fountain",
+"kjv": "Gate of the Fountain",
 "douay": "Gate of the Fountain"
 },
 "gate_of_the_valley_1195": {
-"kjv": "gate of the valley",
+"kjv": "Gate of the Valley",
 "douay": "Gate of the Valley"
 },
 "gath_442": {
@@ -4451,6 +4530,7 @@
 "douay": "Genezareth",
 "nrsv": "Gennesaret",
 "greek": "Γεννησαρέτ",
+"greek_translit": "Gennēsarét",
 "apocrypha": [
 "1 Maccabees 11:67"
 ],
@@ -4496,7 +4576,8 @@
 "latin": "Gethsemani",
 "douay": "Gethsemani",
 "nrsv": "Gethsemane",
-"greek": "Γεθσημανῆ"
+"greek": "Γεθσημανῆ",
+"greek_translit": "Gethsēmanē"
 },
 "gezer_463": {
 "kjv": "Gezer",
@@ -4508,7 +4589,25 @@
 "greek": "Γαζηρά",
 "latin": "Gazera",
 "douay": "Gazer",
-"nrsv": "Gezer"
+"nrsv": "Gezer",
+"apocrypha": [
+"1 Maccabees 4:15",
+"1 Maccabees 7:45",
+"1 Maccabees 9:52",
+"1 Maccabees 13:43",
+"1 Maccabees 13:53",
+"1 Maccabees 14:7",
+"1 Maccabees 14:34",
+"1 Maccabees 15:28",
+"1 Maccabees 15:35",
+"1 Maccabees 16:1",
+"1 Maccabees 16:19",
+"1 Maccabees 16:21",
+"2 Maccabees 10:32"
+],
+"apocrypha_spellings": [
+"Gazara"
+]
 },
 "giah_464": {
 "kjv": "Giah",
@@ -4685,7 +4784,7 @@
 "nrsv": "Gittaim"
 },
 "goah_482": {
-"kjv": "Goah",
+"kjv": "Goath",
 "nrsv": "Goah"
 },
 "gob_483": {
@@ -4704,7 +4803,8 @@
 "latin": "Gog",
 "douay": "Gog",
 "nrsv": "Gog",
-"greek": "Γώγ"
+"greek": "Γώγ",
+"greek_translit": "Gṓg"
 },
 "goiim_485": {
 "kjv": "Goiim",
@@ -4727,7 +4827,8 @@
 "latin": "Golgotha",
 "douay": "Golgotha",
 "nrsv": "Golgotha",
-"greek": "Γολγοθᾶ"
+"greek": "Γολγοθᾶ",
+"greek_translit": "Golgothâ"
 },
 "gomer_488": {
 "kjv": "Gomer",
@@ -4760,7 +4861,7 @@
 "translit": "Gôshen",
 "strong": "H1657"
 },
-"greek": "Ἰωσὴφ",
+"greek": "Γέσεμ",
 "latin": "Gessen",
 "douay": "Gessen",
 "nrsv": "Goshen",
@@ -4768,8 +4869,7 @@
 "Judith 1:9"
 ],
 "apocrypha_spellings": [
-"Gesem",
-"Γέσεμ"
+"Gesem"
 ]
 },
 "goshen_491": {
@@ -4797,12 +4897,12 @@
 "nrsv": "Gozan"
 },
 "great_sea_493": {
-"kjv": "great sea",
+"kjv": "Great Sea",
 "douay": "Great Sea",
 "nrsv": "Great Sea"
 },
 "greece_495": {
-"kjv": "Greece",
+"kjv": "Grecia",
 "hebrew": {
 "text": "יָוָן",
 "translit": "Yâvân",
@@ -4812,6 +4912,7 @@
 "douay": "Greece",
 "nrsv": "Greece",
 "greek": "Ἑλλάς",
+"greek_translit": "Hellás",
 "apocrypha": [
 "1 Maccabees 1:1"
 ]
@@ -4830,7 +4931,7 @@
 "nrsv": "Gur"
 },
 "gurbaal_498": {
-"kjv": "Gurbaal",
+"kjv": "Gur-baal",
 "latin": "Gurbaal",
 "douay": "Gurbaal",
 "nrsv": "Gur-baal"
@@ -4860,7 +4961,7 @@
 "nrsv": "Hachilah"
 },
 "hadad-rimmon_501": {
-"kjv": "Hadad-rimmon",
+"kjv": "Hadadrimmon",
 "hebrew": {
 "text": "הֲדַדְרִמּוֹן",
 "translit": "Hădadrimmôwn",
@@ -4891,7 +4992,15 @@
 },
 "latin": "Hadid",
 "douay": "Hadid",
-"nrsv": "Hadid"
+"nrsv": "Hadid",
+"apocrypha": [
+"1 Maccabees 12:38",
+"1 Maccabees 13:13"
+],
+"apocrypha_spellings": [
+"Adida",
+"Ἁδιδὰ"
+]
 },
 "hadrach_504": {
 "kjv": "Hadrach",
@@ -4906,7 +5015,7 @@
 "nrsv": "Hadrach"
 },
 "haeleph_505": {
-"kjv": "Haeleph",
+"kjv": "Eleph",
 "hebrew": {
 "text": "צֶלַע",
 "translit": "Tselaʻ",
@@ -5116,7 +5225,7 @@
 "nrsv": "Harod"
 },
 "harosheth-hagoyim_530": {
-"kjv": "Harosheth-hagoyim",
+"kjv": "Harosheth",
 "latin": "Haroseth",
 "douay": "Haroseth",
 "nrsv": "Harosheth-ha-goiim"
@@ -5169,7 +5278,7 @@
 "nrsv": "Havilah"
 },
 "havvoth-jair_535": {
-"kjv": "Havvoth-jair",
+"kjv": "Havoth-jair",
 "greek": "Ἐπαύλεις Ἰαείρ",
 "latin": "Havoth Jair",
 "douay": "Havoth Jair",
@@ -5221,7 +5330,7 @@
 "nrsv": "Hazazon-tamar"
 },
 "hazer-hatticon_543": {
-"kjv": "Hazer-hatticon",
+"kjv": "Hazar-hatticon",
 "hebrew": {
 "text": "חֲצַר הַתִּיכוֹן",
 "translit": "Chătsar hat-Tîykôwn",
@@ -5302,7 +5411,7 @@
 "nrsv": "Hazor"
 },
 "hazor-hadattah_550": {
-"kjv": "Hazor-hadattah",
+"kjv": "Hadattah",
 "nrsv": "Hazor-hadattah"
 },
 "hebron_551": {
@@ -5417,7 +5526,7 @@
 "nrsv": "Heres"
 },
 "hereth_563": {
-"kjv": "Hereth",
+"kjv": "Hareth",
 "hebrew": {
 "text": "חֶרֶת",
 "translit": "Chereth",
@@ -5486,15 +5595,14 @@
 "nrsv": "Hierapolis"
 },
 "highway_690": {
-"kjv": "Highway",
-"nrsv": "Highway"
+"kjv": "Highway"
 },
 "hilen_570": {
 "kjv": "Hilen",
 "nrsv": "Hilen"
 },
 "hill_mizar_847": {
-"kjv": "hill Mizar"
+"kjv": "Hill Mizar"
 },
 "hobah_571": {
 "kjv": "Hobah",
@@ -5535,7 +5643,7 @@
 "nrsv": "Holy Place"
 },
 "hor-haggidgad_579": {
-"kjv": "Hor-haggidgad",
+"kjv": "Hor-hagidgad",
 "hebrew": {
 "text": "חֹר הַגִּדְגָּד",
 "translit": "Chôr hag-Gidgâd",
@@ -5586,7 +5694,7 @@
 "nrsv": "Horonaim"
 },
 "horse_gate_582": {
-"kjv": "horse gate",
+"kjv": "Horse Gate",
 "douay": "Horse Gate",
 "nrsv": "Horse Gate"
 },
@@ -5639,7 +5747,8 @@
 "latin": "Iconium",
 "douay": "Iconium",
 "nrsv": "Iconium",
-"greek": "Ἰκόνιον"
+"greek": "Ἰκόνιον",
+"greek_translit": "Ikónion"
 },
 "idalah_591": {
 "kjv": "Idalah",
@@ -5658,6 +5767,7 @@
 "douay": "Idumea",
 "nrsv": "Idumea",
 "greek": "Ἰδουμαία",
+"greek_translit": "Idoumaía",
 "apocrypha": [
 "1 Maccabees 4:15",
 "1 Maccabees 4:29",
@@ -5697,7 +5807,8 @@
 "latin": "Illyricum",
 "douay": "Illyricum",
 "nrsv": "Illyricum",
-"greek": "Ἰλλυρικόν"
+"greek": "Ἰλλυρικόν",
+"greek_translit": "Illyrikón"
 },
 "immer_596": {
 "kjv": "Immer",
@@ -5729,7 +5840,7 @@
 ]
 },
 "iphtah_598": {
-"kjv": "Iphtah",
+"kjv": "Jiphtah",
 "hebrew": {
 "text": "יִפְתָּח",
 "translit": "Yiphtâch",
@@ -5761,10 +5872,11 @@
 "latin": "Italia",
 "douay": "Italy",
 "nrsv": "Italy",
-"greek": "Ἰταλία"
+"greek": "Ἰταλία",
+"greek_translit": "Italía"
 },
 "ithlah_602": {
-"kjv": "Ithlah",
+"kjv": "Jethlah",
 "hebrew": {
 "text": "יִתְלָה",
 "translit": "Yithlâh",
@@ -5786,14 +5898,15 @@
 "nrsv": "Ithnan"
 },
 "ituraea_604": {
-"kjv": "Ituraea",
+"kjv": "Iturea",
 "latin": "Iturææ",
 "douay": "Iturea",
 "nrsv": "Ituraea",
-"greek": "Ἰτουραΐα"
+"greek": "Ἰτουραΐα",
+"greek_translit": "Itouraḯa"
 },
 "ivvah_605": {
-"kjv": "Ivvah",
+"kjv": "Ivah",
 "hebrew": {
 "text": "עִוָּה",
 "translit": "ʻIvvâh",
@@ -5802,7 +5915,7 @@
 "nrsv": "Ivvah"
 },
 "iye-abarim_606": {
-"kjv": "Iye-abarim",
+"kjv": "Ije-abarim",
 "hebrew": {
 "text": "עִיֵּי הָעֲבָרִים",
 "translit": "ʻÎyêy hâ-ʻĂbârîym",
@@ -5813,7 +5926,7 @@
 "nrsv": "Iye-abarim"
 },
 "iyim_607": {
-"kjv": "Iyim",
+"kjv": "Iim",
 "hebrew": {
 "text": "עִיִּים",
 "translit": "ʻÎyîym",
@@ -5898,7 +6011,20 @@
 "greek": "Ἀβεννὴρ",
 "latin": "Jabniæ",
 "douay": "Jabnia",
-"nrsv": "Jabneh"
+"nrsv": "Jabneh",
+"apocrypha": [
+"Judith 2:28",
+"1 Maccabees 4:15",
+"1 Maccabees 5:58",
+"1 Maccabees 10:69",
+"1 Maccabees 15:40",
+"2 Maccabees 12:8",
+"2 Maccabees 12:40"
+],
+"apocrypha_spellings": [
+"Jamnia",
+"Jamniam"
+]
 },
 "jagur_616": {
 "kjv": "Jagur",
@@ -5947,7 +6073,7 @@
 "nrsv": "Jair"
 },
 "janim_620": {
-"kjv": "Janim",
+"kjv": "Janum",
 "hebrew": {
 "text": "יָנִים",
 "translit": "Yânîym",
@@ -5958,7 +6084,7 @@
 "nrsv": "Janim"
 },
 "janoah_621": {
-"kjv": "Janoah",
+"kjv": "Janohah",
 "hebrew": {
 "text": "יָנוֹחַ",
 "translit": "Yânôwach",
@@ -6322,9 +6448,26 @@
 "1 Esdras 9:5",
 "1 Esdras 9:37",
 "2 Esdras 2:10",
+"2 Esdras 2:40",
+"2 Esdras 2:42",
+"2 Esdras 3:2",
+"2 Esdras 3:28",
+"2 Esdras 3:31",
+"2 Esdras 5:25",
+"2 Esdras 6:4",
+"2 Esdras 6:19",
+"2 Esdras 10:7",
 "2 Esdras 10:20",
+"2 Esdras 10:23",
+"2 Esdras 10:39",
+"2 Esdras 10:44",
 "2 Esdras 10:47",
 "2 Esdras 10:48",
+"2 Esdras 12:44",
+"2 Esdras 12:48",
+"2 Esdras 13:35",
+"2 Esdras 13:36",
+"2 Esdras 14:31",
 "Additions to Esther 11:1",
 "Additions to Esther 11:4",
 "Song of the Three Children 1:5"
@@ -6424,7 +6567,7 @@
 "nrsv": "Jokdeam"
 },
 "jokmeam_647": {
-"kjv": "Jokmeam",
+"kjv": "Jokneam",
 "hebrew": {
 "text": "יׇקְמְעָם",
 "translit": "Yoqmᵉʻâm",
@@ -6561,6 +6704,7 @@
 "douay": "Judea",
 "nrsv": "Judea",
 "greek": "Ἰουδαία",
+"greek_translit": "Ioudaía",
 "apocrypha": [
 "Tobit 1:18",
 "Judith 1:12",
@@ -6608,29 +6752,38 @@
 "2 Maccabees 14:14",
 "2 Maccabees 15:22",
 "1 Esdras 1:26",
+"1 Esdras 1:32",
 "1 Esdras 1:33",
 "1 Esdras 1:35",
 "1 Esdras 1:37",
 "1 Esdras 1:39",
 "1 Esdras 1:46",
+"1 Esdras 2:4",
 "1 Esdras 2:5",
 "1 Esdras 2:8",
 "1 Esdras 2:12",
 "1 Esdras 2:16",
 "1 Esdras 4:45",
+"1 Esdras 4:49",
+"1 Esdras 5:7",
+"1 Esdras 5:8",
+"1 Esdras 5:57",
 "1 Esdras 5:72",
+"1 Esdras 6:1",
 "1 Esdras 6:8",
 "1 Esdras 6:27",
 "1 Esdras 8:12",
-"Additions to Esther 11:4"
+"1 Esdras 8:81",
+"1 Esdras 9:3",
+"Additions to Esther 11:4",
+"Bel and the Dragon 1:33"
 ],
 "apocrypha_spellings": [
 "Ἰουδαίας"
 ]
 },
 "judgment_511": {
-"kjv": "Judgment",
-"nrsv": "Hall"
+"kjv": "Judgment"
 },
 "juttah_659": {
 "kjv": "Juttah",
@@ -6653,7 +6806,7 @@
 "nrsv": "Kabzeel"
 },
 "kadesh_662": {
-"kjv": "Tahtimhodshi",
+"kjv": "Tahtim-hodshi",
 "nrsv": "Kadesh"
 },
 "kadesh-barnea_663": {
@@ -6679,7 +6832,7 @@
 "nrsv": "Kain"
 },
 "kamon_665": {
-"kjv": "Kamon",
+"kjv": "Camon",
 "hebrew": {
 "text": "קָמוֹן",
 "translit": "Qâmôwn",
@@ -6712,7 +6865,7 @@
 "nrsv": "Kanah"
 },
 "karka_668": {
-"kjv": "Karka",
+"kjv": "Karkaa",
 "latin": "Carcaa",
 "douay": "Carcaa",
 "nrsv": "Karka"
@@ -6736,7 +6889,17 @@
 },
 "greek": "Καρνάιν",
 "latin": "Cariathaim",
-"douay": "Cariathaim"
+"douay": "Cariathaim",
+"apocrypha": [
+"1 Maccabees 5:26",
+"1 Maccabees 5:43",
+"1 Maccabees 5:44",
+"2 Maccabees 12:21",
+"2 Maccabees 12:26"
+],
+"apocrypha_spellings": [
+"Carnaim"
+]
 },
 "kartah_671": {
 "kjv": "Kartah",
@@ -6804,7 +6967,14 @@
 },
 "latin": "Cedes",
 "douay": "Cedes",
-"nrsv": "Kedesh"
+"nrsv": "Kedesh",
+"apocrypha": [
+"1 Maccabees 11:63",
+"1 Maccabees 11:73"
+],
+"apocrypha_spellings": [
+"Cades"
+]
 },
 "kedesh_677": {
 "kjv": "Kedesh",
@@ -6885,7 +7055,7 @@
 "nrsv": "Kerioth"
 },
 "kerioth-hezron_684": {
-"kjv": "Kerioth-hezron",
+"kjv": "Kerioth",
 "latin": "Hesron",
 "douay": "Hesron",
 "nrsv": "Kerioth-hezron"
@@ -6947,19 +7117,19 @@
 "nrsv": "Kir-hareseth"
 },
 "kiriath-arba_697": {
-"kjv": "Kiriath-arba",
+"kjv": "Kirjath-arba",
 "latin": "Cariath Arbe",
 "douay": "Cariath-Arbe",
 "nrsv": "Kiriath-arba"
 },
 "kiriath-arim_698": {
-"kjv": "Kiriath-arim",
+"kjv": "Kirjath-arim",
 "latin": "Cariathiarim",
 "douay": "Cariathiarim",
 "nrsv": "Kiriatharim"
 },
 "kiriath-baal_699": {
-"kjv": "Kiriath-baal",
+"kjv": "Kirjath-baal",
 "hebrew": {
 "text": "קִרְיַת בַּעַל",
 "translit": "Qiryath Baʻal",
@@ -6971,7 +7141,7 @@
 "nrsv": "Kiriath-baal"
 },
 "kiriath-huzoth_700": {
-"kjv": "Kiriath-huzoth",
+"kjv": "Kirjath-huzoth",
 "hebrew": {
 "text": "קִרְיַת חֻצוֹת",
 "translit": "Qiryath Chutsôwth",
@@ -6980,19 +7150,19 @@
 "nrsv": "Kiriath-huzoth"
 },
 "kiriath-jearim_701": {
-"kjv": "Kiriath-jearim",
+"kjv": "Kirjath-jearim",
 "latin": "Cariathiarim",
 "douay": "Cariathiarim",
 "nrsv": "Kiriath-jearim"
 },
 "kiriath-sannah_702": {
-"kjv": "Kiriath-sannah",
+"kjv": "Kirjath-sannah",
 "latin": "Cariathsenna",
 "douay": "Cariath-senna",
 "nrsv": "Kiriath-sannah"
 },
 "kiriath-sepher_703": {
-"kjv": "Kiriath-sepher",
+"kjv": "Kirjath-sepher",
 "greek": "Καριασσῶφαρ",
 "latin": "Cariath Sepher",
 "douay": "Cariath-Sepher",
@@ -7010,7 +7180,7 @@
 "nrsv": "Kiriathaim"
 },
 "kiriathaim_696": {
-"kjv": "Kiriathaim",
+"kjv": "Kirjathaim",
 "greek": "Καριαθάιμ",
 "latin": "Cariathaim",
 "douay": "Cariathaim",
@@ -7053,7 +7223,7 @@
 "nrsv": "Kitron"
 },
 "kittim_707": {
-"kjv": "Kittim",
+"kjv": "Chittim",
 "hebrew": {
 "text": "כִּתִּי",
 "translit": "Kittîy",
@@ -7119,7 +7289,7 @@
 "nrsv": "Laish"
 },
 "laishah_714": {
-"kjv": "Laishah",
+"kjv": "Laish",
 "hebrew": {
 "text": "לַיִשׁ",
 "translit": "Layish",
@@ -7131,7 +7301,7 @@
 "nrsv": "Laishah"
 },
 "lakkum_715": {
-"kjv": "Lakkum",
+"kjv": "Lakum",
 "hebrew": {
 "text": "לַקּוּם",
 "translit": "Laqqûwm",
@@ -7146,14 +7316,16 @@
 "latin": "Laodiciæ",
 "douay": "Laodicea",
 "nrsv": "Laodicea",
-"greek": "Λαοδίκεια"
+"greek": "Λαοδίκεια",
+"greek_translit": "Laodíkeia"
 },
 "lasea_717": {
 "kjv": "Lasea",
 "latin": "Thalassa",
 "douay": "Thalassa",
 "nrsv": "Lasea",
-"greek": "Λασαία"
+"greek": "Λασαία",
+"greek_translit": "Lasaía"
 },
 "lasha_718": {
 "kjv": "Lasha",
@@ -7213,7 +7385,7 @@
 "nrsv": "Lebaoth"
 },
 "lebo-hamath_723": {
-"kjv": "Lebo-hamath",
+"kjv": "Hamath",
 "greek": "Ἑμάθ",
 "latin": "Emath",
 "douay": "Emath",
@@ -7294,7 +7466,8 @@
 "latin": "Libya",
 "douay": "Libya",
 "nrsv": "Libya",
-"greek": "Λιβύη"
+"greek": "Λιβύη",
+"greek_translit": "Libýē"
 },
 "lo-debar_732": {
 "kjv": "Lo-debar",
@@ -7321,7 +7494,7 @@
 "nrsv": "Lod"
 },
 "lord_303": {
-"kjv": "Lord",
+"kjv": "City of the Lord",
 "douay": "City of the Lord",
 "nrsv": "City of the Lord"
 },
@@ -7379,7 +7552,8 @@
 "latin": "Lycaoniæ",
 "douay": "Lycaonia",
 "nrsv": "Lycaonia",
-"greek": "Λυκαονία"
+"greek": "Λυκαονία",
+"greek_translit": "Lykaonía"
 },
 "lycia_740": {
 "kjv": "Lycia",
@@ -7387,6 +7561,7 @@
 "douay": "Lycia",
 "nrsv": "Lycia",
 "greek": "Κιλικία",
+"greek_translit": "Kilikía",
 "apocrypha": [
 "1 Maccabees 15:23"
 ],
@@ -7401,6 +7576,7 @@
 "douay": "Lydda",
 "nrsv": "Lydda",
 "greek": "Λύδδα",
+"greek_translit": "Lýdda",
 "apocrypha": [
 "1 Maccabees 11:34"
 ],
@@ -7414,7 +7590,8 @@
 "latin": "Lystris",
 "douay": "Lystra",
 "nrsv": "Lystra",
-"greek": "Λύστρα"
+"greek": "Λύστρα",
+"greek_translit": "Lýstra"
 },
 "maacah_743": {
 "kjv": "Maacah",
@@ -7461,7 +7638,8 @@
 "latin": "Macedonia",
 "douay": "Macedonia",
 "nrsv": "Macedonia",
-"greek": "Μακεδονία"
+"greek": "Μακεδονία",
+"greek_translit": "Makedonía"
 },
 "machpelah_748": {
 "kjv": "Machpelah",
@@ -7513,11 +7691,12 @@
 "douay": "Madon"
 },
 "magadan_753": {
-"kjv": "Magadan",
+"kjv": "Magdala",
 "latin": "Magedan",
 "douay": "Magedan",
 "nrsv": "Magadan",
-"greek": "Μαγδαλά"
+"greek": "Μαγδαλά",
+"greek_translit": "Magdalá"
 },
 "magog_754": {
 "kjv": "Magog",
@@ -7529,7 +7708,8 @@
 "latin": "Magog",
 "douay": "Magog",
 "nrsv": "Magog",
-"greek": "Μαγώγ"
+"greek": "Μαγώγ",
+"greek_translit": "Magṓg"
 },
 "mahalab_755": {
 "kjv": "Mahalab",
@@ -7632,7 +7812,7 @@
 "nrsv": "Marah"
 },
 "mareal_766": {
-"kjv": "Mareal",
+"kjv": "Maralah",
 "hebrew": {
 "text": "מַרְעֲלָה",
 "translit": "Marʻălâh",
@@ -7721,7 +7901,7 @@
 "nrsv": "Mearah"
 },
 "meconah_774": {
-"kjv": "Meconah",
+"kjv": "Mekonah",
 "hebrew": {
 "text": "מְכֹנָה",
 "translit": "Mᵉkônâh",
@@ -7799,14 +7979,21 @@
 },
 "latin": "Mageddo",
 "douay": "Mageddo",
-"nrsv": "Megiddo"
+"nrsv": "Megiddo",
+"apocrypha": [
+"1 Esdras 1:29"
+],
+"apocrypha_spellings": [
+"Magiddo"
+]
 },
 "melita_761": {
 "kjv": "Melita",
 "latin": "Melita",
 "douay": "Melita",
 "nrsv": "Malta",
-"greek": "Μελίτη"
+"greek": "Μελίτη",
+"greek_translit": "Melítē"
 },
 "memphis_779": {
 "kjv": "Memphis",
@@ -7960,7 +8147,7 @@
 ]
 },
 "michmethath_794": {
-"kjv": "Michmethath",
+"kjv": "Michmethah",
 "hebrew": {
 "text": "מִכְמְתָת",
 "translit": "Mikmᵉthâth",
@@ -8042,7 +8229,8 @@
 "latin": "Miletum",
 "douay": "Miletus",
 "nrsv": "Miletus",
-"greek": "Μίλητος"
+"greek": "Μίλητος",
+"greek_translit": "Mílētos"
 },
 "millo_802": {
 "kjv": "Millo",
@@ -8090,7 +8278,7 @@
 "nrsv": "Misrephoth-maim"
 },
 "mithkah_807": {
-"kjv": "Mithkah",
+"kjv": "Mithcah",
 "hebrew": {
 "text": "מִתְקָה",
 "translit": "Mithqâh",
@@ -8106,10 +8294,11 @@
 "latin": "Mitylenen",
 "douay": "Mitylene",
 "nrsv": "Mitylene",
-"greek": "Μιτυλήνη"
+"greek": "Μιτυλήνη",
+"greek_translit": "Mitylḗnē"
 },
 "mizpah_809": {
-"kjv": "Mizpah",
+"kjv": "Mizpeh",
 "hebrew": {
 "text": "מִצְפָּה",
 "translit": "Mitspâh",
@@ -8118,7 +8307,7 @@
 "nrsv": "Mizpah"
 },
 "mizpah_810": {
-"kjv": "Mizpah",
+"kjv": "Mizpeh",
 "hebrew": {
 "text": "מִצְפָּה",
 "translit": "Mitspâh",
@@ -8232,7 +8421,7 @@
 "nrsv": "Mortar"
 },
 "moserah_823": {
-"kjv": "Moserah",
+"kjv": "Mosera",
 "hebrew": {
 "text": "מוֹסֵרָה",
 "translit": "Môwçêrâh",
@@ -8255,34 +8444,34 @@
 "nrsv": "Moseroth"
 },
 "most_holy_825": {
-"kjv": "most holy",
+"kjv": "Most Holy",
 "nrsv": "Most Holy"
 },
 "most_holy_place_826": {
-"kjv": "most holy place",
+"kjv": "Most Holy Place",
 "nrsv": "Most Holy Place"
 },
 "most_holy_place_827": {
-"kjv": "most holy place",
+"kjv": "Most Holy Place",
 "nrsv": "Most Holy Place"
 },
 "mount_baalah_830": {
-"kjv": "mount Baalah",
+"kjv": "Mount Baalah",
 "douay": "Mount Baala",
 "nrsv": "Mount Baalah"
 },
 "mount_baalhermon_829": {
-"kjv": "mount Baalhermon",
+"kjv": "Mount Baal-hermon",
 "douay": "Mount Baal Hermon",
 "nrsv": "Mount Baal-hermon"
 },
 "mount_carmel_831": {
-"kjv": "mount Carmel",
+"kjv": "Mount Carmel",
 "douay": "Mount Carmel",
 "nrsv": "Mount Carmel"
 },
 "mount_ebal_832": {
-"kjv": "mount Ebal",
+"kjv": "Mount Ebal",
 "hebrew": {
 "text": "עֵיבָל",
 "translit": "ʻÊybâl",
@@ -8294,17 +8483,17 @@
 "nrsv": "Mount Ebal"
 },
 "mount_ephraim_833": {
-"kjv": "mount Ephraim",
+"kjv": "Mount Ephraim",
 "douay": "Mount Ephraim",
 "nrsv": "Mount Ephraim"
 },
 "mount_ephron_834": {
-"kjv": "mount Ephron",
+"kjv": "Mount Ephron",
 "douay": "Mount Ephron",
 "nrsv": "Mount Ephron"
 },
 "mount_gerizim_836": {
-"kjv": "mount Gerizim",
+"kjv": "Mount Gerizim",
 "hebrew": {
 "text": "גְּרִזִים",
 "translit": "Gᵉrizîym",
@@ -8313,17 +8502,25 @@
 "greek": "Γαριζεὶν",
 "latin": "Garizim",
 "douay": "Mount Garizim",
-"nrsv": "Mount Gerizim"
+"nrsv": "Mount Gerizim",
+"apocrypha": [
+"2 Maccabees 5:23",
+"2 Maccabees 6:2"
+],
+"apocrypha_spellings": [
+"Gerizim",
+"Gazarim"
+]
 },
 "mount_gilboa_837": {
-"kjv": "mount Gilboa",
+"kjv": "Mount Gilboa",
 "nrsv": "Mount Gilboa"
 },
 "mount_gilead_838": {
-"kjv": "mount Gilead"
+"kjv": "Mount Gilead"
 },
 "mount_halak_839": {
-"kjv": "mount Halak",
+"kjv": "Mount Halak",
 "hebrew": {
 "text": "חָלָק",
 "translit": "Châlâq",
@@ -8332,10 +8529,10 @@
 "nrsv": "Mount Halak"
 },
 "mount_heres_840": {
-"kjv": "mount Heres"
+"kjv": "Mount Heres"
 },
 "mount_hermon_841": {
-"kjv": "mount Hermon",
+"kjv": "Mount Hermon",
 "hebrew": {
 "text": "חֶרְמוֹן",
 "translit": "Chermôwn",
@@ -8347,7 +8544,7 @@
 "nrsv": "Mount Hermon"
 },
 "mount_hor_842": {
-"kjv": "mount Hor",
+"kjv": "Mount Hor",
 "hebrew": {
 "text": "הֹר",
 "translit": "Hôr",
@@ -8359,7 +8556,7 @@
 "nrsv": "Mount Hor"
 },
 "mount_hor_843": {
-"kjv": "mount Hor",
+"kjv": "Mount Hor",
 "hebrew": {
 "text": "הֹר",
 "translit": "Hôr",
@@ -8368,12 +8565,12 @@
 "nrsv": "Mount Hor"
 },
 "mount_horeb_844": {
-"kjv": "mount Horeb",
+"kjv": "Mount Horeb",
 "douay": "Mount Horeb",
 "nrsv": "Mount Horeb"
 },
 "mount_jearim_845": {
-"kjv": "mount Jearim",
+"kjv": "Mount Jearim",
 "hebrew": {
 "text": "יְעָרִים",
 "translit": "Yᵉʻârîym",
@@ -8385,11 +8582,11 @@
 "nrsv": "Mount Jearim"
 },
 "mount_lebanon_846": {
-"kjv": "mount Lebanon",
+"kjv": "Mount Lebanon",
 "nrsv": "Mount Lebanon"
 },
 "mount_moriah_848": {
-"kjv": "mount Moriah",
+"kjv": "Mount Moriah",
 "hebrew": {
 "text": "מוֹרִיָּה",
 "translit": "Môwrîyâh",
@@ -8401,44 +8598,44 @@
 "nrsv": "Mount Moriah"
 },
 "mount_nebo_849": {
-"kjv": "mount Nebo",
+"kjv": "Mount Nebo",
 "douay": "Mount Nebo",
 "nrsv": "Mount Nebo"
 },
 "mount_of_esau_835": {
-"kjv": "mount of Esau",
+"kjv": "Mount of Esau",
 "douay": "Mount of Esau"
 },
 "mount_of_olives_828": {
-"kjv": "mount of Olives",
+"kjv": "Mount of Olives",
 "douay": "Mount of Olives",
 "nrsv": "Mount of Olives"
 },
 "mount_of_olives_861": {
-"kjv": "mount of Olives",
+"kjv": "Mount of Olives",
 "douay": "Mount of Olives",
 "nrsv": "Mount of Olives"
 },
 "mount_paran_850": {
-"kjv": "mount Paran",
+"kjv": "Mount Paran",
 "nrsv": "Mount Paran"
 },
 "mount_perazim_851": {
-"kjv": "mount Perazim",
+"kjv": "Mount Perazim",
 "nrsv": "Mount Perazim"
 },
 "mount_seir_852": {
-"kjv": "mount Seir",
+"kjv": "Mount Seir",
 "douay": "Mount Seir",
 "nrsv": "Mount Seir"
 },
 "mount_seir_853": {
-"kjv": "mount Seir",
+"kjv": "Mount Seir",
 "douay": "Mount Seir",
 "nrsv": "Mount Seir"
 },
 "mount_shapher_854": {
-"kjv": "mount Shapher",
+"kjv": "Mount Shapher",
 "hebrew": {
 "text": "שֶׁפֶר",
 "translit": "Shepher",
@@ -8449,7 +8646,7 @@
 "nrsv": "Mount Shepher"
 },
 "mount_sinai_855": {
-"kjv": "mount Sinai",
+"kjv": "Mount Sinai",
 "hebrew": {
 "text": "סִינַי",
 "translit": "Çîynay",
@@ -8461,25 +8658,25 @@
 "nrsv": "Mount Sinai"
 },
 "mount_sion_856": {
-"kjv": "mount Sion",
+"kjv": "Mount Sion",
 "douay": "Mount Sion"
 },
 "mount_tabor_857": {
-"kjv": "mount Tabor",
+"kjv": "Mount Tabor",
 "douay": "Mount Thabor",
 "nrsv": "Mount Tabor"
 },
 "mount_zalmon_858": {
-"kjv": "mount Zalmon",
+"kjv": "Mount Zalmon",
 "douay": "Mount Selmon",
 "nrsv": "Mount Zalmon"
 },
 "mount_zemaraim_859": {
-"kjv": "mount Zemaraim",
+"kjv": "Mount Zemaraim",
 "nrsv": "Mount Zemaraim"
 },
 "mount_zion_860": {
-"kjv": "mount Zion",
+"kjv": "Mount Zion",
 "douay": "Mount Sion",
 "nrsv": "Mount Zion"
 },
@@ -8497,14 +8694,16 @@
 "myra_864": {
 "kjv": "Myra",
 "nrsv": "Myra",
-"greek": "Μύρα"
+"greek": "Μύρα",
+"greek_translit": "Mýra"
 },
 "mysia_865": {
 "kjv": "Mysia",
 "latin": "Mysiam",
 "douay": "Mysia",
 "nrsv": "Mysia",
-"greek": "Μυσία"
+"greek": "Μυσία",
+"greek_translit": "Mysía"
 },
 "naamah_866": {
 "kjv": "Naamah",
@@ -8519,7 +8718,7 @@
 "nrsv": "Naamah"
 },
 "naarah_867": {
-"kjv": "Naarah",
+"kjv": "Naarath",
 "latin": "Naaratha",
 "douay": "Naaratha",
 "nrsv": "Naarah"
@@ -8537,7 +8736,7 @@
 "nrsv": "Naaran"
 },
 "nahalal_869": {
-"kjv": "Nahalal",
+"kjv": "Nahallal",
 "hebrew": {
 "text": "נַהֲלָל",
 "translit": "Nahălâl",
@@ -8572,7 +8771,8 @@
 "nain_872": {
 "kjv": "Nain",
 "nrsv": "Nain",
-"greek": "Ναΐν"
+"greek": "Ναΐν",
+"greek_translit": "Naḯn"
 },
 "naioth_873": {
 "kjv": "Naioth",
@@ -8596,7 +8796,7 @@
 "nrsv": "Naphath-dor"
 },
 "naphish_876": {
-"kjv": "Naphish",
+"kjv": "Nephish",
 "hebrew": {
 "text": "נָפִישׁ",
 "translit": "Nâphîysh",
@@ -8616,7 +8816,8 @@
 "latin": "Nazarenus",
 "douay": "Nazareth",
 "nrsv": "Nazareth",
-"greek": "Ναζαρέθ"
+"greek": "Ναζαρέθ",
+"greek_translit": "Nazaréth"
 },
 "neah_879": {
 "kjv": "Neah",
@@ -8738,7 +8939,7 @@
 ]
 },
 "new_gate_891": {
-"kjv": "new gate",
+"kjv": "New Gate",
 "douay": "New Gate",
 "nrsv": "New Gate"
 },
@@ -8770,7 +8971,8 @@
 "latin": "Nicopolim",
 "douay": "Nicopolis",
 "nrsv": "Nicopolis",
-"greek": "Νικόπολις"
+"greek": "Νικόπολις",
+"greek_translit": "Nikópolis"
 },
 "nile_895": {
 "kjv": "Nile",
@@ -8905,7 +9107,7 @@
 "nrsv": "Oboth"
 },
 "old_gate_439": {
-"kjv": "old gate",
+"kjv": "Old Gate",
 "douay": "Old Gate",
 "nrsv": "Old Gate"
 },
@@ -8988,7 +9190,7 @@
 "nrsv": "Ophrah"
 },
 "paddan_915": {
-"kjv": "Paddan",
+"kjv": "Padan",
 "hebrew": {
 "text": "פַּדָּן",
 "translit": "Paddân",
@@ -8997,7 +9199,7 @@
 "nrsv": "Paddan"
 },
 "paddan-aram_916": {
-"kjv": "Paddan-aram",
+"kjv": "Padan-aram",
 "nrsv": "Paddan-aram"
 },
 "pai_917": {
@@ -9015,6 +9217,7 @@
 "douay": "Pamphylia",
 "nrsv": "Pamphylia",
 "greek": "Παμφυλία",
+"greek_translit": "Pamphylía",
 "apocrypha": [
 "1 Maccabees 15:23"
 ],
@@ -9027,7 +9230,8 @@
 "kjv": "Paphos",
 "douay": "Paphos",
 "nrsv": "Paphos",
-"greek": "Πάφος"
+"greek": "Πάφος",
+"greek_translit": "Páphos"
 },
 "parah_920": {
 "kjv": "Parah",
@@ -9074,7 +9278,8 @@
 "latin": "Pataram",
 "douay": "Patara",
 "nrsv": "Patara",
-"greek": "Πάταρα"
+"greek": "Πάταρα",
+"greek_translit": "Pátara"
 },
 "pathros_925": {
 "kjv": "Pathros",
@@ -9090,7 +9295,8 @@
 "latin": "Patmos",
 "douay": "Patmos",
 "nrsv": "Patmos",
-"greek": "Πάτμος"
+"greek": "Πάτμος",
+"greek_translit": "Pátmos"
 },
 "pau_927": {
 "kjv": "Pau",
@@ -9103,7 +9309,7 @@
 },
 "pavement_1155": {
 "kjv": "Pavement",
-"nrsv": "Pavement"
+"nrsv": "The Stone Pavement"
 },
 "pekod_928": {
 "kjv": "Pekod",
@@ -9159,14 +9365,16 @@
 "latin": "Pergen",
 "douay": "Perge",
 "nrsv": "Perga",
-"greek": "Πέργη"
+"greek": "Πέργη",
+"greek_translit": "Pérgē"
 },
 "pergamum_937": {
-"kjv": "Pergamum",
+"kjv": "Pergamos",
 "latin": "Pergamo",
 "douay": "Pergamus",
 "nrsv": "Pergamum",
-"greek": "Πέργαμος"
+"greek": "Πέργαμος",
+"greek_translit": "Pérgamos"
 },
 "persia_938": {
 "kjv": "Persia",
@@ -9225,7 +9433,22 @@
 "douay": "Phenice",
 "nrsv": "Phoenix",
 "greek": "Φοῖνιξ",
+"greek_translit": "Phoînix"
+},
+"phenicia_944": {
+"kjv": "Phenice",
+"latin": "Phœnicen",
+"douay": "Phenice",
+"nrsv": "Phoenicia",
+"greek": "Φοινίκη",
+"greek_translit": "Phoiníkē",
 "apocrypha": [
+"2 Maccabees 3:5",
+"2 Maccabees 3:8",
+"2 Maccabees 4:4",
+"2 Maccabees 4:22",
+"2 Maccabees 8:8",
+"2 Maccabees 10:11",
 "1 Esdras 2:17",
 "1 Esdras 2:24",
 "1 Esdras 2:25",
@@ -9241,24 +9464,6 @@
 "1 Esdras 8:67"
 ],
 "apocrypha_spellings": [
-"Φοινίκης"
-]
-},
-"phenicia_944": {
-"kjv": "Phenicia",
-"latin": "Phœnicen",
-"douay": "Phenice",
-"nrsv": "Phoenicia",
-"greek": "Φοινίκη",
-"apocrypha": [
-"2 Maccabees 3:5",
-"2 Maccabees 3:8",
-"2 Maccabees 4:4",
-"2 Maccabees 4:22",
-"2 Maccabees 8:8",
-"2 Maccabees 10:11"
-],
-"apocrypha_spellings": [
 "Phœnicis",
 "Φοινίκης"
 ]
@@ -9268,14 +9473,16 @@
 "latin": "Philadelphiæ",
 "douay": "Philadelphia",
 "nrsv": "Philadelphia",
-"greek": "Φιλαδέλφεια"
+"greek": "Φιλαδέλφεια",
+"greek_translit": "Philadélpheia"
 },
 "philippi_942": {
 "kjv": "Philippi",
 "latin": "Philippis",
 "douay": "Philippi",
 "nrsv": "Philippi",
-"greek": "Φίλιπποι"
+"greek": "Φίλιπποι",
+"greek_translit": "Phílippoi"
 },
 "philistia_943": {
 "kjv": "Philistia",
@@ -9293,7 +9500,8 @@
 "latin": "Phrygiam",
 "douay": "Phrygia",
 "nrsv": "Phrygia",
-"greek": "Φρυγία"
+"greek": "Φρυγία",
+"greek_translit": "Phrygía"
 },
 "pi-beseth_947": {
 "kjv": "Pi-beseth",
@@ -9317,7 +9525,7 @@
 },
 "pillars_512": {
 "kjv": "Pillars",
-"nrsv": "Pillars"
+"nrsv": "Hall of Pillars"
 },
 "pirathon_949": {
 "kjv": "Pirathon",
@@ -9359,7 +9567,8 @@
 "latin": "Pisidiæ",
 "douay": "Pisidia",
 "nrsv": "Pisidia",
-"greek": "Πισιδία"
+"greek": "Πισιδία",
+"greek_translit": "Pisidía"
 },
 "pithom_953": {
 "kjv": "Pithom",
@@ -9374,11 +9583,11 @@
 "nrsv": "Pithom"
 },
 "place_954": {
-"kjv": "Place"
+"kjv": "Place of a Skull",
+"nrsv": "Place of a Skull"
 },
 "place_1153": {
-"kjv": "Place",
-"nrsv": "Place"
+"kjv": "The Place of a Skull"
 },
 "plain_955": {
 "kjv": "Plain",
@@ -9386,29 +9595,28 @@
 "nrsv": "Plain"
 },
 "plain_of_aven_1198": {
-"kjv": "plain of Aven"
+"kjv": "Plain of Aven"
 },
 "plain_of_jordan_654": {
-"kjv": "plain of Jordan"
+"kjv": "Plain of Jordan"
 },
 "pontus_956": {
 "kjv": "Pontus",
 "latin": "Pontum",
 "douay": "Pontus",
 "nrsv": "Pontus",
-"greek": "Πόντος"
+"greek": "Πόντος",
+"greek_translit": "Póntos"
 },
 "pool_691": {
-"kjv": "Pool",
-"nrsv": "Pool"
+"kjv": "Pool"
 },
 "pool_957": {
 "kjv": "Pool",
-"douay": "Pool",
-"nrsv": "Pool"
+"nrsv": "Pool of Shelah"
 },
 "prison_gate_441": {
-"kjv": "prison gate"
+"kjv": "Prison Gate"
 },
 "ptolemais_959": {
 "kjv": "Ptolemais",
@@ -9416,6 +9624,7 @@
 "douay": "Ptolemais",
 "nrsv": "Ptolemais",
 "greek": "Πτολεμαΐς",
+"greek_translit": "Ptolemaḯs",
 "apocrypha": [
 "1 Maccabees 5:15",
 "1 Maccabees 5:22",
@@ -9472,7 +9681,8 @@
 "latin": "Puteolos",
 "douay": "Puteoli",
 "nrsv": "Puteoli",
-"greek": "Ποτίολοι"
+"greek": "Ποτίολοι",
+"greek_translit": "Potíoloi"
 },
 "raamah_964": {
 "kjv": "Raamah",
@@ -9527,7 +9737,7 @@
 "nrsv": "Rabbith"
 },
 "racal_968": {
-"kjv": "Racal",
+"kjv": "Rachal",
 "hebrew": {
 "text": "רָכָל",
 "translit": "Râkâl",
@@ -9686,7 +9896,7 @@
 "nrsv": "Ramoth-gilead"
 },
 "recah_985": {
-"kjv": "Recah",
+"kjv": "Rechah",
 "hebrew": {
 "text": "רֵכָה",
 "translit": "Rêkâh",
@@ -9698,7 +9908,7 @@
 "nrsv": "Recah"
 },
 "red_sea_986": {
-"kjv": "Red sea",
+"kjv": "Red Sea",
 "douay": "Red Sea",
 "nrsv": "Red Sea"
 },
@@ -9830,13 +10040,15 @@
 "latin": "Rhegium",
 "douay": "Rhegium",
 "nrsv": "Rhegium",
-"greek": "Ῥήγιον"
+"greek": "Ῥήγιον",
+"greek_translit": "Rhḗgion"
 },
 "rhodes_1000": {
 "kjv": "Rhodes",
 "douay": "Rhodes",
 "nrsv": "Rhodes",
 "greek": "Ῥόδος",
+"greek_translit": "Rhódos",
 "apocrypha": [
 "1 Maccabees 15:23"
 ],
@@ -9897,7 +10109,7 @@
 "kjv": "Rimmon"
 },
 "rimmon-perez_1007": {
-"kjv": "Rimmon-perez",
+"kjv": "Rimmon-parez",
 "hebrew": {
 "text": "רִמֹּן פֶּרֶץ",
 "translit": "Rimmôn Perets",
@@ -9907,7 +10119,7 @@
 "nrsv": "Rimmon-perez"
 },
 "rimmono_1006": {
-"kjv": "Rimmono",
+"kjv": "Rimmon",
 "greek": "Ῥεμμὼν",
 "latin": "Remmono",
 "douay": "Remmono",
@@ -9937,24 +10149,23 @@
 "nrsv": "Rithmah"
 },
 "river_244": {
-"kjv": "river",
-"douay": "River",
-"nrsv": "River"
+"kjv": "Beyond the River",
+"douay": "Beyond the River",
+"nrsv": "Beyond the River"
 },
 "river_1010": {
-"kjv": "river",
+"kjv": "River",
 "douay": "River",
 "nrsv": "River"
 },
 "river_of_arnon_1225": {
-"kjv": "river of Arnon"
+"kjv": "River of Arnon"
 },
 "rock_1011": {
 "kjv": "Rock"
 },
 "rocks_1232": {
-"kjv": "Rocks",
-"nrsv": "Wild Goats"
+"kjv": "Rocks"
 },
 "rogelim_1012": {
 "kjv": "Rogelim",
@@ -9974,6 +10185,7 @@
 "douay": "Rome",
 "nrsv": "Rome",
 "greek": "Ῥώμη",
+"greek_translit": "Rhṓmē",
 "apocrypha": [
 "1 Maccabees 1:10",
 "1 Maccabees 7:1",
@@ -10013,10 +10225,11 @@
 "latin": "Salaminam",
 "douay": "Salamina",
 "nrsv": "Salamis",
-"greek": "Σαλαμίς"
+"greek": "Σαλαμίς",
+"greek_translit": "Salamís"
 },
 "salecah_1017": {
-"kjv": "Salecah",
+"kjv": "Salchah",
 "hebrew": {
 "text": "סַלְכָה",
 "translit": "Çalkâh",
@@ -10032,22 +10245,24 @@
 "latin": "Salim",
 "douay": "Salim",
 "nrsv": "Salim",
-"greek": "Σαλείμ"
+"greek": "Σαλείμ",
+"greek_translit": "Saleím"
 },
 "salmone_1020": {
 "kjv": "Salmone",
 "latin": "Salmonem",
 "douay": "Salmone",
 "nrsv": "Salmone",
-"greek": "Σαλμώνη"
+"greek": "Σαλμώνη",
+"greek_translit": "Salmṓnē"
 },
 "salt_302": {
-"kjv": "Salt",
-"greek": "Αἰχιοζὰ",
-"nrsv": "Salt"
+"kjv": "City of Salt",
+"douay": "City of Salt",
+"nrsv": "City of Salt"
 },
 "salt_sea_1021": {
-"kjv": "salt sea",
+"kjv": "Salt Sea",
 "douay": "Salt Sea"
 },
 "samaria_1022": {
@@ -10083,6 +10298,7 @@
 "douay": "Samos",
 "nrsv": "Samos",
 "greek": "Σάμος",
+"greek_translit": "Sámos",
 "apocrypha": [
 "1 Maccabees 15:23"
 ],
@@ -10092,11 +10308,12 @@
 ]
 },
 "samothrace_1025": {
-"kjv": "Samothrace",
+"kjv": "Samothracia",
 "latin": "Samothraciam",
 "douay": "Samothracia",
 "nrsv": "Samothrace",
-"greek": "Σαμοθρᾴκη"
+"greek": "Σαμοθρᾴκη",
+"greek_translit": "Samothráikē"
 },
 "sansannah_1026": {
 "kjv": "Sansannah",
@@ -10114,7 +10331,8 @@
 "latin": "Sardis",
 "douay": "Sardis",
 "nrsv": "Sardis",
-"greek": "Σάρδεις"
+"greek": "Σάρδεις",
+"greek_translit": "Sárdeis"
 },
 "sarid_1028": {
 "kjv": "Sarid",
@@ -10136,29 +10354,30 @@
 "latin": "Saron",
 "douay": "Saron",
 "nrsv": "Sharon",
-"greek": "Σάρων"
+"greek": "Σάρων",
+"greek_translit": "Sárōn"
 },
 "sea_of_chinnereth_1029": {
-"kjv": "sea of Chinnereth",
+"kjv": "Sea of Chinnereth",
 "douay": "Sea of Cenereth",
 "nrsv": "Sea of Chinnereth"
 },
 "sea_of_chinneroth_1030": {
-"kjv": "sea of Chinneroth",
+"kjv": "Sea of Chinneroth",
 "douay": "Sea of Ceneroth",
 "nrsv": "Sea of Chinneroth"
 },
 "sea_of_galilee_1032": {
-"kjv": "sea of Galilee",
+"kjv": "Sea of Galilee",
 "douay": "Sea of Galilee",
 "nrsv": "Sea of Galilee"
 },
 "sea_of_jazer_1033": {
-"kjv": "sea of Jazer",
+"kjv": "Sea of Jazer",
 "douay": "Sea of Jazer"
 },
 "sea_of_the_philistines_1036": {
-"kjv": "sea of the Philistines",
+"kjv": "Sea of the Philistines",
 "hebrew": {
 "text": "פְּלִשְׁתִּי",
 "translit": "Pᵉlishtîy",
@@ -10169,15 +10388,15 @@
 "nrsv": "Sea of the Philistines"
 },
 "sea_of_the_plain_1035": {
-"kjv": "sea of the plain"
+"kjv": "Sea of the Plain"
 },
 "sea_of_tiberias_1034": {
-"kjv": "sea of Tiberias",
+"kjv": "Sea of Tiberias",
 "douay": "Sea of Tiberias",
 "nrsv": "Sea of Tiberias"
 },
 "sebam_1038": {
-"kjv": "Sebam",
+"kjv": "Shebam",
 "hebrew": {
 "text": "שְׂבָם",
 "translit": "Sᵉbâm",
@@ -10203,7 +10422,7 @@
 "nrsv": "Second Quarter"
 },
 "secu_1041": {
-"kjv": "Secu",
+"kjv": "Sechu",
 "hebrew": {
 "text": "שֵׂכוּ",
 "translit": "Sêkûw",
@@ -10224,7 +10443,7 @@
 "nrsv": "Seir"
 },
 "seirah_1043": {
-"kjv": "Seirah",
+"kjv": "Seirath",
 "greek": "Σετειρῶθα",
 "latin": "Seirath",
 "douay": "Seirath",
@@ -10245,6 +10464,7 @@
 "douay": "Seleucia",
 "nrsv": "Seleucia",
 "greek": "Σελεύκεια",
+"greek_translit": "Seleúkeia",
 "apocrypha": [
 "1 Maccabees 11:8"
 ],
@@ -10265,7 +10485,7 @@
 "nrsv": "Seneh"
 },
 "senir_1047": {
-"kjv": "Senir",
+"kjv": "Shenir",
 "hebrew": {
 "text": "שְׁנִיר",
 "translit": "Shᵉnîyr",
@@ -10330,7 +10550,7 @@
 "nrsv": "Shaalbim"
 },
 "shaalim_1054": {
-"kjv": "Shaalim",
+"kjv": "Shalim",
 "hebrew": {
 "text": "שַׁעֲלִים",
 "translit": "Shaʻălîym",
@@ -10341,7 +10561,7 @@
 "nrsv": "Shaalim"
 },
 "shaaraim_1055": {
-"kjv": "Shaaraim",
+"kjv": "Sharaim",
 "hebrew": {
 "text": "שַׁעֲרַיִם",
 "translit": "Shaʻărayim",
@@ -10363,13 +10583,13 @@
 "nrsv": "Shaaraim"
 },
 "shahazumah_1057": {
-"kjv": "Shahazumah",
+"kjv": "Shahazimah",
 "latin": "Sehesima",
 "douay": "Sehesima",
 "nrsv": "Shahazumah"
 },
 "shalishah_1058": {
-"kjv": "Shalishah",
+"kjv": "Shalisha",
 "hebrew": {
 "text": "שָׁלִשָׁה",
 "translit": "Shâlishâh",
@@ -10413,7 +10633,7 @@
 "nrsv": "Shamir"
 },
 "shaphir_1062": {
-"kjv": "Shaphir",
+"kjv": "Saphir",
 "hebrew": {
 "text": "שָׁפִיר",
 "translit": "Shâphîyr",
@@ -10445,7 +10665,7 @@
 "nrsv": "Sharuhen"
 },
 "shaveh-kiriathaim_1066": {
-"kjv": "Shaveh-kiriathaim",
+"kjv": "Shaveh Kiriathaim",
 "hebrew": {
 "text": "קִרְיָתַיִם",
 "translit": "Qiryâthayim",
@@ -10497,7 +10717,7 @@
 "nrsv": "Shechem"
 },
 "sheep_gate_1070": {
-"kjv": "sheep gate",
+"kjv": "Sheep Gate",
 "nrsv": "Sheep Gate"
 },
 "shema_1071": {
@@ -10545,7 +10765,7 @@
 ]
 },
 "shibah_1075": {
-"kjv": "Shibah",
+"kjv": "Shebah",
 "hebrew": {
 "text": "שִׁבְעָה",
 "translit": "Shibʻâh",
@@ -10554,7 +10774,7 @@
 "nrsv": "Shibah"
 },
 "shihor_1076": {
-"kjv": "Shihor",
+"kjv": "Sihor",
 "hebrew": {
 "text": "שִׁיחוֹר",
 "translit": "Shîychôwr",
@@ -10567,7 +10787,7 @@
 "nrsv": "Shihor-libnath"
 },
 "shikkeron_1078": {
-"kjv": "Shikkeron",
+"kjv": "Shicron",
 "nrsv": "Shikkeron"
 },
 "shilhim_1079": {
@@ -10725,7 +10945,7 @@
 "nrsv": "Sibraim"
 },
 "sidon_494": {
-"kjv": "Sidon (Zidon)",
+"kjv": "Zidon",
 "hebrew": {
 "text": "צִידוֹן",
 "translit": "Tsîydôwn",
@@ -10737,7 +10957,7 @@
 "nrsv": "Sidon"
 },
 "sidon_1093": {
-"kjv": "Sidon",
+"kjv": "Zidon",
 "hebrew": {
 "text": "צִידוֹן",
 "translit": "Tsîydôwn",
@@ -10747,9 +10967,11 @@
 "douay": "Sidon",
 "nrsv": "Sidon",
 "greek": "Σιδών",
+"greek_translit": "Sidṓn",
 "apocrypha": [
 "Judith 2:28",
 "1 Maccabees 5:15",
+"1 Esdras 5:55",
 "2 Esdras 1:11"
 ],
 "apocrypha_spellings": [
@@ -10757,7 +10979,7 @@
 ]
 },
 "sidon_1094": {
-"kjv": "Sidon (the great)",
+"kjv": "Zidon",
 "hebrew": {
 "text": "צִידוֹן",
 "translit": "Tsîydôwn",
@@ -10777,7 +10999,8 @@
 "siloam_1096": {
 "kjv": "Siloam",
 "nrsv": "Siloam",
-"greek": "Σιλωάμ"
+"greek": "Σιλωάμ",
+"greek_translit": "Silōám"
 },
 "sin_1097": {
 "kjv": "Sin",
@@ -10828,10 +11051,11 @@
 "latin": "Smyrnæ",
 "douay": "Smyrna",
 "nrsv": "Smyrna",
-"greek": "Σμύρνα"
+"greek": "Σμύρνα",
+"greek_translit": "Smýrna"
 },
 "soco_1104": {
-"kjv": "Soco",
+"kjv": "Shoco",
 "hebrew": {
 "text": "שׂוֹכֹה",
 "translit": "Sôwkôh",
@@ -10884,7 +11108,8 @@
 "solomons_portico_1109": {
 "kjv": "Solomon's Portico",
 "latin": "Salomonis",
-"greek": "Σολομών"
+"greek": "Σολομών",
+"greek_translit": "Solomṓn"
 },
 "south_1110": {
 "kjv": "South",
@@ -10895,6 +11120,7 @@
 "douay": "Spain",
 "nrsv": "Spain",
 "greek": "Σπανία",
+"greek_translit": "Spanía",
 "apocrypha": [
 "1 Maccabees 8:3"
 ],
@@ -10951,11 +11177,10 @@
 },
 "latin": "Sur",
 "douay": "Sur",
-"nrsv": "Sur",
-"apocrypha": []
+"nrsv": "Sur"
 },
 "susa_1118": {
-"kjv": "Susa",
+"kjv": "Shushan",
 "hebrew": {
 "text": "שׁוּשַׁן",
 "translit": "Shûwshan",
@@ -10975,7 +11200,8 @@
 "latin": "Sichar",
 "douay": "Sichar",
 "nrsv": "Sychar",
-"greek": "Συχάρ"
+"greek": "Συχάρ",
+"greek_translit": "Sychár"
 },
 "syene_1120": {
 "kjv": "Syene",
@@ -10993,7 +11219,8 @@
 "latin": "Syracusam",
 "douay": "Syracusa",
 "nrsv": "Syracuse",
-"greek": "Συράκουσαι"
+"greek": "Συράκουσαι",
+"greek_translit": "Syrákousai"
 },
 "syria_1122": {
 "kjv": "Syria",
@@ -11129,7 +11356,7 @@
 ]
 },
 "tamar_1134": {
-"kjv": "Tamar",
+"kjv": "Tadmor",
 "nrsv": "Tamar"
 },
 "tamar_1135": {
@@ -11195,6 +11422,7 @@
 "douay": "Tarsus",
 "nrsv": "Tarsus",
 "greek": "Ταρσός",
+"greek_translit": "Tarsós",
 "apocrypha": [
 "2 Maccabees 3:5",
 "2 Maccabees 4:30"
@@ -11249,7 +11477,7 @@
 "nrsv": "Telaim"
 },
 "telassar_1145": {
-"kjv": "Telassar",
+"kjv": "Thelasar",
 "hebrew": {
 "text": "תְּלַאשַּׂר",
 "translit": "Tᵉlaʼssar",
@@ -11300,7 +11528,7 @@
 ]
 },
 "terah_1151": {
-"kjv": "Terah",
+"kjv": "Tarah",
 "nrsv": "Terah"
 },
 "thebes_1156": {
@@ -11324,15 +11552,17 @@
 "nrsv": "Thebez"
 },
 "there_1152": {
-"kjv": "There",
-"nrsv": "LORD"
+"kjv": "The Lord Is There",
+"douay": "The Lord Is There",
+"nrsv": "The Lord Is There"
 },
 "thessalonica_1158": {
 "kjv": "Thessalonica",
 "latin": "Thessalonica",
 "douay": "Thessalonica",
 "nrsv": "Thessalonica",
-"greek": "Θεσσαλονίκη"
+"greek": "Θεσσαλονίκη",
+"greek_translit": "Thessaloníkē"
 },
 "three_taverns_1159": {
 "kjv": "Three Taverns",
@@ -11341,21 +11571,23 @@
 },
 "throne_513": {
 "kjv": "Throne",
-"nrsv": "Throne"
+"nrsv": "Hall of the Throne"
 },
 "thyatira_1160": {
 "kjv": "Thyatira",
 "latin": "Thyatirenorum",
 "douay": "Thyatira",
 "nrsv": "Thyatira",
-"greek": "Θυάτειρα"
+"greek": "Θυάτειρα",
+"greek_translit": "Thyáteira"
 },
 "tiberias_1161": {
 "kjv": "Tiberias",
 "latin": "Tiberiade",
 "douay": "Tiberias",
 "nrsv": "Tiberias",
-"greek": "Τιβεριάς"
+"greek": "Τιβεριάς",
+"greek_translit": "Tiberiás"
 },
 "tibhath_1162": {
 "kjv": "Tibhath",
@@ -11389,13 +11621,21 @@
 ]
 },
 "timnah_1164": {
-"kjv": "Timnah",
+"kjv": "Timnath",
 "hebrew": {
 "text": "תִּמְנָה",
 "translit": "Timnâh",
 "strong": "H8553"
 },
-"nrsv": "Timnah"
+"nrsv": "Timnah",
+"apocrypha": [
+"1 Maccabees 9:50"
+],
+"apocrypha_spellings": [
+"Thamnatha",
+"Thamnata",
+"Θαμνάθα"
+]
 },
 "timnah_1165": {
 "kjv": "Timnah",
@@ -11509,7 +11749,7 @@
 "nrsv": "Tophel"
 },
 "topheth_1176": {
-"kjv": "Topheth",
+"kjv": "Tophet",
 "hebrew": {
 "text": "תֹּפֶת",
 "translit": "Tôpheth",
@@ -11520,33 +11760,33 @@
 "nrsv": "Topheth"
 },
 "tower_1177": {
-"kjv": "Tower",
-"douay": "Tower",
-"nrsv": "Tower"
+"kjv": "Tower of Hananeel",
+"douay": "Tower of Hananeel",
+"nrsv": "Tower of Hananel"
 },
 "tower_1179": {
 "kjv": "Tower",
-"douay": "Tower",
-"nrsv": "Tower"
+"nrsv": "Tower of the Hundred"
 },
 "tower_1180": {
 "kjv": "Tower",
-"douay": "Tower",
-"nrsv": "Tower"
+"nrsv": "Tower of the Ovens"
 },
 "trachonitis_1181": {
 "kjv": "Trachonitis",
 "latin": "Trachonitidis",
 "douay": "Trachonitis",
 "nrsv": "Trachonitis",
-"greek": "Τραχωνῖτις"
+"greek": "Τραχωνῖτις",
+"greek_translit": "Trachōnîtis"
 },
 "troas_1182": {
 "kjv": "Troas",
 "latin": "Troadem",
 "douay": "Troas",
 "nrsv": "Troas",
-"greek": "Τρωάς"
+"greek": "Τρωάς",
+"greek_translit": "Trōás"
 },
 "trogyllium_1278": {
 "kjv": "Trogyllium"
@@ -11621,6 +11861,7 @@
 "nrsv": "Upper Beth-horon"
 },
 "ur_1189": {
+"kjv": "Ur of the Chaldees",
 "douay": "Ur of the Chaldees"
 },
 "uz_1190": {
@@ -11653,20 +11894,20 @@
 "nrsv": "Uzza"
 },
 "uzzen-sheerah_1193": {
-"kjv": "Uzzen-sheerah",
+"kjv": "Uzzen-sherah",
 "latin": "Ozensara",
 "douay": "Ozensara",
 "nrsv": "Uzzen-sheerah"
 },
 "vale_of_hebron_1206": {
-"kjv": "vale of Hebron",
+"kjv": "Vale of Hebron",
 "douay": "Vale of Hebron"
 },
 "vale_of_siddim_1218": {
-"kjv": "vale of Siddim"
+"kjv": "Vale of Siddim"
 },
 "valley_of_achor_1196": {
-"kjv": "valley of Achor",
+"kjv": "Valley of Achor",
 "hebrew": {
 "text": "עָכוֹר",
 "translit": "ʻÂkôwr",
@@ -11682,27 +11923,27 @@
 "nrsv": "Valley of Aijalon"
 },
 "valley_of_baca_1199": {
-"kjv": "valley of Baca",
+"kjv": "Valley of Baca",
 "nrsv": "Valley of Baca"
 },
 "valley_of_beracah_1200": {
-"kjv": "valley of Beracah",
+"kjv": "Valley of Berachah",
 "nrsv": "Valley of Beracah"
 },
 "valley_of_elah_1201": {
-"kjv": "valley of Elah",
+"kjv": "Valley of Elah",
 "nrsv": "Valley of Elah"
 },
 "valley_of_gerar_1203": {
-"kjv": "valley of Gerar",
+"kjv": "Valley of Gerar",
 "nrsv": "Valley of Gerar"
 },
 "valley_of_gibeon_1204": {
-"kjv": "valley of Gibeon",
+"kjv": "Valley of Gibeon",
 "nrsv": "Valley of Gibeon"
 },
 "valley_of_hamongog_1205": {
-"kjv": "valley of Hamongog",
+"kjv": "Valley of Hamon-gog",
 "hebrew": {
 "text": "הֲמוֹן גּוֹג",
 "translit": "Hămôwn Gôwg",
@@ -11711,46 +11952,52 @@
 "nrsv": "Valley of Hamon-gog"
 },
 "valley_of_hinnom_1207": {
-"kjv": "valley of Hinnom",
+"kjv": "Valley of Hinnom",
 "latin": "Ennom",
 "douay": "Valley of Ennom",
 "nrsv": "Valley of Hinnom"
 },
 "valley_of_jehoshaphat_1209": {
-"kjv": "valley of Jehoshaphat",
+"kjv": "Valley of Jehoshaphat",
 "nrsv": "Valley of Jehoshaphat"
 },
 "valley_of_jericho_1210": {
-"kjv": "valley of Jericho",
+"kjv": "Valley of Jericho",
 "nrsv": "Valley of Jericho"
 },
 "valley_of_jezreel_1211": {
-"kjv": "valley of Jezreel",
-"nrsv": "Valley of Jezreel"
+"kjv": "Valley of Jezreel",
+"nrsv": "Valley of Jezreel",
+"apocrypha": [
+"Judith 1:8",
+"Judith 3:9",
+"Judith 4:6",
+"Judith 7:3"
+]
 },
 "valley_of_jiphthahel_1208": {
-"kjv": "valley of Jiphthahel",
+"kjv": "Valley of Jiphthah-el",
 "latin": "Jephthaël",
 "nrsv": "Valley of Iphtah-el"
 },
 "valley_of_lebanon_1212": {
-"kjv": "valley of Lebanon",
+"kjv": "Valley of Lebanon",
 "nrsv": "Valley of Lebanon"
 },
 "valley_of_mizpeh_1213": {
-"kjv": "valley of Mizpeh",
+"kjv": "Valley of Mizpeh",
 "nrsv": "Valley of Mizpeh"
 },
 "valley_of_rephaim_1214": {
-"kjv": "valley of Rephaim",
+"kjv": "Valley of Rephaim",
 "nrsv": "Valley of Rephaim"
 },
 "valley_of_salt_1215": {
-"kjv": "valley of salt",
+"kjv": "Valley of Salt",
 "nrsv": "Valley of Salt"
 },
 "valley_of_shaveh_692": {
-"kjv": "valley of Shaveh",
+"kjv": "Valley of Shaveh",
 "hebrew": {
 "text": "שָׁוֵה",
 "translit": "Shâvêh",
@@ -11759,7 +12006,7 @@
 "nrsv": "Valley of Shaveh"
 },
 "valley_of_shaveh_1216": {
-"kjv": "valley of Shaveh",
+"kjv": "Valley of Shaveh",
 "hebrew": {
 "text": "שָׁוֵה",
 "translit": "Shâvêh",
@@ -11770,15 +12017,15 @@
 "nrsv": "Valley of Shaveh"
 },
 "valley_of_shittim_1217": {
-"kjv": "valley of Shittim"
+"kjv": "Valley of Shittim"
 },
 "valley_of_slaughter_1219": {
-"kjv": "valley of slaughter",
+"kjv": "Valley of Slaughter",
 "douay": "Valley of Slaughter",
 "nrsv": "Valley of Slaughter"
 },
 "valley_of_sorek_1220": {
-"kjv": "valley of Sorek",
+"kjv": "Valley of Sorek",
 "hebrew": {
 "text": "שׂוֹרֵק",
 "translit": "Sôwrêq",
@@ -11790,21 +12037,21 @@
 "nrsv": "Valley of Sorek"
 },
 "valley_of_the_passengers_1227": {
-"kjv": "valley of the passengers",
+"kjv": "Valley of the Passengers",
 "douay": "Valley of the Passengers",
 "nrsv": "Valley of the Travelers"
 },
 "valley_of_the_son_of_hinnom_1226": {
-"kjv": "valley of the son of Hinnom",
+"kjv": "Valley of the Son of Hinnom",
 "nrsv": "Valley of the Son of Hinnom"
 },
 "valley_of_zeboim_1222": {
-"kjv": "valley of Zeboim",
+"kjv": "Valley of Zeboim",
 "douay": "Valley of Seboim",
 "nrsv": "Valley of Zeboim"
 },
 "valley_of_zephathah_1223": {
-"kjv": "valley of Zephathah",
+"kjv": "Valley of Zephathah",
 "latin": "Sephata",
 "nrsv": "Valley of Zephathah"
 },
@@ -11821,19 +12068,18 @@
 "nrsv": "Waheb"
 },
 "water_gate_1230": {
-"kjv": "water gate",
+"kjv": "Water Gate",
 "douay": "Water Gate",
 "nrsv": "Water Gate"
 },
 "way_of_holiness_1231": {
-"kjv": "way of holiness"
+"kjv": "Way of Holiness"
 },
 "willows_261": {
-"kjv": "Willows",
-"nrsv": "Willows"
+"kjv": "Brook of the Willows"
 },
 "yiron_1233": {
-"kjv": "Yiron",
+"kjv": "Iron",
 "hebrew": {
 "text": "יִרְאוֹן",
 "translit": "Yirʼôwn",
@@ -11931,7 +12177,7 @@
 "nrsv": "Zarethan"
 },
 "zeboiim_1244": {
-"kjv": "Zeboiim",
+"kjv": "Zeboim",
 "hebrew": {
 "text": "צְבֹאִים",
 "translit": "Tsᵉbôʼîym",
@@ -11960,7 +12206,7 @@
 "nrsv": "Zedad"
 },
 "zela_1247": {
-"kjv": "Zela",
+"kjv": "Zelah",
 "hebrew": {
 "text": "צֶלַע",
 "translit": "Tselaʻ",
@@ -12034,7 +12280,7 @@
 "nrsv": "Zered"
 },
 "zeredah_1254": {
-"kjv": "Zeredah",
+"kjv": "Zereda",
 "hebrew": {
 "text": "צְרֵדָה",
 "translit": "Tsᵉrêdâh",
@@ -12045,7 +12291,7 @@
 "nrsv": "Zeredah"
 },
 "zeredah_1255": {
-"kjv": "Zeredah",
+"kjv": "Zeredathah",
 "hebrew": {
 "text": "צְרֵדָה",
 "translit": "Tsᵉrêdâh",
@@ -12056,11 +12302,11 @@
 "nrsv": "Zeredah"
 },
 "zererah_1256": {
-"kjv": "Zererah",
+"kjv": "Zererath",
 "nrsv": "Zererah"
 },
 "zereth-shahar_1257": {
-"kjv": "Zereth-shahar",
+"kjv": "Zareth-shahar",
 "nrsv": "Zereth-shahar"
 },
 "ziddim_1258": {
@@ -12201,7 +12447,7 @@
 "nrsv": "Zobah"
 },
 "zobah-hamath_1273": {
-"kjv": "Zobah-Hamath",
+"kjv": "Hamath",
 "greek": "Σουβὰ Ἡμάθ",
 "latin": "Soba",
 "douay": "Soba",
@@ -12233,5 +12479,653 @@
 "latin": "Suph",
 "douay": "Suph",
 "nrsv": "Zuph"
+},
+"thisbe_a5": {
+"apocrypha": [
+"Tobit 1:2"
+],
+"kjv": "Thisbe",
+"nrsv": "Thisbe",
+"apocrypha_spellings": [
+"Θίσβης"
+]
+},
+"elymais_a3": {
+"apocrypha": [
+"Tobit 2:10",
+"1 Maccabees 6:1"
+],
+"kjv": "Elymais",
+"nrsv": "Elymais"
+},
+"rages_a1": {
+"apocrypha": [
+"Tobit 4:1",
+"Tobit 4:20",
+"Tobit 5:6",
+"Tobit 6:1",
+"Tobit 6:13",
+"Tobit 9:2",
+"Tobit 9:5"
+],
+"kjv": "Rages",
+"nrsv": "Rages",
+"apocrypha_spellings": [
+"Ῥάγας"
+]
+},
+"kaserin_a4": {
+"apocrypha": [
+"Tobit 11:1"
+],
+"nrsv": "Kaserin",
+"apocrypha_spellings": [
+"Κασερείν"
+]
+},
+"ragau_a2": {
+"apocrypha": [
+"Judith 1:5",
+"Judith 1:15"
+],
+"kjv": "Ragau",
+"nrsv": "Ragau",
+"apocrypha_spellings": [
+"Ῥαγαύ"
+]
+},
+"chelous_a16": {
+"apocrypha": [
+"Judith 1:9"
+],
+"kjv": "Chelus",
+"nrsv": "Chelous",
+"apocrypha_spellings": [
+"Χελοὺς"
+]
+},
+"bectileth_a15": {
+"apocrypha": [
+"Judith 2:21"
+],
+"kjv": "Bectileth",
+"nrsv": "Bectileth",
+"apocrypha_spellings": [
+"Βαικτειλαίθ"
+]
+},
+"sur_a18": {
+"apocrypha": [
+"Judith 2:28"
+],
+"kjv": "Sur",
+"nrsv": "Sur",
+"apocrypha_spellings": [
+"Ἀσσοὺρ"
+]
+},
+"ocina_a17": {
+"apocrypha": [
+"Judith 2:28"
+],
+"kjv": "Ocina",
+"nrsv": "Ocina",
+"apocrypha_spellings": [
+"Ὀκεινά"
+]
+},
+"kona_a7": {
+"apocrypha": [
+"Judith 4:4"
+],
+"nrsv": "Kona",
+"apocrypha_spellings": [
+"Κωνὰ"
+]
+},
+"choba_a8": {
+"apocrypha": [
+"Judith 4:4",
+"Judith 15:4",
+"Judith 15:5"
+],
+"kjv": "Chobai",
+"nrsv": "Choba",
+"apocrypha_spellings": [
+"Χωβά"
+]
+},
+"bethulia_a6": {
+"apocrypha": [
+"Judith 4:6",
+"Judith 6:10",
+"Judith 6:11",
+"Judith 6:14",
+"Judith 7:1",
+"Judith 7:3",
+"Judith 7:6",
+"Judith 7:13",
+"Judith 7:20",
+"Judith 8:3",
+"Judith 8:11",
+"Judith 10:6",
+"Judith 11:9",
+"Judith 12:7",
+"Judith 13:10",
+"Judith 15:3",
+"Judith 15:6",
+"Judith 16:21",
+"Judith 16:23"
+],
+"kjv": "Bethulia",
+"nrsv": "Bethulia",
+"apocrypha_spellings": [
+"Βαιτυλουὰ"
+]
+},
+"balbaim_a14": {
+"apocrypha": [
+"Judith 7:3"
+],
+"kjv": "Belmaim",
+"nrsv": "Balbaim",
+"apocrypha_spellings": [
+"Behlma",
+"Belma",
+"Βελβάιμ"
+]
+},
+"cyamon_a9": {
+"apocrypha": [
+"Judith 7:3"
+],
+"kjv": "Cynamon",
+"nrsv": "Cyamon",
+"apocrypha_spellings": [
+"Κυαμῶνος"
+]
+},
+"egrebeh_a11": {
+"apocrypha": [
+"Judith 7:18"
+],
+"kjv": "Ekrebel",
+"nrsv": "Egrebeh",
+"apocrypha_spellings": [
+"Ἐγρεβὴλ"
+]
+},
+"chusi_a12": {
+"apocrypha": [
+"Judith 7:18"
+],
+"kjv": "Chusi",
+"nrsv": "Chusi",
+"apocrypha_spellings": [
+"Χοὺς"
+]
+},
+"mochmur_a13": {
+"apocrypha": [
+"Judith 7:18"
+],
+"kjv": "Mochmur",
+"nrsv": "Mochmur",
+"apocrypha_spellings": [
+"Μοχμούρ"
+]
+},
+"betomasthaim_a10": {
+"apocrypha": [
+"Judith 15:4"
+],
+"kjv": "Betomasthem",
+"nrsv": "Betomasthaim",
+"apocrypha_spellings": [
+"Βαιτομασθάιμ"
+]
+},
+"sud_a19": {
+"apocrypha": [
+"Baruch 1:4"
+],
+"kjv": "Sud",
+"nrsv": "Sud",
+"apocrypha_spellings": [
+"Σούδ"
+]
+},
+"merran_a20": {
+"apocrypha": [
+"Baruch 3:23"
+],
+"kjv": "Meran",
+"nrsv": "Merran",
+"apocrypha_spellings": [
+"Merrha",
+"Μερρὰν"
+]
+},
+"modein_a21": {
+"apocrypha": [
+"1 Maccabees 2:1",
+"1 Maccabees 2:15",
+"1 Maccabees 2:23",
+"1 Maccabees 2:70",
+"1 Maccabees 9:19",
+"1 Maccabees 13:25",
+"1 Maccabees 13:30",
+"1 Maccabees 16:4",
+"2 Maccabees 13:14"
+],
+"kjv": "Modin",
+"nrsv": "Modein",
+"apocrypha_spellings": [
+"Μωδεεὶμ"
+]
+},
+"akrabattene_a38": {
+"apocrypha": [
+"1 Maccabees 5:3"
+],
+"kjv": "Arabattine",
+"nrsv": "Akrabattene",
+"apocrypha_spellings": [
+"Acrabathane",
+"Ἀκραβαττήνην"
+]
+},
+"dathema_a23": {
+"apocrypha": [
+"1 Maccabees 5:9",
+"1 Maccabees 5:29"
+],
+"kjv": "Dathema",
+"nrsv": "Dathema"
+},
+"bosor_a24": {
+"apocrypha": [
+"1 Maccabees 5:26",
+"1 Maccabees 5:36"
+],
+"kjv": "Bosor",
+"nrsv": "Bosor",
+"apocrypha_spellings": [
+"Βοσσορὰ"
+]
+},
+"alema_a28": {
+"apocrypha": [
+"1 Maccabees 5:26"
+],
+"kjv": "Alema",
+"nrsv": "Alema",
+"apocrypha_spellings": [
+"Alima"
+]
+},
+"chaspho_a25": {
+"apocrypha": [
+"1 Maccabees 5:26",
+"1 Maccabees 5:36"
+],
+"kjv": "Casphor",
+"nrsv": "Chaspho"
+},
+"maked_a27": {
+"apocrypha": [
+"1 Maccabees 5:26",
+"1 Maccabees 5:36"
+],
+"kjv": "Maked",
+"nrsv": "Maked"
+},
+"maapha_a31": {
+"apocrypha": [
+"1 Maccabees 5:35"
+],
+"kjv": "Maspha",
+"nrsv": "Maapha",
+"apocrypha_spellings": [
+"Μααφὰ"
+]
+},
+"raphon_a29": {
+"apocrypha": [
+"1 Maccabees 5:37"
+],
+"kjv": "Raphon",
+"nrsv": "Raphon",
+"apocrypha_spellings": [
+"Ῥαφὼν"
+]
+},
+"ephron_a30": {
+"apocrypha": [
+"1 Maccabees 5:46",
+"2 Maccabees 12:27"
+],
+"kjv": "Ephron",
+"nrsv": "Ephron",
+"apocrypha_spellings": [
+"Ἐφρών"
+]
+},
+"beth-zechariah_a32": {
+"apocrypha": [
+"1 Maccabees 6:32",
+"1 Maccabees 6:33"
+],
+"kjv": "Bathzacharias",
+"nrsv": "Beth-zechariah",
+"apocrypha_spellings": [
+"Bethzacharam",
+"Βεθζαχαριά"
+]
+},
+"beth-zaith_a36": {
+"apocrypha": [
+"1 Maccabees 7:19"
+],
+"kjv": "Bezeth",
+"nrsv": "Beth-zaith",
+"apocrypha_spellings": [
+"Bethzecha",
+"Βηζέθ"
+]
+},
+"caphar-salama_a37": {
+"apocrypha": [
+"1 Maccabees 7:31"
+],
+"kjv": "Capharsalama",
+"nrsv": "Caphar-salama",
+"apocrypha_spellings": [
+"Χαρφαρσαραμά"
+]
+},
+"adasa_a33": {
+"apocrypha": [
+"1 Maccabees 7:40",
+"1 Maccabees 7:45"
+],
+"kjv": "Adasa",
+"nrsv": "Adasa",
+"apocrypha_spellings": [
+"Ἀδασὰ"
+]
+},
+"mesaloth_a39": {
+"apocrypha": [
+"1 Maccabees 9:2"
+],
+"kjv": "Masaloth",
+"nrsv": "Mesaloth",
+"apocrypha_spellings": [
+"Μεσσαλὼθ"
+]
+},
+"arbela_a40": {
+"apocrypha": [
+"1 Maccabees 9:2"
+],
+"kjv": "Arbela",
+"nrsv": "Arbela",
+"apocrypha_spellings": [
+"Arabella",
+"Arbellis",
+"Ἀρβήλοις"
+]
+},
+"berea_a44": {
+"apocrypha": [
+"1 Maccabees 9:4"
+],
+"kjv": "Berea",
+"nrsv": "Berea",
+"apocrypha_spellings": [
+"Beream",
+"Βερέαν"
+]
+},
+"elasa_a35": {
+"apocrypha": [
+"1 Maccabees 9:5"
+],
+"kjv": "Eleasa",
+"nrsv": "Elasa",
+"apocrypha_spellings": [
+"Laisa",
+"Ἀλασά"
+]
+},
+"asphar_a41": {
+"apocrypha": [
+"1 Maccabees 9:33"
+],
+"kjv": "Asphar",
+"nrsv": "Asphar",
+"apocrypha_spellings": [
+"Ἀσφάλ"
+]
+},
+"nadabath_a42": {
+"apocrypha": [
+"1 Maccabees 9:37"
+],
+"kjv": "Nadabatha",
+"nrsv": "Nadabath",
+"apocrypha_spellings": [
+"Madaba",
+"Ναδαβάθ"
+]
+},
+"bethbasi_a34": {
+"apocrypha": [
+"1 Maccabees 9:62",
+"1 Maccabees 9:64"
+],
+"kjv": "Bethbasi",
+"nrsv": "Bethbasi",
+"apocrypha_spellings": [
+"Βεθβασὶ"
+]
+},
+"phasiron_a43": {
+"apocrypha": [
+"1 Maccabees 9:66"
+],
+"kjv": "Phasiron",
+"nrsv": "Phasiron",
+"apocrypha_spellings": [
+"Phaseron",
+"Φασιρὼν"
+]
+},
+"coelesyria_a22": {
+"apocrypha": [
+"1 Maccabees 10:69",
+"2 Maccabees 3:5",
+"2 Maccabees 3:8",
+"2 Maccabees 4:4",
+"2 Maccabees 8:8",
+"2 Maccabees 10:11",
+"1 Esdras 2:17",
+"1 Esdras 2:24",
+"1 Esdras 2:27",
+"1 Esdras 4:48",
+"1 Esdras 6:29",
+"1 Esdras 7:1",
+"1 Esdras 8:67"
+],
+"kjv": "Celosyria",
+"nrsv": "Coelesyria",
+"apocrypha_spellings": [
+"Cœlesyriæ"
+]
+},
+"sparta_a46": {
+"apocrypha": [
+"1 Maccabees 14:16"
+],
+"kjv": "Sparta",
+"nrsv": "Sparta",
+"apocrypha_spellings": [
+"Spartiatas",
+"Σπάρτης"
+]
+},
+"sampsames_a53": {
+"apocrypha": [
+"1 Maccabees 15:23"
+],
+"kjv": "Sampsames",
+"nrsv": "Sampsames",
+"apocrypha_spellings": [
+"Σαμψάκῃ"
+]
+},
+"delos_a47": {
+"apocrypha": [
+"1 Maccabees 15:23"
+],
+"kjv": "Delus",
+"nrsv": "Delos",
+"apocrypha_spellings": [
+"Delum",
+"Δῆλον"
+]
+},
+"myndos_a48": {
+"apocrypha": [
+"1 Maccabees 15:23"
+],
+"kjv": "Myndus",
+"nrsv": "Myndos",
+"apocrypha_spellings": [
+"Myndum"
+]
+},
+"sicyon_a49": {
+"apocrypha": [
+"1 Maccabees 15:23"
+],
+"kjv": "Sicyon",
+"nrsv": "Sicyon",
+"apocrypha_spellings": [
+"Sicyonem",
+"Σικυῶνα"
+]
+},
+"caria_a50": {
+"apocrypha": [
+"1 Maccabees 15:23"
+],
+"kjv": "Caria",
+"nrsv": "Caria",
+"apocrypha_spellings": [
+"Cariam",
+"Καρίδα"
+]
+},
+"halicarnassus_a51": {
+"apocrypha": [
+"1 Maccabees 15:23"
+],
+"kjv": "Halicarnassus",
+"nrsv": "Halicarnassus",
+"apocrypha_spellings": [
+"Alicarnassus",
+"Alicarnassum",
+"Ἁλικαρνασσὸν"
+]
+},
+"phaselis_a52": {
+"apocrypha": [
+"1 Maccabees 15:23"
+],
+"nrsv": "Phaselis",
+"apocrypha_spellings": [
+"Phaselidem",
+"Φασήλιδα"
+]
+},
+"orthosia_a54": {
+"apocrypha": [
+"1 Maccabees 15:37"
+],
+"kjv": "Orthosias",
+"nrsv": "Orthosia",
+"apocrypha_spellings": [
+"Orthosiada",
+"Ὀρθωσίαν"
+]
+},
+"mallus_a58": {
+"apocrypha": [
+"2 Maccabees 4:30"
+],
+"kjv": "Mallos",
+"nrsv": "Mallus",
+"apocrypha_spellings": [
+"Mallotas",
+"Μαλλώτας"
+]
+},
+"daphne_a56": {
+"apocrypha": [
+"2 Maccabees 4:33"
+],
+"kjv": "Daphne",
+"nrsv": "Daphne",
+"apocrypha_spellings": [
+"Daphnem",
+"Δάφνης"
+]
+},
+"persepolis_a55": {
+"apocrypha": [
+"2 Maccabees 9:2"
+],
+"kjv": "Persepolis",
+"nrsv": "Persepolis",
+"apocrypha_spellings": [
+"Περσέπολιν"
+]
+},
+"caspin_a26": {
+"apocrypha": [
+"2 Maccabees 12:13"
+],
+"kjv": "Caspis",
+"nrsv": "Caspin",
+"apocrypha_spellings": [
+"Casphin",
+"Κασπείν"
+]
+},
+"charax_a59": {
+"apocrypha": [
+"2 Maccabees 12:17"
+],
+"kjv": "Characa",
+"nrsv": "Charax"
+},
+"beroea_a45": {
+"apocrypha": [
+"2 Maccabees 13:4"
+],
+"kjv": "Berea",
+"nrsv": "Beroea"
+},
+"tripolis_a57": {
+"apocrypha": [
+"2 Maccabees 14:1"
+],
+"kjv": "Tripolis",
+"nrsv": "Tripolis",
+"apocrypha_spellings": [
+"Τρίπολιν"
+]
 }
 }

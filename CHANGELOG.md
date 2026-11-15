@@ -4,6 +4,15 @@ What's new, newest first. When the bot starts after an update, she posts any
 entries a server hasn't seen yet to that server's changelog channel
 (`!changelogsetup #channel`); anyone can read recent ones with `!changelog`.
 
+## 2026-11-15 · The Apocrypha's own places, passages on the map, and Magdala
+
+- 📍 **`!place` now has the places that only the Apocrypha name**, about 60 of them: Bethulia, Judith's town; Modein, the Maccabees' home; Rages in Media, where Tobias went to fetch the money; Sparta, whose people wrote to the high priest as kinsmen; Persepolis; Daphne near Antioch; and the towns of Gilead on Judas Maccabeus's campaign there (Bosor, Chaspho, Maked, Raphon, Ephron). Where the site is known, the card has a map; the locations come from Pleiades, a scholarly atlas of the ancient world. Many of Judith's towns have never been found, and their cards say so. Try `!place Modein` or `!place Bethulia`.
+- The Apocrypha's other names for places you already know now find them and add their verses to the card: Gazara is Gezer, Jamnia is Jabneh, Scythopolis is Beth-shan, Esdraelon is the Valley of Jezreel, Askalon is Ashkelon. The Maccabees' Bozrah is now the Bozrah in Gilead (Bostra), not the one in Edom.
+- 🗺️ **The map now works for any passage, not only a book or chapter:** `!place 1 Maccabees 4:36-61`, `!place Genesis 12-13`, `!place Acts 13:1-14:28`. For a chapter or passage, the list under the map goes verse by verse in reading order (**4:61** Beth-zur), so you can follow the story; a whole book still lists its places by how often they're named.
+- 🔧 **Fixed: `!place Magdala` showed Migdol**, a different place in Egypt, because the search was matching the Latin Bible's "Magdalum". Now Magdala finds Magdala (Matthew 15:39), and a search only matches a name exactly as some Bible spells it.
+- 🔧 **Each card's KJV name is now the KJV's own spelling, taken from its text**: Kirjath-jearim, Beth-el, Zidon, Shushan, Accho and Magdala, where the card used to show a modern spelling under the KJV's name. Those spellings also find the place: `!place Shushan`.
+- 🔧 **Fixed: places with a long name showed one word of it** as a Bible's spelling: "Tower" for the Tower of Hananel, "Field" for Akeldama (the Field of Blood), "LORD" for the city called The LORD is There. Now the card gives the whole name, as each Bible writes it (the KJV's Tower of Hananeel), or leaves that Bible out.
+
 ## 2026-11-15 · Places by any Bible's name, in the Apocrypha, and whole books on one map
 
 - 📍 **`!place` now knows a place by the name any Bible gives it.** The Bibles spell the same place differently: the King James's Gilead is Galaad in the Latin Vulgate and the Douay-Rheims (the older Catholic English Bible), and the King James's own Apocrypha calls Beth-zur "Bethsura". Before, `!place Galaad` or `!place Bethsura` said "I don't know a place in the Bible called…". Now they find Gilead and Beth-zur, and say which Bible spells it that way. Greek and Hebrew work too, with or without accents and vowel points: `!place Γαλααδ`, `!place גלעד`.

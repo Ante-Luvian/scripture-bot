@@ -88,7 +88,8 @@ def test_other_bibles_spellings_find_the_place(pp, fake_ctx):
     for spelling in ("Galaad", "Γαλααδ", "Γαλαάδ", "גלעד", "Gilead"):
         assert pp.find("places", spelling)[0] == gilead, spelling
     assert pp.data()["places"][pp.find("places", "Bethsura")[0]]["name"] == "Beth-zur"
-    assert pp.find("places", "Ægyptus")[0] == pp.find("places", "Aegyptus")[0] == pp.find("places", "Egypt")[0]
+    # (not by another case of a Latin name: Magdala is not Migdol's Magdalum)
+    assert pp.data()["places"][pp.find("places", "Magdala")[0]]["name"] != "Migdol"
     asyncio.run(pp.lookup_place(fake_ctx, "Galaad"))
     note = next(s["content"] for s in fake_ctx.sent if s.get("content"))
     assert note.startswith("**Galaad** is how the Vulgate and the Douay-Rheims spell **Gilead**")
@@ -108,8 +109,17 @@ def test_place_card_names_in_each_bible(pp):
 
 
 def test_book_map(pp, fake_ctx):
-    assert pp.book_query("Acts") == ("Acts", None) and pp.book_query("Genesis 12") == ("Genesis", 12)
-    assert pp.book_query("1 Macc") == ("1 Maccabees", None)
+    assert pp.book_query("Acts") == ("Acts", None, None)
+    assert pp.book_query("Genesis 12") == ("Genesis", (12, 0), (12, 999))
+    assert pp.book_query("1 Macc") == ("1 Maccabees", None, None)
+    assert pp.book_query("1 Maccabees 4:36-61") == ("1 Maccabees", (4, 36), (4, 61))
+    assert pp.book_query("Genesis 12 - 13") == ("Genesis", (12, 0), (13, 999))
+    assert pp.book_query("Acts 13:1-14:28") == ("Acts", (13, 1), (14, 28))
+    assert pp.book_query("Genesis 12:8") == ("Genesis", (12, 8), (12, 8))
+    assert pp._where("Acts", (13, 1), (14, 28)) == "Acts 13:1-14:28"
+    passage = dict(pp.book_places("1 Maccabees", (4, 36), (4, 61)))
+    assert pp.find("places", "Beth-zur")[0] in passage                 # 4:61, Judas fortifies Beth-zur
+    assert pp.find("places", "Gezer")[0] not in passage                 # Gazara is 4:15, before the passage
     assert pp.find("places", "Dan", prefix=False)                     # a place before a book (Daniel)
     acts = dict(pp.book_places("Acts"))
     assert acts[pp.find("places", "Jerusalem")[0]] > acts[pp.find("places", "Antioch")[0]] > 0
@@ -119,5 +129,32 @@ def test_book_map(pp, fake_ctx):
     assert "Jerusalem" in sent["embed"].description
     asyncio.run(pp.lookup_place(fake_ctx, "Genesis 12"))
     assert fake_ctx.sent[-1]["embed"].title == "🗺️ The places of Genesis 12"
+    asyncio.run(pp.lookup_place(fake_ctx, "1 Maccabees 4:36-61"))
+    assert fake_ctx.sent[-1]["embed"].title == "🗺️ The places of 1 Maccabees 4:36-61"
+    asyncio.run(pp.lookup_place(fake_ctx, "Genesis 13-12"))
+    assert "runs backwards" in fake_ctx.sent[-1]["content"]
     asyncio.run(pp.lookup_place(fake_ctx, "Genesis 99"))
     assert "has no chapter 99: it has 50" in fake_ctx.sent[-1]["content"]
+
+
+def test_places_only_the_apocrypha_name(pp, fake_ctx):
+    places = pp.data()["places"]
+    modein = places[pp.find("places", "Modein")[0]]
+    assert modein["lat"] and "1 Maccabees 2:1" in modein["apocrypha"] and not modein["verses"]
+    bethulia = places[pp.find("places", "Bethulia")[0]]
+    assert bethulia["lat"] is None and len(bethulia["apocrypha"]) > 10       # Judith's town: never found
+    embed = pp.place_embed(bethulia["slug"], with_map=False)
+    assert "not known" in embed.fields[0].value and "Pleiades" not in embed.footer.text
+    assert "Pleiades" in pp.place_embed(modein["slug"], with_map=True).footer.text
+    asyncio.run(pp.lookup_place(fake_ctx, "Modein"))
+    assert fake_ctx.sent[-1]["file"].filename == "map.png"
+    # the Apocrypha's other names for known places, and its Bozrah in Gilead (1 Macc 5:26), not Edom's
+    assert "1 Maccabees 4:15" in places[pp.find("places", "Gezer")[0]]["apocrypha"]           # Gazara
+    assert "1 Maccabees 5:26" in places["bozrah_257"]["apocrypha"]
+    assert "1 Maccabees 5:26" not in places["bozrah_256"]["apocrypha"]
+
+
+def test_kjv_spelling_from_its_text(pp):
+    magdala = pp.find("places", "Magdala")
+    assert pp.data()["places"][magdala[0]]["verses"] == ["Matthew 15:39"]                      # not Migdol
+    assert pp.find("places", "Shushan")[0] == pp.find("places", "Susa")[0]
