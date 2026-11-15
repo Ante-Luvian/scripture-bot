@@ -190,3 +190,11 @@ def test_repeated_chapter_range_parses():
     from core import lookup
     assert lookup._parse_reference("1 Maccabees 6:18–6:47") == ("1 Maccabees", 6, 18, 47)
     assert lookup._parse_reference("John 7:53-8:11")[-1] == "cross_chapter"
+
+
+def test_wisdom_and_sirach_places(pp):
+    places = pp.data()["places"]
+    assert "Sirach 24:13" in places["mount_hermon_841"]["apocrypha"]               # "the heights of Hermon"
+    assert "Wisdom of Solomon 10:18" in places["red_sea_986"]["apocrypha"]
+    assert not any("Sirach" in r for s in ("egypt_259", "egypt_362") for r in places[s]["apocrypha"])  # (prologue)
+    assert pp.book_places("Sirach")

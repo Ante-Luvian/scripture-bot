@@ -3960,7 +3960,13 @@
 "greek": "Ἐνγάδδει",
 "latin": "Engaddi",
 "douay": "Engaddi",
-"nrsv": "En-gedi"
+"nrsv": "En-gedi",
+"apocrypha": [
+"Sirach 24:14"
+],
+"apocrypha_spellings": [
+"En-gaddi"
+]
 },
 "ephah_398": {
 "kjv": "Ephah",
@@ -4190,6 +4196,8 @@
 "apocrypha": [
 "Judith 1:6",
 "Judith 2:24",
+"Sirach 24:26",
+"Sirach 44:21",
 "1 Maccabees 3:32",
 "1 Maccabees 3:37",
 "1 Esdras 1:25",
@@ -4197,8 +4205,7 @@
 "2 Esdras 13:43"
 ],
 "apocrypha_spellings": [
-"Euphraten",
-"Εὐφράτην"
+"Euphraten"
 ]
 },
 "ezem_422": {
@@ -4704,7 +4711,14 @@
 "greek": "Γειών",
 "latin": "Gihon",
 "douay": "Gihon",
-"nrsv": "Gihon"
+"nrsv": "Gihon",
+"apocrypha": [
+"Sirach 24:27"
+],
+"apocrypha_spellings": [
+"Geon",
+"Γηὼν"
+]
 },
 "gilboa_474": {
 "kjv": "Gilboa",
@@ -6225,6 +6239,7 @@
 "nrsv": "Jericho",
 "apocrypha": [
 "Judith 4:4",
+"Sirach 24:14",
 "1 Maccabees 9:50",
 "1 Maccabees 16:11",
 "1 Maccabees 16:14",
@@ -6288,6 +6303,14 @@
 "Judith 15:9",
 "Judith 16:18",
 "Judith 16:20",
+"Sirach 24:10",
+"Sirach 24:11",
+"Sirach 36:18",
+"Sirach 36:19",
+"Sirach 48:18",
+"Sirach 48:24",
+"Sirach 50:27",
+"Sirach 51:12",
 "Baruch 1:2",
 "Baruch 1:7",
 "Baruch 1:9",
@@ -6657,6 +6680,7 @@
 "apocrypha": [
 "Judith 1:9",
 "Judith 5:15",
+"Sirach 24:26",
 "1 Maccabees 5:24",
 "1 Maccabees 5:52",
 "1 Maccabees 9:34",
@@ -6664,9 +6688,6 @@
 "1 Maccabees 9:43",
 "1 Maccabees 9:45",
 "1 Maccabees 9:48"
-],
-"apocrypha_spellings": [
-"Ἰορδάνη"
 ]
 },
 "jotbah_655": {
@@ -7367,7 +7388,10 @@
 "douay": "Libanus",
 "nrsv": "Lebanon",
 "apocrypha": [
-"Judith 1:7"
+"Judith 1:7",
+"Sirach 24:13",
+"Sirach 50:8",
+"Sirach 50:12"
 ],
 "apocrypha_spellings": [
 "Libano",
@@ -8542,7 +8566,10 @@
 "greek": "Ἁερμών",
 "latin": "Hermon",
 "douay": "Mount Hermon",
-"nrsv": "Mount Hermon"
+"nrsv": "Mount Hermon",
+"apocrypha": [
+"Sirach 24:13"
+]
 },
 "mount_hor_842": {
 "kjv": "Mount Hor",
@@ -8656,7 +8683,10 @@
 "greek": "Σεινὰ",
 "latin": "Sinai",
 "douay": "Mount Sinai",
-"nrsv": "Mount Sinai"
+"nrsv": "Mount Sinai",
+"apocrypha": [
+"Sirach 48:7"
+]
 },
 "mount_sion_856": {
 "kjv": "Mount Sion",
@@ -8990,7 +9020,11 @@
 },
 "nile_895": {
 "kjv": "Nile",
-"nrsv": "Nile"
+"nrsv": "Nile",
+"apocrypha": [
+"Sirach 24:27",
+"Sirach 47:14"
+]
 },
 "nimrah_896": {
 "kjv": "Nimrah",
@@ -9167,7 +9201,8 @@
 "douay": "Ophir",
 "nrsv": "Ophir",
 "apocrypha": [
-"Tobit 13:16"
+"Tobit 13:16",
+"Sirach 7:18"
 ]
 },
 "ophni_912": {
@@ -9574,7 +9609,13 @@
 "greek": "Φεισών",
 "latin": "Phison",
 "douay": "Phison",
-"nrsv": "Pishon"
+"nrsv": "Pishon",
+"apocrypha": [
+"Sirach 24:25"
+],
+"apocrypha_spellings": [
+"Φισὼν"
+]
 },
 "pisidia_952": {
 "kjv": "Pisidia",
@@ -9924,7 +9965,13 @@
 "red_sea_986": {
 "kjv": "Red Sea",
 "douay": "Red Sea",
-"nrsv": "Red Sea"
+"nrsv": "Red Sea",
+"apocrypha": [
+"Judith 5:13",
+"Wisdom of Solomon 10:18",
+"Wisdom of Solomon 19:7",
+"1 Maccabees 4:9"
+]
 },
 "rehob_987": {
 "kjv": "Rehob",
@@ -10454,7 +10501,10 @@
 "greek": "Σηείρ",
 "latin": "Seir",
 "douay": "Seir",
-"nrsv": "Seir"
+"nrsv": "Seir",
+"apocrypha": [
+"Sirach 50:26"
+]
 },
 "seirah_1043": {
 "kjv": "Seirath",
@@ -10722,7 +10772,10 @@
 "greek": "Συχὲμ",
 "latin": "Sichem",
 "douay": "Sichem",
-"nrsv": "Shechem"
+"nrsv": "Shechem",
+"apocrypha": [
+"Sirach 50:26"
+]
 },
 "shechem_1178": {
 "kjv": "Shechem",
@@ -11628,7 +11681,8 @@
 "apocrypha": [
 "Tobit 6:2",
 "Tobit 6:3",
-"Judith 1:6"
+"Judith 1:6",
+"Sirach 24:25"
 ],
 "apocrypha_spellings": [
 "Τίγριν"

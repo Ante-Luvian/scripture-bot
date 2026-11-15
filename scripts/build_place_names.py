@@ -283,8 +283,7 @@ def macula_names(db: Path) -> dict:
     return out
 
 
-# (not Wisdom or Sirach: their places are figures of speech, Sirach 24's rivers and Lebanon)
-APOCRYPHA = ["Tobit", "Judith", "Baruch", "1 Maccabees", "2 Maccabees", "1 Esdras",
+APOCRYPHA = ["Tobit", "Judith", "Wisdom of Solomon", "Sirach", "Baruch", "1 Maccabees", "2 Maccabees", "1 Esdras",
              "2 Esdras", "Additions to Esther", "Song of the Three Children", "Susanna", "Bel and the Dragon",
              "Prayer of Manasseh"]
 
@@ -309,6 +308,10 @@ APOCRYPHA_SAME = {"Gazara": "gezer_463", "Jamnia": "jabneh_615", "Askalon": "ash
                   # the Maccabees' Mount Zion is the temple mount (1 Macc 4:37, 4:60), not Jerusalem at large; the
                   # Mount Sion of Deuteronomy 4:48 is Hermon, so the name goes to Zion here by rule
                   "Mount Zion": "mount_zion_860", "Mount Sion": "mount_zion_860",
+                  # Sirach 24:13's "the heights of Hermon"; Wisdom 10:18 and 19:7's Red Sea
+                  "Hermon": "mount_hermon_841", "Red Sea": "red_sea_986",
+                  # Sirach's Egypt (1:1) is in the translator's prologue, which the NRSV's text runs into 1:1
+                  ("Egypt", "Sirach"): None,
                   # Bozrah and Bosor in Gilead (1 Macc 5:26) are Bostra, not Edom's Bozrah; Kadesh of 1 Macc 11 is
                   # in Galilee; Judith's Kadesh (1:9) is not named precisely enough to place
                   ("Bozrah", "1 Maccabees"): "bozrah_257", ("Kadesh", "1 Maccabees"): "kedesh_676",
@@ -473,8 +476,11 @@ def apocrypha(places, all_names, people, out, texts, new=None):
                 for w in names:
                     ref = f"{book} {c}:{v}"
                     # ("Mount Zion": the verse's words give only "Zion")
+                    # (and "Red Sea": "Red")
                     mount = re.search(r"\bmount " + re.escape(w) + r"\b", verse, re.I)
-                    rule = [s for key in ([plain("Mount " + w)] if mount else []) + [plain(w)]
+                    sea = re.search(r"\b" + re.escape(w) + r" sea\b", verse, re.I)
+                    rule = [s for key in ([plain("Mount " + w)] if mount else []) + \
+                            ([plain(w + " Sea")] if sea else []) + [plain(w)]
                             for s, books in fixed.get(key, []) if books is None or book in books][:1]
                     if rule:
                         slug = rule[0]

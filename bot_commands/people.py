@@ -595,11 +595,7 @@ async def send_book_map(ctx, book: str, start=None, end=None) -> None:
         elif bad:
             await ctx.send(f"**{where}** runs backwards: try `!place {_where(book, end, start)}`.")
         else:
-            if book in ("Wisdom of Solomon", "Sirach"):
-                await ctx.send(f"**{where}**: the places in Wisdom and Sirach aren't mapped. They're poetry and "
-                               f"proverbs, not a journey.")
-            else:
-                await ctx.send(f"**{where}** names no places I know of.")
+            await ctx.send(f"**{where}** names no places I know of.")
         return
     places = data()["places"]
     spots = [dict(places[s], count=n) for s, n in found if places[s]["lat"] is not None]

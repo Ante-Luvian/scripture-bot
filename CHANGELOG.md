@@ -4,6 +4,11 @@ What's new, newest first. When the bot starts after an update, she posts any
 entries a server hasn't seen yet to that server's changelog channel
 (`!changelogsetup #channel`); anyone can read recent ones with `!changelog`.
 
+## 2026-11-15 · Wisdom and Sirach on the map
+
+- 📍 **`!place` now covers the places in Wisdom and Sirach too**, which were left out before. There aren't many, about 18, and nearly all are in Sirach: Wisdom praising herself in Sirach 24 ("I grew tall like a cedar in Lebanon, and like a cypress on the heights of Hermon", a palm tree in En-gedi, rosebushes in Jericho, and the rivers of Eden: the Pishon, the Tigris, the Euphrates, the Jordan, the Nile and the Gihon), and the "Praise of the Fathers" (Sirach 44 to 50), which runs through Israel's history from Sinai to Jerusalem. Wisdom names only the Red Sea. Try `!place Sirach` or `!place Sirach 24`.
+- The Red Sea's card now also lists Judith 5:13 and 1 Maccabees 4:9, which it was missing.
+
 ## 2026-11-15 · Fuller passage maps, and "6:18–6:47" references
 
 - 🗺️ **Fixed: `!place Job` drew a map of Tema alone**, though it listed six places. Job names only one town; the rest are lands and a river (Uz, Sheba, Ethiopia, Ophir, the Jordan), and the map was sized to the towns. Now a book that names few towns gets a map wide enough for all its places.
