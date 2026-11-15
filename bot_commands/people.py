@@ -543,11 +543,11 @@ def book_places(book: str, chapter: "int | None" = None) -> list:
 
 async def send_book_map(ctx, book: str, chapter: "int | None" = None) -> None:
     """Every place a book (or one chapter of it) names, on one map, and listed by how often."""
-    where = f"{book} {chapter}" if chapter else book
+    where = f"{book} {chapter}" if chapter is not None else book
     found = book_places(book, chapter)
     if not found:
         count = lookup.chapter_count(book) or 0
-        await ctx.send(f"**{book}** has no chapter {chapter}: it has {count}." if chapter and chapter > count > 0
+        await ctx.send(f"**{book}** has no chapter {chapter}: it has {count}." if chapter is not None and count and not 1 <= chapter <= count
                        else f"**{where}** names no places I know of.")
         return
     places = data()["places"]
@@ -563,7 +563,9 @@ async def send_book_map(ctx, book: str, chapter: "int | None" = None) -> None:
     unknown = len(found) - len(spots)
     lines = [f"**{len(found)} place{'s' if len(found) != 1 else ''}** named in {where}, the most often first"
              + (f" ({unknown} with no known site, so not on the map)" if unknown else "") + ":"]
-    listing = " · ".join(f"{label('places', s)} ({n})" for s, n in found)
+    bare = [re.sub(r"\s*\(.*\)$", "", places[s]["name"]) for s, _ in found]
+    # the plain name, unless two places of that name are on the list (Bethel (of Palestine))
+    listing = " · ".join(f"{b if bare.count(b) == 1 else label('places', s)} ({n})" for b, (s, n) in zip(bare, found))
     if len(listing) > 3600:
         listing = listing[:3600].rsplit(" · ", 1)[0] + " …"
     embed = discord.Embed(title=f"🗺️ The places of {where}", description=lines[0] + "\n" + listing,
