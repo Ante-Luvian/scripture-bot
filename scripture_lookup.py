@@ -1846,6 +1846,8 @@ ALIASES: dict[str, str] = {
        for b in ("ecclesiastes", "eccl", "eccles", "qoheleth", "qohelet", "ecclesiastes or the preacher")},
     **{f"{p} {b}": "Glossa Ordinaria on Lamentations" for p in ("glossa", "glossa ordinaria", "glossa on")
        for b in ("lamentations", "lam", "threni", "lamentationes")},
+    **{f"{p} {b}": "Glossa Ordinaria on Isaiah" for p in ("glossa", "glossa ordinaria", "glossa on")
+       for b in ("isaiah", "isa", "is", "isaias", "esaias")},
     # The Breviary's readings from the Fathers (scripts/build_breviary.py)
     "breviary": "Readings from the Breviary", "breviary readings": "Readings from the Breviary",
     "readings from the roman breviary": "Readings from the Breviary", "matins readings": "Readings from the Breviary",

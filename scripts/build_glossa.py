@@ -26,7 +26,7 @@ OUT = ROOT / "data" / "patristics" / "glossa_ordinaria.json"
 BOOKS = {"03": "Genesis", "04": "Exodus", "05": "Leviticus", "06": "Numbers", "07": "Deuteronomy", "08": "Joshua",
          "09": "Judges", "10": "Ruth", "12": "1 Samuel", "13": "2 Samuel", "14": "1 Kings", "15": "2 Kings",
          "16": "1 Chronicles", "17": "2 Chronicles", "18": "Ezra", "19": "Nehemiah", "20": "1 Esdras",
-         "21": "2 Esdras", "22": "Tobit", "23": "Judith", "24": "Esther", "25": "Job","28": "Proverbs", "29": "Ecclesiastes", "30": "Song of Solomon", "31": "Wisdom of Solomon", "32": "Sirach", "35": "Lamentations", "40": "Hosea", "41": "Joel", "42": "Amos", "43": "Obadiah", "44": "Jonah", "45": "Micah", "46": "Nahum", "47": "Habakkuk", "48": "Zephaniah", "49": "Haggai", "50": "Zechariah", "51": "Malachi"}  # Gloss-e's numbers -> the KJV's names (the books translated so far)
+         "21": "2 Esdras", "22": "Tobit", "23": "Judith", "24": "Esther", "25": "Job","28": "Proverbs", "29": "Ecclesiastes", "30": "Song of Solomon", "31": "Wisdom of Solomon", "32": "Sirach", "33": "Isaiah", "35": "Lamentations", "40": "Hosea", "41": "Joel", "42": "Amos", "43": "Obadiah", "44": "Jonah", "45": "Micah", "46": "Nahum", "47": "Habakkuk", "48": "Zephaniah", "49": "Haggai", "50": "Zechariah", "51": "Malachi"}  # Gloss-e's numbers -> the KJV's names (the books translated so far)
 LABELS = {"[allegorically]": "Allegorically", "[the moral sense]": "In the moral sense", "[Jerome]": "Jerome",
           "[Haimo]": "Haimo", "[Gregory]": "Gregory", "[Paschasius]": "Paschasius", "[mystically]": "Mystically",
           "[historically]": "Historically", "[Gilbert]": "Gilbert", "[Alcuin]": "Alcuin"}
@@ -191,6 +191,17 @@ def judith_douay(c: int, v: int) -> tuple:
     return c, v
 
 
+def isaiah_douay(c: int, v: int) -> tuple:
+    """The edition numbers Isaiah as the KJV does, but the Douay-Rheims splits 45:23 in two ("For every knee shall be
+    bowed to me" is its 45:24) and joins the KJV's 46:12 to 46:11, so the edition's 45:24-25 are the Douay-Rheims's
+    45:25-26 and its 46:13 the Douay-Rheims's 46:12 (its 46:12 is the end of the Douay-Rheims's 46:11)."""
+    if c == 45 and v >= 24:
+        return 45, v + 1
+    if c == 46 and v >= 12:
+        return 46, v - 1 if v == 13 else 11
+    return c, v
+
+
 def table(n: str, douay_numbers=None):
     """The KJV verse for each Douay-Rheims verse, from scripts/glossa/versification/<n>.json, which lists only the
     verses the two number differently. Made (2026-11-15) by lining the two translations up a book at a time by their
@@ -237,7 +248,7 @@ VERSIFICATION = {"Exodus": table("04"), "Leviticus": table("05"), "Numbers": tab
                  "Genesis": genesis, "Job": job, "Sirach": sirach, "Wisdom of Solomon": wisdom, "Proverbs": proverbs,"Hosea": hosea, "Amos": amos, "Jonah": jonah, "Micah": micah, "Haggai": haggai,
                  "Song of Solomon": song, "Ecclesiastes": ecclesiastes}
 # ... and where the edition's own verse numbers differ from the Douay-Rheims's (for the card's Douay-Rheims text)
-DOUAY_NUMBERS = {"Sirach": sirach_douay, "Judith": judith_douay}
+DOUAY_NUMBERS = {"Sirach": sirach_douay, "Judith": judith_douay, "Isaiah": isaiah_douay}
 # The edition's 2 Paralipomenon 37 is the Prayer of Manasses (the KJV's "Prayer of Manasseh", in its Apocrypha):
 # Gloss-e's book number -> {chapter: (the KJV book it belongs to, its chapter there)}
 SPLIT = {"17": {"37": ("Prayer of Manasseh", "1")}}
@@ -247,6 +258,53 @@ SPLIT = {"17": {"37": ("Prayer of Manasseh", "1")}}
 # early to me"), and Hosea 11:1 with the end of KJV 10:15 ("As the morning passeth, so hath the king of Israel passed
 # away"); two long notes filed under those words are about another verse.
 MOVES = {
+    # Isaiah: notes the edition files a verse or two early (found by which Douay-Rheims verse has their words)
+    # where the Vulgate divides verses differently from the KJV: "their land is filled with horses" (the KJV's 2:7),
+    # "Manasses Ephraim, and Ephraim Manasses ... against Juda" (9:21), "Her time is near at hand" (13:22)
+    "33_interl296": (2, 7), "33_interl297": (2, 7), "33_interl298": (2, 7), "33_marg120": (2, 7), "33_marg121": (2, 7),
+    "33_interl1278": (9, 21), "33_interl1279": (9, 21), "33_interl1280": (9, 21), "33_interl1281": (9, 21),
+    "33_interl1771": (13, 22), "33_interl1772": (13, 22), "33_interl1773": (13, 22), "33_marg461": (13, 22),
+    "33_interl1774": (13, 22), "33_interl1775": (13, 22),
+    # Lucifer's "I will ascend into heaven", filed under 14:12
+    "33_interl1853": (14, 13), "33_interl1854": (14, 13), "33_interl1855": (14, 13), "33_marg483": (14, 13), "33_marg484": (14, 13), "33_interl1856": (14, 13), "33_interl1857": (14, 13), "33_interl1858": (14, 13), "33_interl1859": (14, 13), "33_marg485": (14, 13),
+    # chapter 15's margins, gathered under its last verse, each by the Douay-Rheims words of its heading
+    "33_marg533": (15, 2), "33_marg535": (15, 3), "33_marg536": (15, 4), "33_marg537": (15, 4),
+    "33_marg538": (15, 5), "33_marg539": (15, 5), "33_marg540": (15, 6), "33_marg541": (15, 7),
+    "33_marg542": (15, 7), "33_marg543": (15, 8),
+    # "to the place of the name of the Lord of hosts, mount Sion" (18:7), filed under 18:2, which it echoes
+    "33_interl2279": (18, 7), "33_interl2280": (18, 7), "33_marg616": (18, 7),
+    # the watchman "upon the watchtower of the Lord", filed under 21:7
+    "33_interl2583": (21, 8), "33_marg670": (21, 8), "33_interl2584": (21, 8), "33_interl2585": (21, 8), "33_marg671": (21, 8), "33_interl2586": (21, 8), "33_interl2587": (21, 8), "33_interl2588": (21, 8), "33_interl2589": (21, 8), "33_marg672": (21, 8),
+    # "Take a harp, go about the city", filed under 23:15
+    "33_interl2927": (23, 16), "33_interl2928": (23, 16), "33_marg751": (23, 16), "33_interl2929": (23, 16), "33_interl2930": (23, 16), "33_interl2931": (23, 16), "33_interl2932": (23, 16), "33_interl2933": (23, 16), "33_interl2934": (23, 16), "33_interl2935": (23, 16), "33_interl2936": (23, 16), "33_interl2937": (23, 16), "33_interl2938": (23, 16), "33_marg752": (23, 16),
+    # "the earth shall be utterly laid waste", filed under 24:2
+    "33_interl2972": (24, 3), "33_interl2973": (24, 3), "33_interl2974": (24, 3), "33_interl2975": (24, 3),
+    # "they shall rush in unto Jacob" and "hath he struck him", filed under 27:5
+    "33_interl3390": (27, 6), "33_interl3391": (27, 6), "33_interl3392": (27, 6), "33_interl3393": (27, 6), "33_interl3394": (27, 6), "33_interl3395": (27, 6), "33_interl3396": (27, 6), "33_interl3397": (27, 6), "33_interl3398": (27, 6), "33_interl3399": (27, 6),
+    "33_interl3400": (27, 7), "33_interl3401": (27, 7), "33_interl3402": (27, 7), "33_interl3403": (27, 7), "33_interl3404": (27, 7), "33_interl3405": (27, 7),
+    # "from the channel of the river", filed under 27:11
+    "33_interl3444": (27, 12), "33_interl3445": (27, 12), "33_interl3446": (27, 12), "33_interl3447": (27, 12), "33_interl3448": (27, 12), "33_marg829": (27, 12), "33_marg830": (27, 12), "33_interl3449": (27, 12), "33_interl3450": (27, 12), "33_interl3451": (27, 12),
+    # "as a storm of hail", filed under 28:1
+    "33_interl3475": (28, 2), "33_interl3476": (28, 2), "33_interl3477": (28, 2), "33_interl3478": (28, 2), "33_interl3479": (28, 2), "33_interl3480": (28, 2),
+    # "a spirit of judgment", filed under 28:5
+    "33_interl3491": (28, 6), "33_interl3492": (28, 6), "33_interl3493": (28, 6), "33_interl3494": (28, 6), "33_marg837": (28, 6),
+    # "them that are weaned from the milk", filed under 28:8
+    "33_interl3512": (28, 9), "33_interl3513": (28, 9), "33_interl3514": (28, 9), "33_interl3515": (28, 9), "33_interl3516": (28, 9), "33_marg838": (28, 9),
+    # "scatter cummin", filed under 28:24
+    "33_interl3617": (28, 25), "33_interl3618": (28, 25), "33_marg845": (28, 25),
+    # "this people draw near me" and "the wisdom of their wise men shall perish", filed under 29:12
+    "33_interl3682": (29, 13), "33_interl3683": (29, 13), "33_interl3684": (29, 13), "33_interl3685": (29, 13), "33_interl3686": (29, 13), "33_interl3687": (29, 13), "33_marg855": (29, 13),
+    "33_interl3688": (29, 14), "33_marg856": (29, 14), "33_interl3689": (29, 14), "33_interl3690": (29, 14),
+    # "shall cry without", filed under 33:6
+    "33_interl4149": (33, 7), "33_interl4150": (33, 7), "33_interl4151": (33, 7), "33_interl4152": (33, 7),
+    # "Hearken unto me, O house of Jacob" (the edition's 46:3 is empty), filed under 46:2
+    "33_interl5792": (46, 3), "33_marg1173": (46, 3), "33_interl5793": (46, 3), "33_interl5794": (46, 3), "33_interl5795": (46, 3), "33_interl5796": (46, 3), "33_interl5797": (46, 3), "33_interl5798": (46, 3), "33_interl5799": (46, 3), "33_interl5800": (46, 3), "33_marg1174": (46, 3),
+    # "Look unto Abraham your father", filed under 51:1
+    "33_interl6405": (51, 2), "33_interl6406": (51, 2), "33_interl6407": (51, 2), "33_interl6408": (51, 2), "33_interl6409": (51, 2),
+    # "he put on justice as a breastplate", filed under 59:16
+    "33_interl7624": (59, 17), "33_interl7625": (59, 17), "33_interl7626": (59, 17), "33_interl7627": (59, 17),
+    # "a seed out of Jacob", filed under 65:8
+    "33_marg1547": (65, 9),
     "49_marg3426": (2, 23),     # Haggai: "and will make thee as a signet", on the Vulgate's 2:24, filed under 2:23
     "50_marg3491": (5, 5), "50_marg3492": (5, 5),   # Zechariah: the angel's going forth and "lift up thy eyes", filed under 5:7
     "50_marg3493": (5, 6),      # "This is the vessel", filed under 5:8
