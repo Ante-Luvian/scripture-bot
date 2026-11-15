@@ -172,7 +172,123 @@ CHECKED = {("Hosea", "7", "7", "They were all heated like an oven"), ("Hosea", "
                ("27", "41", "I will kill my brother Jacob."), ("31", "47", "And Laban called it The witness heap:"),
                ("37", "3", "above all his sons,"), ("38", "12", "to the shearers of his sheep"),
                ("38", "27", "whereon the midwife tied a scarlet thread, saying:"),
-               ("40", "4", "But the keeper of the prison delivered them"))}}
+               ("40", "4", "But the keeper of the prison delivered them"))},
+           # Exodus to Judith: the Douay-Rheims words the verse differently from the KJV, or Jerome splits it differently
+           # and the phrase is in both (each read against the Douay-Rheims and the KJV verse by hand)
+           *{("Exodus", c, v, head) for c, v, head in (
+               ("1", "16", "keep it alive."), ("7", "15", "behold he will go out to the waters:"),
+               ("7", "20", "he struck the water of the river"), ("12", "48", "be willing to dwell among you,"),
+               ("12", "49", "The same law shall be to him that is born in the land, and to the proselyte"),
+               ("15", "27", "And the children of Israel came into Elim,"),
+               ("16", "8", "for he hath heard your murmurings"), ("16", "26", "therefore it shall not be found."),
+               ("17", "11", "And when Moses lifted up his hands"), ("19", "16", "And now the third day was come,"),
+               ("21", "14", "and by lying in wait for him:"),
+               ("21", "26", "of his manservant or maidservant, and leave them but one eye, he shall let them go free"),
+               ("21", "29", "then the ox shall be stoned, and his owner"),
+               ("22", "11", "and he shall not be compelled to make restitution."),
+               ("22", "13", "that which was slain, and he shall not make restitution."),
+               ("23", "1", "neither shalt thou join"), ("23", "7", "Thou shalt fly lying."),
+               ("24", "5", "to the Lord, twelve calves."), ("25", "25", "four inches"),
+               ("25", "26", "of the same table"), ("25", "26", "over each foot."),
+               ("27", "21", "among the children of Israel."),
+               ("28", "26", "of the rational, in the borders that are over against the ephod,"),
+               ("29", "8", "and gird them with a girdle:"), ("32", "19", "AND BEING VERY ANGRY"),
+               ("34", "29", "from the conversation of the Lord."), ("35", "23", "If any man had gold, violet,"),
+               ("37", "9", "and looking one towards the other, and towards it."),)},
+           *{("Leviticus", c, v, head) for c, v, head in (
+               ("1", "2", "among you a sacrifice"), ("1", "15", "and breaking the place of the wound,"),
+               ("2", "11", "EVERY OBLATION THAT IS OFFERED"), ("4", "23", "to the Lord, a buck goat"),
+               ("4", "23", "A BUCK GOAT"), ("5", "2", "his uncleanness, he is guilty, and hath offended:"),
+               ("6", "3", "or shall find a thing lost,"), ("6", "11", "shall cause them to be consumed to dust."),
+               ("7", "9", "And every sacrifice of flour"), ("10", "12", "because it is holy of holies."),
+               ("11", "4", "But whatsoever cheweth the cud"), ("11", "10", "BUT WHATSOEVER HATH NOT FINS"),
+               ("11", "20", "Of things that fly, whatsoever goeth upon four feet, shall be abominable to you."),
+               ("13", "45", "and he shall cry out that he is defiled and unclean."),
+               ("14", "5", "over living waters:"), ("15", "17", "that he weareth, he shall wash with water,"),
+               ("15", "22", "any vessel on which she sitteth,"),
+               ("15", "29", "SHE SHALL OFFER FOR HERSELF TO THE PRIEST"), ("19", "20", "with copulation of seed"),
+               ("19", "29", "Make not a common strumpet"), ("19", "33", "and abide among you,"),
+               ("20", "4", "that hath given of his seed to Moloch,"), ("20", "6", "and shall commit fornication"),
+               ("20", "15", "let him die, the beast also ye shall kill."),
+               ("21", "1", "at the death of his citizens:"), ("21", "13", "HE SHALL TAKE A VIRGIN UNTO HIS WIFE"),
+               ("21", "19", "IF HIS FOOT BE BROKEN"), ("22", "14", "He that eateth of the sanctified things"),
+               ("25", "14", "When thou shalt sell"), ("25", "31", "But if the house be in a village,"),
+               ("26", "20", "the ground shall not bring forth"), ("26", "35", "In the enemy's land,"),
+               ("26", "40", "their iniquities and the iniquities of their ancestors,"),)},
+           *{("Numbers", c, v, head) for c, v, head in (
+               ("5", "14", "stir up the husband"), ("6", "15", "without leaven"),
+               ("13", "25", "THEY THAT WENT TO SPY OUT THE LAND"),
+               ("19", "12", "Shall be sprinkled with this water on the third day,"),
+               ("24", "6", "watered, as tabernacles"), ("24", "14", "I WILL GIVE THEE COUNSEL"),
+               ("25", "15", "a most noble prince among the Madianites."), ("26", "54", "To the greater number"),
+               ("26", "54", "TO THE GREATER NUMBER A GREATER"), ("28", "3", "THESE ARE THE SACRIFICES"),
+               ("33", "15", "IN THE DESERT OF SINAI"), ("33", "15", "they camped in the desert of Sinai."),
+               ("35", "33", "DEFILE NOT THE LAND"),)},
+           *{("Deuteronomy", c, v, head) for c, v, head in (
+               ("4", "17", "The similitude of any beasts,"), ("7", "8", "and hath kept his covenant,"),
+               ("16", "11", "And thou shalt feast"), ("21", "8", "And the guilt of blood shall be taken from them:"),
+               ("24", "7", "shall take a price,"), ("25", "7", "and call upon the ancients,"),
+               ("26", "3", "this day before the Lord thy God,"), ("26", "12", "thou shalt give it to the Levite,"),
+               ("27", "13", "And over against them these"), ("28", "8", "that thou shalt receive."),
+               ("32", "34", "Are not these things stored up"), ("32", "42", "of the bare, of the enemies"),)},
+           *{("Joshua", c, v, head) for c, v, head in (
+               ("16", "10", "And the children of Ephraim slew not"),)},
+           *{("Judges", c, v, head) for c, v, head in (
+               ("3", "8", "DELIVERED THEM INTO THE HANDS"),
+               ("15", "19", "Then the Lord opened a great tooth in the jaw of the ass, and waters issued out of it."),)},
+           *{("1 Samuel", c, v, head) for c, v, head in (
+               ("20", "22", "If I shall say to the boy: Behold the arrows are on this side of thee, take them up: come thou to me, because, there is peace to thee, and there is no evil, as the Lord liveth."),)},
+           *{("2 Samuel", c, v, head) for c, v, head in (
+               ("10", "15", "Then the Syrians seeing"), ("11", "2", "IN THE MEAN TIME IT HAPPENED"),
+               ("11", "2", "from his bed after noon"), ("14", "13", "and [why] hath the king spoken this word"),
+               ("16", "10", "Let him alone and let him curse."),
+               ("23", "19", "And the noblest of three, and was their chief, but to the three"),)},
+           # (a reading at the edition's 1 Kings 6:32 that "most copies" lack, the note says: kept where it stands)
+           ("1 Kings", "6", "32", "and posts of corners."),
+           *{("1 Kings", c, v, head) for c, v, head in (
+               ("7", "26", "was three inches"), ("7", "31", "and in the corners of the pillars"),
+               ("10", "16", "TWO HUNDRED SHIELDS"), ("10", "21", "NOR WAS ANY ACCOUNT MADE OF IT"),
+               ("19", "3", "Then Elias was afraid,"),)},
+           *{("1 Chronicles", c, v, head) for c, v, head in (
+               ("4", "23", "AND THEY ABODE THERE. THE SONS OF SIMEON"), ("5", "10", "AGAINST THE AGARENS"),
+               ("7", "30", "The children of Aser were Jemna,"),
+               ("9", "28", "OF THEIR STOCK SOME ALSO WERE OVER THE VESSELS OF THE MINISTRY"),
+               ("17", "25", "For thou, O Lord my God, hast revealed to the ear"),
+               ("18", "12", "of Edom in the Vale of the saltpits"),
+               ("23", "30", "and in like manner in the evening,"),)},
+           *{("2 Chronicles", c, v, head) for c, v, head in (
+               ("3", "6", "HE PAVED ALSO THE FLOOR"), ("3", "13", "toward the outward house."),
+               ("3", "14", "HE MADE ALSO A VEIL"), ("4", "3", "AND SOME ON THE OUTSIDE OF TEN CUBITS"),
+               ("4", "12", "and a kind of net work"), ("8", "6", "Balaath also,"),
+               ("8", "9", "to serve in the king's works:"), ("9", "19", "THERE WAS NOT SUCH A THRONE"),
+               ("24", "26", "BUT THEY LAID WAIT FOR HIM"), ("26", "16", "BUT WHEN HE WAS MADE STRONG"),)},
+           *{("Nehemiah", c, v, head) for c, v, head in (
+               ("3", "16", "NEHEMIAS BUILT"), ("9", "6", "AND ESDRAS SAID"),)},
+           *{("2 Esdras", c, v, head) for c, v, head in (
+               ("3", "14", "And thou didst love him and didst show"),)},
+           *{("Tobit", c, v, head) for c, v, head in (
+               ("1", "5", "Moreover when all went"), ("1", "5", "king of Israel had made, he"),
+               ("1", "10", "and his son was come to the city of Ninive"), ("1", "13", "He therefore went to all"),
+               ("1", "14", "he gave him the aforesaid sum of money"),
+               ("2", "5", "And when he had hid the body, he ate bread with mourning"),
+               ("3", "6", "And now, O Lord, according to thy will"), ("4", "4", "For thou must be mindful"),
+               ("4", "13", "all perdition took its beginning"), ("4", "21", "but we shall have many good things"),
+               ("6", "7", "Then the angel answering said to him: A little piece of its heart,"),
+               ("6", "16", "And the second night"), ("7", "10", "Which word when Raguel heard"),
+               ("10", "6", "And Tobias said to her:"), ("11", "10", "THE BLIND [FATHER] RISING UP"),
+               ("12", "22", "they blessed God; and rising up they told"), ("14", "2", "And the rest of his life"),
+               ("14", "13", "and all the inheritance of Raguel's house"),)},
+           *{("Judith", c, v, head) for c, v, head in (
+               ("2", "3", "that his thoughts were to bring all the earth"), ("4", "13", "high of the Lord"),
+               ("4", "13", "went about all Israel"),
+               ("5", "9", "from thence, and to dwell in Charan. And when a famine had covered all the land,"),
+               ("6", "21", "will make this return, that rather their"),
+               ("7", "30", "And when they were wearied with these cries"),
+               ("8", "27", "for these things which we suffer,"), ("10", "4", "gave her more beauty,"),
+               ("12", "6", "And she asked as she went in that she might have leave at night"),
+               ("13", "19", "because he hath so magnified thy name this day,"),
+               ("16", "1", "Judith this canticle to the Lord"), ("16", "21", "And after those days"),)},
+           }
 
 
 def _words(s):
@@ -382,6 +498,33 @@ def test_genesis_on_the_kjvs_numbering(bot_module):
     assert "begot Sem, Cham, and Japheth" in gen["5"]["32"]
     from bot_commands import bible_commentary as B
     assert [label for label, _, _ in B.groups("Genesis", 1, 1)][0] == "The Glossa Ordinaria"
+
+
+def test_exodus_to_judith_on_the_kjvs_numbering(bot_module):
+    """Exodus to Judith (2026-11-15): the Latin Bible's verses put under the KJV's (scripts/glossa/versification/),
+    the Prayer of Manasses taken out of 2 Paralipomenon 37, and 3-4 Esdras under the KJV's 1-2 Esdras."""
+    books = DATA["books"]
+    for name in ("Exodus", "Leviticus", "Numbers", "Deuteronomy", "Joshua", "Judges", "1 Samuel", "2 Samuel",
+                 "1 Kings", "2 Kings", "1 Chronicles", "2 Chronicles", "Prayer of Manasseh", "Ezra", "Nehemiah",
+                 "1 Esdras", "2 Esdras", "Tobit", "Judith"):
+        assert f"Glossa Ordinaria on {name}" in books, name
+    assert "37" not in books["Glossa Ordinaria on 2 Chronicles"]
+    assert "I HAVE SINNED, O LORD, I HAVE SINNED" in books["Glossa Ordinaria on Prayer of Manasseh"]["1"]["12"]
+    # the Vulgate's Numbers 13:1 ("the people marched from Haseroth") is the KJV's 12:16
+    assert "the people from Haseroth" in books["Glossa Ordinaria on Numbers"]["12"]["16"]
+    douay = DATA["douay"]
+    assert douay["Numbers"]["verses"]["12"]["16"]["ref"] == "13:1"
+    assert douay["Exodus"]["verses"]["40"]["38"]["ref"] == "40:36"     # the Vulgate's Exodus 40 is two verses short
+    assert "Prayer of Manasseh" not in douay and "1 Esdras" not in douay   # (not in the Douay-Rheims)
+    # the edition's 3 Esdras 8:33 ("Zacharias, and with him ... a hundred and fifty men") is the KJV's 1 Esdras 8:30
+    assert "a hundred and fifty men" in books["Glossa Ordinaria on 1 Esdras"]["8"]["30"]
+    assert "above Naasson" in books["Glossa Ordinaria on Tobit"]["1"]["2"]
+    from bot_commands import bible_commentary as B
+    assert [label for label, _, _ in B.groups("Tobit", 1, 2)][0] == "The Glossa Ordinaria"
+    assert "Douay-Rheims" in B.reply("Exodus", 20, 3)["embed"].description
+    import scripture_lookup
+    assert scripture_lookup.ALIASES["glossa 3 kings"] == "Glossa Ordinaria on 1 Kings"
+    assert scripture_lookup.ALIASES["glossa 4 esdras"] == "Glossa Ordinaria on 2 Esdras"
 
 
 def test_esther_stops_before_the_additions():

@@ -25,8 +25,8 @@ def test_commentary_menu_pages_and_neighbours(bot_module):
 
 def test_a_verse_without_commentary_says_so(bot_module):
     from bot_commands import bible_commentary as B
-    assert B.button_for("1 Chronicles", 2, 5) == []                   # (a genealogy: no one comments on it)
-    assert "no commentary" in B.reply("1 Chronicles", 2, 5)["embed"].description
+    assert B.button_for("1 Chronicles", 1, 22) == []                  # (a genealogy: no one comments on it)
+    assert "no commentary" in B.reply("1 Chronicles", 1, 22)["embed"].description
 
 
 def test_the_button_under_a_verse(bot_module):

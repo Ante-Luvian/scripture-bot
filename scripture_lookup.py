@@ -1816,6 +1816,24 @@ ALIASES: dict[str, str] = {
     "glossa on ruth": "Glossa Ordinaria on Ruth",
     **{f"{p} {b}": "Glossa Ordinaria on Esther" for p in ("glossa", "glossa ordinaria", "glossa on") for b in ("esther", "hester")},
     **{f"{p} {b}": "Glossa Ordinaria on Genesis" for p in ("glossa", "glossa ordinaria", "glossa on") for b in ("genesis", "gen", "gn", "ge")},
+    # (the KJV's names first, as the shelf has them; the Latin Bible's where they don't clash: its 1-4 Kings are the
+    # KJV's 1-2 Samuel and 1-2 Kings, its 1 Esdras the KJV's Ezra, its 3-4 Esdras the KJV's 1-2 Esdras)
+    **{f"{p} {b}": f"Glossa Ordinaria on {book}" for p in ("glossa", "glossa ordinaria", "glossa on")
+       for book, names in (("Exodus", ("exodus", "exod", "ex")), ("Leviticus", ("leviticus", "lev", "lv")),
+                           ("Numbers", ("numbers", "num", "nm")), ("Deuteronomy", ("deuteronomy", "deut", "dt")),
+                           ("Joshua", ("joshua", "josh", "josue", "jos")), ("Judges", ("judges", "judg", "jdg")),
+                           ("1 Samuel", ("1 samuel", "1 sam", "1sam", "1 sm", "first samuel")),
+                           ("2 Samuel", ("2 samuel", "2 sam", "2sam", "2 sm", "second samuel")),
+                           ("1 Kings", ("1 kings", "1 kgs", "1kgs", "3 kings", "first kings")),
+                           ("2 Kings", ("2 kings", "2 kgs", "2kgs", "4 kings", "second kings")),
+                           ("1 Chronicles", ("1 chronicles", "1 chron", "1 chr", "1 paralipomenon", "1 par")),
+                           ("2 Chronicles", ("2 chronicles", "2 chron", "2 chr", "2 paralipomenon", "2 par")),
+                           ("Prayer of Manasseh", ("prayer of manasseh", "prayer of manasses", "manasseh", "manasses",
+                                                   "pr man", "prman")),
+                           ("Ezra", ("ezra", "ezr")), ("Nehemiah", ("nehemiah", "neh", "nehemias")),
+                           ("1 Esdras", ("1 esdras", "1 esd", "3 esdras")), ("2 Esdras", ("2 esdras", "2 esd", "4 esdras")),
+                           ("Tobit", ("tobit", "tob", "tobias", "tb")), ("Judith", ("judith", "jdt")))
+       for b in names},
     **{f"{p} {b}": "Glossa Ordinaria on Job" for p in ("glossa", "glossa ordinaria", "glossa on") for b in ("job", "jb", "iob")},
     **{f"{p} {b}": "Glossa Ordinaria on Proverbs" for p in ("glossa", "glossa ordinaria", "glossa on") for b in ("proverbs", "prov", "prv", "pr")},
     **{f"{p} {b}": "Glossa Ordinaria on Wisdom of Solomon" for p in ("glossa", "glossa ordinaria", "glossa on")

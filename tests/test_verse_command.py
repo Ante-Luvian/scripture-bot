@@ -54,7 +54,7 @@ def _labels(buttons):
     ("1 Corinthians 13:4", ["Notes", "Cross-refs", "Interlinear", "Card", "Commentary"]),
     ("Psalms 23",          []),   # whole chapter
     ("Quran 1:1",          []),   # not the Bible
-    ("Tobit 1:1",          ["Card"]),   # apocrypha: no NET notes, cross-references or Strong's
+    ("Tobit 1:1",          ["Card", "Commentary"]),   # apocrypha: no NET notes, cross-refs or Strong's; the Glossa
     ("Sirach 1:1",         ["Card", "Commentary"]),   # (the Glossa Ordinaria on Sirach)
     ("Jude 3",             ["Notes", "Cross-refs", "Interlinear", "Card"]),   # a book of one chapter
     ("Susanna 36",         ["Card"]),
