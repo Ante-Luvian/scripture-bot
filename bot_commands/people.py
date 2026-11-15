@@ -4,6 +4,8 @@ built by scripts/build_people_places.py from Theographic Bible Metadata).
   !who Ruth               who she was, her family, every verse naming her
   !who Mary               several Marys: pick one from the list
   !place Bethel           where it is (a map card), what happened there, its verses
+  !place Galaad           found by any Bible's spelling (Hebrew, Septuagint, Vulgate, Douay-Rheims, NRSV)
+  !place Acts             every place a book names, on one map (!place Genesis 12: a chapter's)
 Names in the family lists open with the menu under the card, so you can walk
 a family tree (Ruth -> Obed -> Jesse -> David).
 """
@@ -16,9 +18,13 @@ import unicodedata
 import discord
 from discord import app_commands
 
-from core import ROOT, bot, log
+from core import ROOT, bot, log, lookup
 
 DATA_PATH = ROOT / "data" / "people_places" / "people_places.json"
+NAMES_PATH = ROOT / "data" / "people_places" / "place_names.json"      # scripts/build_place_names.py
+# the Bibles whose spellings a place card shows, in the order it shows them
+NAME_LABELS = [("hebrew", "Hebrew"), ("greek", "Greek"), ("latin", "Latin (Vulgate)"), ("kjv", "KJV"),
+               ("douay", "Douay-Rheims"), ("nrsv", "NRSV")]
 SOURCE = "Theographic, Easton, OpenBible.info"
 PERSON_COLOR = discord.Color.from_rgb(150, 90, 40)
 PLACE_COLOR = discord.Color.from_rgb(60, 120, 90)
@@ -28,8 +34,14 @@ SHOW_VERSES = 40
 @functools.lru_cache(maxsize=1)
 def data() -> dict:
     d = json.loads(DATA_PATH.read_text(encoding="utf-8"))
+    try:
+        names = json.loads(NAMES_PATH.read_text(encoding="utf-8"))
+    except (OSError, ValueError):
+        names = {}
     for slug, p in d["places"].items():
         p["slug"] = slug
+        p["names"] = names.get(slug, {})
+        p["apocrypha"] = p["names"].get("apocrypha", [])
     for slug, p in d["people"].items():
         p["slug"] = slug
     # who was born / died where, for the place cards
@@ -42,8 +54,11 @@ def data() -> dict:
 
 
 def _norm(text: str) -> str:
-    text = unicodedata.normalize("NFKD", text).encode("ascii", "ignore").decode().lower()
-    text = re.sub(r"[^a-z0-9() ]+", " ", text.replace("'", ""))
+    """Lower case, without accents or vowel points, in any script: "Γαλαάδ" -> "γαλααδ", "Ægyptus" -> "aegyptus"."""
+    text = "".join(ch for ch in unicodedata.normalize("NFKD", text)
+                   if not unicodedata.combining(ch) and unicodedata.category(ch) != "Lm")
+    text = text.lower().replace("æ", "ae").replace("œ", "oe").replace("ς", "σ").replace("'", "").replace("’", "")
+    text = re.sub(r"[^\w() ]+|_", " ", text)
     return re.sub(r"\s+", " ", text).strip()
 
 
@@ -68,12 +83,75 @@ def _index(kind: str) -> dict:
     return index
 
 
+def spellings(slug: str) -> dict:
+    """A place's name in each Bible, {label: spelling}, and its spellings in the Apocrypha."""
+    n = data()["places"][slug]["names"]
+    out = {}
+    for key, title in NAME_LABELS:
+        value = n.get(key)
+        if isinstance(value, dict):
+            out[title] = value["text"]
+            if value.get("translit"):
+                out[title + " (in letters)"] = value["translit"]
+        elif value:
+            out[title] = value
+    for i, s in enumerate(n.get("apocrypha_spellings", [])):
+        out[f"Apocrypha {i}"] = s
+    return out
+
+
+@functools.lru_cache(maxsize=1)
+def _spelling_index() -> dict:
+    """normalised spelling -> [slug, ...]: each place under its other Bibles' names (Galaad, Γαλαάδ, גלעד)."""
+    index: dict = {}
+    for slug in data()["places"]:
+        for s in spellings(slug).values():
+            n = _norm(s)
+            if n and slug not in index.get(n, []):
+                index.setdefault(n, []).append(slug)
+            if _stem(n) != n and slug not in index.get(_stem(n), []):
+                index.setdefault(_stem(n), []).append(slug)
+    return index
+
+
+# Latin and Greek case endings, longest first (a place card shows one case of a declined name)
+_ENDINGS = ("orum", "arum", "ου", "ος", "ον", "ας", "ης", "us", "um", "am", "ae", "is", "em", "es", "α", "η", "a", "i",
+            "o", "e")
+
+
+def _stem(name: str) -> str:
+    """A Latin or Greek name without its case ending: "aegyptum" and "aegyptus" -> "aegypt~" (English names are
+    left alone: only a word of four letters or more loses an ending, and the stem is marked so it can't equal one)."""
+    if " " in name or len(name) < 4:
+        return name
+    for end in _ENDINGS:
+        if name.endswith(end):
+            return name[:-len(end)] + "~"
+    return name
+
+
+def spelled_as(slug: str, query: str) -> list:
+    """Which Bibles spell this place as `query` ("Galaad": the Vulgate and the Douay-Rheims)."""
+    q = _norm(query)
+    said = {"Latin (Vulgate)": "the Vulgate"}
+    out = []
+    for k, v in spellings(slug).items():
+        if _norm(v) == q:
+            k = "the Apocrypha" if k.startswith("Apocrypha") else k.replace(" (in letters)", "")
+            k = said.get(k, k if k.startswith("the ") else "the " + k)
+            if k not in out:
+                out.append(k)
+    return out
+
+
 def weight(kind: str, slug: str) -> int:
-    return len(data()[kind][slug]["verses"])
+    e = data()[kind][slug]
+    return len(e["verses"]) + len(e.get("apocrypha", []))
 
 
-def find(kind: str, query: str) -> list:
-    """Matching slugs, most-mentioned first. (A slug itself, from autocomplete, is an exact match.)"""
+def find(kind: str, query: str, prefix: bool = True) -> list:
+    """Matching slugs, most-mentioned first. (A slug itself, from autocomplete, is an exact match.) `prefix`: if
+    no name matches, names that begin with the query ("Nebuchad")."""
     if query.strip() in data()[kind]:
         return [query.strip()]
     q = _norm(query)
@@ -82,7 +160,11 @@ def find(kind: str, query: str) -> list:
         return []
     index = _index(kind)
     slugs = list(index.get(q, []))
-    if not slugs:
+    if not slugs and kind == "places":                   # another Bible's spelling: Galaad, Bethsura, Γαλααδ
+        slugs = list(_spelling_index().get(q, []))
+        if not slugs and _stem(q) != q:                  # another case of it: Ægyptus for the Ægyptum shown
+            slugs = list(_spelling_index().get(_stem(q), []))
+    if not slugs and prefix:
         # "John the Baptist" -> the John whose title has "Baptist"; or a prefix ("Nebuchad")
         slugs = [s for n, ss in index.items() if n.startswith(q) for s in ss]
     return sorted(set(slugs), key=lambda s: -weight(kind, s))
@@ -208,13 +290,49 @@ def place_embed(slug: str, with_map: bool) -> discord.Embed:
     if p.get("died_here"):
         facts.append("**Died here:** " + _names(p["died_here"], 8))
     embed.add_field(name="Facts", value="\n".join(facts)[:1024], inline=False)
+    names = names_field(slug)
+    if names:
+        embed.add_field(name="In each Bible", value=names, inline=False)
     if p["verses"]:
         embed.add_field(name=f"Named in {len(p['verses'])} verse{'s' if len(p['verses']) != 1 else ''}",
                         value=compact_refs(p["verses"]), inline=False)
+    if p["apocrypha"]:
+        n = len(p["apocrypha"])
+        embed.add_field(name=f"In the Apocrypha: {n} verse{'s' if n != 1 else ''}",
+                        value=compact_refs(p["apocrypha"], 25), inline=False)
     if with_map:
         embed.set_image(url="attachment://map.png")
     embed.set_footer(text=f"{SOURCE} · map: Natural Earth")
     return embed
+
+
+def names_field(slug: str) -> str:
+    """The place's name in the Hebrew, the Septuagint's Greek, the Vulgate's Latin, the KJV, the Douay-Rheims
+    and the NRSV, where they're known; the same name twice only once."""
+    n = data()["places"][slug]["names"]
+    lines, english = [], []
+    for key, title in NAME_LABELS:
+        value = n.get(key)
+        if not value:
+            continue
+        if isinstance(value, dict):
+            lines.append(f"**{title}:** {value['text']} ({value['translit']})" if value.get("translit")
+                         else f"**{title}:** {value['text']}")
+        elif key in ("kjv", "douay", "nrsv"):
+            english.append((title, value))
+        else:
+            lines.append(f"**{title}:** {value}")
+    if english:
+        shown = {}
+        for title, value in english:                  # "KJV, NRSV: Gilead · Douay-Rheims: Galaad"
+            shown.setdefault(value[:1].upper() + value[1:], []).append(title)
+        lines.append(" · ".join(f"**{', '.join(t)}:** {v}" for v, t in shown.items()))
+    if n.get("apocrypha_spellings"):
+        lines.append("**In the Apocrypha:** " + ", ".join(n["apocrypha_spellings"]))
+    if len(lines) == 1 and not n.get("hebrew") and not n.get("greek") and not n.get("latin") \
+            and len({v for _, v in english}) <= 1:
+        return ""                                       # (only the English name the title already gives)
+    return "\n".join(lines)[:1024]
 
 
 async def map_file(slug: str) -> "discord.File | None":
@@ -389,20 +507,99 @@ async def lookup_person(ctx, query: str) -> None:
     await ctx.send(embed=embed, view=Picker("people", slugs))
 
 
+def _and(items: list) -> str:
+    return items[0] if len(items) == 1 else ", ".join(items[:-1]) + " and " + items[-1]
+
+
+@functools.lru_cache(maxsize=1)
+def _place_books() -> set:
+    return {r.rsplit(" ", 1)[0] for p in data()["places"].values() for r in p["verses"] + p["apocrypha"]}
+
+
+def book_query(query: str) -> "tuple | None":
+    """"Acts" -> ("Acts", None), "Genesis 12" -> ("Genesis", 12): a book (and chapter) whose places to map."""
+    m = re.match(r"^\s*(.+?)(?:\s+(\d{1,3}))?\s*$", query)
+    if not m:
+        return None
+    try:
+        corpus, book = lookup._resolve_book(m.group(1))
+    except Exception:
+        return None
+    if book not in _place_books():
+        return None
+    return book, int(m.group(2)) if m.group(2) else None
+
+
+def book_places(book: str, chapter: "int | None" = None) -> list:
+    """[(slug, how many verses of the book, or chapter, name it)], most-named first."""
+    counts = {}
+    for slug, p in data()["places"].items():
+        for ref in p["verses"] + p["apocrypha"]:
+            b, cv = ref.rsplit(" ", 1)
+            if b == book and (chapter is None or cv.split(":")[0] == str(chapter)):
+                counts[slug] = counts.get(slug, 0) + 1
+    return sorted(counts.items(), key=lambda x: (-x[1], data()["places"][x[0]]["name"]))
+
+
+async def send_book_map(ctx, book: str, chapter: "int | None" = None) -> None:
+    """Every place a book (or one chapter of it) names, on one map, and listed by how often."""
+    where = f"{book} {chapter}" if chapter else book
+    found = book_places(book, chapter)
+    if not found:
+        count = lookup.chapter_count(book) or 0
+        await ctx.send(f"**{book}** has no chapter {chapter}: it has {count}." if chapter and chapter > count > 0
+                       else f"**{where}** names no places I know of.")
+        return
+    places = data()["places"]
+    spots = [dict(places[s], count=n) for s, n in found if places[s]["lat"] is not None]
+    file = None
+    if spots:
+        import bible_map
+        try:
+            buf = await asyncio.to_thread(bible_map.render_places, f"The places of {where}", spots)
+            file = discord.File(buf, filename="map.png")
+        except Exception:
+            log.exception(f"Couldn't draw the map for {where}")
+    unknown = len(found) - len(spots)
+    lines = [f"**{len(found)} place{'s' if len(found) != 1 else ''}** named in {where}, the most often first"
+             + (f" ({unknown} with no known site, so not on the map)" if unknown else "") + ":"]
+    listing = " · ".join(f"{label('places', s)} ({n})" for s, n in found)
+    if len(listing) > 3600:
+        listing = listing[:3600].rsplit(" · ", 1)[0] + " …"
+    embed = discord.Embed(title=f"🗺️ The places of {where}", description=lines[0] + "\n" + listing,
+                          color=PLACE_COLOR)
+    if file:
+        embed.set_image(url="attachment://map.png")
+    embed.set_footer(text=f"{SOURCE} · map: Natural Earth · !place <name> for one of them")
+    await ctx.send(embed=embed, **({"file": file} if file else {}))
+
+
 async def lookup_place(ctx, query: str) -> None:
     query = query.strip()
     want_all = query.lower().endswith(" all")
     query = query[:-4] if want_all else query
     if not query:
-        await ctx.send("Usage: `!place <name>` — e.g. `!place Bethel`, `!place Sea of Galilee`, `!place Rome`.")
+        await ctx.send("Usage: `!place <name>` — e.g. `!place Bethel`, `!place Sea of Galilee`, `!place Rome` — "
+                       "or `!place <book>` for a map of every place a book names: `!place Acts`, `!place Genesis 12`.")
         return
-    slugs = find("places", query)
+    slugs = find("places", query, prefix=False)
+    if not slugs:
+        book = book_query(query)
+        if book:
+            await send_book_map(ctx, *book)
+            return
+        slugs = find("places", query)
     if not slugs:
         await ctx.send(f"I don't know a place in the Bible called **{query}**. "
                        f"Try `!dictionary {query}` or check the spelling.")
         return
     if not want_all and _clear_winner("places", slugs):
         note = _others_note("places", slugs, "place")
+        spelled = spelled_as(slugs[0], query) if _norm(query) not in _index("places") else []
+        if spelled:
+            name = re.sub(r"\s*\(.*\)$", "", data()["places"][slugs[0]]["name"])
+            note = (f"**{query.strip()}** is how {_and(spelled)} spell{'s' if len(spelled) == 1 else ''} "
+                    f"**{name}**." + (f"\n{note}" if note else ""))
         if note:
             await ctx.send(note)
         await send_place(ctx, slugs[0])
@@ -425,9 +622,11 @@ async def cmd_who(ctx, *, name: str = ""):
 
 @bot.command(name="place", aliases=["where", "map"])
 async def cmd_place(ctx, *, name: str = ""):
-    """A place in the Bible on a map, with what it was and every verse naming it.
+    """A place in the Bible on a map, with what it was, its name in each Bible and every verse naming it.
     Usage: !place Bethel
-           !place Sea of Galilee"""
+           !place Galaad          (any Bible's spelling: Vulgate, Septuagint, Hebrew, Douay-Rheims)
+           !place Acts            (every place a book names, on one map)
+           !place Genesis 12      (a chapter's places)"""
     async with ctx.typing():
         await lookup_place(ctx, name)
 
@@ -472,7 +671,7 @@ async def tree_slash(interaction: discord.Interaction, person: str, down_to: str
 
 
 @bot.tree.command(name="place", description="A place in the Bible on a map, with the verses naming it")
-@app_commands.describe(name="e.g. Bethel, Jericho, Sea of Galilee, Rome")
+@app_commands.describe(name="e.g. Bethel, Galaad, Sea of Galilee, or a book for its places: Acts")
 @app_commands.autocomplete(name=_autocomplete("places"))
 async def place_slash(interaction: discord.Interaction, name: str):
     await interaction.response.defer()

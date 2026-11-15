@@ -351,3 +351,125 @@ def _draw_locator(img, main, place: dict, corner: str = "tr", region: tuple = LO
     spot = LOCATOR_SPOTS(img.width, img.height)[corner]
     img.paste(inset, (int(spot[0] + 10 * SCALE) if corner != "bl" else 16 * SCALE, int(spot[1]) + 16 * SCALE
                       if corner == "tr" else int(spot[3] - ih - 4 * SCALE)))
+
+
+def render_places(title: str, spots: list, credit: str = ROUTE_CREDIT) -> io.BytesIO:
+    """A PNG map of many places at once (all the places a book names): `spots` are place dicts with "count" (how
+    often they're named), drawn as dots sized by it and labelled, the most-named first, wherever a label fits.
+    Regions and countries are named across the map, not dotted."""
+    w, h = W * SCALE, H * SCALE
+    img = Image.new("RGB", (w, h), SEA)
+    draw = ImageDraw.Draw(img)
+    # the map's extent: the towns and the like, not seas and regions (whose points are only somewhere in them),
+    # nor a stray far from all the rest (one of the other Rimmons, by the Judah of Joshua 15)
+    points = [s for s in spots if s.get("kind") not in AREA_KINDS | WATER_KINDS] or spots
+    if len(points) >= 5:
+        mid_lat = sorted(s["lat"] for s in points)[len(points) // 2]
+        mid_lon = sorted(s["lon"] for s in points)[len(points) // 2]
+        dist = [math.hypot(s["lat"] - mid_lat, s["lon"] - mid_lon) for s in points]
+        reach = sorted(dist)[int(len(dist) * 0.8)]
+        points = [s for s, d in zip(points, dist) if d <= max(3 * reach, 1.5)]
+    lats, lons = [s["lat"] for s in points], [s["lon"] for s in points]
+    lat0, lon0 = (min(lats) + max(lats)) / 2, (min(lons) + max(lons)) / 2
+    c = math.cos(math.radians(lat0))
+    half = max((max(lats) - min(lats)) / 2 * 1.2 + 0.25,
+               (max(lons) - min(lons)) * c / 2 * H / W * 1.2 + 0.25, 0.6)
+    proj = _Projection(lat0 + half * 0.08, lon0, half, w, h)    # a little room above for the title
+    _draw_geography(draw, proj)
+    lon_a, lat_a, lon_b, lat_b = proj.bounds()
+    spots = sorted((s for s in spots if lon_a < s["lon"] < lon_b and lat_a < s["lat"] < lat_b),
+                   key=lambda s: -s.get("count", 1))
+
+    title_font = _font("georgiab.ttf", 24)
+    tw = draw.textlength(title, font=title_font)
+    title_box = (0, 0, tw + 40 * SCALE, 52 * SCALE)
+    pts = [proj(s["lon"], s["lat"]) for s in spots if s.get("kind") not in AREA_KINDS]
+    corner = next((k for k, box in LOCATOR_SPOTS(w, h).items()
+                   if not any(box[0] - 20 * SCALE < x < box[2] and box[1] < y < box[3] + 20 * SCALE
+                              for x, y in pts)), None)
+    boxes = [title_box, (0, h - 60 * SCALE, 300 * SCALE, h), (w - 360 * SCALE, h - 30 * SCALE, w, h)]
+    if half > 6:                                    # (the map is already most of the Bible world)
+        corner = None
+    if corner:
+        boxes.append(LOCATOR_SPOTS(w, h)[corner])
+    top = max([s.get("count", 1) for s in spots] or [1])
+
+    def radius(s):
+        return (3 + 9 * math.sqrt(s.get("count", 1) / max(top, 12))) * SCALE      # (a list of towns: all small)
+
+    dots = [s for s in spots if s.get("kind") not in AREA_KINDS]
+    for s in dots:
+        x, y = proj(s["lon"], s["lat"])
+        r = radius(s)
+        boxes.append((x - r, y - r, x + r, y + r))
+    font, area_font, water_font = _font("georgiab.ttf", 16), _font("georgia.ttf", 18), _font("georgiai.ttf", 17)
+    th = 21 * SCALE
+    labels = []
+    for s in spots:
+        x, y = proj(s["lon"], s["lat"])
+        kind = s.get("kind", "")
+        text = s["name"].split(" (")[0]
+        if kind in AREA_KINDS:
+            text = " ".join(text.upper())
+            f = area_font
+        else:
+            f = water_font if kind in WATER_KINDS else font
+        t = draw.textlength(text, font=f)
+        r = 0 if kind in AREA_KINDS else radius(s)
+        placed = None
+        # beside the dot if there's room; for the most-named, further out with a leader line if need be
+        reach = (0,) if kind in AREA_KINDS else (0, 30, 60) if len(labels) < 25 else (0,)
+        for d in reach:
+            for ux, uy in (((0, 0),) if kind in AREA_KINDS else
+                           ((1, 0), (-1, 0), (0, -1), (0, 1), (1, -1), (-1, -1), (1, 1), (-1, 1))):
+                cx = x + ux * (r + (4 + d) * SCALE + t / 2) if ux else x
+                cy = y + uy * (r + (2 + d) * SCALE + th / 2) if uy else y
+                box = (cx - t / 2 - 3 * SCALE, cy - th / 2, cx + t / 2 + 3 * SCALE, cy + th / 2)
+                if box[0] >= 0 and box[2] <= w and box[1] >= 0 and box[3] <= h and not _overlaps(box, boxes):
+                    placed = box
+                    break
+            if placed:
+                break
+        if placed:
+            boxes.append(placed)
+            labels.append((placed, text, f, kind, (x, y) if d else None))
+    for box, text, f, kind, leader in labels:
+        if leader:
+            bx, by = min(max(leader[0], box[0]), box[2]), min(max(leader[1], box[1]), box[3])
+            draw.line([leader, (bx, by)], fill=INK, width=2 * SCALE)
+    for s in dots:
+        x, y = proj(s["lon"], s["lat"])
+        r = radius(s)
+        if s.get("approx"):
+            for a in range(0, 360, 30):
+                draw.arc((x - r - 5 * SCALE, y - r - 5 * SCALE, x + r + 5 * SCALE, y + r + 5 * SCALE), a, a + 15,
+                         fill=RED, width=2 * SCALE)
+        draw.ellipse((x - r, y - r, x + r, y + r), fill=RED, outline=(255, 255, 255), width=2 * SCALE)
+    for box, text, f, kind, _ in labels:
+        if kind in AREA_KINDS:
+            draw.text((box[0] + 3 * SCALE, box[1]), text, font=f, fill=MUTED)
+        elif kind in WATER_KINDS:
+            draw.text((box[0] + 3 * SCALE, box[1]), text, font=f, fill=WATER_INK)
+        else:
+            draw.rounded_rectangle(box, radius=4 * SCALE, fill=(255, 250, 240))
+            draw.text((box[0] + 3 * SCALE, box[1] + SCALE), text, font=f, fill=INK)
+
+    draw.rectangle(title_box, fill=(255, 250, 240))
+    draw.text((20 * SCALE, 12 * SCALE), title, font=title_font, fill=INK)
+    _draw_scale(draw, proj, w, h)
+    if corner:
+        _draw_locator(img, proj, {"lat": lat0, "lon": lon0}, corner)
+    note = "Bigger dots: named more often · "
+    if any(s.get("approx") for s in dots):
+        note += "dashed rings: site uncertain · "
+    text = note + "Map: Natural Earth · " + credit
+    cf = _font("georgia.ttf", 13)
+    cw = draw.textlength(text, font=cf)
+    draw.rectangle((w - cw - 16 * SCALE, h - 24 * SCALE, w, h), fill=(255, 255, 255))
+    draw.text((w - cw - 8 * SCALE, h - 21 * SCALE), text, font=cf, fill=MUTED)
+
+    img = img.resize((W, H), Image.LANCZOS)
+    buf = io.BytesIO()
+    img.save(buf, format="PNG", optimize=True)
+    buf.seek(0)
+    return buf

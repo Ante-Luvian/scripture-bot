@@ -80,3 +80,44 @@ def test_place_command(pp, fake_ctx):
     asyncio.run(pp.lookup_place(fake_ctx, "Jericho"))
     sent = fake_ctx.sent[-1]
     assert sent["embed"].title.startswith("📍 Jericho") and sent["file"].filename == "map.png"
+
+
+def test_other_bibles_spellings_find_the_place(pp, fake_ctx):
+    """A user typed Galaad (the Vulgate's and Douay-Rheims's Gilead) and Bethsura (the KJV Apocrypha's Beth-zur)."""
+    gilead = pp.find("places", "Gilead")[0]
+    for spelling in ("Galaad", "Γαλααδ", "Γαλαάδ", "גלעד", "Gilead"):
+        assert pp.find("places", spelling)[0] == gilead, spelling
+    assert pp.data()["places"][pp.find("places", "Bethsura")[0]]["name"] == "Beth-zur"
+    assert pp.find("places", "Ægyptus")[0] == pp.find("places", "Aegyptus")[0] == pp.find("places", "Egypt")[0]
+    asyncio.run(pp.lookup_place(fake_ctx, "Galaad"))
+    note = next(s["content"] for s in fake_ctx.sent if s.get("content"))
+    assert note.startswith("**Galaad** is how the Vulgate and the Douay-Rheims spell **Gilead**")
+    assert fake_ctx.sent[-1]["embed"].title.startswith("📍 Gilead")
+
+
+def test_place_card_names_in_each_bible(pp):
+    embed = pp.place_embed(pp.find("places", "Gilead")[0], with_map=False)
+    names = next(f.value for f in embed.fields if f.name == "In each Bible")
+    assert pp.data()["places"][pp.find("places", "Gilead")[0]]["names"]["hebrew"]["text"] in names
+    assert "(Gilʻâd)" in names and "Γαλαάδ" in names and "**Latin (Vulgate):** Galaad" in names
+    assert "**KJV, NRSV:** Gilead · **Douay-Rheims:** Galaad" in names
+    bethzur = pp.place_embed(pp.find("places", "Beth-zur")[0], with_map=False)
+    apocrypha = next(f for f in bethzur.fields if f.name.startswith("In the Apocrypha"))
+    assert "1 Maccabees 4:29" in apocrypha.value
+    assert "Bethsura" in next(f.value for f in bethzur.fields if f.name == "In each Bible")
+
+
+def test_book_map(pp, fake_ctx):
+    assert pp.book_query("Acts") == ("Acts", None) and pp.book_query("Genesis 12") == ("Genesis", 12)
+    assert pp.book_query("1 Macc") == ("1 Maccabees", None)
+    assert pp.find("places", "Dan", prefix=False)                     # a place before a book (Daniel)
+    acts = dict(pp.book_places("Acts"))
+    assert acts[pp.find("places", "Jerusalem")[0]] > acts[pp.find("places", "Antioch")[0]] > 0
+    asyncio.run(pp.lookup_place(fake_ctx, "Acts"))
+    sent = fake_ctx.sent[-1]
+    assert sent["embed"].title == "🗺️ The places of Acts" and sent["file"].filename == "map.png"
+    assert "Jerusalem" in sent["embed"].description
+    asyncio.run(pp.lookup_place(fake_ctx, "Genesis 12"))
+    assert fake_ctx.sent[-1]["embed"].title == "🗺️ The places of Genesis 12"
+    asyncio.run(pp.lookup_place(fake_ctx, "Genesis 99"))
+    assert "has no chapter 99: it has 50" in fake_ctx.sent[-1]["content"]
