@@ -517,7 +517,7 @@ def _fetch_strongs_passage(reference: str, testament: str) -> dict:
     from translation_lookup import _BOOK_IDS, _ALIASES
 
     # Strip range to first verse for the lookup, since each verse is its own row
-    ref_single = re.sub(r"(\d+:\d+)[-–]\d+$", r"\1", reference.strip())
+    ref_single = re.sub(r"(\d+:\d+)\s*[-–—]\s*(?:\d+:)?\d+$", r"\1", reference.strip())   # (also "3:16–3:18")
 
     m = re.match(r"^((?:\d\s*)?[A-Za-z][a-zA-Z\s\.]+?)\s+(\d+):(\d+)$", ref_single)
     if not m:
@@ -639,7 +639,7 @@ async def _send_compare_ancient_strong(ctx, reference: str):
     testament = "nt" if scripture_type == "nt" else "ot"
 
     # KJV verse text
-    ref_single = re.sub(r"(\d+:\d+)[-–]\d+$", r"\1", reference.strip())
+    ref_single = re.sub(r"(\d+:\d+)\s*[-–—]\s*(?:\d+:)?\d+$", r"\1", reference.strip())   # (also "3:16–3:18")
     kjv = (await asyncio.to_thread(lookup.get_verse, ref_single))
     kjv_text = kjv["text"] if kjv.get("found") else "*Not available*"
     display_ref = kjv.get("reference", ref_single) if kjv.get("found") else ref_single

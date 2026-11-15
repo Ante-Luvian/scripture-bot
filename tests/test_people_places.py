@@ -167,3 +167,26 @@ def test_mount_sion_is_zion(pp, fake_ctx):
     assert pp.find("places", "Sion")[0] == "jerusalem_636"
     assert "1 Maccabees 4:37" in pp.data()["places"]["mount_zion_860"]["apocrypha"]           # not Jerusalem
     assert pp.passage_order("1 Maccabees", (4, 36), (4, 61))[0] == ((4, 37), ["mount_zion_860"])
+
+
+def test_passage_maps_reported_in_discord(pp, fake_ctx):
+    import bible_map
+    # Job names one town among regions: the map takes in all of them, not Tema alone
+    spots = [dict(pp.data()["places"][s], count=n) for s, n in pp.book_places("Job")]
+    drawn = []
+    bible_map.render_places("Job", spots, drawn=drawn)
+    assert len(drawn) == len(spots)
+    # a book naming no places says so, rather than "I don't know a place called 1 John 4:7-21"
+    asyncio.run(pp.lookup_place(fake_ctx, "1 John 4:7–21"))
+    assert "names no places" in fake_ctx.sent[-1]["content"]
+    # "6:18–6:47", as !bcp writes a passage, is 6:18-47
+    assert pp.book_query("1 Maccabees 6:18–6:47") == ("1 Maccabees", (6, 18), (6, 47))
+    # places too far off for the map are named under the list
+    asyncio.run(pp.lookup_place(fake_ctx, "Numbers 21:9-20"))
+    assert "Too far from the rest" in fake_ctx.sent[-1]["embed"].description
+
+
+def test_repeated_chapter_range_parses():
+    from core import lookup
+    assert lookup._parse_reference("1 Maccabees 6:18–6:47") == ("1 Maccabees", 6, 18, 47)
+    assert lookup._parse_reference("John 7:53-8:11")[-1] == "cross_chapter"

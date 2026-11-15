@@ -526,7 +526,7 @@ def book_query(query: str) -> "tuple | None":
         corpus, book = lookup._resolve_book(name)
     except Exception:
         return None
-    if book not in _place_books():
+    if book not in _place_books() and corpus != "kjv":   # (a Bible book naming no places, 1 John, still says so)
         return None
     if not c1:
         return book, None, None
@@ -595,19 +595,28 @@ async def send_book_map(ctx, book: str, start=None, end=None) -> None:
         elif bad:
             await ctx.send(f"**{where}** runs backwards: try `!place {_where(book, end, start)}`.")
         else:
-            await ctx.send(f"**{where}** names no places I know of.")
+            if book in ("Wisdom of Solomon", "Sirach"):
+                await ctx.send(f"**{where}**: the places in Wisdom and Sirach aren't mapped. They're poetry and "
+                               f"proverbs, not a journey.")
+            else:
+                await ctx.send(f"**{where}** names no places I know of.")
         return
     places = data()["places"]
     spots = [dict(places[s], count=n) for s, n in found if places[s]["lat"] is not None]
     file = None
+    drawn = []
     if spots:
         import bible_map
         try:
-            buf = await asyncio.to_thread(bible_map.render_places, f"The places of {where}", spots)
+            buf = await asyncio.to_thread(bible_map.render_places, f"The places of {where}", spots,
+                                          drawn=drawn)
             file = discord.File(buf, filename="map.png")
         except Exception:
             log.exception(f"Couldn't draw the map for {where}")
     unknown = len(found) - len(spots)
+    on_map = {s["slug"] for s in drawn}
+    # located, but too far from the rest for the map (Suphah and Waheb, by Numbers 21's Arnon)
+    far = [s["slug"] for s in spots if s["slug"] not in on_map] if file else []
 
     bare = {s: re.sub(r"\s*\(.*\)$", "", places[s]["name"]) for s, _ in found}
     counts = list(bare.values())
@@ -630,6 +639,9 @@ async def send_book_map(ctx, book: str, start=None, end=None) -> None:
         listing = " · ".join(f"{name(s)} ({n})" for s, n in found)
         if len(listing) > 3600:
             listing = listing[:3600].rsplit(" · ", 1)[0] + " …"
+    if far:
+        shown = [name(s) for s in far[:8]] + ([f"{len(far) - 8} more"] if len(far) > 8 else [])
+        listing += f"\n*Too far from the rest to fit on the map:* {_and(shown)}"
     embed = discord.Embed(title=f"🗺️ The places of {where}", description=head + "\n" + listing,
                           color=PLACE_COLOR)
     if file:

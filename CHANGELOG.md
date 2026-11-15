@@ -4,6 +4,13 @@ What's new, newest first. When the bot starts after an update, she posts any
 entries a server hasn't seen yet to that server's changelog channel
 (`!changelogsetup #channel`); anyone can read recent ones with `!changelog`.
 
+## 2026-11-15 · Fuller passage maps, and "6:18–6:47" references
+
+- 🗺️ **Fixed: `!place Job` drew a map of Tema alone**, though it listed six places. Job names only one town; the rest are lands and a river (Uz, Sheba, Ethiopia, Ophir, the Jordan), and the map was sized to the towns. Now a book that names few towns gets a map wide enough for all its places.
+- 🗺️ **Fixed: lands could go missing from the map.** In `!place Numbers 21:9-20`, Moab's name was left off because towns sat where it would go. Now a land's name moves a little aside to fit. And places too far from the rest to fit on the map (there, Suphah and Waheb) are now named under the list, instead of silently missing.
+- 🔧 **Fixed: `!place 1 John 4:7-21` said "I don't know a place called 1 John 4:7-21".** 1 John names no places, and now the bot says just that.
+- 🔧 **References written like `1 Maccabees 6:18–6:47`**, the way `!bcp` writes its lessons, now work everywhere you can paste them. `!interlinear John 3:16–3:18` used to say it couldn't read the reference, and `!xref` with a passage said there were no cross-references; `!xref` now gives the passage's first verse's.
+
 ## 2026-11-15 · Mount Zion in the Maccabees, and Mount Sion
 
 - 🔧 **Fixed: `!place Mount Sion` showed a different mountain.** Sion is the older spelling of Zion (the Douay-Rheims and the KJV's New Testament use it), but the card that came up was the "Mount Sion" of Deuteronomy 4:48, which is another name for Mount Hermon in the far north. Now `!place Mount Sion` shows Mount Zion, and mentions the Hermon one underneath in case that's the one you meant. `!place Sion` finds Jerusalem.

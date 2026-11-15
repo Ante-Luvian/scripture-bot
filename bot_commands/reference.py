@@ -36,6 +36,8 @@ async def cmd_xref(ctx, *, reference: str = ""):
         return
 
     canon_ref = result["reference"]
+    # a passage: its first verse's ("John 3:16–18" -> John 3:16), the Treasury being verse by verse
+    canon_ref = re.sub(r"(\d+:\d+)\s*[-–—]\s*(?:\d+:)?\d+$", r"\1", canon_ref)
     xrefs = (await asyncio.to_thread(get_cross_references, canon_ref))
     if not xrefs:
         await ctx.send(f"No cross-references found for **{canon_ref}** — the dataset only covers the 66-book Protestant canon.")

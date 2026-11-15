@@ -4757,6 +4757,8 @@ class ScriptureLookup:
             r"^(.*)\s+(\d+):(\d+)\s*[-–—]\s*(\d+):(\d+)$", ref, re.UNICODE)
         if m_cross:
             book = m_cross.group(1).strip()
+            if book and m_cross.group(2) == m_cross.group(4):    # "6:18–6:47", as !bcp writes it: 6:18-47
+                return (book, int(m_cross.group(2)), int(m_cross.group(3)), int(m_cross.group(5)))
             if book:
                 return (book, int(m_cross.group(2)), int(m_cross.group(3)),
                         int(m_cross.group(4)), int(m_cross.group(5)), "cross_chapter")

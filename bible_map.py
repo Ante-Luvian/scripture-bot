@@ -353,16 +353,19 @@ def _draw_locator(img, main, place: dict, corner: str = "tr", region: tuple = LO
                       if corner == "tr" else int(spot[3] - ih - 4 * SCALE)))
 
 
-def render_places(title: str, spots: list, credit: str = ROUTE_CREDIT) -> io.BytesIO:
+def render_places(title: str, spots: list, credit: str = ROUTE_CREDIT, drawn: list = None) -> io.BytesIO:
     """A PNG map of many places at once (all the places a book names): `spots` are place dicts with "count" (how
     often they're named), drawn as dots sized by it and labelled, the most-named first, wherever a label fits.
-    Regions and countries are named across the map, not dotted."""
+    Regions and countries are named across the map, not dotted. `drawn`, if given, gets the spots on the map."""
     w, h = W * SCALE, H * SCALE
     img = Image.new("RGB", (w, h), SEA)
     draw = ImageDraw.Draw(img)
     # the map's extent: the towns and the like, not seas and regions (whose points are only somewhere in them),
-    # nor a stray far from all the rest (one of the other Rimmons, by the Judah of Joshua 15)
-    points = [s for s in spots if s.get("kind") not in AREA_KINDS | WATER_KINDS] or spots
+    # nor a stray far from all the rest (one of the other Rimmons, by the Judah of Joshua 15); but with only a
+    # town or two (Job's Tema, among Uz, Sheba, Ethiopia and the Jordan), all of them
+    points = [s for s in spots if s.get("kind") not in AREA_KINDS | WATER_KINDS]
+    if len(points) < 3:
+        points = spots
     if len(points) >= 5:
         mid_lat = sorted(s["lat"] for s in points)[len(points) // 2]
         mid_lon = sorted(s["lon"] for s in points)[len(points) // 2]
@@ -379,6 +382,8 @@ def render_places(title: str, spots: list, credit: str = ROUTE_CREDIT) -> io.Byt
     lon_a, lat_a, lon_b, lat_b = proj.bounds()
     spots = sorted((s for s in spots if lon_a < s["lon"] < lon_b and lat_a < s["lat"] < lat_b),
                    key=lambda s: -s.get("count", 1))
+    if drawn is not None:
+        drawn.extend(spots)
 
     title_font = _font("georgiab.ttf", 24)
     tw = draw.textlength(title, font=title_font)
@@ -418,10 +423,13 @@ def render_places(title: str, spots: list, credit: str = ROUTE_CREDIT) -> io.Byt
         r = 0 if kind in AREA_KINDS else radius(s)
         placed = None
         # beside the dot if there's room; for the most-named, further out with a leader line if need be
-        reach = (0,) if kind in AREA_KINDS else (0, 30, 60) if len(labels) < 25 else (0,)
+        # (a region's name: on its point, or a little off it if a town is there: Moab around the Arnon's towns)
+        reach = (0, 15, 30) if kind in AREA_KINDS else (0, 30, 60) if len(labels) < 25 else (0,)
         for d in reach:
-            for ux, uy in (((0, 0),) if kind in AREA_KINDS else
+            for ux, uy in (((0, 0), (0, -1), (0, 1), (1, 0), (-1, 0)) if kind in AREA_KINDS else
                            ((1, 0), (-1, 0), (0, -1), (0, 1), (1, -1), (-1, -1), (1, 1), (-1, 1))):
+                if kind in AREA_KINDS and d and not (ux or uy):
+                    continue
                 cx = x + ux * (r + (4 + d) * SCALE + t / 2) if ux else x
                 cy = y + uy * (r + (2 + d) * SCALE + th / 2) if uy else y
                 box = (cx - t / 2 - 3 * SCALE, cy - th / 2, cx + t / 2 + 3 * SCALE, cy + th / 2)
@@ -430,9 +438,13 @@ def render_places(title: str, spots: list, credit: str = ROUTE_CREDIT) -> io.Byt
                     break
             if placed:
                 break
+        if not placed and kind in AREA_KINDS:       # (a region has no dot: its name goes on, under the towns')
+            box = (x - t / 2 - 3 * SCALE, y - th / 2, x + t / 2 + 3 * SCALE, y + th / 2)
+            if box[0] >= 0 and box[2] <= w and box[1] >= 0 and box[3] <= h:
+                labels.insert(0, (box, text, f, kind, None))
         if placed:
             boxes.append(placed)
-            labels.append((placed, text, f, kind, (x, y) if d else None))
+            labels.append((placed, text, f, kind, (x, y) if d and kind not in AREA_KINDS else None))
     for box, text, f, kind, leader in labels:
         if leader:
             bx, by = min(max(leader[0], box[0]), box[2]), min(max(leader[1], box[1]), box[3])
