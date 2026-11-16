@@ -1425,7 +1425,12 @@ BOOKS_TREE = [
                                   "Glossa Ordinaria on Habakkuk", "Glossa Ordinaria on Zephaniah",
                                   "Glossa Ordinaria on Haggai", "Glossa Ordinaria on Zechariah",
                                   "Glossa Ordinaria on Malachi",
-                                  "Glossa Ordinaria on 1 Maccabees", "Glossa Ordinaria on 2 Maccabees"]),
+                                  "Glossa Ordinaria on 1 Maccabees", "Glossa Ordinaria on 2 Maccabees",
+                                  *(f"Glossa Ordinaria on {b}" for b in (
+                                      "Romans", "1 Corinthians", "2 Corinthians", "Galatians", "Ephesians",
+                                      "Philippians", "Colossians", "1 Thessalonians", "2 Thessalonians", "1 Timothy",
+                                      "2 Timothy", "Titus", "Philemon", "Hebrews", "James", "1 Peter", "2 Peter",
+                                      "1 John", "2 John", "3 John", "Jude", "Revelation"))]),
         ("Byzantine", [
             ("Cosmas Indicopleustes", ["The Christian Topography"]),
             ("Photius of Constantinople", ["Bibliotheca (Codices 1-165)"]),

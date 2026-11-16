@@ -56,7 +56,7 @@ def _labels(buttons):
     ("Quran 1:1",          []),   # not the Bible
     ("Tobit 1:1",          ["Card", "Commentary"]),   # apocrypha: no NET notes, cross-refs or Strong's; the Glossa
     ("Sirach 1:1",         ["Card", "Commentary"]),   # (the Glossa Ordinaria on Sirach)
-    ("Jude 3",             ["Notes", "Cross-refs", "Interlinear", "Card"]),   # a book of one chapter
+    ("Jude 3",             ["Notes", "Cross-refs", "Interlinear", "Card", "Commentary"]),   # a book of one chapter
     ("Susanna 36",         ["Card", "Commentary"]),   # (the Glossa Ordinaria on Daniel's 13th chapter)    ("Book of Enoch 1:9",  []),
 ])
 def test_study_buttons_only_for_bible_verses(verse, reference, labels):

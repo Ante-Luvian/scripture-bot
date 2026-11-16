@@ -26,7 +26,7 @@ OUT = ROOT / "data" / "patristics" / "glossa_ordinaria.json"
 BOOKS = {"03": "Genesis", "04": "Exodus", "05": "Leviticus", "06": "Numbers", "07": "Deuteronomy", "08": "Joshua",
          "09": "Judges", "10": "Ruth", "12": "1 Samuel", "13": "2 Samuel", "14": "1 Kings", "15": "2 Kings",
          "16": "1 Chronicles", "17": "2 Chronicles", "18": "Ezra", "19": "Nehemiah", "20": "1 Esdras",
-         "21": "2 Esdras", "22": "Tobit", "23": "Judith", "24": "Esther", "25": "Job","28": "Proverbs", "29": "Ecclesiastes", "30": "Song of Solomon", "31": "Wisdom of Solomon", "32": "Sirach", "33": "Isaiah", "34": "Jeremiah", "35": "Lamentations", "36": "Baruch", "37": "Ezekiel", "38": "Daniel", "40": "Hosea", "41": "Joel", "42": "Amos", "43": "Obadiah", "44": "Jonah", "45": "Micah", "46": "Nahum", "47": "Habakkuk", "48": "Zephaniah", "49": "Haggai", "50": "Zechariah", "51": "Malachi", "52": "1 Maccabees", "53": "2 Maccabees"}  # Gloss-e's numbers -> the KJV's names (the books translated so far)
+         "21": "2 Esdras", "22": "Tobit", "23": "Judith", "24": "Esther", "25": "Job","28": "Proverbs", "29": "Ecclesiastes", "30": "Song of Solomon", "31": "Wisdom of Solomon", "32": "Sirach", "33": "Isaiah", "34": "Jeremiah", "35": "Lamentations", "36": "Baruch", "37": "Ezekiel", "38": "Daniel", "40": "Hosea", "41": "Joel", "42": "Amos", "43": "Obadiah", "44": "Jonah", "45": "Micah", "46": "Nahum", "47": "Habakkuk", "48": "Zephaniah", "49": "Haggai", "50": "Zechariah", "51": "Malachi", "52": "1 Maccabees", "53": "2 Maccabees", "60": "Romans", "61": "1 Corinthians", "62": "2 Corinthians", "63": "Galatians", "64": "Ephesians", "65": "Philippians", "66": "Colossians", "67": "1 Thessalonians", "68": "2 Thessalonians", "69": "1 Timothy", "70": "2 Timothy", "71": "Titus", "72": "Philemon", "73": "Hebrews", "76": "James", "77": "1 Peter", "78": "2 Peter", "79": "1 John", "80": "2 John", "81": "3 John", "82": "Jude", "83": "Revelation"}  # Gloss-e's numbers -> the KJV's names (the books translated so far)
 LABELS = {"[allegorically]": "Allegorically", "[the moral sense]": "In the moral sense", "[Jerome]": "Jerome",
           "[Haimo]": "Haimo", "[Gregory]": "Gregory", "[Paschasius]": "Paschasius", "[mystically]": "Mystically",
           "[historically]": "Historically", "[Gilbert]": "Gilbert", "[Alcuin]": "Alcuin"}
@@ -283,7 +283,12 @@ VERSIFICATION = {"Exodus": table("04"), "Leviticus": table("05"), "Numbers": tab
                  "Song of Solomon": song, "Ecclesiastes": ecclesiastes,
                  "Jeremiah": jeremiah, "Daniel": daniel, "Song of the Three Children": song_of_three,
                  "Susanna": lambda c, v: (1, v), "Bel and the Dragon": bel, "1 Maccabees": table("52"),
-                 "2 Maccabees": table("53")}
+                 "2 Maccabees": table("53"),
+                 # the Vulgate joins the KJV's 2 Corinthians 13:12-13 ("all the saints salute you") into its 13:12, and
+                 # splits the KJV's 3 John 14 and Revelation 13:1 ("And I stood upon the sand of the sea" is its 12:18)
+                 "2 Corinthians": lambda c, v: (13, 14) if (c, v) == (13, 13) else (c, v),
+                 "3 John": lambda c, v: (1, 14) if v == 15 else (c, v),
+                 "Revelation": lambda c, v: (13, 1) if (c, v) == (12, 18) else (c, v)}
 # ... and where the edition's own verse numbers differ from the Douay-Rheims's (for the card's Douay-Rheims text)
 DOUAY_NUMBERS = {"Sirach": sirach_douay, "Judith": judith_douay, "Isaiah": isaiah_douay}
 # The edition's 2 Paralipomenon 37 is the Prayer of Manasses (the KJV's "Prayer of Manasseh", in its Apocrypha):
@@ -464,6 +469,49 @@ MOVES = {
     # Daniel: notes filed a verse off, and "the king thought to set him over all the kingdom", which ends the KJV's 6:3
     "38_marg4259": (1, 7), "38_marg4260": (1, 7), "38_interl16398": (2, 47), "38_interl16399": (2, 47),
     "38_interl16714": (6, 3), "38_interl16945": (8, 17),
+    # The epistles and the Apocalypse: notes the edition files a verse off, or gathers at the end of a passage
+    # (1 John 1:2 and 2:29), each found by which Douay verse has its words; and where the Douay divides a verse
+    # differently from the KJV (Romans 3:25-26, 5:8-9, 16:10-11, 1 Corinthians 15:26-27, Galatians 4:31-5:1,
+    # Apocalypse 20:7-9), under the KJV verse that has the words
+    "60_marg220": (3, 25), "60_marg322": (6, 21), "60_interl515": (3, 25), "60_marg569": (11, 10),
+    "60_marg570": (11, 10), "60_marg679": (14, 14), "60_marg710": (15, 15), "60_interl726": (5, 8),
+    "60_marg726": (16, 10), "60_marg727": (16, 10), "60_marg741": (16, 25), "60_interl978": (6, 21),
+    "60_interl979": (6, 21), "60_interl980": (6, 21), "60_interl981": (6, 21), "60_interl984": (6, 21),
+    "60_interl985": (6, 21), "60_interl1523": (9, 11), "60_interl1813": (11, 10), "60_interl1815": (11, 10),
+    "60_interl2243": (14, 14), "60_interl2470": (16, 10), "60_interl2520": (16, 25), "60_interl2521": (16, 25),
+    "61_marg1240": (14, 33), "61_interl3136": (6, 16), "61_interl3137": (6, 16), "61_interl3139": (6, 16),
+    "61_interl3608": (10, 21), "61_interl3614": (10, 23), "61_interl4226": (15, 15), "61_interl4227": (15, 15),
+    "61_interl4274": (15, 27), "61_interl4290": (15, 29), "62_interl5286": (7, 16), "62_interl5392": (8, 19),
+    "63_marg63": (2, 20), "63_interl95": (1, 18), "63_interl98": (1, 18), "63_marg129": (4, 6),
+    "63_interl230": (2, 20), "63_marg232": (6, 8), "63_marg233": (6, 8), "63_marg234": (6, 8), "63_interl495": (5, 1),
+    "63_interl679": (6, 8), "63_interl681": (6, 8), "65_marg461": (1, 16), "65_marg553": (3, 13),
+    "65_interl1607": (1, 17), "65_interl1609": (1, 16), "67_interl2610": (1, 3), "67_interl2648": (1, 10),
+    "67_interl2650": (1, 10), "67_interl2652": (1, 10), "67_interl2653": (1, 10), "67_interl2657": (2, 2),
+    "67_interl2658": (2, 2), "67_interl2673": (2, 6), "67_interl2675": (2, 6), "67_interl2803": (3, 10),
+    "67_interl2804": (3, 10), "67_interl2805": (3, 10), "67_interl2841": (4, 3), "69_marg970": (5, 19),
+    "69_marg971": (5, 19), "69_interl3651": (5, 19), "70_marg1043": (2, 11), "73_marg1209": (2, 7),
+    "73_marg1336": (7, 13), "73_marg1548": (12, 24), "73_interl4570": (1, 10), "73_interl4571": (1, 10),
+    "73_interl4733": (2, 18), "73_interl4734": (2, 18), "73_interl4735": (2, 18), "73_interl4782": (3, 9),
+    "73_interl4819": (3, 18), "73_interl4822": (3, 19), "73_interl5217": (7, 10), "73_interl5235": (7, 13),
+    "73_interl5236": (7, 13), "73_interl5237": (7, 13), "73_interl5267": (7, 19), "73_interl5268": (7, 19),
+    "73_interl5817": (11, 16), "73_interl5846": (11, 25), "73_interl5847": (11, 25), "73_interl6010": (12, 18),
+    "73_interl6011": (12, 18), "73_interl6037": (12, 24), "73_interl6038": (12, 24), "73_interl6039": (12, 24),
+    "76_marg990": (1, 23), "77_marg1172": (2, 19), "77_interl3307": (2, 19), "79_marg1331": (1, 3),
+    "79_marg1332": (1, 5), "79_marg1333": (1, 5), "79_marg1338": (1, 7), "79_marg1352": (2, 4),
+    "79_marg1358": (2, 12), "79_marg1359": (2, 28), "79_marg1360": (2, 28), "79_marg1365": (2, 15),
+    "79_marg1366": (2, 15), "79_marg1374": (2, 19), "79_marg1423": (3, 19), "79_marg1424": (3, 19),
+    "79_interl3702": (1, 3), "79_interl3717": (1, 7), "79_interl3718": (1, 7), "79_interl3720": (1, 7),
+    "79_interl3737": (2, 28), "79_interl3744": (2, 4), "79_interl3779": (2, 11), "79_interl3780": (2, 11),
+    "79_interl3782": (2, 12), "79_interl3783": (2, 12), "79_interl3788": (2, 13), "79_interl3789": (2, 12),
+    "79_interl3790": (2, 13), "79_interl3792": (2, 14), "79_interl3796": (2, 15), "79_interl3797": (2, 15),
+    "79_interl3798": (2, 15), "79_interl3799": (2, 15), "79_interl3803": (2, 16), "79_interl3804": (2, 16),
+    "79_interl3805": (2, 17), "79_interl3816": (2, 19), "79_interl3948": (3, 24), "80_interl4100": (1, 5),
+    "83_marg1731": (2, 28), "83_marg1835": (5, 9), "83_marg1836": (5, 9), "83_marg2083": (13, 10),
+    "83_marg2293": (20, 9), "83_interl5365": (13, 5), "83_interl5366": (13, 7), "83_interl5993": (20, 8),
+    "83_interl5996": (20, 8), "83_interl5998": (20, 8), "83_interl6001": (20, 9), "83_interl6003": (20, 9),
+    "83_interl6004": (20, 9),
+    "61_interl2781": (3, 5), "61_interl2782": (3, 5), "61_interl3103": (6, 9), "61_interl4276": (15, 27), "64_interl969": (2, 15),
+    "65_marg498": (2, 8), "83_interl4611": (2, 27), "83_interl5992": (20, 8), "83_interl6009": (20, 10),
 }
 # ... and the words those long notes are about, in the Douay-Rheims's English
 WORDS = {"29_marg717": "Better is a child that is poor and wise, than a king that is old and foolish, who knoweth not "
@@ -523,7 +571,7 @@ def clean(s: str) -> str:
 
 
 DRB = ROOT / "data" / "drb.json"
-DR_NAMES = {"Hosea": "Osee", "Obadiah": "Abdias", "Jonah": "Jonas", "Micah": "Micheas", "Habakkuk": "Habacuc",
+DR_NAMES = {"Revelation": "Apocalypse", "Hosea": "Osee", "Obadiah": "Abdias", "Jonah": "Jonas", "Micah": "Micheas", "Habakkuk": "Habacuc",
             "Zephaniah": "Sophonias", "Haggai": "Aggeus", "Zechariah": "Zacharias", "Malachi": "Malachias",
             "Song of Solomon": "Canticles", "Isaiah": "Isaias", "Jeremiah": "Jeremias", "Ezekiel": "Ezechiel",
             "Wisdom of Solomon": "Wisdom", "Sirach": "Ecclesiasticus", "Joshua": "Josue", "1 Samuel": "1 Kings",
