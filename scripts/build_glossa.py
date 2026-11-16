@@ -26,7 +26,7 @@ OUT = ROOT / "data" / "patristics" / "glossa_ordinaria.json"
 BOOKS = {"03": "Genesis", "04": "Exodus", "05": "Leviticus", "06": "Numbers", "07": "Deuteronomy", "08": "Joshua",
          "09": "Judges", "10": "Ruth", "12": "1 Samuel", "13": "2 Samuel", "14": "1 Kings", "15": "2 Kings",
          "16": "1 Chronicles", "17": "2 Chronicles", "18": "Ezra", "19": "Nehemiah", "20": "1 Esdras",
-         "21": "2 Esdras", "22": "Tobit", "23": "Judith", "24": "Esther", "25": "Job","28": "Proverbs", "29": "Ecclesiastes", "30": "Song of Solomon", "31": "Wisdom of Solomon", "32": "Sirach", "33": "Isaiah", "34": "Jeremiah", "35": "Lamentations", "36": "Baruch", "37": "Ezekiel", "38": "Daniel", "40": "Hosea", "41": "Joel", "42": "Amos", "43": "Obadiah", "44": "Jonah", "45": "Micah", "46": "Nahum", "47": "Habakkuk", "48": "Zephaniah", "49": "Haggai", "50": "Zechariah", "51": "Malachi", "52": "1 Maccabees", "53": "2 Maccabees", "74": "Acts", "60": "Romans", "61": "1 Corinthians", "62": "2 Corinthians", "63": "Galatians", "64": "Ephesians", "65": "Philippians", "66": "Colossians", "67": "1 Thessalonians", "68": "2 Thessalonians", "69": "1 Timothy", "70": "2 Timothy", "71": "Titus", "72": "Philemon", "73": "Hebrews", "76": "James", "77": "1 Peter", "78": "2 Peter", "79": "1 John", "80": "2 John", "81": "3 John", "82": "Jude", "83": "Revelation"}  # Gloss-e's numbers -> the KJV's names (the books translated so far)
+         "21": "2 Esdras", "22": "Tobit", "23": "Judith", "24": "Esther", "25": "Job","28": "Proverbs", "29": "Ecclesiastes", "30": "Song of Solomon", "31": "Wisdom of Solomon", "32": "Sirach", "33": "Isaiah", "34": "Jeremiah", "35": "Lamentations", "36": "Baruch", "37": "Ezekiel", "38": "Daniel", "40": "Hosea", "41": "Joel", "42": "Amos", "43": "Obadiah", "44": "Jonah", "45": "Micah", "46": "Nahum", "47": "Habakkuk", "48": "Zephaniah", "49": "Haggai", "50": "Zechariah", "51": "Malachi", "52": "1 Maccabees", "53": "2 Maccabees", "55": "Matthew", "56": "Mark", "57": "Luke", "58": "John", "74": "Acts", "60": "Romans", "61": "1 Corinthians", "62": "2 Corinthians", "63": "Galatians", "64": "Ephesians", "65": "Philippians", "66": "Colossians", "67": "1 Thessalonians", "68": "2 Thessalonians", "69": "1 Timothy", "70": "2 Timothy", "71": "Titus", "72": "Philemon", "73": "Hebrews", "76": "James", "77": "1 Peter", "78": "2 Peter", "79": "1 John", "80": "2 John", "81": "3 John", "82": "Jude", "83": "Revelation"}  # Gloss-e's numbers -> the KJV's names (the books translated so far)
 LABELS = {"[allegorically]": "Allegorically", "[the moral sense]": "In the moral sense", "[Jerome]": "Jerome",
           "[Haimo]": "Haimo", "[Gregory]": "Gregory", "[Paschasius]": "Paschasius", "[mystically]": "Mystically",
           "[historically]": "Historically", "[Gilbert]": "Gilbert", "[Alcuin]": "Alcuin"}
@@ -290,7 +290,13 @@ VERSIFICATION = {"Exodus": table("04"), "Leviticus": table("05"), "Numbers": tab
                  "3 John": lambda c, v: (1, 14) if v == 15 else (c, v),
                  "Revelation": lambda c, v: (13, 1) if (c, v) == (12, 18) else (c, v),
                  # the Vulgate's Acts 7:55 and 14:6 each hold two of the KJV's verses, so the verses after are one on
-                 "Acts": lambda c, v: (c, v + 1) if (c == 7 and v >= 56) or (c == 14 and v >= 7) else (c, v)}
+                 "Acts": lambda c, v: (c, v + 1) if (c == 7 and v >= 56) or (c == 14 and v >= 7) else (c, v),
+                 # the Vulgate's John 6:51-52 are the KJV's 6:51 ("I am the living bread ... for the life of the world")
+                 "John": lambda c, v: (c, v - 1) if c == 6 and v >= 52 else (c, v),
+                 # the Vulgate's Matthew 17:14 is the KJV's 17:14-15 (the lunatic's father kneeling), so 17:15+ are one on
+                 "Matthew": lambda c, v: (c, v + 1) if c == 17 and v >= 15 else (c, v),
+                 # the Vulgate's Mark 8:39 ("there are some of them that stand here") is the KJV's 9:1, and its 9 one behind
+                 "Mark": lambda c, v: (9, 1) if (c, v) == (8, 39) else (c, v + 1) if c == 9 else (c, v)}
 # ... and where the edition's own verse numbers differ from the Douay-Rheims's (for the card's Douay-Rheims text)
 DOUAY_NUMBERS = {"Sirach": sirach_douay, "Judith": judith_douay, "Isaiah": isaiah_douay}
 # The edition's 2 Paralipomenon 37 is the Prayer of Manasses (the KJV's "Prayer of Manasseh", in its Apocrypha):
@@ -515,10 +521,25 @@ MOVES = {
     "61_interl2781": (3, 5), "61_interl2782": (3, 5), "61_interl3103": (6, 9), "61_interl4276": (15, 27), "64_interl969": (2, 15),
     "65_marg498": (2, 8), "83_interl4611": (2, 27), "83_interl5992": (20, 8), "83_interl6009": (20, 10),
     # Acts: notes filed a verse off, and where the Douay divides verses differently (7:59 / 8:1 "Saul was consenting")
-    "74_interl53": (1, 10), "74_interl470": (3, 19), "74_interl471": (3, 19), "74_interl185": (2, 10), "74_marg399": (8, 1), "74_interl1045": (8, 9),
+    "74_interl53": (1, 10), "74_interl470": (3, 19),
+    # John: notes the edition files a verse off (lemmas running into the next verse; "bringeth forth much fruit", 12:24)
+    "58_interl1018": (10, 7), "58_interl1196": (12, 24), "58_interl1197": (12, 24), "58_marg710": (16, 4), "58_interl1379": (14, 11), "58_interl1537": (16, 4), "58_interl1741": (19, 4), "74_interl471": (3, 19), "74_interl185": (2, 10), "74_marg399": (8, 1), "74_interl1045": (8, 9),
     "74_marg468": (9, 6), "74_marg469": (9, 6), "74_interl1341": (10, 25), "74_interl1428": (10, 46),
     "74_interl1482": (11, 26), "74_interl1702": (13, 31), "74_interl1732": (13, 39), "74_marg704": (15, 34),
     "74_interl2056": (16, 37), "74_interl2249": (19, 14), "74_marg789": (19, 14), "74_interl2572": (24, 18),
+    # Matthew: the Vulgate has the meek (5:4) before the mourners (5:5), the KJV the other way round; the Douay
+    # starts 10:3 with "James the son of Zebedee" (the KJV's 10:2); notes filed a verse late (10:4, 16:3)
+    "55_interl380": (5, 5), "55_marg452": (5, 5), "55_marg453": (5, 5), "55_marg454": (5, 5), "55_marg455": (5, 5),
+    "55_marg456": (5, 5), "55_marg457": (5, 5), "55_interl382": (5, 4), "55_marg458": (5, 4), "55_marg459": (5, 4),
+    "55_interl1054": (10, 2), "55_marg981": (10, 4), "55_interl1702": (16, 3), "55_interl1703": (16, 3),
+    "55_marg1338": (16, 3), "55_interl1788": (17, 15), "55_interl1789": (17, 15),   # the Douay's 17:14 runs into the KJV's 17:15
+    # Mark: the Douay's 4:40 ends where the KJV's 4:41 does; notes filed a verse off
+    "56_interl462": (4, 41), "56_marg495": (10, 11), "56_interl833": (10, 14), "56_marg497": (10, 14),
+    "56_marg584": (11, 31),
+    # Luke: notes filed a verse off, and where the Douay divides verses differently (4:18-19, 9:42-43)
+    "57_marg84": (1, 28), "57_marg243": (2, 43), "57_interl404": (4, 5), "57_interl424": (4, 18),
+    "57_interl425": (4, 18), "57_interl426": (4, 18), "57_interl427": (4, 18), "57_marg620": (7, 44),
+    "57_marg706": (9, 7), "57_marg770": (9, 42), "57_marg961": (12, 27), "57_marg1264": (17, 37), "57_interl1315": (17, 37),
 }
 # ... and the words those long notes are about, in the Douay-Rheims's English
 WORDS = {"29_marg717": "Better is a child that is poor and wise, than a king that is old and foolish, who knoweth not "
@@ -541,7 +562,9 @@ WORDS = {"29_marg717": "Better is a child that is poor and wise, than a king tha
          "47_interl6279": "Let rottenness enter into my bones",   # (a "but" the edition files under no words)
          "48_interl6394": "Her princes are in the midst of her",  # introduces 3:3, under 3:2's last words
          # Proverbs: one Latin "et" is "and" in most verses but "but" in 1:30; "egestas" is "want" except in 13:18
-         "28_interl110": "but", "28_interl111": "but", "28_interl866": "Poverty"}  # introduces 3:3, under 3:2's last words
+         "28_interl110": "but", "28_interl111": "but", "28_interl866": "Poverty",
+         # Luke 14:22's "Factum est" is "it is done", not the "it came to pass" of the book's other lemmas
+         "57_marg1110": "it is done as thou hast commanded"}  # introduces 3:3, under 3:2's last words
 # ... and those of them that stay where the edition has them: a gloss only on a short word ("eius") that the book's
 # lemmas give in another verse's sense ("his" in Nahum 1:13, "her" in 3:10)
 IN_PLACE = {"46_interl6006", "47_interl6279", "48_interl6394"}

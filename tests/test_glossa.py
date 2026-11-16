@@ -293,6 +293,32 @@ CHECKED = {("Hosea", "7", "7", "They were all heated like an oven"), ("Hosea", "
            ("Revelation", "11", "1", "And it was said to me: Arise,"),
            ("Revelation", "16", "21", "came down"),
            ("Revelation", "20", "12", "in the presence of the throne"),
+           # John: each under the verse whose Douay words it has (6:33 "Panis enim verus" is the edition's reading; 12:4
+           # "Dixit ergo" and 19:23 "Milites ergo" open those verses in the Vulgate)
+           ("John", "3", "15", "may not perish; but may have life everlasting."),
+           ("John", "5", "30", "I cannot of myself do any thing."),
+           ("John", "6", "33", "For the true bread"),
+           ("John", "6", "40", "And this is the will of my Father that sent me:"),
+           ("John", "8", "25", "They said therefore to him:"),
+           ("John", "8", "25", "who also speak unto you."),
+           ("John", "8", "26", "these same"),
+           ("John", "9", "6", "When he had said these things"),
+           ("John", "12", "4", "Jesus therefore said"),
+           ("John", "17", "6", "whom thou hast given"),
+           ("John", "17", "26", "And I have made known to them"),
+           ("John", "18", "22", "And when he had said these things,"),
+           ("John", "19", "23", "The soldiers therefore,"),
+           # Gospels: under the Douay verse with these words (Matthew 9:25's lemma is Mark's "Puella, surge", on the
+           # raising the verse tells)
+           ("Matthew", "6", "6", "But thou when thou shalt pray,"),
+           ("Matthew", "9", "25", "and said: Maid, arise."),
+           ("Luke", "22", "26", "but he that is the greater among you,"),
+           ("Matthew", "14", "34", "into the country of Genesar"), ("Matthew", "15", "31", "So that the multitudes marvelled"),
+           ("Matthew", "15", "33", "so many loaves"), ("Mark", "1", "29", "And immediately going out"),
+           ("Mark", "2", "2", "And it was heard that he was in the house"), ("Mark", "3", "20", "And they come to a house"),
+           ("Mark", "3", "33", "And answering them, he said:"), ("Mark", "14", "72", "And he began to weep."),
+           ("Luke", "10", "41", "And the Lord answering, said"), ("Luke", "13", "6", "seeking fruit"),
+           ("Luke", "18", "11", "O God, I give thee thanks"),
            # Acts: each under the verse whose Douay words it has; the KJV words it differently
            ("Acts", "3", "2", "of them that went into the temple."),
            ("Acts", "15", "12", "And all the multitude held their peace"),
