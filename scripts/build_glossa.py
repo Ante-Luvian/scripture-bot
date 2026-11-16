@@ -26,7 +26,7 @@ OUT = ROOT / "data" / "patristics" / "glossa_ordinaria.json"
 BOOKS = {"03": "Genesis", "04": "Exodus", "05": "Leviticus", "06": "Numbers", "07": "Deuteronomy", "08": "Joshua",
          "09": "Judges", "10": "Ruth", "12": "1 Samuel", "13": "2 Samuel", "14": "1 Kings", "15": "2 Kings",
          "16": "1 Chronicles", "17": "2 Chronicles", "18": "Ezra", "19": "Nehemiah", "20": "1 Esdras",
-         "21": "2 Esdras", "22": "Tobit", "23": "Judith", "24": "Esther", "25": "Job","28": "Proverbs", "29": "Ecclesiastes", "30": "Song of Solomon", "31": "Wisdom of Solomon", "32": "Sirach", "33": "Isaiah", "34": "Jeremiah", "35": "Lamentations", "36": "Baruch", "37": "Ezekiel", "38": "Daniel", "40": "Hosea", "41": "Joel", "42": "Amos", "43": "Obadiah", "44": "Jonah", "45": "Micah", "46": "Nahum", "47": "Habakkuk", "48": "Zephaniah", "49": "Haggai", "50": "Zechariah", "51": "Malachi", "52": "1 Maccabees", "53": "2 Maccabees", "60": "Romans", "61": "1 Corinthians", "62": "2 Corinthians", "63": "Galatians", "64": "Ephesians", "65": "Philippians", "66": "Colossians", "67": "1 Thessalonians", "68": "2 Thessalonians", "69": "1 Timothy", "70": "2 Timothy", "71": "Titus", "72": "Philemon", "73": "Hebrews", "76": "James", "77": "1 Peter", "78": "2 Peter", "79": "1 John", "80": "2 John", "81": "3 John", "82": "Jude", "83": "Revelation"}  # Gloss-e's numbers -> the KJV's names (the books translated so far)
+         "21": "2 Esdras", "22": "Tobit", "23": "Judith", "24": "Esther", "25": "Job","28": "Proverbs", "29": "Ecclesiastes", "30": "Song of Solomon", "31": "Wisdom of Solomon", "32": "Sirach", "33": "Isaiah", "34": "Jeremiah", "35": "Lamentations", "36": "Baruch", "37": "Ezekiel", "38": "Daniel", "40": "Hosea", "41": "Joel", "42": "Amos", "43": "Obadiah", "44": "Jonah", "45": "Micah", "46": "Nahum", "47": "Habakkuk", "48": "Zephaniah", "49": "Haggai", "50": "Zechariah", "51": "Malachi", "52": "1 Maccabees", "53": "2 Maccabees", "74": "Acts", "60": "Romans", "61": "1 Corinthians", "62": "2 Corinthians", "63": "Galatians", "64": "Ephesians", "65": "Philippians", "66": "Colossians", "67": "1 Thessalonians", "68": "2 Thessalonians", "69": "1 Timothy", "70": "2 Timothy", "71": "Titus", "72": "Philemon", "73": "Hebrews", "76": "James", "77": "1 Peter", "78": "2 Peter", "79": "1 John", "80": "2 John", "81": "3 John", "82": "Jude", "83": "Revelation"}  # Gloss-e's numbers -> the KJV's names (the books translated so far)
 LABELS = {"[allegorically]": "Allegorically", "[the moral sense]": "In the moral sense", "[Jerome]": "Jerome",
           "[Haimo]": "Haimo", "[Gregory]": "Gregory", "[Paschasius]": "Paschasius", "[mystically]": "Mystically",
           "[historically]": "Historically", "[Gilbert]": "Gilbert", "[Alcuin]": "Alcuin"}
@@ -288,7 +288,9 @@ VERSIFICATION = {"Exodus": table("04"), "Leviticus": table("05"), "Numbers": tab
                  # splits the KJV's 3 John 14 and Revelation 13:1 ("And I stood upon the sand of the sea" is its 12:18)
                  "2 Corinthians": lambda c, v: (13, 14) if (c, v) == (13, 13) else (c, v),
                  "3 John": lambda c, v: (1, 14) if v == 15 else (c, v),
-                 "Revelation": lambda c, v: (13, 1) if (c, v) == (12, 18) else (c, v)}
+                 "Revelation": lambda c, v: (13, 1) if (c, v) == (12, 18) else (c, v),
+                 # the Vulgate's Acts 7:55 and 14:6 each hold two of the KJV's verses, so the verses after are one on
+                 "Acts": lambda c, v: (c, v + 1) if (c == 7 and v >= 56) or (c == 14 and v >= 7) else (c, v)}
 # ... and where the edition's own verse numbers differ from the Douay-Rheims's (for the card's Douay-Rheims text)
 DOUAY_NUMBERS = {"Sirach": sirach_douay, "Judith": judith_douay, "Isaiah": isaiah_douay}
 # The edition's 2 Paralipomenon 37 is the Prayer of Manasses (the KJV's "Prayer of Manasseh", in its Apocrypha):
@@ -512,6 +514,11 @@ MOVES = {
     "83_interl6004": (20, 9),
     "61_interl2781": (3, 5), "61_interl2782": (3, 5), "61_interl3103": (6, 9), "61_interl4276": (15, 27), "64_interl969": (2, 15),
     "65_marg498": (2, 8), "83_interl4611": (2, 27), "83_interl5992": (20, 8), "83_interl6009": (20, 10),
+    # Acts: notes filed a verse off, and where the Douay divides verses differently (7:59 / 8:1 "Saul was consenting")
+    "74_interl53": (1, 10), "74_interl470": (3, 19), "74_interl471": (3, 19), "74_interl185": (2, 10), "74_marg399": (8, 1), "74_interl1045": (8, 9),
+    "74_marg468": (9, 6), "74_marg469": (9, 6), "74_interl1341": (10, 25), "74_interl1428": (10, 46),
+    "74_interl1482": (11, 26), "74_interl1702": (13, 31), "74_interl1732": (13, 39), "74_marg704": (15, 34),
+    "74_interl2056": (16, 37), "74_interl2249": (19, 14), "74_marg789": (19, 14), "74_interl2572": (24, 18),
 }
 # ... and the words those long notes are about, in the Douay-Rheims's English
 WORDS = {"29_marg717": "Better is a child that is poor and wise, than a king that is old and foolish, who knoweth not "

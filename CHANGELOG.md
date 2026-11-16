@@ -4,6 +4,11 @@ What's new, newest first. When the bot starts after an update, she posts any
 entries a server hasn't seen yet to that server's changelog channel
 (`!changelogsetup #channel`); anyone can read recent ones with `!changelog`.
 
+## 2026-11-16 · The Glossa Ordinaria on Acts
+- 📜 **The *Glossa Ordinaria*, the medieval Church's standard Bible commentary, now covers the Acts of the Apostles in English.** About 3,700 notes have been translated for ScriptureBot from the Latin of the first printed edition (1480), with Bible quotations in the Douay-Rheims wording. Most of them come from Bede and Rabanus Maurus.
+- On Pentecost (2:3) the Spirit appears "in fire and tongues, because all whom he fills he makes burn, and makes them speak", a sign that the Church would speak with the voice of every nation. On Saul's conversion (9:4), Christ says "why persecutest thou me?" and not "my members", because what is done to his members is done to him. Try `!verse Acts 2:3`, `!verse Acts 9:4` or `!verse Acts 1:9` (the Ascension).
+- Press **📖 Commentary** under any verse of Acts: the Glossa comes first in the menu, with the verse in the Douay-Rheims's words. You can also browse the shelf with `!books Glossa Ordinaria on Acts`. Where the Latin Bible numbers verses differently from the King James (in chapters 7, 14 and 19), each note is shown under the King James verse it explains.
+
 ## 2026-11-16 · The Glossa Ordinaria on the Epistles and the Apocalypse
 - 📜 **The *Glossa Ordinaria*, the medieval Church's standard Bible commentary, now covers every epistle (Romans to Hebrews, and James to Jude) and the Apocalypse (Revelation) in English.** The Glossa is short notes written between the lines of the Bible and longer ones in the margins, gathered mostly from the Church Fathers. About 20,200 notes have been translated for ScriptureBot from the Latin of the first printed edition (1480), with Bible quotations in the Douay-Rheims wording.
 - **Paul's letters** lean most on Augustine and Ambrose. On Romans 1:17 ("the justice of God is revealed") the justice of God is the one "by which he freely justifies the ungodly through faith"; on Romans 5:12 it explains why sin is said to enter "by one man" and not by Eve. Try `!verse Romans 1:17`, `!verse Romans 5:12` or `!verse 1 Corinthians 13:13` ("but the greatest of these is charity").

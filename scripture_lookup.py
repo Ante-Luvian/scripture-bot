@@ -1844,6 +1844,7 @@ ALIASES: dict[str, str] = {
                            ("Susanna", ("susanna", "sus")), ("Bel and the Dragon", ("bel and the dragon", "bel")),
                            ("1 Maccabees", ("1 maccabees", "1 macc", "1 mac", "1 machabees")),
                            ("2 Maccabees", ("2 maccabees", "2 macc", "2 mac", "2 machabees")),
+                           ("Acts", ("acts", "acts of the apostles", "act")),
                            ("Romans", ("romans", "rom", "rm")),
                            ("1 Corinthians", ("1 corinthians", "1 cor", "1cor", "first corinthians")),
                            ("2 Corinthians", ("2 corinthians", "2 cor", "2cor", "second corinthians")),

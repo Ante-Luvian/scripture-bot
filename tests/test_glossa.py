@@ -293,6 +293,12 @@ CHECKED = {("Hosea", "7", "7", "They were all heated like an oven"), ("Hosea", "
            ("Revelation", "11", "1", "And it was said to me: Arise,"),
            ("Revelation", "16", "21", "came down"),
            ("Revelation", "20", "12", "in the presence of the throne"),
+           # Acts: each under the verse whose Douay words it has; the KJV words it differently
+           ("Acts", "3", "2", "of them that went into the temple."),
+           ("Acts", "15", "12", "And all the multitude held their peace"),
+           ("Acts", "15", "16", "After these things"),
+           ("Acts", "17", "23", "and seeing your idols"),
+           ("Acts", "27", "8", "And with much ado sailing by it"),
            # Wisdom: the DR's wording differs from the KJV's
            ("Wisdom of Solomon", "3", "5", "because God hath tried them"),
            ("Wisdom of Solomon", "8", "6", "who … of those things"),
