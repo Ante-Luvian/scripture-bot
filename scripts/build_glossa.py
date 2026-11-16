@@ -26,7 +26,7 @@ OUT = ROOT / "data" / "patristics" / "glossa_ordinaria.json"
 BOOKS = {"03": "Genesis", "04": "Exodus", "05": "Leviticus", "06": "Numbers", "07": "Deuteronomy", "08": "Joshua",
          "09": "Judges", "10": "Ruth", "12": "1 Samuel", "13": "2 Samuel", "14": "1 Kings", "15": "2 Kings",
          "16": "1 Chronicles", "17": "2 Chronicles", "18": "Ezra", "19": "Nehemiah", "20": "1 Esdras",
-         "21": "2 Esdras", "22": "Tobit", "23": "Judith", "24": "Esther", "25": "Job","28": "Proverbs", "29": "Ecclesiastes", "30": "Song of Solomon", "31": "Wisdom of Solomon", "32": "Sirach", "33": "Isaiah", "35": "Lamentations", "40": "Hosea", "41": "Joel", "42": "Amos", "43": "Obadiah", "44": "Jonah", "45": "Micah", "46": "Nahum", "47": "Habakkuk", "48": "Zephaniah", "49": "Haggai", "50": "Zechariah", "51": "Malachi"}  # Gloss-e's numbers -> the KJV's names (the books translated so far)
+         "21": "2 Esdras", "22": "Tobit", "23": "Judith", "24": "Esther", "25": "Job","28": "Proverbs", "29": "Ecclesiastes", "30": "Song of Solomon", "31": "Wisdom of Solomon", "32": "Sirach", "33": "Isaiah", "34": "Jeremiah", "35": "Lamentations", "36": "Baruch", "37": "Ezekiel", "38": "Daniel", "40": "Hosea", "41": "Joel", "42": "Amos", "43": "Obadiah", "44": "Jonah", "45": "Micah", "46": "Nahum", "47": "Habakkuk", "48": "Zephaniah", "49": "Haggai", "50": "Zechariah", "51": "Malachi", "52": "1 Maccabees", "53": "2 Maccabees"}  # Gloss-e's numbers -> the KJV's names (the books translated so far)
 LABELS = {"[allegorically]": "Allegorically", "[the moral sense]": "In the moral sense", "[Jerome]": "Jerome",
           "[Haimo]": "Haimo", "[Gregory]": "Gregory", "[Paschasius]": "Paschasius", "[mystically]": "Mystically",
           "[historically]": "Historically", "[Gilbert]": "Gilbert", "[Alcuin]": "Alcuin"}
@@ -191,6 +191,40 @@ def judith_douay(c: int, v: int) -> tuple:
     return c, v
 
 
+def jeremiah(c: int, v: int) -> tuple:
+    """The Vulgate's Jeremiah 37:4 is the KJV's 37:4-5 (Jeremias walking free, and Pharao's army coming up), so its
+    37:5-20 are the KJV's 37:6-21."""
+    return (37, v + 1) if c == 37 and v >= 5 else (c, v)
+
+
+def daniel(c: int, v: int) -> tuple:
+    """The Vulgate's Daniel 3:91-97 are the KJV's 3:24-30 (its 3:24-90, the Prayer of Azarias and the Song of the
+    Three Children, are a book of the KJV's Apocrypha: song_of_three), its 3:98-100 the KJV's 4:1-3, and its 4:1-34
+    the KJV's 4:4-37. (Its 13 and 14, Susanna and Bel and the Dragon, are other books of the Apocrypha too.)"""
+    if c == 3 and v >= 98:
+        return 4, v - 97
+    if c == 3 and v >= 91:
+        return 3, v - 67
+    if c == 4:
+        return 4, v + 3
+    return c, v
+
+
+# The Vulgate's Daniel 3:24-90 as the verses of the KJV's Song of the Three Children: one ahead from 3:53 (the
+# Vulgate's 3:52 is the KJV's 29-30), and where the two put the canticle's lines in another order, by the line
+SONG_OF_THREE_ORDER = {54: 33, 55: 32, 58: 37, 59: 36, 69: 49, 70: 50, 71: 47, 72: 48}
+
+
+def song_of_three(c: int, v: int) -> tuple:
+    return 1, SONG_OF_THREE_ORDER.get(v, v - 23 if v <= 52 else v - 22)
+
+
+def bel(c: int, v: int) -> tuple:
+    """The Vulgate's Daniel 13:65 ("And king Astyages was gathered to his fathers") is the KJV's Bel 1, and its 14:1-41
+    are Bel 2-42; its 14:42 ends the KJV's 42."""
+    return (1, 1) if c == 13 else (1, min(v + 1, 42))
+
+
 def isaiah_douay(c: int, v: int) -> tuple:
     """The edition numbers Isaiah as the KJV does, but the Douay-Rheims splits 45:23 in two ("For every knee shall be
     bowed to me" is its 45:24) and joins the KJV's 46:12 to 46:11, so the edition's 45:24-25 are the Douay-Rheims's
@@ -246,12 +280,19 @@ VERSIFICATION = {"Exodus": table("04"), "Leviticus": table("05"), "Numbers": tab
                  "Judges": table("09"), "1 Samuel": table("12"), "1 Kings": table("14"), "Nehemiah": table("19"),
                  "Tobit": table("22"), "Judith": table("23", judith_douay), "1 Esdras": esdras1, "2 Esdras": esdras2,
                  "Genesis": genesis, "Job": job, "Sirach": sirach, "Wisdom of Solomon": wisdom, "Proverbs": proverbs,"Hosea": hosea, "Amos": amos, "Jonah": jonah, "Micah": micah, "Haggai": haggai,
-                 "Song of Solomon": song, "Ecclesiastes": ecclesiastes}
+                 "Song of Solomon": song, "Ecclesiastes": ecclesiastes,
+                 "Jeremiah": jeremiah, "Daniel": daniel, "Song of the Three Children": song_of_three,
+                 "Susanna": lambda c, v: (1, v), "Bel and the Dragon": bel, "1 Maccabees": table("52"),
+                 "2 Maccabees": table("53")}
 # ... and where the edition's own verse numbers differ from the Douay-Rheims's (for the card's Douay-Rheims text)
 DOUAY_NUMBERS = {"Sirach": sirach_douay, "Judith": judith_douay, "Isaiah": isaiah_douay}
 # The edition's 2 Paralipomenon 37 is the Prayer of Manasses (the KJV's "Prayer of Manasseh", in its Apocrypha):
 # Gloss-e's book number -> {chapter: (the KJV book it belongs to, its chapter there)}
 SPLIT = {"17": {"37": ("Prayer of Manasseh", "1")}}
+# ... and books of the KJV's Apocrypha that are verses of a Vulgate book: (KJV book, which (chapter, verse) are its)
+VERSE_SPLIT = {"38": (("Song of the Three Children", lambda c, v: c == 3 and 24 <= v <= 90),
+                      ("Susanna", lambda c, v: c == 13 and v <= 64),
+                      ("Bel and the Dragon", lambda c, v: (c == 13 and v == 65) or c == 14))}
 
 # Where a Vulgate verse straddles two of the KJV's, the glosses on the words the KJV puts in the other verse go there
 # (gloss id -> KJV chapter and verse). Hosea 6:1 begins with the end of KJV 5:15 ("In their affliction they will rise
@@ -406,6 +447,23 @@ MOVES = {
     "32_interl6200": (47, 14), "32_interl6201": (47, 14), "32_interl6226": (47, 23), "32_interl6227": (47, 23),
     "32_interl6283": (50, 4), "32_interl6284": (50, 4), "32_interl6289": (50, 7), "32_marg2146": (50, 14),
     "32_marg2165": (51, 15),
+    # Jeremiah: notes the edition files a verse off (their words are in the next or last Douay verse), and 28:12's
+    # "And Jeremias the prophet went his way", which ends the KJV's 28:11
+    "34_interl8924": (4, 30), "34_interl8925": (4, 30), "34_interl8928": (4, 30), "34_interl8929": (4, 30),
+    "34_interl8930": (4, 30), "34_marg1770": (4, 30), "34_interl9172": (7, 20), "34_marg2170": (24, 1),
+    "34_interl10168": (24, 5), "34_interl10169": (24, 5), "34_interl10172": (24, 5), "34_interl10212": (25, 27),
+    "34_marg2194": (25, 27), "34_marg2245": (28, 15), "34_interl10285": (28, 11),
+    # Ezekiel: the Douay's 2:1 begins with the end of the KJV's 1:28 ("This was the vision of the likeness of the
+    # glory of the Lord ... I fell upon my face") and its 2:9 runs on into the KJV's 2:10, its 28:11 into 28:12 ("take
+    # up a lamentation") and its 40:8 holds the end of the KJV's 40:7 (the threshold by the porch); and a few notes
+    # filed a verse off
+    "37_interl12275": (1, 28), "37_interl12276": (1, 28), "37_interl12279": (1, 28), "37_marg2972": (2, 1),
+    "37_interl12331": (2, 10), "37_interl12334": (2, 10), "37_marg2991": (2, 10), "37_interl12612": (7, 2),
+    "37_marg3121": (7, 2), "37_marg3214": (11, 13), "37_marg3604": (28, 12), "37_interl15019": (36, 3),
+    "37_marg3874": (40, 7),
+    # Daniel: notes filed a verse off, and "the king thought to set him over all the kingdom", which ends the KJV's 6:3
+    "38_marg4259": (1, 7), "38_marg4260": (1, 7), "38_interl16398": (2, 47), "38_interl16399": (2, 47),
+    "38_interl16714": (6, 3), "38_interl16945": (8, 17),
 }
 # ... and the words those long notes are about, in the Douay-Rheims's English
 WORDS = {"29_marg717": "Better is a child that is poor and wise, than a king that is old and foolish, who knoweth not "
@@ -472,7 +530,9 @@ DR_NAMES = {"Hosea": "Osee", "Obadiah": "Abdias", "Jonah": "Jonas", "Micah": "Mi
             "2 Samuel": "2 Kings", "1 Kings": "3 Kings", "2 Kings": "4 Kings", "1 Chronicles": "1 Paralipomenon",
             "2 Chronicles": "2 Paralipomenon", "Ezra": "1 Esdras", "Nehemiah": "2 Esdras", "Tobit": "Tobias",
             # (the KJV's 1-2 Esdras are the Vulgate's 3-4 Esdras, which the Douay-Rheims doesn't have)
-            "1 Esdras": "3 Esdras", "2 Esdras": "4 Esdras", "Prayer of Manasseh": "Prayer of Manasses"}
+            "1 Esdras": "3 Esdras", "2 Esdras": "4 Esdras", "Prayer of Manasseh": "Prayer of Manasses",
+            "Song of the Three Children": "Daniel", "Susanna": "Daniel", "Bel and the Dragon": "Daniel",
+            "1 Maccabees": "1 Machabees", "2 Maccabees": "2 Machabees"}
 
 
 def douay(name: str, latin: dict, to_kjv, moved_from: dict) -> dict:
@@ -505,7 +565,13 @@ def main():
     for n, name in BOOKS.items():
         chapters = json.loads((LATIN / f"{n}.json").read_text(encoding="utf-8"))["chapters"]
         split = SPLIT.get(n, {})
-        parts.append((n, name, {c: vs for c, vs in chapters.items() if c not in split}))
+        own = {c: vs for c, vs in chapters.items() if c not in split}
+        for other, belongs in VERSE_SPLIT.get(n, ()):
+            # (kept under the edition's own numbers, which the other book's VERSIFICATION maps)
+            part = {c: {v: gs for v, gs in vs.items() if belongs(int(c), int(v))} for c, vs in own.items()}
+            own = {c: {v: gs for v, gs in vs.items() if not belongs(int(c), int(v))} for c, vs in own.items()}
+            parts.append((n, other, {c: vs for c, vs in part.items() if vs}))
+        parts.append((n, name, {c: vs for c, vs in own.items() if vs}))
         for c, (other, kc) in split.items():
             parts.append((n, other, {kc: chapters[c]}))
     for n, name, latin_chapters in parts:
@@ -520,6 +586,9 @@ def main():
                 for g in glosses:
                     if not g["latin"].strip():
                         continue                    # blank in the edition (e.g. Sirach marg1883): nothing to translate
+                    if re.fullmatch(r"\+?\s*\[(?:[^\[\]]|\[[^\]]*\])*\]\s*", g["latin"]):
+                        continue                    # only the editor's bracketed pointer (Daniel marg4586: "see the
+                                                    # tables in the prologues"), not the Gloss's own words
                     text = english.get(g["id"])
                     if not text:
                         missing.append(g["id"])

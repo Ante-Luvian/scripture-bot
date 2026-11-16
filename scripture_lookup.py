@@ -1836,7 +1836,14 @@ ALIASES: dict[str, str] = {
                                                    "pr man", "prman")),
                            ("Ezra", ("ezra", "ezr")), ("Nehemiah", ("nehemiah", "neh", "nehemias")),
                            ("1 Esdras", ("1 esdras", "1 esd", "3 esdras")), ("2 Esdras", ("2 esdras", "2 esd", "4 esdras")),
-                           ("Tobit", ("tobit", "tob", "tobias", "tb")), ("Judith", ("judith", "jdt")))
+                           ("Tobit", ("tobit", "tob", "tobias", "tb")), ("Judith", ("judith", "jdt")),
+                           ("Jeremiah", ("jeremiah", "jer", "jeremias")), ("Baruch", ("baruch", "bar")),
+                           ("Ezekiel", ("ezekiel", "ezek", "eze", "ezechiel")), ("Daniel", ("daniel", "dan", "dn")),
+                           ("Song of the Three Children", ("song of the three children", "song of the three",
+                                                           "prayer of azariah", "prayer of azarias", "sg3")),
+                           ("Susanna", ("susanna", "sus")), ("Bel and the Dragon", ("bel and the dragon", "bel")),
+                           ("1 Maccabees", ("1 maccabees", "1 macc", "1 mac", "1 machabees")),
+                           ("2 Maccabees", ("2 maccabees", "2 macc", "2 mac", "2 machabees")))
        for b in names},
     **{f"{p} {b}": "Glossa Ordinaria on Job" for p in ("glossa", "glossa ordinaria", "glossa on") for b in ("job", "jb", "iob")},
     **{f"{p} {b}": "Glossa Ordinaria on Proverbs" for p in ("glossa", "glossa ordinaria", "glossa on") for b in ("proverbs", "prov", "prv", "pr")},

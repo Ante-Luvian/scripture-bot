@@ -57,8 +57,7 @@ def _labels(buttons):
     ("Tobit 1:1",          ["Card", "Commentary"]),   # apocrypha: no NET notes, cross-refs or Strong's; the Glossa
     ("Sirach 1:1",         ["Card", "Commentary"]),   # (the Glossa Ordinaria on Sirach)
     ("Jude 3",             ["Notes", "Cross-refs", "Interlinear", "Card"]),   # a book of one chapter
-    ("Susanna 36",         ["Card"]),
-    ("Book of Enoch 1:9",  []),
+    ("Susanna 36",         ["Card", "Commentary"]),   # (the Glossa Ordinaria on Daniel's 13th chapter)    ("Book of Enoch 1:9",  []),
 ])
 def test_study_buttons_only_for_bible_verses(verse, reference, labels):
     assert _labels(verse._study_buttons({"found": True, "reference": reference})) == labels

@@ -320,7 +320,12 @@ def selection(nn: str, pilot: int) -> list:
 def dr_name(nn: str) -> str:
     """The book's Douay-Rheims name, found by matching its first glossed verse's lemma against the Douay."""
     names = {"26": "Psalms", "33": "Isaias", "34": "Jeremias", "36": "Baruch", "37": "Ezechiel", "38": "Daniel",
-             "52": "1 Machabees", "53": "2 Machabees"}
+             "52": "1 Machabees", "53": "2 Machabees", "86": "Baruch",   # (the Letter of Jeremias is Baruch 6)
+             "55": "Matthew", "56": "Mark", "57": "Luke", "58": "John", "74": "Acts", "60": "Romans",
+             "61": "1 Corinthians", "62": "2 Corinthians", "63": "Galatians", "64": "Ephesians", "65": "Philippians",
+             "66": "Colossians", "67": "1 Thessalonians", "68": "2 Thessalonians", "69": "1 Timothy",
+             "70": "2 Timothy", "71": "Titus", "72": "Philemon", "73": "Hebrews", "76": "James", "77": "1 Peter",
+             "78": "2 Peter", "79": "1 John", "80": "2 John", "81": "3 John", "82": "Jude", "83": "Apocalypse"}
     if nn not in names:
         sys.exit(f"add book {nn}'s Douay-Rheims name to dr_name()")
     return names[nn]
