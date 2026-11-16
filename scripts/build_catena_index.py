@@ -95,7 +95,11 @@ def main():
 
     def add(book, ch, first, last, entry):
         for v in range(first, min(last, first + MAX_SPAN - 1) + 1):
-            index.setdefault(f"{book} {ch}:{v}", []).append(entry)
+            # the Fathers cite the Additions to Esther as Esther (10:4-16:24, as the Vulgate numbers them, which is
+            # how the KJV numbers its Additions to Esther too); the bot has them under that book
+            where = "Additions to Esther" if book == "Esther" and (int(ch) > 10 or (int(ch) == 10 and v >= 4)) \
+                else book
+            index.setdefault(f"{where} {ch}:{v}", []).append(entry)
 
     # rank 1: the Catena Aurea
     ca = json.loads((PATRISTICS / "catena_aurea.json").read_text(encoding="utf-8"))

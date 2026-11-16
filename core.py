@@ -744,7 +744,8 @@ _AUTO_RE = re.compile(
     r"((?:\d\s*)?[A-Za-z][A-Za-z&'\-\s]{0,28}?)"  # book name / abbreviation
     r"\s+(\d{1,3})"                                # chapter
     r":(\d{1,3})"                                  # :verse  (colon required)
-    r"(?:\s*[-–]\s*(\d{1,3}))?"                    # optional -endverse
+    r"(?:\s*[-–—]\s*(?:\2:)?(\d{1,3})(?!:))?"      # optional -endverse ("6:18–6:47", as !bcp writes it, is
+                                                   # 6:18-47; "7:53-8:11" isn't read as 7:53-8)
     r"(?!\w)"                                      # not followed by a word char
 )
 

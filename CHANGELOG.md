@@ -4,6 +4,16 @@ What's new, newest first. When the bot starts after an update, she posts any
 entries a server hasn't seen yet to that server's changelog channel
 (`!changelogsetup #channel`); anyone can read recent ones with `!changelog`.
 
+## 2026-11-15 · The Additions to Esther, cited any way
+- **The Greek book of Esther has six passages the Hebrew lacks** (Mardochai's dream, the king's two letters, the prayers of Mardochai and Esther, Esther going in to the king). Jerome moved them all to the end of the book, so older Bibles number them Esther 10:4 to 16:24; the King James Version calls them **Additions to Esther** with the same numbers. Modern Catholic and ecumenical Bibles put them back in the story and letter them **A to F**. All of these now work:
+  - by letter, as modern Bibles print them: `!verse Esther C:2` (Mardochai's prayer, "O Lord, Lord, the King Almighty"), `!verse Esther C:11-12`, or a whole addition, `!verse Esther D`
+  - as the Greek book: `!verse Greek Esther 13:9` or `!verse Rest of Esther 14:3`
+  - as before: `!verse Additions to Esther 13:9` or `!verse Add Esth 13:9`
+  - in the Douay-Rheims and Knox, which keep these chapters inside Esther: `!verse Esther C:2 drb`, `!verse Rest of Esther 14:3 knox`
+- The letters map like this: A = 11:2-12:6, B = 13:1-7, C = 13:8-14:19, D = 15:1-16, E = 16:1-24, F = 10:4-11:1.
+- **The Church Fathers now show up on these verses.** Augustine's comments on Esther's prayer were filed under plain "Esther 14", which the King James Esther doesn't have, so 📖 Commentary on Additions to Esther 14:6-7, 14:13 and 14:16 came up empty. They show now.
+- **Fix:** a reference written with the chapter twice, like `1 Maccabees 6:18–6:47` (the way some reading lists and the Prayer Book lectionary print them), only worked after `!verse`. In an ordinary message the bot ignored it. It now posts the passage like any other reference.
+
 ## 2026-11-15 · The Glossa Ordinaria on Isaiah
 
 - 📜 **The *Glossa Ordinaria* on Isaiah is here, in English.** The Glossa is the medieval Church's great Bible commentary: short notes written between the lines of the Bible and longer ones in the margins, gathered from the Church Fathers (for Isaiah chiefly Jerome, with Gregory, Augustine and Origen). It reads Isaiah as a prophet of Christ: the child born to us is the Son of God, born "according to the flesh", and the government upon his shoulder is the cross; the one "wounded for our iniquities" is Christ suffering "not for his own" sins, and the voice crying in the desert is John the Baptist. It also explains the history behind the prophecies (the kings of Juda, Assyria and Babylon), the meaning of the Hebrew names, and where the Septuagint (the ancient Greek translation of the Old Testament) and the other Greek translations read differently from the Latin.

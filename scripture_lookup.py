@@ -288,6 +288,10 @@ ALIASES: dict[str, str] = {
     "tob": "Tobit",
     "jdt": "Judith",
     "addesth": "Additions to Esther", "add esth": "Additions to Esther",
+    "add est": "Additions to Esther", "additions to esther": "Additions to Esther",
+    "rest of esther": "Additions to Esther", "the rest of esther": "Additions to Esther",
+    "greek esther": "Additions to Esther", "esther greek": "Additions to Esther", "gk esth": "Additions to Esther",
+    "esg": "Additions to Esther",
     "wis": "Wisdom of Solomon", "wisd": "Wisdom of Solomon", "wisdom": "Wisdom of Solomon",
     "sir": "Sirach", "ecclus": "Sirach",
     "bar": "Baruch",
@@ -2491,6 +2495,59 @@ _HERMAS_REF = re.compile(
     r"(?:[:.](?P<verse>\d+)(?:\s*[-–—]\s*(?P<verse_end>\d+))?)?)?$",
     re.IGNORECASE,
 )
+
+
+# The Additions to Esther: the KJV (like the Vulgate, which gathered them at the end of the book) numbers them
+# 10:4-16:24 under their own name; modern Bibles put them back in the story as Additions A to F, each numbered from 1.
+# Each letter's runs of verses, in the KJV's numbering: (chapter, first verse, last verse).
+ESTHER_LETTERS = {"A": ((11, 2, 12), (12, 1, 6)), "B": ((13, 1, 7),), "C": ((13, 8, 18), (14, 1, 19)),
+                  "D": ((15, 1, 16),), "E": ((16, 1, 24),), "F": ((10, 4, 13), (11, 1, 1))}
+_ESTHER_NAME = r"(?:the\s+)?(?:greek\s+esther|esther\s*\(?greek\)?|rest\s+of\s+esther|gk\.?\s*esth|esg|" \
+               r"add(?:itions\s+to)?\.?\s*esth?(?:er)?\.?)"
+
+
+def _esther_letter_verse(letter: str, n: int) -> "tuple | None":
+    """Addition `letter`'s verse n as the KJV's (chapter, verse), or None if it has no verse n."""
+    for c, first, last in ESTHER_LETTERS[letter]:
+        if n <= last - first + 1:
+            return c, first + n - 1
+        n -= last - first + 1
+    return None
+
+
+def esther_additions(ref: str) -> str:
+    """References to the Additions to Esther in other Bibles' styles, as the bot numbers them (see ESTHER_LETTERS):
+    "Esther C:2" or "Esther C 2" (an addition by letter, as modern Bibles print them), "Esther C" (all of it), and
+    "Greek Esther 13:9" or "Rest of Esther 13:9" (the Greek book as a whole: from 10:4 on the Additions, before that
+    the Esther the Hebrew and the Greek share). Anything else is returned as it is."""
+    m = re.match(rf"^(?:esther|esth?\.?|{_ESTHER_NAME})\s+([a-fA-F])(?:\s*[:.]?\s*(\d+)(?:\s*[-–—]\s*(\d+))?)?$",
+                 ref, re.I)
+    if m:
+        letter = m.group(1).upper()
+        runs = ESTHER_LETTERS[letter]
+        first = _esther_letter_verse(letter, int(m.group(2))) if m.group(2) else (runs[0][0], runs[0][1])
+        last = (_esther_letter_verse(letter, int(m.group(3))) if m.group(3)
+                else first if m.group(2) else (runs[-1][0], runs[-1][2]))
+        if not first or not last:
+            return ref
+        if first == last:
+            return f"Additions to Esther {first[0]}:{first[1]}"
+        if first[0] == last[0]:
+            return f"Additions to Esther {first[0]}:{first[1]}-{last[1]}"
+        return f"Additions to Esther {first[0]}:{first[1]}-{last[0]}:{last[1]}"
+    m = re.match(rf"^{_ESTHER_NAME}\s+(\d+)(.*)$", ref, re.I)
+    if m and not re.match(r"^add", ref, re.I):
+        c = int(m.group(1))
+        v = re.match(r"\s*:\s*(\d+)", m.group(2))
+        additions = c > 10 or (c == 10 and v and int(v.group(1)) >= 4)
+        return f"{'Additions to Esther' if additions else 'Esther'} {c}{m.group(2)}"
+    return ref
+
+
+def vulgate_esther(ref: str) -> str:
+    """For the Bibles that number Esther as the Vulgate does (the Douay-Rheims, Knox), where the Additions are simply
+    Esther 10:4-16:24: the styles esther_additions() reads, as plain Esther."""
+    return re.sub(r"^Additions to Esther\b", "Esther", esther_additions(ref.strip()))
 
 
 class ScriptureLookup:
@@ -4742,7 +4799,7 @@ class ScriptureLookup:
           - 'Rig Veda 10.121:9'
           - 'Rig Veda 10.121.9'
         """
-        ref = ref.strip()
+        ref = esther_additions(ref.strip())
 
         # ── Multi-chapter range: "Book C1-C2" (e.g. "John 3-5") ─────────────
         m_chap_range = re.match(
@@ -5008,6 +5065,7 @@ def get_verse_drb(reference: str) -> dict:
     data = _load_drb()
     if data is None:
         return {"found": False, "error": "Douay-Rheims data not found (drb.json missing).", "suggestions": []}
+    reference = vulgate_esther(reference)
 
     # Parse reference
     m = re.match(
@@ -5117,6 +5175,7 @@ def get_verse_knox(reference: str) -> dict:
     Accepts standard KJV book names as well as Knox/Vulgate names
     (Josue, Tobias, Canticle, Machabees, Apocalypse, etc.).
     """
+    reference = vulgate_esther(reference)
     data = _load_knox()
     if data is None:
         return {
