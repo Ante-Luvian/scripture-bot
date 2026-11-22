@@ -154,6 +154,22 @@ def test_places_only_the_apocrypha_name(pp, fake_ctx):
     assert "1 Maccabees 5:26" not in places["bozrah_256"]["apocrypha"]
 
 
+def test_judas_last_battle_is_mapped(pp):
+    # 1 Maccabees 9:1-22 (reported in Discord): Gilgal was lost ("Beth-gilgal" made it a lower-case word), "the land
+    # of Judah" went to the patriarch, and the sites with published identifications were left "unknown"
+    places = pp.data()["places"]
+    order = dict(pp.passage_order("1 Maccabees", (9, 1), (9, 22)))
+    assert order[(9, 1)] == ["judea_657"] and "gilgal_476" in order[(9, 2)]
+    for slug in ("arbela_a40", "mesaloth_a39", "berea_a44", "elasa_a35", "modein_a21"):
+        assert places[slug]["lat"] is not None, slug
+    # Mount Azotus is a hill by Elasa, not the coastal city (which is Ashdod's site, now on the map)
+    assert order[(9, 15)] == ["mount_azotus_a60"] and places["mount_azotus_a60"]["lat"] is None
+    assert places["azotus_132"]["lat"] == places["ashdod_101"]["lat"] or abs(
+        places["azotus_132"]["lat"] - places["ashdod_101"]["lat"]) < 0.01
+    assert "1 Maccabees 15:11" in places["dor_341"]["apocrypha"]                                # (En-dor)
+    assert "1 Maccabees 5:9" in places["gilead_475"]["apocrypha"]                               # (Ramoth-gilead)
+
+
 def test_kjv_spelling_from_its_text(pp):
     magdala = pp.find("places", "Magdala")
     assert pp.data()["places"][magdala[0]]["verses"] == ["Matthew 15:39"]                      # not Migdol

@@ -304,7 +304,7 @@ APOCRYPHA_SAME = {"Gazara": "gezer_463", "Jamnia": "jabneh_615", "Askalon": "ash
                   "Adida": "hadid_503", "Adora": "adoraim_28", "Aphairema": "ephraim_401",
                   # the KJV's 1 and 2 Esdras: Jewry is Judea, Sion Zion, and Josiah dies at Magiddo (2 Chr 35:22)
                   "Jewry": "judea_657", "Sion": "jerusalem_636", "Magiddo": "megiddo_777",
-                  "Carchamis": "carchemish_277",
+                  "Carchamis": "carchemish_277", "Land of Judah": "judea_657",
                   # the Maccabees' Mount Zion is the temple mount (1 Macc 4:37, 4:60), not Jerusalem at large; the
                   # Mount Sion of Deuteronomy 4:48 is Hermon, so the name goes to Zion here by rule
                   "Mount Zion": "mount_zion_860", "Mount Sion": "mount_zion_860",
@@ -383,7 +383,28 @@ APOCRYPHA_PLACES = [
     ("tripolis_a57", "Tripolis", [], "City", "668394", ["2 Maccabees"]),
     ("mallus_a58", "Mallus", [], "City", "648702", ["2 Maccabees"]),
     ("charax_a59", "Charax", [], "City", None, ["2 Maccabees"]),
+    # 1 Maccabees 9:15's hill, where Judas drove Bacchides' right wing: not the city of Azotus (Ashdod), on the coast
+    ("mount_azotus_a60", "Mount Azotus", [], "Mountain", None, ["1 Maccabees"]),
 ]
+# Sites for Apocrypha-only places that Pleiades has under another name, or not at all: slug -> (a Pleiades id, a
+# located place's slug or (lat, lon); whether it's only roughly there; what the card says of it). Each pairing is
+# a published identification, named in the comment.
+APOCRYPHA_SITES = {
+    # Josephus, Antiquities 12.11.1 (data/jewish/josephus.json): Bacchides "pitched his camp at Arbela, a city of
+    # Galilee", and took "those that were there in caves". Pleiades 678029 is Galilee's Arbela (Arbel, above the
+    # Sea of Galilee, with its caves); 678028 is Transjordan's (Irbid, Theographic's Beth-arbel)
+    "arbela_a40": ("678029", False, "Arbela in Galilee, above the Sea of Galilee (Josephus, Antiquities 12.11.1)."),
+    "mesaloth_a39": ("678029", True, "“Mesaloth, which is in Arbela” (1 Maccabees 9:2): shown at Arbela in Galilee."),
+    # Tyndale's Bible Dictionary, ISBE, Hastings: "usually identified with Il'asa", between the two Beth-horons;
+    # the point is Wikipedia's for the battle of Elasa
+    "elasa_a35": ((31.8761, 35.2083), True, "Usually identified with Il'asa, near Beth-horon."),
+    # Bacchides' camp, near Elasa: commonly taken for Beeroth (el-Bireh); the Jewish Encyclopedia calls the
+    # evidence unsatisfactory, and some read Berzetho (Bir Zeit) instead
+    "berea_a44": ("beeroth_168", True, "Probably Beeroth (el-Bireh), north of Jerusalem; some read Bir Zeit."),
+    # the Jewish Encyclopedia and McClintock and Strong: perhaps "the mountain of Azor" (Baal-hazor), but doubtful
+    "mount_azotus_a60": (None, False, "Not the city of Azotus on the coast, but a hill near Elasa; no site is "
+                                      "agreed (some read “Mount Azor”, Baal-hazor)."),
+}
 APOCRYPHA_PLACES_OUT = ROOT / "data" / "people_places" / "apocrypha_places.json"
 
 
@@ -398,23 +419,37 @@ def pleiades() -> dict:
         return {r["id"]: r for r in csv.DictReader(io.TextIOWrapper(f, encoding="utf-8"))}
 
 
-def apocrypha_places() -> dict:
-    """APOCRYPHA_PLACES as place records like people_places.json's (their verses are added by apocrypha())."""
+def apocrypha_places(places: dict) -> dict:
+    """APOCRYPHA_PLACES as place records like people_places.json's (their verses are added by apocrypha()), sited
+    by Pleiades or APOCRYPHA_SITES."""
     pl = pleiades()
     out = {}
     for slug, name, also, kind, pid, books in APOCRYPHA_PLACES:
+        site, rough, note = APOCRYPHA_SITES.get(slug, (None, False, ""))
+        if isinstance(site, str) and site in places:                  # the site of a place already located
+            pid, lat, lon = None, places[site]["lat"], places[site]["lon"]
+        elif isinstance(site, tuple):
+            pid, (lat, lon) = None, site
+        else:
+            pid = site or pid
+            lat = lon = None
         r = pl.get(pid) if pid else None
         if pid and not r:
             raise SystemExit(f"Pleiades has no place {pid} ({name})")
-        located = bool(r and r["reprLat"])
+        if r and r["reprLat"]:
+            lat, lon = float(r["reprLat"]), float(r["reprLong"])
+            # (Pleiades's own doubt: "Bosora?", a "rough" location)
+            rough = rough or "?" in r["title"] or r["locationPrecision"] != "precise"
+        if site is not None and lat is None:
+            raise SystemExit(f"APOCRYPHA_SITES: no location for {name} ({site})")
+        located = lat is not None
         out[slug] = {"name": name, "also": also, "kind": kind,
-                     "lat": round(float(r["reprLat"]), 4) if located else None,
-                     "lon": round(float(r["reprLong"]), 4) if located else None,
-                     # (Pleiades's own doubt: "Bosora?", a "rough" location)
-                     "approx": located and ("?" in r["title"] or r["locationPrecision"] != "precise"),
+                     "lat": round(lat, 4) if located else None,
+                     "lon": round(lon, 4) if located else None,
+                     "approx": located and bool(rough),
                      "about": "", "within": [], "verses": [], "weight": 0,
                      "pleiades": f"https://pleiades.stoa.org/places/{pid}" if pid else "",
-                     "books": books}
+                     "books": books, "note": note}
     return out
 
 # people of the Apocrypha whose names are like a place's (Antiochus, Antioch), without the Greek's accents
@@ -445,8 +480,9 @@ def apocrypha(places, all_names, people, out, texts, new=None):
     for key, slug in APOCRYPHA_SAME.items():
         name, book = key if isinstance(key, tuple) else (key, None)
         fixed[plain(name)].append((slug, [book] if book else None))
+    # (whole words only: "Beth-gilgal" doesn't make "gilgal" a word in lower case, which lost Gilgal, 1 Macc 9:2)
     lower = {w for text in (nrsv, kjv) for seq in text.order.values() for _, _, verse in seq
-             for w in re.findall(r"\b[a-z]+\b", verse)}
+             for w in re.findall(r"(?<![\w-])[a-z]+(?![\w-])", verse)}
     person_weight = Counter()
     for x in people.values():
         for n in {x["name"], *x.get("also", [])}:
@@ -479,8 +515,11 @@ def apocrypha(places, all_names, people, out, texts, new=None):
                     # (and "Red Sea": "Red")
                     mount = re.search(r"\bmount " + re.escape(w) + r"\b", verse, re.I)
                     sea = re.search(r"\b" + re.escape(w) + r" sea\b", verse, re.I)
+                    # (and "the land of Judah", the country, where "Judah" alone is the patriarch's: 1 Macc 9:1)
+                    land = re.search(r"\bland of " + re.escape(w) + r"\b", verse, re.I)
                     rule = [s for key in ([plain("Mount " + w)] if mount else []) + \
-                            ([plain(w + " Sea")] if sea else []) + [plain(w)]
+                            ([plain(w + " Sea")] if sea else []) + ([plain("Land of " + w)] if land else []) + \
+                            [plain(w)]
                             for s, books in fixed.get(key, []) if books is None or book in books][:1]
                     if rule:
                         slug = rule[0]
@@ -656,7 +695,7 @@ def main():
             out[slug] = entry
     kjv_apocrypha = Text(json.loads((ROOT / "data" / "kjv" / "kjv_apocrypha.json").read_text(encoding="utf-8"))["books"],
                          "modern")
-    new = apocrypha_places()
+    new = apocrypha_places(places)
     found = apocrypha(places, all_names, people, out,
                       {"nrsv": nrsv, "kjv": kjv_apocrypha, "douay": dr, "latin": vul, "greek": lxx}, new)
     print(f"the Apocrypha name {len(found)} places, in {sum(map(len, found.values()))} verses")
@@ -674,7 +713,9 @@ def main():
             p["about"] = f"Named only in the Apocrypha. {refs[0]} (KJV): “{verse.strip()}”"
         else:
             p["about"] = "Named only in the Apocrypha."
-        del p["books"]
+        if p["note"]:
+            p["about"] += " " + p["note"]
+        del p["books"], p["note"]
     APOCRYPHA_PLACES_OUT.write_text(json.dumps(new, ensure_ascii=False, indent=0), encoding="utf-8")
     OUT.write_text(json.dumps(out, ensure_ascii=False, indent=0), encoding="utf-8")
     counts = Counter(k for e in out.values() for k in e)

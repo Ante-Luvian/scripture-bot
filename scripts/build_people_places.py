@@ -24,6 +24,13 @@ OUT = ROOT / "data" / "people_places"
 THEO = "https://raw.githubusercontent.com/robertrouse/theographic-bible-metadata/master/json/{}.json"
 NE = "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/{}.geojson"
 BBOX = (-15.0, 5.0, 80.0, 58.0)        # lon/lat: Tarshish (Spain) to India, Sheba to past the Black Sea
+# Places Theographic leaves unlocated though Easton's entry (its own description) names the site, placed at
+# Pleiades's (cached by build_place_names.py): slug -> Pleiades id
+PLEIADES_SITES = {"azotus_132": "687838",     # "the Grecized form of Ashdod": Pleiades's Ashdod/Azotos
+                  "chios_296": "550497",      # "an island in the Aegean Sea"
+                  "clauda_280": "589858",     # "a small island off the southwest coast of Crete": Kaudos
+                  "lasea_717": "589897",      # "a city in the island of Crete": Lasaia
+                  "phrygia_946": "609502"}    # "a district in Asia Minor": the region of west-central Anatolia
 
 OSIS = {
     "Gen": "Genesis", "Exod": "Exodus", "Lev": "Leviticus", "Num": "Numbers", "Deut": "Deuteronomy",
@@ -149,6 +156,14 @@ def build_entities() -> dict:
             "verses": refs(_list(f.get("verses")), verse_osis),
             "weight": f.get("verseCount", 0),
         }
+    from build_place_names import pleiades
+    pl = pleiades()
+    for slug, pid in PLEIADES_SITES.items():
+        r, p = pl[pid], out_places[slug]
+        if p["lat"] is not None:
+            raise SystemExit(f"PLEIADES_SITES: Theographic now locates {slug}; drop it from the list")
+        p["lat"], p["lon"] = round(float(r["reprLat"]), 4), round(float(r["reprLong"]), 4)
+        p["approx"] = "?" in r["title"] or r["locationPrecision"] != "precise"
     for dup, original in duplicates.items():
         if original in out_places:
             out_places[original]["verses"] = sorted(set(out_places[original]["verses"]))

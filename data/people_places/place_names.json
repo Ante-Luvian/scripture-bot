@@ -1337,7 +1337,6 @@
 "Judith 2:28",
 "1 Maccabees 4:15",
 "1 Maccabees 5:68",
-"1 Maccabees 9:15",
 "1 Maccabees 10:77",
 "1 Maccabees 10:78",
 "1 Maccabees 10:83",
@@ -2262,7 +2261,14 @@
 "greek": "Βαιθήλ",
 "latin": "Bethel",
 "douay": "Bethel",
-"nrsv": "Bethel"
+"nrsv": "Bethel",
+"apocrypha": [
+"Tobit 2:6",
+"1 Maccabees 9:50"
+],
+"apocrypha_spellings": [
+"Βαιθὴλ"
+]
 },
 "bethel_203": {
 "kjv": "Beth-el",
@@ -3324,7 +3330,16 @@
 "greek": "Δὼρ",
 "latin": "Dor",
 "douay": "Dor",
-"nrsv": "Dor"
+"nrsv": "Dor",
+"apocrypha": [
+"1 Maccabees 15:11",
+"1 Maccabees 15:13",
+"1 Maccabees 15:25"
+],
+"apocrypha_spellings": [
+"Dora",
+"Δωρὰ"
+]
 },
 "dothan_342": {
 "kjv": "Dothan",
@@ -4742,7 +4757,24 @@
 "greek": "Γαλαάδ",
 "latin": "Galaad",
 "douay": "Galaad",
-"nrsv": "Gilead"
+"nrsv": "Gilead",
+"apocrypha": [
+"Judith 1:8",
+"Judith 15:5",
+"1 Maccabees 5:9",
+"1 Maccabees 5:17",
+"1 Maccabees 5:20",
+"1 Maccabees 5:25",
+"1 Maccabees 5:27",
+"1 Maccabees 5:36",
+"1 Maccabees 5:45",
+"1 Maccabees 5:55",
+"1 Maccabees 13:22"
+],
+"apocrypha_spellings": [
+"Galaaditidis",
+"Γαλααδίτιδος"
+]
 },
 "gilgal_476": {
 "kjv": "Gilgal",
@@ -4754,7 +4786,10 @@
 "greek": "Γάλγαλα",
 "latin": "Galgala",
 "douay": "Galgal",
-"nrsv": "Gilgal"
+"nrsv": "Gilgal",
+"apocrypha": [
+"1 Maccabees 9:2"
+]
 },
 "gilgal_477": {
 "kjv": "Gilgal",
@@ -5115,7 +5150,15 @@
 "greek": "Ἑμὰθ",
 "latin": "Emath",
 "douay": "Emath",
-"nrsv": "Hamath"
+"nrsv": "Hamath",
+"apocrypha": [
+"1 Maccabees 12:25"
+],
+"apocrypha_spellings": [
+"Amathis",
+"Amath",
+"Ἁμαθεῖτιν"
+]
 },
 "hamath-zobah_517": {
 "kjv": "Hamath-zobah",
@@ -5382,7 +5425,14 @@
 "greek": "Ἁσὼρ",
 "latin": "Asor",
 "douay": "Asor",
-"nrsv": "Hazor"
+"nrsv": "Hazor",
+"apocrypha": [
+"1 Maccabees 11:67"
+],
+"apocrypha_spellings": [
+"Nasor",
+"Νασώρ"
+]
 },
 "hazor_546": {
 "kjv": "Hazor",
@@ -6735,24 +6785,44 @@
 "Judith 4:13",
 "Judith 8:21",
 "Judith 11:19",
+"Baruch 1:8",
 "1 Maccabees 3:34",
+"1 Maccabees 3:39",
 "1 Maccabees 4:35",
 "1 Maccabees 5:8",
 "1 Maccabees 5:18",
 "1 Maccabees 5:23",
+"1 Maccabees 5:45",
+"1 Maccabees 5:53",
 "1 Maccabees 5:60",
+"1 Maccabees 5:68",
+"1 Maccabees 6:5",
 "1 Maccabees 6:48",
 "1 Maccabees 6:53",
+"1 Maccabees 7:10",
+"1 Maccabees 7:22",
 "1 Maccabees 7:24",
 "1 Maccabees 7:46",
+"1 Maccabees 7:50",
+"1 Maccabees 9:1",
 "1 Maccabees 9:50",
+"1 Maccabees 9:57",
 "1 Maccabees 9:60",
 "1 Maccabees 9:63",
+"1 Maccabees 9:72",
+"1 Maccabees 10:30",
+"1 Maccabees 10:33",
+"1 Maccabees 10:37",
 "1 Maccabees 10:38",
 "1 Maccabees 10:45",
 "1 Maccabees 11:28",
 "1 Maccabees 11:34",
+"1 Maccabees 12:4",
 "1 Maccabees 12:35",
+"1 Maccabees 12:46",
+"1 Maccabees 12:52",
+"1 Maccabees 13:1",
+"1 Maccabees 13:12",
 "1 Maccabees 13:33",
 "1 Maccabees 14:33",
 "1 Maccabees 15:30",
@@ -12968,6 +13038,17 @@
 "apocrypha_spellings": [
 "Laisa",
 "Ἀλασά"
+]
+},
+"mount_azotus_a60": {
+"apocrypha": [
+"1 Maccabees 9:15"
+],
+"kjv": "Azotus",
+"nrsv": "Mount Azotus",
+"apocrypha_spellings": [
+"Azoti",
+"Ἀζώτου"
 ]
 },
 "asphar_a41": {
