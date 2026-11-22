@@ -305,6 +305,8 @@ APOCRYPHA_SAME = {"Gazara": "gezer_463", "Jamnia": "jabneh_615", "Askalon": "ash
                   # the KJV's 1 and 2 Esdras: Jewry is Judea, Sion Zion, and Josiah dies at Magiddo (2 Chr 35:22)
                   "Jewry": "judea_657", "Sion": "jerusalem_636", "Magiddo": "megiddo_777",
                   "Carchamis": "carchemish_277", "Land of Judah": "judea_657",
+                  # (Theographic's Sinai is a duplicate of Mount Sinai: Judith 5:14, 2 Esdras 3:17)
+                  "Sinai": "mount_sinai_855", "Sina": "mount_sinai_855",
                   # the Maccabees' Mount Zion is the temple mount (1 Macc 4:37, 4:60), not Jerusalem at large; the
                   # Mount Sion of Deuteronomy 4:48 is Hermon, so the name goes to Zion here by rule
                   "Mount Zion": "mount_zion_860", "Mount Sion": "mount_zion_860",
@@ -586,6 +588,9 @@ def main():
     theo = json.loads((CACHE / "theographic" / "places.json").read_text(encoding="utf-8"))
     kjv_name = {r["fields"]["slug"]: r["fields"].get("kjvName", "") for r in theo}
     places = json.loads((ROOT / "data" / "people_places" / "people_places.json").read_text(encoding="utf-8"))["places"]
+    for p in places.values():                       # each place's spellings from its own verses, not a duplicate's
+        merged = set(p.get("merged", []))
+        p["verses"] = [r for r in p["verses"] if r not in merged]
     strongs = json.loads((ROOT / "data" / "strongs" / "strongs_dictionary.json").read_text(encoding="utf-8"))
     words = macula_names(ROOT / "data" / "interlinear" / "macula.db")
     lxx = Text(json.loads((ROOT / "data" / "lxx_greek.json").read_text(encoding="utf-8"))["books"], "greek")

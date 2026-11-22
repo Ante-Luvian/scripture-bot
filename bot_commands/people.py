@@ -76,7 +76,8 @@ def _index(kind: str) -> dict:
     """normalised name -> [slug, ...]: each entity under its full title, its bare name and aliases."""
     index: dict = {}
     for slug, e in data()[kind].items():
-        names = {_norm(e["name"]), _bare(e["name"]), *(_norm(a) for a in e.get("also", []))}
+        names = {_norm(e["name"]), _bare(e["name"]),
+                 *(_norm(a) for a in e.get("also", []) + e.get("merged_names", []))}   # (Rahab: Egypt)
         if kind == "people":
             names.add(_norm(e["short"]))
             words = re.sub(r"\s*\(.*\)$", "", e["name"]).split()
@@ -622,7 +623,11 @@ async def send_book_map(ctx, book: str, start=None, end=None) -> None:
     listing = ""
     if start is not None:
         # a passage: the places verse by verse, in the order they come, if that fits
-        lines = [f"**{c}:{v}** " + ", ".join(name(s) for s in slugs) for (c, v), slugs in passage_order(book, start, end)]
+        def named(s, c, v):                         # as the verse names it: "Rahab (Egypt)", Psalm 87:4
+            other = places[s].get("merged", {}).get(f"{book} {c}:{v}")
+            return f"{other} ({name(s)})" if other and _bare(other) != _bare(name(s)) else name(s)
+        lines = [f"**{c}:{v}** " + ", ".join(named(s, c, v) for s in slugs)
+                 for (c, v), slugs in passage_order(book, start, end)]
         listing = "\n".join(lines)
         if len(listing) <= 3600:
             head = f"**{len(found)} place{'s' if len(found) != 1 else ''}** named in {where}, in order" \

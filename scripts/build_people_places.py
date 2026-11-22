@@ -101,6 +101,17 @@ def refs(record_ids: list, verse_osis: dict) -> list:
     return [r[3] for r in sorted(set(out))]
 
 
+def _bible_order(ref: str) -> tuple:
+    book, cv = ref.rsplit(" ", 1)
+    chap, verse = cv.split(":")
+    return BOOK_ORDER.index(book), int(chap), int(verse)
+
+
+# where Theographic files a duplicate under the wrong place: Rahab is Egypt itself, "a poetical name applied to
+# Egypt in Ps. 87:4; 89:10; Isa. 51:9" (Easton), not the Brook of Egypt
+DUPLICATE_OF = {"rahab_969": "egypt_362"}
+
+
 def build_entities() -> dict:
     verse_osis = {v["id"]: v["fields"]["osisRef"] for v in theographic("verses")}
     people = theographic("people")
@@ -164,9 +175,31 @@ def build_entities() -> dict:
             raise SystemExit(f"PLEIADES_SITES: Theographic now locates {slug}; drop it from the list")
         p["lat"], p["lon"] = round(float(r["reprLat"]), 4), round(float(r["reprLong"]), 4)
         p["approx"] = "?" in r["title"] or r["locationPrecision"] != "precise"
+    # A duplicate's verses and name go to the place it duplicates (following chains: Sirion -> Hermon -> Mount
+    # Hermon). They used to be dropped, which lost ~230 verses: most of Zion's, all of Horeb's and Sinai's, and
+    # Rahab, Egypt's poetic name (Psalm 87:4)
+    dup_records = {f["slug"]: f for f in (r["fields"] for r in places) if f.get("duplicate_of")}
+    for dup in duplicates:
+        original = DUPLICATE_OF.get(dup) or duplicates[dup]
+        while original in duplicates:
+            original = DUPLICATE_OF.get(original) or duplicates[original]
+        duplicates[dup] = original
     for dup, original in duplicates.items():
-        if original in out_places:
-            out_places[original]["verses"] = sorted(set(out_places[original]["verses"]))
+        if original not in out_places:
+            raise SystemExit(f"{dup} duplicates {original}, which isn't a place")
+        p, f = out_places[original], dup_records[dup]
+        theirs = [r for r in refs(_list(f.get("verses")), verse_osis) if r not in p["verses"]]
+        name = f["displayTitle"]
+        # "merged", verse -> the name the verse uses: a passage map says "Rahab (Egypt)" there, and
+        # build_place_names.py doesn't read Bethlehem's spellings in Ephrathah's verse
+        named = name if not name.endswith("'s") else name[:-2]
+        p["merged"] = dict(sorted({**p.get("merged", {}), **{r: named for r in theirs}}.items(),
+                                  key=lambda x: _bible_order(x[0])))
+        p["verses"] = sorted(set(p["verses"]) | set(theirs), key=_bible_order)
+        p["weight"] = max(p["weight"], len(p["verses"]))
+        # its name finds the place (`!place Rahab`), kept apart from "also" so the spellings aren't read for it
+        if not name.endswith("'s") and name != p["name"] and name not in p["also"]:
+            p.setdefault("merged_names", []).append(name)
     for p in out_people.values():
         p["born"] = [duplicates.get(s, s) for s in p["born"]]
         p["died"] = [duplicates.get(s, s) for s in p["died"]]

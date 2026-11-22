@@ -6902,7 +6902,7 @@
 },
 "kadesh-barnea_663": {
 "kjv": "Kadesh-barnea",
-"greek": "Καδὴς Βαρνή",
+"greek": "Καδὴς Βαρνὴ",
 "latin": "Cadesbarne",
 "douay": "Cadesbarne",
 "nrsv": "Kadesh-barnea",
@@ -6910,7 +6910,8 @@
 "Judith 5:14"
 ],
 "apocrypha_spellings": [
-"Cades-Barne"
+"Cades-Barne",
+"Καδὴς Βαρνή"
 ]
 },
 "kain_664": {
@@ -8755,7 +8756,12 @@
 "douay": "Mount Sinai",
 "nrsv": "Mount Sinai",
 "apocrypha": [
-"Sirach 48:7"
+"Judith 5:14",
+"Sirach 48:7",
+"2 Esdras 3:17"
+],
+"apocrypha_spellings": [
+"Sina"
 ]
 },
 "mount_sion_856": {

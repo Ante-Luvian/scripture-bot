@@ -170,6 +170,20 @@ def test_judas_last_battle_is_mapped(pp):
     assert "1 Maccabees 5:9" in places["gilead_475"]["apocrypha"]                               # (Ramoth-gilead)
 
 
+def test_theographic_duplicates_keep_their_verses(pp, fake_ctx):
+    # Theographic's duplicate places (Rahab, Zion, Horeb, Sinai...) were dropped with their verses (reported in
+    # Discord: Psalm 87's Rahab). Rahab is Egypt itself (Easton), not the Brook of Egypt
+    places = pp.data()["places"]
+    assert pp.find("places", "Rahab")[0] == "egypt_362"
+    assert {"Psalms 87:4", "Psalms 89:10", "Isaiah 51:9"} <= set(places["egypt_362"]["verses"])
+    assert "Psalms 87:4" not in places["egypt_259"]["verses"]
+    assert "Psalms 2:6" in places["jerusalem_636"]["verses"]                                    # Zion
+    assert "Exodus 3:1" in places["mount_sinai_855"]["verses"]                                  # Horeb
+    assert pp.find("places", "Olivet")[0] == "mount_of_olives_828"
+    asyncio.run(pp.lookup_place(fake_ctx, "Psalms 87"))
+    assert "**87:4** Rahab (Egypt)" in fake_ctx.sent[-1]["embed"].description
+
+
 def test_kjv_spelling_from_its_text(pp):
     magdala = pp.find("places", "Magdala")
     assert pp.data()["places"][magdala[0]]["verses"] == ["Matthew 15:39"]                      # not Migdol
